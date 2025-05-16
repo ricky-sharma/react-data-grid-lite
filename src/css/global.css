@@ -1,0 +1,721 @@
+* {
+    box-sizing: border-box;
+}
+
+* {
+    font-family: Arial !important;
+}
+
+i {
+    font-family: FontAwesome !important;
+}
+
+a:hover, a:active, a:focus {
+    /* styling for any way a link is about to be used */
+    outline: 0;
+}
+
+input, select {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 30px !important;
+}
+
+select {
+    padding-left: 10px;
+    padding-right: 14px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+    select::-ms-expand {
+        display: none;
+    }
+
+    select.disabled-inputs {
+        text-indent: -1px;
+    }
+
+.label-padding {
+    padding-left: 10px;
+    padding-right: 14px;
+}
+
+input, select {
+    width: 90% !important;
+    height: 100% !important;
+    color: rgba(0, 0, 0);
+    font-weight: 400;
+    border-color: #bbb;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+input {
+    padding-left: 10px;
+    padding-right: 14px;
+}
+
+    input[type=button], input[type=submit], input[type=reset] {
+        font-weight: bold;
+        font-size: 12px;
+        text-shadow: none;
+        border-radius: 50px;
+        line-height: 12px;
+        margin-top: 5px;
+    }
+
+.inputWidth input, .inputWidth select {
+    width: 95% !important;
+}
+
+.fullInputWidth input, .fullInputWidth select {
+    width: 100% !important;
+}
+
+input[type=checkbox] {
+    height: 18px !important;
+    max-width: 10% !important;
+    margin-left: 5px;
+}
+
+.link-icon {
+    font-size: 16px !important;
+    margin-left: 5px !important;
+    color: #28a745;
+}
+
+.wrapperLink {
+    position: relative;
+}
+
+.iconLink {
+    position: absolute;
+    box-sizing: border-box;
+    top: 50%;
+    right: 12%;
+    transform: translateY(-50%);
+}
+
+.inputLink {
+    box-sizing: border-box;
+    padding-right: 1.5rem;
+}
+
+.disabled-inputs {
+    pointer-events: none;
+    color: rgb(0, 0, 0);
+    border-style: none;
+    padding-left: 0px;
+    padding-right: 14px;
+}
+
+input.Mui-disabled, select.Mui-disabled {
+    -webkit-text-fill-color: rgba(0, 0, 0) !important;
+    color: rgba(0, 0, 0) !important;
+}
+
+.float-rt {
+    float: right;
+}
+
+.float-lt {
+    float: left;
+}
+
+.txt-center {
+    text-align: center;
+}
+
+.opacity-100 {
+    opacity: 100%;
+}
+
+.margin-top-75 {
+    margin-top: 75px;
+}
+
+.padding-left-0 {
+    padding-left: 0px;
+}
+
+.padding-right-5 {
+    padding-right: 5px;
+}
+
+.padding-5 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.padding-9 {
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+.table-wrapper {
+    background: #fff;
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.table-title {
+    padding-bottom: 5px;
+    margin: 0 0 5px;
+}
+
+    .table-title h2 {
+        margin: 8px 0 0;
+        font-size: 24px;
+    }
+
+    .table-title .add-new {
+        float: right;
+        height: 25px;
+        font-weight: bold;
+        font-size: 14px;
+        text-shadow: none;
+        min-width: 80px;
+        border-radius: 6px;
+        margin-top: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .table-title .add-new i {
+            margin-right: 4px;
+        }
+
+.container-width {
+    width: 95vw;
+    max-width: 95vw;
+}
+
+.navbar {
+    border-radius: 0px !important;
+}
+
+.userName {
+    height: 99.1%;
+    text-align: center;
+}
+
+.pageHeaderFixed {
+    overflow: auto;
+    height: 100vh;
+}
+
+    .pageHeaderFixed header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+
+body {
+    overflow-x: hidden !important;
+    -ms-overflow-style: none; /*Internet Explorer 10+ */
+    scrollbar-width: none; /*Firefox*/
+}
+
+    body::-webkit-scrollbar {
+        display: none; /*Safari and Chrome */
+    }
+
+.pageHeaderFixed::-webkit-scrollbar {
+    height: 0px !important;
+    width: 0px !important;
+    border: 0px solid #d5d5d5;
+    border-start-end-radius: 0px;
+}
+
+.overflow-Y {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+.icon-align-center {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    height: 70% !important;
+}
+
+.alignCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.valignCenter {
+    display: flex;
+    align-items: center;
+}
+
+.align-page-center {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading {
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    opacity: 0.7;
+    background-color: #fff;
+    z-index: 100;
+}
+
+.loading-image {
+    position: absolute;
+    top: 40%;
+    left: 47%;
+    z-index: 101
+}
+
+hr.rounded {
+    border-top: 1px solid #bbb;
+    border-radius: 1px;
+    height: 1px;
+    width: 100%;
+}
+
+.react-datepicker-popper {
+    z-index: 10 !important;
+}
+
+.profileImageDiv {
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.profileImage {
+    vertical-align: middle;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.iconButtonProfileDiv {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.uploadPicture {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+label.uploadPicture .MuiSvgIcon-root {
+    width: 10% !important;
+    height: 10% !important;
+    position: absolute;
+    color: rgba(0, 0, 0, 0.54) !important;
+    top: 90% !important;
+    left: 90%;
+    z-index: 10;
+}
+
+label.uploadPicture .MuiIconButton-label {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+label.uploadPicture .MuiAvatar-img {
+    object-fit: contain !important;
+    padding: 9%;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 5px;
+}
+
+.nowrap {
+    flex-wrap: nowrap !important
+}
+
+.overlayRowDiv {
+    width: 6% !important;
+    height: 12%;
+    border: 1px solid #f0f0f0;
+    background: #ffffff;
+    position: absolute;
+    display: inline-block;
+    box-sizing: border-box;
+    z-index: 40;
+}
+
+.overlayRowDivImage {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.MuiSvgIcon-root.removeEmployeeImage {
+    width: 10% !important;
+    height: 10% !important;
+    position: absolute;
+    top: 1% !important;
+    left: 90% !important;
+    z-index: 9;
+}
+
+.removeEmployeeImageIconButton {
+    z-index: 9;
+}
+
+.fontStyle, .fontStyle label, .fontStyle input {
+    color: #212529 !important;
+    font-weight: 800 !important;
+}
+
+@media (max-width: 240px) {
+    /* really tiny screens */
+
+    * {
+        font-size: 7px !important;
+    }
+
+    h1, h1 * {
+        font-size: 14px !important;
+    }
+
+    h2, h2 * {
+        font-size: 11px !important;
+    }
+
+    h5, h5 * {
+        font-size: 10px !important;
+    }
+
+    h6, h6 * {
+        font-size: 8px !important;
+    }
+
+    select, input, label, div, span,b {
+        font-size: 7px !important;
+        vertical-align: middle;
+    }
+
+    li > a.nav-link, li > a.nav-link * {
+        font-size: 10px !important;
+    }
+
+    .table-title .add-new {
+        height: 10px;
+        min-width: 30px;
+    }
+}
+
+@media (min-width: 241px) and (max-width: 360px) {
+    /* a little bit bigger screens */
+
+    * {
+        font-size: 7px !important;
+    }
+
+    h1, h1 * {
+        font-size: 16px !important;
+    }
+
+    h2, h2 * {
+        font-size: 12.5px !important;
+    }
+
+    h5, h5 * {
+        font-size: 10px !important;
+    }
+
+    h6, h6 * {
+        font-size: 8.5px !important;
+    }
+
+    select, input, label, div, span,b {
+        font-size: 8px !important;
+    }
+
+    li > a.nav-link, li > a.nav-link * {
+        font-size: 10px !important;
+    }
+
+    .table-title .add-new {
+        height: 12px;
+        min-width: 35px;
+    }
+}
+
+@media (min-width: 361px) and (max-width: 480px) {
+
+    * {
+        font-size: 8px !important;
+    }
+
+    h1, h1 * {
+        font-size: 19px !important;
+    }
+
+    h2, h2 * {
+        font-size: 16px !important;
+    }
+
+    h5, h5 * {
+        font-size: 12px !important;
+    }
+
+    h6, h6 * {
+        font-size: 9.5px !important;
+    }
+
+    select, input, label, div, span,b {
+        font-size: 8.5px !important;
+    }
+
+    li > a.nav-link, li > a.nav-link * {
+        font-size: 11px !important;
+    }
+
+    .table-title .add-new {
+        height: 14px;
+        min-width: 40px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 600px) {
+    * {
+        font-size: 9px !important;
+    }
+
+    h1, h1 * {
+        font-size: 22px !important;
+    }
+
+    h2, h2 * {
+        font-size: 18px !important;
+    }
+
+    h5, h5 * {
+        font-size: 14px !important;
+    }
+
+    h6, h6 * {
+        font-size: 11px !important;
+    }
+
+    select, input, label, div, span, b {
+        font-size: 10px !important;
+    }
+
+    li > a.nav-link, li > a.nav-link * {
+        font-size: 12px !important;
+    }
+
+    .table-title .add-new {
+        height: 16px;
+        min-width: 50px;
+    }
+}
+
+@media (max-width: 524px) {
+    .loading-image {
+        left: 37% !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .hidesidenav {
+        display: none;
+    }
+
+    .link-icon {
+        font-size: 8px !important;
+        margin-left: 3px !important;
+    }
+
+    .iconLink {
+        top: 49% !important;
+        right: 18% !important;
+    }
+
+    .overlayRowDiv {
+        width: 15% !important;
+        height: 10%;
+    }
+}
+
+@media (min-width: 525px) and (max-width: 660px) {
+    .loading-image {
+        left: 42% !important;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 767px) {
+    .table-title .add-new {
+        height: 20px;
+        min-width: 60px;
+    }
+
+    * {
+        font-size: 10px !important;
+    }
+
+    h1, h1 * {
+        font-size: 25px !important;
+    }
+
+    h2, h2 * {
+        font-size: 19px !important;
+    }
+
+    h5, h5 * {
+        font-size: 16px !important;
+    }
+
+    h6, h6 * {
+        font-size: 12.5px !important;
+    }
+
+    select, input, label, div, span, b {
+        font-size: 12px !important;
+    }
+
+    li > a.nav-link, li > a.nav-link * {
+        font-size: 14px !important;
+    }
+
+    .link-icon {
+        font-size: 11px !important;
+        margin-left: 3px !important;
+    }
+
+    .iconLink {
+        top: 52% !important;
+        right: 15% !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+
+    * {
+        font-size: 11px !important;
+    }
+
+    h1, h1 * {
+        font-size: 28px !important;
+    }
+
+    h2, h2 * {
+        font-size: 20px !important;
+    }
+
+    h5, h5 * {
+        font-size: 17px !important;
+    }
+
+    h6, h6 * {
+        font-size: 15px !important;
+    }
+
+    select, input, label, div, span, b {
+        font-size: 14px !important;
+    }
+
+    li > a.nav-link, li > a.nav-link * {
+        font-size: 15px !important;
+    }
+
+    .table-title .add-new {
+        height: 22px;
+        min-width: 70px;
+    }
+}
+
+@media (min-width: 1000px) {
+
+    * {
+        font-size: 12px !important;
+    }
+
+    h1, h1 * {
+        font-size: 30px !important;
+    }
+
+    h2, h2 * {
+        font-size: 22px !important;
+    }
+
+    h5, h5 * {
+        font-size: 19px !important;
+    }
+
+    h6, h6 * {
+        font-size: 16px !important;
+    }
+
+    select, input, label, div, span,b {
+        font-size: 14px !important;
+    }
+
+    li > a.nav-link, li > a.nav-link * {
+        font-size: 16px !important;
+    }
+}
+
+@media (min-width: 1440px) {
+
+    * {
+        font-size: 14px !important;
+    }
+
+    h1, h1 * {
+        font-size: 34px !important;
+    }
+
+    h2, h2 * {
+        font-size: 24px !important;
+    }
+
+    h5, h5 * {
+        font-size: 21px !important;
+    }
+
+    h6, h6 * {
+        font-size: 18px !important;
+    }
+
+    select, input, label, div, span,b {
+        font-size: 16px !important;
+    }
+
+    li > a.nav-link, li > a.nav-link * {
+        font-size: 16px !important;
+    }
+
+    li.dropdown > a.nav-link * {
+        font-size: 18px !important;
+    }
+}
+
+@media (max-width: 1700px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+        max-width: 75% !important;
+    }
+}
+
+@media (min-width: 1701px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+        max-width: 1450px !important;
+    }
+}
