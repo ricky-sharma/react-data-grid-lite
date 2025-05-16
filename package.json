@@ -1,9 +1,10 @@
 {
   "name": "react-data-grid-lite",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "DataGrid Lite Component for React JS.",
   "author": "Vinay Sharma",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "exports": {
