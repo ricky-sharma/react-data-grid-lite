@@ -2,7 +2,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import postcss from 'rollup-plugin-postcss';
-import { visualizer } from 'rollup-plugin-visualizer';
 
 export default {
     input: 'src/index.js',
@@ -31,13 +30,12 @@ export default {
         }),
         postcss({
             inject: true,
-            minimize: true, // optional
+            minimize: true,
         }),
         commonjs(),
         babel({
             exclude: 'node_modules/**',
             babelHelpers: 'bundled'
-        }),
-        visualizer({ filename: 'dist/stats.html' })
+        })
     ]
 };
