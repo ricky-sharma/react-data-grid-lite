@@ -14,32 +14,25 @@
     }
   },
   "files": [
-    "dist"
+    "dist/",
+    "index.js",
+    "package.json",
+    "README.md"
   ],
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "lint": "eslint .",
     "example": "npm run build && cd example && npm install ../ && npm run dev"
   },
-  "dependencies": {
-    "date-fns": "^4.1.0",
-    "react-promise-tracker": "^2.1.1"
-  },
   "peerDependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/material": "^7.1.0",
-    "react": "^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.1.0",
-    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.1.0"
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
     "@eslint/js": "^9.26.0",
-    "@mui/material": "^7.1.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-node-resolve": "^16.0.1",
@@ -59,7 +52,12 @@
     "Data",
     "Grid",
     "Lite",
-    "Datagrid"
+    "Datagrid",
+    "light",
+    "simple",
+    "easy",
+    "datatable",
+    "table"
   ],
   "repository": {
     "type": "git",

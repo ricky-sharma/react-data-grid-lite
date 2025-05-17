@@ -1,13 +1,26 @@
-export default function IsNull(o) {
-    if (o !== null && o !== undefined && o.length !== 0) {
-        if (Object.prototype.toString.call(o) === '[object Array]') {
-            if (Object.keys(o).length !== 0 && Object.getPrototypeOf(o) !== Object.prototype)
-                return false
-            else
-                return true
-        }
-        return false
+export function isNull(value) {
+    if (value === null || value === undefined) return true;
+
+    if (typeof value === 'string') {
+        return value.trim() === '';
     }
-    else
-        return true
+
+    if (Array.isArray(value)) {
+        return value.length === 0;
+    }
+
+    // Only treat plain objects as null-like
+    if (
+        typeof value === 'object' &&
+        Object.getPrototypeOf(value) === Object.prototype
+    ) {
+        return Object.keys(value).length === 0;
+    }
+
+    return false;
 }
+
+// Helper function to match key case-insensitively
+
+export const objectKeyMatch = (obj, keyName) =>
+    Object.keys(obj).some(k => k.toLowerCase() === keyName.toLowerCase());

@@ -135,6 +135,10 @@ input.Mui-disabled, select.Mui-disabled {
     text-align: center;
 }
 
+.txt-left {
+    text-align: left !important;
+}
+
 .opacity-100 {
     opacity: 100%;
 }
@@ -177,24 +181,6 @@ input.Mui-disabled, select.Mui-disabled {
         font-size: 24px;
     }
 
-    .table-title .add-new {
-        float: right;
-        height: 25px;
-        font-weight: bold;
-        font-size: 14px;
-        text-shadow: none;
-        min-width: 80px;
-        border-radius: 6px;
-        margin-top: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-        .table-title .add-new i {
-            margin-right: 4px;
-        }
-
 .container-width {
     width: 95vw;
     max-width: 95vw;
@@ -202,11 +188,6 @@ input.Mui-disabled, select.Mui-disabled {
 
 .navbar {
     border-radius: 0px !important;
-}
-
-.userName {
-    height: 99.1%;
-    text-align: center;
 }
 
 .pageHeaderFixed {
@@ -299,51 +280,6 @@ hr.rounded {
     z-index: 10 !important;
 }
 
-.profileImageDiv {
-    display: flex !important;
-    align-items: center !important;
-    height: 100% !important;
-    width: 100% !important;
-}
-
-.profileImage {
-    vertical-align: middle;
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.iconButtonProfileDiv {
-    height: 100% !important;
-    width: 100% !important;
-}
-
-.uploadPicture {
-    height: 100% !important;
-    width: 100% !important;
-}
-
-label.uploadPicture .MuiSvgIcon-root {
-    width: 10% !important;
-    height: 10% !important;
-    position: absolute;
-    color: rgba(0, 0, 0, 0.54) !important;
-    top: 90% !important;
-    left: 90%;
-    z-index: 10;
-}
-
-label.uploadPicture .MuiIconButton-label {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-label.uploadPicture .MuiAvatar-img {
-    object-fit: contain !important;
-    padding: 9%;
-    border: 1px solid #dee2e6 !important;
-    border-radius: 5px;
-}
-
 .nowrap {
     flex-wrap: nowrap !important
 }
@@ -362,19 +298,6 @@ label.uploadPicture .MuiAvatar-img {
 .overlayRowDivImage {
     width: 100% !important;
     height: 100% !important;
-}
-
-.MuiSvgIcon-root.removeEmployeeImage {
-    width: 10% !important;
-    height: 10% !important;
-    position: absolute;
-    top: 1% !important;
-    left: 90% !important;
-    z-index: 9;
-}
-
-.removeEmployeeImageIconButton {
-    z-index: 9;
 }
 
 .fontStyle, .fontStyle label, .fontStyle input {
@@ -405,18 +328,13 @@ label.uploadPicture .MuiAvatar-img {
         font-size: 8px !important;
     }
 
-    select, input, label, div, span,b {
+    select, input, label, div, span, b {
         font-size: 7px !important;
         vertical-align: middle;
     }
 
     li > a.nav-link, li > a.nav-link * {
         font-size: 10px !important;
-    }
-
-    .table-title .add-new {
-        height: 10px;
-        min-width: 30px;
     }
 }
 
@@ -443,17 +361,12 @@ label.uploadPicture .MuiAvatar-img {
         font-size: 8.5px !important;
     }
 
-    select, input, label, div, span,b {
+    select, input, label, div, span, b {
         font-size: 8px !important;
     }
 
     li > a.nav-link, li > a.nav-link * {
         font-size: 10px !important;
-    }
-
-    .table-title .add-new {
-        height: 12px;
-        min-width: 35px;
     }
 }
 
@@ -479,17 +392,12 @@ label.uploadPicture .MuiAvatar-img {
         font-size: 9.5px !important;
     }
 
-    select, input, label, div, span,b {
+    select, input, label, div, span, b {
         font-size: 8.5px !important;
     }
 
     li > a.nav-link, li > a.nav-link * {
         font-size: 11px !important;
-    }
-
-    .table-title .add-new {
-        height: 14px;
-        min-width: 40px;
     }
 }
 
@@ -521,11 +429,6 @@ label.uploadPicture .MuiAvatar-img {
     li > a.nav-link, li > a.nav-link * {
         font-size: 12px !important;
     }
-
-    .table-title .add-new {
-        height: 16px;
-        min-width: 50px;
-    }
 }
 
 @media (max-width: 524px) {
@@ -535,10 +438,6 @@ label.uploadPicture .MuiAvatar-img {
 }
 
 @media (max-width: 600px) {
-    .hidesidenav {
-        display: none;
-    }
-
     .link-icon {
         font-size: 8px !important;
         margin-left: 3px !important;
@@ -562,11 +461,6 @@ label.uploadPicture .MuiAvatar-img {
 }
 
 @media (min-width: 601px) and (max-width: 767px) {
-    .table-title .add-new {
-        height: 20px;
-        min-width: 60px;
-    }
-
     * {
         font-size: 10px !important;
     }
@@ -635,11 +529,6 @@ label.uploadPicture .MuiAvatar-img {
     li > a.nav-link, li > a.nav-link * {
         font-size: 15px !important;
     }
-
-    .table-title .add-new {
-        height: 22px;
-        min-width: 70px;
-    }
 }
 
 @media (min-width: 1000px) {
@@ -664,7 +553,7 @@ label.uploadPicture .MuiAvatar-img {
         font-size: 16px !important;
     }
 
-    select, input, label, div, span,b {
+    select, input, label, div, span, b {
         font-size: 14px !important;
     }
 
@@ -695,7 +584,7 @@ label.uploadPicture .MuiAvatar-img {
         font-size: 18px !important;
     }
 
-    select, input, label, div, span,b {
+    select, input, label, div, span, b {
         font-size: 16px !important;
     }
 

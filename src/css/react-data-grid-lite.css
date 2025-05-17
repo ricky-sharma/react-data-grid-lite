@@ -1,4 +1,135 @@
-﻿
+﻿/*Custom Icons css*/
+
+.edit-icon {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    width: 14px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-right: 0;
+    border-top: 0;
+    box-shadow: 0 0 0 2px;
+    border-radius: 1px;
+    border-top-right-radius: 4px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+    .edit-icon::after,
+    .edit-icon::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+    }
+
+    .edit-icon::before {
+        background: currentColor;
+        box-shadow: 0 4px 0, -6px -4px 0;
+        left: 0;
+        width: 10px;
+        height: 2px;
+        top: 8px;
+    }
+
+    .edit-icon::after {
+        width: 6px;
+        height: 6px;
+        border-left: 2px solid;
+        border-bottom: 2px solid;
+        right: -1px;
+        top: -1px;
+    }
+
+
+.edit1-icon {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    box-shadow: 0 0 0 2px;
+    border-radius: 100px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+    .edit1-icon::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        border-bottom: 2px solid;
+        border-top: 2px solid;
+        height: 8px;
+        left: 1.5px;
+        top: 3px;
+        width: 9px;
+    }
+
+    .edit1-icon::after {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        background: currentColor;
+        height: 7.5px;
+        left: 5px;
+        top: 0px;
+        width: 2px;
+    }
+
+.delete-icon {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    width: 10px;
+    height: 12px;
+    border: 2px solid transparent;
+    box-shadow: 0 0 0 2px, inset -2px 0 0, inset 2px 0 0;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    margin-top: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+    .delete-icon::after,
+    .delete-icon::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+    }
+
+    .delete-icon::after {
+        background: currentColor;
+        border-radius: 3px;
+        width: 16px;
+        height: 2px;
+        top: -4px;
+        left: -5px;
+    }
+
+    .delete-icon::before {
+        width: 10px;
+        height: 4px;
+        border: 2px solid;
+        border-bottom: transparent;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        top: -7px;
+        left: -2px;
+    }
+/*Custom Icons css*/
+
 /*FontAwesome alternate css*/
 .pagination i.arrow {
     font-size: 15px !important;
@@ -53,6 +184,7 @@ i.fa-sort-up {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-bottom: 6px solid black; /* Triangle pointing up */
+    transform: scale(0.8);
 }
 
 i.fa-sort-down {
@@ -62,6 +194,7 @@ i.fa-sort-down {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-top: 6px solid black; /* Triangle pointing down */
+    transform: scale(0.8);
 }
 
 .material-icons {
@@ -117,21 +250,19 @@ i.fa-sort-down {
 .row {
     display: flex;
     flex-wrap: wrap;
-    margin-left: -0.75rem;
-    margin-right: -0.75rem;
 }
 
 /* === Column === */
 .col {
     flex: 1;
-    padding-left: 0.75rem;
-    padding-right: 0.05rem;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
 }
 
 /* === Column spans === */
 [class*="col-"] {
-    padding-left: 0.75rem;
-    padding-right: 0.05rem;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
     flex: 0 0 auto;
 }
 
@@ -282,7 +413,7 @@ i.fa-sort-down {
     }
 
     .customGrid table::-webkit-scrollbar {
-        height: 7px !important;
+        height: 10px !important;
         width: 0px !important;
         border: 0px solid #d5d5d5;
         border-start-end-radius: 0px;
@@ -290,15 +421,15 @@ i.fa-sort-down {
 
     /* Track */
     .customGrid table::-webkit-scrollbar-track {
-        border-radius: 7px;
+        border-radius: 10px;
         /* background: #d5d5d5;*/
     }
 
     /* Handle */
     .customGrid table::-webkit-scrollbar-thumb {
         /*background: #d5d5d5;*/
-        -webkit-box-shadow: inset 0 0 7px #d5d5d5;
-        border-radius: 7px;
+        -webkit-box-shadow: inset 0 0 10px #808080;
+        border-radius: 10px;
     }
 
         /* Handle on hover */
@@ -355,7 +486,7 @@ i.fa-sort-down {
             max-width: 200px;
             width: 200px;
             position: relative;
-            padding-left: 10px !important;
+            padding-left: 0px !important;
         }
 
     .gridHeader span {
@@ -376,7 +507,7 @@ i.fa-sort-down {
     .searchHeader th {
         background-color: #fff;
         border-top: 0px solid rgb(224, 224, 224) !important;
-        border-bottom: 3px solid rgb(224, 224, 224) !important;
+        border-bottom: 2px solid rgb(224, 224, 224) !important;
         border-left: 0px solid rgb(224, 224, 224) !important;
         border-right: 0px solid rgb(224, 224, 224) !important;
         position: relative;
@@ -395,7 +526,7 @@ i.fa-sort-down {
             max-width: 200px;
             width: 200px;
             position: relative;
-            padding-left: 15px !important;
+            padding-left: 0px !important;
         }
 
 .gridRows:first-child {
@@ -431,9 +562,7 @@ i.fa-sort-down {
         text-overflow: ellipsis;
         max-width: 200px;
         width: 200px;
-        padding: 10px !important;
-        padding-right: 0px !important;
-        padding-left: 18px !important;
+        padding: 5px 5px 5px 10px !important;
     }
 
 table {
@@ -463,6 +592,11 @@ table {
     text-align: center !important;
 }
 
+.col1width90 {
+    width: 90px !important;
+    max-width: 90px !important;
+}
+
 .col1width115 {
     width: 115px !important;
     max-width: 115px !important;
@@ -486,15 +620,17 @@ table {
     float: left;
 }
 
+.grid-footer {
+    height: 60px !important;
+    text-align: center;
+    vertical-align: middle;
+}
+
 option {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     padding: 0px !important;
-}
-
-.changePassword.MuiButton-root:hover, .edit.MuiButton-root:hover {
-    background-color: transparent !important;
 }
 
 .pointer {
@@ -518,19 +654,18 @@ option {
 .searchDiv {
     align-items: center !important;
     display: inline-block;
-    justify-content: left;
     color: #fff;
 }
 
 .searchInput {
-    width: 80% !important;
+    width: 90% !important;
     height: 100% !important;
     color: rgba(0, 0, 0);
     font-weight: 400;
-    border-radius: 4px;
+    border-radius: 2px;
     box-shadow: rgb(224, 224, 224) 0px 0px 0px 2px;
     border: 0px;
-    background-color: #e0e0e0;
+    background-color: #fff;
 }
 
     .searchInput::placeholder {
@@ -545,12 +680,12 @@ option {
 }
 
 input.globalSearch {
-    width: 30% !important;
+    width: 35% !important;
     color: rgba(0, 0, 0);
     font-weight: 400;
     border-radius: 4px;
     float: right !important;
-    height: unset !important;
+    height: 28px !important;
     box-shadow: rgb(224, 224, 224) 0px 0px 0px 2px;
     border: 0px;
     background-color: #fff;
@@ -590,7 +725,7 @@ table.table-striped.table-hover tbody tr:hover {
     background: #f5f5f5;
 }
 
-table.table td a.changePassword, button.changePassword {
+table.table td a.delete, button.delete {
     color: rgb(15, 255, 7) !important;
     min-width: fit-content !important;
 }
@@ -603,11 +738,15 @@ table.table td a.view, button.view {
 table.table td a.edit, button.edit {
     color: #FFC107;
     min-width: fit-content !important;
+    margin-right:10px !important;
+    background-color: slategrey;
 }
 
 table.table td a.delete, button.delete {
     color: #E34724;
     min-width: fit-content !important;
+    margin-right: 10px !important;
+    background-color: slategrey;
 }
 
 .align-center {
@@ -700,8 +839,8 @@ i {
     }
 
     .gridHeader th {
-        padding-top: 15px !important;
-        padding-bottom: 5px !important;
+        padding-bottom: 2px !important;
+        padding-top: 8px !important;
         padding-left: 0px !important;
         border-top: 0px !important;
         border-bottom: 0px !important;
@@ -712,7 +851,7 @@ i {
         .gridHeader th div {
             max-width: 75px;
             width: 75px;
-            padding-left: 6px !important;
+            padding-left: 0px !important;
         }
 
     .searchHeader th {
@@ -728,7 +867,7 @@ i {
         .searchHeader th div {
             max-width: 75px;
             width: 75px;
-            padding-left: 10px !important;
+            padding-left: 0px !important;
         }
 
     .gridRows td {
@@ -747,8 +886,35 @@ i {
         }
 
     .updown-icon {
-        margin-left: 8px !important;
+        margin-left: 12px !important;
         font-size: 10px !important;
+    }
+
+    i.fa-sort:before {
+        border-bottom: 4px solid #a9a9a9;
+        bottom: 6px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+    }
+
+    i.fa-sort:after {
+        border-top: 4px solid #a9a9a9;
+        top: 6px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+    }
+
+    i.fa-sort-down, i.fa-sort-up {
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+    }
+
+    i.fa-sort-up {
+        border-bottom: 5px solid black; /* Triangle pointing up */
+    }
+
+    i.fa-sort-down {
+        border-top: 5px solid black; /* Triangle pointing down */
     }
 
     .searchInput {
@@ -759,9 +925,10 @@ i {
     }
 
     input.globalSearch {
-        width: 30% !important;
+        width: 40% !important;
         padding-left: 2px;
         padding-right: 2px;
+        height: 22px !important;
     }
 
     .pagination {
@@ -793,7 +960,7 @@ i {
     }
 
     .customGrid table::-webkit-scrollbar {
-        height: 2px !important;
+        height: 8px !important;
         width: 0px !important;
     }
 
