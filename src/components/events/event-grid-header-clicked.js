@@ -70,11 +70,11 @@ export const eventGridHeaderClicked = (
         }
 
         let data = context.state.rowsData;
-        if (context.state.totalRows === data.length) {
+        if (context.state.totalRows === data?.length) {
             data = context.dataRecieved;
         }
 
-        data.sort(dynamicSort(sortColumn));
+        data?.sort(dynamicSort(sortColumn));
         context.setState({
             rowsData: data,
             toggleState: !context.state.toggleState,

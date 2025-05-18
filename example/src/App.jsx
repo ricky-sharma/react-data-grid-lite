@@ -4,22 +4,22 @@ import { columns, sampleData } from './data';
 
 function App() {
     const options = {
-        EnableColumnSearch: true,
-        EnableGlobalSearch: true,
-        EditButton: {
-            Event: () => { alert('Edit Button clicked!') }
+        enableColumnSearch: true,
+        enableGlobalSearch: true,
+        editButton: {
+            event: () => { alert('Edit Button clicked!') }
         },
-        DeleteButton: {
-            Event: () => { alert('Delete Button clicked!') }
+        deleteButton: {
+            event: () => { alert('Delete Button clicked!') }
         }
     }
     return (
         <>
             <DataGrid
-                Columns={columns}
-                RowsData={sampleData}
-                Options={options}
-                PageRows={5}
+                columns={columns}
+                rowsData={sampleData}
+                options={options}
+                pageRows={5}
             />
         </>
     )

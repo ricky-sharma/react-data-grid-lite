@@ -11,70 +11,70 @@ import { eventGridSearchClicked } from "./components/events/event-grid-search-cl
 export class DataGrid extends Component {
     constructor(props) {
         super(props)
-        const { Columns, RowsData, PageRows, GridEvents, Options, Width, Height, maxWidth, maxHeight } = props
+        const { columns, rowsData, pageRows, gridEvents, options, width, height, maxWidth, maxHeight } = props
         this.state = {
-            width: !isNull(Width) ? Width : '100%',
+            width: !isNull(width) ? width : '100%',
             maxWidth: !isNull(maxWidth) ? maxWidth : '100vw',
-            height: !isNull(Height) ? Height : '300px',
+            height: !isNull(height) ? height : '300px',
             maxHeight: !isNull(maxHeight) ? maxHeight : '300px',
             gridID: Math.floor(Math.random() * 10000),
-            columns: !isNull(Columns) ? Columns : null,
-            rowsData: RowsData,
-            totalRows: RowsData.length,
-            enablePaging: !isNull(PageRows),
-            pageRows: !isNull(parseInt(PageRows, 10)) ? parseInt(PageRows, 10) : RowsData.length,
+            columns: !isNull(columns) ? columns : null,
+            rowsData: rowsData,
+            totalRows: rowsData?.length ?? 0,
+            enablePaging: !isNull(pageRows),
+            pageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : rowsData?.length ?? 0,
             noOfPages: 0,
             pagerSelectOptions: [],
             firstRow: 0,
-            currentPageRows: !isNull(parseInt(PageRows, 10)) ? parseInt(PageRows, 10) : RowsData.length,
+            currentPageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : rowsData?.length ?? 0,
             lastPageRows: 10,
             activePage: 1,
-            gridCssClass: !isNull(Options) ? Options.GridCssClass : null,
-            headerCssClass: !isNull(Options) ? Options.HeaderCssClass : null,
-            rowCssClass: !isNull(Options) ? Options.RowCssClass : null,
-            enableColumnSearch: !isNull(Options) ? Options.EnableColumnSearch : null,
-            enableGlobalSearch: !isNull(Options) ? Options.EnableGlobalSearch : null,
-            hiddenColIndex: !isNull(Columns) ? Columns.map((col, key) => {
-                if (!isNull(col.Hidden) && col.Hidden)
+            gridCssClass: !isNull(options) ? options.gridCssClass : null,
+            headerCssClass: !isNull(options) ? options.headerCssClass : null,
+            rowCssClass: !isNull(options) ? options.rowCssClass : null,
+            enableColumnSearch: !isNull(options) ? options.enableColumnSearch : null,
+            enableGlobalSearch: !isNull(options) ? options.enableGlobalSearch : null,
+            hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
+                if (!isNull(col.hidden) && col.hidden)
                     return key;
                 else
                     return null;
-            }) : null,
-            concatColumns: !isNull(Columns) ? Columns.map((col) => {
+            }) : [],
+            concatColumns: !isNull(columns) ? columns.map((col) => {
                 let separator = ' '
-                if (!isNull(col.ConcatColumns) && !isNull(col.ConcatColumns.Columns)) {
-                    if (!isNull(col.ConcatColumns.Separator))
-                        separator = col.ConcatColumns.Separator
-                    return { cols: col.ConcatColumns.Columns, sep: separator };
+                if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
+                    if (!isNull(col.concatColumns.separator))
+                        separator = col.concatColumns.separator
+                    return { cols: col.concatColumns.columns, sep: separator };
                 }
                 return null
-            }) : null,
-            columnFormatting: !isNull(Columns) ? Columns.map((col) => {
-                if (!isNull(col.Formatting) && !isNull(col.Formatting.Type) && !isNull(col.Formatting.Format)) {
-                    return { type: col.Formatting.Type, format: col.Formatting.Format };
+            }) : [],
+            columnFormatting: !isNull(columns) ? columns.map((col) => {
+                if (!isNull(col.formatting) && !isNull(col.formatting.type) && !isNull(col.formatting.format)) {
+                    return { type: col.formatting.type, format: col.formatting.format };
                 }
                 return null
-            }) : null,
-            cssClassColumns: !isNull(Columns) ? Columns.map((col) => {
+            }) : [],
+            cssClassColumns: !isNull(columns) ? columns.map((col) => {
                 if (!isNull(col.cssClass))
                     return col.cssClass;
                 else
                     return null;
-            }) : null,
-            columnWidths: !isNull(Columns) ? Columns.map((col) => {
+            }) : [],
+            columnWidths: !isNull(columns) ? columns.map((col) => {
                 if (!isNull(col.width))
                     return col.width;
                 else
                     return null;
-            }) : null,
-            rowClickEnabled: !isNull(GridEvents) && !isNull(GridEvents.OnRowClick),
-            onRowClick: !isNull(GridEvents) && !isNull(GridEvents.OnRowClick) ? GridEvents.OnRowClick : () => { },
-            onRowHover: !isNull(GridEvents) && !isNull(GridEvents.OnRowHover) ? GridEvents.OnRowHover : () => { },
-            onRowOut: !isNull(GridEvents) && !isNull(GridEvents.OnRowOut) ? GridEvents.OnRowOut : () => { },
-            editButtonEnabled: !isNull(Options) && !isNull(Options.EditButton),
-            editButtonEvent: !isNull(Options) && !isNull(Options.EditButton) && !isNull(Options.EditButton.Event) ? Options.EditButton.Event : () => { },
-            deleteButtonEnabled: !isNull(Options) && !isNull(Options.DeleteButton),
-            deleteButtonEvent: !isNull(Options) && !isNull(Options.DeleteButton) && !isNull(Options.DeleteButton.Event) ? Options.DeleteButton.Event : () => { },
+            }) : [],
+            rowClickEnabled: !isNull(gridEvents) && !isNull(gridEvents.onRowClick),
+            onRowClick: !isNull(gridEvents) && !isNull(gridEvents.onRowClick) ? gridEvents.onRowClick : () => { },
+            onRowHover: !isNull(gridEvents) && !isNull(gridEvents.onRowHover) ? gridEvents.onRowHover : () => { },
+            onRowOut: !isNull(gridEvents) && !isNull(gridEvents.onRowOut) ? gridEvents.onRowOut : () => { },
+            editButtonEnabled: !isNull(options) && !isNull(options.editButton),
+            editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
+            deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
+            deleteButtonEvent: !isNull(options) && !isNull(options.deleteButton) && !isNull(options.deleteButton.event) ? options.deleteButton.event : () => { },
             toggleState: true,
             prevProps: null
         }
@@ -84,8 +84,8 @@ export class DataGrid extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextStats) {
-        if (!this.objectsEqual(this.props.Columns, nextProps.Columns) ||
-            !this.objectsEqual(this.props.RowsData, nextProps.RowsData) ||
+        if (!this.objectsEqual(this.props.columns, nextProps.columns) ||
+            !this.objectsEqual(this.props.rowsData, nextProps.rowsData) ||
             !this.objectsEqual(this.state.columns, nextStats.columns) ||
             !this.objectsEqual(this.state.rowsData, nextStats.rowsData) ||
             (this.state.noOfPages !== nextStats.noOfPages) ||
@@ -107,55 +107,55 @@ export class DataGrid extends Component {
 
 
     static getDerivedStateFromProps = (nextProps, prevState) => {
-        const { Columns, RowsData, PageRows } = nextProps
-        if ((isNull(prevState.prevProps?.RowsData) && isNull(nextProps.RowsData)) ||
-            (!isNull(prevState.prevProps?.RowsData) && !isNull(nextProps.RowsData) &&
-                Object.keys(prevState.prevProps?.RowsData).length === Object.keys(nextProps.RowsData).length
-                && Object.keys(prevState.prevProps?.RowsData).every(p =>
-                    prevState.prevProps?.RowsData[p] === nextProps.RowsData[p]))) {
+        const { columns, rowsData, pageRows } = nextProps
+        if ((isNull(prevState.prevProps?.rowsData) && isNull(nextProps.rowsData)) ||
+            (!isNull(prevState.prevProps?.rowsData) && !isNull(nextProps.rowsData) &&
+                Object.keys(prevState.prevProps?.rowsData).length === Object.keys(nextProps.rowsData).length
+                && Object.keys(prevState.prevProps?.rowsData).every(p =>
+                    prevState.prevProps?.rowsData[p] === nextProps.rowsData[p]))) {
             return null;
         }
 
         return {
             prevProps: nextProps,
-            columns: !isNull(Columns) ? Columns : null,
-            rowsData: RowsData,
-            totalRows: RowsData?.length ?? 0,
-            pageRows: !isNull(parseInt(PageRows, 10)) ? parseInt(PageRows, 10) : RowsData.length,
-            currentPageRows: !isNull(parseInt(PageRows, 10)) ? parseInt(PageRows, 10) : RowsData.length,
-            hiddenColIndex: !isNull(Columns) ? Columns.map((col, key) => {
-                if (!isNull(col.Hidden) && col.Hidden)
+            columns: !isNull(columns) ? columns : [],
+            rowsData: !isNull(rowsData) ? rowsData : [],
+            totalRows: rowsData?.length ?? 0,
+            pageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : rowsData?.length ?? 0,
+            currentPageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : rowsData?.length ?? 0,
+            hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
+                if (!isNull(col.hidden) && col.hidden)
                     return key;
                 else
                     return null;
-            }) : null,
-            concatColumns: !isNull(Columns) ? Columns.map((col) => {
+            }) : [],
+            concatColumns: !isNull(columns) ? columns.map((col) => {
                 let separator = ' '
-                if (!isNull(col.ConcatColumns) && !isNull(col.ConcatColumns.Columns)) {
-                    if (!isNull(col.ConcatColumns.Separator))
-                        separator = col.ConcatColumns.Separator
-                    return { cols: col.ConcatColumns.Columns, sep: separator };
+                if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
+                    if (!isNull(col.concatColumns.separator))
+                        separator = col.concatColumns.separator
+                    return { cols: col.concatColumns.columns, sep: separator };
                 }
                 return null
-            }) : null,
-            columnFormatting: !isNull(Columns) ? Columns.map((col) => {
-                if (!isNull(col.Formatting) && !isNull(col.Formatting.Type) && !isNull(col.Formatting.Format)) {
-                    return { type: col.Formatting.Type, format: col.Formatting.Format };
+            }) : [],
+            columnFormatting: !isNull(columns) ? columns.map((col) => {
+                if (!isNull(col.formatting) && !isNull(col.formatting.type) && !isNull(col.formatting.format)) {
+                    return { type: col.formatting.type, format: col.formatting.format };
                 }
                 return null
-            }) : null,
-            cssClassColumns: !isNull(Columns) ? Columns.map((col) => {
+            }) : [],
+            cssClassColumns: !isNull(columns) ? columns.map((col) => {
                 if (!isNull(col.cssClass))
                     return col.cssClass;
                 else
                     return null;
-            }) : null,
-            columnWidths: !isNull(Columns) ? Columns.map((col) => {
+            }) : [],
+            columnWidths: !isNull(columns) ? columns.map((col) => {
                 if (!isNull(col.width))
                     return col.width;
                 else
                     return null;
-            }) : null
+            }) : []
         }
     }
 
@@ -164,23 +164,23 @@ export class DataGrid extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (!this.objectsEqual(this.props.RowsData, prevProps.RowsData)) {
+        if (!this.objectsEqual(this.props.rowsData, prevProps.rowsData)) {
             this.dataRecieved = this.state.rowsData
         }
-        if (!this.objectsEqual(this.props.RowsData, prevProps.RowsData) ||
+        if (!this.objectsEqual(this.props.rowsData, prevProps.rowsData) ||
             !this.objectsEqual(this.state.rowsData, prevState.rowsData)) {
             this.setPagingVariables()
         }
     }
 
     setPagingVariables = () => {
-        let noOfPages = parseInt(this.state.totalRows / this.state.pageRows, 10)
-        let lastPageRows = parseInt(this.state.totalRows % this.state.pageRows, 10)
+        let noOfPages = parseInt(this.state.totalRows / this.state.pageRows, 10) ?? 0
+        let lastPageRows = parseInt(this.state.totalRows % this.state.pageRows, 10) ?? 0
         if (lastPageRows > 0)
             noOfPages++;
         else if (lastPageRows === 0)
             lastPageRows = this.state.pageRows
-        let pagerSelectOptions = [...Array(noOfPages).keys()].map(i => i + 1);
+        let pagerSelectOptions = noOfPages > 0 ? [...Array(noOfPages).keys()].map(i => i + 1) : [];
         this.setState({
             noOfPages: noOfPages,
             lastPageRows: lastPageRows,
@@ -255,6 +255,10 @@ export class DataGrid extends Component {
             maxWidth,
             maxHeight
         } = this.state
+
+        if (isNull(columns))
+            return null;
+
         return (
             <div style={{ maxWidth: maxWidth, margin: "auto", padding: "10px" }}>
                 <div

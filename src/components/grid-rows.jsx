@@ -39,8 +39,22 @@ const GridRows = ({
 }) => {
     if (!Array.isArray(rowsData) || rowsData.length === 0) {
         return (
-            <tr key="No-Data" style={{ height: "auto", borderColor: "transparent" }} className={`${rowCssClass} align-page-center`}>
-                <th style={{ width: "100%", border: 0, paddingTop: "20px", fontWeight: "400" }}>
+            <tr
+                key="No-Data"
+                style={{
+                    height: "50px",
+                    borderColor: "transparent"
+                }}
+                className={"align-page-center"}
+            >
+                <th style={{
+                    width: "100%",
+                    border: 0,
+                    padding: "50px",
+                    margin: "50px",
+                    fontWeight: "400"
+                }}
+                >
                     <LoadingIndicator />
                 </th>
             </tr>
@@ -53,8 +67,8 @@ const GridRows = ({
     return rowsData.slice(first, first + count).map((row, index) => {
         const cols = Object.values(row).map((col, key) => {
             let conValue = '';
-            const conCols = concatColumns[key]?.cols || null;
-            const conSep = concatColumns[key]?.sep || '';
+            const conCols = !isNull(concatColumns) ? concatColumns[key]?.cols : null;
+            const conSep = !isNull(concatColumns) ? concatColumns[key]?.sep : null;
 
             if (conCols) {
                 conCols.forEach((conName) => {
@@ -71,7 +85,7 @@ const GridRows = ({
 
             let columnValue = conValue !== '' ? conValue : col;
 
-            const formatInfo = columnFormatting[key];
+            const formatInfo = !isNull(columnFormatting) ? columnFormatting[key] : null;
             if (!isNull(columnValue) && formatInfo && formatInfo.type && formatInfo.format) {
                 const typeUpper = formatInfo.type.toUpperCase();
                 if (typeUpper === 'DATE' || typeUpper === 'DATETIME') {
@@ -79,7 +93,7 @@ const GridRows = ({
                 }
             }
 
-            const classNames = cssClassColumns[key] || '';
+            const classNames = !isNull(cssClassColumns) ? cssClassColumns[key] : '';
             const hideClass = hiddenColIndex.includes(key) ? 'd-none' : '';
             const tdClass = `${hideClass}${classNames ? ` ${classNames}` : ''}`;
             const colWidth = calColWidth(columnWidths, key, buttonColEnabled, isMobile);
@@ -137,7 +151,7 @@ const GridRows = ({
                     key="gridButtons"
                 >
                     <div
-                        className={"m-0 p-0 align-center"}
+                        className={"m-0 p-0 align-center button-column"}
                     >
                         {editBtn}
                         {deleteBtn}

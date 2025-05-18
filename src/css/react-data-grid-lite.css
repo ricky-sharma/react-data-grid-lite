@@ -398,70 +398,71 @@ i.fa-sort-down {
         width: 100%;
     }
 
-    .customGrid table tbody {
-        overflow-x: auto !important;
-        overflow-y: auto !important;
-        max-height: 380px;
-        height: 380px;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .customGrid table::-webkit-scrollbar {
-        height: 15px !important;
-        width: 15px !important;
-        border: 15px solid #d5d5d5;
-        border-start-end-radius: 1px;
-    }
-
-    /* Track */
-    .customGrid table::-webkit-scrollbar-track {
-        border-radius: 1px;
-        /* background: #d5d5d5;*/
-    }
-
-    /* Handle */
-    .customGrid table::-webkit-scrollbar-thumb {
-        /*background: #d5d5d5;*/
-        -webkit-box-shadow: inset 0 0 10px #808080;
-        border-radius: 1px;
-    }
-
-        /* Handle on hover */
-        .customGrid table::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        .customGrid table tbody {
+            overflow-x: auto !important;
+            overflow-y: auto !important;
+            max-height: 380px;
+            height: 380px;
+            width: 100%;
+            max-width: 100%;
         }
 
-    .customGrid table tbody::-webkit-scrollbar {
-        height: 0px !important;
-        width: 0px !important;
-    }
-
-    /* Track */
-    .customGrid table tbody::-webkit-scrollbar-track {
-        /* background: #d5d5d5;*/
-    }
-
-    /* Handle */
-    .customGrid table tbody::-webkit-scrollbar-thumb {
-        /*background: #d5d5d5;*/
-    }
-
-        /* Handle on hover */
-        .customGrid table tbody::-webkit-scrollbar-thumb:hover {
-            /*background: #555;*/
+        .customGrid table::-webkit-scrollbar {
+            height: 15px !important;
+            width: 15px !important;
+            border: 15px solid #d5d5d5;
+            border-start-end-radius: 1px;
         }
 
-    .customGrid thead, tr {
-        display: table;
-        width: 100%;
-    }
+        /* Track */
+        .customGrid table::-webkit-scrollbar-track {
+            border-radius: 1px;
+            /* background: #d5d5d5;*/
+        }
+
+        /* Handle */
+        .customGrid table::-webkit-scrollbar-thumb {
+            /*background: #d5d5d5;*/
+            -webkit-box-shadow: inset 0 0 10px #808080;
+            border-radius: 1px;
+        }
+
+            /* Handle on hover */
+            .customGrid table::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+        .customGrid table tbody::-webkit-scrollbar {
+            height: 0px !important;
+            width: 0px !important;
+        }
+
+        /* Track */
+        .customGrid table tbody::-webkit-scrollbar-track {
+            /* background: #d5d5d5;*/
+        }
+
+        /* Handle */
+        .customGrid table tbody::-webkit-scrollbar-thumb {
+            /*background: #d5d5d5;*/
+        }
+
+            /* Handle on hover */
+            .customGrid table tbody::-webkit-scrollbar-thumb:hover {
+                /*background: #555;*/
+            }
+
     .customGrid thead {
-        display: block; 
+        display: block;
+        width: 100%;
+        border: solid #e0e0e0 !important;
+        border-width: 0 0 2px !important;
     }
-     tr {
-        display: flex;
-    }
+
+tr {
+    display: flex;
+    width: 100%;
+}
 
 .gridHeader {
     table-layout: fixed;
@@ -469,10 +470,7 @@ i.fa-sort-down {
 
     .gridHeader th {
         background-color: #fff;
-        border-top: 0px solid rgb(224, 224, 224) !important;
-        border-bottom: 0px solid rgb(224, 224, 224) !important;
-        border-left: 0px solid rgb(224, 224, 224) !important;
-        border-right: 0px solid rgb(224, 224, 224) !important;
+        border: 0px solid rgb(224, 224, 224) !important;
         position: relative;
         padding-top: 15px !important;
         padding-bottom: 5px !important;
@@ -494,7 +492,7 @@ i.fa-sort-down {
             justify-content: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            margin:0px!important;
+            margin: 0px !important;
             height: 55px !important;
         }
 
@@ -504,16 +502,16 @@ i.fa-sort-down {
                 justify-content: center;
             }
 
-            .gridHeader span {
-                width: 2px;
-                background-color: rgb(224, 224, 224);
-                position: absolute;
-                right: -3px;
-                top: 8px;
-                bottom: 8px;
-                z-index: 1;
-                padding: 0 !important
-            }
+    .gridHeader span {
+        width: 2px;
+        background-color: rgb(224, 224, 224);
+        position: absolute;
+        right: -3px;
+        top: 8px;
+        bottom: 8px;
+        z-index: 1;
+        padding: 0 !important
+    }
 
 .searchHeader {
     table-layout: fixed;
@@ -521,18 +519,12 @@ i.fa-sort-down {
 
     .searchHeader th {
         background-color: #fff;
-        border-top: 0px solid rgb(224, 224, 224) !important;
-        border-bottom: 2px solid rgb(224, 224, 224) !important;
-        border-left: 0px solid rgb(224, 224, 224) !important;
-        border-right: 0px solid rgb(224, 224, 224) !important;
+        border: 0px solid rgb(224, 224, 224) !important;
         position: relative;
-        padding-top: 5px !important;
-        padding-left: 0px !important;
-        padding-bottom: 10px !important;
-        padding-right: 0px !important;
+        padding: 5px 0 7px !important;
         vertical-align: top !important;
         line-height: 0.5 !important;
-       /* max-width: 200px;
+        /* max-width: 200px;
         width: 200px;*/
         table-layout: fixed;
     }
@@ -561,10 +553,8 @@ i.fa-sort-down {
 }
 
 .gridRows td {
-    border-top: 1px solid rgb(224, 224, 224) !important;
-    border-bottom: 0px solid rgb(224, 224, 224) !important;
-    border-left: 0px solid rgb(224, 224, 224) !important;
-    border-right: 0px solid rgb(224, 224, 224) !important;
+    border: solid #e0e0e0 !important;
+    border-width: 1px 0 0 !important;
     flex: 1;
     padding: 0 !important;
     /*max-width: 200px;*/
@@ -578,7 +568,7 @@ i.fa-sort-down {
         text-overflow: ellipsis;
         /*max-width: 200px;
         width: 200px;*/
-        padding: 6px 6px 6px 12px !important;
+        padding: 10px 8px 10px 10px !important;
         align-content: center;
     }
 
@@ -726,6 +716,12 @@ input.globalSearch {
     background-color: rgb(224, 224, 224);
 }
 
+.button-column {
+    flex-wrap: wrap;
+    justify-content: center;
+    display: flex;
+}
+
 input[type="text" i].globalSearch, input[type="text" i].searchInput {
     padding: 1px 5px;
 }
@@ -755,7 +751,7 @@ table.table td a.view, button.view {
 table.table td a.edit, button.edit {
     color: #FFC107;
     min-width: fit-content !important;
-    margin-right:10px !important;
+    margin-right: 10px !important;
     background-color: slategrey;
 }
 
@@ -887,7 +883,7 @@ i {
         padding-bottom: 5px !important;
         padding-left: 0px !important;
         padding-right: 0px !important;
-       /* max-width: 75px;
+        /* max-width: 75px;
         width: 75px;*/
     }
 
