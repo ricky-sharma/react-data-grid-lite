@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Desktop_Button_Column_Width, Mobile_Button_Column_Width } from '../constants';
 import { isNull } from '../helper/common';
 import { format } from "../helper/date";
+import { useIsMobile } from '../hooks/use-Is-Mobile';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
+import { calColWidth } from "../utils/component-utils";
 
 const LoadingIndicator = () => {
     const { loading } = useLoadingIndicator();
@@ -18,6 +21,7 @@ const GridRows = ({
     columnFormatting,
     cssClassColumns,
     columns,
+    columnWidths,
     rowCssClass,
     rowClickEnabled,
     onRowClick,
@@ -37,6 +41,9 @@ const GridRows = ({
             </tr>
         );
     }
+    const isMobile = useIsMobile(); 
+    let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
+    let buttonColWidth = isMobile ? Mobile_Button_Column_Width : Desktop_Button_Column_Width;
 
     return rowsData.slice(first, first + count).map((row, index) => {
         const cols = Object.values(row).map((col, key) => {
@@ -70,17 +77,30 @@ const GridRows = ({
             const classNames = cssClassColumns[key] || '';
             const hideClass = hiddenColIndex.includes(key) ? 'd-none' : '';
             const tdClass = `${hideClass}${classNames ? ` ${classNames}` : ''}`;
+            const colWidth = calColWidth(columnWidths, key, buttonColEnabled, isMobile);
 
             return (
-                <td className={tdClass} key={key}>
-                    <div className={`${classNames} m-0 p-0`} title={columnValue}>{columnValue}</div>
+                <td
+                    className={tdClass}
+                    key={key}
+                    style={{
+                        "width": colWidth,
+                        "maxWidth": colWidth
+                    }}
+                >
+                    <div
+                        className={`${classNames} m-0 p-0`}
+                        title={columnValue}
+                    >
+                        {columnValue}
+                    </div>
                 </td>
             );
         });
 
         // Action Buttons
         let actionButtons = null;
-        if (editButtonEnabled || deleteButtonEnabled) {
+        if (buttonColEnabled) {
             const editBtn = editButtonEnabled && (
                 <div
                     className="p-0 m-0"
@@ -102,16 +122,18 @@ const GridRows = ({
                 </div>
             );
 
-            const colClass = editButtonEnabled && deleteButtonEnabled ? "col1width90" : "col1width45";
-
             actionButtons = (
                 <td
                     onClick={(e) => e.stopPropagation()}
-                    style={{ cursor: "auto" }}
+                    style={{
+                        "width": buttonColWidth,
+                        "maxWidth": buttonColWidth
+                    }}
                     key="gridButtons"
-                    className={colClass}
                 >
-                    <div className={`${colClass} m-0 p-0 align-center`}>
+                    <div
+                        className={"m-0 p-0 align-center"}
+                    >
                         {editBtn}
                         {deleteBtn}
                     </div>
@@ -151,6 +173,7 @@ GridRows.propTypes = {
     })),
     cssClassColumns: PropTypes.arrayOf(PropTypes.string),
     columns: PropTypes.arrayOf(PropTypes.object),
+    columnWidths: PropTypes.arrayOf(PropTypes.string),
     rowCssClass: PropTypes.string,
     rowClickEnabled: PropTypes.bool,
     onRowClick: PropTypes.func,
@@ -171,6 +194,7 @@ GridRows.defaultProps = {
     columnFormatting: [],
     cssClassColumns: [],
     columns: [],
+    columnWidths: [],
     rowCssClass: 'gridRows',
     rowClickEnabled: false,
     onRowClick: () => { },

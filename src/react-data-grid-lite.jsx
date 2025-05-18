@@ -11,10 +11,12 @@ import { eventGridSearchClicked } from "./components/events/event-grid-search-cl
 export class DataGrid extends Component {
     constructor(props) {
         super(props)
-        const { Columns, RowsData, PageRows, GridEvents, Options, Width, Height } = props
+        const { Columns, RowsData, PageRows, GridEvents, Options, Width, Height, maxWidth, maxHeight } = props
         this.state = {
             width: !isNull(Width) ? Width : '100%',
-            height: !isNull(Height) ? Height : '',
+            maxWidth: !isNull(maxWidth) ? maxWidth : '100vw',
+            height: !isNull(Height) ? Height : '300px',
+            maxHeight: !isNull(maxHeight) ? maxHeight : '300px',
             gridID: Math.floor(Math.random() * 10000),
             columns: !isNull(Columns) ? Columns : null,
             rowsData: RowsData,
@@ -56,6 +58,12 @@ export class DataGrid extends Component {
             cssClassColumns: !isNull(Columns) ? Columns.map((col) => {
                 if (!isNull(col.cssClass))
                     return col.cssClass;
+                else
+                    return null;
+            }) : null,
+            columnWidths: !isNull(Columns) ? Columns.map((col) => {
+                if (!isNull(col.width))
+                    return col.width;
                 else
                     return null;
             }) : null,
@@ -139,6 +147,12 @@ export class DataGrid extends Component {
             cssClassColumns: !isNull(Columns) ? Columns.map((col) => {
                 if (!isNull(col.cssClass))
                     return col.cssClass;
+                else
+                    return null;
+            }) : null,
+            columnWidths: !isNull(Columns) ? Columns.map((col) => {
+                if (!isNull(col.width))
+                    return col.width;
                 else
                     return null;
             }) : null
@@ -236,100 +250,107 @@ export class DataGrid extends Component {
             editButtonEnabled,
             deleteButtonEnabled,
             editButtonEvent,
-            deleteButtonEvent
+            deleteButtonEvent,
+            columnWidths,
+            maxWidth,
+            maxHeight
         } = this.state
         return (
-            <div
-                className="mx-0 px-0"
-                style={{ width: width }}>
-                {
-                    this.state.enableGlobalSearch ?
-                        <div className="row col-12 globalSearchDiv">
-                            <input
-                                className="globalSearch"
-                                placeholder="Global Search"
-                                onChange={(e) => this.onSearchClicked(e, '##globalSearch##', this.state.columns)}
-                                type="text" />
-                        </div>
-                        : null
-                }
-                <div className={!isNull(this.state.gridCssClass) ? `col-12 m-0 p-0 ${this.state.gridCssClass}` : "col-12 m-0 p-0 customGrid"}>
-                    <div className="row col-12 m-0 p-0" >
-                        <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0">
-                            <GridHeader
-                                columns={this.state.columns}
-                                hiddenColIndex={this.state.hiddenColIndex}
-                                enableColumnSearch={this.state.enableColumnSearch}
-                                concatColumns={this.state.concatColumns}
-                                editButtonEnabled={this.state.editButtonEnabled}
-                                deleteButtonEnabled={this.state.deleteButtonEnabled}
-                                headerCssClass={this.state.headerCssClass}
-                                gridID={this.state.gridID}
-                                sortIconHtml={this.sortIconHtml}
-                                onHeaderClicked={this.onHeaderClicked}
-                                onSearchClicked={this.onSearchClicked}
-                            />
-                            <tbody style={{ height: height, maxHeight: height }}>
-                                <GridRows
-                                    rowsData={rowsData}
-                                    first={firstRow}
-                                    count={currentPageRows}
-                                    hiddenColIndex={hiddenColIndex}
-                                    concatColumns={concatColumns}
-                                    columnFormatting={columnFormatting}
-                                    cssClassColumns={cssClassColumns}
-                                    columns={columns}
-                                    rowCssClass={rowCssClass}
-                                    rowClickEnabled={rowClickEnabled}
-                                    onRowClick={onRowClick}
-                                    onRowHover={onRowHover}
-                                    onRowOut={onRowOut}
-                                    editButtonEnabled={editButtonEnabled}
-                                    deleteButtonEnabled={deleteButtonEnabled}
-                                    editButtonEvent={editButtonEvent}
-                                    deleteButtonEvent={deleteButtonEvent}
+            <div style={{ maxWidth: maxWidth, margin: "auto", padding: "10px" }}>
+                <div
+                    className="mx-0 px-0"
+                    style={{ width: width }}>
+                    {
+                        this.state.enableGlobalSearch ?
+                            <div className="row col-12 globalSearchDiv">
+                                <input
+                                    className="globalSearch"
+                                    placeholder="Global Search"
+                                    onChange={(e) => this.onSearchClicked(e, '##globalSearch##', this.state.columns)}
+                                    type="text" />
+                            </div>
+                            : null
+                    }
+                    <div className={!isNull(this.state.gridCssClass) ? `col-12 m-0 p-0 ${this.state.gridCssClass}` : "col-12 m-0 p-0 customGrid"}>
+                        <div className="row col-12 m-0 p-0" >
+                            <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0">
+                                <GridHeader
+                                    columns={this.state.columns}
+                                    hiddenColIndex={this.state.hiddenColIndex}
+                                    enableColumnSearch={this.state.enableColumnSearch}
+                                    concatColumns={this.state.concatColumns}
+                                    editButtonEnabled={this.state.editButtonEnabled}
+                                    deleteButtonEnabled={this.state.deleteButtonEnabled}
+                                    headerCssClass={this.state.headerCssClass}
+                                    gridID={this.state.gridID}
+                                    sortIconHtml={this.sortIconHtml}
+                                    onHeaderClicked={this.onHeaderClicked}
+                                    onSearchClicked={this.onSearchClicked}
+                                    columnWidths={columnWidths}
                                 />
-                            </tbody>
-                        </table>
-                        <div className="row col-12 m-0 p-0 align-center grid-footer">
-                            <div className="col-5 pl-2 m-0 p-0 txt-left">
-                                {"Showing "}
-                                <b>
-                                    {totalRows > currentPageRows ? (`${(activePage - 1) * pageRows + 1} 
-                                    to ${(activePage - 1) * pageRows + currentPageRows}`) : totalRows}
-                                </b>
-                                {" out of "}
-                                <b>
-                                    {totalRows}
-                                </b>
-                                {" entries"}
-                            </div>
-                            <div className="col-2 m-0 p-0" style={{ textAlign: "center" }}>
-                                <select
-                                    className="pagerSelect"
-                                    value={activePage}
-                                    onChange={
-                                        (e) => {
-                                            this.handleChangePage(e, parseInt(e.target.value))
-                                        }}>
-                                    {this.state.pagerSelectOptions}
-                                </select>
-                            </div>
-                            <div className="float-lt col-5 m-0 p-0 pr-1">
-                                <div className="col-12 m-0 p-0">
-                                    <GridPagination
-                                        enablePaging={enablePaging}
-                                        activePage={activePage}
-                                        noOfPages={noOfPages}
-                                        onPageChange={this.handleChangePage}
-                                        onPrevButtonClick={this.handleBackwardPage}
-                                        onNextButtonClick={this.handleForwardPage}
+                                <tbody style={{ height: height, maxHeight: maxHeight }}>
+                                    <GridRows
+                                        rowsData={rowsData}
+                                        first={firstRow}
+                                        count={currentPageRows}
+                                        hiddenColIndex={hiddenColIndex}
+                                        concatColumns={concatColumns}
+                                        columnFormatting={columnFormatting}
+                                        cssClassColumns={cssClassColumns}
+                                        columns={columns}
+                                        columnWidths={columnWidths}
+                                        rowCssClass={rowCssClass}
+                                        rowClickEnabled={rowClickEnabled}
+                                        onRowClick={onRowClick}
+                                        onRowHover={onRowHover}
+                                        onRowOut={onRowOut}
+                                        editButtonEnabled={editButtonEnabled}
+                                        deleteButtonEnabled={deleteButtonEnabled}
+                                        editButtonEvent={editButtonEvent}
+                                        deleteButtonEvent={deleteButtonEvent}
                                     />
+                                </tbody>
+                            </table>
+                            <div className="row col-12 m-0 p-0 align-center grid-footer">
+                                <div className="col-5 pl-2 m-0 p-0 txt-left">
+                                    {"Showing "}
+                                    <b>
+                                        {totalRows > currentPageRows ? (`${(activePage - 1) * pageRows + 1} 
+                                    to ${(activePage - 1) * pageRows + currentPageRows}`) : totalRows}
+                                    </b>
+                                    {" out of "}
+                                    <b>
+                                        {totalRows}
+                                    </b>
+                                    {" entries"}
+                                </div>
+                                <div className="col-2 m-0 p-0" style={{ textAlign: "center" }}>
+                                    <select
+                                        className="pagerSelect"
+                                        value={activePage}
+                                        onChange={
+                                            (e) => {
+                                                this.handleChangePage(e, parseInt(e.target.value))
+                                            }}>
+                                        {this.state.pagerSelectOptions}
+                                    </select>
+                                </div>
+                                <div className="float-lt col-5 m-0 p-0 pr-1">
+                                    <div className="col-12 m-0 p-0">
+                                        <GridPagination
+                                            enablePaging={enablePaging}
+                                            activePage={activePage}
+                                            noOfPages={noOfPages}
+                                            onPageChange={this.handleChangePage}
+                                            onPrevButtonClick={this.handleBackwardPage}
+                                            onNextButtonClick={this.handleForwardPage}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         )

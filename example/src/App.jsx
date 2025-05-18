@@ -15,14 +15,11 @@ function App() {
     }
     return (
         <>
-            <div style={{ maxWidth: "90vw", margin: "auto", padding: "10px" }}>
-                <DataGrid
-                    Columns={columns}
-                    RowsData={sampleData}
-                    Options={options}
-                    PageRows={2}
-                    Height={"500px"} />
-            </div>
+            <DataGrid
+                Columns={columns}
+                RowsData={sampleData}
+                Options={options}
+                />
         </>
     )
 }

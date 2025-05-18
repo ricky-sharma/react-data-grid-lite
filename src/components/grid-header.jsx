@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Desktop_Button_Column_Width, Mobile_Button_Column_Width } from '../constants';
 import { isNull } from '../helper/common';
+import { useIsMobile } from '../hooks/use-Is-Mobile';
+import { calColWidth } from "../utils/component-utils";
 
 const GridHeader = ({
     columns,
@@ -14,18 +17,21 @@ const GridHeader = ({
     sortIconHtml,
     onHeaderClicked,
     onSearchClicked,
+    columnWidths
 }) => {
     if (isNull(columns)) return null;
-
+    const isMobile = useIsMobile(); 
     let headers = [...columns]; // Clone to avoid mutating props
     const hiddenCols = hiddenColIndex || [];
     const enableColSearch = enableColumnSearch || false;
     const concatCols = concatColumns || [];
     let columnSearchEnabled = false;
     let searchRowEnabled = false;
+    let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
+    let buttonColWidth = isMobile ? Mobile_Button_Column_Width : Desktop_Button_Column_Width;
 
     // Modify headers based on buttons
-    if ((editButtonEnabled || deleteButtonEnabled)
+    if ((buttonColEnabled)
         && headers[headers.length - 1] !== '') {
         headers.push('');
     }
@@ -36,17 +42,20 @@ const GridHeader = ({
         const inputProps = {
             className: !isNull(header.cssClass) ? `${header.cssClass} row p-0 m-0` : 'row p-0 m-0',
         };
+        const colWidth = calColWidth(columnWidths, key, buttonColEnabled, isMobile);
 
         if (header === '') {
             return (
                 <th
+                    style={{
+                        "width": buttonColWidth,
+                        "maxWidth": buttonColWidth
+                    }}
                     key={key}
-                    className={`${hideClass} ${editButtonEnabled && deleteButtonEnabled ? 'col1width90 p-0' : 'col1width45 p-0'
-                        }${!isNull(header.cssClass) ? ' ' + header.cssClass : ''}`}
+                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div
-                        className={`${editButtonEnabled && deleteButtonEnabled ? 'col1width90' : 'col1width45'
-                            } p-0 inline-display`}
+                        className={"p-0 inline-display"}
                     ></div>
                     {thInnerHtml}
                 </th>
@@ -54,6 +63,10 @@ const GridHeader = ({
         } else if (isNull(header.Alias) || header.Name === header.Alias) {
             return (
                 <th
+                    style={{
+                        "width": colWidth,
+                        "maxWidth": colWidth
+                    }}
                     key={key}
                     className={`${hideClass}${!isNull(header.cssClass) ? ' ' + header.cssClass : ''}`}
                 >
@@ -73,6 +86,10 @@ const GridHeader = ({
         } else {
             return (
                 <th
+                    style={{
+                        "width": colWidth,
+                        "maxWidth": colWidth
+                    }}
                     key={key}
                     className={`${hideClass}${!isNull(header.cssClass) ? ' ' + header.cssClass : ''}`}
                 >
@@ -101,7 +118,7 @@ const GridHeader = ({
                 ? `${header.cssClass} row searchDiv p-0 m-0`
                 : 'row searchDiv p-0 m-0',
         };
-
+        const colWidth = calColWidth(columnWidths, key, buttonColEnabled, isMobile);
         columnSearchEnabled = enableColSearch
             ? header?.SearchEnable ?? true
             : header?.SearchEnable ?? false;
@@ -113,21 +130,27 @@ const GridHeader = ({
         if (header === '') {
             return (
                 <th
+                    style={{
+                        "width": buttonColWidth,
+                        "maxWidth": buttonColWidth
+                    }}
                     key={key}
-                    className={`${hideClass} ${editButtonEnabled && deleteButtonEnabled ? 'col1width90 p-0' : 'col1width45 p-0'
-                        }${!isNull(header.cssClass) ? ' ' + header.cssClass : ''}`}
+                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div
-                        className={`${editButtonEnabled && deleteButtonEnabled ? 'col1width90' : 'col1width45'
-                            } p-0 inline-display`}
+                        className={"p-0 inline-display"}
                     ></div>
                 </th>
             );
         } else {
             return (
                 <th
+                    style={{
+                        "width": colWidth,
+                        "maxWidth": colWidth
+                    }}
                     key={key}
-                    className={`${hideClass}${!isNull(header.cssClass) ? ' ' + header.cssClass : ''}`}
+                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div {...inputProps}>
                         {columnSearchEnabled ? (
@@ -179,7 +202,8 @@ GridHeader.propTypes = {
     gridID: PropTypes.string,
     sortIconHtml: PropTypes.node,
     onHeaderClicked: PropTypes.func.isRequired,
-    onSearchClicked: PropTypes.func.isRequired
+    onSearchClicked: PropTypes.func.isRequired,
+    columnWidths: PropTypes.arrayOf(PropTypes.string)
 };
 
 // Default Props
@@ -191,7 +215,8 @@ GridHeader.defaultProps = {
     deleteButtonEnabled: false,
     headerCssClass: '',
     gridID: '',
-    sortIconHtml: null
+    sortIconHtml: null,
+    columnWidths: []
 };
 
 export default GridHeader;
