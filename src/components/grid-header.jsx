@@ -60,29 +60,6 @@ const GridHeader = ({
                     {thInnerHtml}
                 </th>
             );
-        } else if (isNull(header.Alias) || header.Name === header.Alias) {
-            return (
-                <th
-                    style={{
-                        "width": colWidth,
-                        "maxWidth": colWidth
-                    }}
-                    key={key}
-                    className={`${hideClass}${!isNull(header.cssClass) ? ' ' + header.cssClass : ''}`}
-                >
-                    <div {...inputProps}>
-                        <div
-                            onClick={(e) => onHeaderClicked(e, header.Name)}
-                            className={`p-0 pointer inline-display${!isNull(header.cssClass) ? ' ' + header.cssClass : ''
-                                }`}
-                        >
-                            {header.Name}
-                            {sortIconHtml}
-                        </div>
-                    </div>
-                    {thInnerHtml}
-                </th>
-            );
         } else {
             return (
                 <th
@@ -99,7 +76,7 @@ const GridHeader = ({
                             className={`p-0 pointer inline-display${!isNull(header.cssClass) ? ' ' + header.cssClass : ''
                                 }`}
                         >
-                            {header.Alias}
+                            {isNull(header.Alias) || header.Name === header.Alias ? header.Name: header.Alias}
                             {sortIconHtml}
                         </div>
                     </div>
