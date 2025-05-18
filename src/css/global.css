@@ -107,6 +107,12 @@ input[type=checkbox] {
     padding-right: 14px;
 }
 
+.no-select {
+    user-select: none;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE/Edge */
+}
+
 .float-rt {
     float: right;
 }

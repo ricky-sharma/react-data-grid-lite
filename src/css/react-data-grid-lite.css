@@ -143,6 +143,14 @@
     color: black !important;
 }
 
+.sort-icon-wrapper {
+    width: 16px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
 i.fa-sort {
     display: inline-block;
     position: relative;
@@ -479,20 +487,33 @@ i.fa-sort-down {
             /*max-width: 200px;
             width: 200px;*/
             position: relative;
-            padding-left: 0px !important;
+            padding: 0px !important;
             width: 100%;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin:0px!important;
+            height: 55px !important;
         }
 
-    .gridHeader span {
-        width: 2px;
-        background-color: rgb(224, 224, 224);
-        position: absolute;
-        right: -3px;
-        top: 8px;
-        bottom: 8px;
-        z-index: 1;
-        padding: 0 !important
-    }
+            .gridHeader th div h4 {
+                margin: 0 !important;
+                padding: 0 !important;
+                justify-content: center;
+            }
+
+            .gridHeader span {
+                width: 2px;
+                background-color: rgb(224, 224, 224);
+                position: absolute;
+                right: -3px;
+                top: 8px;
+                bottom: 8px;
+                z-index: 1;
+                padding: 0 !important
+            }
 
 .searchHeader {
     table-layout: fixed;
@@ -842,7 +863,7 @@ i {
         .gridHeader th div {
             /*max-width: 75px;
             width: 75px;*/
-            padding-left: 0px !important;
+            /*padding-left: 0px !important;*/
         }
 
     .searchHeader th {

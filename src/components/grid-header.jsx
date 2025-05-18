@@ -14,13 +14,12 @@ const GridHeader = ({
     deleteButtonEnabled,
     headerCssClass,
     gridID,
-    sortIconHtml,
     onHeaderClicked,
     onSearchClicked,
     columnWidths
 }) => {
     if (isNull(columns)) return null;
-    const isMobile = useIsMobile(); 
+    const isMobile = useIsMobile();
     let headers = [...columns]; // Clone to avoid mutating props
     const hiddenCols = hiddenColIndex || [];
     const enableColSearch = enableColumnSearch || false;
@@ -29,6 +28,10 @@ const GridHeader = ({
     let searchRowEnabled = false;
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     let buttonColWidth = isMobile ? Mobile_Button_Column_Width : Desktop_Button_Column_Width;
+    const sortIconHtml =
+        (<div className="sort-icon-wrapper">
+            <i className='updown-icon inactive fa fa-sort' />
+        </div>)
 
     // Modify headers based on buttons
     if ((buttonColEnabled)
@@ -55,7 +58,7 @@ const GridHeader = ({
                     className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div
-                        className={"p-0 inline-display"}
+                        className={"p-0"}
                     ></div>
                     {thInnerHtml}
                 </th>
@@ -68,15 +71,15 @@ const GridHeader = ({
                         "maxWidth": colWidth
                     }}
                     key={key}
-                    className={`${hideClass}${!isNull(header.cssClass) ? ' ' + header.cssClass : ''}`}
+                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div {...inputProps}>
                         <div
                             onClick={(e) => onHeaderClicked(e, header.Name)}
-                            className={`p-0 pointer inline-display${!isNull(header.cssClass) ? ' ' + header.cssClass : ''
+                            className={`p-0 pointer no-select ${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''
                                 }`}
                         >
-                            {isNull(header.Alias) || header.Name === header.Alias ? header.Name: header.Alias}
+                            <h4>{isNull(header.Alias) || header.Name === header.Alias ? header.Name : header.Alias}</h4>
                             {sortIconHtml}
                         </div>
                     </div>
@@ -177,7 +180,6 @@ GridHeader.propTypes = {
     deleteButtonEnabled: PropTypes.bool,
     headerCssClass: PropTypes.string,
     gridID: PropTypes.string,
-    sortIconHtml: PropTypes.node,
     onHeaderClicked: PropTypes.func.isRequired,
     onSearchClicked: PropTypes.func.isRequired,
     columnWidths: PropTypes.arrayOf(PropTypes.string)
@@ -192,7 +194,6 @@ GridHeader.defaultProps = {
     deleteButtonEnabled: false,
     headerCssClass: '',
     gridID: '',
-    sortIconHtml: null,
     columnWidths: []
 };
 

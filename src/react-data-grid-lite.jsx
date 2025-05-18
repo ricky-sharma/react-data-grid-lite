@@ -78,7 +78,7 @@ export class DataGrid extends Component {
             toggleState: true,
             prevProps: null
         }
-        this.sortIconHtml = <i className='updown-icon inactive fa fa-sort' />
+
         this.dataRecieved = this.state.rowsData
         this.searchCols = []
     }
@@ -273,7 +273,7 @@ export class DataGrid extends Component {
                     }
                     <div className={!isNull(this.state.gridCssClass) ? `col-12 m-0 p-0 ${this.state.gridCssClass}` : "col-12 m-0 p-0 customGrid"}>
                         <div className="row col-12 m-0 p-0" >
-                            <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0">
+                            <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0 no-select">
                                 <GridHeader
                                     columns={this.state.columns}
                                     hiddenColIndex={this.state.hiddenColIndex}
@@ -283,7 +283,6 @@ export class DataGrid extends Component {
                                     deleteButtonEnabled={this.state.deleteButtonEnabled}
                                     headerCssClass={this.state.headerCssClass}
                                     gridID={this.state.gridID}
-                                    sortIconHtml={this.sortIconHtml}
                                     onHeaderClicked={this.onHeaderClicked}
                                     onSearchClicked={this.onSearchClicked}
                                     columnWidths={columnWidths}
@@ -311,7 +310,7 @@ export class DataGrid extends Component {
                                     />
                                 </tbody>
                             </table>
-                            <div className="row col-12 m-0 p-0 align-center grid-footer">
+                            <div className="row col-12 m-0 p-0 align-center grid-footer no-select">
                                 <div className="col-5 pl-2 m-0 p-0 txt-left">
                                     {"Showing "}
                                     <b>

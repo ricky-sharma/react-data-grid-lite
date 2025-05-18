@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Desktop_Button_Column_Width, Mobile_Button_Column_Width } from '../constants';
+import {
+    Data_Loading_Message,
+    Desktop_Button_Column_Width,
+    Mobile_Button_Column_Width,
+    No_Data_Message
+} from '../constants';
 import { isNull } from '../helper/common';
 import { format } from "../helper/date";
 import { useIsMobile } from '../hooks/use-Is-Mobile';
@@ -9,7 +14,7 @@ import { calColWidth } from "../utils/component-utils";
 
 const LoadingIndicator = () => {
     const { loading } = useLoadingIndicator();
-    return loading ? 'Data loading...' : 'No data to display';
+    return loading ? Data_Loading_Message : No_Data_Message;
 };
 
 const GridRows = ({
@@ -34,14 +39,14 @@ const GridRows = ({
 }) => {
     if (!Array.isArray(rowsData) || rowsData.length === 0) {
         return (
-            <tr key="No-Data" className={`${rowCssClass} align-page-center`}>
-                <th style={{ width: "100%", height: "100%", border: 0 }}>
+            <tr key="No-Data" style={{ height: "auto", borderColor: "transparent" }} className={`${rowCssClass} align-page-center`}>
+                <th style={{ width: "100%", border: 0, paddingTop: "20px", fontWeight: "400" }}>
                     <LoadingIndicator />
                 </th>
             </tr>
         );
     }
-    const isMobile = useIsMobile(); 
+    const isMobile = useIsMobile();
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     let buttonColWidth = isMobile ? Mobile_Button_Column_Width : Desktop_Button_Column_Width;
 
