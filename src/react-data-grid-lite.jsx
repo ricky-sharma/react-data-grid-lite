@@ -22,11 +22,11 @@ export class DataGrid extends Component {
             rowsData: RowsData,
             totalRows: RowsData.length,
             enablePaging: !isNull(PageRows),
-            pageRows: !isNull(PageRows) ? PageRows : RowsData.length,
+            pageRows: !isNull(parseInt(PageRows, 10)) ? parseInt(PageRows, 10) : RowsData.length,
             noOfPages: 0,
             pagerSelectOptions: [],
             firstRow: 0,
-            currentPageRows: !isNull(PageRows) ? PageRows : RowsData.length,
+            currentPageRows: !isNull(parseInt(PageRows, 10)) ? parseInt(PageRows, 10) : RowsData.length,
             lastPageRows: 10,
             activePage: 1,
             gridCssClass: !isNull(Options) ? Options.GridCssClass : null,
@@ -121,8 +121,8 @@ export class DataGrid extends Component {
             columns: !isNull(Columns) ? Columns : null,
             rowsData: RowsData,
             totalRows: RowsData?.length ?? 0,
-            pageRows: !isNull(PageRows) ? PageRows : RowsData.length,
-            currentPageRows: !isNull(PageRows) ? PageRows : RowsData.length,
+            pageRows: !isNull(parseInt(PageRows, 10)) ? parseInt(PageRows, 10) : RowsData.length,
+            currentPageRows: !isNull(parseInt(PageRows, 10)) ? parseInt(PageRows, 10) : RowsData.length,
             hiddenColIndex: !isNull(Columns) ? Columns.map((col, key) => {
                 if (!isNull(col.Hidden) && col.Hidden)
                     return key;

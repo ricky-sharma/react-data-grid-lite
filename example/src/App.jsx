@@ -14,13 +14,12 @@ function App() {
         }
     }
     return (
-        <>
-            <DataGrid
-                Columns={columns}
-                RowsData={sampleData}
-                Options={options}
-                />
-        </>
+        <DataGrid
+            Columns={columns}
+            RowsData={sampleData}
+            Options={options}
+            PageRows={5}
+        />
     )
 }
 
