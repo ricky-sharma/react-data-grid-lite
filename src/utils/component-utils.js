@@ -19,5 +19,5 @@ export function calColWidth(colWidthArray, currentColKey, buttonColEnabled = fal
         ? colWidthArray[currentColKey]
         : null;
 
-    return isMobile ? Mobile_Column_Width : (colWidthSet ?? `${colWidthCal}%`);
+    return isMobile ? (colWidthSet ?? Mobile_Column_Width) : (colWidthSet ?? `${colWidthCal}%`);
 }
