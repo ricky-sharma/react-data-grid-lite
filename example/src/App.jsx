@@ -16,7 +16,7 @@ function App() {
         <>
             <DataGrid
                 columns={columns}
-                rowsData={sampleData}
+                data={sampleData}
                 options={options}
                 pageRows={5}
             />

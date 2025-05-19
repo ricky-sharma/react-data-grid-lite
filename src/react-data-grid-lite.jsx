@@ -12,7 +12,19 @@ import GridRows from './components/grid-rows';
 export class DataGrid extends Component {
     constructor(props) {
         super(props)
-        const { columns, rowsData, pageRows, gridEvents, options, width, height, maxWidth, maxHeight } = props
+        const {
+            columns,
+            data,
+            pageRows,
+            options,
+            width,
+            height,
+            maxWidth,
+            maxHeight,
+            onRowClick,
+            onRowHover,
+            onRowOut
+        } = props
         this.state = {
             width: !isNull(width) ? width : '100%',
             maxWidth: !isNull(maxWidth) ? maxWidth : '100vw',
@@ -20,19 +32,19 @@ export class DataGrid extends Component {
             maxHeight: !isNull(maxHeight) ? maxHeight : '300px',
             gridID: Math.floor(Math.random() * 10000),
             columns: !isNull(columns) ? columns : null,
-            rowsData: rowsData,
-            totalRows: rowsData?.length ?? 0,
+            rowsData: data,
+            totalRows: data?.length ?? 0,
             enablePaging: !isNull(pageRows),
-            pageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : rowsData?.length ?? 0,
+            pageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : data?.length ?? 0,
             noOfPages: 0,
             pagerSelectOptions: [],
             firstRow: 0,
-            currentPageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : rowsData?.length ?? 0,
+            currentPageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : data?.length ?? 0,
             lastPageRows: 10,
             activePage: 1,
-            gridCssClass: !isNull(options) ? options.gridCssClass : null,
-            headerCssClass: !isNull(options) ? options.headerCssClass : null,
-            rowCssClass: !isNull(options) ? options.rowCssClass : null,
+            gridCssClass: !isNull(options) ? options.gridClass : null,
+            headerCssClass: !isNull(options) ? options.headerClass : null,
+            rowCssClass: !isNull(options) ? options.rowClass : null,
             enableColumnSearch: !isNull(options) ? options.enableColumnSearch ?? true : true,
             enableGlobalSearch: !isNull(options) ? options.enableGlobalSearch ?? true : true,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
@@ -68,10 +80,10 @@ export class DataGrid extends Component {
                 else
                     return null;
             }) : [],
-            rowClickEnabled: !isNull(gridEvents) && !isNull(gridEvents.onRowClick),
-            onRowClick: !isNull(gridEvents) && !isNull(gridEvents.onRowClick) ? gridEvents.onRowClick : () => { },
-            onRowHover: !isNull(gridEvents) && !isNull(gridEvents.onRowHover) ? gridEvents.onRowHover : () => { },
-            onRowOut: !isNull(gridEvents) && !isNull(gridEvents.onRowOut) ? gridEvents.onRowOut : () => { },
+            rowClickEnabled: !isNull(onRowClick),
+            onRowClick: !isNull(onRowClick) ? onRowClick : () => { },
+            onRowHover: !isNull(onRowHover) ? onRowHover : () => { },
+            onRowOut:  !isNull(onRowOut) ? onRowOut : () => { },
             editButtonEnabled: !isNull(options) && !isNull(options.editButton),
             editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
             deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
@@ -90,7 +102,7 @@ export class DataGrid extends Component {
 
     shouldComponentUpdate(nextProps, nextStats) {
         if (!this.objectsEqual(this.props.columns, nextProps.columns) ||
-            !this.objectsEqual(this.props.rowsData, nextProps.rowsData) ||
+            !this.objectsEqual(this.props.data, nextProps.data) ||
             !this.objectsEqual(this.state.columns, nextStats.columns) ||
             !this.objectsEqual(this.state.rowsData, nextStats.rowsData) ||
             (this.state.noOfPages !== nextStats.noOfPages) ||
@@ -113,22 +125,22 @@ export class DataGrid extends Component {
 
 
     static getDerivedStateFromProps = (nextProps, prevState) => {
-        const { columns, rowsData, pageRows } = nextProps
-        if ((isNull(prevState.prevProps?.rowsData) && isNull(nextProps.rowsData)) ||
-            (!isNull(prevState.prevProps?.rowsData) && !isNull(nextProps.rowsData) &&
-                Object.keys(prevState.prevProps?.rowsData).length === Object.keys(nextProps.rowsData).length
-                && Object.keys(prevState.prevProps?.rowsData).every(p =>
-                    prevState.prevProps?.rowsData[p] === nextProps.rowsData[p]))) {
+        const { columns, data, pageRows } = nextProps
+        if ((isNull(prevState.prevProps?.data) && isNull(nextProps.data)) ||
+            (!isNull(prevState.prevProps?.data) && !isNull(nextProps.data) &&
+            Object.keys(prevState.prevProps?.data).length === Object.keys(nextProps.data).length
+            && Object.keys(prevState.prevProps?.data).every(p =>
+                prevState.prevProps?.data[p] === nextProps.data[p]))) {
             return null;
         }
 
         return {
             prevProps: nextProps,
             columns: !isNull(columns) ? columns : [],
-            rowsData: !isNull(rowsData) ? rowsData : [],
-            totalRows: rowsData?.length ?? 0,
-            pageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : rowsData?.length ?? 0,
-            currentPageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : rowsData?.length ?? 0,
+            rowsData: !isNull(data) ? data : [],
+            totalRows: data?.length ?? 0,
+            pageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : data?.length ?? 0,
+            currentPageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : data?.length ?? 0,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
                 if (!isNull(col.hidden) && col.hidden)
                     return key;
@@ -170,10 +182,10 @@ export class DataGrid extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (!this.objectsEqual(this.props.rowsData, prevProps.rowsData)) {
+        if (!this.objectsEqual(this.props.data, prevProps.data)) {
             this.dataRecieved = this.state.rowsData
         }
-        if (!this.objectsEqual(this.props.rowsData, prevProps.rowsData) ||
+        if (!this.objectsEqual(this.props.data, prevProps.data) ||
             !this.objectsEqual(this.state.rowsData, prevState.rowsData)) {
             this.setPagingVariables()
         }
@@ -314,7 +326,7 @@ export class DataGrid extends Component {
                                 <div
                                     className="p-0 m-0">
                                     <input
-                                        data-type={`globalSearch${gridID}` }
+                                        data-type={`globalSearch${gridID}`}
                                         value={globalSearchInput}
                                         className="globalSearch"
                                         placeholder="Global Search"
@@ -345,8 +357,6 @@ export class DataGrid extends Component {
                             : null)
                         }
                     </div>
-
-
                     <div className={!isNull(this.state.gridCssClass) ? `col-12 m-0 p-0 ${this.state.gridCssClass}` : "col-12 m-0 p-0 react-data-grid-lite"}>
                         <div className="row col-12 m-0 p-0" >
                             <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0 no-select">
