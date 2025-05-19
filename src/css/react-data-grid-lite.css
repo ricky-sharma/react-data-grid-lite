@@ -41,7 +41,7 @@
         margin-bottom: 5px !important;
         width: 50px;
         position: relative;
-        top: 1px;
+        top: 0px;
     }
 
     .react-data-grid-lite-component .erase-icon {
@@ -87,7 +87,7 @@
         width: 150px !important;
         margin-bottom: 5px !important;
         position: relative;
-        top: 1px;
+        top: 0px;
     }
 
     .react-data-grid-lite-component .download-icon {
@@ -838,8 +838,8 @@
     font-weight: 400;
     border-radius: 4px;
     float: left !important;
-    height: 30px !important;
-    box-shadow: rgb(224, 224, 224) 0px 0px 0px 2px;
+    height: 29px !important;
+    box-shadow: rgb(224, 224, 224) 0px 0px 0px 1px;
     border: 0px;
     background-color: #fff;
     margin-bottom: 5px;

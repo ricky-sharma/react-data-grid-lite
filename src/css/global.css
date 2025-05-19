@@ -253,6 +253,10 @@
     font-weight: 800 !important;
 }
 
+.react-data-grid-lite-component input::placeholder {
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
 
 /* Extra Small Devices (phones < 576px) */
 @media (max-width: 575.98px) {
