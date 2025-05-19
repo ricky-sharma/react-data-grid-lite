@@ -1,5 +1,41 @@
 ﻿/*Custom Icons css*/
 
+.icon-div {
+    align-items: center;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px #e0e0e0;
+    display: flex;
+    height: 28px;
+    justify-content: center;
+    letter-spacing: .001em;
+    line-height: 1.43;
+    margin: 0;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    width: 28px;
+}
+
+    .icon-div:hover {
+        transform: scale(1.03);
+        background-color: #e0e0e0;
+    }
+
+    .icon-div:active {
+        transform: scale(0.98);
+        background-color: #e0e0e0;
+    }
+
+.grid-icon-div {
+    background: linear-gradient(180deg, #fff, #e0e0e0) !important;
+}
+
+.clear-icon-div {
+    float: left;
+    margin-right: 12px;
+    margin-bottom: 10px !important;
+}
+
 .erase-icon {
     box-sizing: border-box;
     position: relative;
@@ -7,6 +43,8 @@
     transform: scale(var(--ggs, 1));
     width: 22px;
     height: 18px;
+    cursor: pointer;
+    color: #212529;
 }
 
     .erase-icon::after,
@@ -38,29 +76,10 @@
 
 
 .download-icon-div {
-    background: #fff;
-    border-radius: 4px;
-    margin: 0;
-    margin-bottom: 10px !important;
-    box-shadow: 0 0 0 2px #e0e0e0;
-    height: 28px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    float: left;
-    width: 150px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    letter-spacing: .001em;
-    line-height: 1.43;
-    margin-right: 15px;
     float: right;
-    color: #212529;
+    width: 150px !important;
+    margin-bottom: 10px !important;
 }
-
-    .download-icon-div:hover {
-        background-color: #e0e0e0;
-    }
 
 .download-icon {
     box-sizing: border-box;
@@ -75,7 +94,7 @@
     border-bottom-right-radius: 2px;
     margin-top: 8px;
     cursor: pointer;
-    color: #000;
+    color: #212529;
     margin-left: 10px;
 }
 
@@ -106,8 +125,6 @@
         bottom: 5px;
     }
 
-
-
 .edit-icon-pen {
     box-sizing: border-box;
     position: relative;
@@ -122,6 +139,7 @@
     margin-right: -2px;
     background-color: #f0f0f0;
     cursor: pointer;
+    color: #212529;
 }
 
     .edit-icon-pen::after,
@@ -169,6 +187,7 @@
     overflow: hidden;
     background-color: #f0f0f0;
     cursor: pointer;
+    color: #212529;
 }
 
     .edit-icon::after,
@@ -211,6 +230,7 @@
     overflow: hidden;
     background-color: #f0f0f0;
     cursor: pointer;
+    color: #212529;
 }
 
     .edit1-icon::before {
@@ -252,6 +272,7 @@
     margin-top: 4px;
     background-color: #f0f0f0;
     cursor: pointer;
+    color: #212529;
 }
 
     .delete-icon::after,
@@ -289,11 +310,11 @@
 }
 
     .pagination i.arrow:hover, li.arrow:hover {
-        color: black !important;
+        color: #212529 !important;
     }
 
 .pagination li.arrow a:hover {
-    color: black !important;
+    color: #212529 !important;
 }
 
 .sort-icon-wrapper {
@@ -529,7 +550,7 @@ i.fa-sort-down {
     }
 }
 /*Bootstrap alternative css*/
-.customGrid {
+.react-data-grid-lite {
     flex: 1 1 0%;
     box-sizing: border-box;
     position: relative;
@@ -543,15 +564,15 @@ i.fa-sort-down {
     display: flex;
     flex-direction: column;
     box-shadow: rgb(224, 224, 224) 0px 0px 0px 3px;
-    border: 2px solid rgb(224, 224, 224);
+    border: 3px solid rgb(224, 224, 224);
     background-color: #fff;
 }
 
-    .customGrid table {
+    .react-data-grid-lite table {
         width: 100%;
     }
 
-        .customGrid table tbody {
+        .react-data-grid-lite table tbody {
             overflow-x: auto !important;
             overflow-y: auto !important;
             max-height: 380px;
@@ -560,7 +581,7 @@ i.fa-sort-down {
             max-width: 100%;
         }
 
-        .customGrid table::-webkit-scrollbar {
+        .react-data-grid-lite table::-webkit-scrollbar {
             height: 15px !important;
             width: 15px !important;
             border: 15px solid #d5d5d5;
@@ -568,44 +589,44 @@ i.fa-sort-down {
         }
 
         /* Track */
-        .customGrid table::-webkit-scrollbar-track {
+        .react-data-grid-lite table::-webkit-scrollbar-track {
             border-radius: 1px;
             /* background: #d5d5d5;*/
         }
 
         /* Handle */
-        .customGrid table::-webkit-scrollbar-thumb {
+        .react-data-grid-lite table::-webkit-scrollbar-thumb {
             /*background: #d5d5d5;*/
             -webkit-box-shadow: inset 0 0 10px #808080;
             border-radius: 1px;
         }
 
             /* Handle on hover */
-            .customGrid table::-webkit-scrollbar-thumb:hover {
+            .react-data-grid-lite table::-webkit-scrollbar-thumb:hover {
                 background: #555;
             }
 
-        .customGrid table tbody::-webkit-scrollbar {
+        .react-data-grid-lite table tbody::-webkit-scrollbar {
             height: 0px !important;
             width: 0px !important;
         }
 
         /* Track */
-        .customGrid table tbody::-webkit-scrollbar-track {
+        .react-data-grid-lite table tbody::-webkit-scrollbar-track {
             /* background: #d5d5d5;*/
         }
 
         /* Handle */
-        .customGrid table tbody::-webkit-scrollbar-thumb {
+        .react-data-grid-lite table tbody::-webkit-scrollbar-thumb {
             /*background: #d5d5d5;*/
         }
 
             /* Handle on hover */
-            .customGrid table tbody::-webkit-scrollbar-thumb:hover {
+            .react-data-grid-lite table tbody::-webkit-scrollbar-thumb:hover {
                 /*background: #555;*/
             }
 
-    .customGrid thead {
+    .react-data-grid-lite thead {
         display: block;
         width: 100%;
         border: solid #e0e0e0 !important;
@@ -701,7 +722,7 @@ tr {
     border-bottom: 1px solid rgb(224, 224, 224) !important;
 }
 
-.customGrid table.border-bottom {
+.react-data-grid-lite table.border-bottom {
     border-bottom: 3px solid #dee2e6 !important;
 }
 
@@ -842,7 +863,7 @@ option {
 
 input.globalSearch {
     width: 35% !important;
-   /* color: rgba(0, 0, 0);*/
+    /* color: rgba(0, 0, 0);*/
     font-weight: 400;
     border-radius: 4px;
     float: left !important;
@@ -851,7 +872,7 @@ input.globalSearch {
     border: 0px;
     background-color: #fff;
     margin-bottom: 10px;
-    margin-right: 15px;
+    margin-right: 12px;
 }
 
     input.globalSearch::placeholder {
@@ -1012,7 +1033,7 @@ i {
 
 @media (max-width: 480px) {
 
-    .customGrid table tbody {
+    .react-data-grid-lite table tbody {
         max-height: 345px;
         height: 345px;
     }
@@ -1137,13 +1158,13 @@ i {
         max-width: 50px !important;
     }
 
-    .customGrid table::-webkit-scrollbar {
+    .react-data-grid-lite table::-webkit-scrollbar {
         height: 12px !important;
         width: 12px !important;
         border: 12px solid #d5d5d5;
     }
 
-    .customGrid table tbody::-webkit-scrollbar {
+    .react-data-grid-lite table tbody::-webkit-scrollbar {
         height: 0px !important;
         width: 0px !important;
     }

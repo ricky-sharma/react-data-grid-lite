@@ -125,7 +125,7 @@ const GridRows = ({
                     style={{
                         margin: "auto"
                     }}
-                    className="p-0 m-0"
+                    className="p-0 m-0 icon-div grid-icon-div"
                     title="Edit"
                     onClick={(e) => editButtonEvent(e, row)}
                     data-toggle="tooltip"
@@ -138,7 +138,7 @@ const GridRows = ({
                     style={{
                         margin: "auto"
                     }}
-                    className="p-0 m-0"
+                    className="p-0 m-0 icon-div grid-icon-div"
                     title="Delete"
                     onClick={(e) => deleteButtonEvent(e, row)}
                     data-toggle="tooltip"

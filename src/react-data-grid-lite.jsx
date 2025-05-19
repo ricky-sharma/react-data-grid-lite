@@ -228,6 +228,10 @@ export class DataGrid extends Component {
         eventGridSearchClicked(e, colName, colObject, formatting, this);
     };
 
+    handleClearFilters = (e) => {
+        e.preventDefault();
+    }
+
     render() {
         const {
             totalRows,
@@ -286,7 +290,18 @@ export class DataGrid extends Component {
                                 : null)}
                         {(enableDownload ?
                             <div
-                                className="p-0 m-0 download-icon-div"
+                                className="p-0 m-0 icon-div clear-icon-div"
+                                title="Clear Filters"
+                                onClick={this.handleClearFilters}
+                                data-toggle="tooltip"
+                            >
+                                <span className="erase-icon"></span>
+                            </div>
+                            : null)
+                        }
+                        {(enableDownload ?
+                            <div
+                                className="p-0 m-0 icon-div download-icon-div"
                                 title="Export CSV"
                                 onClick={() => eventExportToCSV(rowsData, columns, filenameDownload)}
                                 data-toggle="tooltip"
@@ -298,7 +313,7 @@ export class DataGrid extends Component {
                     </div>
 
 
-                    <div className={!isNull(this.state.gridCssClass) ? `col-12 m-0 p-0 ${this.state.gridCssClass}` : "col-12 m-0 p-0 customGrid"}>
+                    <div className={!isNull(this.state.gridCssClass) ? `col-12 m-0 p-0 ${this.state.gridCssClass}` : "col-12 m-0 p-0 react-data-grid-lite"}>
                         <div className="row col-12 m-0 p-0" >
                             <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0 no-select">
                                 <GridHeader
