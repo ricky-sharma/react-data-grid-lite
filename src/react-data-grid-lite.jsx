@@ -7,6 +7,7 @@ import GridPagination from './components/grid-pagination';
 import GridRows from './components/grid-rows';
 import { eventGridHeaderClicked } from "./components/events/event-grid-header-clicked";
 import { eventGridSearchClicked } from "./components/events/event-grid-search-clicked";
+import { eventExportToCSV } from './components/events/event-export-csv-clicked';
 
 export class DataGrid extends Component {
     constructor(props) {
@@ -32,8 +33,8 @@ export class DataGrid extends Component {
             gridCssClass: !isNull(options) ? options.gridCssClass : null,
             headerCssClass: !isNull(options) ? options.headerCssClass : null,
             rowCssClass: !isNull(options) ? options.rowCssClass : null,
-            enableColumnSearch: !isNull(options) ? options.enableColumnSearch : null,
-            enableGlobalSearch: !isNull(options) ? options.enableGlobalSearch : null,
+            enableColumnSearch: !isNull(options) ? options.enableColumnSearch ?? true : true,
+            enableGlobalSearch: !isNull(options) ? options.enableGlobalSearch ?? true : true,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
                 if (!isNull(col.hidden) && col.hidden)
                     return key;
@@ -76,7 +77,9 @@ export class DataGrid extends Component {
             deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
             deleteButtonEvent: !isNull(options) && !isNull(options.deleteButton) && !isNull(options.deleteButton.event) ? options.deleteButton.event : () => { },
             toggleState: true,
-            prevProps: null
+            prevProps: null,
+            enableDownload: !isNull(options) ? options.enableDownload ?? true : true,
+            filenameDownload: !isNull(options) ? options.filenameDownload : null
         }
 
         this.dataRecieved = this.state.rowsData
@@ -184,7 +187,7 @@ export class DataGrid extends Component {
         this.setState({
             noOfPages: noOfPages,
             lastPageRows: lastPageRows,
-            pagerSelectOptions: pagerSelectOptions.map((o, key) => <option key={key} value={o}>{o}</option>)
+            pagerSelectOptions: pagerSelectOptions.map((o, key) => <option key={key} className="select-Item" value={o}>{o}</option>)
         })
     }
 
@@ -253,7 +256,10 @@ export class DataGrid extends Component {
             deleteButtonEvent,
             columnWidths,
             maxWidth,
-            maxHeight
+            maxHeight,
+            enableGlobalSearch,
+            enableDownload,
+            filenameDownload
         } = this.state
 
         if (isNull(columns))
@@ -264,17 +270,34 @@ export class DataGrid extends Component {
                 <div
                     className="mx-0 px-0"
                     style={{ width: width }}>
-                    {
-                        this.state.enableGlobalSearch ?
-                            <div className="row col-12 globalSearchDiv">
-                                <input
-                                    className="globalSearch"
-                                    placeholder="Global Search"
-                                    onChange={(e) => this.onSearchClicked(e, '##globalSearch##', this.state.columns)}
-                                    type="text" />
+
+
+                    <div className="row col-12 globalSearchDiv">
+                        {
+                            (enableGlobalSearch ?
+                                <div
+                                    className="p-0 m-0">
+                                    <input
+                                        className="globalSearch"
+                                        placeholder="Global Search"
+                                        onChange={(e) => this.onSearchClicked(e, '##globalSearch##', this.state.columns)}
+                                        type="text" />
+                                </div>
+                                : null)}
+                        {(enableDownload ?
+                            <div
+                                className="p-0 m-0 download-icon-div"
+                                title="Export CSV"
+                                onClick={() => eventExportToCSV(rowsData, columns, filenameDownload)}
+                                data-toggle="tooltip"
+                            >
+                                Export to CSV <span className="download-icon"></span>
                             </div>
-                            : null
-                    }
+                            : null)
+                        }
+                    </div>
+
+
                     <div className={!isNull(this.state.gridCssClass) ? `col-12 m-0 p-0 ${this.state.gridCssClass}` : "col-12 m-0 p-0 customGrid"}>
                         <div className="row col-12 m-0 p-0" >
                             <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0 no-select">
@@ -316,16 +339,15 @@ export class DataGrid extends Component {
                             </table>
                             <div className="row col-12 m-0 p-0 align-center grid-footer no-select">
                                 <div className="col-5 pl-2 m-0 p-0 txt-left">
-                                    {"Showing "}
                                     <b>
                                         {totalRows > currentPageRows ? (`${(activePage - 1) * pageRows + 1} 
-                                    to ${(activePage - 1) * pageRows + currentPageRows}`) : totalRows}
+                                    - ${(activePage - 1) * pageRows + currentPageRows}`) : totalRows}
                                     </b>
-                                    {" out of "}
+                                    {" of "}
                                     <b>
                                         {totalRows}
                                     </b>
-                                    {" entries"}
+                                    {" results"}
                                 </div>
                                 <div className="col-2 m-0 p-0" style={{ textAlign: "center" }}>
                                     <select

@@ -1,5 +1,158 @@
 ﻿/*Custom Icons css*/
 
+.erase-icon {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    width: 22px;
+    height: 18px;
+}
+
+    .erase-icon::after,
+    .erase-icon::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+    }
+
+    .erase-icon::before {
+        width: 6px;
+        height: 14px;
+        border-bottom: 4px solid transparent;
+        border-radius: 1px;
+        box-shadow: 0 0 0 2px, inset 0 -2px 0 0;
+        left: 7px;
+        top: 2px;
+        transform: rotate(45deg);
+    }
+
+    .erase-icon::after {
+        background: currentColor;
+        width: 22px;
+        height: 2px;
+        bottom: 0;
+        border-radius: 20px;
+    }
+
+
+.download-icon-div {
+    background: #fff;
+    border-radius: 4px;
+    margin: 0;
+    margin-bottom: 10px !important;
+    box-shadow: 0 0 0 2px #e0e0e0;
+    height: 28px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    float: left;
+    width: 150px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    letter-spacing: .001em;
+    line-height: 1.43;
+    margin-right: 15px;
+    float: right;
+    color: #212529;
+}
+
+    .download-icon-div:hover {
+        background-color: #e0e0e0;
+    }
+
+.download-icon {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    width: 16px;
+    height: 6px;
+    border: 2px solid;
+    border-top: 0;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    margin-top: 8px;
+    cursor: pointer;
+    color: #000;
+    margin-left: 10px;
+}
+
+    .download-icon::after {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-left: 2px solid;
+        border-bottom: 2px solid;
+        transform: rotate(-45deg);
+        left: 2px;
+        bottom: 4px;
+    }
+
+    .download-icon::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        border-radius: 3px;
+        width: 2px;
+        height: 10px;
+        background: currentColor;
+        left: 5px;
+        bottom: 5px;
+    }
+
+
+
+.edit-icon-pen {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: rotate(-45deg) scale(var(--ggs, 1));
+    width: 14px;
+    height: 4px;
+    border-right: 2px solid transparent;
+    box-shadow: 0 0 0 2px, inset -2px 0 0;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    margin-right: -2px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+    .edit-icon-pen::after,
+    .edit-icon-pen::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+    }
+
+    .edit-icon-pen::before {
+        background: currentColor;
+        border-left: 0;
+        right: -6px;
+        width: 3px;
+        height: 4px;
+        border-radius: 1px;
+        top: 0;
+    }
+
+    .edit-icon-pen::after {
+        width: 8px;
+        height: 7px;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-right: 7px solid;
+        left: -11px;
+        top: -2px;
+    }
+
+
 .edit-icon {
     box-sizing: border-box;
     position: relative;
@@ -667,7 +820,7 @@ option {
 .searchInput {
     width: 90% !important;
     height: 100% !important;
-    color: rgba(0, 0, 0);
+    /*color: rgba(0, 0, 0);*/
     font-weight: 400;
     border-radius: 2px;
     box-shadow: rgb(224, 224, 224) 0px 0px 0px 2px;
@@ -683,20 +836,22 @@ option {
     display: block !important;
     padding: 8px !important;
     padding-right: 0 !important;
+    padding-left: 0 !important;
     margin: 0 !important;
 }
 
 input.globalSearch {
     width: 35% !important;
-    color: rgba(0, 0, 0);
+   /* color: rgba(0, 0, 0);*/
     font-weight: 400;
     border-radius: 4px;
-    float: right !important;
+    float: left !important;
     height: 28px !important;
     box-shadow: rgb(224, 224, 224) 0px 0px 0px 2px;
     border: 0px;
     background-color: #fff;
     margin-bottom: 10px;
+    margin-right: 15px;
 }
 
     input.globalSearch::placeholder {
@@ -796,7 +951,7 @@ table.table td a.delete, button.delete {
     }
 
         .pagination li a:hover {
-            background: #0397d6;
+            background: #e0e0e0;
             color: #fff !important;
         }
 
@@ -838,6 +993,22 @@ i {
     justify-content: center;
     height: 70% !important;
 }
+
+.emptyHeader {
+    cursor: default !important;
+}
+
+.select-Item:hover {
+    background-color: #f0f0f0; /* hover effect */
+}
+
+.select-Item.selected {
+    background-color: #e0f7fa; /* selected state */
+}
+
+    .select-Item.selected:hover {
+        background-color: #b2ebf2; /* hover on selected */
+    }
 
 @media (max-width: 480px) {
 
@@ -932,11 +1103,14 @@ i {
         padding-right: 2px;
     }
 
+    .download-icon-div {
+        width: 125px !important;
+    }
+
     input.globalSearch {
         width: 40% !important;
         padding-left: 2px;
         padding-right: 2px;
-        height: 22px !important;
     }
 
     .pagination {
@@ -955,7 +1129,7 @@ i {
         }
 
     .pagerSelect {
-        height: 20px !important;
+        /*height: 20px !important;*/
     }
 
     .col1width50 {

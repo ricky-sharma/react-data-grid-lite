@@ -122,16 +122,22 @@ const GridRows = ({
         if (buttonColEnabled) {
             const editBtn = editButtonEnabled && (
                 <div
+                    style={{
+                        margin: "auto"
+                    }}
                     className="p-0 m-0"
                     title="Edit"
                     onClick={(e) => editButtonEvent(e, row)}
                     data-toggle="tooltip"
                 >
-                    <span className="edit-icon"></span>
+                    <span className="edit-icon-pen"></span>
                 </div>
             );
             const deleteBtn = deleteButtonEnabled && (
                 <div
+                    style={{
+                        margin: "auto"
+                    }}
                     className="p-0 m-0"
                     title="Delete"
                     onClick={(e) => deleteButtonEvent(e, row)}

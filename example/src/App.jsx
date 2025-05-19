@@ -4,14 +4,13 @@ import { columns, sampleData } from './data';
 
 function App() {
     const options = {
-        enableColumnSearch: true,
-        enableGlobalSearch: true,
         editButton: {
-            event: () => { alert('Edit Button clicked!') }
+            event: (e, row) => { alert('Edit Button clicked!'), console.log(row) }
         },
         deleteButton: {
-            event: () => { alert('Delete Button clicked!') }
-        }
+            event: (e, row) => { alert('Delete Button clicked!'), console.log(row) }
+        },
+        filenameDownload: "test.csv"
     }
     return (
         <>

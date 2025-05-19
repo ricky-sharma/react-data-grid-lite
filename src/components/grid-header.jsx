@@ -58,7 +58,7 @@ const GridHeader = ({
                     className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div
-                        className={"p-0"}
+                        className={"p-0 emptyHeader"}
                     ></div>
                     {thInnerHtml}
                 </th>
