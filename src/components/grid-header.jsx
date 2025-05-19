@@ -76,11 +76,11 @@ const GridHeader = ({
                 >
                     <div {...inputProps}>
                         <div
-                            onClick={(e) => onHeaderClicked(e, header.Name)}
+                            onClick={(e) => onHeaderClicked(e, header.name)}
                             className={`p-0 pointer no-select ${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''
                                 }`}
                         >
-                            <h4>{isNull(header.Alias) || header.Name === header.Alias ? header.Name : header.Alias}</h4>
+                            <h4>{isNull(header.alias) || header.name === header.alias ? header.name : header.alias}</h4>
                             {sortIconHtml}
                         </div>
                     </div>
@@ -92,7 +92,7 @@ const GridHeader = ({
 
     const thSearchHeaders = headers.map((header, key) => {
         const conCols = !isNull(concatCols[key]) ? concatCols[key].cols : null;
-        const formatting = header?.Formatting;
+        const formatting = header?.formatting;
         const hideClass = hiddenCols.includes(key) ? 'd-none' : '';
         const inputProps = {
             className: !isNull(header.cssClass)
@@ -138,7 +138,7 @@ const GridHeader = ({
                             <input
                                 className="searchInput"
                                 placeholder="Search"
-                                onChange={(e) => onSearchClicked(e, header.Name, conCols, formatting)}
+                                onChange={(e) => onSearchClicked(e, header.name, conCols, formatting)}
                                 type="text"
                             />
                         ) : (
@@ -166,11 +166,11 @@ GridHeader.propTypes = {
         PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.shape({
-                Name: PropTypes.string,
-                Alias: PropTypes.string,
-                cssClass: PropTypes.string,
-                SearchEnable: PropTypes.bool,
-                Formatting: PropTypes.object
+                name: PropTypes.string,
+                alias: PropTypes.string,
+                colClass: PropTypes.string,
+                searchEnable: PropTypes.bool,
+                formatting: PropTypes.object
             })
         ])
     ).isRequired,

@@ -63,11 +63,6 @@
         text-indent: -1px;
     }
 
-.react-data-grid-lite-component .label-padding {
-    padding-left: 10px;
-    padding-right: 14px;
-}
-
 .react-data-grid-lite-component input,
 .react-data-grid-lite-component select {
     width: 90% !important;
@@ -110,10 +105,6 @@
     height: 18px !important;
     max-width: 10% !important;
     margin-left: 5px;
-}
-
-.react-data-grid-lite-component .wrapperLink {
-    position: relative;
 }
 
 .react-data-grid-lite-component .disabled-inputs {

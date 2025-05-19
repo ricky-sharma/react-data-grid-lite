@@ -72,9 +72,9 @@ const GridRows = ({
 
             if (conCols) {
                 conCols.forEach((conName) => {
-                    const colDef = columns.find(c => c?.Name?.toUpperCase() === conName?.toUpperCase());
-                    if (colDef && row[colDef.Name] !== undefined) {
-                        conValue += row[colDef.Name] + conSep;
+                    const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());
+                    if (colDef && row[colDef.name] !== undefined) {
+                        conValue += row[colDef.name] + conSep;
                     }
                 });
 

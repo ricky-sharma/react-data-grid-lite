@@ -114,10 +114,10 @@ export const sampleData = [
 ];
 
 export const columns = [
-    { Name: 'ID', width: '80px' },
-    { Name: 'Name' },
-    { Name: 'Department' },
-    { Name: 'Title' },
-    { Name: 'Email' },
-    { Name: 'Salary' }
+    { name: 'ID', width: '80px' },
+    { name: 'Name', alias: 'Full Name' },
+    { name: 'Department' },
+    { name: 'Title' },
+    { name: 'Email' },
+    { name: 'Salary' }
 ];

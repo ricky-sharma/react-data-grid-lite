@@ -62,7 +62,7 @@ export const eventGridSearchClicked = (
                     } else {
                         colObjSearchData = data.filter(obj =>
                             !hidden &&
-                            format(new Date(obj[c.Name]), c.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
+                            format(new Date(obj[c.name]), c.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
                         );
                     }
                 } else {
@@ -76,16 +76,16 @@ export const eventGridSearchClicked = (
                         );
                     } else {
                         colObjSearchData = data.filter(obj =>
-                            !hidden && matchesSearch(obj[c.Name])
+                            !hidden && matchesSearch(obj[c.name])
                         );
                     }
                 }
 
                 if (globalSearchData.length > 0) {
-                    const ids = new Set(globalSearchData.map(d => d.ID));
+                    const ids = new Set(globalSearchData.map(d => d.id));
                     globalSearchData = [
                         ...globalSearchData,
-                        ...colObjSearchData.filter(d => !ids.has(d.ID)),
+                        ...colObjSearchData.filter(d => !ids.has(d.id)),
                     ];
                 } else {
                     globalSearchData = [...colObjSearchData];

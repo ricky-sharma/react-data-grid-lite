@@ -25,7 +25,7 @@ export const eventExportToCSV = (data, columns, filename = CSV_File_Name) => {
     }
 
     // Extract headers
-    const headers = columns.map(col => col.DisplayName || col.Name || col);
+    const headers = columns.map(col => col.name);
 
     // Preprocess rows to create case-insensitive key maps
     const processedData = data.map(row => {
@@ -39,7 +39,7 @@ export const eventExportToCSV = (data, columns, filename = CSV_File_Name) => {
     // Create rows using case-insensitive lookup
     const rows = processedData.map(row => {
         return columns.map(col => {
-            const colName = (col.Name || col).toLowerCase(); // Normalize column name
+            const colName = (col.name).toLowerCase(); // Normalize column name
             const value = row[colName];
             return `"${(value ?? '').toString().replace(/"/g, '""')}"`; // Escape double quotes
         }).join(',');

@@ -1,11 +1,11 @@
 //      Usage Example
 //      var People = [
-//          { Name: "Name", Surname: "Surname" },
-//          { Name: "AAA", Surname: "ZZZ" },
-//          { Name: "Name", Surname: "AAA" }
+//          { name: "Name", surname: "Surname" },
+//          { name: "AAA", surname: "ZZZ" },
+//          { name: "Name", surname: "AAA" }
 //          ];
-//      People.sort(dynamicSort("Name"));
-//      People.sort(dynamicSort("-Surname"));
+//      People.sort(dynamicSort("name"));
+//      People.sort(dynamicSort("-surname"));
 export function dynamicSort(property) {
     let sortOrder = -1;
     if (property[0] === "-") {
@@ -61,7 +61,7 @@ export function dynamicSort(property) {
 
 
 //      Usage Example
-//      People.sort(dynamicSortMultiple("Name", "-Surname"));
+//      People.sort(dynamicSortMultiple("name", "-surname"));
 export function dynamicSortMultiple(...props) {
     return (obj1, obj2) => {
         let i = 0, result = 0;

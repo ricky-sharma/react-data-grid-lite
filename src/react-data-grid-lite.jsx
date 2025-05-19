@@ -15,7 +15,7 @@ export class DataGrid extends Component {
         const {
             columns,
             data,
-            pageRows,
+            pageSize,
             options,
             width,
             height,
@@ -34,12 +34,12 @@ export class DataGrid extends Component {
             columns: !isNull(columns) ? columns : null,
             rowsData: data,
             totalRows: data?.length ?? 0,
-            enablePaging: !isNull(pageRows),
-            pageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : data?.length ?? 0,
+            enablePaging: !isNull(pageSize),
+            pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             noOfPages: 0,
             pagerSelectOptions: [],
             firstRow: 0,
-            currentPageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : data?.length ?? 0,
+            currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             lastPageRows: 10,
             activePage: 1,
             gridCssClass: !isNull(options) ? options.gridClass : null,
@@ -69,8 +69,8 @@ export class DataGrid extends Component {
                 return null
             }) : [],
             cssClassColumns: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.cssClass))
-                    return col.cssClass;
+                if (!isNull(col.class))
+                    return col.class;
                 else
                     return null;
             }) : [],
@@ -91,7 +91,7 @@ export class DataGrid extends Component {
             toggleState: true,
             prevProps: null,
             enableDownload: !isNull(options) ? options.enableDownload ?? true : true,
-            filenameDownload: !isNull(options) ? options.filenameDownload : null,
+            downloadFilename: !isNull(options) ? options.downloadFilename : null,
             globalSearchInput: ''
         }
 
@@ -119,7 +119,7 @@ export class DataGrid extends Component {
     }
 
     static getDerivedStateFromProps = (nextProps, prevState) => {
-        const { columns, data, pageRows } = nextProps
+        const { columns, data, pageSize } = nextProps
         if ((isNull(prevState.prevProps?.data) && isNull(nextProps.data)) ||
             (!isNull(prevState.prevProps?.data) && !isNull(nextProps.data) &&
             Object.keys(prevState.prevProps?.data).length === Object.keys(nextProps.data).length
@@ -133,8 +133,8 @@ export class DataGrid extends Component {
             columns: !isNull(columns) ? columns : [],
             rowsData: !isNull(data) ? data : [],
             totalRows: data?.length ?? 0,
-            pageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : data?.length ?? 0,
-            currentPageRows: !isNull(parseInt(pageRows, 10)) ? parseInt(pageRows, 10) : data?.length ?? 0,
+            pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
+            currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
                 if (!isNull(col.hidden) && col.hidden)
                     return key;
@@ -299,7 +299,7 @@ export class DataGrid extends Component {
             maxHeight,
             enableGlobalSearch,
             enableDownload,
-            filenameDownload,
+            downloadFilename,
             globalSearchInput,
             gridID
         } = this.state
@@ -308,7 +308,7 @@ export class DataGrid extends Component {
             return null;
 
         return (
-            <div className="react-data-grid-lite-component" style={{ maxWidth: maxWidth, margin: "auto", padding: "10px" }}>
+            <div className="react-data-grid-lite-component" style={{ maxWidth: maxWidth }}>
                 <div
                     className="mx-0 px-0"
                     style={{ width: width }}>
@@ -343,7 +343,7 @@ export class DataGrid extends Component {
                             <div
                                 className="p-0 m-0 icon-div download-icon-div"
                                 title="Export CSV"
-                                onClick={() => eventExportToCSV(rowsData, columns, filenameDownload)}
+                                onClick={() => eventExportToCSV(rowsData, columns, downloadFilename)}
                                 data-toggle="tooltip"
                             >
                                 Export to CSV <span className="download-icon"></span>
