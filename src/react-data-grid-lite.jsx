@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component, createRef } from 'react';
 import '../src/css/react-data-grid-lite.css';
-import { isNull } from '../src/helper/common';
+import { isNull, objectsEqual } from '../src/helper/common';
 import { eventExportToCSV } from './components/events/event-export-csv-clicked';
 import { eventGridHeaderClicked } from "./components/events/event-grid-header-clicked";
 import { eventGridSearchClicked } from "./components/events/event-grid-search-clicked";
@@ -101,13 +101,13 @@ export class DataGrid extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextStats) {
-        if (!this.objectsEqual(this.props.columns, nextProps.columns) ||
-            !this.objectsEqual(this.props.data, nextProps.data) ||
-            !this.objectsEqual(this.state.columns, nextStats.columns) ||
-            !this.objectsEqual(this.state.rowsData, nextStats.rowsData) ||
+        if (!objectsEqual(this.props.columns, nextProps.columns) ||
+            !objectsEqual(this.props.data, nextProps.data) ||
+            !objectsEqual(this.state.columns, nextStats.columns) ||
+            !objectsEqual(this.state.rowsData, nextStats.rowsData) ||
             (this.state.noOfPages !== nextStats.noOfPages) ||
             (this.state.lastPageRows !== nextStats.lastPageRows) ||
-            !this.objectsEqual(this.state.pagerSelectOptions, nextStats.pagerSelectOptions) ||
+            !objectsEqual(this.state.pagerSelectOptions, nextStats.pagerSelectOptions) ||
             (this.state.firstRow !== nextStats.firstRow) ||
             (this.state.activePage !== nextStats.activePage) ||
             (this.state.toggleState !== nextStats.toggleState) ||
@@ -117,12 +117,6 @@ export class DataGrid extends Component {
             return false;
         }
     }
-
-    objectsEqual = (o1, o2) =>
-        (isNull(o1) && isNull(o2)) || (!isNull(o1) && !isNull(o2) &&
-            Object.keys(o1).length === Object.keys(o2).length
-            && Object.keys(o1).every(p => o1[p] === o2[p]));
-
 
     static getDerivedStateFromProps = (nextProps, prevState) => {
         const { columns, data, pageRows } = nextProps
@@ -182,11 +176,11 @@ export class DataGrid extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (!this.objectsEqual(this.props.data, prevProps.data)) {
+        if (!objectsEqual(this.props.data, prevProps.data)) {
             this.dataRecieved = this.state.rowsData
         }
-        if (!this.objectsEqual(this.props.data, prevProps.data) ||
-            !this.objectsEqual(this.state.rowsData, prevState.rowsData)) {
+        if (!objectsEqual(this.props.data, prevProps.data) ||
+            !objectsEqual(this.state.rowsData, prevState.rowsData)) {
             this.setPagingVariables()
         }
     }
