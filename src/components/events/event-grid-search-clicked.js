@@ -140,7 +140,7 @@ export const eventGridSearchClicked = (
             totalRows: dataLength,
             firstRow: 0,
             currentPageRows: pageRows,
-            toggleState: !context.state.toggleState,
+            toggleState: !context.state.toggleState
         },
         () => context.setPagingVariables()
     );

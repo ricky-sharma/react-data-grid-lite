@@ -16,7 +16,8 @@ const GridHeader = ({
     gridID,
     onHeaderClicked,
     onSearchClicked,
-    columnWidths
+    columnWidths,
+    gridHeaderRef
 }) => {
     if (isNull(columns)) return null;
     const isMobile = useIsMobile();
@@ -150,7 +151,7 @@ const GridHeader = ({
     });
 
     return (
-        <thead>
+        <thead ref={gridHeaderRef}>
             <tr className={headerCssClass || 'gridHeader'} id={`thead-row-${gridID}`}>
                 {thColHeaders}
             </tr>
@@ -182,7 +183,11 @@ GridHeader.propTypes = {
     gridID: PropTypes.string,
     onHeaderClicked: PropTypes.func.isRequired,
     onSearchClicked: PropTypes.func.isRequired,
-    columnWidths: PropTypes.arrayOf(PropTypes.string)
+    columnWidths: PropTypes.arrayOf(PropTypes.string),
+    gridHeaderRef: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.shape({ current: PropTypes.any })
+    ])
 };
 
 // Default Props
@@ -194,7 +199,8 @@ GridHeader.defaultProps = {
     deleteButtonEnabled: false,
     headerCssClass: '',
     gridID: '',
-    columnWidths: []
+    columnWidths: [],
+    gridHeaderRef: null
 };
 
 export default GridHeader;

@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import '../src/css/react-data-grid-lite.css';
 import { isNull } from '../src/helper/common';
+import { eventExportToCSV } from './components/events/event-export-csv-clicked';
+import { eventGridHeaderClicked } from "./components/events/event-grid-header-clicked";
+import { eventGridSearchClicked } from "./components/events/event-grid-search-clicked";
 import GridHeader from "./components/grid-header";
 import GridPagination from './components/grid-pagination';
 import GridRows from './components/grid-rows';
-import { eventGridHeaderClicked } from "./components/events/event-grid-header-clicked";
-import { eventGridSearchClicked } from "./components/events/event-grid-search-clicked";
-import { eventExportToCSV } from './components/events/event-export-csv-clicked';
 
 export class DataGrid extends Component {
     constructor(props) {
@@ -79,11 +79,13 @@ export class DataGrid extends Component {
             toggleState: true,
             prevProps: null,
             enableDownload: !isNull(options) ? options.enableDownload ?? true : true,
-            filenameDownload: !isNull(options) ? options.filenameDownload : null
+            filenameDownload: !isNull(options) ? options.filenameDownload : null,
+            globalSearchInput: ''
         }
 
         this.dataRecieved = this.state.rowsData
         this.searchCols = []
+        this.gridHeaderRef = createRef(null);
     }
 
     shouldComponentUpdate(nextProps, nextStats) {
@@ -96,7 +98,8 @@ export class DataGrid extends Component {
             !this.objectsEqual(this.state.pagerSelectOptions, nextStats.pagerSelectOptions) ||
             (this.state.firstRow !== nextStats.firstRow) ||
             (this.state.activePage !== nextStats.activePage) ||
-            (this.state.toggleState !== nextStats.toggleState)) {
+            (this.state.toggleState !== nextStats.toggleState) ||
+            (this.state.globalSearchInput !== nextStats.globalSearchInput)) {
             return true;
         } else {
             return false;
@@ -225,11 +228,38 @@ export class DataGrid extends Component {
     };
 
     onSearchClicked = (e, colName, colObject, formatting) => {
-        eventGridSearchClicked(e, colName, colObject, formatting, this);
+        if (e?.target?.getAttribute('data-type') === `globalSearch${this.state.gridID}`) {
+            this.setState({
+                globalSearchInput: e.target.value
+            }, () => {
+                eventGridSearchClicked(e, colName, colObject, formatting, this);
+            });
+        }
+        else {
+            eventGridSearchClicked(e, colName, colObject, formatting, this);
+        }
     };
 
-    handleClearFilters = (e) => {
+    handleResetSearch = (e) => {
         e.preventDefault();
+        this.searchCols = [];
+        const gridHeader = this.gridHeaderRef?.current;
+        if (!isNull(gridHeader)) {
+            const inputs = gridHeader.querySelectorAll('input');
+            if (!isNull(inputs))
+                inputs.forEach(input => {
+                    input.value = '';
+                });
+        }
+        this.setState({
+            globalSearchInput: '',
+            rowsData: this.dataRecieved,
+            activePage: 1,
+            totalRows: this.dataRecieved.length,
+            firstRow: 0,
+            currentPageRows: this.state.pageRows,
+            toggleState: !this.state.toggleState
+        });
     }
 
     render() {
@@ -263,7 +293,9 @@ export class DataGrid extends Component {
             maxHeight,
             enableGlobalSearch,
             enableDownload,
-            filenameDownload
+            filenameDownload,
+            globalSearchInput,
+            gridID
         } = this.state
 
         if (isNull(columns))
@@ -282,6 +314,8 @@ export class DataGrid extends Component {
                                 <div
                                     className="p-0 m-0">
                                     <input
+                                        data-type={`globalSearch${gridID}` }
+                                        value={globalSearchInput}
                                         className="globalSearch"
                                         placeholder="Global Search"
                                         onChange={(e) => this.onSearchClicked(e, '##globalSearch##', this.state.columns)}
@@ -291,8 +325,8 @@ export class DataGrid extends Component {
                         {(enableDownload ?
                             <div
                                 className="p-0 m-0 icon-div clear-icon-div"
-                                title="Clear Filters"
-                                onClick={this.handleClearFilters}
+                                title="Reset Search"
+                                onClick={this.handleResetSearch}
                                 data-toggle="tooltip"
                             >
                                 <span className="erase-icon"></span>
@@ -328,6 +362,7 @@ export class DataGrid extends Component {
                                     onHeaderClicked={this.onHeaderClicked}
                                     onSearchClicked={this.onSearchClicked}
                                     columnWidths={columnWidths}
+                                    gridHeaderRef={this.gridHeaderRef}
                                 />
                                 <tbody style={{ height: height, maxHeight: maxHeight }}>
                                     <GridRows

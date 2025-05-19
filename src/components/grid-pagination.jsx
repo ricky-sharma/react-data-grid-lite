@@ -19,7 +19,7 @@ const GridPagination = ({
 
     // Previous Button
     pageItems.push(
-        <li key="prevButton" className={`arrow page-item ${page === 1 ? "disabled" : ""}`}>
+        <li key="prevButton" className={`arrow page-item ${page === 1 || total === 0 ? "disabled" : ""}`}>
             <a onClick={(e) => onPrevButtonClick(e)} href="/" className="page-link remove-bg-color icon-align-center">
                 <b><i aria-hidden="true" className="arrow">&laquo;</i></b>
             </a>
@@ -74,7 +74,7 @@ const GridPagination = ({
     }
     // Next Button
     pageItems.push(
-        <li key="nextButton" className={`arrow page-item ${page === total ? "disabled" : ""}`}>
+        <li key="nextButton" className={`arrow page-item ${page === total || total === 0 ? "disabled" : ""}`}>
             <a onClick={(e) => onNextButtonClick(e)} href="/" className="page-link remove-bg-color icon-align-center">
                 <b><i aria-hidden="true" className="arrow">&raquo;</i></b>
             </a>

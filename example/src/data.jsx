@@ -114,7 +114,7 @@ export const sampleData = [
 ];
 
 export const columns = [
-    { Name: 'ID', width: '70px' },
+    { Name: 'ID', width: '80px' },
     { Name: 'Name' },
     { Name: 'Department' },
     { Name: 'Title' },
