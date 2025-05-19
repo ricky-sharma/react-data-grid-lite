@@ -1,38 +1,41 @@
-﻿* {
+﻿.react-data-grid-lite-component * {
     box-sizing: border-box;
 }
 
-* {
+.react-data-grid-lite-component * {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
-* {
+
+.react-data-grid-lite-component * {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-* {
+
+.react-data-grid-lite-component * {
     font-family: 'Inter', system-ui, sans-serif;
 }
-* {
+
+.react-data-grid-lite-component * {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
-html, body {
+
+.react-data-grid-lite-component * {
     font-size: 16px; /* Base font size for desktops */
     color: #212529;
 }
 
-/*html {
-    font-size: clamp(11px, 2vw, 17px);
-}*/
-
-i {
+.react-data-grid-lite-component i {
     font-family: FontAwesome !important;
 }
 
-a:hover, a:active, a:focus {
+.react-data-grid-lite-component a:hover,
+.react-data-grid-lite-component a:active,
+.react-data-grid-lite-component a:focus {
     /* styling for any way a link is about to be used */
     outline: 0;
 }
 
-input, select {
+.react-data-grid-lite-component input,
+.react-data-grid-lite-component select {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -43,7 +46,7 @@ input, select {
     height: 30px !important;
 }
 
-select {
+.react-data-grid-lite-component select {
     padding-left: 10px;
     padding-right: 14px;
     -webkit-appearance: none;
@@ -52,20 +55,21 @@ select {
     text-overflow: '';
 }
 
-    select::-ms-expand {
+    .react-data-grid-lite-component select::-ms-expand {
         display: none;
     }
 
-    select.disabled-inputs {
+    .react-data-grid-lite-component select.disabled-inputs {
         text-indent: -1px;
     }
 
-.label-padding {
+.react-data-grid-lite-component .label-padding {
     padding-left: 10px;
     padding-right: 14px;
 }
 
-input, select {
+.react-data-grid-lite-component input,
+.react-data-grid-lite-component select {
     width: 90% !important;
     height: 100% !important;
     color: rgba(0, 0, 0);
@@ -76,12 +80,14 @@ input, select {
     border-style: solid;
 }
 
-input {
+.react-data-grid-lite-component input {
     padding-left: 10px;
     padding-right: 14px;
 }
 
-    input[type=button], input[type=submit], input[type=reset] {
+    .react-data-grid-lite-component input[type=button],
+    .react-data-grid-lite-component input[type=submit],
+    .react-data-grid-lite-component input[type=reset] {
         font-weight: bold;
         font-size: 12px;
         text-shadow: none;
@@ -90,25 +96,27 @@ input {
         margin-top: 5px;
     }
 
-.inputWidth input, .inputWidth select {
+.react-data-grid-lite-component .inputWidth input,
+.react-data-grid-lite-component .inputWidth select {
     width: 95% !important;
 }
 
-.fullInputWidth input, .fullInputWidth select {
+.react-data-grid-lite-component .fullInputWidth input,
+.react-data-grid-lite-component .fullInputWidth select {
     width: 100% !important;
 }
 
-input[type=checkbox] {
+.react-data-grid-lite-component input[type=checkbox] {
     height: 18px !important;
     max-width: 10% !important;
     margin-left: 5px;
 }
 
-.wrapperLink {
+.react-data-grid-lite-component .wrapperLink {
     position: relative;
 }
 
-.disabled-inputs {
+.react-data-grid-lite-component .disabled-inputs {
     pointer-events: none;
     color: rgb(0, 0, 0);
     border-style: none;
@@ -116,131 +124,99 @@ input[type=checkbox] {
     padding-right: 14px;
 }
 
-.no-select {
+.react-data-grid-lite-component .no-select {
     user-select: none;
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE/Edge */
 }
 
-.float-rt {
+.react-data-grid-lite-component .float-rt {
     float: right;
 }
 
-.float-lt {
+.react-data-grid-lite-component .float-lt {
     float: left;
 }
 
-.txt-center {
+.react-data-grid-lite-component .txt-center {
     text-align: center;
 }
 
-.txt-left {
+.react-data-grid-lite-component .txt-left {
     text-align: left !important;
 }
 
-.opacity-100 {
+.react-data-grid-lite-component .opacity-100 {
     opacity: 100%;
 }
 
-.margin-top-75 {
+.react-data-grid-lite-component .margin-top-75 {
     margin-top: 75px;
 }
 
-.padding-left-0 {
+.react-data-grid-lite-component .padding-left-0 {
     padding-left: 0px;
 }
 
-.padding-right-5 {
+.react-data-grid-lite-component .padding-right-5 {
     padding-right: 5px;
 }
 
-.padding-5 {
+.react-data-grid-lite-component .padding-5 {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-.padding-9 {
+.react-data-grid-lite-component .padding-9 {
     padding-left: 9px;
     padding-right: 9px;
 }
 
-.table-wrapper {
+.react-data-grid-lite-component .table-wrapper {
     background: #fff;
     padding: 20px;
     margin: 15px 0;
 }
 
-.table-title {
+.react-data-grid-lite-component .table-title {
     padding-bottom: 5px;
     margin: 0 0 5px;
 }
 
-    .table-title h2 {
+    .react-data-grid-lite-component .table-title h2 {
         margin: 8px 0 0;
         font-size: 24px;
     }
 
-.container-width {
+.react-data-grid-lite-component .container-width {
     width: 95vw;
     max-width: 95vw;
 }
 
-.navbar {
-    border-radius: 0px !important;
-}
-
-.pageHeaderFixed {
-    overflow: auto;
-    height: 100vh;
-}
-
-    .pageHeaderFixed header {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-    }
-
-body {
-    overflow-x: hidden !important;
-    -ms-overflow-style: none; /*Internet Explorer 10+ */
-    scrollbar-width: none; /*Firefox*/
-}
-
-    body::-webkit-scrollbar {
-        display: none; /*Safari and Chrome */
-    }
-
-.pageHeaderFixed::-webkit-scrollbar {
-    height: 0px !important;
-    width: 0px !important;
-    border: 0px solid #d5d5d5;
-    border-start-end-radius: 0px;
-}
-
-.overflow-Y {
+.react-data-grid-lite-component .overflow-Y {
     overflow-y: auto !important;
     overflow-x: hidden !important;
 }
 
-.icon-align-center {
+.react-data-grid-lite-component .icon-align-center {
     display: flex !important;
     align-items: center;
     justify-content: center;
     height: 70% !important;
 }
 
-.alignCenter {
+.react-data-grid-lite-component .alignCenter {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.valignCenter {
+.react-data-grid-lite-component .valignCenter {
     display: flex;
     align-items: center;
 }
 
-.align-page-center {
+.react-data-grid-lite-component .align-page-center {
     width: 100%;
     height: 70px;
     display: flex;
@@ -248,7 +224,7 @@ body {
     align-items: center;
 }
 
-.loading {
+.react-data-grid-lite-component .loading {
     position: fixed;
     display: block;
     width: 100%;
@@ -261,25 +237,27 @@ body {
     z-index: 100;
 }
 
-.loading-image {
+.react-data-grid-lite-component .loading-image {
     position: absolute;
     top: 40%;
     left: 47%;
     z-index: 101
 }
 
-hr.rounded {
+.react-data-grid-lite-component hr.rounded {
     border-top: 1px solid #bbb;
     border-radius: 1px;
     height: 1px;
     width: 100%;
 }
 
-.nowrap {
+.react-data-grid-lite-component .nowrap {
     flex-wrap: nowrap !important
 }
 
-.fontStyle, .fontStyle label, .fontStyle input {
+.react-data-grid-lite-component .fontStyle,
+.react-data-grid-lite-component .fontStyle label,
+.react-data-grid-lite-component .fontStyle input {
     color: #212529 !important;
     font-weight: 800 !important;
 }
@@ -287,94 +265,95 @@ hr.rounded {
 
 /* Extra Small Devices (phones < 576px) */
 @media (max-width: 575.98px) {
-    html {
+    .react-data-grid-lite-component * {
         font-size: 14px;
     }
 
-    h1 {
+    .react-data-grid-lite-component h1 {
         font-size: 1.75rem;
     }
 
-    h4 {
+    .react-data-grid-lite-component h4 {
         font-size: 14.5px;
     }
 
-    p {
+    .react-data-grid-lite-component p {
         font-size: 0.9rem;
     }
 }
 
 /* Small Devices (phones ≥ 576px) */
 @media (min-width: 576px) and (max-width: 767.98px) {
-    html {
+    .react-data-grid-lite-component * {
         font-size: 14px;
     }
 
-    h1 {
+    .react-data-grid-lite-component h1 {
         font-size: 2rem;
     }
-    h4 {
+
+    .react-data-grid-lite-component h4 {
         font-size: 15px;
     }
 
-    p {
+    .react-data-grid-lite-component p {
         font-size: 1rem;
     }
 }
 
 /* Medium Devices (tablets ≥ 768px) */
 @media (min-width: 768px) and (max-width: 991.98px) {
-    html {
+    .react-data-grid-lite-component * {
         font-size: 15px;
     }
 
-    h1 {
+    .react-data-grid-lite-component h1 {
         font-size: 2.25rem;
     }
 
-    h4 {
+    .react-data-grid-lite-component h4 {
         font-size: 16px;
     }
 
-    p {
+    .react-data-grid-lite-component p {
         font-size: 1.05rem;
     }
 }
 
 /* Large Devices (desktops ≥ 992px) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    html {
+    .react-data-grid-lite-component * {
         font-size: 16px;
     }
 
-    h1 {
+    .react-data-grid-lite-component h1 {
         font-size: 2.5rem;
     }
 
-    h4 {
+    .react-data-grid-lite-component h4 {
         font-size: 17px;
     }
 
-    p {
+    .react-data-grid-lite-component p {
         font-size: 1.1rem;
     }
 }
 
 /* Extra Large Devices (large desktops ≥ 1200px) */
 @media (min-width: 1200px) {
-    html {
+    .react-data-grid-lite-component * {
         font-size: 17px;
     }
 
-    h1 {
+    .react-data-grid-lite-component h1 {
         font-size: 2.75rem;
     }
 
-    h4 {
+    .react-data-grid-lite-component h4 {
         font-size: 18px;
     }
 
-    p {
+    .react-data-grid-lite-component p {
         font-size: 1.2rem;
     }
 }

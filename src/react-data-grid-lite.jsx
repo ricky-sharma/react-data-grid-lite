@@ -270,7 +270,7 @@ export class DataGrid extends Component {
             return null;
 
         return (
-            <div style={{ maxWidth: maxWidth, margin: "auto", padding: "10px" }}>
+            <div className="react-data-grid-lite-component" style={{ maxWidth: maxWidth, margin: "auto", padding: "10px" }}>
                 <div
                     className="mx-0 px-0"
                     style={{ width: width }}>
