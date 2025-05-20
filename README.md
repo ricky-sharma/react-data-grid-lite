@@ -113,7 +113,7 @@ export default App;
 | `data`                | `Array`             | Array of objects representing the rows of data to display.                                                                  |     `null`        | Yes          |
 | `pageSize`            | `Number`            | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |     `null`        | No           |
 | `options`             | `Object`            | An object for additional customization. Contains options like `gridClass`, `enableGlobalSearch`, etc.                       |       -           | No           |
-| `width`               | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`).                             |    `'100%'`       | No           |
+| `width`               | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`).                             |    `'90vw'`       | No           |
 | `height`              | `String` / `Number` | The height of the grid. Can be a pixel value (e.g., `'300px'`) or a percentage (e.g., `'100%'`).                            |    `'300px'`      | No           |
 | `maxWidth`            | `String` / `Number` | The maximum width of the grid.                                                                                              |    `'100vw'`      | No           |
 | `maxHeight`           | `String` / `Number` | The maximum height of the grid.                                                                                             |    `'300px'`      | No           |
