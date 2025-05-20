@@ -152,10 +152,10 @@ const GridHeader = ({
 
     return (
         <thead ref={gridHeaderRef}>
-            <tr className={headerCssClass || 'gridHeader'} id={`thead-row-${gridID}`}>
+            <tr className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>
                 {thColHeaders}
             </tr>
-            {searchRowEnabled && <tr className={headerCssClass || 'searchHeader'}>{thSearchHeaders}</tr>}
+            {searchRowEnabled && <tr className={`${headerCssClass} searchHeader`}>{thSearchHeaders}</tr>}
         </thead>
     );
 };

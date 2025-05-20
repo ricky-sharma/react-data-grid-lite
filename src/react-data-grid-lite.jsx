@@ -42,9 +42,9 @@ export class DataGrid extends Component {
             currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             lastPageRows: 10,
             activePage: 1,
-            gridCssClass: !isNull(options) ? options.gridClass : null,
-            headerCssClass: !isNull(options) ? options.headerClass : null,
-            rowCssClass: !isNull(options) ? options.rowClass : null,
+            gridCssClass: !isNull(options) ? options.gridClass : '',
+            headerCssClass: !isNull(options) ? options.headerClass : '',
+            rowCssClass: !isNull(options) ? options.rowClass : '',
             enableColumnSearch: !isNull(options) ? options.enableColumnSearch ?? true : true,
             enableGlobalSearch: !isNull(options) ? options.enableGlobalSearch ?? true : true,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
@@ -308,7 +308,7 @@ export class DataGrid extends Component {
             return null;
 
         return (
-            <div className="react-data-grid-lite-component" style={{ maxWidth: maxWidth }}>
+            <div className={!isNull(this.state.gridCssClass) ? `${this.state.gridCssClass} react-data-grid-lite-component`: "react-data-grid-lite-component"} style={{ maxWidth: maxWidth }}>
                 <div
                     className="mx-0 px-0"
                     style={{ width: width }}>
@@ -351,7 +351,7 @@ export class DataGrid extends Component {
                             : null)
                         }
                     </div>
-                    <div className={!isNull(this.state.gridCssClass) ? `col-12 m-0 p-0 ${this.state.gridCssClass}` : "col-12 m-0 p-0 react-data-grid-lite"}>
+                    <div className={!isNull(this.state.gridCssClass) ? `${this.state.gridCssClass} col-12 m-0 p-0 react-data-grid-lite` : "col-12 m-0 p-0 react-data-grid-lite"}>
                         <div className="row col-12 m-0 p-0" >
                             <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0 no-select">
                                 <GridHeader

@@ -27,7 +27,7 @@ const GridRows = ({
     cssClassColumns = [],
     columns = [],
     columnWidths = [],
-    rowCssClass = 'gridRows',
+    rowCssClass = '',
     rowClickEnabled = false,
     onRowClick = () => { },
     onRowHover = () => { },
@@ -89,7 +89,7 @@ const GridRows = ({
                 columnValue = format(columnValue, formatInfo.type, formatInfo.format)
             }
 
-            const classNames = !isNull(cssClassColumns) ? cssClassColumns[key] : '';
+            const classNames = !isNull(cssClassColumns) && !isNull(cssClassColumns[key]) ? cssClassColumns[key] : '';
             const hideClass = hiddenColIndex.includes(key) ? 'd-none' : '';
             const tdClass = `${hideClass}${classNames ? ` ${classNames}` : ''}`;
             const colWidth = calColWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
@@ -175,7 +175,7 @@ const GridRows = ({
                 onClick={(e) => onRowClick(e, row)}
                 onMouseOver={(e) => onRowHover(e, row)}
                 onMouseOut={(e) => onRowOut(e, row)}
-                className={rowCssClass || 'gridRows'}
+                className={`${rowCssClass} gridRows`}
             >
                 {cols}
             </tr>

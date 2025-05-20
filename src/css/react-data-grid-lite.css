@@ -626,11 +626,11 @@
 }
 
 .react-data-grid-lite-component .gridHeader {
+    background-color: #fff;
     table-layout: fixed;
 }
 
     .react-data-grid-lite-component .gridHeader th {
-        background-color: #fff;
         border: 0px solid rgb(224, 224, 224) !important;
         position: relative;
         padding-top: 15px !important;
