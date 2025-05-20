@@ -5,7 +5,7 @@ export const sampleData = [
         Department: "Engineering",
         Title: "Frontend Developer",
         Email: "alice.johnson@example.com",
-        Salary: "$95,000"
+        Salary: "$121,000"
     },
     {
         ID: 2,
@@ -13,14 +13,14 @@ export const sampleData = [
         Department: "Engineering",
         Title: "Backend Developer",
         Email: "bob.smith@example.com",
-        Salary: "105000"
+        Salary: "125000"
     },
     {
         ID: 3,
-        Name: "Carla Gomez",
+        Name: "Steve Gomez",
         Department: "HR",
         Title: "Recruiter",
-        Email: "carla.gomez@example.com",
+        Email: "steve.gomez@example.com",
         Salary: "$80,000"
     },
     {
@@ -28,7 +28,7 @@ export const sampleData = [
         Name: "Carla Lee",
         Department: "Marketing",
         Title: "Content Strategist",
-        Email: "daniel.lee@example.com",
+        Email: "carla.lee@example.com",
         Salary: "$72,000"
     },
     {
