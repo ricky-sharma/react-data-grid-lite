@@ -7,17 +7,17 @@ import { calColWidth } from "../utils/component-utils";
 
 const GridHeader = ({
     columns,
-    hiddenColIndex,
-    enableColumnSearch,
-    concatColumns,
-    editButtonEnabled,
-    deleteButtonEnabled,
-    headerCssClass,
-    gridID,
-    onHeaderClicked,
-    onSearchClicked,
-    columnWidths,
-    gridHeaderRef
+    hiddenColIndex = [],
+    enableColumnSearch = true,
+    concatColumns = [],
+    editButtonEnabled = false,
+    deleteButtonEnabled = false,
+    headerCssClass = '',
+    gridID = '',
+    onHeaderClicked = () => { },
+    onSearchClicked = () => { },
+    columnWidths = [],
+    gridHeaderRef = null
 }) => {
     if (isNull(columns)) return null;
     const isMobile = useIsMobile();
@@ -101,8 +101,8 @@ const GridHeader = ({
         };
         const colWidth = calColWidth(columnWidths, key, buttonColEnabled, isMobile);
         columnSearchEnabled = enableColSearch
-            ? header?.SearchEnable ?? true
-            : header?.SearchEnable ?? false;
+            ? header?.searchEnable ?? true
+            : header?.searchEnable ?? false;
 
         if (columnSearchEnabled) {
             searchRowEnabled = true;
@@ -188,19 +188,6 @@ GridHeader.propTypes = {
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.any })
     ])
-};
-
-// Default Props
-GridHeader.defaultProps = {
-    hiddenColIndex: [],
-    enableColumnSearch: false,
-    concatColumns: [],
-    editButtonEnabled: false,
-    deleteButtonEnabled: false,
-    headerCssClass: '',
-    gridID: '',
-    columnWidths: [],
-    gridHeaderRef: null
 };
 
 export default GridHeader;

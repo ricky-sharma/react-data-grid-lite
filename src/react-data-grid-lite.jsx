@@ -30,7 +30,7 @@ export class DataGrid extends Component {
             maxWidth: !isNull(maxWidth) ? maxWidth : '100vw',
             height: !isNull(height) ? height : '300px',
             maxHeight: !isNull(maxHeight) ? maxHeight : '300px',
-            gridID: Math.floor(Math.random() * 10000),
+            gridID: `${Math.floor(Math.random() * 1000000)}`,
             columns: !isNull(columns) ? columns : null,
             rowsData: data,
             totalRows: data?.length ?? 0,
@@ -48,7 +48,7 @@ export class DataGrid extends Component {
             enableColumnSearch: !isNull(options) ? options.enableColumnSearch ?? true : true,
             enableGlobalSearch: !isNull(options) ? options.enableGlobalSearch ?? true : true,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
-                if (!isNull(col.hidden) && col.hidden)
+                if (!isNull(col?.hidden))
                     return key;
                 else
                     return null;
@@ -63,8 +63,8 @@ export class DataGrid extends Component {
                 return null
             }) : [],
             columnFormatting: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.formatting) && !isNull(col.formatting.type) && !isNull(col.formatting.format)) {
-                    return { type: col.formatting.type, format: col.formatting.format };
+                if (!isNull(col.formatting) && !isNull(col.formatting.type)) {
+                    return { type: col?.formatting?.type, format: col?.formatting?.format ?? '' };
                 }
                 return null
             }) : [],
@@ -83,7 +83,7 @@ export class DataGrid extends Component {
             rowClickEnabled: !isNull(onRowClick),
             onRowClick: !isNull(onRowClick) ? onRowClick : () => { },
             onRowHover: !isNull(onRowHover) ? onRowHover : () => { },
-            onRowOut:  !isNull(onRowOut) ? onRowOut : () => { },
+            onRowOut: !isNull(onRowOut) ? onRowOut : () => { },
             editButtonEnabled: !isNull(options) && !isNull(options.editButton),
             editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
             deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
@@ -122,9 +122,9 @@ export class DataGrid extends Component {
         const { columns, data, pageSize } = nextProps
         if ((isNull(prevState.prevProps?.data) && isNull(nextProps.data)) ||
             (!isNull(prevState.prevProps?.data) && !isNull(nextProps.data) &&
-            Object.keys(prevState.prevProps?.data).length === Object.keys(nextProps.data).length
-            && Object.keys(prevState.prevProps?.data).every(p =>
-                prevState.prevProps?.data[p] === nextProps.data[p]))) {
+                Object.keys(prevState.prevProps?.data).length === Object.keys(nextProps.data).length
+                && Object.keys(prevState.prevProps?.data).every(p =>
+                    prevState.prevProps?.data[p] === nextProps.data[p]))) {
             return null;
         }
 
@@ -136,7 +136,7 @@ export class DataGrid extends Component {
             pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
-                if (!isNull(col.hidden) && col.hidden)
+                if (!isNull(col?.hidden))
                     return key;
                 else
                     return null;
@@ -151,8 +151,8 @@ export class DataGrid extends Component {
                 return null
             }) : [],
             columnFormatting: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.formatting) && !isNull(col.formatting.type) && !isNull(col.formatting.format)) {
-                    return { type: col.formatting.type, format: col.formatting.format };
+                if (!isNull(col.formatting) && !isNull(col.formatting.type)) {
+                    return { type: col?.formatting?.type, format: col?.formatting?.format ?? '' };
                 }
                 return null
             }) : [],

@@ -13,7 +13,7 @@ export const sampleData = [
         Department: "Engineering",
         Title: "Backend Developer",
         Email: "bob.smith@example.com",
-        Salary: "$105,000"
+        Salary: "105000"
     },
     {
         ID: 3,
@@ -109,15 +109,15 @@ export const sampleData = [
         Department: "Marketing",
         Title: "Publishing Department",
         Email: "kane.john@example.com",
-        Salary: "$83,000"
+        Salary: "83,000"
     }
 ];
 
 export const columns = [
-    { name: 'ID', width: '80px' },
-    { name: 'Name', alias: 'Full Name' },
-    { name: 'Department' },
-    { name: 'Title' },
-    { name: 'Email' },
-    { name: 'Salary' }
+    { name: 'ID', width: '80px', hidden: true },
+    { name: 'Name', alias: 'Full Name', searchEnable: false },
+    { name: 'Department', searchEnable: false },
+    { name: 'Title', searchEnable: false },
+    { name: 'Email', searchEnable: false },
+    { name: 'Salary', formatting: { type: 'currency' }, searchEnable: false }
 ];

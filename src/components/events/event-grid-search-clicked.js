@@ -1,5 +1,5 @@
-import { format } from "../../helper/date";
 import { isNull, objectKeyMatch } from '../../helper/common';
+import { formatDate } from '../../helper/date';
 
 /**
  * Handles column or global search logic in a grid.
@@ -45,7 +45,7 @@ export const eventGridSearchClicked = (
         if (col.colName === '##globalSearch##') {
             col.colObj.forEach(c => {
                 let colObjSearchData = [];
-                const hidden = c.Hidden || false;
+                const hidden = c.hidden || false;
                 const isDateType = ['DATE', 'DATETIME'].includes((c.format?.formatType || '').toUpperCase());
                 const hasFormat = !isNull(c.format?.keyFormat);
 
@@ -56,13 +56,13 @@ export const eventGridSearchClicked = (
                                 c.ConcatColumns.Columns.some(x => x?.toLowerCase() === key.toLowerCase()) &&
                                 !hidden &&
                                 !isNull(obj[key]) &&
-                                format(new Date(obj[key]), c.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
+                                formatDate(obj[key], c.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
                             )
                         );
                     } else {
                         colObjSearchData = data.filter(obj =>
                             !hidden &&
-                            format(new Date(obj[c.name]), c.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
+                            formatDate(new Date(obj[c.name]), c.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
                         );
                     }
                 } else {
@@ -103,13 +103,13 @@ export const eventGridSearchClicked = (
                         Object.keys(obj).some(key =>
                             col.colObj.some(x => x?.toLowerCase() === key.toLowerCase()) &&
                             !isNull(obj[key]) &&
-                            format(new Date(obj[key]), col.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
+                            formatDate(new Date(obj[key]), col.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
                         )
                     );
                 } else {
                     data = data.filter(obj =>
                         objectKeyMatch(obj, col.colName) &&
-                        format(new Date(obj[col.colName]), col.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
+                        formatDate(new Date(obj[col.colName]), col.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
                     );
                 }
             } else {

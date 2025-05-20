@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const GridPagination = ({
-    enablePaging,
-    activePage,
-    noOfPages,
-    onPageChange,
-    onPrevButtonClick,
-    onNextButtonClick
+    enablePaging = false,
+    activePage = 1,
+    noOfPages = 1,
+    onPageChange = () => { },
+    onPrevButtonClick = () => { },
+    onNextButtonClick = () => { }
 }) => {
     if (enablePaging === false)
         return null
@@ -96,16 +96,6 @@ GridPagination.propTypes = {
     onPageChange: PropTypes.func.isRequired,
     onPrevButtonClick: PropTypes.func.isRequired,
     onNextButtonClick: PropTypes.func.isRequired,
-};
-
-// Default props
-GridPagination.defaultProps = {
-    enablePaging: false,
-    activePage: 1,
-    noOfPages: 1,
-    onPageChange: () => { },
-    onPrevButtonClick: () => { },
-    onNextButtonClick: () => { },
 };
 
 export default GridPagination;

@@ -7,7 +7,7 @@ import {
     No_Data_Message
 } from '../constants';
 import { isNull } from '../helper/common';
-import { format } from "../helper/date";
+import { format } from '../helper/format';
 import { useIsMobile } from '../hooks/use-Is-Mobile';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { calColWidth } from "../utils/component-utils";
@@ -18,24 +18,24 @@ const LoadingIndicator = () => {
 };
 
 const GridRows = ({
-    rowsData,
+    rowsData = [],
     first,
     count,
-    hiddenColIndex,
-    concatColumns,
-    columnFormatting,
-    cssClassColumns,
-    columns,
-    columnWidths,
-    rowCssClass,
-    rowClickEnabled,
-    onRowClick,
-    onRowHover,
-    onRowOut,
-    editButtonEnabled,
-    deleteButtonEnabled,
-    editButtonEvent,
-    deleteButtonEvent
+    hiddenColIndex = [],
+    concatColumns = [],
+    columnFormatting = [],
+    cssClassColumns = [],
+    columns = [],
+    columnWidths = [],
+    rowCssClass = 'gridRows',
+    rowClickEnabled = false,
+    onRowClick = () => { },
+    onRowHover = () => { },
+    onRowOut = () => { },
+    editButtonEnabled = false,
+    deleteButtonEnabled = false,
+    editButtonEvent = () => { },
+    deleteButtonEvent = () => { }
 }) => {
     if (!Array.isArray(rowsData) || rowsData.length === 0) {
         return (
@@ -84,13 +84,9 @@ const GridRows = ({
             }
 
             let columnValue = conValue !== '' ? conValue : col;
-
             const formatInfo = !isNull(columnFormatting) ? columnFormatting[key] : null;
-            if (!isNull(columnValue) && formatInfo && formatInfo.type && formatInfo.format) {
-                const typeUpper = formatInfo.type.toUpperCase();
-                if (typeUpper === 'DATE' || typeUpper === 'DATETIME') {
-                    columnValue = format(new Date(columnValue), formatInfo.format);
-                }
+            if (!isNull(columnValue) && formatInfo && formatInfo?.type) {
+                columnValue = format(columnValue, formatInfo.type, formatInfo.format)
             }
 
             const classNames = !isNull(cssClassColumns) ? cssClassColumns[key] : '';
@@ -212,27 +208,6 @@ GridRows.propTypes = {
     deleteButtonEnabled: PropTypes.bool,
     editButtonEvent: PropTypes.func,
     deleteButtonEvent: PropTypes.func,
-};
-
-GridRows.defaultProps = {
-    rowsData: [],
-    first: 1,
-    count: 10,
-    hiddenColIndex: [],
-    concatColumns: [],
-    columnFormatting: [],
-    cssClassColumns: [],
-    columns: [],
-    columnWidths: [],
-    rowCssClass: 'gridRows',
-    rowClickEnabled: false,
-    onRowClick: () => { },
-    onRowHover: () => { },
-    onRowOut: () => { },
-    editButtonEnabled: false,
-    deleteButtonEnabled: false,
-    editButtonEvent: () => { },
-    deleteButtonEvent: () => { },
 };
 
 export default GridRows;

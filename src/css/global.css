@@ -27,6 +27,10 @@
     font-family: FontAwesome !important;
 }
 
+.react-data-grid-lite-component .d-none {
+    display: none !important;
+}
+
 .react-data-grid-lite-component a:hover,
 .react-data-grid-lite-component a:active,
 .react-data-grid-lite-component a:focus {

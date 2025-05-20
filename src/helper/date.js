@@ -1,4 +1,4 @@
-export const format = (date, formatString, locale = 'en-US', timeZone = 'UTC') => {
+export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC') => {
     const d = new Date(date);
     if (isNaN(d)) return '';
 
