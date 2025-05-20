@@ -92,7 +92,7 @@ const GridRows = ({
             const classNames = !isNull(cssClassColumns) ? cssClassColumns[key] : '';
             const hideClass = hiddenColIndex.includes(key) ? 'd-none' : '';
             const tdClass = `${hideClass}${classNames ? ` ${classNames}` : ''}`;
-            const colWidth = calColWidth(columnWidths, key, buttonColEnabled, isMobile);
+            const colWidth = calColWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
 
             return (
                 <td

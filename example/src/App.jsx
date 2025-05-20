@@ -9,7 +9,8 @@ const options = {
     deleteButton: {
         event: (e, row) => { alert('Delete Button clicked!'), console.log(row) }
     },
-    downloadFilename: "test.csv"
+    downloadFilename: "test.csv",
+    enableColumnSearch: false
 }
 
 function App() {

@@ -46,7 +46,7 @@ const GridHeader = ({
         const inputProps = {
             className: !isNull(header.cssClass) ? `${header.cssClass} row p-0 m-0` : 'row p-0 m-0',
         };
-        const colWidth = calColWidth(columnWidths, key, buttonColEnabled, isMobile);
+        const colWidth = calColWidth(columnWidths, hiddenCols, key, buttonColEnabled, isMobile);
 
         if (header === '') {
             return (
@@ -99,7 +99,7 @@ const GridHeader = ({
                 ? `${header.cssClass} row searchDiv p-0 m-0`
                 : 'row searchDiv p-0 m-0',
         };
-        const colWidth = calColWidth(columnWidths, key, buttonColEnabled, isMobile);
+        const colWidth = calColWidth(columnWidths, hiddenCols, key, buttonColEnabled, isMobile);
         columnSearchEnabled = enableColSearch
             ? header?.searchEnable ?? true
             : header?.searchEnable ?? false;

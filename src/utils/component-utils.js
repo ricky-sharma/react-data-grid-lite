@@ -1,10 +1,10 @@
 import { Desktop_Button_Column_Width, Mobile_Column_Width } from "../constants";
 import { isNull } from "../helper/common";
 
-export function calColWidth(colWidthArray, currentColKey, buttonColEnabled = false, isMobile = false) {
+export function calColWidth(colWidthArray, hiddenCols, currentColKey, buttonColEnabled = false, isMobile = false) {
     let widthNotSetColCount = 0;
-    colWidthArray.forEach(item => {
-        if (isNull(item)) {
+    colWidthArray.forEach((item, key) => {
+        if (isNull(item) && !hiddenCols?.includes(key)) {
             widthNotSetColCount++;
         }
     });

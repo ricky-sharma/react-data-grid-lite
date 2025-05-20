@@ -136,7 +136,7 @@ export class DataGrid extends Component {
             pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
-                if (!isNull(col?.hidden))
+                if (!isNull(col?.hidden) && col?.hidden=== true)
                     return key;
                 else
                     return null;

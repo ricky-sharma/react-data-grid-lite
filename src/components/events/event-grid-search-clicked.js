@@ -50,10 +50,10 @@ export const eventGridSearchClicked = (
                 const hasFormat = !isNull(c.format?.keyFormat);
 
                 if (isDateType && hasFormat) {
-                    if (c.ConcatColumns?.Columns) {
+                    if (c.concatColumns?.columns) {
                         colObjSearchData = data.filter(obj =>
                             Object.keys(obj).some(key =>
-                                c.ConcatColumns.Columns.some(x => x?.toLowerCase() === key.toLowerCase()) &&
+                                c.concatColumns.columns.some(x => x?.toLowerCase() === key.toLowerCase()) &&
                                 !hidden &&
                                 !isNull(obj[key]) &&
                                 formatDate(obj[key], c.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
@@ -66,10 +66,10 @@ export const eventGridSearchClicked = (
                         );
                     }
                 } else {
-                    if (c.ConcatColumns?.Columns) {
+                    if (c.concatColumns?.columns) {
                         colObjSearchData = data.filter(obj =>
                             Object.keys(obj).some(key =>
-                                c.ConcatColumns.Columns.some(x => x?.toLowerCase() === key.toLowerCase()) &&
+                                c.concatColumns.columns.some(x => x?.toLowerCase() === key.toLowerCase()) &&
                                 !hidden &&
                                 matchesSearch(obj[key])
                             )

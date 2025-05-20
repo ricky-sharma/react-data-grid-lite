@@ -115,9 +115,16 @@ export const sampleData = [
 
 export const columns = [
     { name: 'ID', width: '80px', hidden: true },
-    { name: 'Name', alias: 'Full Name', searchEnable: false },
-    { name: 'Department', searchEnable: false },
-    { name: 'Title', searchEnable: false },
-    { name: 'Email', searchEnable: false },
-    { name: 'Salary', formatting: { type: 'currency' }, searchEnable: false }
+    { name: 'Name', alias: 'Full Name'},
+    {
+        alias: 'Department-Title',
+        name: 'Department',
+        concatColumns: {
+            columns: ['Department', 'Title'],
+            separator: '-'
+        }
+    },
+    { name: 'Title', hidden: false },
+    { name: 'Email'},
+    { name: 'Salary', formatting: { type: 'currency' } }
 ];
