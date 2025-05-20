@@ -719,6 +719,7 @@
         text-overflow: ellipsis;
         padding: 10px 8px 10px 10px !important;
         align-content: center;
+        text-align: center;
     }
 
 .react-data-grid-lite-component table {

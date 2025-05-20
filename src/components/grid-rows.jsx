@@ -157,6 +157,10 @@ const GridRows = ({
                     key="gridButtons"
                 >
                     <div
+                        style={{
+                            paddingLeft: "4px",
+                            paddingRight: "2px"
+                        }}
                         className={"m-0 p-0 align-center button-column"}
                     >
                         {editBtn}
