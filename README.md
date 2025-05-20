@@ -147,7 +147,7 @@ const columns = [
 ];
 ```
 ---
-### **2. `options` Prop Structure**
+### **`options` Prop Structure**
 
 The `options` prop is an **object** that provides additional configuration settings to further customize the behavior of the `DataGrid` component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality.
 
@@ -184,6 +184,7 @@ const options = {
   downloadFilename: 'data-grid-export.csv'
 };
 ```
+
 
 ---
 
@@ -246,7 +247,7 @@ With the configuration above, the **Department-Title** column will display:
 
 The values of **Department** and **Title** are concatenated with the hyphen (`-`) separator.
 
-### 🔄 Use Cases:
+#### 🔄 Use Cases:
 
 * **Combining First Name and Last Name**: You could concatenate a **FirstName** and **LastName** column into a **Full Name** column.
 * **Combining Address Fields**: If your dataset has separate columns for street, city, and country, you can concatenate them into a single **Full Address** column.
@@ -254,11 +255,75 @@ The values of **Department** and **Title** are concatenated with the hyphen (`-`
 
 This feature simplifies the grid by consolidating data into a single column while preserving the original columns for internal use or further customization.
 
----
-
-### ⚙️ Additional Notes:
+##### 🔄 Additional Notes:
 
 * **Custom Separator**: You can adjust the separator based on your preference. For example, use a space (`' '`) or comma (`','`) depending on how you want the concatenated data to appear.
+
+  
+---
+
+## ⚙️ Custom CSS Classes for Grid
+
+The `react-data-grid-lite` component allows you to apply custom CSS classes to various parts of the grid, such as the entire grid container, the header row, and each individual row. You can use the following props to add custom styles:
+
+| **Prop Name** | **Type** | **Description**                            | **Required** |
+| ------------- | -------- | ------------------------------------------ | ------------ |
+| `gridClass`   | `String` | Custom CSS class for the grid container.   | No           |
+| `headerClass` | `String` | Custom CSS class for the header row.       | No           |
+| `rowClass`    | `String` | Custom CSS class for each row in the grid. | No           |
+
+#### ⚠️ **Warning: CSS Customization May Require Adjustments**
+
+While the `gridClass`, `headerClass`, and `rowClass` props allow you to apply custom CSS classes to the grid and its elements, the styles might not be perfectly aligned with your desired layout or design out-of-the-box. Depending on your project’s design system or CSS framework, you may need to adjust or override these styles to ensure they work as intended.
+
+Here are a few things to keep in mind:
+
+* The provided classes (`gridClass`, `headerClass`, `rowClass`) are props to **apply custom styles** but may require additional tweaks to match your project’s styling.
+* You may need to add padding, margins, or border styles manually to ensure the grid components appear as expected.
+* If you're using a **CSS framework** (e.g., Bootstrap, Tailwind), you may need to apply additional customizations to ensure that the grid displays correctly within the framework’s context.
+
+#### 📝 Example:
+
+Here’s how you can use these props to add custom styles:
+
+```javascript
+<DataGrid
+  options={
+    gridClass: "my-custom-grid",
+    headerClass: "my-custom-header",
+    rowClass: "my-custom-row"
+  }
+  columns={columns}
+  data={data}
+/>
+```
+
+In this example, `my-custom-grid`, `my-custom-header`, and `my-custom-row` would be the CSS classes you define in your stylesheet.
+
+```css
+/* Custom Styles */
+.my-custom-grid {
+  background-color: #f4f4f4;
+}
+
+.my-custom-header {
+  background-color: #333;
+  color: white;
+}
+
+.my-custom-row {
+  border-bottom: 1px solid #ddd;
+}
+
+.my-custom-row:hover {
+  background-color: #e0e0e0;
+}
+```
+
+#### 🔄 Additional Notes:
+
+* Ensure that the custom styles don’t conflict with the default styles of the grid to maintain proper layout and functionality.
+
 ---
 
 ### 🚀 Try It Out!
@@ -269,14 +334,6 @@ Feel free to fork the repository and experiment with the grid's behavior for con
 * Download ZIP: ![Download Badge](https://img.shields.io/badge/Download-ZIP-blue?style=flat\&logo=github)
 
 Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉
-
----
-
-### Summary of Changes:
-
-* **Icons**: Added icons for key sections (⚙️, 📝, 📊, 🔄) to visually enhance the readability of the section.
-* **Badges**: Added badges for "Fork" and "Download" at the end to encourage engagement with the repo.
-* **Clarifications**: Slightly modified the explanations and examples to make the concept more digestible.
 
 ---
 
