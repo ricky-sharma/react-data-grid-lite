@@ -12,12 +12,29 @@ A lightweight and customizable React data grid component designed for high perfo
 
 Moreover, the component is fully compatible with older versions of React, ensuring flexibility and ease of integration for projects that may not be using the latest React release. Whether you are building a simple data table or a complex enterprise-level UI, the `DataGrid` component can be seamlessly adapted to your needs. 
 
----
-
 ### **Key Highlights:**
 
 * **Lightweight**: The component is optimized for small bundle size, ensuring fast load times and minimal impact on your application's overall performance.
 * **Backward Compatibility**: It supports older React versions, allowing you to use it in legacy applications without upgrading to the latest React version.
+---
+  
+![image](https://github.com/user-attachments/assets/ba844c9d-f2f3-4c2f-8b84-07e4d1e9981a)
+
+---
+
+## React Compatibility Table
+
+The `react-data-grid-lite` library is compatible with the following versions of React:
+
+| **React Version** | **Compatibility**  |
+| ----------------- | ------------------ |
+| **React 18**      | ✅ Fully Compatible |
+| **React 19**      | ✅ Fully Compatible |
+
+### Notes:
+
+* **React 18**: Fully compatible with **React 18**, with all major features fully supported.
+* **React 19**: Fully compatible with **React 19**, and all features are tested and supported.
 
 ---
 
@@ -301,23 +318,33 @@ Here’s how you can use these props to add custom styles:
 In this example, `my-custom-grid`, `my-custom-header`, and `my-custom-row` would be the CSS classes you define in your stylesheet.
 
 ```css
-/* Custom Styles */
+/*Custom Styles*/
 .my-custom-grid {
-  background-color: #f4f4f4;
+    background-color: #708090 !important;
+    border: 3px solid #708090 !important;
+    box-shadow: 0 0 0 3px #708090 !important;
 }
 
 .my-custom-header {
-  background-color: #333;
-  color: white;
+    background-color: #a39696 !important;
+    color: white !important;
+}
+
+.my-custom-row:nth-child(even) {
+    background-color: #bba8a8 !important;
+}
+
+.my-custom-row:nth-child(odd) {
+    background-color: #5e5f65 !important;
 }
 
 .my-custom-row {
-  border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #4f4d4d !important;
 }
 
-.my-custom-row:hover {
-  background-color: #e0e0e0;
-}
+    .my-custom-row:hover {
+        background-color: #e0e0e0 !important;
+    }
 ```
 
 #### 🔄 Additional Notes:
