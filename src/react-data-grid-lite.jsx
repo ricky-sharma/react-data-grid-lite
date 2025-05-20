@@ -26,7 +26,7 @@ export class DataGrid extends Component {
             onRowOut
         } = props
         this.state = {
-            width: !isNull(width) ? width : '100%',
+            width: !isNull(width) ? width : '90vw',
             maxWidth: !isNull(maxWidth) ? maxWidth : '100vw',
             height: !isNull(height) ? height : '300px',
             maxHeight: !isNull(maxHeight) ? maxHeight : '300px',
@@ -136,7 +136,7 @@ export class DataGrid extends Component {
             pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
-                if (!isNull(col?.hidden) && col?.hidden=== true)
+                if (!isNull(col?.hidden) && col?.hidden === true)
                     return key;
                 else
                     return null;
@@ -308,12 +308,11 @@ export class DataGrid extends Component {
             return null;
 
         return (
-            <div className={!isNull(this.state.gridCssClass) ? `${this.state.gridCssClass} react-data-grid-lite-component`: "react-data-grid-lite-component"} style={{ maxWidth: maxWidth }}>
-                <div
-                    className="mx-0 px-0"
-                    style={{ width: width }}>
-
-
+            <div className={!isNull(this.state.gridCssClass) ?
+                `${this.state.gridCssClass} react-data-grid-lite-component` :
+                "react-data-grid-lite-component"}
+                style={{ maxWidth: maxWidth, width: width }}>
+                <div className="mx-0 px-0">
                     <div className="row col-12 globalSearchDiv">
                         {
                             (enableGlobalSearch ?

@@ -43,7 +43,8 @@ const GridRows = ({
                 key="No-Data"
                 style={{
                     height: "50px",
-                    borderColor: "transparent"
+                    borderColor: "transparent",
+                    width: "100%"
                 }}
                 className={"align-page-center"}
             >
@@ -207,7 +208,7 @@ GridRows.propTypes = {
     editButtonEnabled: PropTypes.bool,
     deleteButtonEnabled: PropTypes.bool,
     editButtonEvent: PropTypes.func,
-    deleteButtonEvent: PropTypes.func,
+    deleteButtonEvent: PropTypes.func
 };
 
 export default GridRows;

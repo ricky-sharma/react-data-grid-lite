@@ -801,7 +801,7 @@
 .react-data-grid-lite-component .updown-icon {
     text-shadow: 1px 1px 1px #ccc;
     font-size: 15px !important;
-    margin-left: 15px !important;
+    margin-left: 5px !important;
 }
 
     .react-data-grid-lite-component .updown-icon.inactive {
@@ -1048,7 +1048,7 @@
         }
 
     .react-data-grid-lite-component .updown-icon {
-        margin-left: 12px !important;
+        margin-left: 4px !important;
         font-size: 10px !important;
     }
 

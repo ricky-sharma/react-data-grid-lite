@@ -114,7 +114,7 @@ export const sampleData = [
 ];
 
 export const columns = [
-    { name: 'ID', width: '80px', hidden: true },
+    { name: 'ID', width: '80px' },
     { name: 'Name', alias: 'Full Name'},
     {
         alias: 'Department-Title',
@@ -124,7 +124,7 @@ export const columns = [
             separator: '-'
         }
     },
-    { name: 'Title', hidden: false },
+    { name: 'Title', hidden: true },
     { name: 'Email'},
     { name: 'Salary', formatting: { type: 'currency' } }
 ];
