@@ -73,14 +73,14 @@ const rows = [
 const options = {
     editButton: {
         event: (e, row) => {
-               alert('Edit Button clicked!'),
-               console.log(row)
+            alert('Edit Button clicked!');
+            console.log(row);
         }
     },
     deleteButton: {
         event: (e, row) => {
-            alert('Delete Button clicked!'),
-            console.log(row)
+            alert('Delete Button clicked!');
+            console.log(row);
         }
     },
     downloadFilename: "test.csv"
