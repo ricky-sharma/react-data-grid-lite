@@ -201,7 +201,7 @@ const options = {
 ```
 ---
 
-## 📡 Example: Consuming Remote API Data with `react-data-grid-lite`
+### 📡 Example: Consuming Remote API Data
 
 This example shows how to fetch and display data from a remote API using `react-data-grid-lite`. It demonstrates how to:
 
