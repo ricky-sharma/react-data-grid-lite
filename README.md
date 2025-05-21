@@ -2,7 +2,7 @@
 [![npm](https://img.shields.io/npm/v/react-data-grid-lite.svg)](https://www.npmjs.com/package/react-data-grid-lite)
 ![License](https://img.shields.io/github/license/ricky-sharma/react-data-grid-lite)
 ![Last Commit](https://img.shields.io/github/last-commit/ricky-sharma/react-data-grid-lite)
-[![Download Badge](https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github)](https://github.com/react-data-grid-lite/react-data-grid-lite/archive/refs/heads/main.zip)
+[![Download Badge](https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github)](https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/main.zip)
 ![Forks](https://img.shields.io/github/forks/ricky-sharma/react-data-grid-lite?style=social)
 ![npm](https://img.shields.io/npm/dt/react-data-grid-lite)
 
@@ -473,7 +473,7 @@ While the `gridClass`, `headerClass`, and `rowClass` props allow you to apply cu
 Feel free to fork the repository and experiment with the grid's behavior for concatenating columns:
 
 * Fork the repo: ![Fork Badge](https://img.shields.io/github/forks/ricky-sharma/react-data-grid-lite?style=social)
-[![Download Badge](https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github)](https://github.com/react-data-grid-lite/react-data-grid-lite/archive/refs/heads/main.zip)
+[![Download Badge](https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github)](https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/main.zip)
 
 Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉
 
