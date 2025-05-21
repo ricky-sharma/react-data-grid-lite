@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import {
-    Data_Loading_Message,
     Desktop_Button_Column_Width,
     Mobile_Button_Column_Width,
     No_Data_Message
@@ -11,11 +10,6 @@ import { format } from '../helper/format';
 import { useIsMobile } from '../hooks/use-Is-Mobile';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { calColWidth } from "../utils/component-utils";
-
-const LoadingIndicator = () => {
-    const { loading } = useLoadingIndicator();
-    return loading ? Data_Loading_Message : No_Data_Message;
-};
 
 const GridRows = ({
     rowsData = [],
@@ -37,6 +31,8 @@ const GridRows = ({
     editButtonEvent = () => { },
     deleteButtonEvent = () => { }
 }) => {
+    const loading = useLoadingIndicator();
+    const isMobile = useIsMobile();
     if (!Array.isArray(rowsData) || rowsData.length === 0) {
         return (
             <tr
@@ -56,12 +52,11 @@ const GridRows = ({
                     fontWeight: "400"
                 }}
                 >
-                    <LoadingIndicator />
+                    {loading ? <div className="loader"></div> : No_Data_Message}
                 </th>
             </tr>
         );
     }
-    const isMobile = useIsMobile();
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     let buttonColWidth = isMobile ? Mobile_Button_Column_Width : Desktop_Button_Column_Width;
 

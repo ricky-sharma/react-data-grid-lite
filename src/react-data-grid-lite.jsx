@@ -303,10 +303,6 @@ export class DataGrid extends Component {
             globalSearchInput,
             gridID
         } = this.state
-
-        if (isNull(columns))
-            return null;
-
         return (
             <div className={!isNull(this.state.gridCssClass) ?
                 `${this.state.gridCssClass} react-data-grid-lite-component` :

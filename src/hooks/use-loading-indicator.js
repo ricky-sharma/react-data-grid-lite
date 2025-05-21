@@ -1,20 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getLoading, subscribe } from '../utils/loading-utils';
 
 const useLoadingIndicator = () => {
-    const [loading, setLoading] = useState(false);
-
-    const trackPromise = (promise) => {
-        setLoading(true);
-
-        promise
-            .then(() => setLoading(false))
-            .catch(() => setLoading(false));
-    };
-
-    return {
-        loading,
-        trackPromise,
-    };
+    const [loading, setLoading] = useState(getLoading());
+    useEffect(() => {
+        const unsubscribe = subscribe(setLoading);
+        return () => unsubscribe();
+    }, []);
+    return loading;
 };
 
 export default useLoadingIndicator;
