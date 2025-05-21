@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^7.1.0",
     "react": "^19.0.0",
-    "react-data-grid-lite": "^1.0.1",
+    "react-data-grid-lite": "^1.0.2",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {

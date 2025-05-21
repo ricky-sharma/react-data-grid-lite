@@ -22,43 +22,43 @@ export function dynamicSort(property) {
         if (valA == null) return sortOrder;
         if (valB == null) return -sortOrder;
 
-        // Handle mixed types: numbers before strings
-        const isNumA = typeof valA === 'number' || (!isNaN(parseFloat(valA)) && isFinite(valA));
-        const isNumB = typeof valB === 'number' || (!isNaN(parseFloat(valB)) && isFinite(valB));
+        // Convert to comparable values
+        const parseCurrency = (val) => {
+            if (typeof val === 'string') {
+                const cleaned = val.replace(/[^0-9.-]+/g, '');
+                const num = parseFloat(cleaned);
+                if (!isNaN(num)) return num;
+            }
+            return val;
+        };
+
+        valA = parseCurrency(valA);
+        valB = parseCurrency(valB);
+
+        const isNumA = typeof valA === 'number' && !isNaN(valA);
+        const isNumB = typeof valB === 'number' && !isNaN(valB);
 
         if (isNumA && !isNumB) return -1 * sortOrder;
         if (!isNumA && isNumB) return 1 * sortOrder;
+        if (isNumA && isNumB) return (valA - valB) * sortOrder;
 
-        // Convert currency strings to numbers
-        if (typeof valA === 'string' && typeof valB === 'string') {
-            const numA = parseFloat(valA.replace(/[^0-9.-]+/g, ''));
-            const numB = parseFloat(valB.replace(/[^0-9.-]+/g, ''));
-            if (!isNaN(numA) && !isNaN(numB)) {
-                valA = numA;
-                valB = numB;
-            } else {
-                // Try parsing as dates
-                const dateA = new Date(valA);
-                const dateB = new Date(valB);
-                if (!isNaN(dateA) && !isNaN(dateB)) {
-                    valA = dateA;
-                    valB = dateB;
-                } else {
-                    // Case-insensitive string comparison
-                    return valA.localeCompare(valB, undefined, {
-                        sensitivity: 'base',
-                        numeric: true
-                    }) * sortOrder;
-                }
-            }
+        // Try date parsing
+        const dateA = new Date(valA);
+        const dateB = new Date(valB);
+        const isDateA = !isNaN(dateA);
+        const isDateB = !isNaN(dateB);
+
+        if (isDateA && isDateB) {
+            return (dateA - dateB) * sortOrder;
         }
 
-        // Default numeric or date comparison
-        let result = (valA < valB) ? -1 : (valA > valB) ? 1 : 0;
-        return result * sortOrder;
+        // Case-insensitive string comparison
+        return String(valA).localeCompare(String(valB), undefined, {
+            sensitivity: 'base',
+            numeric: true
+        }) * sortOrder;
     };
 }
-
 
 //      Usage Example
 //      People.sort(dynamicSortMultiple("name", "-surname"));
