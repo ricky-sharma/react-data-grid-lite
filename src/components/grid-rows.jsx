@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
 import React from 'react';
 import {
     Data_Loading_Message,
@@ -182,33 +182,6 @@ const GridRows = ({
             </tr>
         );
     });
-};
-
-GridRows.propTypes = {
-    rowsData: PropTypes.arrayOf(PropTypes.object),
-    first: PropTypes.number,
-    count: PropTypes.number,
-    hiddenColIndex: PropTypes.arrayOf(PropTypes.number),
-    concatColumns: PropTypes.arrayOf(PropTypes.shape({
-        cols: PropTypes.arrayOf(PropTypes.string),
-        sep: PropTypes.string,
-    })),
-    columnFormatting: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string,
-        format: PropTypes.string,
-    })),
-    cssClassColumns: PropTypes.arrayOf(PropTypes.string),
-    columns: PropTypes.arrayOf(PropTypes.object),
-    columnWidths: PropTypes.arrayOf(PropTypes.string),
-    rowCssClass: PropTypes.string,
-    rowClickEnabled: PropTypes.bool,
-    onRowClick: PropTypes.func,
-    onRowHover: PropTypes.func,
-    onRowOut: PropTypes.func,
-    editButtonEnabled: PropTypes.bool,
-    deleteButtonEnabled: PropTypes.bool,
-    editButtonEvent: PropTypes.func,
-    deleteButtonEvent: PropTypes.func
 };
 
 export default GridRows;

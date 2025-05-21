@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Desktop_Button_Column_Width, Mobile_Button_Column_Width } from '../constants';
 import { isNull } from '../helper/common';
@@ -158,36 +158,6 @@ const GridHeader = ({
             {searchRowEnabled && <tr className={`${headerCssClass} searchHeader`}>{thSearchHeaders}</tr>}
         </thead>
     );
-};
-
-// PropTypes
-GridHeader.propTypes = {
-    columns: PropTypes.arrayOf(
-        PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.shape({
-                name: PropTypes.string,
-                alias: PropTypes.string,
-                colClass: PropTypes.string,
-                searchEnable: PropTypes.bool,
-                formatting: PropTypes.object
-            })
-        ])
-    ).isRequired,
-    hiddenColIndex: PropTypes.arrayOf(PropTypes.number),
-    enableColumnSearch: PropTypes.bool,
-    concatColumns: PropTypes.arrayOf(PropTypes.object),
-    editButtonEnabled: PropTypes.bool,
-    deleteButtonEnabled: PropTypes.bool,
-    headerCssClass: PropTypes.string,
-    gridID: PropTypes.string,
-    onHeaderClicked: PropTypes.func.isRequired,
-    onSearchClicked: PropTypes.func.isRequired,
-    columnWidths: PropTypes.arrayOf(PropTypes.string),
-    gridHeaderRef: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.shape({ current: PropTypes.any })
-    ])
 };
 
 export default GridHeader;

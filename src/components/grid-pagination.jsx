@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
 import React from 'react';
 
 const GridPagination = ({
@@ -86,16 +86,6 @@ const GridPagination = ({
             {pageItems}
         </ul>
     );
-};
-
-// PropTypes
-GridPagination.propTypes = {
-    enablePaging: PropTypes.bool.isRequired,
-    activePage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    noOfPages: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    onPageChange: PropTypes.func.isRequired,
-    onPrevButtonClick: PropTypes.func.isRequired,
-    onNextButtonClick: PropTypes.func.isRequired,
 };
 
 export default GridPagination;
