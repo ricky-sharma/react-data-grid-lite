@@ -46,22 +46,21 @@
 
 /*Custom Styles*/
 .my-custom-grid {
-    background-color: #708090 !important;
-    border: 3px solid #708090 !important;
-    box-shadow: 0 0 0 3px #708090 !important;
+    background-color: #c0cad3 !important;
+    border: 3px solid #c0cad3 !important;
+    box-shadow: 0 0 0 3px #c0cad3 !important;
 }
 
 .my-custom-header {
-    background-color: #a39696 !important;
-    color: white !important;
+    background-color: #cfcfcf !important;
 }
 
 .my-custom-row:nth-child(even) {
-    background-color: #bba8a8 !important;
+    background-color: #e7e0e4 !important;
 }
 
 .my-custom-row:nth-child(odd) {
-    background-color: #5e5f65 !important;
+    background-color: #f3f4f9 !important;
 }
 
 .my-custom-row {

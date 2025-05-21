@@ -946,6 +946,7 @@
         text-align: center;
         padding: 0;
         display: block;
+        text-decoration: none !important;
     }
 
         .react-data-grid-lite-component .pagination li a:hover {
