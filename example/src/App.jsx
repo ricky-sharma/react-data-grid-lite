@@ -49,6 +49,11 @@ function App() {
                             name: val,
                             alias: 'Image',
                         }
+                    else if (val.toLowerCase() === 'website')
+                        return {
+                            name: val,
+                            alias: 'Website',
+                        }
                     else if (val.toLowerCase() === 'firstname')
                         return {
                             name: val,

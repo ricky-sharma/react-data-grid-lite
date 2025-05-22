@@ -15,7 +15,6 @@
   },
   "files": [
     "dist/",
-    "index.js",
     "package.json",
     "README.md"
   ],
@@ -37,12 +36,14 @@
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
+    "cssnano": "^7.0.7",
     "eslint": "^9.26.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "globals": "^16.1.0",
     "rollup": "^4.40.2",
-    "rollup-plugin-postcss": "^4.0.2"
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-strip": "^1.2.2"
   },
   "keywords": [
     "react",

@@ -8,55 +8,45 @@
 //      People.sort(dynamicSort("-surname"));
 export function dynamicSort(property) {
     let sortOrder = -1;
+
     if (property[0] === "-") {
         sortOrder = 1;
-        property = property.substr(1);
+        property = property.slice(1);
     }
 
     return (a, b) => {
-        let valA = a[property];
-        let valB = b[property];
+        let valA = a?.[property];
+        let valB = b?.[property];
 
         // Handle null or undefined
         if (valA == null && valB == null) return 0;
         if (valA == null) return sortOrder;
         if (valB == null) return -sortOrder;
 
-        // Convert to comparable values
-        const parseCurrency = (val) => {
-            if (typeof val === 'string') {
-                const cleaned = val.replace(/[^0-9.-]+/g, '');
-                const num = parseFloat(cleaned);
-                if (!isNaN(num)) return num;
-            }
-            return val;
-        };
+        // Normalize: Trim and lowercase for consistency
+        const normalize = (val) =>
+            typeof val === 'string' ? val.trim().toLowerCase() : val;
 
-        valA = parseCurrency(valA);
-        valB = parseCurrency(valB);
+        valA = normalize(valA);
+        valB = normalize(valB);
 
-        const isNumA = typeof valA === 'number' && !isNaN(valA);
-        const isNumB = typeof valB === 'number' && !isNaN(valB);
+        // If both are numbers
+        if (!isNaN(valA) && !isNaN(valB)) {
+            return (parseFloat(valA) - parseFloat(valB)) * sortOrder;
+        }
 
-        if (isNumA && !isNumB) return -1 * sortOrder;
-        if (!isNumA && isNumB) return 1 * sortOrder;
-        if (isNumA && isNumB) return (valA - valB) * sortOrder;
-
-        // Try date parsing
+        // If both are valid Dates (and not UUID-like strings)
         const dateA = new Date(valA);
         const dateB = new Date(valB);
-        const isDateA = !isNaN(dateA);
-        const isDateB = !isNaN(dateB);
+        const isDateA = !isNaN(dateA) && /^\d{4}-/.test(valA);
+        const isDateB = !isNaN(dateB) && /^\d{4}-/.test(valB);
 
         if (isDateA && isDateB) {
             return (dateA - dateB) * sortOrder;
         }
 
-        // Case-insensitive string comparison
-        return String(valA).localeCompare(String(valB), undefined, {
-            sensitivity: 'base',
-            numeric: true
-        }) * sortOrder;
+        // Final fallback: strict lexicographic (for UUIDs, emails, etc.)
+        return valA.localeCompare(valB) * sortOrder;
     };
 }
 

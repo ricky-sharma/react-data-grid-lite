@@ -21,7 +21,7 @@ const GridHeader = ({
 }) => {
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
-    if (isNull(columns)) return null;
+    if (isNull(columns)) columns = [];
     let headers = [...columns]; // Clone to avoid mutating props
     const hiddenCols = hiddenColIndex || [];
     const enableColSearch = enableColumnSearch || false;
