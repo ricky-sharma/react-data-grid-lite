@@ -1,15 +1,15 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import {
-    Desktop_Button_Column_Width,
-    Mobile_Button_Column_Width,
+    Button_Column_Key,
+    No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
 import { isNull } from '../helper/common';
 import { format } from '../helper/format';
-import { useIsMobile } from '../hooks/use-Is-Mobile';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
-import { calColWidth } from "../utils/component-utils";
+import { useWindowWidth } from '../hooks/use-window-width';
+import { calculateColumnWidth } from "../utils/component-utils";
 
 const GridRows = ({
     rowsData = [],
@@ -32,8 +32,18 @@ const GridRows = ({
     deleteButtonEvent = () => { }
 }) => {
     const loading = useLoadingIndicator();
-    const isMobile = useIsMobile();
-    if (!Array.isArray(rowsData) || rowsData.length === 0) {
+    const windowWidth = useWindowWidth();
+    const isMobile = windowWidth < 700;
+    let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
+    const buttonColWidth = calculateColumnWidth(
+        columnWidths,
+        hiddenColIndex,
+        Button_Column_Key,
+        buttonColEnabled,
+        isMobile
+    );
+
+    if (!Array.isArray(rowsData) || rowsData.length === 0 || buttonColWidth === '100%') {
         return (
             <tr
                 key="No-Data"
@@ -52,14 +62,15 @@ const GridRows = ({
                     fontWeight: "400"
                 }}
                 >
-                    {loading ? <div className="loader"></div> : No_Data_Message}
+                    {loading
+                        ? <div className="loader"></div> :
+                        buttonColWidth === '100%' ?
+                            No_Column_Visible_Message
+                            : No_Data_Message}
                 </th>
             </tr>
         );
     }
-    let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    let buttonColWidth = isMobile ? Mobile_Button_Column_Width : Desktop_Button_Column_Width;
-
     return rowsData.slice(first, first + count).map((row, index) => {
         const cols = Object.values(row).map((col, key) => {
             let conValue = '';
@@ -88,7 +99,13 @@ const GridRows = ({
             const classNames = !isNull(cssClassColumns) && !isNull(cssClassColumns[key]) ? cssClassColumns[key] : '';
             const hideClass = hiddenColIndex.includes(key) ? 'd-none' : '';
             const tdClass = `${hideClass}${classNames ? ` ${classNames}` : ''}`;
-            const colWidth = calColWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
+            const colWidth = calculateColumnWidth(
+                columnWidths,
+                hiddenColIndex,
+                key,
+                buttonColEnabled,
+                isMobile
+            );
 
             return (
                 <td

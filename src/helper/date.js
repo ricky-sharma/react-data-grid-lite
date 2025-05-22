@@ -61,12 +61,3 @@ export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC
         return match; // Return the token if no formatter exists for it
     });
 };
-
-// Test the enhanced format function with timeZone
-//const date = new Date(); // Use the current date for testing
-
-//console.log(format(date, 'yyyy-MM-dd HH:mm:ss S ZZZZ DST', 'en-US', 'America/New_York'));  // Example Output: 2025-05-17 14:30:05 523 Eastern Daylight Time DST
-//console.log(format(date, 'EEEE, MMM dd, yyyy', 'en-US', 'America/Los_Angeles'));  // Example Output: Saturday, May 17, 2025
-//console.log(format(date, 'hh:mm a', 'en-US', 'UTC'));  // Example Output: 02:30 PM
-//console.log(format(date, 'do MMMM yyyy', 'en-US', 'Europe/London'));  // Example Output: 17th May 2025
-//console.log(format(date, 'yyyy-MM-dd hh:mm:ss Z DST', 'en-US', 'Europe/Paris'));  // Example Output: 2025-05-17 02:30:05 +0200 DST

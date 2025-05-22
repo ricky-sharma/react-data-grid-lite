@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { Component, createRef } from 'react';
-import '../src/css/react-data-grid-lite.css';
 import { isNull, objectsEqual } from '../src/helper/common';
 import { eventExportToCSV } from './components/events/event-export-csv-clicked';
 import { eventGridHeaderClicked } from "./components/events/event-grid-header-clicked";
@@ -8,6 +7,7 @@ import { eventGridSearchClicked } from "./components/events/event-grid-search-cl
 import GridHeader from "./components/grid-header";
 import GridPagination from './components/grid-pagination';
 import GridRows from './components/grid-rows';
+import { Default_Grid_Width_VW } from './constants';
 
 export class DataGrid extends Component {
     constructor(props) {
@@ -26,7 +26,7 @@ export class DataGrid extends Component {
             onRowOut
         } = props
         this.state = {
-            width: !isNull(width) ? width : '90vw',
+            width: !isNull(width) ? width : Default_Grid_Width_VW,
             maxWidth: !isNull(maxWidth) ? maxWidth : '100vw',
             height: !isNull(height) ? height : '300px',
             maxHeight: !isNull(maxHeight) ? maxHeight : '300px',

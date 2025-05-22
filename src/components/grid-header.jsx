@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Desktop_Button_Column_Width, Mobile_Button_Column_Width } from '../constants';
+import { Button_Column_Key } from '../constants';
 import { isNull } from '../helper/common';
-import { useIsMobile } from '../hooks/use-Is-Mobile';
-import { calColWidth } from "../utils/component-utils";
+import { useWindowWidth } from '../hooks/use-window-width';
+import { calculateColumnWidth } from "../utils/component-utils";
 
 const GridHeader = ({
     columns,
@@ -19,8 +19,9 @@ const GridHeader = ({
     columnWidths = [],
     gridHeaderRef = null
 }) => {
+    const windowWidth = useWindowWidth();
+    const isMobile = windowWidth < 700;
     if (isNull(columns)) return null;
-    const isMobile = useIsMobile();
     let headers = [...columns]; // Clone to avoid mutating props
     const hiddenCols = hiddenColIndex || [];
     const enableColSearch = enableColumnSearch || false;
@@ -28,7 +29,13 @@ const GridHeader = ({
     let columnSearchEnabled = false;
     let searchRowEnabled = false;
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    let buttonColWidth = isMobile ? Mobile_Button_Column_Width : Desktop_Button_Column_Width;
+    const buttonColWidth = calculateColumnWidth(
+        columnWidths,
+        hiddenColIndex,
+        Button_Column_Key,
+        buttonColEnabled,
+        isMobile
+    );
     const sortIconHtml =
         (<div className="sort-icon-wrapper">
             <i className='updown-icon inactive fa fa-sort' />
@@ -46,7 +53,13 @@ const GridHeader = ({
         const inputProps = {
             className: !isNull(header.cssClass) ? `${header.cssClass} row p-0 m-0` : 'row p-0 m-0',
         };
-        const colWidth = calColWidth(columnWidths, hiddenCols, key, buttonColEnabled, isMobile);
+        const colWidth = calculateColumnWidth(
+            columnWidths,
+            hiddenCols,
+            key,
+            buttonColEnabled,
+            isMobile
+        );
 
         if (header === '') {
             return (
@@ -99,7 +112,13 @@ const GridHeader = ({
                 ? `${header.cssClass} row searchDiv p-0 m-0`
                 : 'row searchDiv p-0 m-0',
         };
-        const colWidth = calColWidth(columnWidths, hiddenCols, key, buttonColEnabled, isMobile);
+        const colWidth = calculateColumnWidth(
+            columnWidths,
+            hiddenCols,
+            key,
+            buttonColEnabled,
+            isMobile
+        );
         columnSearchEnabled = enableColSearch
             ? header?.searchEnable ?? true
             : header?.searchEnable ?? false;

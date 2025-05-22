@@ -1,6 +1,6 @@
-import DataGrid, { trackPromise }  from 'react-data-grid-lite';
-import './App.css';
 import React, { useEffect, useState } from 'react';
+import DataGrid, { trackPromise } from 'react-data-grid-lite';
+import './App.css';
 
 const options = {
     editButton: {
@@ -70,7 +70,7 @@ function App() {
                             hidden: true
                         }
                     else
-                        return { name: val }
+                        return { name: val, }
                 }));
                 setUsers(data.data);
             })
@@ -78,12 +78,18 @@ function App() {
                 console.error('Error fetching data:', error);
             });
         trackPromise(promise);
-        
+
     }, []);
-    
+
 
     return (
         <>
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center'
+            }}>
+                <h1>React Data Grid Lite Example</h1>
+            </div>
             <DataGrid
                 columns={userColumns}
                 data={users}
@@ -91,7 +97,7 @@ function App() {
                 height={"600px"}
                 maxHeight={"600px"}
                 options={options}
-                width={"1200px"}
+                width={"1400px"}
                 onRowClick={
                     (e, row) => {
                         alert(row);

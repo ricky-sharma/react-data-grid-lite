@@ -19,7 +19,6 @@ export const eventGridSearchClicked = (
 ) => {
     // Basic safety checks
     if (!e || typeof colName !== 'string' || typeof context !== 'object') {
-        console.warn('Invalid parameters passed to EventGridSearchClicked.');
         return;
     }
 

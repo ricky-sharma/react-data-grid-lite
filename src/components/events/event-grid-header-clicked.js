@@ -14,7 +14,6 @@ export const eventGridHeaderClicked = (
     context
 ) => {
     if (!e || typeof name !== 'string' || typeof context !== 'object') {
-        console.warn('Invalid arguments passed to EventGridHeaderClicked');
         return;
     }
     if (e.target.nodeName === "DIV" || e.target.nodeName === "I" || e.target.nodeName === "H4") {

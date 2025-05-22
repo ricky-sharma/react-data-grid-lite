@@ -15,7 +15,6 @@ import { CSV_File_Name } from "../../constants";
  */
 export const eventExportToCSV = (data, columns, filename = CSV_File_Name) => {
     if (!data || data.length === 0 || !columns) {
-        console.warn('No data or columns provided for CSV export.');
         return;
     }
 
