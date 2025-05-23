@@ -78,7 +78,13 @@ export const eventGridHeaderClicked = (
             rowsData: data,
             toggleState: !context.state.toggleState,
         }, () => {
-            onSortComplete(e, name, data, sortType);
+            if (typeof onSortComplete === 'function')
+                onSortComplete(
+                    e,
+                    name,
+                    data,
+                    sortType
+                );
         });
     }
 };

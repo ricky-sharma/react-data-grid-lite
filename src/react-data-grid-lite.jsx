@@ -24,7 +24,8 @@ export class DataGrid extends Component {
             onRowClick,
             onRowHover,
             onRowOut,
-            onSortComplete
+            onSortComplete,
+            onSearchComplete
         } = props
         this.state = {
             width: !isNull(width) ? width : Default_Grid_Width_VW,
@@ -86,6 +87,7 @@ export class DataGrid extends Component {
             onRowHover: !isNull(onRowHover) ? onRowHover : () => { },
             onRowOut: !isNull(onRowOut) ? onRowOut : () => { },
             onSortComplete: !isNull(onSortComplete) ? onSortComplete : () => { },
+            onSearchComplete: !isNull(onSearchComplete) ? onSearchComplete : () => { },
             editButtonEnabled: !isNull(options) && !isNull(options.editButton),
             editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
             deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
@@ -240,11 +242,25 @@ export class DataGrid extends Component {
             this.setState({
                 globalSearchInput: e.target.value
             }, () => {
-                eventGridSearchClicked(e, colName, colObject, formatting, this);
+                eventGridSearchClicked(
+                    e,
+                    colName,
+                    colObject,
+                    formatting,
+                    this,
+                    this.state.onSearchComplete
+                );
             });
         }
         else {
-            eventGridSearchClicked(e, colName, colObject, formatting, this);
+            eventGridSearchClicked(
+                e,
+                colName,
+                colObject,
+                formatting,
+                this,
+                this.state.onSearchComplete
+            );
         }
     };
 

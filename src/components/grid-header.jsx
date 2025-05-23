@@ -43,7 +43,7 @@ const GridHeader = ({
 
     // Modify headers based on buttons
     if ((buttonColEnabled)
-        && headers[headers.length - 1] !== '') {
+        && headers[headers?.length - 1] !== '') {
         headers.push('');
     }
 
@@ -51,7 +51,7 @@ const GridHeader = ({
         const thInnerHtml = length !== key + 1 ? <span></span> : null;
         const hideClass = hiddenCols.includes(key) ? 'd-none' : '';
         const inputProps = {
-            className: !isNull(header.cssClass) ? `${header.cssClass} row p-0 m-0` : 'row p-0 m-0',
+            className: !isNull(header?.cssClass) ? `${header?.cssClass} row p-0 m-0` : 'row p-0 m-0',
         };
         const colWidth = calculateColumnWidth(
             columnWidths,
@@ -69,7 +69,7 @@ const GridHeader = ({
                         "maxWidth": buttonColWidth
                     }}
                     key={key}
-                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
+                    className={`${hideClass}${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''}`}
                 >
                     <div
                         className={"p-0 emptyHeader"}
@@ -85,7 +85,7 @@ const GridHeader = ({
                         "maxWidth": colWidth
                     }}
                     key={key}
-                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
+                    className={`${hideClass}${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''}`}
                 >
                     <div {...inputProps}>
                         <div
@@ -93,13 +93,13 @@ const GridHeader = ({
                                 (e) => onHeaderClicked(
                                     e,
                                     (!isNull(concatCols) && !isNull(concatCols[key]?.cols)
-                                        ? concatCols[key]?.cols : [header.name])
+                                        ? concatCols[key]?.cols : [header?.name])
                                 )
                             }
-                            className={`p-0 pointer no-select ${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''
+                            className={`p-0 pointer no-select ${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''
                                 }`}
                         >
-                            <h4>{isNull(header.alias) || header.name === header.alias ? header.name : header.alias}</h4>
+                            <h4>{isNull(header?.alias) || header?.name === header?.alias ? header?.name : header?.alias}</h4>
                             {sortIconHtml}
                         </div>
                     </div>
@@ -163,7 +163,7 @@ const GridHeader = ({
                             <input
                                 className="searchInput"
                                 placeholder="Search"
-                                onChange={(e) => onSearchClicked(e, header.name, conCols, formatting)}
+                                onChange={(e) => onSearchClicked(e, header?.name, conCols, formatting)}
                                 type="text"
                             />
                         ) : (
