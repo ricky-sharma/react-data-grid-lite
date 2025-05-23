@@ -1,64 +1,50 @@
-//      Usage Example
-//      var People = [
-//          { name: "Name", surname: "Surname" },
-//          { name: "AAA", surname: "ZZZ" },
-//          { name: "Name", surname: "AAA" }
-//          ];
-//      People.sort(dynamicSort("name"));
-//      People.sort(dynamicSort("-surname"));
-export function dynamicSort(property) {
-    let sortOrder = -1;
+export function dynamicSort(...fields) {
+    const normalize = (val) => {
+        if (val == null) return '';
+        if (typeof val === 'number') return val;
+        if (val instanceof Date) return val.getTime();
 
-    if (property[0] === "-") {
-        sortOrder = 1;
-        property = property.slice(1);
-    }
+        if (typeof val === 'string') {
+            const parsedDate = Date.parse(val);
+            if (!isNaN(parsedDate)) return new Date(parsedDate).getTime();
+
+            // Try numeric/currency
+            const numeric = val.replace(/[^0-9.\-]+/g, '');
+            if (!isNaN(numeric) && numeric.trim() !== '' && !val.includes('-')) {
+                return parseFloat(numeric);
+            }
+
+            return val.trim().toLowerCase(); // Proper string handling (UUIDs, emails)
+        }
+
+        return String(val).toLowerCase();
+    };
 
     return (a, b) => {
-        let valA = a?.[property];
-        let valB = b?.[property];
+        for (let field of fields) {
+            let desc = false;
+            if (field.startsWith('-')) {
+                desc = true;
+                field = field.substring(1);
+            }
 
-        // Handle null or undefined
-        if (valA == null && valB == null) return 0;
-        if (valA == null) return sortOrder;
-        if (valB == null) return -sortOrder;
+            const aVal = normalize(a[field]);
+            const bVal = normalize(b[field]);
 
-        // Normalize: Trim and lowercase for consistency
-        const normalize = (val) =>
-            typeof val === 'string' ? val.trim().toLowerCase() : val;
+            let result;
 
-        valA = normalize(valA);
-        valB = normalize(valB);
+            if (typeof aVal === 'number' && typeof bVal === 'number') {
+                result = aVal - bVal;
+            } else {
+                // Ensure both are strings
+                const aStr = String(aVal);
+                const bStr = String(bVal);
+                result = aStr.localeCompare(bStr);
+            }
 
-        // If both are numbers
-        if (!isNaN(valA) && !isNaN(valB)) {
-            return (parseFloat(valA) - parseFloat(valB)) * sortOrder;
+            if (result !== 0) return desc ? -result : result;
         }
 
-        // If both are valid Dates (and not UUID-like strings)
-        const dateA = new Date(valA);
-        const dateB = new Date(valB);
-        const isDateA = !isNaN(dateA) && /^\d{4}-/.test(valA);
-        const isDateB = !isNaN(dateB) && /^\d{4}-/.test(valB);
-
-        if (isDateA && isDateB) {
-            return (dateA - dateB) * sortOrder;
-        }
-
-        // Final fallback: strict lexicographic (for UUIDs, emails, etc.)
-        return valA.localeCompare(valB) * sortOrder;
-    };
-}
-
-//      Usage Example
-//      People.sort(dynamicSortMultiple("name", "-surname"));
-export function dynamicSortMultiple(...props) {
-    return (obj1, obj2) => {
-        let i = 0, result = 0;
-        while (result === 0 && i < props.length) {
-            result = dynamicSort(props[i])(obj1, obj2);
-            i++;
-        }
-        return result;
+        return 0;
     };
 }

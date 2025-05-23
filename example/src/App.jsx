@@ -58,7 +58,6 @@ function App() {
                         return {
                             name: val,
                             alias: 'Name',
-                            cssClass: 'nameColumn',
                             concatColumns: {
                                 columns: ['firstname', 'lastname']
                             }
@@ -93,7 +92,7 @@ function App() {
                 display: 'flex',
                 justifyContent: 'center'
             }}>
-                <h1>React Data Grid Lite Example</h1>
+                <h2>React Data Grid Lite Example</h2>
             </div>
             <DataGrid
                 columns={userColumns}
@@ -103,12 +102,6 @@ function App() {
                 maxHeight={"600px"}
                 options={options}
                 width={"1400px"}
-                onRowClick={
-                    (e, row) => {
-                        alert(row);
-                        console.log(row);
-                    }
-                }
             />
         </>
     )

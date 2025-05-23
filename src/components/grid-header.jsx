@@ -89,7 +89,13 @@ const GridHeader = ({
                 >
                     <div {...inputProps}>
                         <div
-                            onClick={(e) => onHeaderClicked(e, header.name)}
+                            onClick={
+                                (e) => onHeaderClicked(
+                                    e,
+                                    (!isNull(concatCols) && !isNull(concatCols[key]?.cols)
+                                        ? concatCols[key]?.cols : [header.name])
+                                )
+                            }
                             className={`p-0 pointer no-select ${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''
                                 }`}
                         >
