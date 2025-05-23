@@ -7,17 +7,20 @@ import { dynamicSort } from '../../helper/sort';
  * @param {Event} e - The click event
  * @param {Array} name - The name of the column/s
  * @param {object} context - The class component's context (this)
+ * @param {Event} onSortComplete - This event is triggered after the data has been sorted.
  */
 export const eventGridHeaderClicked = (
     e,
     name,
-    context
+    context,
+    onSortComplete = () => { }
 ) => {
     if (!e || !Array.isArray(name) || typeof context !== 'object') {
         return;
     }
     if (e.target.nodeName === "DIV" || e.target.nodeName === "I" || e.target.nodeName === "H4") {
         let sortColumn = [];
+        let sortType = 'desc';
         let element = e.target.nodeName === "I" ? e.target :
             e.target.nodeName === "H4" ? e.target.parentElement.querySelector("i") :
                 e.target.querySelector("i");
@@ -30,7 +33,8 @@ export const eventGridHeaderClicked = (
                 sortColumn = name.map((item) => `-${item}`);
             } else {
                 i.classList.add("fa-sort-up");
-                sortColumn = name.map((item) => `${item}`);;
+                sortColumn = name.map((item) => `${item}`);
+                sortType = 'asc';
             }
         } else {
             i.classList.add("fa-sort-down");
@@ -73,6 +77,8 @@ export const eventGridHeaderClicked = (
         context.setState({
             rowsData: data,
             toggleState: !context.state.toggleState,
+        }, () => {
+            onSortComplete(e, name, data, sortType);
         });
     }
 };

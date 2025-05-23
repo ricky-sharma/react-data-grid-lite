@@ -23,7 +23,8 @@ export class DataGrid extends Component {
             maxHeight,
             onRowClick,
             onRowHover,
-            onRowOut
+            onRowOut,
+            onSortComplete
         } = props
         this.state = {
             width: !isNull(width) ? width : Default_Grid_Width_VW,
@@ -84,6 +85,7 @@ export class DataGrid extends Component {
             onRowClick: !isNull(onRowClick) ? onRowClick : () => { },
             onRowHover: !isNull(onRowHover) ? onRowHover : () => { },
             onRowOut: !isNull(onRowOut) ? onRowOut : () => { },
+            onSortComplete: !isNull(onSortComplete) ? onSortComplete : () => { },
             editButtonEnabled: !isNull(options) && !isNull(options.editButton),
             editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
             deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
@@ -230,7 +232,7 @@ export class DataGrid extends Component {
     }
 
     onHeaderClicked = (e, name) => {
-        eventGridHeaderClicked(e, name, this);
+        eventGridHeaderClicked(e, name, this, this.state.onSortComplete);
     };
 
     onSearchClicked = (e, colName, colObject, formatting) => {
@@ -301,11 +303,14 @@ export class DataGrid extends Component {
             enableDownload,
             downloadFilename,
             globalSearchInput,
-            gridID
+            gridID,
+            enableColumnSearch,
+            headerCssClass,
+            gridCssClass
         } = this.state
         return (
-            <div className={!isNull(this.state.gridCssClass) ?
-                `${this.state.gridCssClass} react-data-grid-lite-component` :
+            <div className={!isNull(gridCssClass) ?
+                `${gridCssClass} react-data-grid-lite-component` :
                 "react-data-grid-lite-component"}
                 style={{ maxWidth: maxWidth, width: width }}>
                 <div className="mx-0 px-0">
@@ -319,7 +324,7 @@ export class DataGrid extends Component {
                                         value={globalSearchInput}
                                         className="globalSearch"
                                         placeholder="Global Search"
-                                        onChange={(e) => this.onSearchClicked(e, '##globalSearch##', this.state.columns)}
+                                        onChange={(e) => this.onSearchClicked(e, '##globalSearch##', columns)}
                                         type="text" />
                                 </div>
                                 : null)}
@@ -346,18 +351,18 @@ export class DataGrid extends Component {
                             : null)
                         }
                     </div>
-                    <div className={!isNull(this.state.gridCssClass) ? `${this.state.gridCssClass} col-12 m-0 p-0 react-data-grid-lite` : "col-12 m-0 p-0 react-data-grid-lite"}>
+                    <div className={!isNull(gridCssClass) ? `${gridCssClass} col-12 m-0 p-0 react-data-grid-lite` : "col-12 m-0 p-0 react-data-grid-lite"}>
                         <div className="row col-12 m-0 p-0" >
                             <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0 no-select">
                                 <GridHeader
-                                    columns={this.state.columns}
-                                    hiddenColIndex={this.state.hiddenColIndex}
-                                    enableColumnSearch={this.state.enableColumnSearch}
-                                    concatColumns={this.state.concatColumns}
-                                    editButtonEnabled={this.state.editButtonEnabled}
-                                    deleteButtonEnabled={this.state.deleteButtonEnabled}
-                                    headerCssClass={this.state.headerCssClass}
-                                    gridID={this.state.gridID}
+                                    columns={columns}
+                                    hiddenColIndex={hiddenColIndex}
+                                    enableColumnSearch={enableColumnSearch}
+                                    concatColumns={concatColumns}
+                                    editButtonEnabled={editButtonEnabled}
+                                    deleteButtonEnabled={deleteButtonEnabled}
+                                    headerCssClass={headerCssClass}
+                                    gridID={gridID}
                                     onHeaderClicked={this.onHeaderClicked}
                                     onSearchClicked={this.onSearchClicked}
                                     columnWidths={columnWidths}
