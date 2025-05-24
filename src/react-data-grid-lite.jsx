@@ -203,7 +203,7 @@ export class DataGrid extends Component {
             noOfPages: noOfPages,
             lastPageRows: lastPageRows,
             pagerSelectOptions: pagerSelectOptions.map((item, key) =>
-                <option key={key} className="select-Item" value={item}>
+                <option key={key} value={item}>
                     {item}
                 </option>)
         })
@@ -372,30 +372,30 @@ export class DataGrid extends Component {
                                 : null)}
                         {(enableDownload ?
                             <div
-                                className="p-0 m-0 icon-div clear-icon-div"
+                                className="p-0 m-0 icon-div alignCenter clear-icon-div"
                                 title="Reset Search"
                                 onClick={this.handleResetSearch}
                                 data-toggle="tooltip"
                             >
-                                <span className="erase-icon"></span>
+                                <span className="icon-common-css erase-icon"></span>
                             </div>
                             : null)
                         }
                         {(enableDownload ?
                             <div
-                                className="p-0 m-0 icon-div download-icon-div"
+                                className="p-0 m-0 icon-div alignCenter download-icon-div"
                                 title="Export CSV"
                                 onClick={() => eventExportToCSV(rowsData, columns, downloadFilename)}
                                 data-toggle="tooltip"
                             >
-                                Export to CSV <span className="download-icon"></span>
+                                Export to CSV <span className="icon-common-css download-icon"></span>
                             </div>
                             : null)
                         }
                     </div>
                     <div className={!isNull(gridCssClass) ? `${gridCssClass} col-12 m-0 p-0 react-data-grid-lite` : "col-12 m-0 p-0 react-data-grid-lite"}>
                         <div className="row col-12 m-0 p-0" >
-                            <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0 no-select">
+                            <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0">
                                 <GridHeader
                                     columns={columns}
                                     hiddenColIndex={hiddenColIndex}
@@ -433,7 +433,7 @@ export class DataGrid extends Component {
                                     />
                                 </tbody>
                             </table>
-                            <div className="row col-12 m-0 p-0 align-center grid-footer no-select">
+                            <div className="row col-12 m-0 p-0 alignCenter grid-footer">
                                 <div className="col-5 pl-2 m-0 p-0 txt-left">
                                     <b>
                                         {totalRows > currentPageRows ? (`${(activePage - 1) * pageRows + 1} 
@@ -445,7 +445,7 @@ export class DataGrid extends Component {
                                     </b>
                                     {" results"}
                                 </div>
-                                <div className="col-2 m-0 p-0 pagerSelect">
+                                <div className="col-2 m-0 p-0 pagerSelect alignCenter">
                                     <select
                                         value={activePage}
                                         onChange={

@@ -37,7 +37,7 @@ const GridHeader = ({
         isMobile
     );
     const sortIconHtml =
-        (<div className="sort-icon-wrapper">
+        (<div className="sort-icon-wrapper alignCenter">
             <i className='updown-icon inactive fa fa-sort' />
         </div>)
 
@@ -72,7 +72,7 @@ const GridHeader = ({
                     className={`${hideClass}${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''}`}
                 >
                     <div
-                        className={"p-0 emptyHeader"}
+                        className={"p-0 emptyHeader alignCenter"}
                     ></div>
                     {thInnerHtml}
                 </th>
@@ -87,7 +87,7 @@ const GridHeader = ({
                     key={key}
                     className={`${hideClass}${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''}`}
                 >
-                    <div {...inputProps}>
+                    <div {...inputProps} className={"alignCenter"}>
                         <div
                             onClick={
                                 (e) => onHeaderClicked(
@@ -96,10 +96,15 @@ const GridHeader = ({
                                         ? concatCols[key]?.cols : [header?.name])
                                 )
                             }
-                            className={`p-0 pointer no-select ${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''
+                            className={`p-0 alignCenter pointer ${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''
                                 }`}
                         >
-                            <h4>{isNull(header?.alias) || header?.name === header?.alias ? header?.name : header?.alias}</h4>
+                            <h4>
+                                {
+                                    isNull(header?.alias) || header?.name === header?.alias ?
+                                        header?.name : header?.alias
+                                }
+                            </h4>
                             {sortIconHtml}
                         </div>
                     </div>
@@ -144,7 +149,7 @@ const GridHeader = ({
                     className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div
-                        className={"p-0 inline-display"}
+                        className={"p-0 alignCenter"}
                     ></div>
                 </th>
             );
@@ -158,7 +163,7 @@ const GridHeader = ({
                     key={key}
                     className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
-                    <div {...inputProps}>
+                    <div {...inputProps} className={"alignCenter"}>
                         {columnSearchEnabled ? (
                             <input
                                 className="searchInput"

@@ -52,7 +52,7 @@ const GridRows = ({
                     borderColor: "transparent",
                     width: "100%"
                 }}
-                className={"align-page-center"}
+                className={"align-page-center alignCenter"}
             >
                 <th style={{
                     width: "100%",
@@ -134,12 +134,12 @@ const GridRows = ({
                     style={{
                         margin: "auto"
                     }}
-                    className="p-0 m-0 icon-div grid-icon-div"
+                    className="p-0 m-0 icon-div alignCenter grid-icon-div"
                     title="Edit"
                     onClick={(e) => editButtonEvent(e, row)}
                     data-toggle="tooltip"
                 >
-                    <span className="edit-icon-pen"></span>
+                    <span className="icon-common-css edit-icon-pen"></span>
                 </div>
             );
             const deleteBtn = deleteButtonEnabled && (
@@ -147,12 +147,12 @@ const GridRows = ({
                     style={{
                         margin: "auto"
                     }}
-                    className="p-0 m-0 icon-div grid-icon-div"
+                    className="p-0 m-0 icon-div alignCenter grid-icon-div"
                     title="Delete"
                     onClick={(e) => deleteButtonEvent(e, row)}
                     data-toggle="tooltip"
                 >
-                    <span className="delete-icon"></span>
+                    <span className="icon-common-css delete-icon"></span>
                 </div>
             );
 
@@ -170,7 +170,7 @@ const GridRows = ({
                             paddingLeft: "4px",
                             paddingRight: "2px"
                         }}
-                        className={"m-0 p-0 align-center button-column"}
+                        className={"m-0 p-0 button-column alignCenter"}
                     >
                         {editBtn}
                         {deleteBtn}
