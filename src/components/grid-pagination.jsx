@@ -20,7 +20,7 @@ const GridPagination = ({
     // Previous Button
     pageItems.push(
         <li key="prevButton" className={`arrow page-item ${page === 1 || total === 0 ? "disabled" : ""}`}>
-            <a onClick={(e) => onPrevButtonClick(e)} href="/" className="page-link remove-bg-color icon-align-center">
+            <a onClick={(e) => onPrevButtonClick(e)} href="/" className="page-link icon-align-center">
                 <b><i aria-hidden="true" className="arrow">&laquo;</i></b>
             </a>
         </li>
@@ -30,7 +30,7 @@ const GridPagination = ({
     if (page > 2 && total > 3) {
         pageItems.push(
             <li key="leftDots" className="m-0 p-0 page-item">
-                <a href="/" onClick={(e) => onPageChange(e, page - 2)} className="page-link"><b>..</b></a>
+                <a href="/" onClick={(e) => onPageChange(e, page - 2)} className="page-link dot"><b>..</b></a>
             </li>
         );
     }
@@ -68,14 +68,14 @@ const GridPagination = ({
     if (total - 1 > page && total > 3) {
         pageItems.push(
             <li key="rightDots" className="m-0 p-0 page-item">
-                <a href="/" onClick={(e) => onPageChange(e, page + 2)} className="page-link"><b>..</b></a>
+                <a href="/" onClick={(e) => onPageChange(e, page + 2)} className="page-link dot"><b>..</b></a>
             </li>
         );
     }
     // Next Button
     pageItems.push(
         <li key="nextButton" className={`arrow page-item ${page === total || total === 0 ? "disabled" : ""}`}>
-            <a onClick={(e) => onNextButtonClick(e)} href="/" className="page-link remove-bg-color icon-align-center">
+            <a onClick={(e) => onNextButtonClick(e)} href="/" className="page-link icon-align-center">
                 <b><i aria-hidden="true" className="arrow">&raquo;</i></b>
             </a>
         </li>

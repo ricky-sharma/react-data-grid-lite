@@ -46,12 +46,9 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    height: 30px !important;
 }
 
 .react-data-grid-lite-component select {
-    padding-left: 10px;
-    padding-right: 14px;
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 1px;
@@ -267,9 +264,9 @@
 
 .react-data-grid-lite-component {
     margin: auto;
-    padding: 8px;
+    padding: 6px;
     background-color: #e0e0e0;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
     .react-data-grid-lite-component .icon-div {
@@ -614,7 +611,7 @@
 
     .react-data-grid-lite-component .react-data-grid-lite {
         background-color: #fff;
-        border: 3px solid #e0e0e0;
+        border: 0;
         border-radius: 6px;
         box-shadow: 0 0 0 3px #e0e0e0;
         box-sizing: border-box;
@@ -785,7 +782,7 @@
     }
 
     .react-data-grid-lite-component .grid-footer {
-        height: 60px !important;
+        height: 70px !important;
         text-align: center;
         vertical-align: middle;
         background-color: #e0e0e0;
@@ -861,17 +858,20 @@
         }
 
     .react-data-grid-lite-component .pagerSelect {
-        max-width: 55px !important;
-        width: 30% !important;
-        border-radius: 4px;
-        height: 24px !important;
-        padding-left: 0px;
-        padding-right: 0px;
-        text-align: center;
         justify-content: center;
         align-items: center;
-        background-color: rgb(224, 224, 224);
+        display: flex;
     }
+
+        .react-data-grid-lite-component .pagerSelect select {
+            max-width: 56px !important;
+            width: 56px !important;
+            border-radius: 10px;
+            height: 38px !important;
+            padding: 0;
+            background-color: rgb(224, 224, 224);
+            text-align: center;
+        }
 
     .react-data-grid-lite-component .button-column {
         flex-wrap: wrap;
@@ -907,27 +907,25 @@
         list-style: none;
     }
 
-        .react-data-grid-lite-component .pagination li a {
-            color: rgba(0, 0, 0, 0.87) !important;
-        }
-
         .react-data-grid-lite-component .pagination > .active > a {
             color: #fff !important;
         }
 
         .react-data-grid-lite-component .pagination li a {
             border: 0;
-            font-size: 95% !important;
-            width: 24px;
-            height: 24px;
+            border-radius: 10px !important;
             color: #999 !important;
-            margin: 0 1px;
-            line-height: 24px;
-            border-radius: 20px !important;
+            display: flex;
+            font-size: 96% !important;
+            height: 32px;
+            line-height: 32px;
+            margin: 0px 2px;
+            padding: 0px;
             text-align: center;
-            padding: 0;
-            display: block;
             text-decoration: none !important;
+            width: 32px;
+            justify-content: center;
+            align-items: center;
         }
 
             .react-data-grid-lite-component .pagination li a:hover {
@@ -939,6 +937,20 @@
             background: #808080;
             pointer-events: none;
         }
+
+        .react-data-grid-lite-component .pagination li a.dot {
+            width: 10px !important;
+        }
+
+            .react-data-grid-lite-component .pagination li a.dot:hover {
+                background: inherit !important;
+                color: inherit !important;
+            }
+
+            .react-data-grid-lite-component .pagination li a.dot:active {
+                background: inherit !important;
+                color: inherit !important;
+            }
 
         .react-data-grid-lite-component .pagination li.disabled {
             pointer-events: none;
@@ -952,13 +964,22 @@
             transform: rotate(-6deg);
         }
 
+        .react-data-grid-lite-component .pagination li.arrow a:hover {
+            background: inherit !important;
+            color: inherit !important;
+        }
+
+        .react-data-grid-lite-component .pagination li.arrow a:active {
+            background: inherit !important;
+            color: inherit !important;
+        }
+
         .react-data-grid-lite-component .pagination li i {
             font-size: 19px;
             line-height: 14px;
             padding-top: 6px
         }
 
-        .react-data-grid-lite-component .pagination > li > .remove-bg-color:hover,
         .react-data-grid-lite-component .pagination > li > .page-link:hover {
             background-color: #c0cad3 !important;
             box-shadow: 0 0 0 0rem rgb(0 123 255 / 25%);
@@ -1082,23 +1103,29 @@
         padding-right: 2px;
     }
 
+    .react-data-grid-lite-component .pagerSelect select {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 6px;
+    }
+
     .react-data-grid-lite-component .pagination {
-        padding-right: 0px !important
+        padding: 0px !important;
+        margin: 0px !important;
     }
 
         .react-data-grid-lite-component .pagination li a {
-            height: 20px !important;
-            width: 20px !important;
-            line-height: 20px !important;
+            height: 26px !important;
+            width: 26px !important;
+            line-height: 26px !important;
+            margin: 0 !important;
+            border-radius: 6px !important;
         }
 
         .react-data-grid-lite-component .pagination li i {
             font-size: 14px !important;
             padding-top: 2px !important;
         }
-
-    .react-data-grid-lite-component .pagerSelect {
-    }
 
     .react-data-grid-lite-component .col1width50 {
         width: 50px !important;

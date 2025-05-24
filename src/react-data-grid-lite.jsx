@@ -25,7 +25,8 @@ export class DataGrid extends Component {
             onRowHover,
             onRowOut,
             onSortComplete,
-            onSearchComplete
+            onSearchComplete,
+            onPageChange
         } = props
         this.state = {
             width: !isNull(width) ? width : Default_Grid_Width_VW,
@@ -88,6 +89,7 @@ export class DataGrid extends Component {
             onRowOut: !isNull(onRowOut) ? onRowOut : () => { },
             onSortComplete: !isNull(onSortComplete) ? onSortComplete : () => { },
             onSearchComplete: !isNull(onSearchComplete) ? onSearchComplete : () => { },
+            onPageChange: !isNull(onPageChange) ? onPageChange : () => { },
             editButtonEnabled: !isNull(options) && !isNull(options.editButton),
             editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
             deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
@@ -200,16 +202,20 @@ export class DataGrid extends Component {
         this.setState({
             noOfPages: noOfPages,
             lastPageRows: lastPageRows,
-            pagerSelectOptions: pagerSelectOptions.map((o, key) => <option key={key} className="select-Item" value={o}>{o}</option>)
+            pagerSelectOptions: pagerSelectOptions.map((item, key) =>
+                <option key={key} className="select-Item" value={item}>
+                    {item}
+                </option>)
         })
     }
 
     handleForwardPage = (e) => {
         e.preventDefault();
         e.persist();
+        const prevPage = this.state.activePage;
         if (this.state.activePage !== this.state.noOfPages) {
             this.setState((prevState) => ({ activePage: prevState.activePage + 1 }), () => {
-                this.handleChangePage(e, this.state.activePage)
+                this.handleChangePage(e, this.state.activePage, prevPage)
             })
         }
     }
@@ -217,20 +223,40 @@ export class DataGrid extends Component {
     handleBackwardPage = (e) => {
         e.preventDefault();
         e.persist();
+        const prevPage = this.state.activePage;
         if (this.state.activePage !== 1) {
             this.setState((prevState) => ({ activePage: prevState.activePage - 1 }), () => {
-                this.handleChangePage(e, this.state.activePage)
+                this.handleChangePage(e, this.state.activePage, prevPage)
             })
         }
     }
 
-    handleChangePage = (e, k) => {
+    handleChangePage = (e, newPage, previousPage = -1) => {
         e.preventDefault();
-        let pageRows = this.state.pageRows
-        if (k === this.state.noOfPages)
-            this.setState({ firstRow: pageRows * (k - 1), currentPageRows: this.state.lastPageRows, activePage: k })
-        else
-            this.setState({ firstRow: pageRows * (k - 1), currentPageRows: pageRows, activePage: k })
+        const {
+            pageRows,
+            noOfPages,
+            lastPageRows,
+            activePage,
+            onPageChange
+        } = this.state;
+        const isLastPage = newPage === noOfPages;
+        const prevPage = previousPage === -1 ? activePage : previousPage;
+        this.setState({
+            firstRow: pageRows * (newPage - 1),
+            currentPageRows: isLastPage ? lastPageRows : pageRows,
+            activePage: newPage
+        }, () => {
+            if (typeof onPageChange === 'function') {
+                onPageChange(
+                    e,
+                    this.state.activePage,
+                    prevPage,
+                    this.state.currentPageRows,
+                    parseInt(this.state.firstRow + 1)
+                );
+            }
+        });
     }
 
     onHeaderClicked = (e, name) => {
@@ -419,9 +445,8 @@ export class DataGrid extends Component {
                                     </b>
                                     {" results"}
                                 </div>
-                                <div className="col-2 m-0 p-0" style={{ textAlign: "center" }}>
+                                <div className="col-2 m-0 p-0 pagerSelect">
                                     <select
-                                        className="pagerSelect"
                                         value={activePage}
                                         onChange={
                                             (e) => {
