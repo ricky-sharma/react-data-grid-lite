@@ -11,7 +11,8 @@ The `react-data-grid-lite` library is compatible with the following versions of 
 | **React 18**      | ✅ Fully Compatible |
 | **React 19**      | ✅ Fully Compatible |
 
-
+<br><br>
+----
 ## Reporting a Vulnerability
 
 If you discover a security vulnerability in this package, please report it responsibly by:
