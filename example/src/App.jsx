@@ -14,9 +14,7 @@ const options = {
             alert('Delete Button clicked!');
             console.log(row);
         }
-    },
-    downloadFilename: "test.csv",
-    enableColumnSearch: true,
+    }
 }
 
 function App() {
@@ -32,7 +30,7 @@ function App() {
                         return {
                             name: val,
                             alias: 'ID',
-                            searchEnable: true,
+                            width: '100px'
                         }
                     else if (val.toLowerCase() === 'uuid')
                         return {
@@ -43,11 +41,6 @@ function App() {
                         return {
                             name: val,
                             alias: 'Email',
-                        }
-                    else if (val.toLowerCase() === 'image')
-                        return {
-                            name: val,
-                            alias: 'Image',
                         }
                     else if (val.toLowerCase() === 'website')
                         return {
@@ -62,19 +55,11 @@ function App() {
                                 columns: ['firstname', 'lastname']
                             }
                         }
-                    else if (
-                        val.toLowerCase() === 'lastname' ||
-                        val.toLowerCase() === 'username' ||
-                        val.toLowerCase() === 'ip' ||
-                        val.toLowerCase() === 'macaddress' ||
-                        val.toLowerCase() === 'password'
-                    )
+                    else
                         return {
                             name: val,
                             hidden: true
                         }
-                    else
-                        return { name: val, }
                 }));
                 setUsers(data.data);
             })
@@ -82,26 +67,19 @@ function App() {
                 console.error('Error fetching data:', error);
             });
         trackPromise(promise);
-
     }, []);
-
 
     return (
         <>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center'
-            }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <h2>React Data Grid Lite Example</h2>
             </div>
             <DataGrid
                 columns={userColumns}
                 data={users}
                 pageSize={20}
-                height={"600px"}
-                maxHeight={"600px"}
                 options={options}
-                width={"1400px"}
+                width={"1200px"}
             />
         </>
     )
