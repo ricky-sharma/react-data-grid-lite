@@ -24,10 +24,10 @@ Moreover, the component is fully compatible with older versions of React, ensuri
 <br><br>
 ## 🗂️ Documentation
 
-- [API Reference](https://github.com/ricky-sharma/react-data-grid-lite/blob/main/docs/api.md)
-- [Events](https://github.com/ricky-sharma/react-data-grid-lite/blob/main/docs/events.md)
-- [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/main/docs/styling.md)
-- [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/main/docs/advanced.md)
+- [API Reference](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/api.md)
+- [Events](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/events.md)
+- [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/styling.md)
+- [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/advanced.md)
 <br><br>
 
 ## 📦 Installation
