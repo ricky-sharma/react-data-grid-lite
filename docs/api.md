@@ -10,8 +10,8 @@
 |    `data`             | `Array`             | Array of objects representing the rows of data to display.                                                                  |     `null`        | Yes          |
 |    `pageSize`         | `Number`            | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |     `null`        | No           |
 |    `options`          | `Object`            | An object for additional customization. Contains options like `gridClass`, `enableGlobalSearch`, etc.                       |       -           | No           |
-|    `width`            | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`).                             |    `'90vw'`       | No           |
-|    `height`           | `String` / `Number` | The height of the grid. Can be a pixel value (e.g., `'300px'`) or a percentage (e.g., `'100%'`).                            |    `'60vh'`       | No           |
+|    `width`            | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. |    `'90vw'`       | No           |
+|    `height`           | `String` / `Number` | The height of the grid. Can be a pixel value (e.g., `'300px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. |    `'60vh'`       | No           |
 |    `maxWidth`         | `String` / `Number` | The maximum width of the grid.                                                                                              |    `'100vw'`      | No           |
 |    `maxHeight`        | `String` / `Number` | The maximum height of the grid.                                                                                             |    `'100vh'`      | No           |
 |    `onRowClick`       | `Function`          | Callback function triggered when a row is clicked. The clicked row data is passed as an argument.                           |        -          | No           |
