@@ -13,7 +13,8 @@ The `react-data-grid-lite` component allows you to apply custom CSS classes to v
 
 #### 📝 Example:
 
-![image](https://github.com/user-attachments/assets/76f4f14a-7ad1-4f3e-beaf-0cb14062bcf4)
+![image](https://github.com/user-attachments/assets/cd62c3cb-dfc4-48fc-b0d0-e7392faf7518)
+
 
 Here’s how you can use these props to add custom styles:
 
@@ -40,7 +41,8 @@ In this example, `my-custom-grid`, `my-custom-header`, and `my-custom-row` would
 }
 
 .my-custom-header {
-    background-color: #cfcfcf !important;
+    background-color: #667 !important;
+    color: #ffffff !important;
 }
 
 .my-custom-row:nth-child(even) {
