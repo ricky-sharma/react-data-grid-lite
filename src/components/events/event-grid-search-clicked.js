@@ -9,7 +9,7 @@ import { formatDate } from '../../helper/date';
  * @param {Array|undefined} colObject - Optional array of column keys (e.g., for global search)
  * @param {object|undefined} formatting - Object with keys `Format` and `Type` for date formatting
  * @param {object} context - The React class component instance (`this`)
- * @param {Event} onSearchComplete - This event is triggered after a search operation is completed.
+ * @param {Function} onSearchComplete - Callback function invoked after a search operation is completed.
  */
 export const eventGridSearchClicked = (
     e,

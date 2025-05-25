@@ -118,7 +118,7 @@
 
 .react-data-grid-lite-component {
     margin: auto;
-    padding: 6px;
+    padding: 8px;
     background-color: #e0e0e0;
     border-radius: 6px;
 }
@@ -446,10 +446,6 @@
             .react-data-grid-lite-component .react-data-grid-lite table tbody {
                 overflow-x: auto !important;
                 overflow-y: auto !important;
-                max-height: 380px;
-                height: 380px;
-                width: 100%;
-                max-width: 100%;
             }
 
             .react-data-grid-lite-component .react-data-grid-lite table::-webkit-scrollbar {

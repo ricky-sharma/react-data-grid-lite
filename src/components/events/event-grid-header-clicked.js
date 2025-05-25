@@ -7,7 +7,7 @@ import { dynamicSort } from '../../helper/sort';
  * @param {Event} e - The click event
  * @param {Array} name - The name of the column/s
  * @param {object} context - The class component's context (this)
- * @param {Event} onSortComplete - This event is triggered after the data has been sorted.
+ * @param {Function} onSortComplete - Callback function that is invoked after the data has been sorted.
  */
 export const eventGridHeaderClicked = (
     e,

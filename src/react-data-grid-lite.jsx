@@ -31,8 +31,8 @@ export class DataGrid extends Component {
         this.state = {
             width: !isNull(width) ? width : Default_Grid_Width_VW,
             maxWidth: !isNull(maxWidth) ? maxWidth : '100vw',
-            height: !isNull(height) ? height : '300px',
-            maxHeight: !isNull(maxHeight) ? maxHeight : '300px',
+            height: !isNull(height) ? height : '60vh',
+            maxHeight: !isNull(maxHeight) ? maxHeight : '100vh',
             gridID: `${Math.floor(Math.random() * 1000000)}`,
             columns: !isNull(columns) ? columns : null,
             rowsData: data,
@@ -50,6 +50,23 @@ export class DataGrid extends Component {
             rowCssClass: !isNull(options) ? options.rowClass : '',
             enableColumnSearch: !isNull(options) ? options.enableColumnSearch ?? true : true,
             enableGlobalSearch: !isNull(options) ? options.enableGlobalSearch ?? true : true,
+            rowClickEnabled: !isNull(onRowClick),
+            onRowClick: !isNull(onRowClick) ? onRowClick : () => { },
+            onRowHover: !isNull(onRowHover) ? onRowHover : () => { },
+            onRowOut: !isNull(onRowOut) ? onRowOut : () => { },
+            onSortComplete: !isNull(onSortComplete) ? onSortComplete : () => { },
+            onSearchComplete: !isNull(onSearchComplete) ? onSearchComplete : () => { },
+            onPageChange: !isNull(onPageChange) ? onPageChange : () => { },
+            editButtonEnabled: !isNull(options) && !isNull(options.editButton),
+            editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
+            deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
+            deleteButtonEvent: !isNull(options) && !isNull(options.deleteButton) && !isNull(options.deleteButton.event) ? options.deleteButton.event : () => { },
+            enableDownload: !isNull(options) ? options?.enableDownload ?? true : true,
+            downloadFilename: !isNull(options) && !isNull(options?.downloadFilename) ? options?.downloadFilename : null,
+            onDownloadComplete: !isNull(options) && !isNull(options?.onDownloadComplete) ? options?.onDownloadComplete : () => { },
+            globalSearchInput: '',
+            toggleState: true,
+            prevProps: null,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
                 if (!isNull(col?.hidden))
                     return key;
@@ -82,25 +99,8 @@ export class DataGrid extends Component {
                     return col.width;
                 else
                     return null;
-            }) : [],
-            rowClickEnabled: !isNull(onRowClick),
-            onRowClick: !isNull(onRowClick) ? onRowClick : () => { },
-            onRowHover: !isNull(onRowHover) ? onRowHover : () => { },
-            onRowOut: !isNull(onRowOut) ? onRowOut : () => { },
-            onSortComplete: !isNull(onSortComplete) ? onSortComplete : () => { },
-            onSearchComplete: !isNull(onSearchComplete) ? onSearchComplete : () => { },
-            onPageChange: !isNull(onPageChange) ? onPageChange : () => { },
-            editButtonEnabled: !isNull(options) && !isNull(options.editButton),
-            editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
-            deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
-            deleteButtonEvent: !isNull(options) && !isNull(options.deleteButton) && !isNull(options.deleteButton.event) ? options.deleteButton.event : () => { },
-            toggleState: true,
-            prevProps: null,
-            enableDownload: !isNull(options) ? options.enableDownload ?? true : true,
-            downloadFilename: !isNull(options) ? options.downloadFilename : null,
-            globalSearchInput: ''
+            }) : []     
         }
-
         this.dataRecieved = this.state.rowsData
         this.searchCols = []
         this.gridHeaderRef = createRef(null);
@@ -348,7 +348,8 @@ export class DataGrid extends Component {
             gridID,
             enableColumnSearch,
             headerCssClass,
-            gridCssClass
+            gridCssClass,
+            onDownloadComplete
         } = this.state
         return (
             <div className={!isNull(gridCssClass) ?
@@ -366,26 +367,38 @@ export class DataGrid extends Component {
                                         value={globalSearchInput}
                                         className="globalSearch"
                                         placeholder="Global Search"
-                                        onChange={(e) => this.onSearchClicked(e, '##globalSearch##', columns)}
+                                        onChange={
+                                            (e) => this.onSearchClicked(
+                                                e,
+                                                '##globalSearch##',
+                                                columns
+                                            )
+                                        }
                                         type="text" />
                                 </div>
                                 : null)}
-                        {(enableDownload ?
-                            <div
+                        {(<div
                                 className="p-0 m-0 icon-div alignCenter clear-icon-div"
                                 title="Reset Search"
                                 onClick={this.handleResetSearch}
                                 data-toggle="tooltip"
                             >
                                 <span className="icon-common-css erase-icon"></span>
-                            </div>
-                            : null)
+                            </div>)
                         }
                         {(enableDownload ?
                             <div
                                 className="p-0 m-0 icon-div alignCenter download-icon-div"
                                 title="Export CSV"
-                                onClick={() => eventExportToCSV(rowsData, columns, downloadFilename)}
+                                onClick={
+                                    (e) => eventExportToCSV(
+                                        e,
+                                        rowsData,
+                                        columns,
+                                        downloadFilename,
+                                        onDownloadComplete
+                                    )
+                                }
                                 data-toggle="tooltip"
                             >
                                 Export to CSV <span className="icon-common-css download-icon"></span>
