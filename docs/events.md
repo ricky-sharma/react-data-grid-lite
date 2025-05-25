@@ -30,7 +30,7 @@ Triggered after CSV file download.
 - `blob`: Blob object of the file  
 Useful for logging or triggering post-download workflows.
 
-
+<br><br>
 ## Row-Level Action Events
 
 ### `editButtonEvent(e, row)`
@@ -41,7 +41,6 @@ Triggered when the **Edit** button in a row is clicked.
 * `row`: Data object representing the clicked row
   Use this to open edit forms or modals tied to specific row data.
 
----
 
 ### `deleteButtonEvent(e, row)`
 
@@ -51,7 +50,6 @@ Fired when the **Delete** button in a row is clicked.
 * `row`: The row data being deleted
   Typically used to confirm and process row deletions.
 
----
 
 ### `onRowClick(e, row)`
 
@@ -61,7 +59,6 @@ Called when any part of a row (not a specific button) is clicked.
 * `row`: The full row data
   Useful for row-level selection, navigation, or detailed views.
 
----
 
 ### `onRowHover(e, row)`
 
@@ -71,7 +68,6 @@ Triggered when the mouse hovers over a row.
 * `row`: Row under the cursor
   Ideal for showing tooltips, highlights, or preview actions.
 
----
 
 ### `onRowOut(e, row)`
 
@@ -80,5 +76,3 @@ Fired when the mouse leaves a row area.
 * `e`: Mouse event
 * `row`: Row from which the cursor exited
   Often used to reset styles or hide tooltips.
-
----
