@@ -18,19 +18,17 @@ Moreover, the component is fully compatible with older versions of React, ensuri
 
 * **Lightweight**: The component is optimized for small bundle size, ensuring fast load times and minimal impact on your application's overall performance.
 * **Backward Compatibility**: It supports older React versions, allowing you to use it in legacy applications without upgrading to the latest React version.
----
-
+<br><br>
 ![react-data-grid-lite](https://github.com/user-attachments/assets/948c8601-0c36-42d7-8cbf-b7753c634182)
 
----
-
-## Documentation
+<br><br>
+## 🗂️ Documentation
 
 - [API Reference](https://github.com/ricky-sharma/react-data-grid-lite/blob/main/docs/api.md)
 - [Events](https://github.com/ricky-sharma/react-data-grid-lite/blob/main/docs/events.md)
 - [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/main/docs/styling.md)
 - [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/main/docs/advanced.md)
----
+<br><br>
 
 ## 📦 Installation
 
@@ -44,7 +42,7 @@ or
 yarn add react-data-grid-lite
 ```
 
----
+<br><br>
 
 ## 🚀 Usage
 
@@ -94,9 +92,10 @@ function App() {
 export default App;
 ```
 
----
+<br><br>
 
-
+<img src="https://github.com/user-attachments/assets/8bebdae1-4ae1-4725-bffa-4790c7761feb" width="1000" />
+<br><br>
 ### ✅ Key Features
 
 * 📦 **Remote API support**: Plug in any JSON API.
@@ -105,8 +104,7 @@ export default App;
 * 🧾 **CSV export**: Download the entire grid.
 * ✏️ **Edit/Delete** buttons: Easily hook into row-level actions.
 
-* ---
-* 
+<br><br>
 ## React Compatibility Table
 
 The `react-data-grid-lite` library is compatible with the following versions of React:
@@ -116,7 +114,7 @@ The `react-data-grid-lite` library is compatible with the following versions of 
 | **React 18**      | ✅ Fully Compatible |
 | **React 19**      | ✅ Fully Compatible |
 
----
+<br><br>
 
 ### 🚀 Try It Out!
 
@@ -127,7 +125,7 @@ Feel free to fork the repository and experiment with the grid's behavior for con
 
 Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉
 
----
+<br><br>
 
 ## 📄 License
 
