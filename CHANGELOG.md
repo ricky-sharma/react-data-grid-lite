@@ -13,6 +13,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `onPageChange` — Fires on pagination changes with detailed context including current and previous page numbers, row counts, and the index of the first row on the new page.
   - `onDownloadComplete(e, filename, blob)` — Enables post-download handling such as logging, notifications, or emailing downloaded files.
 - **Changelog Initialization:** Added `CHANGELOG.md` file for version tracking and release documentation.
+- **Introduced a structured `docs/` folder with dedicated markdown files:
+  - `api.md` for component props and configuration options
+  - `events.md` for event callback documentation
+  - `styling.md` for theming and CSS customization
+  - `advanced.md` covering column width logic, performance tips, and export handling
+- Updated `README.md` with links to the new documentation files for improved maintainability and developer onboarding
 
 ### Changed
 - **Sorting Functionality:**

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import DataGrid, { trackPromise } from 'react-data-grid-lite';
-import './App.css';
 
 const options = {
     editButton: {
