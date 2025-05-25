@@ -14,7 +14,10 @@ const options = {
             alert('Delete Button clicked!');
             console.log(row);
         }
-    }
+    },
+    gridClass: "my-custom-grid",
+    headerClass: "my-custom-header",
+    rowClass: "my-custom-row"
 }
 
 function App() {

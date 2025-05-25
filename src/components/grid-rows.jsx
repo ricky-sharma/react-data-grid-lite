@@ -50,7 +50,8 @@ const GridRows = ({
                 style={{
                     height: "50px",
                     borderColor: "transparent",
-                    width: "100%"
+                    width: "100%",
+                    backgroundColor: "inherit"
                 }}
                 className={"align-page-center alignCenter"}
             >
@@ -59,7 +60,8 @@ const GridRows = ({
                     border: 0,
                     padding: "50px",
                     margin: "50px",
-                    fontWeight: "400"
+                    fontWeight: "400",
+                    backgroundColor: "inherit"
                 }}
                 >
                     {loading

@@ -13,7 +13,6 @@
 .react-data-grid-lite-component * {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: 16px;
-    color: #212529;
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -121,6 +120,7 @@
     padding: 8px;
     background-color: #e0e0e0;
     border-radius: 6px;
+    color: #212529;
 }
 
     .react-data-grid-lite-component .icon-div {
@@ -421,7 +421,6 @@
     }
 
     .react-data-grid-lite-component .react-data-grid-lite {
-        background-color: #fff;
         border: 0;
         border-radius: 6px;
         box-shadow: 0 0 0 3px #e0e0e0;
@@ -439,7 +438,7 @@
     }
 
         .react-data-grid-lite-component .react-data-grid-lite table {
-            border-radius: 5px;
+            border-radius: 10px;
             width: 100%;
         }
 
@@ -583,7 +582,6 @@
         height: 70px !important;
         text-align: center;
         vertical-align: middle;
-        background-color: #e0e0e0;
     }
 
     .react-data-grid-lite-component .searchDiv {
@@ -606,7 +604,6 @@
         display: block !important;
         padding: 4px 6px 0px 4px !important;
         margin: 0 !important;
-        background-color: #e0e0e0;
         height: 50px;
     }
 
@@ -644,6 +641,9 @@
     .react-data-grid-lite-component input[type="text" i].globalSearch,
     .react-data-grid-lite-component input[type="text" i].searchInput {
         padding: 1px 5px;
+    }
+    .react-data-grid-lite-component table.table-striped tbody tr:nth-of-type(even) {
+        background-color: #fff;
     }
 
     .react-data-grid-lite-component table.table-striped tbody tr:nth-of-type(odd) {
