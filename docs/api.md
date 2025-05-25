@@ -6,23 +6,23 @@
 
 | **Prop**              | **Type**            | **Description**                                                                                                             | **Default Value** | **Required** |
 | --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------ |
-| `columns`             | `Array`             |Array of column definitions. Each column can have properties like `name`, `width`, 'alias', 'searchEnable', 'hidden'  etc.   |     `null`        | Yes          |
-| `data`                | `Array`             | Array of objects representing the rows of data to display.                                                                  |     `null`        | Yes          |
-| `pageSize`            | `Number`            | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |     `null`        | No           |
-| `options`             | `Object`            | An object for additional customization. Contains options like `gridClass`, `enableGlobalSearch`, etc.                       |       -           | No           |
-| `width`               | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`).                             |    `'90vw'`       | No           |
-| `height`              | `String` / `Number` | The height of the grid. Can be a pixel value (e.g., `'300px'`) or a percentage (e.g., `'100%'`).                            |    `'60vh'`       | No           |
-| `maxWidth`            | `String` / `Number` | The maximum width of the grid.                                                                                              |    `'100vw'`      | No           |
-| `maxHeight`           | `String` / `Number` | The maximum height of the grid.                                                                                             |    `'100vh'`      | No           |
-| `onRowClick`          | `Function`          | Callback function triggered when a row is clicked. The clicked row data is passed as an argument.                           |        -          | No           |
-| `onRowHover`          | `Function`          | Callback function triggered when a row is hovered over.                                                                     |        -          | No           |
-| `onRowOut`            | `Function`          | Callback function triggered when the mouse leaves a hovered row.                                                            |        -          | No           |
-| `onSortComplete`      | `Function`          | Callback function triggered after sorting finishes.                                                                         |        -          | No           |
-| `onSearchComplete`    | `Function`          | Callback function triggered after a search operation.                                                                       |        -          | No           |
-| `onPageChange`        | `Function`          | Callback function triggered when the user navigates to a different page.                                                    |        -          | No           |
+|    `columns`          | `Array`             |Array of column definitions. Each column can have properties like `name`, `width`, 'alias', 'searchEnable', 'hidden'  etc.   |     `null`        | Yes          |
+|    `data`             | `Array`             | Array of objects representing the rows of data to display.                                                                  |     `null`        | Yes          |
+|    `pageSize`         | `Number`            | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |     `null`        | No           |
+|    `options`          | `Object`            | An object for additional customization. Contains options like `gridClass`, `enableGlobalSearch`, etc.                       |       -           | No           |
+|    `width`            | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`).                             |    `'90vw'`       | No           |
+|    `height`           | `String` / `Number` | The height of the grid. Can be a pixel value (e.g., `'300px'`) or a percentage (e.g., `'100%'`).                            |    `'60vh'`       | No           |
+|    `maxWidth`         | `String` / `Number` | The maximum width of the grid.                                                                                              |    `'100vw'`      | No           |
+|    `maxHeight`        | `String` / `Number` | The maximum height of the grid.                                                                                             |    `'100vh'`      | No           |
+|    `onRowClick`       | `Function`          | Callback function triggered when a row is clicked. The clicked row data is passed as an argument.                           |        -          | No           |
+|    `onRowHover`       | `Function`          | Callback function triggered when a row is hovered over.                                                                     |        -          | No           |
+|    `onRowOut`         | `Function`          | Callback function triggered when the mouse leaves a hovered row.                                                            |        -          | No           |
+|    `onSortComplete`   | `Function`          | Callback function triggered after sorting finishes.                                                                         |        -          | No           |
+|    `onSearchComplete` | `Function`          | Callback function triggered after a search operation.                                                                       |        -          | No           |
+|    `onPageChange`     | `Function`          | Callback function triggered when the user navigates to a different page.                                                    |        -          | No           |
 
-
-### **`columns` Prop Structure**
+<br><br>
+## 📊 **`columns` Prop Structure**
 
 The `columns` prop defines the layout and behavior of each column in the `DataGrid`. It is an **array** of column objects, where each object represents a column's configuration.
 
@@ -64,7 +64,8 @@ const columns = [
 
 ];
 ```
-### **`options` Prop Structure**
+<br><br>
+## ⚙️ **`options` Prop Structure**
 
 The `options` prop is an **object** that provides additional configuration settings to further customize the behavior of the `DataGrid` component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality.
 
