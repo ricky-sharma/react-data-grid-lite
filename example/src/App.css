@@ -52,7 +52,8 @@
 }
 
 .my-custom-header {
-    background-color: #cfcfcf !important;
+    background-color: #667 !important;
+    color: #ffffff !important;
 }
 
 .my-custom-row:nth-child(even) {

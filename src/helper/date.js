@@ -1,11 +1,16 @@
 export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC') => {
+    // Fallback for missing or invalid date
+    if (!date) return '';
     const d = new Date(date);
     if (isNaN(d)) return '';
 
-    // Function to pad numbers (for two-digit format)
+    // Fallback for missing or empty format string
+    if (!formatString || typeof formatString !== 'string' || formatString.trim() === '') {
+        formatString = 'yyyy-MM-dd'; // Default format fallback
+    }
+
     const pad = (n) => (n < 10 ? '0' + n : n);
 
-    // Check if DST is active in the given time zone
     const isDST = (date, timeZone) => {
         const jan = new Date(date.getFullYear(), 0, 1);
         const jul = new Date(date.getFullYear(), 6, 1);
@@ -17,7 +22,6 @@ export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC
         return currentOffset < Math.max(janOffset, julOffset);
     };
 
-    // Map of format tokens to functions
     const formatters = {
         yyyy: () => d.getFullYear(),
         MM: () => pad(d.getMonth() + 1),
@@ -25,15 +29,15 @@ export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC
         HH: () => pad(d.getHours()),
         mm: () => pad(d.getMinutes()),
         ss: () => pad(d.getSeconds()),
-        S: () => d.getMilliseconds(), // Milliseconds
-        EEEE: () => d.toLocaleString(locale, { weekday: 'long' }), // Full weekday name
-        EEE: () => d.toLocaleString(locale, { weekday: 'short' }), // Abbreviated weekday name
-        a: () => (d.getHours() >= 12 ? 'PM' : 'AM'), // AM/PM marker
-        MMMM: () => d.toLocaleString(locale, { month: 'long' }), // Full month name
-        MMM: () => d.toLocaleString(locale, { month: 'short' }), // Abbreviated month name
+        S: () => d.getMilliseconds(),
+        EEEE: () => d.toLocaleString(locale, { weekday: 'long' }),
+        EEE: () => d.toLocaleString(locale, { weekday: 'short' }),
+        a: () => (d.getHours() >= 12 ? 'PM' : 'AM'),
+        MMMM: () => d.toLocaleString(locale, { month: 'long' }),
+        MMM: () => d.toLocaleString(locale, { month: 'short' }),
         do: () => {
             const day = d.getDate();
-            if (day >= 11 && day <= 13) return day + 'th'; // Special case for 11th, 12th, 13th
+            if (day >= 11 && day <= 13) return day + 'th';
             switch (day % 10) {
                 case 1: return day + 'st';
                 case 2: return day + 'nd';
@@ -41,32 +45,19 @@ export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC
                 default: return day + 'th';
             }
         },
-        hh: () => pad((d.getHours() % 12) || 12), // 12-hour format
+        hh: () => pad((d.getHours() % 12) || 12),
         Z: () => {
             const offset = new Date(d.toLocaleString('en-US', { timeZone })).getTimezoneOffset();
             const hours = Math.floor(Math.abs(offset) / 60);
             const minutes = Math.abs(offset) % 60;
             const sign = offset > 0 ? '-' : '+';
-            return `${sign}${pad(hours)}${pad(minutes)}`; // Timezone offset (e.g., -0400)
+            return `${sign}${pad(hours)}${pad(minutes)}`;
         },
-        ZZZZ: () => d.toLocaleString(locale, { timeZoneName: 'long', timeZone }), // Full timezone name (e.g., Pacific Standard Time)
-        DST: () => isDST(d, timeZone) ? 'DST' : 'Non-DST', // Custom DST handler
+        ZZZZ: () => d.toLocaleString(locale, { timeZoneName: 'long', timeZone }),
+        DST: () => isDST(d, timeZone) ? 'DST' : 'Non-DST',
     };
 
-    // Replace format tokens with their corresponding values
     return formatString.replace(/yyyy|MM|dd|HH|mm|ss|S|EEEE|EEE|a|MMMM|MMM|do|hh|Z|ZZZZ|DST/g, (match) => {
-        if (formatters[match]) {
-            return formatters[match]();
-        }
-        return match; // Return the token if no formatter exists for it
+        return formatters[match] ? formatters[match]() : match;
     });
 };
-
-// Test the enhanced format function with timeZone
-//const date = new Date(); // Use the current date for testing
-
-//console.log(format(date, 'yyyy-MM-dd HH:mm:ss S ZZZZ DST', 'en-US', 'America/New_York'));  // Example Output: 2025-05-17 14:30:05 523 Eastern Daylight Time DST
-//console.log(format(date, 'EEEE, MMM dd, yyyy', 'en-US', 'America/Los_Angeles'));  // Example Output: Saturday, May 17, 2025
-//console.log(format(date, 'hh:mm a', 'en-US', 'UTC'));  // Example Output: 02:30 PM
-//console.log(format(date, 'do MMMM yyyy', 'en-US', 'Europe/London'));  // Example Output: 17th May 2025
-//console.log(format(date, 'yyyy-MM-dd hh:mm:ss Z DST', 'en-US', 'Europe/Paris'));  // Example Output: 2025-05-17 02:30:05 +0200 DST

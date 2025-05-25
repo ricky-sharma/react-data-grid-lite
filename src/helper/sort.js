@@ -1,74 +1,50 @@
-//      Usage Example
-//      var People = [
-//          { name: "Name", surname: "Surname" },
-//          { name: "AAA", surname: "ZZZ" },
-//          { name: "Name", surname: "AAA" }
-//          ];
-//      People.sort(dynamicSort("name"));
-//      People.sort(dynamicSort("-surname"));
-export function dynamicSort(property) {
-    let sortOrder = -1;
-    if (property[0] === "-") {
-        sortOrder = 1;
-        property = property.substr(1);
-    }
+export function dynamicSort(...fields) {
+    const normalize = (val) => {
+        if (val == null) return '';
+        if (typeof val === 'number') return val;
+        if (val instanceof Date) return val.getTime();
+
+        if (typeof val === 'string') {
+            const parsedDate = Date.parse(val);
+            if (!isNaN(parsedDate)) return new Date(parsedDate).getTime();
+
+            // Try numeric/currency
+            const numeric = val.replace(/[^0-9.\-]+/g, '');
+            if (!isNaN(numeric) && numeric.trim() !== '' && !val.includes('-')) {
+                return parseFloat(numeric);
+            }
+
+            return val.trim().toLowerCase(); // Proper string handling (UUIDs, emails)
+        }
+
+        return String(val).toLowerCase();
+    };
 
     return (a, b) => {
-        let valA = a[property];
-        let valB = b[property];
-
-        // Handle null or undefined
-        if (valA == null && valB == null) return 0;
-        if (valA == null) return sortOrder;
-        if (valB == null) return -sortOrder;
-
-        // Convert to comparable values
-        const parseCurrency = (val) => {
-            if (typeof val === 'string') {
-                const cleaned = val.replace(/[^0-9.-]+/g, '');
-                const num = parseFloat(cleaned);
-                if (!isNaN(num)) return num;
+        for (let field of fields) {
+            let desc = false;
+            if (field.startsWith('-')) {
+                desc = true;
+                field = field.substring(1);
             }
-            return val;
-        };
 
-        valA = parseCurrency(valA);
-        valB = parseCurrency(valB);
+            const aVal = normalize(a[field]);
+            const bVal = normalize(b[field]);
 
-        const isNumA = typeof valA === 'number' && !isNaN(valA);
-        const isNumB = typeof valB === 'number' && !isNaN(valB);
+            let result;
 
-        if (isNumA && !isNumB) return -1 * sortOrder;
-        if (!isNumA && isNumB) return 1 * sortOrder;
-        if (isNumA && isNumB) return (valA - valB) * sortOrder;
+            if (typeof aVal === 'number' && typeof bVal === 'number') {
+                result = aVal - bVal;
+            } else {
+                // Ensure both are strings
+                const aStr = String(aVal);
+                const bStr = String(bVal);
+                result = aStr.localeCompare(bStr);
+            }
 
-        // Try date parsing
-        const dateA = new Date(valA);
-        const dateB = new Date(valB);
-        const isDateA = !isNaN(dateA);
-        const isDateB = !isNaN(dateB);
-
-        if (isDateA && isDateB) {
-            return (dateA - dateB) * sortOrder;
+            if (result !== 0) return desc ? -result : result;
         }
 
-        // Case-insensitive string comparison
-        return String(valA).localeCompare(String(valB), undefined, {
-            sensitivity: 'base',
-            numeric: true
-        }) * sortOrder;
-    };
-}
-
-//      Usage Example
-//      People.sort(dynamicSortMultiple("name", "-surname"));
-export function dynamicSortMultiple(...props) {
-    return (obj1, obj2) => {
-        let i = 0, result = 0;
-        while (result === 0 && i < props.length) {
-            result = dynamicSort(props[i])(obj1, obj2);
-            i++;
-        }
-        return result;
+        return 0;
     };
 }

@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { Component, createRef } from 'react';
-import '../src/css/react-data-grid-lite.css';
 import { isNull, objectsEqual } from '../src/helper/common';
 import { eventExportToCSV } from './components/events/event-export-csv-clicked';
 import { eventGridHeaderClicked } from "./components/events/event-grid-header-clicked";
@@ -8,6 +7,7 @@ import { eventGridSearchClicked } from "./components/events/event-grid-search-cl
 import GridHeader from "./components/grid-header";
 import GridPagination from './components/grid-pagination';
 import GridRows from './components/grid-rows';
+import { Default_Grid_Width_VW } from './constants';
 
 export class DataGrid extends Component {
     constructor(props) {
@@ -23,13 +23,16 @@ export class DataGrid extends Component {
             maxHeight,
             onRowClick,
             onRowHover,
-            onRowOut
+            onRowOut,
+            onSortComplete,
+            onSearchComplete,
+            onPageChange
         } = props
         this.state = {
-            width: !isNull(width) ? width : '90vw',
+            width: !isNull(width) ? width : Default_Grid_Width_VW,
             maxWidth: !isNull(maxWidth) ? maxWidth : '100vw',
-            height: !isNull(height) ? height : '300px',
-            maxHeight: !isNull(maxHeight) ? maxHeight : '300px',
+            height: !isNull(height) ? height : '60vh',
+            maxHeight: !isNull(maxHeight) ? maxHeight : '100vh',
             gridID: `${Math.floor(Math.random() * 1000000)}`,
             columns: !isNull(columns) ? columns : null,
             rowsData: data,
@@ -47,6 +50,23 @@ export class DataGrid extends Component {
             rowCssClass: !isNull(options) ? options.rowClass : '',
             enableColumnSearch: !isNull(options) ? options.enableColumnSearch ?? true : true,
             enableGlobalSearch: !isNull(options) ? options.enableGlobalSearch ?? true : true,
+            rowClickEnabled: !isNull(onRowClick),
+            onRowClick: !isNull(onRowClick) ? onRowClick : () => { },
+            onRowHover: !isNull(onRowHover) ? onRowHover : () => { },
+            onRowOut: !isNull(onRowOut) ? onRowOut : () => { },
+            onSortComplete: !isNull(onSortComplete) ? onSortComplete : () => { },
+            onSearchComplete: !isNull(onSearchComplete) ? onSearchComplete : () => { },
+            onPageChange: !isNull(onPageChange) ? onPageChange : () => { },
+            editButtonEnabled: !isNull(options) && !isNull(options.editButton),
+            editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
+            deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
+            deleteButtonEvent: !isNull(options) && !isNull(options.deleteButton) && !isNull(options.deleteButton.event) ? options.deleteButton.event : () => { },
+            enableDownload: !isNull(options) ? options?.enableDownload ?? true : true,
+            downloadFilename: !isNull(options) && !isNull(options?.downloadFilename) ? options?.downloadFilename : null,
+            onDownloadComplete: !isNull(options) && !isNull(options?.onDownloadComplete) ? options?.onDownloadComplete : () => { },
+            globalSearchInput: '',
+            toggleState: true,
+            prevProps: null,
             hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
                 if (!isNull(col?.hidden))
                     return key;
@@ -79,22 +99,8 @@ export class DataGrid extends Component {
                     return col.width;
                 else
                     return null;
-            }) : [],
-            rowClickEnabled: !isNull(onRowClick),
-            onRowClick: !isNull(onRowClick) ? onRowClick : () => { },
-            onRowHover: !isNull(onRowHover) ? onRowHover : () => { },
-            onRowOut: !isNull(onRowOut) ? onRowOut : () => { },
-            editButtonEnabled: !isNull(options) && !isNull(options.editButton),
-            editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
-            deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
-            deleteButtonEvent: !isNull(options) && !isNull(options.deleteButton) && !isNull(options.deleteButton.event) ? options.deleteButton.event : () => { },
-            toggleState: true,
-            prevProps: null,
-            enableDownload: !isNull(options) ? options.enableDownload ?? true : true,
-            downloadFilename: !isNull(options) ? options.downloadFilename : null,
-            globalSearchInput: ''
+            }) : []     
         }
-
         this.dataRecieved = this.state.rowsData
         this.searchCols = []
         this.gridHeaderRef = createRef(null);
@@ -196,16 +202,20 @@ export class DataGrid extends Component {
         this.setState({
             noOfPages: noOfPages,
             lastPageRows: lastPageRows,
-            pagerSelectOptions: pagerSelectOptions.map((o, key) => <option key={key} className="select-Item" value={o}>{o}</option>)
+            pagerSelectOptions: pagerSelectOptions.map((item, key) =>
+                <option key={key} value={item}>
+                    {item}
+                </option>)
         })
     }
 
     handleForwardPage = (e) => {
         e.preventDefault();
         e.persist();
+        const prevPage = this.state.activePage;
         if (this.state.activePage !== this.state.noOfPages) {
             this.setState((prevState) => ({ activePage: prevState.activePage + 1 }), () => {
-                this.handleChangePage(e, this.state.activePage)
+                this.handleChangePage(e, this.state.activePage, prevPage)
             })
         }
     }
@@ -213,24 +223,44 @@ export class DataGrid extends Component {
     handleBackwardPage = (e) => {
         e.preventDefault();
         e.persist();
+        const prevPage = this.state.activePage;
         if (this.state.activePage !== 1) {
             this.setState((prevState) => ({ activePage: prevState.activePage - 1 }), () => {
-                this.handleChangePage(e, this.state.activePage)
+                this.handleChangePage(e, this.state.activePage, prevPage)
             })
         }
     }
 
-    handleChangePage = (e, k) => {
+    handleChangePage = (e, newPage, previousPage = -1) => {
         e.preventDefault();
-        let pageRows = this.state.pageRows
-        if (k === this.state.noOfPages)
-            this.setState({ firstRow: pageRows * (k - 1), currentPageRows: this.state.lastPageRows, activePage: k })
-        else
-            this.setState({ firstRow: pageRows * (k - 1), currentPageRows: pageRows, activePage: k })
+        const {
+            pageRows,
+            noOfPages,
+            lastPageRows,
+            activePage,
+            onPageChange
+        } = this.state;
+        const isLastPage = newPage === noOfPages;
+        const prevPage = previousPage === -1 ? activePage : previousPage;
+        this.setState({
+            firstRow: pageRows * (newPage - 1),
+            currentPageRows: isLastPage ? lastPageRows : pageRows,
+            activePage: newPage
+        }, () => {
+            if (typeof onPageChange === 'function') {
+                onPageChange(
+                    e,
+                    this.state.activePage,
+                    prevPage,
+                    this.state.currentPageRows,
+                    parseInt(this.state.firstRow + 1)
+                );
+            }
+        });
     }
 
     onHeaderClicked = (e, name) => {
-        eventGridHeaderClicked(e, name, this);
+        eventGridHeaderClicked(e, name, this, this.state.onSortComplete);
     };
 
     onSearchClicked = (e, colName, colObject, formatting) => {
@@ -238,11 +268,25 @@ export class DataGrid extends Component {
             this.setState({
                 globalSearchInput: e.target.value
             }, () => {
-                eventGridSearchClicked(e, colName, colObject, formatting, this);
+                eventGridSearchClicked(
+                    e,
+                    colName,
+                    colObject,
+                    formatting,
+                    this,
+                    this.state.onSearchComplete
+                );
             });
         }
         else {
-            eventGridSearchClicked(e, colName, colObject, formatting, this);
+            eventGridSearchClicked(
+                e,
+                colName,
+                colObject,
+                formatting,
+                this,
+                this.state.onSearchComplete
+            );
         }
     };
 
@@ -301,15 +345,15 @@ export class DataGrid extends Component {
             enableDownload,
             downloadFilename,
             globalSearchInput,
-            gridID
+            gridID,
+            enableColumnSearch,
+            headerCssClass,
+            gridCssClass,
+            onDownloadComplete
         } = this.state
-
-        if (isNull(columns))
-            return null;
-
         return (
-            <div className={!isNull(this.state.gridCssClass) ?
-                `${this.state.gridCssClass} react-data-grid-lite-component` :
+            <div className={!isNull(gridCssClass) ?
+                `${gridCssClass} react-data-grid-lite-component` :
                 "react-data-grid-lite-component"}
                 style={{ maxWidth: maxWidth, width: width }}>
                 <div className="mx-0 px-0">
@@ -323,45 +367,57 @@ export class DataGrid extends Component {
                                         value={globalSearchInput}
                                         className="globalSearch"
                                         placeholder="Global Search"
-                                        onChange={(e) => this.onSearchClicked(e, '##globalSearch##', this.state.columns)}
+                                        onChange={
+                                            (e) => this.onSearchClicked(
+                                                e,
+                                                '##globalSearch##',
+                                                columns
+                                            )
+                                        }
                                         type="text" />
                                 </div>
                                 : null)}
-                        {(enableDownload ?
-                            <div
-                                className="p-0 m-0 icon-div clear-icon-div"
+                        {(<div
+                                className="p-0 m-0 icon-div alignCenter clear-icon-div"
                                 title="Reset Search"
                                 onClick={this.handleResetSearch}
                                 data-toggle="tooltip"
                             >
-                                <span className="erase-icon"></span>
-                            </div>
-                            : null)
+                                <span className="icon-common-css erase-icon"></span>
+                            </div>)
                         }
                         {(enableDownload ?
                             <div
-                                className="p-0 m-0 icon-div download-icon-div"
+                                className="p-0 m-0 icon-div alignCenter download-icon-div"
                                 title="Export CSV"
-                                onClick={() => eventExportToCSV(rowsData, columns, downloadFilename)}
+                                onClick={
+                                    (e) => eventExportToCSV(
+                                        e,
+                                        rowsData,
+                                        columns,
+                                        downloadFilename,
+                                        onDownloadComplete
+                                    )
+                                }
                                 data-toggle="tooltip"
                             >
-                                Export to CSV <span className="download-icon"></span>
+                                Export to CSV <span className="icon-common-css download-icon"></span>
                             </div>
                             : null)
                         }
                     </div>
-                    <div className={!isNull(this.state.gridCssClass) ? `${this.state.gridCssClass} col-12 m-0 p-0 react-data-grid-lite` : "col-12 m-0 p-0 react-data-grid-lite"}>
+                    <div className={!isNull(gridCssClass) ? `${gridCssClass} col-12 m-0 p-0 react-data-grid-lite` : "col-12 m-0 p-0 react-data-grid-lite"}>
                         <div className="row col-12 m-0 p-0" >
-                            <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0 no-select">
+                            <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0">
                                 <GridHeader
-                                    columns={this.state.columns}
-                                    hiddenColIndex={this.state.hiddenColIndex}
-                                    enableColumnSearch={this.state.enableColumnSearch}
-                                    concatColumns={this.state.concatColumns}
-                                    editButtonEnabled={this.state.editButtonEnabled}
-                                    deleteButtonEnabled={this.state.deleteButtonEnabled}
-                                    headerCssClass={this.state.headerCssClass}
-                                    gridID={this.state.gridID}
+                                    columns={columns}
+                                    hiddenColIndex={hiddenColIndex}
+                                    enableColumnSearch={enableColumnSearch}
+                                    concatColumns={concatColumns}
+                                    editButtonEnabled={editButtonEnabled}
+                                    deleteButtonEnabled={deleteButtonEnabled}
+                                    headerCssClass={headerCssClass}
+                                    gridID={gridID}
                                     onHeaderClicked={this.onHeaderClicked}
                                     onSearchClicked={this.onSearchClicked}
                                     columnWidths={columnWidths}
@@ -390,7 +446,7 @@ export class DataGrid extends Component {
                                     />
                                 </tbody>
                             </table>
-                            <div className="row col-12 m-0 p-0 align-center grid-footer no-select">
+                            <div className="row col-12 m-0 p-0 alignCenter grid-footer">
                                 <div className="col-5 pl-2 m-0 p-0 txt-left">
                                     <b>
                                         {totalRows > currentPageRows ? (`${(activePage - 1) * pageRows + 1} 
@@ -402,9 +458,8 @@ export class DataGrid extends Component {
                                     </b>
                                     {" results"}
                                 </div>
-                                <div className="col-2 m-0 p-0" style={{ textAlign: "center" }}>
+                                <div className="col-2 m-0 p-0 pagerSelect alignCenter">
                                     <select
-                                        className="pagerSelect"
                                         value={activePage}
                                         onChange={
                                             (e) => {

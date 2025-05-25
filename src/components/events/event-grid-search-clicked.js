@@ -9,17 +9,21 @@ import { formatDate } from '../../helper/date';
  * @param {Array|undefined} colObject - Optional array of column keys (e.g., for global search)
  * @param {object|undefined} formatting - Object with keys `Format` and `Type` for date formatting
  * @param {object} context - The React class component instance (`this`)
+ * @param {Function} onSearchComplete - Callback function invoked after a search operation is completed.
  */
 export const eventGridSearchClicked = (
     e,
     colName,
     colObject = [],
-    formatting = { Format: '', Type: '' },
-    context
+    formatting = {
+        Format: '',
+        Type: ''
+    },
+    context,
+    onSearchComplete = () => { }
 ) => {
     // Basic safety checks
     if (!e || typeof colName !== 'string' || typeof context !== 'object') {
-        console.warn('Invalid parameters passed to EventGridSearchClicked.');
         return;
     }
 
@@ -142,7 +146,29 @@ export const eventGridSearchClicked = (
             currentPageRows: pageRows,
             toggleState: !context.state.toggleState
         },
-        () => context.setPagingVariables()
+        () => {
+            context.setPagingVariables();
+            if (typeof onSearchComplete === 'function') {
+                let searchColumns;
+
+                if (!isNull(colObj) && Array.isArray(colObj)) {
+                    // Global search: extract names from array of column objects
+                    searchColumns = colName === "##globalSearch##"
+                        ? colObj.map(col => col.name)
+                        : colObj;
+                } else {
+                    searchColumns = [colName];
+                }
+
+                onSearchComplete(
+                    e,
+                    searchQuery,
+                    searchColumns,
+                    data,
+                    data?.length || 0
+                );
+            }
+        }
     );
 };
 

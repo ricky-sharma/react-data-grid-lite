@@ -1,21 +1,15 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import {
-    Data_Loading_Message,
-    Desktop_Button_Column_Width,
-    Mobile_Button_Column_Width,
+    Button_Column_Key,
+    No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
 import { isNull } from '../helper/common';
 import { format } from '../helper/format';
-import { useIsMobile } from '../hooks/use-Is-Mobile';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
-import { calColWidth } from "../utils/component-utils";
-
-const LoadingIndicator = () => {
-    const { loading } = useLoadingIndicator();
-    return loading ? Data_Loading_Message : No_Data_Message;
-};
+import { useWindowWidth } from '../hooks/use-window-width';
+import { calculateColumnWidth } from "../utils/component-utils";
 
 const GridRows = ({
     rowsData = [],
@@ -37,34 +31,48 @@ const GridRows = ({
     editButtonEvent = () => { },
     deleteButtonEvent = () => { }
 }) => {
-    if (!Array.isArray(rowsData) || rowsData.length === 0) {
+    const loading = useLoadingIndicator();
+    const windowWidth = useWindowWidth();
+    const isMobile = windowWidth < 700;
+    let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
+    const buttonColWidth = calculateColumnWidth(
+        columnWidths,
+        hiddenColIndex,
+        Button_Column_Key,
+        buttonColEnabled,
+        isMobile
+    );
+
+    if (!Array.isArray(rowsData) || rowsData.length === 0 || buttonColWidth === '100%') {
         return (
             <tr
                 key="No-Data"
                 style={{
                     height: "50px",
                     borderColor: "transparent",
-                    width: "100%"
+                    width: "100%",
+                    backgroundColor: "inherit"
                 }}
-                className={"align-page-center"}
+                className={"align-page-center alignCenter"}
             >
                 <th style={{
                     width: "100%",
                     border: 0,
                     padding: "50px",
                     margin: "50px",
-                    fontWeight: "400"
+                    fontWeight: "400",
+                    backgroundColor: "inherit"
                 }}
                 >
-                    <LoadingIndicator />
+                    {loading
+                        ? <div className="loader"></div> :
+                        buttonColWidth === '100%' ?
+                            No_Column_Visible_Message
+                            : No_Data_Message}
                 </th>
             </tr>
         );
     }
-    const isMobile = useIsMobile();
-    let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    let buttonColWidth = isMobile ? Mobile_Button_Column_Width : Desktop_Button_Column_Width;
-
     return rowsData.slice(first, first + count).map((row, index) => {
         const cols = Object.values(row).map((col, key) => {
             let conValue = '';
@@ -93,7 +101,13 @@ const GridRows = ({
             const classNames = !isNull(cssClassColumns) && !isNull(cssClassColumns[key]) ? cssClassColumns[key] : '';
             const hideClass = hiddenColIndex.includes(key) ? 'd-none' : '';
             const tdClass = `${hideClass}${classNames ? ` ${classNames}` : ''}`;
-            const colWidth = calColWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
+            const colWidth = calculateColumnWidth(
+                columnWidths,
+                hiddenColIndex,
+                key,
+                buttonColEnabled,
+                isMobile
+            );
 
             return (
                 <td
@@ -122,12 +136,12 @@ const GridRows = ({
                     style={{
                         margin: "auto"
                     }}
-                    className="p-0 m-0 icon-div grid-icon-div"
+                    className="p-0 m-0 icon-div alignCenter grid-icon-div"
                     title="Edit"
                     onClick={(e) => editButtonEvent(e, row)}
                     data-toggle="tooltip"
                 >
-                    <span className="edit-icon-pen"></span>
+                    <span className="icon-common-css edit-icon-pen"></span>
                 </div>
             );
             const deleteBtn = deleteButtonEnabled && (
@@ -135,12 +149,12 @@ const GridRows = ({
                     style={{
                         margin: "auto"
                     }}
-                    className="p-0 m-0 icon-div grid-icon-div"
+                    className="p-0 m-0 icon-div alignCenter grid-icon-div"
                     title="Delete"
                     onClick={(e) => deleteButtonEvent(e, row)}
                     data-toggle="tooltip"
                 >
-                    <span className="delete-icon"></span>
+                    <span className="icon-common-css delete-icon"></span>
                 </div>
             );
 
@@ -158,7 +172,7 @@ const GridRows = ({
                             paddingLeft: "4px",
                             paddingRight: "2px"
                         }}
-                        className={"m-0 p-0 align-center button-column"}
+                        className={"m-0 p-0 button-column alignCenter"}
                     >
                         {editBtn}
                         {deleteBtn}

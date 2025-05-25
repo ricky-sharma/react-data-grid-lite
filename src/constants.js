@@ -1,7 +1,7 @@
 export const Mobile_Column_Width = "125px";
-export const Mobile_Button_Column_Width = "100px";
-export const Desktop_Button_Column_Width = "10%";
-export const No_Data_Message = "No data to display!";
-export const Data_Loading_Message = "Data loading...";
-export const CSV_File_Name = `export-${new Date().toISOString().slice(0, 10)}.csv`;
-;
+export const Button_Column_Width = "100px";
+export const No_Data_Message = "There is no data to display.";
+export const No_Column_Visible_Message = "All columns in this grid are set to hidden.";
+export const CSV_File_Name_Prefix = "export";
+export const Default_Grid_Width_VW = '90vw';
+export const Button_Column_Key = 'ButtonColumnKey';

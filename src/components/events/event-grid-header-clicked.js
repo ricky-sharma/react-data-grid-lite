@@ -5,20 +5,22 @@ import { dynamicSort } from '../../helper/sort';
  * Handles sorting logic when a table header is clicked.
  *
  * @param {Event} e - The click event
- * @param {string} name - The name of the column
+ * @param {Array} name - The name of the column/s
  * @param {object} context - The class component's context (this)
+ * @param {Function} onSortComplete - Callback function that is invoked after the data has been sorted.
  */
 export const eventGridHeaderClicked = (
     e,
     name,
-    context
+    context,
+    onSortComplete = () => { }
 ) => {
-    if (!e || typeof name !== 'string' || typeof context !== 'object') {
-        console.warn('Invalid arguments passed to EventGridHeaderClicked');
+    if (!e || !Array.isArray(name) || typeof context !== 'object') {
         return;
     }
     if (e.target.nodeName === "DIV" || e.target.nodeName === "I" || e.target.nodeName === "H4") {
-        let sortColumn = "";
+        let sortColumn = [];
+        let sortType = 'desc';
         let element = e.target.nodeName === "I" ? e.target :
             e.target.nodeName === "H4" ? e.target.parentElement.querySelector("i") :
                 e.target.querySelector("i");
@@ -28,10 +30,11 @@ export const eventGridHeaderClicked = (
         if (!isNull(element)) {
             if (element.classList.contains("fa-sort-up") || element.classList.contains("fa-sort")) {
                 i.classList.add("fa-sort-down");
-                sortColumn = name;
+                sortColumn = name.map((item) => `-${item}`);
             } else {
                 i.classList.add("fa-sort-up");
-                sortColumn = "-" + name;
+                sortColumn = name.map((item) => `${item}`);
+                sortType = 'asc';
             }
         } else {
             i.classList.add("fa-sort-down");
@@ -70,10 +73,18 @@ export const eventGridHeaderClicked = (
         }
 
         let data = context.state.rowsData;
-        data?.sort(dynamicSort(sortColumn));
+        data?.sort(dynamicSort(...sortColumn))
         context.setState({
             rowsData: data,
             toggleState: !context.state.toggleState,
+        }, () => {
+            if (typeof onSortComplete === 'function')
+                onSortComplete(
+                    e,
+                    name,
+                    data,
+                    sortType
+                );
         });
     }
 };

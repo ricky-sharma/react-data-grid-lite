@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Desktop_Button_Column_Width, Mobile_Button_Column_Width } from '../constants';
+import { Button_Column_Key } from '../constants';
 import { isNull } from '../helper/common';
-import { useIsMobile } from '../hooks/use-Is-Mobile';
-import { calColWidth } from "../utils/component-utils";
+import { useWindowWidth } from '../hooks/use-window-width';
+import { calculateColumnWidth } from "../utils/component-utils";
 
 const GridHeader = ({
     columns,
@@ -19,8 +19,9 @@ const GridHeader = ({
     columnWidths = [],
     gridHeaderRef = null
 }) => {
+    const windowWidth = useWindowWidth();
+    const isMobile = windowWidth < 700;
     if (isNull(columns)) return null;
-    const isMobile = useIsMobile();
     let headers = [...columns]; // Clone to avoid mutating props
     const hiddenCols = hiddenColIndex || [];
     const enableColSearch = enableColumnSearch || false;
@@ -28,15 +29,21 @@ const GridHeader = ({
     let columnSearchEnabled = false;
     let searchRowEnabled = false;
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    let buttonColWidth = isMobile ? Mobile_Button_Column_Width : Desktop_Button_Column_Width;
+    const buttonColWidth = calculateColumnWidth(
+        columnWidths,
+        hiddenColIndex,
+        Button_Column_Key,
+        buttonColEnabled,
+        isMobile
+    );
     const sortIconHtml =
-        (<div className="sort-icon-wrapper">
+        (<div className="sort-icon-wrapper alignCenter">
             <i className='updown-icon inactive fa fa-sort' />
         </div>)
 
     // Modify headers based on buttons
     if ((buttonColEnabled)
-        && headers[headers.length - 1] !== '') {
+        && headers[headers?.length - 1] !== '') {
         headers.push('');
     }
 
@@ -44,9 +51,15 @@ const GridHeader = ({
         const thInnerHtml = length !== key + 1 ? <span></span> : null;
         const hideClass = hiddenCols.includes(key) ? 'd-none' : '';
         const inputProps = {
-            className: !isNull(header.cssClass) ? `${header.cssClass} row p-0 m-0` : 'row p-0 m-0',
+            className: !isNull(header?.cssClass) ? `${header?.cssClass} row p-0 m-0` : 'row p-0 m-0',
         };
-        const colWidth = calColWidth(columnWidths, hiddenCols, key, buttonColEnabled, isMobile);
+        const colWidth = calculateColumnWidth(
+            columnWidths,
+            hiddenCols,
+            key,
+            buttonColEnabled,
+            isMobile
+        );
 
         if (header === '') {
             return (
@@ -56,10 +69,10 @@ const GridHeader = ({
                         "maxWidth": buttonColWidth
                     }}
                     key={key}
-                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
+                    className={`${hideClass}${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''}`}
                 >
                     <div
-                        className={"p-0 emptyHeader"}
+                        className={"p-0 emptyHeader alignCenter"}
                     ></div>
                     {thInnerHtml}
                 </th>
@@ -72,15 +85,26 @@ const GridHeader = ({
                         "maxWidth": colWidth
                     }}
                     key={key}
-                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
+                    className={`${hideClass}${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''}`}
                 >
-                    <div {...inputProps}>
+                    <div {...inputProps} className={"alignCenter"}>
                         <div
-                            onClick={(e) => onHeaderClicked(e, header.name)}
-                            className={`p-0 pointer no-select ${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''
+                            onClick={
+                                (e) => onHeaderClicked(
+                                    e,
+                                    (!isNull(concatCols) && !isNull(concatCols[key]?.cols)
+                                        ? concatCols[key]?.cols : [header?.name])
+                                )
+                            }
+                            className={`p-0 alignCenter pointer ${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''
                                 }`}
                         >
-                            <h4>{isNull(header.alias) || header.name === header.alias ? header.name : header.alias}</h4>
+                            <h4>
+                                {
+                                    isNull(header?.alias) || header?.name === header?.alias ?
+                                        header?.name : header?.alias
+                                }
+                            </h4>
                             {sortIconHtml}
                         </div>
                     </div>
@@ -99,7 +123,13 @@ const GridHeader = ({
                 ? `${header.cssClass} row searchDiv p-0 m-0`
                 : 'row searchDiv p-0 m-0',
         };
-        const colWidth = calColWidth(columnWidths, hiddenCols, key, buttonColEnabled, isMobile);
+        const colWidth = calculateColumnWidth(
+            columnWidths,
+            hiddenCols,
+            key,
+            buttonColEnabled,
+            isMobile
+        );
         columnSearchEnabled = enableColSearch
             ? header?.searchEnable ?? true
             : header?.searchEnable ?? false;
@@ -119,7 +149,7 @@ const GridHeader = ({
                     className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div
-                        className={"p-0 inline-display"}
+                        className={"p-0 alignCenter"}
                     ></div>
                 </th>
             );
@@ -133,12 +163,12 @@ const GridHeader = ({
                     key={key}
                     className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
-                    <div {...inputProps}>
+                    <div {...inputProps} className={"alignCenter"}>
                         {columnSearchEnabled ? (
                             <input
                                 className="searchInput"
                                 placeholder="Search"
-                                onChange={(e) => onSearchClicked(e, header.name, conCols, formatting)}
+                                onChange={(e) => onSearchClicked(e, header?.name, conCols, formatting)}
                                 type="text"
                             />
                         ) : (
