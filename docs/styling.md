@@ -13,7 +13,7 @@ The `react-data-grid-lite` component allows you to apply custom CSS classes to v
 
 #### 📝 Example:
 
-![image](https://github.com/user-attachments/assets/cd62c3cb-dfc4-48fc-b0d0-e7392faf7518)
+![image](https://github.com/user-attachments/assets/8bebdae1-4ae1-4725-bffa-4790c7761feb)
 
 
 Here’s how you can use these props to add custom styles:
