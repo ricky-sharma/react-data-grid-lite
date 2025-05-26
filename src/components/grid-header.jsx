@@ -38,7 +38,7 @@ const GridHeader = ({
     );
     const sortIconHtml =
         (<div className="sort-icon-wrapper alignCenter">
-            <i className='updown-icon inactive fa fa-sort' />
+            <i className='updown-icon inactive icon-sort' />
         </div>)
 
     // Modify headers based on buttons

@@ -48,27 +48,27 @@ const GridRows = ({
             <tr
                 key="No-Data"
                 style={{
-                    height: "50px",
                     borderColor: "transparent",
-                    width: "100%",
-                    backgroundColor: "inherit"
+                    backgroundColor: "transparent"
                 }}
                 className={"align-page-center alignCenter"}
             >
-                <th style={{
-                    width: "100%",
+                <th className={"alignCenter"} style={{
                     border: 0,
-                    padding: "50px",
-                    margin: "50px",
+                    padding: "0",
+                    margin: "0",
                     fontWeight: "400",
-                    backgroundColor: "inherit"
+                    backgroundColor: "transparent",
+                    top: 0,
+                    bottom: 0,
+                    position:"absolute"
                 }}
                 >
                     {loading
                         ? <div className="loader"></div> :
-                        buttonColWidth === '100%' ?
-                            No_Column_Visible_Message
-                            : No_Data_Message}
+                        !Array.isArray(rowsData) || rowsData.length === 0 ?
+                            No_Data_Message
+                            : No_Column_Visible_Message}
                 </th>
             </tr>
         );

@@ -20,7 +20,11 @@ const GridPagination = ({
     // Previous Button
     pageItems.push(
         <li key="prevButton" className={`arrow page-item ${page === 1 || total === 0 ? "disabled" : ""}`}>
-            <a onClick={(e) => onPrevButtonClick(e)} href="/" className="page-link alignCenter">
+            <a
+                style={{ background: "inherit" }}
+                onClick={(e) => onPrevButtonClick(e)}
+                href="/"
+                className="page-link alignCenter">
                 <b><i aria-hidden="true" className="arrow">&laquo;</i></b>
             </a>
         </li>
@@ -32,7 +36,12 @@ const GridPagination = ({
             style={{ visibility: page > 2 && total > 3 ? "visible" : "collapse" }}
             key="leftDots"
             className="m-0 p-0 page-item">
-            <a href="/" onClick={(e) => onPageChange(e, page - 2)} className="page-link alignCenter dot"><b>..</b></a>
+            <a
+                style={{ background: "inherit" }}
+                href="/" onClick={(e) => onPageChange(e, page - 2)}
+                className="page-link alignCenter dot">
+                <b>..</b>
+            </a>
         </li>
     );
 
@@ -40,7 +49,13 @@ const GridPagination = ({
     if (page === total && total >= 3) {
         pageItems.push(
             <li key="thirdLast" className="m-0 p-0 page-item">
-                <a href="/" onClick={(e) => onPageChange(e, total - 2)} className="page-link alignCenter">{total - 2}</a>
+                <a
+                    style={{ background: "inherit" }}
+                    href="/"
+                    onClick={(e) => onPageChange(e, total - 2)}
+                    className="page-link alignCenter">
+                    {total - 2}
+                </a>
             </li>
         );
     }
@@ -50,7 +65,13 @@ const GridPagination = ({
         if (page - 1 <= j && page + 1 >= j) {
             pageItems.push(
                 <li key={j} className={`m-0 p-0 page-item ${page === j ? 'active' : ''}`}>
-                    <a href="/" onClick={(e) => onPageChange(e, j)} className="page-link alignCenter">{j}</a>
+                    <a
+                        style={{ background: "inherit" }}
+                        href="/"
+                        onClick={(e) => onPageChange(e, j)}
+                        className="page-link alignCenter">
+                        {j}
+                    </a>
                 </li>
             );
         }
@@ -60,7 +81,13 @@ const GridPagination = ({
     if (page === 1 && total >= 3) {
         pageItems.push(
             <li key="thirdPage" className="m-0 p-0 page-item">
-                <a href="/" onClick={(e) => onPageChange(e, 3)} className="page-link alignCenter">3</a>
+                <a
+                    style={{ background: "inherit" }}
+                    href="/"
+                    onClick={(e) => onPageChange(e, 3)}
+                    className="page-link alignCenter">
+                    3
+                </a>
             </li>
         );
     }
@@ -71,14 +98,24 @@ const GridPagination = ({
             style={{ visibility: total - 1 > page && total > 3 ? "visible" : "collapse" }}
             key="rightDots"
             className="m-0 p-0 page-item">
-            <a href="/" onClick={(e) => onPageChange(e, page + 2)} className="page-link alignCenter dot"><b>..</b></a>
+            <a
+                style={{ background: "inherit" }}
+                href="/"
+                onClick={(e) => onPageChange(e, page + 2)}
+                className="page-link alignCenter dot">
+                <b>..</b>
+            </a>
         </li>
     );
 
     // Next Button
     pageItems.push(
         <li key="nextButton" className={`arrow page-item ${page === total || total === 0 ? "disabled" : ""}`}>
-            <a onClick={(e) => onNextButtonClick(e)} href="/" className="page-link alignCenter">
+            <a
+                style={{ background: "inherit" }}
+                onClick={(e) => onNextButtonClick(e)}
+                href="/"
+                className="page-link alignCenter">
                 <b><i aria-hidden="true" className="arrow">&raquo;</i></b>
             </a>
         </li>
