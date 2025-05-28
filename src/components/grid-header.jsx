@@ -41,7 +41,6 @@ const GridHeader = ({
             <i className='updown-icon inactive icon-sort' />
         </div>)
 
-    // Modify headers based on buttons
     if ((buttonColEnabled)
         && headers[headers?.length - 1] !== '') {
         headers.push('');
@@ -60,7 +59,6 @@ const GridHeader = ({
             buttonColEnabled,
             isMobile
         );
-
         if (header === '') {
             return (
                 <th
@@ -68,13 +66,20 @@ const GridHeader = ({
                         "width": buttonColWidth,
                         "maxWidth": buttonColWidth
                     }}
+                    title="Actions"
+                    data-toggle="tooltip"
                     key={key}
-                    className={`${hideClass}${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''}`}
+                    className={`${hideClass}${!isNull(header?.cssClass) ? `${header?.cssClass}` : ''}`}
                 >
                     <div
+                        style={{
+                            "width": buttonColWidth,
+                            "maxWidth": buttonColWidth
+                        }}
                         className={"p-0 emptyHeader alignCenter"}
-                    ></div>
-                    {thInnerHtml}
+                    >
+                        <i className="icon-common-css toolbox-icon emptyHeader" />
+                    </div>
                 </th>
             );
         } else {
@@ -149,6 +154,10 @@ const GridHeader = ({
                     className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div
+                        style={{
+                            "width": buttonColWidth,
+                            "maxWidth": buttonColWidth
+                        }}
                         className={"p-0 alignCenter"}
                     ></div>
                 </th>

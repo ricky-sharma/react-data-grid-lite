@@ -46,9 +46,12 @@ export const eventGridHeaderClicked = (
             const sortIcons = theadRow.getElementsByTagName("i");
             if (!isNull(sortIcons)) {
                 Array.from(sortIcons).forEach((si) => {
-                    si.classList.remove("icon-sort-up", "icon-sort-down");
-                    if (!si.classList.contains("icon-sort")) {
-                        si.classList.add("icon-sort", "inactive");
+                    if (si.classList.contains("icon-sort-up")
+                        || si.classList.contains("icon-sort-down")) {
+                        si.classList.remove("icon-sort-up", "icon-sort-down");
+                        if (!si.classList.contains("icon-sort")) {
+                            si.classList.add("icon-sort", "inactive");
+                        }
                     }
                 });
             }

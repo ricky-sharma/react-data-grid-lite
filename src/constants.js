@@ -5,3 +5,4 @@ export const No_Column_Visible_Message = "All columns in this grid are set to hi
 export const CSV_File_Name_Prefix = "export";
 export const Default_Grid_Width_VW = '90vw';
 export const Button_Column_Key = 'ButtonColumnKey';
+export const Export_To_CSV_Text = 'Export to CSV';

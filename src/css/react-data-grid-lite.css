@@ -74,11 +74,6 @@
     text-align: left !important;
 }
 
-/*.react-data-grid-lite-component .align-page-center {
-    width: 100%;
-    height: 70px;
-}*/
-
 .react-data-grid-lite-component .alignCenter {
     display: flex !important;
     justify-content: center;
@@ -127,7 +122,7 @@
     .react-data-grid-lite-component .icon-div {
         background: #e0e0e0;
         border-radius: 4px;
-        box-shadow: 0 0 0 2px #a9a9a9;
+        box-shadow: 0 0 0 1px #a9a9a9;
         height: 32px;
         letter-spacing: .001em;
         line-height: 1.43;
@@ -181,35 +176,66 @@
         .react-data-grid-lite-component .edit-icon-pen::after,
         .react-data-grid-lite-component .edit-icon-pen::before,
         .react-data-grid-lite-component .download-icon::after,
-        .react-data-grid-lite-component .download-icon::before {
+        .react-data-grid-lite-component .download-icon::before,
+        .react-data-grid-lite-component .toolbox-icon::after,
+        .react-data-grid-lite-component .toolbox-icon::before {
             content: "";
             display: block;
             box-sizing: border-box;
             position: absolute;
         }
 
-        .react-data-grid-lite-component .erase-icon::before {
-            width: 6px;
-            height: 14px;
-            border-bottom: 4px solid transparent;
-            border-radius: 1px;
-            box-shadow: 0 0 0 2px, inset 0 -2px 0 0;
-            left: 7px;
-            top: 0px;
-            transform: rotate(45deg);
+    .react-data-grid-lite-component .toolbox-icon {
+        width: 30px;
+        height: 22px;
+        border: 2px solid;
+        border-radius: 2px;
+        background-color: #e0e0e0 !important;
+    }
+
+        .react-data-grid-lite-component .toolbox-icon::before {
+            border: 2px solid;
+            border-bottom: 0;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            left: 4px;
+            width: 14px;
+            height: 4px;
+            top: -5px;
         }
 
-        .react-data-grid-lite-component .erase-icon::after {
-            background: currentColor;
+        .react-data-grid-lite-component .toolbox-icon::after {
             width: 22px;
             height: 2px;
-            bottom: 0;
-            border-radius: 20px;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            box-shadow: 0 -2px 0, inset 4px 0 0, inset -4px 0 0;
+            top: 4px;
         }
+
+
+    .react-data-grid-lite-component .erase-icon::before {
+        width: 6px;
+        height: 14px;
+        border-bottom: 4px solid transparent;
+        border-radius: 1px;
+        box-shadow: 0 0 0 2px, inset 0 -2px 0 0;
+        left: 7px;
+        top: 0px;
+        transform: rotate(45deg);
+    }
+
+    .react-data-grid-lite-component .erase-icon::after {
+        background: currentColor;
+        width: 22px;
+        height: 2px;
+        bottom: 0;
+        border-radius: 20px;
+    }
 
     .react-data-grid-lite-component .download-icon-div {
         float: right;
-        width: 150px !important;
+        width: 160px !important;
         margin-bottom: 5px !important;
         position: relative;
         top: 0px;
@@ -347,7 +373,9 @@
     .react-data-grid-lite-component .updown-icon {
         text-shadow: 1px 1px 1px #ccc;
         font-size: 15px !important;
-        margin-left: 5px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        margin-left: 2px !important;
     }
 
         .react-data-grid-lite-component .updown-icon.inactive {
@@ -423,14 +451,10 @@
 
     .react-data-grid-lite-component .react-data-grid-lite {
         border: 0;
-        border-radius: 6px;
-        box-shadow: 0 0 0 3px #e0e0e0;
         box-sizing: border-box;
         color: rgba(0, 0, 0, .87);
         display: flex;
-        flex: 1 1 0%;
         flex-direction: column;
-        font-family: Roboto, Helvetica, Arial, sans-serif;
         font-weight: 400;
         letter-spacing: .001em;
         line-height: 1.43;
@@ -446,7 +470,6 @@
             .react-data-grid-lite-component .react-data-grid-lite table tbody {
                 background-color: #fff;
                 overflow-x: auto !important;
-                overflow-y: auto !important;
             }
 
             .react-data-grid-lite-component .react-data-grid-lite table::-webkit-scrollbar {
@@ -510,7 +533,7 @@
 
                 .react-data-grid-lite-component .gridHeader th div h4 {
                     margin: 0 !important;
-                    padding: 0 5px !important;
+                    padding: 0 0 0 5px !important;
                     word-break: break-word;
                     overflow-wrap: break-word;
                     white-space: normal;
@@ -534,7 +557,7 @@
 
         .react-data-grid-lite-component .searchHeader th {
             background-color: #fff;
-            border: 0px solid !important;
+            border: 0 !important;
             position: relative;
             padding: 5px 1px 7px !important;
             vertical-align: top !important;
@@ -575,7 +598,6 @@
 
     .react-data-grid-lite-component table {
         overflow-x: auto !important;
-        overflow-y: auto !important;
         display: inline-grid !important;
     }
 
@@ -600,7 +622,7 @@
         height: 100% !important;
         font-weight: 400;
         border-radius: 2px;
-        box-shadow: rgb(224, 224, 224) 0px 0px 0px 1px;
+        box-shadow: rgb(224, 224, 224) 0px 0px 0px 2px;
         border: 0px;
         background-color: #fff;
     }
@@ -648,15 +670,15 @@
         padding: 1px 5px;
     }
 
-    .react-data-grid-lite-component table.table-striped tbody tr:nth-of-type(even) {
+    .react-data-grid-lite-component table tbody tr:nth-of-type(even) {
         background-color: #f8f8f8;
     }
 
-    .react-data-grid-lite-component table.table-striped tbody tr:nth-of-type(odd) {
+    .react-data-grid-lite-component table tbody tr:nth-of-type(odd) {
         background-color: #ebedf0;
     }
 
-    .react-data-grid-lite-component table.table-striped.table-hover tbody tr:hover {
+    .react-data-grid-lite-component table tbody tr:hover {
         background: #f5f5f5;
     }
 
@@ -754,7 +776,7 @@
         cursor: default !important;
     }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
     .react-data-grid-lite-component .react-data-grid-lite table tbody {
         max-height: 345px;
         height: 345px;
@@ -768,8 +790,6 @@
 
     .react-data-grid-lite-component .searchHeader th {
         padding: 5px 0 !important;
-        border-top: none !important;
-        border-bottom: 2px solid rgb(224, 224, 224) !important;
     }
 
         .react-data-grid-lite-component .searchHeader th div {
@@ -785,7 +805,6 @@
         }
 
     .react-data-grid-lite-component .updown-icon {
-        margin-left: 4px !important;
         font-size: 10px !important;
     }
 
@@ -827,17 +846,29 @@
     }
 
     .react-data-grid-lite-component .download-icon-div {
-        width: 125px !important;
+        width: 40px !important;
+        height: 32px !important;
+    }
+
+    .react-data-grid-lite-component .download-icon {
+        margin-left: 0px !important;
     }
 
     .react-data-grid-lite-component .clear-icon-div {
-        width: 40px;
+        width: 40px !important;
+        height: 32px !important;
+    }
+
+    .react-data-grid-lite-component .globalSearchDiv {
+        padding-top: 2px !important;
+        height: 42px;
     }
 
     .react-data-grid-lite-component input.globalSearch {
         width: 40% !important;
         padding-left: 2px;
         padding-right: 2px;
+        height: 32px !important;
     }
 
     .react-data-grid-lite-component .pagerSelect select {
@@ -917,17 +948,5 @@
 
     .react-data-grid-lite-component h4 {
         font-size: 22px !important;
-    }
-}
-
-@media (min-width: 370px) and (max-width: 600px) {
-    .react-data-grid-lite-component .searchHeader th {
-        border-bottom: 2px solid rgb(224, 224, 224) !important;
-    }
-}
-
-@media (max-width: 900px) {
-    .react-data-grid-lite-component .searchHeader th {
-        border-bottom: 2px solid rgb(224, 224, 224) !important;
     }
 }
