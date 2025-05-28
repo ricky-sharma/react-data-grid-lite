@@ -57,7 +57,6 @@ const GridRows = ({
                     border: 0,
                     padding: "0",
                     margin: "0",
-                    fontWeight: "400",
                     backgroundColor: "transparent",
                     top: 0,
                     bottom: 0,
@@ -114,8 +113,8 @@ const GridRows = ({
                     className={tdClass}
                     key={key}
                     style={{
-                        "width": colWidth,
-                        "maxWidth": colWidth
+                        width: colWidth,
+                        maxWidth: colWidth
                     }}
                 >
                     <div
@@ -133,9 +132,6 @@ const GridRows = ({
         if (buttonColEnabled) {
             const editBtn = editButtonEnabled && (
                 <div
-                    style={{
-                        margin: "auto"
-                    }}
                     className="p-0 m-0 icon-div alignCenter grid-icon-div"
                     title="Edit"
                     onClick={(e) => editButtonEvent(e, row)}
@@ -146,9 +142,6 @@ const GridRows = ({
             );
             const deleteBtn = deleteButtonEnabled && (
                 <div
-                    style={{
-                        margin: "auto"
-                    }}
                     className="p-0 m-0 icon-div alignCenter grid-icon-div"
                     title="Delete"
                     onClick={(e) => deleteButtonEvent(e, row)}
@@ -162,15 +155,15 @@ const GridRows = ({
                 <td
                     onClick={(e) => e.stopPropagation()}
                     style={{
-                        "width": buttonColWidth,
-                        "maxWidth": buttonColWidth
+                        width: buttonColWidth,
+                        maxWidth: buttonColWidth
                     }}
                     key="gridButtons"
                 >
                     <div
                         style={{
-                            paddingLeft: "4px",
-                            paddingRight: "2px"
+                            width: buttonColWidth,
+                            maxWidth: buttonColWidth
                         }}
                         className={"m-0 p-0 button-column alignCenter"}
                     >

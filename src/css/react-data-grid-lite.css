@@ -144,6 +144,7 @@
 
     .react-data-grid-lite-component .grid-icon-div {
         background: linear-gradient(180deg, #fff, #e0e0e0) !important;
+        margin: auto !important;
     }
 
     .react-data-grid-lite-component .clear-icon-div {
@@ -663,6 +664,8 @@
 
     .react-data-grid-lite-component .button-column {
         flex-wrap: wrap;
+        padding-left: 4px !important;
+        padding-right: 2px !important;
     }
 
     .react-data-grid-lite-component input[type="text" i].globalSearch,

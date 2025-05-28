@@ -63,8 +63,8 @@ const GridHeader = ({
             return (
                 <th
                     style={{
-                        "width": buttonColWidth,
-                        "maxWidth": buttonColWidth
+                        width: buttonColWidth,
+                        maxWidth: buttonColWidth
                     }}
                     title="Actions"
                     data-toggle="tooltip"
@@ -73,8 +73,8 @@ const GridHeader = ({
                 >
                     <div
                         style={{
-                            "width": buttonColWidth,
-                            "maxWidth": buttonColWidth
+                            width: buttonColWidth,
+                            maxWidth: buttonColWidth
                         }}
                         className={"p-0 emptyHeader alignCenter"}
                     >
@@ -86,8 +86,8 @@ const GridHeader = ({
             return (
                 <th
                     style={{
-                        "width": colWidth,
-                        "maxWidth": colWidth
+                        width: colWidth,
+                        maxWidth: colWidth
                     }}
                     key={key}
                     className={`${hideClass}${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''}`}
@@ -147,16 +147,16 @@ const GridHeader = ({
             return (
                 <th
                     style={{
-                        "width": buttonColWidth,
-                        "maxWidth": buttonColWidth
+                        width: buttonColWidth,
+                        maxWidth: buttonColWidth
                     }}
                     key={key}
                     className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
                 >
                     <div
                         style={{
-                            "width": buttonColWidth,
-                            "maxWidth": buttonColWidth
+                            width: buttonColWidth,
+                            maxWidth: buttonColWidth
                         }}
                         className={"p-0 alignCenter"}
                     ></div>
@@ -166,8 +166,8 @@ const GridHeader = ({
             return (
                 <th
                     style={{
-                        "width": colWidth,
-                        "maxWidth": colWidth
+                        width: colWidth,
+                        maxWidth: colWidth
                     }}
                     key={key}
                     className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
