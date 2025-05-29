@@ -11,7 +11,7 @@ export function calculateColumnWidth(
     if (!Array.isArray(colWidthArray)) return '0%';
 
     const containerWidthFallback = convertViewportUnitToPixels(Default_Grid_Width_VW);
-    const containerWidth = getContainerWidthInPixels('.react-data-grid-lite-component', containerWidthFallback);
+    const containerWidth = getContainerWidthInPixels('.r-d-g-lt-component', containerWidthFallback);
     const avoidingBelowHundredPercent = 5; // extra buffer to avoid layout shrinkage
     const buttonColumnWidth = parseFloat(Button_Column_Width?.replace?.('px', '') || '0');
     const mobileColumnWidth = parseFloat(Mobile_Column_Width?.replace?.('px', '') || '0');

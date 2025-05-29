@@ -111,6 +111,8 @@ The `react-data-grid-lite` library is compatible with the following versions of 
 Feel free to fork the repository and experiment with the grid's behavior for concatenating columns. Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉
 
 <br><br>
+🙋‍♂️ Available for freelance work! Reach out via [LinkedIn](https://www.linkedin.com/in/vinay-sharma-2022354) or check out my projects on [GitHub](https://github.com/ricky-sharma).
+<br><br>
 
 ## 📄 License
 

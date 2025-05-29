@@ -354,8 +354,8 @@ export class DataGrid extends Component {
         } = this.state
         return (
             <div className={!isNull(gridCssClass) ?
-                `${gridCssClass} react-data-grid-lite-component` :
-                "react-data-grid-lite-component"}
+                `${gridCssClass} r-d-g-lt-component` :
+                "r-d-g-lt-component"}
                 style={{ maxWidth: maxWidth, width: width }}>
                 <GridGlobalSearchBar
                     enableGlobalSearch={enableGlobalSearch}
