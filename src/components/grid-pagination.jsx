@@ -9,86 +9,72 @@ const GridPagination = ({
     onPrevButtonClick = () => { },
     onNextButtonClick = () => { }
 }) => {
-    if (enablePaging === false)
-        return null
+    if (!enablePaging) return null;
 
+    const page = parseInt(activePage), total = parseInt(noOfPages);
     const pageItems = [];
+    const commonLinkProps = {
+        style: { background: 'inherit' },
+        className: 'page-link alignCenter',
+        href: '/',
+    };
 
-    const page = parseInt(activePage);
-    const total = parseInt(noOfPages);
-
-    // Previous Button
-    pageItems.push(
-        <li key="prevButton" className={`arrow page-item ${page === 1 || total === 0 ? "disabled" : ""}`}>
-            <a onClick={(e) => onPrevButtonClick(e)} href="/" className="page-link alignCenter">
-                <b><i aria-hidden="true" className="arrow">&laquo;</i></b>
-            </a>
+    const createItem = (key, content, onClick, extraClass = '', atagClass='', style = {}) => (
+        <li key={key} className={`m-0 p-0 page-item ${extraClass}`} style={style}>
+            <a {...commonLinkProps} className={`${commonLinkProps.className} ${atagClass}`} onClick={onClick}>{content}</a>
         </li>
     );
 
-    // Left dots
+    // Prev
     pageItems.push(
-        <li
-            style={{ visibility: page > 2 && total > 3 ? "visible" : "collapse" }}
-            key="leftDots"
-            className="m-0 p-0 page-item">
-            <a href="/" onClick={(e) => onPageChange(e, page - 2)} className="page-link alignCenter dot"><b>..</b></a>
-        </li>
+        createItem(
+            'prevButton',
+            <b><i className="arrow" aria-hidden="true">&laquo;</i></b>,
+            onPrevButtonClick,
+            page === 1 || total === 0 ? 'arrow disabled' : 'arrow'
+        )
     );
 
-    // Third last page (when on last page)
+    // Left Dots
+    pageItems.push(
+        createItem('leftDots', <b>..</b>, e => onPageChange(e, page - 2), '','dot', { visibility: page > 2 && total > 3 ? "visible" : "collapse" })
+    );
+
+    // Extra left number (when on last page)
     if (page === total && total >= 3) {
         pageItems.push(
-            <li key="thirdLast" className="m-0 p-0 page-item">
-                <a href="/" onClick={(e) => onPageChange(e, total - 2)} className="page-link alignCenter">{total - 2}</a>
-            </li>
+            createItem('thirdLast', total - 2, e => onPageChange(e, total - 2))
         );
     }
 
-    // Central pagination
-    for (let j = 1; j <= total; j++) {
-        if (page - 1 <= j && page + 1 >= j) {
-            pageItems.push(
-                <li key={j} className={`m-0 p-0 page-item ${page === j ? 'active' : ''}`}>
-                    <a href="/" onClick={(e) => onPageChange(e, j)} className="page-link alignCenter">{j}</a>
-                </li>
-            );
-        }
-    }
-
-    // Third page (when on first page)
-    if (page === 1 && total >= 3) {
+    // Main Pages
+    for (let j = Math.max(1, page - 1); j <= Math.min(total, page + 1); j++) {
         pageItems.push(
-            <li key="thirdPage" className="m-0 p-0 page-item">
-                <a href="/" onClick={(e) => onPageChange(e, 3)} className="page-link alignCenter">3</a>
-            </li>
+            createItem(j, j, e => onPageChange(e, j), page === j ? 'active' : '')
         );
     }
 
-    // Right dots
+    // Extra right number (when on first page)
+    if (page === 1 && total >= 3) {
+        pageItems.push(createItem('thirdPage', 3, e => onPageChange(e, 3)));
+    }
+
+    // Right Dots
     pageItems.push(
-        <li
-            style={{ visibility: total - 1 > page && total > 3 ? "visible" : "collapse" }}
-            key="rightDots"
-            className="m-0 p-0 page-item">
-            <a href="/" onClick={(e) => onPageChange(e, page + 2)} className="page-link alignCenter dot"><b>..</b></a>
-        </li>
+        createItem('rightDots', <b>..</b>, e => onPageChange(e, page + 2), '', 'dot', { visibility: total - 1 > page && total > 3 ? "visible" : "collapse" })
     );
 
-    // Next Button
+    // Next
     pageItems.push(
-        <li key="nextButton" className={`arrow page-item ${page === total || total === 0 ? "disabled" : ""}`}>
-            <a onClick={(e) => onNextButtonClick(e)} href="/" className="page-link alignCenter">
-                <b><i aria-hidden="true" className="arrow">&raquo;</i></b>
-            </a>
-        </li>
+        createItem(
+            'nextButton',
+            <b><i className="arrow" aria-hidden="true">&raquo;</i></b>,
+            onNextButtonClick,
+            page === total || total === 0 ? 'arrow disabled' : 'arrow'
+        )
     );
 
-    return (
-        <ul className="pagination alignCenter">
-            {pageItems}
-        </ul>
-    );
+    return <ul className="pagination alignCenter">{pageItems}</ul>;
 };
 
 export default GridPagination;

@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import postcss from 'rollup-plugin-postcss';
-import strip from 'rollup-plugin-strip';
+import strip from '@rollup/plugin-strip';
 import cssnano from 'cssnano';
 
 export default {
@@ -53,7 +53,7 @@ export default {
         }),
         strip({
             include: '**/*.(js|jsx)',
-            functions: ['console.*', 'assert.*', 'debug']
-        }),
+            functions: ['console.*', 'assert.*', 'debug', 'alert']
+        })
     ]
 };

@@ -11,6 +11,25 @@ import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { calculateColumnWidth } from "../utils/component-utils";
 
+const getConcatValue = (row, key, concatColumns, columns) => {
+    const conCols = concatColumns?.[key]?.cols || [];
+    const conSep = concatColumns?.[key]?.sep || '';
+    return conCols
+        .map(conName => {
+            const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());
+            return colDef ? row[colDef.name] : '';
+        })
+        .filter(Boolean)
+        .join(conSep);
+};
+
+const getFormattedValue = (value, formatting) => {
+    if (!isNull(value) && formatting?.type) {
+        return format(value, formatting.type, formatting.format);
+    }
+    return value;
+};
+
 const GridRows = ({
     rowsData = [],
     first,
@@ -34,163 +53,75 @@ const GridRows = ({
     const loading = useLoadingIndicator();
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
-    let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = calculateColumnWidth(
-        columnWidths,
-        hiddenColIndex,
-        Button_Column_Key,
-        buttonColEnabled,
-        isMobile
-    );
+    const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
+    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex, Button_Column_Key, buttonColEnabled, isMobile);
 
     if (!Array.isArray(rowsData) || rowsData.length === 0 || buttonColWidth === '100%') {
+        const message = loading ? <div className="loader" /> :
+            (!rowsData.length ? No_Data_Message : No_Column_Visible_Message);
+
         return (
-            <tr
-                key="No-Data"
-                style={{
-                    height: "50px",
-                    borderColor: "transparent",
-                    width: "100%",
-                    backgroundColor: "inherit"
-                }}
-                className={"align-page-center alignCenter"}
-            >
-                <th style={{
-                    width: "100%",
-                    border: 0,
-                    padding: "50px",
-                    margin: "50px",
-                    fontWeight: "400",
-                    backgroundColor: "inherit"
-                }}
-                >
-                    {loading
-                        ? <div className="loader"></div> :
-                        buttonColWidth === '100%' ?
-                            No_Column_Visible_Message
-                            : No_Data_Message}
+            <tr key="No-Data" className="align-page-center alignCenter" style={{ backgroundColor: 'transparent' }}>
+                <th className="alignCenter" style={{ border: 0, bottom: 0, margin: 0, padding: 0, position: 'absolute', backgroundColor: 'transparent', top: 0 }}>
+                    {message}
                 </th>
             </tr>
         );
     }
-    return rowsData.slice(first, first + count).map((row, index) => {
+
+    return rowsData.slice(first, first + count).map((row, rowIndex) => {
         const cols = Object.values(row).map((col, key) => {
-            let conValue = '';
-            const conCols = !isNull(concatColumns) ? concatColumns[key]?.cols : null;
-            const conSep = !isNull(concatColumns) ? concatColumns[key]?.sep : null;
+            if (hiddenColIndex?.includes(key)) return null;
 
-            if (conCols) {
-                conCols.forEach((conName) => {
-                    const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());
-                    if (colDef && row[colDef.name] !== undefined) {
-                        conValue += row[colDef.name] + conSep;
-                    }
-                });
-
-                if (conValue.endsWith(conSep)) {
-                    conValue = conValue.slice(0, -conSep.length);
-                }
-            }
-
-            let columnValue = conValue !== '' ? conValue : col;
-            const formatInfo = !isNull(columnFormatting) ? columnFormatting[key] : null;
-            if (!isNull(columnValue) && formatInfo && formatInfo?.type) {
-                columnValue = format(columnValue, formatInfo.type, formatInfo.format)
-            }
-
-            const classNames = !isNull(cssClassColumns) && !isNull(cssClassColumns[key]) ? cssClassColumns[key] : '';
-            const hideClass = hiddenColIndex.includes(key) ? 'd-none' : '';
-            const tdClass = `${hideClass}${classNames ? ` ${classNames}` : ''}`;
-            const colWidth = calculateColumnWidth(
-                columnWidths,
-                hiddenColIndex,
-                key,
-                buttonColEnabled,
-                isMobile
-            );
+            const conValue = getConcatValue(row, key, concatColumns, columns);
+            const columnValue = getFormattedValue(conValue || col, columnFormatting[key]);
+            const classNames = cssClassColumns?.[key] || '';
+            const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
 
             return (
-                <td
-                    className={tdClass}
-                    key={key}
-                    style={{
-                        "width": colWidth,
-                        "maxWidth": colWidth
-                    }}
-                >
-                    <div
-                        className={`${classNames} m-0 p-0`}
-                        title={columnValue}
-                    >
-                        {columnValue}
-                    </div>
+                <td key={key} className={classNames} style={{ width: colWidth, maxWidth: colWidth }}>
+                    <div className={`${classNames} m-0 p-0`} title={columnValue}>{columnValue}</div>
                 </td>
             );
         });
 
-        // Action Buttons
-        let actionButtons = null;
         if (buttonColEnabled) {
-            const editBtn = editButtonEnabled && (
-                <div
-                    style={{
-                        margin: "auto"
-                    }}
-                    className="p-0 m-0 icon-div alignCenter grid-icon-div"
-                    title="Edit"
-                    onClick={(e) => editButtonEvent(e, row)}
-                    data-toggle="tooltip"
-                >
-                    <span className="icon-common-css edit-icon-pen"></span>
-                </div>
-            );
-            const deleteBtn = deleteButtonEnabled && (
-                <div
-                    style={{
-                        margin: "auto"
-                    }}
-                    className="p-0 m-0 icon-div alignCenter grid-icon-div"
-                    title="Delete"
-                    onClick={(e) => deleteButtonEvent(e, row)}
-                    data-toggle="tooltip"
-                >
-                    <span className="icon-common-css delete-icon"></span>
-                </div>
-            );
-
-            actionButtons = (
-                <td
-                    onClick={(e) => e.stopPropagation()}
-                    style={{
-                        "width": buttonColWidth,
-                        "maxWidth": buttonColWidth
-                    }}
-                    key="gridButtons"
-                >
-                    <div
-                        style={{
-                            paddingLeft: "4px",
-                            paddingRight: "2px"
-                        }}
-                        className={"m-0 p-0 button-column alignCenter"}
-                    >
-                        {editBtn}
-                        {deleteBtn}
+            cols.push(
+                <td key="gridButtons" onClick={e => e.stopPropagation()} style={{ width: buttonColWidth, maxWidth: buttonColWidth }}>
+                    <div className="m-0 p-0 button-column alignCenter" style={{ width: buttonColWidth }}>
+                        {editButtonEnabled && (
+                            <div
+                                className="p-0 m-0 icon-div alignCenter grid-icon-div"
+                                title="Edit"
+                                onClick={e => editButtonEvent(e, row)}
+                                data-toggle="tooltip"
+                            >
+                                <span className="icon-common-css edit-icon-pen" />
+                            </div>
+                        )}
+                        {deleteButtonEnabled && (
+                            <div
+                                className="p-0 m-0 icon-div alignCenter grid-icon-div"
+                                title="Delete"
+                                onClick={e => deleteButtonEvent(e, row)}
+                                data-toggle="tooltip"
+                            >
+                                <span className="icon-common-css delete-icon" />
+                            </div>
+                        )}
                     </div>
                 </td>
             );
         }
 
-        if (actionButtons) cols.push(actionButtons);
-
         return (
             <tr
-                key={index}
-                style={rowClickEnabled ? { cursor: 'pointer' } : {}}
-                onClick={(e) => onRowClick(e, row)}
-                onMouseOver={(e) => onRowHover(e, row)}
-                onMouseOut={(e) => onRowOut(e, row)}
+                key={rowIndex}
                 className={`${rowCssClass} gridRows`}
+                style={rowClickEnabled ? { cursor: 'pointer' } : {}}
+                onClick={e => onRowClick(e, row)}
+                onMouseOver={e => onRowHover(e, row)}
+                onMouseOut={e => onRowOut(e, row)}
             >
                 {cols}
             </tr>

@@ -57,7 +57,7 @@ export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC
         DST: () => isDST(d, timeZone) ? 'DST' : 'Non-DST',
     };
 
-    return formatString.replace(/yyyy|MM|dd|HH|mm|ss|S|EEEE|EEE|a|MMMM|MMM|do|hh|Z|ZZZZ|DST/g, (match) => {
+    return formatString.replace(/yyyy|MMMM|MMM|MM|dd|HH|mm|ss|S|EEEE|EEE|a|do|hh|ZZZZ|Z|DST/g, (match) => {
         return formatters[match] ? formatters[match]() : match;
     });
 };

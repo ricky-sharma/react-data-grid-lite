@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { Component, createRef } from 'react';
 import { isNull, objectsEqual } from '../src/helper/common';
-import { eventExportToCSV } from './components/events/event-export-csv-clicked';
 import { eventGridHeaderClicked } from "./components/events/event-grid-header-clicked";
 import { eventGridSearchClicked } from "./components/events/event-grid-search-clicked";
+import GridFooter from './components/grid-footer';
+import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridHeader from "./components/grid-header";
-import GridPagination from './components/grid-pagination';
 import GridRows from './components/grid-rows';
 import { Default_Grid_Width_VW } from './constants';
 
@@ -99,7 +99,7 @@ export class DataGrid extends Component {
                     return col.width;
                 else
                     return null;
-            }) : []     
+            }) : []
         }
         this.dataRecieved = this.state.rowsData
         this.searchCols = []
@@ -163,8 +163,8 @@ export class DataGrid extends Component {
                 return null
             }) : [],
             cssClassColumns: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.cssClass))
-                    return col.cssClass;
+                if (!isNull(col.class))
+                    return col.class;
                 else
                     return null;
             }) : [],
@@ -349,141 +349,81 @@ export class DataGrid extends Component {
             enableColumnSearch,
             headerCssClass,
             gridCssClass,
-            onDownloadComplete
+            onDownloadComplete,
+            pagerSelectOptions
         } = this.state
         return (
             <div className={!isNull(gridCssClass) ?
-                `${gridCssClass} react-data-grid-lite-component` :
-                "react-data-grid-lite-component"}
+                `${gridCssClass} r-d-g-lt-component` :
+                "r-d-g-lt-component"}
                 style={{ maxWidth: maxWidth, width: width }}>
-                <div className="mx-0 px-0">
-                    <div className="row col-12 globalSearchDiv">
-                        {
-                            (enableGlobalSearch ?
-                                <div
-                                    className="p-0 m-0">
-                                    <input
-                                        data-type={`globalSearch${gridID}`}
-                                        value={globalSearchInput}
-                                        className="globalSearch"
-                                        placeholder="Global Search"
-                                        onChange={
-                                            (e) => this.onSearchClicked(
-                                                e,
-                                                '##globalSearch##',
-                                                columns
-                                            )
-                                        }
-                                        type="text" />
-                                </div>
-                                : null)}
-                        {(<div
-                                className="p-0 m-0 icon-div alignCenter clear-icon-div"
-                                title="Reset Search"
-                                onClick={this.handleResetSearch}
-                                data-toggle="tooltip"
-                            >
-                                <span className="icon-common-css erase-icon"></span>
-                            </div>)
-                        }
-                        {(enableDownload ?
-                            <div
-                                className="p-0 m-0 icon-div alignCenter download-icon-div"
-                                title="Export CSV"
-                                onClick={
-                                    (e) => eventExportToCSV(
-                                        e,
-                                        rowsData,
-                                        columns,
-                                        downloadFilename,
-                                        onDownloadComplete
-                                    )
-                                }
-                                data-toggle="tooltip"
-                            >
-                                Export to CSV <span className="icon-common-css download-icon"></span>
-                            </div>
-                            : null)
-                        }
-                    </div>
-                    <div className={!isNull(gridCssClass) ? `${gridCssClass} col-12 m-0 p-0 react-data-grid-lite` : "col-12 m-0 p-0 react-data-grid-lite"}>
-                        <div className="row col-12 m-0 p-0" >
-                            <table className="table table-striped table-hover border-bottom border-top-0 border-right-0 border-left-0 m-0 mx-0 px-0">
-                                <GridHeader
-                                    columns={columns}
-                                    hiddenColIndex={hiddenColIndex}
-                                    enableColumnSearch={enableColumnSearch}
-                                    concatColumns={concatColumns}
-                                    editButtonEnabled={editButtonEnabled}
-                                    deleteButtonEnabled={deleteButtonEnabled}
-                                    headerCssClass={headerCssClass}
-                                    gridID={gridID}
-                                    onHeaderClicked={this.onHeaderClicked}
-                                    onSearchClicked={this.onSearchClicked}
-                                    columnWidths={columnWidths}
-                                    gridHeaderRef={this.gridHeaderRef}
-                                />
-                                <tbody style={{ height: height, maxHeight: maxHeight }}>
-                                    <GridRows
-                                        rowsData={rowsData}
-                                        first={firstRow}
-                                        count={currentPageRows}
-                                        hiddenColIndex={hiddenColIndex}
-                                        concatColumns={concatColumns}
-                                        columnFormatting={columnFormatting}
-                                        cssClassColumns={cssClassColumns}
-                                        columns={columns}
-                                        columnWidths={columnWidths}
-                                        rowCssClass={rowCssClass}
-                                        rowClickEnabled={rowClickEnabled}
-                                        onRowClick={onRowClick}
-                                        onRowHover={onRowHover}
-                                        onRowOut={onRowOut}
-                                        editButtonEnabled={editButtonEnabled}
-                                        deleteButtonEnabled={deleteButtonEnabled}
-                                        editButtonEvent={editButtonEvent}
-                                        deleteButtonEvent={deleteButtonEvent}
-                                    />
-                                </tbody>
-                            </table>
-                            <div className="row col-12 m-0 p-0 alignCenter grid-footer">
-                                <div className="col-5 pl-2 m-0 p-0 txt-left">
-                                    <b>
-                                        {totalRows > currentPageRows ? (`${(activePage - 1) * pageRows + 1} 
-                                    - ${(activePage - 1) * pageRows + currentPageRows}`) : totalRows}
-                                    </b>
-                                    {" of "}
-                                    <b>
-                                        {totalRows}
-                                    </b>
-                                    {" results"}
-                                </div>
-                                <div className="col-2 m-0 p-0 pagerSelect alignCenter">
-                                    <select
-                                        value={activePage}
-                                        onChange={
-                                            (e) => {
-                                                this.handleChangePage(e, parseInt(e.target.value))
-                                            }}>
-                                        {this.state.pagerSelectOptions}
-                                    </select>
-                                </div>
-                                <div className="float-lt col-5 m-0 p-0 pr-1">
-                                    <div className="col-12 m-0 p-0">
-                                        <GridPagination
-                                            enablePaging={enablePaging}
-                                            activePage={activePage}
-                                            noOfPages={noOfPages}
-                                            onPageChange={this.handleChangePage}
-                                            onPrevButtonClick={this.handleBackwardPage}
-                                            onNextButtonClick={this.handleForwardPage}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <GridGlobalSearchBar
+                    enableGlobalSearch={enableGlobalSearch}
+                    globalSearchInput={globalSearchInput}
+                    gridID={gridID}
+                    columns={columns}
+                    onSearchClicked={this.onSearchClicked}
+                    handleResetSearch={this.handleResetSearch}
+                    enableDownload={enableDownload}
+                    rowsData={rowsData}
+                    downloadFilename={downloadFilename}
+                    onDownloadComplete={onDownloadComplete}
+                />
 
-                    </div>
+                <div className={!isNull(gridCssClass) ?
+                    `${gridCssClass} col-12 m-0 p-0 react-data-grid-lite`
+                    : "col-12 m-0 p-0 react-data-grid-lite"}>
+                    <table className="m-0 p-0">
+                        <GridHeader
+                            columns={columns}
+                            hiddenColIndex={hiddenColIndex}
+                            enableColumnSearch={enableColumnSearch}
+                            concatColumns={concatColumns}
+                            editButtonEnabled={editButtonEnabled}
+                            deleteButtonEnabled={deleteButtonEnabled}
+                            headerCssClass={headerCssClass}
+                            gridID={gridID}
+                            onHeaderClicked={this.onHeaderClicked}
+                            onSearchClicked={this.onSearchClicked}
+                            columnWidths={columnWidths}
+                            gridHeaderRef={this.gridHeaderRef}
+                        />
+                        <tbody style={{ height: height, maxHeight: maxHeight }}>
+                            <GridRows
+                                rowsData={rowsData}
+                                first={firstRow}
+                                count={currentPageRows}
+                                hiddenColIndex={hiddenColIndex}
+                                concatColumns={concatColumns}
+                                columnFormatting={columnFormatting}
+                                cssClassColumns={cssClassColumns}
+                                columns={columns}
+                                columnWidths={columnWidths}
+                                rowCssClass={rowCssClass}
+                                rowClickEnabled={rowClickEnabled}
+                                onRowClick={onRowClick}
+                                onRowHover={onRowHover}
+                                onRowOut={onRowOut}
+                                editButtonEnabled={editButtonEnabled}
+                                deleteButtonEnabled={deleteButtonEnabled}
+                                editButtonEvent={editButtonEvent}
+                                deleteButtonEvent={deleteButtonEvent}
+                            />
+                        </tbody>
+                    </table>
+                    <GridFooter
+                        totalRows={totalRows}
+                        currentPageRows={currentPageRows}
+                        activePage={activePage}
+                        pageRows={pageRows}
+                        pagerSelectOptions={pagerSelectOptions}
+                        enablePaging={enablePaging}
+                        noOfPages={noOfPages}
+                        onPageChange={this.handleChangePage}
+                        onPrev={this.handleBackwardPage}
+                        onNext={this.handleForwardPage}
+                    />
+
                 </div>
             </div>
         )

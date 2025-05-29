@@ -6,18 +6,17 @@
 ![Forks](https://img.shields.io/github/forks/ricky-sharma/react-data-grid-lite?style=social)
 ![npm](https://img.shields.io/npm/dt/react-data-grid-lite)
 
-[![Edit react-data-grid-lite example on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/ricky-sharma/react-data-grid-lite/tree/master/example)
-
 # React Data Grid Lite
 
 A lightweight and customizable React data grid component designed for high performance and ease of use. The DataGrid component is a highly customizable, feature-rich table component designed to display tabular data in a React application. It is intended for use cases where large datasets need to be presented with advanced features such as pagination, sorting, searching, row interactions, and more.
 
-Moreover, the component is fully compatible with older versions of React, ensuring flexibility and ease of integration for projects that may not be using the latest React release. Whether you are building a simple data table or a complex enterprise-level UI, the `DataGrid` component can be seamlessly adapted to your needs. 
-
-### **Key Highlights:**
-
-* **Lightweight**: The component is optimized for small bundle size, ensuring fast load times and minimal impact on your application's overall performance.
-* **Backward Compatibility**: It supports older React versions, allowing you to use it in legacy applications without upgrading to the latest React version.
+### ✅ Key Features
+* ⚡ **Lightweight**: The component is optimized for small bundle size, ensuring fast load times.
+* 📦 **Remote API support**: Plug in any JSON API.
+* 🛠️ **Flexible column logic**: Auto-adapts to the API schema.
+* 🔍 **Searchable and alias columns**: Improves UX and readability.
+* 🧾 **CSV export**: Download the entire grid.
+* ✏️ **Edit/Delete** buttons: Easily hook into row-level actions.
 <br><br>
 ![react-data-grid-lite](https://github.com/user-attachments/assets/948c8601-0c36-42d7-8cbf-b7753c634182)
 
@@ -28,6 +27,7 @@ Moreover, the component is fully compatible with older versions of React, ensuri
 - [Events](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/events.md)
 - [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/styling.md)
 - [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/advanced.md)
+- [Format Guide](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/format_guide.md)
 <br><br>
 
 ## 📦 Installation
@@ -47,7 +47,7 @@ yarn add react-data-grid-lite
 ## 🚀 Usage
 
 ```jsx
-import React, { useState } from 'react';
+import React from 'react';
 import DataGrid from 'react-data-grid-lite';
 
 const columns = [
@@ -93,17 +93,7 @@ export default App;
 ```
 
 <br><br>
-
 <img src="https://github.com/user-attachments/assets/8bebdae1-4ae1-4725-bffa-4790c7761feb" width="1000" />
-<br><br>
-### ✅ Key Features
-
-* 📦 **Remote API support**: Plug in any JSON API.
-* 🛠️ **Flexible column logic**: Auto-adapts to the API schema.
-* 🔍 **Searchable and alias columns**: Improves UX and readability.
-* 🧾 **CSV export**: Download the entire grid.
-* ✏️ **Edit/Delete** buttons: Easily hook into row-level actions.
-
 <br><br>
 ## React Compatibility Table
 
@@ -116,20 +106,17 @@ The `react-data-grid-lite` library is compatible with the following versions of 
 
 <br><br>
 
-### 🚀 Try It Out!
+## 🚀 Try It Out!
 
-Feel free to fork the repository and experiment with the grid's behavior for concatenating columns:
-
-* Fork the repo: ![Fork Badge](https://img.shields.io/github/forks/ricky-sharma/react-data-grid-lite?style=social)
-[![Download Badge](https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github)](https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip)
-
-Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉
-
+Feel free to fork the repository and experiment with the grid's behavior for concatenating columns. Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉
 <br><br>
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+<br><br>
+## 🙋‍♂️ Available for freelance work!
+Reach out via [LinkedIn](https://www.linkedin.com/in/vinay-sharma-2022354) or check out my projects on [GitHub](https://github.com/ricky-sharma).
 
 ---
 

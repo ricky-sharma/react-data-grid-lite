@@ -25,19 +25,19 @@ export const eventGridHeaderClicked = (
             e.target.nodeName === "H4" ? e.target.parentElement.querySelector("i") :
                 e.target.querySelector("i");
         const i = document.createElement("i");
-        i.classList.add("fa", "updown-icon");
+        i.classList.add("updown-icon");
 
         if (!isNull(element)) {
-            if (element.classList.contains("fa-sort-up") || element.classList.contains("fa-sort")) {
-                i.classList.add("fa-sort-down");
+            if (element.classList.contains("icon-sort-up") || element.classList.contains("icon-sort")) {
+                i.classList.add("icon-sort-down");
                 sortColumn = name.map((item) => `-${item}`);
             } else {
-                i.classList.add("fa-sort-up");
+                i.classList.add("icon-sort-up");
                 sortColumn = name.map((item) => `${item}`);
                 sortType = 'asc';
             }
         } else {
-            i.classList.add("fa-sort-down");
+            i.classList.add("icon-sort-down");
             sortColumn = name;
         }
 
@@ -46,9 +46,12 @@ export const eventGridHeaderClicked = (
             const sortIcons = theadRow.getElementsByTagName("i");
             if (!isNull(sortIcons)) {
                 Array.from(sortIcons).forEach((si) => {
-                    si.classList.remove("fa-sort-up", "fa-sort-down");
-                    if (!si.classList.contains("fa-sort")) {
-                        si.classList.add("fa-sort", "inactive");
+                    if (si.classList.contains("icon-sort-up")
+                        || si.classList.contains("icon-sort-down")) {
+                        si.classList.remove("icon-sort-up", "icon-sort-down");
+                        if (!si.classList.contains("icon-sort")) {
+                            si.classList.add("icon-sort", "inactive");
+                        }
                     }
                 });
             }
