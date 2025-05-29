@@ -3,9 +3,9 @@ import React, { Component, createRef } from 'react';
 import { isNull, objectsEqual } from '../src/helper/common';
 import { eventGridHeaderClicked } from "./components/events/event-grid-header-clicked";
 import { eventGridSearchClicked } from "./components/events/event-grid-search-clicked";
+import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridHeader from "./components/grid-header";
-import GridPagination from './components/grid-pagination';
 import GridRows from './components/grid-rows';
 import { Default_Grid_Width_VW } from './constants';
 
@@ -349,7 +349,8 @@ export class DataGrid extends Component {
             enableColumnSearch,
             headerCssClass,
             gridCssClass,
-            onDownloadComplete
+            onDownloadComplete,
+            pagerSelectOptions
         } = this.state
         return (
             <div className={!isNull(gridCssClass) ?
@@ -410,41 +411,19 @@ export class DataGrid extends Component {
                             />
                         </tbody>
                     </table>
-                    <div className="row col-12 m-0 p-0 alignCenter grid-footer">
-                        <div className="col-5 pl-2 m-0 p-0 txt-left">
-                            <b>
-                                {totalRows > currentPageRows ? (`${(activePage - 1) * pageRows + 1} 
-                                    - ${(activePage - 1) * pageRows + currentPageRows}`) : totalRows}
-                            </b>
-                            {" of "}
-                            <b>
-                                {totalRows}
-                            </b>
-                            {" results"}
-                        </div>
-                        <div className="col-2 m-0 p-0 pagerSelect alignCenter">
-                            <select
-                                value={activePage}
-                                onChange={
-                                    (e) => {
-                                        this.handleChangePage(e, parseInt(e.target.value))
-                                    }}>
-                                {this.state.pagerSelectOptions}
-                            </select>
-                        </div>
-                        <div className="float-lt col-5 m-0 p-0 pr-1">
-                            <div className="col-12 m-0 p-0">
-                                <GridPagination
-                                    enablePaging={enablePaging}
-                                    activePage={activePage}
-                                    noOfPages={noOfPages}
-                                    onPageChange={this.handleChangePage}
-                                    onPrevButtonClick={this.handleBackwardPage}
-                                    onNextButtonClick={this.handleForwardPage}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    <GridFooter
+                        totalRows={totalRows}
+                        currentPageRows={currentPageRows}
+                        activePage={activePage}
+                        pageRows={pageRows}
+                        pagerSelectOptions={pagerSelectOptions}
+                        enablePaging={enablePaging}
+                        noOfPages={noOfPages}
+                        onPageChange={this.handleChangePage}
+                        onPrev={this.handleBackwardPage}
+                        onNext={this.handleForwardPage}
+                    />
+
                 </div>
             </div>
         )

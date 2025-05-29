@@ -33,21 +33,28 @@
 .react-data-grid-lite-component select {
     -moz-border-radius: 10px !important;
     -webkit-border-radius: 10px !important;
-    border: 0px !important;
     -moz-box-sizing: border-box !important;
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
     width: 90% !important;
     height: 100% !important;
     color: rgba(0, 0, 0) !important;
-    font-weight: 400 !important;
-    border-radius: 4px !important;
+    font-weight: 400 !important;  
 }
 
 .react-data-grid-lite-component select {
     border: 2px solid #bbb !important;
     text-indent: 4px !important;
-    text-overflow: '' !important;
+    text-overflow: ellipsis !important;
+}
+
+.react-data-grid-lite-component .pagerSelect select {
+    width: 70px !important;
+    border-radius: 8px !important;
+    height: 40px !important;
+    padding: 0;
+    background-color: rgb(224, 224, 224);
+    text-align: center;
 }
 
     .react-data-grid-lite-component select option {
@@ -60,6 +67,7 @@
 .react-data-grid-lite-component input {
     padding-left: 10px !important;
     padding-right: 14px !important;
+    border-radius: 4px !important;
 }
 
 .react-data-grid-lite-component .d-none {
@@ -68,10 +76,6 @@
 
 .react-data-grid-lite-component .pointer {
     cursor: pointer !important;
-}
-
-.react-data-grid-lite-component .txt-left {
-    text-align: left !important;
 }
 
 .react-data-grid-lite-component .alignCenter {
@@ -337,7 +341,7 @@
         }
 
     .react-data-grid-lite-component .sort-icon-wrapper {
-        width: 16px !important;
+        width: 20px !important;
         position: relative;
     }
 
@@ -376,7 +380,6 @@
         font-size: 15px !important;
         margin: 0 !important;
         padding: 0 !important;
-        margin-left: 2px !important;
     }
 
         .react-data-grid-lite-component .updown-icon.inactive {
@@ -411,23 +414,9 @@
         margin: 0;
     }
 
-    .react-data-grid-lite-component .pr-1 {
-        padding-right: .25rem !important;
-    }
-
-    .react-data-grid-lite-component .pl-2 {
-        padding-left: .5rem !important;
-    }
-
     .react-data-grid-lite-component .row {
         display: flex;
         flex-wrap: wrap;
-    }
-
-    .react-data-grid-lite-component .col {
-        flex: 1;
-        padding-left: 0.1rem;
-        padding-right: 0.1rem;
     }
 
     .react-data-grid-lite-component [class*="col-"] {
@@ -539,6 +528,7 @@
                     overflow-wrap: break-word;
                     white-space: normal;
                     text-align: center;
+                    width: 100%;
                 }
 
         .react-data-grid-lite-component .gridHeader span {
@@ -607,9 +597,7 @@
     }
 
     .react-data-grid-lite-component .grid-footer {
-        height: 70px !important;
-        text-align: center;
-        vertical-align: middle;
+        height: 72px !important;
     }
 
     .react-data-grid-lite-component .searchDiv {
@@ -624,7 +612,7 @@
         font-weight: 400;
         border-radius: 2px;
         box-shadow: rgb(224, 224, 224) 0px 0px 0px 2px;
-        border: 0px;
+        border: 0 !important;
         background-color: #fff;
     }
 
@@ -637,7 +625,7 @@
 
     .react-data-grid-lite-component input.globalSearch {
         background-color: #fff;
-        border: 0;
+        border: 0 !important;
         border-radius: 4px;
         box-shadow: 0 0 0 1px #e0e0e0;
         float: left !important;
@@ -652,15 +640,6 @@
         .react-data-grid-lite-component .searchInput::placeholder {
             text-align: center;
         }
-
-    .react-data-grid-lite-component .pagerSelect select {
-        width: 70px !important;
-        border-radius: 10px;
-        height: 38px !important;
-        padding: 0;
-        background-color: rgb(224, 224, 224);
-        text-align: center;
-    }
 
     .react-data-grid-lite-component .button-column {
         flex-wrap: wrap;
@@ -683,6 +662,11 @@
 
     .react-data-grid-lite-component table tbody tr:hover {
         background: #f5f5f5;
+    }
+
+    .react-data-grid-lite-component .page-results {
+        padding-left: 10px !important;
+        text-align: left !important;
     }
 
     .react-data-grid-lite-component .pagination {
@@ -739,7 +723,6 @@
 
             .react-data-grid-lite-component .pagination li.disabled i {
                 background: inherit !important;
-                color: #ccc;
             }
 
         .react-data-grid-lite-component .pagination i.arrow {
