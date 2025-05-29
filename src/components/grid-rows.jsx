@@ -35,14 +35,7 @@ const GridRows = ({
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = calculateColumnWidth(
-        columnWidths,
-        hiddenColIndex,
-        Button_Column_Key,
-        buttonColEnabled,
-        isMobile
-    );
-
+    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex, Button_Column_Key, buttonColEnabled, isMobile);
     if (!Array.isArray(rowsData) || rowsData.length === 0 || buttonColWidth === '100%') {
         return (
             <tr
@@ -60,7 +53,7 @@ const GridRows = ({
                     backgroundColor: "transparent",
                     top: 0,
                     bottom: 0,
-                    position:"absolute"
+                    position: "absolute"
                 }}
                 >
                     {loading
@@ -74,10 +67,10 @@ const GridRows = ({
     }
     return rowsData.slice(first, first + count).map((row, index) => {
         const cols = Object.values(row).map((col, key) => {
+            if (hiddenColIndex?.includes(key)) return null;
             let conValue = '';
             const conCols = !isNull(concatColumns) ? concatColumns[key]?.cols : null;
             const conSep = !isNull(concatColumns) ? concatColumns[key]?.sep : null;
-
             if (conCols) {
                 conCols.forEach((conName) => {
                     const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());
@@ -85,32 +78,20 @@ const GridRows = ({
                         conValue += row[colDef.name] + conSep;
                     }
                 });
-
                 if (conValue.endsWith(conSep)) {
                     conValue = conValue.slice(0, -conSep.length);
                 }
             }
-
             let columnValue = conValue !== '' ? conValue : col;
             const formatInfo = !isNull(columnFormatting) ? columnFormatting[key] : null;
             if (!isNull(columnValue) && formatInfo && formatInfo?.type) {
                 columnValue = format(columnValue, formatInfo.type, formatInfo.format)
             }
-
             const classNames = !isNull(cssClassColumns) && !isNull(cssClassColumns[key]) ? cssClassColumns[key] : '';
-            const hideClass = hiddenColIndex.includes(key) ? 'd-none' : '';
-            const tdClass = `${hideClass}${classNames ? ` ${classNames}` : ''}`;
-            const colWidth = calculateColumnWidth(
-                columnWidths,
-                hiddenColIndex,
-                key,
-                buttonColEnabled,
-                isMobile
-            );
-
+            const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
             return (
                 <td
-                    className={tdClass}
+                    className={classNames}
                     key={key}
                     style={{
                         width: colWidth,
@@ -126,7 +107,6 @@ const GridRows = ({
                 </td>
             );
         });
-
         // Action Buttons
         let actionButtons = null;
         if (buttonColEnabled) {
@@ -150,7 +130,6 @@ const GridRows = ({
                     <span className="icon-common-css delete-icon"></span>
                 </div>
             );
-
             actionButtons = (
                 <td
                     onClick={(e) => e.stopPropagation()}
@@ -173,9 +152,7 @@ const GridRows = ({
                 </td>
             );
         }
-
         if (actionButtons) cols.push(actionButtons);
-
         return (
             <tr
                 key={index}

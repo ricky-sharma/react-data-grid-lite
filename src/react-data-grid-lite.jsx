@@ -163,8 +163,8 @@ export class DataGrid extends Component {
                 return null
             }) : [],
             cssClassColumns: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.cssClass))
-                    return col.cssClass;
+                if (!isNull(col.class))
+                    return col.class;
                 else
                     return null;
             }) : [],

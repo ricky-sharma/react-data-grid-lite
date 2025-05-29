@@ -22,120 +22,76 @@ const GridHeader = ({
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
     if (isNull(columns)) return null;
-    let headers = [...columns]; // Clone to avoid mutating props
-    const hiddenCols = hiddenColIndex || [];
-    const enableColSearch = enableColumnSearch || false;
-    const concatCols = concatColumns || [];
-    let columnSearchEnabled = false;
+    let headers = [...columns];
     let searchRowEnabled = false;
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = calculateColumnWidth(
-        columnWidths,
-        hiddenColIndex,
-        Button_Column_Key,
-        buttonColEnabled,
-        isMobile
+    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex, Button_Column_Key, buttonColEnabled, isMobile);
+    const renderSortIcon = () => (
+        <div className="sort-icon-wrapper alignCenter">
+            <i className="updown-icon inactive icon-sort" />
+        </div>
     );
-    const sortIconHtml =
-        (<div className="sort-icon-wrapper alignCenter">
-            <i className='updown-icon inactive icon-sort' />
-        </div>)
 
-    if ((buttonColEnabled)
-        && headers[headers?.length - 1] !== '') {
+    if ((buttonColEnabled) && headers[headers?.length - 1] !== '') {
         headers.push('');
     }
 
     const thColHeaders = headers.map((header, key, { length }) => {
-        const thInnerHtml = length !== key + 1 ? <span></span> : null;
-        const hideClass = hiddenCols.includes(key) ? 'd-none' : '';
-        const inputProps = {
-            className: !isNull(header?.cssClass) ? `${header?.cssClass} row p-0 m-0` : 'row p-0 m-0',
-        };
-        const colWidth = calculateColumnWidth(
-            columnWidths,
-            hiddenCols,
-            key,
-            buttonColEnabled,
-            isMobile
-        );
+        if (hiddenColIndex?.includes(key)) return null;
+        const thInnerHtml = length !== key + 1 ? <span /> : null;
+        const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
         if (header === '') {
             return (
                 <th
-                    style={{
-                        width: buttonColWidth,
-                        maxWidth: buttonColWidth
-                    }}
+                    style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
                     title="Actions"
                     data-toggle="tooltip"
                     key={key}
-                    className={`${hideClass}${!isNull(header?.cssClass) ? `${header?.cssClass}` : ''}`}
+                    className={`${header?.class ?? ''}`}
                 >
                     <div
-                        style={{
-                            width: buttonColWidth,
-                            maxWidth: buttonColWidth
-                        }}
+                        style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
                         className={"p-0 emptyHeader alignCenter"}
                     >
                         <i className="icon-common-css toolbox-icon emptyHeader" />
                     </div>
                 </th>
             );
-        } else {
-            return (
-                <th
-                    style={{
-                        width: colWidth,
-                        maxWidth: colWidth
-                    }}
-                    key={key}
-                    className={`${hideClass}${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''}`}
-                >
-                    <div {...inputProps} className={"alignCenter"}>
-                        <div
-                            onClick={
-                                (e) => onHeaderClicked(
-                                    e,
-                                    (!isNull(concatCols) && !isNull(concatCols[key]?.cols)
-                                        ? concatCols[key]?.cols : [header?.name])
-                                )
-                            }
-                            className={`p-0 alignCenter pointer ${!isNull(header?.cssClass) ? ` ${header?.cssClass}` : ''
-                                }`}
-                        >
-                            <h4>
-                                {
-                                    isNull(header?.alias) || header?.name === header?.alias ?
-                                        header?.name : header?.alias
-                                }
-                            </h4>
-                            {sortIconHtml}
-                        </div>
-                    </div>
-                    {thInnerHtml}
-                </th>
-            );
         }
+        const displayName = isNull(header?.alias) || header?.name === header?.alias
+            ? header?.name
+            : header?.alias;
+
+        const onClickHandler = (e) => {
+            const colNames = !isNull(concatColumns[key]?.cols) ? concatColumns[key].cols : [header?.name];
+            onHeaderClicked(e, colNames);
+        };
+        return (
+            <th
+                style={{ width: colWidth, maxWidth: colWidth }}
+                key={key}
+                className={`${header?.class ?? ''}`}
+            >
+                <div className={`${header?.class ?? ''} row p-0 m-0 alignCenter`}>
+                    <div
+                        onClick={onClickHandler}
+                        className={`p-0 alignCenter pointer ${header?.class ?? ''}`}
+                    >
+                        <h4>{displayName}</h4>
+                        {renderSortIcon()}
+                    </div>
+                </div>
+                {thInnerHtml}
+            </th>
+        );
     });
 
     const thSearchHeaders = headers.map((header, key) => {
-        const conCols = !isNull(concatCols[key]) ? concatCols[key].cols : null;
+        if (hiddenColIndex?.includes(key)) return null;
+        const conCols = !isNull(concatColumns[key]) ? concatColumns[key].cols : null;
         const formatting = header?.formatting;
-        const hideClass = hiddenCols.includes(key) ? 'd-none' : '';
-        const inputProps = {
-            className: !isNull(header.cssClass)
-                ? `${header.cssClass} row searchDiv p-0 m-0`
-                : 'row searchDiv p-0 m-0',
-        };
-        const colWidth = calculateColumnWidth(
-            columnWidths,
-            hiddenCols,
-            key,
-            buttonColEnabled,
-            isMobile
-        );
-        columnSearchEnabled = enableColSearch
+        const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
+        let columnSearchEnabled = enableColumnSearch
             ? header?.searchEnable ?? true
             : header?.searchEnable ?? false;
 
@@ -146,12 +102,9 @@ const GridHeader = ({
         if (header === '') {
             return (
                 <th
-                    style={{
-                        width: buttonColWidth,
-                        maxWidth: buttonColWidth
-                    }}
+                    style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
                     key={key}
-                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
+                    className={`${header?.class ?? ''}`}
                 >
                     <div
                         style={{
@@ -162,33 +115,28 @@ const GridHeader = ({
                     ></div>
                 </th>
             );
-        } else {
-            return (
-                <th
-                    style={{
-                        width: colWidth,
-                        maxWidth: colWidth
-                    }}
-                    key={key}
-                    className={`${hideClass}${!isNull(header.cssClass) ? ` ${header.cssClass}` : ''}`}
-                >
-                    <div {...inputProps} className={"alignCenter"}>
-                        {columnSearchEnabled ? (
-                            <input
-                                className="searchInput"
-                                placeholder="Search"
-                                onChange={(e) => onSearchClicked(e, header?.name, conCols, formatting)}
-                                type="text"
-                            />
-                        ) : (
-                            <>.</>
-                        )}
-                    </div>
-                </th>
-            );
         }
+        return (
+            <th
+                style={{ width: colWidth, maxWidth: colWidth }}
+                key={key}
+                className={`${header?.class ?? ''}`}
+            >
+                <div className={`${header?.class ?? ''} row searchDiv p-0 m-0 alignCenter`}>
+                    {columnSearchEnabled ? (
+                        <input
+                            className="searchInput"
+                            placeholder="Search"
+                            onChange={(e) => onSearchClicked(e, header?.name, conCols, formatting)}
+                            type="text"
+                        />
+                    ) : (
+                        <>.</>
+                    )}
+                </div>
+            </th>
+        );
     });
-
     return (
         <thead ref={gridHeaderRef}>
             <tr className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>
