@@ -47,9 +47,6 @@
   },
   "keywords": [
     "react",
-    "component",
-    "ui",
-    "library",
     "Data",
     "Grid",
     "Lite",
@@ -60,7 +57,15 @@
     "datatable",
     "table",
     "ReactDataGrid",
-    "DataGridLite"
+    "DataGridLite",
+    "react-table",
+    "lightweight",
+    "easy-to-use-grid",
+    "react-searchable-grid",
+    "small-bundle-size",
+    "customizable-grids",
+    "column-search",
+    "grid-component"
   ],
   "repository": {
     "type": "git",
