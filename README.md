@@ -63,19 +63,6 @@ const rows = [
   { id: 3, name: 'Sam Johnson', age: 22 }
 ];
 
-const options = {
-    editButton: {
-        event: (e, row) => {
-            console.log(row);
-        }
-    },
-    deleteButton: {
-        event: (e, row) => {
-            console.log(row);
-        }
-    }
-}
-
 function App() {
   return (
     <div>
@@ -83,7 +70,6 @@ function App() {
       <DataGrid
           columns={columns}
           data={rows}
-          options={options}
           pageSize={10}
       />
     </div>
