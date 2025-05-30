@@ -10,7 +10,7 @@
 |    `data`             | `Array`             | Array of objects representing the rows of data to display.                                                                  |     `null`        | Yes          |
 |    `pageSize`         | `Number`            | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |     `null`        | No           |
 |    `options`          | `Object`            | An object for additional customization. Contains options like `gridClass`, `enableGlobalSearch`, etc.                       |       -           | No           |
-|    `width`            | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. The width can be set to "inherit" to match the width of the containing element.|    `'90vw'`       | No           |
+|    `width`            | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. The width can be set to `'inherit'` to match the width of the containing element.|    `'90vw'`       | No           |
 |    `height`           | `String` / `Number` | The height of the grid. Can be a pixel value (e.g., `'300px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. |    `'60vh'`       | No           |
 |    `maxWidth`         | `String` / `Number` | The maximum width of the grid.                                                                                              |    `'100vw'`      | No           |
 |    `maxHeight`        | `String` / `Number` | The maximum height of the grid.                                                                                             |    `'100vh'`      | No           |
@@ -69,18 +69,18 @@ const columns = [
 
 The `options` prop is an **object** that provides additional configuration settings to further customize the behavior of the `DataGrid` component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality.
 
-| **Field**            | **Type**  | **Description**                                                                                                                               | **Required** |
-| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| `gridClass`          | `String`  | Custom CSS class for the grid container.                                                                                                      | No           |
-| `headerClass`        | `String`  | Custom CSS class for the header row.                                                                                                          | No           |
-| `rowClass`           | `String`  | Custom CSS class for each row in the grid.                                                                                                    | No           |
-| `enableColumnSearch` | `Boolean` | Whether to enable column-wise search functionality (search per individual column).                                                            | No           |
-| `enableGlobalSearch` | `Boolean` | Whether to enable global search across all columns.                                                                                           | No           |
-| `editButton`         | `Object`  | Configuration for enabling an edit button on each row. Includes an `event` field which is the function triggered when the button is clicked.  | No           |
-| `deleteButton`       | `Object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked. | No           |
-| `enableDownload`     | `Boolean` | Whether to enable the download functionality (export data as CSV).                                                                            | No           |
-| `downloadFilename`   | `String`  | The filename used when downloading the grid data (CSV format).                                                                                | No           |
-| `onDownloadComplete` | `Function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.                                                                                | No           |
+| **Field**            | **Type**  | **Description**                                                                                                           | **Default Value** | **Required** |
+| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------|------------------ | ------------ |
+| `gridClass`          | `String`  | Custom CSS class for the grid container.                                                                                  |       -           | No           |
+| `headerClass`        | `String`  | Custom CSS class for the header row.                                                                                      |       -           | No           |
+| `rowClass`           | `String`  | Custom CSS class for each row in the grid.                                                                                |       -           | No           |
+| `enableColumnSearch` | `Boolean` | Whether to enable column-wise search functionality (search per individual column).                                        |      true         | No           |
+| `enableGlobalSearch` | `Boolean` | Whether to enable global search across all columns.                                                                       |      true         | No           |
+| `editButton`         | `Object`  | Configuration for enabling an edit button on each row. Includes an `event` field which is the function triggered when the button is clicked.|        -     | No           |
+| `deleteButton`       | `Object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked.|       -      | No           |
+| `enableDownload`     | `Boolean` | Whether to enable the download functionality (export data as CSV).                                                        |      true         | No           |
+| `downloadFilename`   | `String`  | The filename used when downloading grid data in CSV format. The default value is `'export-{yyyy-MM-dd HH:mm:ss}'`         |       -           | No           |
+| `onDownloadComplete` | `Function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.       |       -           | No           |
 
 
 #### **Example of `options` Object:**
