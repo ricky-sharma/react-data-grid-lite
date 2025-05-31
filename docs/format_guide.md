@@ -16,7 +16,7 @@ const columns = [
   },
   {
     name: 'Salary',
-    formatting: { type: 'currency' }, // → "$5,000.00"
+    formatting: { type: 'currency', format: 'USD' }, // → "$5,000.00"
   },
   {
     name: 'Joining Date',
@@ -38,7 +38,7 @@ The grid automatically formats values based on `type` and `format`.
 | Type       | Description                     | Example Format    | Notes                              |
 | ---------- | ------------------------------- | ----------------- | ---------------------------------- |
 | `number`   | Formats numeric values          | `'0,0'`, `'0.00'` | Adds commas and/or decimals        |
-| `currency` | Localized currency formatting   | `'USD'`           | Requires valid ISO 4217 code       |
+| `currency` | Localized currency formatting   | `'USD'`, `'INR'`  | Requires valid ISO 4217 code       |
 | `date`     | Formats date strings            | `'MM/dd/yyyy'`    | Delegates to internal `formatDate` |
 | `percent`  | Formats decimals as percentages | –                 | Multiplies value by 100            |
 | `boolean`  | Formats true/false as Yes / No  | –                 | Case-insensitive                   |
