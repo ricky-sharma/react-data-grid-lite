@@ -1,175 +1,78 @@
 import { isNull, objectKeyMatch } from '../../helper/common';
 import { formatDate } from '../../helper/date';
 
-/**
+/*
  * Handles column or global search logic in a grid.
- *
- * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event
- * @param {string} colName - The name of the column being searched
- * @param {Array|undefined} colObject - Optional array of column keys (e.g., for global search)
- * @param {object|undefined} formatting - Object with keys `Format` and `Type` for date formatting
- * @param {object} context - The React class component instance (`this`)
- * @param {Function} onSearchComplete - Callback function invoked after a search operation is completed.
  */
 export const eventGridSearchClicked = (
     e,
     colName,
     colObject = [],
     formatting = {
-        Format: '',
-        Type: ''
+        format: '',
+        type: ''
     },
-    context,
-    onSearchComplete = () => { }
+    dataReceivedRef,
+    searchColsRef,
+    state,
+    setState
 ) => {
     // Basic safety checks
-    if (!e || typeof colName !== 'string' || typeof context !== 'object') {
+    if (!e || typeof colName !== 'string') {
         return;
     }
-
     const searchQuery = e.target.value;
-    const keyFormat = !isNull(formatting?.Format) ? formatting.Format : '';
-    const formatType = !isNull(formatting?.Type) ? formatting.Type : '';
-    const colObj = !isNull(colObject) ? colObject : null;
-
-    let data = context.dataRecieved;
-
-    // Update searchCols list
-    context.searchCols = context.searchCols.filter(x => x.colName !== colName);
+    const format = !isNull(formatting?.format) ? formatting.format : '';
+    const type = !isNull(formatting?.type) ? formatting.type : '';
+    const colObj = !isNull(colObject) ? colObject : [colName];
+    let data = dataReceivedRef?.current ?? [];
+    // Update searchColsRef list
+    searchColsRef.current = searchColsRef?.current?.filter(x => x.colName !== colName) ?? [];
     if (searchQuery !== '') {
-        context.searchCols.push({ colName, searchQuery, colObj, format: { keyFormat, formatType } });
+        searchColsRef.current.push({ colName, searchQuery, colObj, formatting: { format, type } });
     }
-
     let globalSearchData = [];
-
-    context.searchCols.forEach(col => {
-        const matchesSearch = (val) =>
-            !isNull(val) && val.toString().toLowerCase().includes(col.searchQuery.toLowerCase());
-
+    searchColsRef?.current?.forEach(col => {
+        const q = col?.searchQuery?.toLowerCase(),
+            matchesSearch = (val) => !isNull(val) && val.toString().toLowerCase().includes(q);
         if (col.colName === '##globalSearch##') {
             col.colObj.forEach(c => {
                 let colObjSearchData = [];
-                const hidden = c.hidden || false;
-                const isDateType = ['DATE', 'DATETIME'].includes((c.format?.formatType || '').toUpperCase());
-                const hasFormat = !isNull(c.format?.keyFormat);
-
-                if (isDateType && hasFormat) {
-                    if (c.concatColumns?.columns) {
-                        colObjSearchData = data.filter(obj =>
-                            Object.keys(obj).some(key =>
-                                c.concatColumns.columns.some(x => x?.toLowerCase() === key.toLowerCase()) &&
-                                !hidden &&
-                                !isNull(obj[key]) &&
-                                formatDate(obj[key], c.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
-                            )
-                        );
-                    } else {
-                        colObjSearchData = data.filter(obj =>
-                            !hidden &&
-                            formatDate(new Date(obj[c.name]), c.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
-                        );
-                    }
-                } else {
-                    if (c.concatColumns?.columns) {
-                        colObjSearchData = data.filter(obj =>
-                            Object.keys(obj).some(key =>
-                                c.concatColumns.columns.some(x => x?.toLowerCase() === key.toLowerCase()) &&
-                                !hidden &&
-                                matchesSearch(obj[key])
-                            )
-                        );
-                    } else {
-                        colObjSearchData = data.filter(obj =>
-                            !hidden && matchesSearch(obj[c.name])
-                        );
-                    }
-                }
-
-                if (globalSearchData.length > 0) {
-                    const ids = new Set(globalSearchData.map(d => d.id));
-                    globalSearchData = [
-                        ...globalSearchData,
-                        ...colObjSearchData.filter(d => !ids.has(d.id)),
-                    ];
-                } else {
-                    globalSearchData = [...colObjSearchData];
-                }
+                const hidden = c?.hidden || false, f = c?.formatting?.format
+                    , t = (c?.formatting?.type || '')?.toLowerCase(), cc = c?.concatColumns?.columns;
+                colObjSearchData = data.filter(o => ['date'].includes(t) && !isNull(f) ?
+                    (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k.toLowerCase()) &&
+                        !hidden && !isNull(o[k]) && formatDate(o[k], f).toLowerCase().includes(q))
+                        : !hidden && formatDate(new Date(o[c.name]), f).toLowerCase().includes(q))
+                    : (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k.toLowerCase())
+                        && !hidden && matchesSearch(o[k]))
+                        : !hidden && matchesSearch(o[c.name])));
+                globalSearchData = globalSearchData.length ?
+                    [...globalSearchData, ...colObjSearchData.filter(d => !new Set(globalSearchData.map(x => x.id)).has(d.id))]
+                    : [...colObjSearchData];
             });
-
             data = [...globalSearchData];
         } else {
-            const isDateType = ['DATE', 'DATETIME'].includes((col.format?.formatType || '').toUpperCase());
-            const hasFormat = !isNull(col.format?.keyFormat);
-
-            if (isDateType && hasFormat) {
-                if (!isNull(col.colObj)) {
-                    data = data.filter(obj =>
-                        Object.keys(obj).some(key =>
-                            col.colObj.some(x => x?.toLowerCase() === key.toLowerCase()) &&
-                            !isNull(obj[key]) &&
-                            formatDate(new Date(obj[key]), col.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
-                        )
-                    );
-                } else {
-                    data = data.filter(obj =>
-                        objectKeyMatch(obj, col.colName) &&
-                        formatDate(new Date(obj[col.colName]), col.format.keyFormat).toLowerCase().includes(col.searchQuery.toLowerCase())
-                    );
-                }
-            } else {
-                if (!isNull(col.colObj)) {
-                    data = data.filter(obj =>
-                        Object.keys(obj).some(key =>
-                            col.colObj.some(x => x?.toLowerCase() === key.toLowerCase()) &&
-                            matchesSearch(obj[key])
-                        )
-                    );
-                } else {
-                    data = data.filter(obj =>
-                        objectKeyMatch(obj, col.colName) &&
-                        matchesSearch(obj[col.colName])
-                    );
-                }
-            }
+            const t = (col?.formatting?.type || '').toLowerCase(), f = col?.formatting?.format;
+            data = data.filter(o => ['date'].includes(t) && !isNull(f)
+                ? (!isNull(col.colObj)
+                    ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k.toLowerCase()) && !isNull(o[k])
+                        && formatDate(new Date(o[k]), f).toLowerCase().includes(q))
+                    : objectKeyMatch(o, col.colName) && formatDate(new Date(o[col.colName]), f).toLowerCase().includes(q))
+                : (!isNull(col.colObj)
+                    ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k.toLowerCase()) && matchesSearch(o[k]))
+                    : objectKeyMatch(o, col.colName) && matchesSearch(o[col.colName]))
+            );
         }
     });
-
     const dataLength = data.length;
-    const pageRows = context.state.pageRows;
-
-    context.setState(
+    setState(prev => (
         {
+            ...prev,
             rowsData: data,
             activePage: 1,
             totalRows: dataLength,
             firstRow: 0,
-            currentPageRows: pageRows,
-            toggleState: !context.state.toggleState
-        },
-        () => {
-            context.setPagingVariables();
-            if (typeof onSearchComplete === 'function') {
-                let searchColumns;
-
-                if (!isNull(colObj) && Array.isArray(colObj)) {
-                    // Global search: extract names from array of column objects
-                    searchColumns = colName === "##globalSearch##"
-                        ? colObj.map(col => col.name)
-                        : colObj;
-                } else {
-                    searchColumns = [colName];
-                }
-
-                onSearchComplete(
-                    e,
-                    searchQuery,
-                    searchColumns,
-                    data,
-                    data?.length || 0
-                );
-            }
-        }
-    );
+            toggleState: !state.toggleState
+        }));
 };
-
-
