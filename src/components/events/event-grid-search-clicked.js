@@ -1,5 +1,5 @@
 import { isNull, objectKeyMatch } from '../../helper/common';
-import { formatDate } from '../../helper/date';
+import { format as formatVal } from '../../helper/format';
 
 /*
  * Handles column or global search logic in a grid.
@@ -32,18 +32,19 @@ export const eventGridSearchClicked = (
         searchColsRef.current.push({ colName, searchQuery, colObj, formatting: { format, type } });
     }
     let globalSearchData = [];
+    const formattingType = ['date', 'number', 'currency', 'percent', 'boolean'];
     searchColsRef?.current?.forEach(col => {
         const q = col?.searchQuery?.toLowerCase(),
             matchesSearch = (val) => !isNull(val) && val.toString().toLowerCase().includes(q);
         if (col.colName === '##globalSearch##') {
             col.colObj.forEach(c => {
                 let colObjSearchData = [];
-                const hidden = c?.hidden || false, f = c?.formatting?.format
-                    , t = (c?.formatting?.type || '')?.toLowerCase(), cc = c?.concatColumns?.columns;
-                colObjSearchData = data.filter(o => ['date'].includes(t) && !isNull(f) ?
+                const hidden = c?.hidden || false, f = c?.formatting?.format ?? '',
+                    t = (c?.formatting?.type || '')?.toLowerCase(), cc = c?.concatColumns?.columns;
+                colObjSearchData = data.filter(o => formattingType.includes(t) && !isNull(f) ?
                     (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k.toLowerCase()) &&
-                        !hidden && !isNull(o[k]) && formatDate(o[k], f).toLowerCase().includes(q))
-                        : !hidden && formatDate(new Date(o[c.name]), f).toLowerCase().includes(q))
+                        !hidden && !isNull(o[k]) && formatVal(o[k], t, f).toLowerCase().includes(q))
+                        : !hidden && formatVal(o[c.name], t, f).toLowerCase().includes(q))
                     : (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k.toLowerCase())
                         && !hidden && matchesSearch(o[k]))
                         : !hidden && matchesSearch(o[c.name])));
@@ -53,12 +54,12 @@ export const eventGridSearchClicked = (
             });
             data = [...globalSearchData];
         } else {
-            const t = (col?.formatting?.type || '').toLowerCase(), f = col?.formatting?.format;
-            data = data.filter(o => ['date'].includes(t) && !isNull(f)
+            const t = (col?.formatting?.type || '').toLowerCase(), f = col?.formatting?.format ?? '';
+            data = data.filter(o => formattingType.includes(t) && !isNull(f)
                 ? (!isNull(col.colObj)
                     ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k.toLowerCase()) && !isNull(o[k])
-                        && formatDate(new Date(o[k]), f).toLowerCase().includes(q))
-                    : objectKeyMatch(o, col.colName) && formatDate(new Date(o[col.colName]), f).toLowerCase().includes(q))
+                        && formatVal(o[k], t, f).toLowerCase().includes(q))
+                    : objectKeyMatch(o, col.colName) && formatVal(o[col.colName], t, f).toLowerCase().includes(q))
                 : (!isNull(col.colObj)
                     ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k.toLowerCase()) && matchesSearch(o[k]))
                     : objectKeyMatch(o, col.colName) && matchesSearch(o[col.colName]))
