@@ -1,5 +1,5 @@
-import { isNull, objectKeyMatch } from '../../helper/common';
-import { format as formatVal } from '../../helper/format';
+import { isNull, objectKeyMatch } from '../../helpers/common';
+import { format as formatVal } from '../../helpers/format';
 
 /*
  * Handles column or global search logic in a grid.
@@ -41,11 +41,11 @@ export const eventGridSearchClicked = (
                 let colObjSearchData = [];
                 const hidden = c?.hidden || false, f = c?.formatting?.format ?? '',
                     t = (c?.formatting?.type || '')?.toLowerCase(), cc = c?.concatColumns?.columns;
-                colObjSearchData = data.filter(o => formattingType.includes(t) && !isNull(f) ?
-                    (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k.toLowerCase()) &&
-                        !hidden && !isNull(o[k]) && formatVal(o[k], t, f).toLowerCase().includes(q))
-                        : !hidden && formatVal(o[c.name], t, f).toLowerCase().includes(q))
-                    : (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k.toLowerCase())
+                colObjSearchData = data.filter(o => formattingType?.includes(t) ?
+                    (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k?.toLowerCase()) &&
+                        !hidden && !isNull(o[k]) && formatVal(o[k], t, f)?.toString()?.toLowerCase()?.includes(q))
+                        : !hidden && formatVal(o[c.name], t, f)?.toString()?.toLowerCase()?.includes(q))
+                    : (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k?.toLowerCase())
                         && !hidden && matchesSearch(o[k]))
                         : !hidden && matchesSearch(o[c.name])));
                 globalSearchData = globalSearchData.length ?
@@ -55,13 +55,13 @@ export const eventGridSearchClicked = (
             data = [...globalSearchData];
         } else {
             const t = (col?.formatting?.type || '').toLowerCase(), f = col?.formatting?.format ?? '';
-            data = data.filter(o => formattingType.includes(t) && !isNull(f)
+            data = data.filter(o => formattingType?.includes(t)
                 ? (!isNull(col.colObj)
-                    ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k.toLowerCase()) && !isNull(o[k])
-                        && formatVal(o[k], t, f).toLowerCase().includes(q))
-                    : objectKeyMatch(o, col.colName) && formatVal(o[col.colName], t, f).toLowerCase().includes(q))
+                    ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k?.toLowerCase()) && !isNull(o[k])
+                        && formatVal(o[k], t, f)?.toString()?.toLowerCase()?.includes(q))
+                    : objectKeyMatch(o, col.colName) && formatVal(o[col.colName], t, f)?.toString()?.toLowerCase()?.includes(q))
                 : (!isNull(col.colObj)
-                    ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k.toLowerCase()) && matchesSearch(o[k]))
+                    ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k?.toLowerCase()) && matchesSearch(o[k]))
                     : objectKeyMatch(o, col.colName) && matchesSearch(o[col.colName]))
             );
         }

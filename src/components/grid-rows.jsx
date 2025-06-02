@@ -5,8 +5,8 @@ import {
     No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
-import { isNull } from '../helper/common';
-import { format } from '../helper/format';
+import { isNull } from '../helpers/common';
+import { format } from '../helpers/format';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { calculateColumnWidth } from "../utils/component-utils";
@@ -113,7 +113,6 @@ const GridRows = ({
                 </td>
             );
         }
-
         return (
             <tr
                 key={rowIndex}

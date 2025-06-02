@@ -1,5 +1,5 @@
 import { Button_Column_Key, Button_Column_Width, Default_Grid_Width_VW, Mobile_Column_Width } from "../constants";
-import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from "../helper/common";
+import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from "../helpers/common";
 
 export function calculateColumnWidth(
     colWidthArray,
@@ -68,15 +68,13 @@ export function calculateColumnWidth(
         const usedPercent = ((fixedWidthTotal + (buttonColEnabled ? buttonColumnWidth : 0)) * 100) / containerWidth;
         const remainingPercent = 100 + avoidingBelowHundredPercent - usedPercent;
         const colPercentWidth = remainingPercent / nonFixedWidthColCount;
-
         return colWidthSet ?? `${colPercentWidth}%`;
     }
 
-    // SCENARIO 3: All columns flexible (your missing case)
+    // SCENARIO 3: All columns flexible
     if (fixedWidthColCount === 0 && nonFixedWidthColCount > 0) {
         const colWidthCal = (100 + avoidingBelowHundredPercent) / nonFixedWidthColCount;
         const colPixelEstimate = (colWidthCal * containerWidth) / 100;
-
         const nonFixedWidth = colPixelEstimate * nonFixedWidthColCount;
 
         if (nonFixedWidth >= netContainerWidth) {

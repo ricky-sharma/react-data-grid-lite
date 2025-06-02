@@ -1,6 +1,8 @@
+/* eslint-disable no-useless-escape */
 export function dynamicSort(...fields) {
     const normalize = (val) => {
         if (val == null) return '';
+
         if (typeof val === 'number') return val;
         if (val instanceof Date) return val.getTime();
 
@@ -8,17 +10,22 @@ export function dynamicSort(...fields) {
             const parsedDate = Date.parse(val);
             if (!isNaN(parsedDate)) return new Date(parsedDate).getTime();
 
-            // Try numeric/currency
+            // Check for currency or numeric-like string
             const numeric = val.replace(/[^0-9.\-]+/g, '');
-            if (!isNaN(numeric) && numeric.trim() !== '' && !val.includes('-')) {
+            if (
+                !isNaN(numeric) &&
+                numeric.trim() !== '' &&
+                /^[\d.,\s$€£¥₹\-]+$/.test(val)
+            ) {
                 return parseFloat(numeric);
             }
 
-            return val.trim().toLowerCase(); // Proper string handling (UUIDs, emails)
+            return val.trim().toLowerCase(); // fallback for strings (UUIDs, emails)
         }
 
         return String(val).toLowerCase();
     };
+
 
     return (a, b) => {
         for (let field of fields) {

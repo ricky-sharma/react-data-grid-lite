@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from 'react';
-import { isNull } from '../src/helper/common';
+import { isNull } from '../src/helpers/common';
 import { eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
 import { eventGridSearchClicked } from './components/events/event-grid-search-clicked';
 import GridFooter from './components/grid-footer';
@@ -106,16 +106,11 @@ const DataGrid = ({
         let lastPageRows = state.totalRows % state.pageRows;
         if (lastPageRows > 0) noOfPages++;
         else if (lastPageRows === 0) lastPageRows = state.pageRows;
-        const pagerSelectOptions = noOfPages > 0 ? [...Array(noOfPages).keys()].map((i) => i + 1) : [];
         setState((prevState) => ({
             ...prevState,
             noOfPages,
             lastPageRows,
-            pagerSelectOptions: pagerSelectOptions.map((item, key) => (
-                <option key={key} value={item}>
-                    {item}
-                </option>
-            )),
+            pagerSelectOptions: noOfPages > 0 ? [...Array(noOfPages).keys()].map((i) => i + 1) : []
         }));
     };
 
@@ -247,7 +242,7 @@ const DataGrid = ({
 
     return (
         <div
-            id={state.id}
+            id={state.gridID}
             className={
                 !isNull(state.gridCssClass)
                     ? `${state.gridCssClass} r-d-g-lt-component`

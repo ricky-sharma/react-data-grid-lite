@@ -1,5 +1,5 @@
-import { isNull } from '../../helper/common';
-import { dynamicSort } from '../../helper/sort';
+import { isNull } from '../../helpers/common';
+import { dynamicSort } from '../../helpers/sort';
 
 /*
  * Handles sorting logic when a table header is clicked.

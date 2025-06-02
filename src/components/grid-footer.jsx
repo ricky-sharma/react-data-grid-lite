@@ -25,7 +25,11 @@ const GridFooter = ({
             </div>
             <div className="col-2 m-0 p-0 pagerSelect alignCenter">
                 <select value={activePage} onChange={e => onPageChange(e, parseInt(e.target.value, 10))}>
-                    {pagerSelectOptions}
+                    {pagerSelectOptions.map((item, key) => (
+                        <option key={key} value={item}>
+                            {item}
+                        </option>
+                    ))}
                 </select>
             </div>
             <div className="float-lt col-5 m-0 p-0">

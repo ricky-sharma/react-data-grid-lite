@@ -10,5 +10,21 @@
       }
     ],
     "@babel/preset-react"
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "esmodules": true
+            },
+            "modules": "commonjs"
+          }
+        ],
+        "@babel/preset-react"
+      ]
+    }
+  }
 }
