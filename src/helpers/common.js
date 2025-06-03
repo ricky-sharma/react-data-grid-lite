@@ -33,11 +33,6 @@ export function isNull(value) {
     return false;
 }
 
-// Helper function to match key case-insensitively
-export const objectKeyMatch = (obj, keyName) =>
-    Object.keys(obj).some(k => k.toLowerCase() === keyName.toLowerCase());
-
-// Helper function to compare two objects
 export const objectsEqual = (o1, o2) =>
     (isNull(o1) && isNull(o2)) ||
     (!isNull(o1) &&
@@ -65,7 +60,7 @@ export function getContainerWidthInPixels(element, defaultWidth = 0) {
     let width = el.offsetWidth;
 
     // If offsetWidth is 0 (invisible, not rendered, etc.)
-    if (isNull(width)) {
+    if (!width) {
         try {
             width = parseFloat(window.getComputedStyle(el).width);
 
@@ -74,12 +69,12 @@ export function getContainerWidthInPixels(element, defaultWidth = 0) {
     }
 
     // Fallback to parent element width if still invalid
-    if ((isNull(width)) && el.parentElement) {
+    if (!width && el.parentElement) {
         width = el.parentElement.offsetWidth || parseFloat(window.getComputedStyle(el.parentElement).width);
     }
 
     // Final fallback
-    if (isNull(width)) {
+    if (!width) {
         return defaultWidth;
     }
 

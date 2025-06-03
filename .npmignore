@@ -17,3 +17,13 @@ tests/
 build/
 coverage/
 *.log
+__tests__
+__tests__/
+*.test.js
+SECURITY.md
+CODE_OF_CONDUCT.md
+CHANGELOG.md
+docs/
+docs
+coverage
+coverage/

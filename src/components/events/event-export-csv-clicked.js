@@ -1,19 +1,9 @@
 import { CSV_File_Name_Prefix } from "../../constants";
-import { isNull } from "../../helper/common";
-import { formatDate } from "../../helper/date";
+import { isNull } from "../../helpers/common";
+import { formatDate } from "../../helpers/date";
 
 /**
  * Exports an array of data objects to a CSV file.
- *
- * This function creates a CSV from a given dataset and a set of column definitions.
- * It performs case-insensitive matching between column names and data keys, 
- * ensuring reliable value extraction even if the key casing is inconsistent.
- * @param {Event} e - The click event
- * @param {Array<Object>} data - The array of data records to export.
- * @param {Array<Object>} columns - Column definitions. Each can be an object with `name` and optional `alias`.
- * @param {string} [filename='*.csv'] - The name of the CSV file to download.
- * @param (e: Event, filename: string, blob: Blob) => void} onDownloadComplete - Callback function that is invoked after the file download completes or is successfully triggered.
- * @returns {void}
  */
 export const eventExportToCSV = (
     e,

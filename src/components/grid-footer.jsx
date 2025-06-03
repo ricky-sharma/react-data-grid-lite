@@ -3,16 +3,16 @@ import React from 'react';
 import GridPagination from './grid-pagination';
 
 const GridFooter = ({
-    totalRows = 0,
-    currentPageRows = 0,
-    activePage = 1,
-    pageRows = 10,
-    pagerSelectOptions = [],
-    enablePaging = false,
-    noOfPages = 1,
-    onPageChange = () => { },
-    onPrev = () => { },
-    onNext = () => { }
+    totalRows,
+    currentPageRows,
+    activePage,
+    pageRows,
+    pagerSelectOptions,
+    enablePaging,
+    noOfPages,
+    onPageChange,
+    onPrev,
+    onNext
 }) => {
     const start = (activePage - 1) * pageRows + 1;
     const end = start + currentPageRows - 1;
@@ -25,7 +25,11 @@ const GridFooter = ({
             </div>
             <div className="col-2 m-0 p-0 pagerSelect alignCenter">
                 <select value={activePage} onChange={e => onPageChange(e, parseInt(e.target.value, 10))}>
-                    {pagerSelectOptions}
+                    {pagerSelectOptions.map((item, key) => (
+                        <option key={key} value={item}>
+                            {item}
+                        </option>
+                    ))}
                 </select>
             </div>
             <div className="float-lt col-5 m-0 p-0">

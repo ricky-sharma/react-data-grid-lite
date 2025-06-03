@@ -1,21 +1,16 @@
-import { isNull } from '../../helper/common';
-import { dynamicSort } from '../../helper/sort';
+import { isNull } from '../../helpers/common';
+import { dynamicSort } from '../../helpers/sort';
 
-/**
+/*
  * Handles sorting logic when a table header is clicked.
- *
- * @param {Event} e - The click event
- * @param {Array} name - The name of the column/s
- * @param {object} context - The class component's context (this)
- * @param {Function} onSortComplete - Callback function that is invoked after the data has been sorted.
  */
 export const eventGridHeaderClicked = (
     e,
     name,
-    context,
-    onSortComplete = () => { }
+    state,
+    setState
 ) => {
-    if (!e || !Array.isArray(name) || typeof context !== 'object') {
+    if (!e || !Array.isArray(name)) {
         return;
     }
     if (e.target.nodeName === "DIV" || e.target.nodeName === "I" || e.target.nodeName === "H4") {
@@ -41,7 +36,7 @@ export const eventGridHeaderClicked = (
             sortColumn = name;
         }
 
-        const theadRow = document.getElementById(`thead-row-${context.state.gridID}`);
+        const theadRow = document.getElementById(`thead-row-${state.gridID}`);
         if (!isNull(theadRow)) {
             const sortIcons = theadRow.getElementsByTagName("i");
             if (!isNull(sortIcons)) {
@@ -74,20 +69,13 @@ export const eventGridHeaderClicked = (
                 parent.appendChild(i);
             }
         }
-
-        let data = context.state.rowsData;
+        let data = state.rowsData;
         data?.sort(dynamicSort(...sortColumn))
-        context.setState({
+        setState(prev => ({
+            ...prev,
             rowsData: data,
-            toggleState: !context.state.toggleState,
-        }, () => {
-            if (typeof onSortComplete === 'function')
-                onSortComplete(
-                    e,
-                    name,
-                    data,
-                    sortType
-                );
-        });
+            sortType: sortType,
+            toggleState: !prev.toggleState
+        }));
     }
 };

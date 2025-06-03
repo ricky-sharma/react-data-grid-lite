@@ -5,8 +5,8 @@ import {
     No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
-import { isNull } from '../helper/common';
-import { format } from '../helper/format';
+import { isNull } from '../helpers/common';
+import { format } from '../helpers/format';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { calculateColumnWidth } from "../utils/component-utils";
@@ -42,13 +42,13 @@ const GridRows = ({
     columnWidths = [],
     rowCssClass = '',
     rowClickEnabled = false,
-    onRowClick = () => { },
-    onRowHover = () => { },
-    onRowOut = () => { },
+    onRowClick,
+    onRowHover,
+    onRowOut,
     editButtonEnabled = false,
     deleteButtonEnabled = false,
-    editButtonEvent = () => { },
-    deleteButtonEvent = () => { }
+    editButtonEvent,
+    deleteButtonEvent
 }) => {
     const loading = useLoadingIndicator();
     const windowWidth = useWindowWidth();
@@ -113,7 +113,6 @@ const GridRows = ({
                 </td>
             );
         }
-
         return (
             <tr
                 key={rowIndex}

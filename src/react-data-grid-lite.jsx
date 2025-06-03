@@ -1,152 +1,85 @@
 /* eslint-disable react/prop-types */
-import React, { Component, createRef } from 'react';
-import { isNull, objectsEqual } from '../src/helper/common';
-import { eventGridHeaderClicked } from "./components/events/event-grid-header-clicked";
-import { eventGridSearchClicked } from "./components/events/event-grid-search-clicked";
+import React, { useEffect, useRef, useState } from 'react';
+import { isNull } from '../src/helpers/common';
+import { eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
+import { eventGridSearchClicked } from './components/events/event-grid-search-clicked';
 import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
-import GridHeader from "./components/grid-header";
+import GridHeader from './components/grid-header';
 import GridRows from './components/grid-rows';
 import { Default_Grid_Width_VW } from './constants';
 
-export class DataGrid extends Component {
-    constructor(props) {
-        super(props)
-        const {
-            columns,
-            data,
-            pageSize,
-            options,
-            width,
-            height,
-            maxWidth,
-            maxHeight,
-            onRowClick,
-            onRowHover,
-            onRowOut,
-            onSortComplete,
-            onSearchComplete,
-            onPageChange
-        } = props
-        this.state = {
-            width: !isNull(width) ? width : Default_Grid_Width_VW,
-            maxWidth: !isNull(maxWidth) ? maxWidth : '100vw',
-            height: !isNull(height) ? height : '60vh',
-            maxHeight: !isNull(maxHeight) ? maxHeight : '100vh',
-            gridID: `${Math.floor(Math.random() * 1000000)}`,
-            columns: !isNull(columns) ? columns : null,
-            rowsData: data,
-            totalRows: data?.length ?? 0,
-            enablePaging: !isNull(pageSize),
-            pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
-            noOfPages: 0,
-            pagerSelectOptions: [],
-            firstRow: 0,
-            currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
-            lastPageRows: 10,
-            activePage: 1,
-            gridCssClass: !isNull(options) ? options.gridClass : '',
-            headerCssClass: !isNull(options) ? options.headerClass : '',
-            rowCssClass: !isNull(options) ? options.rowClass : '',
-            enableColumnSearch: !isNull(options) ? options.enableColumnSearch ?? true : true,
-            enableGlobalSearch: !isNull(options) ? options.enableGlobalSearch ?? true : true,
-            rowClickEnabled: !isNull(onRowClick),
-            onRowClick: !isNull(onRowClick) ? onRowClick : () => { },
-            onRowHover: !isNull(onRowHover) ? onRowHover : () => { },
-            onRowOut: !isNull(onRowOut) ? onRowOut : () => { },
-            onSortComplete: !isNull(onSortComplete) ? onSortComplete : () => { },
-            onSearchComplete: !isNull(onSearchComplete) ? onSearchComplete : () => { },
-            onPageChange: !isNull(onPageChange) ? onPageChange : () => { },
-            editButtonEnabled: !isNull(options) && !isNull(options.editButton),
-            editButtonEvent: !isNull(options) && !isNull(options.editButton) && !isNull(options.editButton.event) ? options.editButton.event : () => { },
-            deleteButtonEnabled: !isNull(options) && !isNull(options.deleteButton),
-            deleteButtonEvent: !isNull(options) && !isNull(options.deleteButton) && !isNull(options.deleteButton.event) ? options.deleteButton.event : () => { },
-            enableDownload: !isNull(options) ? options?.enableDownload ?? true : true,
-            downloadFilename: !isNull(options) && !isNull(options?.downloadFilename) ? options?.downloadFilename : null,
-            onDownloadComplete: !isNull(options) && !isNull(options?.onDownloadComplete) ? options?.onDownloadComplete : () => { },
-            globalSearchInput: '',
-            toggleState: true,
-            prevProps: null,
-            hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
-                if (!isNull(col?.hidden))
-                    return key;
-                else
-                    return null;
-            }) : [],
-            concatColumns: !isNull(columns) ? columns.map((col) => {
-                let separator = ' '
-                if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
-                    if (!isNull(col.concatColumns.separator))
-                        separator = col.concatColumns.separator
-                    return { cols: col.concatColumns.columns, sep: separator };
-                }
-                return null
-            }) : [],
-            columnFormatting: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.formatting) && !isNull(col.formatting.type)) {
-                    return { type: col?.formatting?.type, format: col?.formatting?.format ?? '' };
-                }
-                return null
-            }) : [],
-            cssClassColumns: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.class))
-                    return col.class;
-                else
-                    return null;
-            }) : [],
-            columnWidths: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.width))
-                    return col.width;
-                else
-                    return null;
-            }) : []
-        }
-        this.dataRecieved = this.state.rowsData
-        this.searchCols = []
-        this.gridHeaderRef = createRef(null);
-    }
+const DataGrid = ({
+    id,
+    columns = [],
+    data = [],
+    pageSize,
+    options = {},
+    width,
+    height,
+    maxWidth,
+    maxHeight,
+    onRowClick,
+    onRowHover,
+    onRowOut,
+    onSortComplete,
+    onSearchComplete,
+    onPageChange,
+}) => {
+    const [state, setState] = useState({
+        width: width ?? Default_Grid_Width_VW,
+        maxWidth: maxWidth ?? '100vw',
+        height: height ?? '60vh',
+        maxHeight: maxHeight ?? '100vh',
+        gridID: id ?? `id-${Math.floor(Math.random() * 100000000)}`,
+        enablePaging: !isNull(pageSize),
+        noOfPages: 0,
+        pagerSelectOptions: [],
+        firstRow: 0,
+        lastPageRows: 10,
+        activePage: 1,
+        gridCssClass: options?.gridClass ?? '',
+        headerCssClass: options?.headerClass ?? '',
+        rowCssClass: options?.rowClass ?? '',
+        enableColumnSearch: options?.enableColumnSearch ?? true,
+        enableGlobalSearch: options?.enableGlobalSearch ?? true,
+        rowClickEnabled: !isNull(onRowClick),
+        onRowClick: onRowClick ?? (() => { }),
+        onRowHover: onRowHover ?? (() => { }),
+        onRowOut: onRowOut ?? (() => { }),
+        onSortComplete: onSortComplete ?? (() => { }),
+        onSearchComplete: onSearchComplete ?? (() => { }),
+        onPageChange: onPageChange ?? (() => { }),
+        editButtonEnabled: options?.editButton ?? false,
+        editButtonEvent: options?.editButton?.event ?? (() => { }),
+        deleteButtonEnabled: options?.deleteButton ?? false,
+        deleteButtonEvent: options?.deleteButton?.event ?? (() => { }),
+        enableDownload: options?.enableDownload ?? true,
+        downloadFilename: options?.downloadFilename ?? null,
+        onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
+        globalSearchInput: '',
+        sortType: '',
+        toggleState: true
+    });
 
-    shouldComponentUpdate(nextProps, nextStats) {
-        if (!objectsEqual(this.props.columns, nextProps.columns) ||
-            !objectsEqual(this.props.data, nextProps.data) ||
-            !objectsEqual(this.state.columns, nextStats.columns) ||
-            !objectsEqual(this.state.rowsData, nextStats.rowsData) ||
-            (this.state.noOfPages !== nextStats.noOfPages) ||
-            (this.state.lastPageRows !== nextStats.lastPageRows) ||
-            !objectsEqual(this.state.pagerSelectOptions, nextStats.pagerSelectOptions) ||
-            (this.state.firstRow !== nextStats.firstRow) ||
-            (this.state.activePage !== nextStats.activePage) ||
-            (this.state.toggleState !== nextStats.toggleState) ||
-            (this.state.globalSearchInput !== nextStats.globalSearchInput)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    const dataReceivedRef = useRef(data);
+    const searchColsRef = useRef([]);
+    const gridHeaderRef = useRef(null);
+    const prevPageRef = useRef(null);
+    const sortRef = useRef(null);
+    const searchRef = useRef(null);
 
-    static getDerivedStateFromProps = (nextProps, prevState) => {
-        const { columns, data, pageSize } = nextProps
-        if ((isNull(prevState.prevProps?.data) && isNull(nextProps.data)) ||
-            (!isNull(prevState.prevProps?.data) && !isNull(nextProps.data) &&
-                Object.keys(prevState.prevProps?.data).length === Object.keys(nextProps.data).length
-                && Object.keys(prevState.prevProps?.data).every(p =>
-                    prevState.prevProps?.data[p] === nextProps.data[p]))) {
-            return null;
-        }
-
-        return {
-            prevProps: nextProps,
+    useEffect(() => {
+        dataReceivedRef.current = data ?? [];
+        setState((prevState) => ({
+            ...prevState,
             columns: !isNull(columns) ? columns : [],
             rowsData: !isNull(data) ? data : [],
             totalRows: data?.length ?? 0,
             pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
             currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
-            hiddenColIndex: !isNull(columns) ? columns.map((col, key) => {
-                if (!isNull(col?.hidden) && col?.hidden === true)
-                    return key;
-                else
-                    return null;
-            }) : [],
+            hiddenColIndex: !isNull(columns) ? columns.map((col, key) =>
+                !isNull(col?.hidden) && col?.hidden === true ? key : null) : [],
             concatColumns: !isNull(columns) ? columns.map((col) => {
                 let separator = ' '
                 if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
@@ -156,278 +89,239 @@ export class DataGrid extends Component {
                 }
                 return null
             }) : [],
-            columnFormatting: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.formatting) && !isNull(col.formatting.type)) {
-                    return { type: col?.formatting?.type, format: col?.formatting?.format ?? '' };
-                }
-                return null
-            }) : [],
-            cssClassColumns: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.class))
-                    return col.class;
-                else
-                    return null;
-            }) : [],
-            columnWidths: !isNull(columns) ? columns.map((col) => {
-                if (!isNull(col.width))
-                    return col.width;
-                else
-                    return null;
-            }) : []
-        }
-    }
+            columnFormatting: !isNull(columns) ? columns.map((col) =>
+                !isNull(col.formatting) && !isNull(col.formatting.type) ?
+                    { type: col?.formatting?.type, format: col?.formatting?.format ?? '' } : null) : [],
+            cssClassColumns: !isNull(columns) ? columns.map((col) => !isNull(col.class) ? col.class : null) : [],
+            columnWidths: !isNull(columns) ? columns.map((col) => !isNull(col.width) ? col.width : null) : []
+        }));
+    }, [columns, data]);
 
-    componentDidMount = () => {
-        this.setPagingVariables()
-    }
+    useEffect(() => {
+        setPagingVariables();
+    }, [state?.rowsData, state?.pageRows]);
 
-    componentDidUpdate(prevProps, prevState) {
-        if (!objectsEqual(this.props.data, prevProps.data)) {
-            this.dataRecieved = this.state.rowsData
-        }
-        if (!objectsEqual(this.props.data, prevProps.data) ||
-            !objectsEqual(this.state.rowsData, prevState.rowsData)) {
-            this.setPagingVariables()
-        }
-    }
-
-    setPagingVariables = () => {
-        let noOfPages = parseInt(this.state.totalRows / this.state.pageRows, 10) ?? 0
-        let lastPageRows = parseInt(this.state.totalRows % this.state.pageRows, 10) ?? 0
-        if (lastPageRows > 0)
-            noOfPages++;
-        else if (lastPageRows === 0)
-            lastPageRows = this.state.pageRows
-        let pagerSelectOptions = noOfPages > 0 ? [...Array(noOfPages).keys()].map(i => i + 1) : [];
-        this.setState({
-            noOfPages: noOfPages,
-            lastPageRows: lastPageRows,
-            pagerSelectOptions: pagerSelectOptions.map((item, key) =>
-                <option key={key} value={item}>
-                    {item}
-                </option>)
-        })
-    }
-
-    handleForwardPage = (e) => {
-        e.preventDefault();
-        e.persist();
-        const prevPage = this.state.activePage;
-        if (this.state.activePage !== this.state.noOfPages) {
-            this.setState((prevState) => ({ activePage: prevState.activePage + 1 }), () => {
-                this.handleChangePage(e, this.state.activePage, prevPage)
-            })
-        }
-    }
-
-    handleBackwardPage = (e) => {
-        e.preventDefault();
-        e.persist();
-        const prevPage = this.state.activePage;
-        if (this.state.activePage !== 1) {
-            this.setState((prevState) => ({ activePage: prevState.activePage - 1 }), () => {
-                this.handleChangePage(e, this.state.activePage, prevPage)
-            })
-        }
-    }
-
-    handleChangePage = (e, newPage, previousPage = -1) => {
-        e.preventDefault();
-        const {
-            pageRows,
+    const setPagingVariables = () => {
+        let noOfPages = Math.floor(state.totalRows / state.pageRows);
+        let lastPageRows = state.totalRows % state.pageRows;
+        if (lastPageRows > 0) noOfPages++;
+        else if (lastPageRows === 0) lastPageRows = state.pageRows;
+        setState((prevState) => ({
+            ...prevState,
             noOfPages,
             lastPageRows,
-            activePage,
-            onPageChange
-        } = this.state;
-        const isLastPage = newPage === noOfPages;
-        const prevPage = previousPage === -1 ? activePage : previousPage;
-        this.setState({
-            firstRow: pageRows * (newPage - 1),
-            currentPageRows: isLastPage ? lastPageRows : pageRows,
-            activePage: newPage
-        }, () => {
-            if (typeof onPageChange === 'function') {
-                onPageChange(
-                    e,
-                    this.state.activePage,
-                    prevPage,
-                    this.state.currentPageRows,
-                    parseInt(this.state.firstRow + 1)
-                );
-            }
-        });
-    }
-
-    onHeaderClicked = (e, name) => {
-        eventGridHeaderClicked(e, name, this, this.state.onSortComplete);
+            pagerSelectOptions: noOfPages > 0 ? [...Array(noOfPages).keys()].map((i) => i + 1) : []
+        }));
     };
 
-    onSearchClicked = (e, colName, colObject, formatting) => {
-        if (e?.target?.getAttribute('data-type') === `globalSearch${this.state.gridID}`) {
-            this.setState({
-                globalSearchInput: e.target.value
-            }, () => {
-                eventGridSearchClicked(
-                    e,
-                    colName,
-                    colObject,
-                    formatting,
-                    this,
-                    this.state.onSearchComplete
-                );
-            });
-        }
-        else {
-            eventGridSearchClicked(
-                e,
-                colName,
-                colObject,
-                formatting,
-                this,
-                this.state.onSearchComplete
-            );
-        }
-    };
-
-    handleResetSearch = (e) => {
+    const handleForwardPage = (e) => {
         e.preventDefault();
-        this.searchCols = [];
-        const gridHeader = this.gridHeaderRef?.current;
-        if (!isNull(gridHeader)) {
+        prevPageRef.current = { changeEvent: e, pageNo: state.activePage };
+        if (state.activePage !== state.noOfPages) {
+            setState((prevState) => ({
+                ...prevState,
+                activePage: prevState.activePage + 1
+            }));
+        }
+    };
+
+    const handleBackwardPage = (e) => {
+        e.preventDefault();
+        prevPageRef.current = { changeEvent: e, pageNo: state.activePage };
+        if (state.activePage !== 1) {
+            setState((prevState) => ({
+                ...prevState,
+                activePage: prevState.activePage - 1
+            }));
+        }
+    };
+
+    useEffect(() => {
+        if (prevPageRef?.current?.changeEvent)
+            handleChangePage(
+                prevPageRef.current.changeEvent,
+                state?.activePage,
+                prevPageRef?.current?.pageNo ?? -1
+            );
+    }, [state?.activePage]);
+
+    const handleChangePage = (e, newPage, previousPage = -1) => {
+        e.preventDefault();
+        prevPageRef.current = {
+            changeEvent: e,
+            pageNo: previousPage === -1 ? state.activePage : previousPage
+        };
+        setState(prev => (
+            {
+                ...prev,
+                firstRow: state.pageRows * (newPage - 1),
+                currentPageRows: (newPage === state.noOfPages) ? state.lastPageRows : state.pageRows,
+                activePage: newPage,
+            })
+        );
+    };
+
+    useEffect(() => {
+        if (prevPageRef?.current?.changeEvent) {
+            state.onPageChange(
+                prevPageRef.current.changeEvent,
+                state.activePage,
+                prevPageRef?.current?.pageNo ?? 0,
+                state.currentPageRows,
+                parseInt(state.firstRow + 1, 10) ?? 0
+            );
+            prevPageRef.current = null;
+        }
+    }, [state?.firstRow, state?.currentPageRows]);
+
+    const onHeaderClicked = (e, name) => {
+        sortRef.current = { changeEvent: e, colName: name }
+        eventGridHeaderClicked(e, name, state, setState);
+    };
+
+    useEffect(() => {
+        if (sortRef?.current?.changeEvent && typeof state.onSortComplete === 'function') {
+            state.onSortComplete(
+                sortRef.current.changeEvent,
+                sortRef.current.colName,
+                state.rowsData,
+                state.sortType
+            );
+            sortRef.current = null;
+        }
+        if (searchRef?.current?.changeEvent && typeof state?.onSearchComplete === 'function') {
+            state.onSearchComplete(
+                searchRef.current.changeEvent,
+                searchRef.current.searchQuery,
+                searchColsRef?.current ?? [],
+                state?.rowsData ?? [],
+                state?.rowsData?.length || 0
+            );
+            searchRef.current = null;
+        }
+    }, [state.toggleState])
+
+    const onSearchClicked = (e, colName, colObject, formatting) => {
+        searchRef.current = {
+            changeEvent: e,
+            searchQuery: e?.target?.value ?? ''
+        };
+        const isGlobalSearch =
+            e?.target?.getAttribute('data-type') === `globalSearch${state.gridID}`;
+        if (isGlobalSearch) {
+            setState(prev => ({
+                ...prev,
+                globalSearchInput: e?.target?.value ?? ''
+            }));
+        }
+        eventGridSearchClicked(e, colName, colObject, formatting, dataReceivedRef, searchColsRef, state, setState);
+    };
+
+    const handleResetSearch = (e) => {
+        e.preventDefault();
+        searchColsRef.current = [];
+        const gridHeader = gridHeaderRef.current;
+        if (gridHeader) {
             const inputs = gridHeader.querySelectorAll('input');
-            if (!isNull(inputs))
+            if (inputs) {
                 inputs.forEach(input => {
                     input.value = '';
                 });
+            }
         }
-        this.setState({
+        setState(prev => ({
+            ...prev,
             globalSearchInput: '',
-            rowsData: this.dataRecieved,
+            rowsData: dataReceivedRef?.current ?? [],
             activePage: 1,
-            totalRows: this.dataRecieved.length,
+            totalRows: dataReceivedRef?.current?.length ?? 0,
             firstRow: 0,
-            currentPageRows: this.state.pageRows,
-            toggleState: !this.state.toggleState
-        });
-    }
+            currentPageRows: prev.currentPageRows
+        }));
+    };
 
-    render() {
-        const {
-            totalRows,
-            currentPageRows,
-            firstRow,
-            activePage,
-            noOfPages,
-            pageRows,
-            enablePaging,
-            height,
-            width,
-            rowsData,
-            hiddenColIndex,
-            concatColumns,
-            columnFormatting,
-            cssClassColumns,
-            columns,
-            rowCssClass,
-            rowClickEnabled,
-            onRowClick,
-            onRowHover,
-            onRowOut,
-            editButtonEnabled,
-            deleteButtonEnabled,
-            editButtonEvent,
-            deleteButtonEvent,
-            columnWidths,
-            maxWidth,
-            maxHeight,
-            enableGlobalSearch,
-            enableDownload,
-            downloadFilename,
-            globalSearchInput,
-            gridID,
-            enableColumnSearch,
-            headerCssClass,
-            gridCssClass,
-            onDownloadComplete,
-            pagerSelectOptions
-        } = this.state
-        return (
-            <div className={!isNull(gridCssClass) ?
-                `${gridCssClass} r-d-g-lt-component` :
-                "r-d-g-lt-component"}
-                style={{ maxWidth: maxWidth, width: width }}>
-                <GridGlobalSearchBar
-                    enableGlobalSearch={enableGlobalSearch}
-                    globalSearchInput={globalSearchInput}
-                    gridID={gridID}
-                    columns={columns}
-                    onSearchClicked={this.onSearchClicked}
-                    handleResetSearch={this.handleResetSearch}
-                    enableDownload={enableDownload}
-                    rowsData={rowsData}
-                    downloadFilename={downloadFilename}
-                    onDownloadComplete={onDownloadComplete}
-                />
-
-                <div className={!isNull(gridCssClass) ?
-                    `${gridCssClass} col-12 m-0 p-0 react-data-grid-lite`
-                    : "col-12 m-0 p-0 react-data-grid-lite"}>
-                    <table className="m-0 p-0">
-                        <GridHeader
-                            columns={columns}
-                            hiddenColIndex={hiddenColIndex}
-                            enableColumnSearch={enableColumnSearch}
-                            concatColumns={concatColumns}
-                            editButtonEnabled={editButtonEnabled}
-                            deleteButtonEnabled={deleteButtonEnabled}
-                            headerCssClass={headerCssClass}
-                            gridID={gridID}
-                            onHeaderClicked={this.onHeaderClicked}
-                            onSearchClicked={this.onSearchClicked}
-                            columnWidths={columnWidths}
-                            gridHeaderRef={this.gridHeaderRef}
-                        />
-                        <tbody style={{ height: height, maxHeight: maxHeight }}>
-                            <GridRows
-                                rowsData={rowsData}
-                                first={firstRow}
-                                count={currentPageRows}
-                                hiddenColIndex={hiddenColIndex}
-                                concatColumns={concatColumns}
-                                columnFormatting={columnFormatting}
-                                cssClassColumns={cssClassColumns}
-                                columns={columns}
-                                columnWidths={columnWidths}
-                                rowCssClass={rowCssClass}
-                                rowClickEnabled={rowClickEnabled}
-                                onRowClick={onRowClick}
-                                onRowHover={onRowHover}
-                                onRowOut={onRowOut}
-                                editButtonEnabled={editButtonEnabled}
-                                deleteButtonEnabled={deleteButtonEnabled}
-                                editButtonEvent={editButtonEvent}
-                                deleteButtonEvent={deleteButtonEvent}
-                            />
-                        </tbody>
-                    </table>
-                    <GridFooter
-                        totalRows={totalRows}
-                        currentPageRows={currentPageRows}
-                        activePage={activePage}
-                        pageRows={pageRows}
-                        pagerSelectOptions={pagerSelectOptions}
-                        enablePaging={enablePaging}
-                        noOfPages={noOfPages}
-                        onPageChange={this.handleChangePage}
-                        onPrev={this.handleBackwardPage}
-                        onNext={this.handleForwardPage}
+    return (
+        <div
+            id={state.gridID}
+            className={
+                !isNull(state.gridCssClass)
+                    ? `${state.gridCssClass} r-d-g-lt-component`
+                    : 'r-d-g-lt-component'
+            }
+            style={{ maxWidth: state.maxWidth, width: state.width }}
+        >
+            <GridGlobalSearchBar
+                enableGlobalSearch={state.enableGlobalSearch}
+                globalSearchInput={state.globalSearchInput}
+                gridID={state.gridID}
+                columns={state.columns}
+                onSearchClicked={onSearchClicked}
+                handleResetSearch={handleResetSearch}
+                enableDownload={state.enableDownload}
+                rowsData={state.rowsData}
+                downloadFilename={state.downloadFilename}
+                onDownloadComplete={state.onDownloadComplete}
+            />
+            <div
+                className={
+                    !isNull(state.gridCssClass)
+                        ? `${state.gridCssClass} col-12 m-0 p-0 react-data-grid-lite`
+                        : 'col-12 m-0 p-0 react-data-grid-lite'
+                }
+            >
+                <table className="m-0 p-0">
+                    <GridHeader
+                        columns={state.columns}
+                        hiddenColIndex={state.hiddenColIndex}
+                        enableColumnSearch={state.enableColumnSearch}
+                        concatColumns={state.concatColumns}
+                        editButtonEnabled={state.editButtonEnabled}
+                        deleteButtonEnabled={state.deleteButtonEnabled}
+                        headerCssClass={state.headerCssClass}
+                        gridID={state.gridID}
+                        onHeaderClicked={onHeaderClicked}
+                        onSearchClicked={onSearchClicked}
+                        columnWidths={state.columnWidths}
+                        gridHeaderRef={gridHeaderRef}
                     />
-
-                </div>
+                    <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
+                        <GridRows
+                            rowsData={state.rowsData}
+                            first={state.firstRow}
+                            count={state.currentPageRows}
+                            hiddenColIndex={state.hiddenColIndex}
+                            concatColumns={state.concatColumns}
+                            columnFormatting={state.columnFormatting}
+                            cssClassColumns={state.cssClassColumns}
+                            columns={state.columns}
+                            columnWidths={state.columnWidths}
+                            rowCssClass={state.rowCssClass}
+                            rowClickEnabled={state.rowClickEnabled}
+                            onRowClick={state.onRowClick}
+                            onRowHover={state.onRowHover}
+                            onRowOut={state.onRowOut}
+                            editButtonEnabled={state.editButtonEnabled}
+                            deleteButtonEnabled={state.deleteButtonEnabled}
+                            editButtonEvent={state.editButtonEvent}
+                            deleteButtonEvent={state.deleteButtonEvent}
+                        />
+                    </tbody>
+                </table>
+                <GridFooter
+                    totalRows={state.totalRows}
+                    currentPageRows={state.currentPageRows}
+                    activePage={state.activePage}
+                    pageRows={state.pageRows}
+                    pagerSelectOptions={state.pagerSelectOptions}
+                    enablePaging={state.enablePaging}
+                    noOfPages={state.noOfPages}
+                    onPageChange={handleChangePage}
+                    onPrev={handleBackwardPage}
+                    onNext={handleForwardPage}
+                />
             </div>
-        )
-    }
+        </div>
+    );
 }
 
-export default DataGrid
+export default DataGrid;

@@ -28,6 +28,7 @@ A lightweight and customizable React data grid component designed for high perfo
 - [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/styling.md)
 - [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/advanced.md)
 - [Format Guide](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/format_guide.md)
+- [Examples](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/examples.md)
 <br><br>
 
 ## 📦 Installation
@@ -62,19 +63,6 @@ const rows = [
   { id: 3, name: 'Sam Johnson', age: 22 }
 ];
 
-const options = {
-    editButton: {
-        event: (e, row) => {
-            console.log(row);
-        }
-    },
-    deleteButton: {
-        event: (e, row) => {
-            console.log(row);
-        }
-    }
-}
-
 function App() {
   return (
     <div>
@@ -82,7 +70,6 @@ function App() {
       <DataGrid
           columns={columns}
           data={rows}
-          options={options}
           pageSize={10}
       />
     </div>
@@ -101,8 +88,9 @@ The `react-data-grid-lite` library is compatible with the following versions of 
 
 | **React Version** | **Compatibility**  |
 | ----------------- | ------------------ |
-| **React 18**      | ✅ Fully Compatible |
-| **React 19**      | ✅ Fully Compatible |
+| **React 19+**     | ✅ Fully Compatible |
+| **React 18+**     | ✅ Fully Compatible |
+| **React 17+**     | ✅ Fully Compatible |
 
 <br><br>
 
@@ -117,7 +105,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <br><br>
 ## 🙋‍♂️ Available for freelance work!
 Reach out via [LinkedIn](https://www.linkedin.com/in/vinay-sharma-2022354) or check out my projects on [GitHub](https://github.com/ricky-sharma).
-
----
-
-#React #ReactDataGrid #DataGrid #ReactTable #ReactComponents #GridComponent #DataGridLite #Pagination #Sorting #Filtering #ColumnSearch #ReactUI #ReactGrid #DataTable #TableComponent #DataGridFeatures #ReactPagination #ColumnSorting #ReactFiltering #ReactTableComponent #ResponsiveDataGrid #ReactSearchableGrid #SmallBundleSize #LegacyReactSupport #GridWithSortingAndFiltering #ReactJS #DataManagement #TableWithPagination #CustomizableGrid

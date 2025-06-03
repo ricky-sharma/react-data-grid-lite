@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Button_Column_Key } from '../constants';
-import { isNull } from '../helper/common';
+import { isNull } from '../helpers/common';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { calculateColumnWidth } from "../utils/component-utils";
 

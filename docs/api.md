@@ -6,11 +6,12 @@
 
 | **Prop**              | **Type**            | **Description**                                                                                                             | **Default Value** | **Required** |
 | --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------ |
-|    `columns`          | `Array`             |Array of column definitions. Each column can have properties like `name`, `width`, 'alias', 'searchEnable', 'hidden'  etc.   |     `null`        | Yes          |
-|    `data`             | `Array`             | Array of objects representing the rows of data to display.                                                                  |     `null`        | Yes          |
-|    `pageSize`         | `Number`            | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |     `null`        | No           |
+|    `id`               | `string`            | Unique ID for the DataGrid component. Defaults to a random ID in the format `id-<randomNumber>` if not provided.            |       -           | No           |
+|    `columns`          | `Array`             | Array of column definitions. Each column can have properties like `name`, `width`, 'alias', 'searchEnable', 'hidden'  etc.  |       -           | Yes          |
+|    `data`             | `Array`             | Array of objects representing the rows of data to display.                                                                  |       -           | Yes          |
+|    `pageSize`         | `Number`            | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |       -           | No           |
 |    `options`          | `Object`            | An object for additional customization. Contains options like `gridClass`, `enableGlobalSearch`, etc.                       |       -           | No           |
-|    `width`            | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. The width can be set to "inherit" to match the width of the containing element.|    `'90vw'`       | No           |
+|    `width`            | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. The width can be set to `'inherit'` to match the width of the containing element.|    `'90vw'`       | No           |
 |    `height`           | `String` / `Number` | The height of the grid. Can be a pixel value (e.g., `'300px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. |    `'60vh'`       | No           |
 |    `maxWidth`         | `String` / `Number` | The maximum width of the grid.                                                                                              |    `'100vw'`      | No           |
 |    `maxHeight`        | `String` / `Number` | The maximum height of the grid.                                                                                             |    `'100vh'`      | No           |
@@ -69,18 +70,18 @@ const columns = [
 
 The `options` prop is an **object** that provides additional configuration settings to further customize the behavior of the `DataGrid` component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality.
 
-| **Field**            | **Type**  | **Description**                                                                                                                               | **Required** |
-| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| `gridClass`          | `String`  | Custom CSS class for the grid container.                                                                                                      | No           |
-| `headerClass`        | `String`  | Custom CSS class for the header row.                                                                                                          | No           |
-| `rowClass`           | `String`  | Custom CSS class for each row in the grid.                                                                                                    | No           |
-| `enableColumnSearch` | `Boolean` | Whether to enable column-wise search functionality (search per individual column).                                                            | No           |
-| `enableGlobalSearch` | `Boolean` | Whether to enable global search across all columns.                                                                                           | No           |
-| `editButton`         | `Object`  | Configuration for enabling an edit button on each row. Includes an `event` field which is the function triggered when the button is clicked.  | No           |
-| `deleteButton`       | `Object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked. | No           |
-| `enableDownload`     | `Boolean` | Whether to enable the download functionality (export data as CSV).                                                                            | No           |
-| `downloadFilename`   | `String`  | The filename used when downloading the grid data (CSV format).                                                                                | No           |
-| `onDownloadComplete` | `Function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.                                                                                | No           |
+| **Field**            | **Type**  | **Description**                                                                                                           | **Default Value** | **Required** |
+| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------|------------------ | ------------ |
+| `gridClass`          | `String`  | Custom CSS class for the grid container.                                                                                  |       -           | No           |
+| `headerClass`        | `String`  | Custom CSS class for the header row.                                                                                      |       -           | No           |
+| `rowClass`           | `String`  | Custom CSS class for each row in the grid.                                                                                |       -           | No           |
+| `enableColumnSearch` | `Boolean` | Whether to enable column-wise search functionality (search per individual column).                                        |      true         | No           |
+| `enableGlobalSearch` | `Boolean` | Whether to enable global search across all columns.                                                                       |      true         | No           |
+| `editButton`         | `Object`  | Configuration for enabling an edit button on each row. Includes an `event` field which is the function triggered when the button is clicked.|        -     | No           |
+| `deleteButton`       | `Object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked.|       -      | No           |
+| `enableDownload`     | `Boolean` | Whether to enable the download functionality (export data as CSV).                                                        |      true         | No           |
+| `downloadFilename`   | `String`  | The filename used when downloading grid data in CSV format. The default value is `'export-{yyyy-MM-dd HH:mm:ss}'`         |       -           | No           |
+| `onDownloadComplete` | `Function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.       |       -           | No           |
 
 
 #### **Example of `options` Object:**
@@ -101,125 +102,5 @@ const options = {
   enableDownload: true,
   downloadFilename: 'data-grid-export.csv'
 };
-```
----
-
-### 📡 Example: Consuming Remote API Data
-
-This example shows how to fetch and display data from a remote API using `react-data-grid-lite`. It demonstrates how to:
-
-* Dynamically build column definitions from API response keys.
-* Transform and format certain columns (e.g. combining names).
-* Exclude or hide sensitive or unnecessary fields.
-* Render the data in a performant, paginated grid with actions.
-
-### 🔗 API Used
-
-**[fakerapi.it](https://fakerapi.it)** – Returns fake user data for testing:
-
-```
-GET https://fakerapi.it/api/v1/users?_quantity=1000
-```
-
-### 🧩 Dynamic Column Mapping
-
-Column definitions are generated by inspecting API response keys and applying logic to:
-
-* **Rename** columns (e.g. `firstname` → `Name`)
-* **Combine** fields (e.g. `firstname + lastname`)
-* **Hide** sensitive or redundant columns (e.g. `password`, `macaddress`)
-
-This approach is flexible and adapts to schema changes without hardcoding each field.
-
-#### 🚀 Code
-
-```jsx
-import React, { useEffect, useState } from 'react';
-import DataGrid, { trackPromise } from 'react-data-grid-lite';
-
-const options = {
-    editButton: {
-        event: (e, row) => {
-            alert('Edit Button clicked!');
-            console.log(row);
-        }
-    },
-    deleteButton: {
-        event: (e, row) => {
-            alert('Delete Button clicked!');
-            console.log(row);
-        }
-    }
-}
-
-function App() {
-    const [users, setUsers] = useState([]);
-    const [userColumns, setUserColumns] = useState({});
-    useEffect(() => {
-        const promise = fetch('https://fakerapi.it/api/v1/users?_quantity=1000')
-            .then(response => response.json())
-            .then(data => {
-                const Columns = Object.keys(data.data[0])
-                setUserColumns(Columns.map((val) => {
-                    if (val.toLowerCase() === 'id')
-                        return {
-                            name: val,
-                            alias: 'ID',
-                            width: '100px'
-                        }
-                    else if (val.toLowerCase() === 'uuid')
-                        return {
-                            name: val,
-                            alias: 'UUID'
-                        }
-                    else if (val.toLowerCase() === 'email')
-                        return {
-                            name: val,
-                            alias: 'Email',
-                        }
-                    else if (val.toLowerCase() === 'website')
-                        return {
-                            name: val,
-                            alias: 'Website',
-                        }
-                    else if (val.toLowerCase() === 'firstname')
-                        return {
-                            name: val,
-                            alias: 'Name',
-                            concatColumns: {
-                                columns: ['firstname', 'lastname']
-                            }
-                        }
-                    else
-                        return {
-                            name: val,
-                            hidden: true
-                        }
-                }));
-                setUsers(data.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-        trackPromise(promise);
-    }, []);
-
-    return (
-        <>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <h2>React Data Grid Lite Example</h2>
-            </div>
-            <DataGrid
-                columns={userColumns}
-                data={users}
-                pageSize={20}
-                options={options}
-                width={"1200px"}
-            />
-        </>
-    )
-}
-
-export default App
 ```
 ---

@@ -2,12 +2,12 @@
 import React from 'react';
 
 const GridPagination = ({
-    enablePaging = false,
+    enablePaging,
     activePage = 1,
     noOfPages = 1,
-    onPageChange = () => { },
-    onPrevButtonClick = () => { },
-    onNextButtonClick = () => { }
+    onPageChange,
+    onPrevButtonClick,
+    onNextButtonClick
 }) => {
     if (!enablePaging) return null;
 
@@ -19,8 +19,8 @@ const GridPagination = ({
         href: '/',
     };
 
-    const createItem = (key, content, onClick, extraClass = '', atagClass='', style = {}) => (
-        <li key={key} className={`m-0 p-0 page-item ${extraClass}`} style={style}>
+    const createItem = (key, content, onClick, extraClass = '', atagClass = '', style = {}, optionalProps = {}) => (
+        <li key={key} className={`m-0 p-0 page-item ${extraClass}`} style={style} {...optionalProps}>
             <a {...commonLinkProps} className={`${commonLinkProps.className} ${atagClass}`} onClick={onClick}>{content}</a>
         </li>
     );
@@ -31,13 +31,14 @@ const GridPagination = ({
             'prevButton',
             <b><i className="arrow" aria-hidden="true">&laquo;</i></b>,
             onPrevButtonClick,
-            page === 1 || total === 0 ? 'arrow disabled' : 'arrow'
+            page === 1 || total === 0 ? 'arrow disabled' : 'arrow',
+            '', {}, { 'aria-label': 'Previous Page' }
         )
     );
 
     // Left Dots
     pageItems.push(
-        createItem('leftDots', <b>..</b>, e => onPageChange(e, page - 2), '','dot', { visibility: page > 2 && total > 3 ? "visible" : "collapse" })
+        createItem('leftDots', <b>..</b>, e => onPageChange(e, page - 2), '', 'dot', { visibility: page > 2 && total > 3 ? "visible" : "collapse" })
     );
 
     // Extra left number (when on last page)
@@ -70,7 +71,8 @@ const GridPagination = ({
             'nextButton',
             <b><i className="arrow" aria-hidden="true">&raquo;</i></b>,
             onNextButtonClick,
-            page === total || total === 0 ? 'arrow disabled' : 'arrow'
+            page === total || total === 0 ? 'arrow disabled' : 'arrow',
+            '', {}, { 'aria-label': 'Next Page' }
         )
     );
 
