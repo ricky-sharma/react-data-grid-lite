@@ -2,7 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),  and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+<br><br>
+## [1.0.5] - 2025-06-04
+
+### Added
+- **Testing**: Set up Jest for unit testing and added initial test configuration.
+- **Tests**: Implemented test cases to achieve over 80% coverage across statements, branches, functions, and lines.
+- **Compatibility**: Added support for React 17+ and verified functionality in React 17+ environments.
+
+### Changed
+- **Documentation**:
+  - Moved usage example from `api.md` to a new `examples.md`.
+  - Updated `README.md` to include a link to `examples.md` alongside the existing API documentation.
+- **Refactor**:
+  - Migrated the entire DataGrid package to React functional components for improved maintainability and performance.
+  - Converted `Datagrid` component in `react-data-grid-lite.jsx` from a class to a functional component.
+  - Refactored `eventGridSearchClicked` in `event-grid-search-clicked.js` to streamline logic and reduce bundle size.
+  - Simplified the `format` function API by removing the `currencyCode` argument and using the `format` parameter as the currency code instead.
+- **Code Quality**: Refactored and improved code based on insights from test results.
+
+### Fixed
+- **Props Handling**: Added an `id` prop to `DataGrid`, defaulting to `id-<randomNumber>` if not explicitly provided.
+
 
 <br><br>
 
