@@ -26,8 +26,8 @@
     "test:build": "jest --clearCache && jest & cross-env NODE_ENV=production rollup -c rollup.config.mjs"
   },
   "peerDependencies": {
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react": "^17.0.0 ||^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 ||^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
