@@ -1,4 +1,4 @@
-import { isNull, objectKeyMatch } from '../../helpers/common';
+import { isNull } from '../../helpers/common';
 import { format as formatVal } from '../../helpers/format';
 
 /*
@@ -56,13 +56,9 @@ export const eventGridSearchClicked = (
         } else {
             const t = (col?.formatting?.type || '').toLowerCase(), f = col?.formatting?.format ?? '';
             data = data.filter(o => formattingType?.includes(t)
-                ? (!isNull(col.colObj)
-                    ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k?.toLowerCase()) && !isNull(o[k])
-                        && formatVal(o[k], t, f)?.toString()?.toLowerCase()?.includes(q))
-                    : objectKeyMatch(o, col.colName) && formatVal(o[col.colName], t, f)?.toString()?.toLowerCase()?.includes(q))
-                : (!isNull(col.colObj)
-                    ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k?.toLowerCase()) && matchesSearch(o[k]))
-                    : objectKeyMatch(o, col.colName) && matchesSearch(o[col.colName]))
+                ? Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k?.toLowerCase()) && !isNull(o[k])
+                    && formatVal(o[k], t, f)?.toString()?.toLowerCase()?.includes(q))
+                : Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k?.toLowerCase()) && matchesSearch(o[k]))
             );
         }
     });

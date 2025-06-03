@@ -33,9 +33,6 @@ export function isNull(value) {
     return false;
 }
 
-export const objectKeyMatch = (obj, keyName) =>
-    Object.keys(obj).some(k => k.toLowerCase() === keyName.toLowerCase());
-
 export const objectsEqual = (o1, o2) =>
     (isNull(o1) && isNull(o2)) ||
     (!isNull(o1) &&

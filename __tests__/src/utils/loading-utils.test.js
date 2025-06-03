@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import trackPromise, { getLoading, subscribe } from './../../../src/utils/loading-utils';
 
 describe('trackPromise module', () => {

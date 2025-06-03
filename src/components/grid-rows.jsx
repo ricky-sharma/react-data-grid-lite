@@ -42,13 +42,13 @@ const GridRows = ({
     columnWidths = [],
     rowCssClass = '',
     rowClickEnabled = false,
-    onRowClick = () => { },
-    onRowHover = () => { },
-    onRowOut = () => { },
+    onRowClick,
+    onRowHover,
+    onRowOut,
     editButtonEnabled = false,
     deleteButtonEnabled = false,
-    editButtonEvent = () => { },
-    deleteButtonEvent = () => { }
+    editButtonEvent,
+    deleteButtonEvent
 }) => {
     const loading = useLoadingIndicator();
     const windowWidth = useWindowWidth();

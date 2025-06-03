@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull, objectKeyMatch, objectsEqual } from './../../../src/helpers/common';
+import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull, objectsEqual } from './../../../src/helpers/common';
 
 describe('isNull', () => {
     it('returns true for null, undefined, NaN', () => {
@@ -27,19 +27,6 @@ describe('isNull', () => {
         expect(isNull({ a: 1 })).toBe(false);
         expect(isNull(0)).toBe(false);
         expect(isNull(false)).toBe(false);
-    });
-});
-
-describe('objectKeyMatch', () => {
-    it('matches keys case-insensitively', () => {
-        const obj = { Name: 'John', age: 30 };
-        expect(objectKeyMatch(obj, 'name')).toBe(true);
-        expect(objectKeyMatch(obj, 'AGE')).toBe(true);
-        expect(objectKeyMatch(obj, 'gender')).toBe(false);
-    });
-
-    it('returns false on empty object', () => {
-        expect(objectKeyMatch({}, 'anyKey')).toBe(false);
     });
 });
 

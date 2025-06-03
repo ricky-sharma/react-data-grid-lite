@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 jest.mock('./../../../src/constants', () => ({
     Button_Column_Key: 'button',
     Button_Column_Width: '60px',

@@ -3,7 +3,6 @@ jest.mock('../../../src/helpers/date', () => ({
     formatDate: jest.fn(() => 'formatted-date')
 }));
 
-
 import { formatDate } from '../../../src/helpers/date';
 import { format } from '../../../src/helpers/format';
 

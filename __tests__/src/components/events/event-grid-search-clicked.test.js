@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 jest.mock('./../../../../src/helpers/format.js', () => ({
     format: jest.fn()
 }));
@@ -88,7 +87,7 @@ describe('eventGridSearchClicked', () => {
     });
 });
 
-describe('eventGridSearchClicked', () => {
+describe('More tests for eventGridSearchClicked', () => {
     let e, dataReceivedRef, searchColsRef, setState, state;
 
     beforeEach(() => {
@@ -104,7 +103,7 @@ describe('eventGridSearchClicked', () => {
         state = { toggleState: false };
 
         jest.clearAllMocks();
-
+        jest.resetModules();
         mockFormatVal.mockImplementation(val => val.toString());
     });
 
@@ -166,19 +165,19 @@ describe('eventGridSearchClicked', () => {
     });
 
     it('should perform global search across multiple fields', () => {
-        const formatting = { type: 'number', format: '0.00' };
+        const formatting = { type: 'string' };
 
         searchColsRef.current = [{
             colName: '##globalSearch##',
             searchQuery: '123',
             colObj: [
-                { name: 'price', formatting },
+                { name: 'price', formatting, concatColumns: { columns: ['id', 'name'] } },
                 { name: 'age' }
             ],
             formatting: {}
         }];
 
-        eventGridSearchClicked(e, '##globalSearch##', [], formatting, dataReceivedRef, searchColsRef, state, setState);
+        eventGridSearchClicked(e, '##globalSearch##', [], null, dataReceivedRef, searchColsRef, state, setState);
         expect(setState).toHaveBeenCalled();
     });
 
@@ -188,9 +187,16 @@ describe('eventGridSearchClicked', () => {
         expect(setState).not.toHaveBeenCalled();
     });
 
+    it('should be able to handle null data reference', () => {
+        const e = { target: { value: 'Alice' } };
+        const setState = jest.fn();
+        eventGridSearchClicked(e, 'amount', [], {}, { current: null }, { current: [] }, {}, setState);
+        expect(setState).toHaveBeenCalled();
+    });
+
     it('should update searchColsRef with new entry on input', () => {
         const e = { target: { value: 'Alice' } };
-        const searchColsRef = { current: [] };
+        const searchColsRef = { current: null };
         const setState = jest.fn();
 
         eventGridSearchClicked(
@@ -335,4 +341,79 @@ describe('eventGridSearchClicked', () => {
         expect(newState.toggleState).toBe(true);
         expect(newState.activePage).toBe(1);
     });
+
+    it('should include rows where concatenated columns match formatted value', () => {
+        jest.mock('./../../../../src/helpers/format.js', () => ({ format: jest.fn((value) => value) }));
+
+        const data = [
+            { id: 1, colA: 'TestValue' },
+            { id: 2, colA: 'OtherValue' }
+        ];
+
+        const searchColsRef = {
+            current: [{
+                colName: '##globalSearch##',
+                searchQuery: 'test',
+                colObj: [{
+                    name: 'colA',
+                    concatColumns: { columns: ['colA'] },
+                    formatting: { format: '', type: 'string' }
+                }]
+            }]
+        };
+
+        const dataReceivedRef = { current: [...data] };
+        const setState = jest.fn();
+        const state = { toggleState: false };
+
+        eventGridSearchClicked(
+            { target: { value: 'test' } },
+            '##globalSearch##',
+            [],
+            { format: '', type: 'string' },
+            dataReceivedRef,
+            searchColsRef,
+            state,
+            setState
+        );
+
+        expect(setState).toHaveBeenCalledWith(expect.any(Function));
+    });
+
+    it('should include rows based on case-insensitive match in concat columns (no formatting)', () => {
+        const data = [
+            { id: 1, name: 'hello world' },
+            { id: 2, name: 'foo bar' }
+        ];
+
+        const searchColsRef = {
+            current: [{
+                colName: '##globalSearch##',
+                searchQuery: 'foo',
+                colObj: [{
+                    name: 'name',
+                    concatColumns: { columns: ['name'] },
+                    formatting: { type: '', format: '' }
+                }]
+            }]
+        };
+
+        const dataReceivedRef = { current: data };
+        const setState = jest.fn();
+        const state = { toggleState: true };
+
+        eventGridSearchClicked(
+            { target: { value: 'foo' } },
+            '##globalSearch##',
+            [],
+            {},
+            dataReceivedRef,
+            searchColsRef,
+            state,
+            setState
+        );
+
+        expect(setState).toHaveBeenCalledWith(expect.any(Function));
+    });
+
 });

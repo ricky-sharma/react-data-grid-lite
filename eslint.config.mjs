@@ -3,9 +3,33 @@ import globals from "globals";
 import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
 
-
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,jsx}"], plugins: { js }, extends: ["js/recommended"] },
-  { files: ["**/*.{js,mjs,cjs,jsx}"], languageOptions: { globals: globals.browser } },
-  pluginReact.configs.flat.recommended,
+    // Base config for all JS/JSX files
+    {
+        files: ["**/*.{js,mjs,cjs,jsx}"],
+        plugins: { js },
+        extends: ["js/recommended"],
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+            },
+        },
+        rules: {
+            'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+        },
+    },
+    // Jest-specific config for test files
+    {
+        files: ["**/*.test.js", "**/__tests__/**/*.js", "**/*.test.jsx", "**/__tests__/**/*.jsx"],
+        languageOptions: {
+            globals: {
+                ...globals.jest,
+            },
+        },
+        rules: {
+            'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+        },
+    },
+    // React recommended config
+    pluginReact.configs.flat.recommended,
 ]);
