@@ -17,6 +17,7 @@ A lightweight and customizable React data grid component designed for high perfo
 * 🔍 **Searchable and alias columns**: Improves UX and readability.
 * 🧾 **CSV export**: Download the entire grid.
 * ✏️ **Edit/Delete** buttons: Easily hook into row-level actions.
+* 📊 **Analytics events**: Tracks key actions for effective data analysis.
 <br><br>
 ![react-data-grid-lite](https://github.com/user-attachments/assets/948c8601-0c36-42d7-8cbf-b7753c634182)
 
@@ -70,7 +71,6 @@ function App() {
       <DataGrid
           columns={columns}
           data={rows}
-          pageSize={10}
       />
     </div>
   );
