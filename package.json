@@ -1,6 +1,6 @@
 {
   "name": "react-data-grid-lite",
-  "version": "1.0.5-beta.0",
+  "version": "1.0.5",
   "description": "A fast, lightweight, and customizable Data Grid for React.",
   "author": "Vinay Sharma",
   "license": "MIT",
