@@ -5,8 +5,7 @@ import { eventGridHeaderClicked } from './components/events/event-grid-header-cl
 import { eventGridSearchClicked } from './components/events/event-grid-search-clicked';
 import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
-import GridHeader from './components/grid-header';
-import GridRows from './components/grid-rows';
+import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
 
 const DataGrid = ({
@@ -236,6 +235,7 @@ const DataGrid = ({
     }, [state.toggleState])
 
     const onSearchClicked = (e, colName, colObject, formatting) => {
+        if (e?.target?.value) e.target.value = e?.target?.value.trimStart();
         searchRef.current = {
             changeEvent: e,
             searchQuery: e?.target?.value ?? ''
@@ -303,45 +303,14 @@ const DataGrid = ({
                         : 'col-12 m-0 p-0 react-data-grid-lite'
                 }
             >
-                <table className="m-0 p-0">
-                    <GridHeader
-                        columns={state.columns}
-                        hiddenColIndex={state.hiddenColIndex}
-                        enableColumnSearch={state.enableColumnSearch}
-                        concatColumns={state.concatColumns}
-                        editButtonEnabled={state.editButtonEnabled}
-                        deleteButtonEnabled={state.deleteButtonEnabled}
-                        headerCssClass={state.headerCssClass}
-                        gridID={state.gridID}
-                        onHeaderClicked={onHeaderClicked}
-                        onSearchClicked={onSearchClicked}
-                        columnWidths={state.columnWidths}
-                        gridHeaderRef={gridHeaderRef}
-                        computedColumnWidthsRef={computedColumnWidthsRef}
-                    />
-                    <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
-                        <GridRows
-                            rowsData={state.rowsData}
-                            first={state.firstRow}
-                            count={state.currentPageRows}
-                            hiddenColIndex={state.hiddenColIndex}
-                            concatColumns={state.concatColumns}
-                            columnFormatting={state.columnFormatting}
-                            cssClassColumns={state.cssClassColumns}
-                            columns={state.columns}
-                            rowCssClass={state.rowCssClass}
-                            rowClickEnabled={state.rowClickEnabled}
-                            onRowClick={state.onRowClick}
-                            onRowHover={state.onRowHover}
-                            onRowOut={state.onRowOut}
-                            editButtonEnabled={state.editButtonEnabled}
-                            deleteButtonEnabled={state.deleteButtonEnabled}
-                            editButtonEvent={state.editButtonEvent}
-                            deleteButtonEvent={state.deleteButtonEvent}
-                            computedColumnWidthsRef={computedColumnWidthsRef}
-                        />
-                    </tbody>
-                </table>
+                <GridTable
+                    state={state}
+                    onHeaderClicked={onHeaderClicked}
+                    onSearchClicked={onSearchClicked}
+                    gridHeaderRef={gridHeaderRef}
+                    computedColumnWidthsRef={computedColumnWidthsRef}
+                />
+
             </div>
             <GridFooter
                 totalRows={state.totalRows}

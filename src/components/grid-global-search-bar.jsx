@@ -42,10 +42,6 @@ const GridGlobalSearchBar = ({
                 </div>
             )}
             <div
-                style={{
-                    pointerEvents: (noData ? 'none' : ''),
-                    opacity: (noData ? '0.5' : '')
-                }}
                 className="p-0 m-0 icon-div alignCenter clear-icon-div"
                 title="Reset Search"
                 onClick={handleResetSearch}
