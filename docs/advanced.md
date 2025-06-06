@@ -72,9 +72,58 @@ This feature simplifies the grid by consolidating data into a single column whil
 > **Concatenating columns does not create a new column in the dataset**. Instead, the concatenated value will be displayed in the column you specify. This means that one of the columns in the dataset will be used to store the concatenated result, rather than introducing a completely new column in the dataset.
 
 <br><br>
+## 📐 How Column Width is Computed (for Version 1.1.0 and Above)
+
+The grid intelligently calculates column widths based on a mix of fixed, flexible, and fallback strategies. Here's how it works:
+
+### 🧾 General Rules
+
+* **All column widths are ultimately returned in `px`**.
+* **Invalid, negative, or missing widths** fall back to the default value defined as `Fallback_Column_Width` in `constants.js`.
+* **Percentage (`%`) widths are converted to pixels** based on the container width.
 
 
-## 📏 **Column Width Calculation – Explained Simply**
+### 🖥️ Desktop Mode
+
+#### 🔹 Scenario 1: All Columns Have Fixed Widths
+
+* If all visible columns have defined widths:
+
+  * If the total fixed width exceeds the container, columns retain their set widths.
+  * If the total is less than the container width, all columns are evenly stretched.
+
+#### 🔹 Scenario 2: Mixed Fixed and Flexible Columns
+
+* Fixed-width columns retain their pixel values.
+* Remaining width is evenly distributed among flexible columns.
+* If a flexible column lacks a valid width, it receives an equal share of the remaining space.
+* Each flexible column will receive **at least the default value specified by `Fallback_Column_Width`**.
+
+#### 🔹 Scenario 3: All Columns Are Flexible (No Valid Widths)
+
+* The container width is evenly divided among all visible columns.
+* Each column receives at least the default value specified by `Fallback_Column_Width`.
+
+
+### 📱 Mobile Mode
+
+* Each column is expected to take a fixed width (`Mobile_Column_Width`, e.g., `120px`).
+* If total required width exceeds container width:
+
+  * Button columns or columns with wider settings retain their defined size.
+  * Other columns default to `Mobile_Column_Width`.
+* Otherwise, all columns share the container width equally.
+
+
+### ⚠️ Fallbacks & Edge Cases
+
+* If no visible columns are found, a default width of `100%` is returned.
+* If a column has a `%` width like `"20%"`, it's converted to pixels based on the container size.
+* Widths like `"abc"`, `"-100px"`, `null`, or `undefined` are treated as invalid and **fall back to the default value specified by** `Fallback_Column_Width`.
+  
+<br><br>
+
+## 📏 **Column Width Calculation – Explained Simply (for Version 1.0.5 and Below)**
 
 This logic automatically adjusts column widths based on how the grid is set up:
 
