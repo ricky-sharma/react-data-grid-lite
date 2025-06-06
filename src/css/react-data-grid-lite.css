@@ -499,19 +499,19 @@
     width: 100%;
 }
 
-.r-d-g-lt-component .gridHeader {
+.r-d-g-lt-component thead tr.gridHeader {
     background-color: #fff;
     table-layout: fixed;
 }
 
-    .r-d-g-lt-component .gridHeader th {
+    .r-d-g-lt-component thead tr.gridHeader th {
         border: 0px solid rgb(224, 224, 224) !important;
         position: relative;
         padding: 15px 0 5px 0 !important;
         vertical-align: top !important;
     }
 
-        .r-d-g-lt-component .gridHeader th div {
+        .r-d-g-lt-component thead tr.gridHeader th div {
             position: relative;
             padding: 0px !important;
             width: 100%;
@@ -521,7 +521,7 @@
             height: 55px !important;
         }
 
-            .r-d-g-lt-component .gridHeader th div h4 {
+            .r-d-g-lt-component thead tr.gridHeader th div h4 {
                 margin: 0 !important;
                 padding: 0 0 0 5px !important;
                 word-break: break-word;
@@ -531,7 +531,7 @@
                 width: 100%;
             }
 
-    .r-d-g-lt-component .gridHeader span {
+    .r-d-g-lt-component thead tr.gridHeader span {
         width: 2px;
         background-color: rgb(224, 224, 224);
         position: absolute;
@@ -542,24 +542,25 @@
         padding: 0 !important
     }
 
-.r-d-g-lt-component .searchHeader {
+.r-d-g-lt-component thead tr.searchHeader {
+    table-layout: fixed !important;
+    background-color: #fff !important;
+}
+
+.r-d-g-lt-component thead tr.searchHeader th {
+    background-color: #fff;
+    border: 0 !important;
+    position: relative;
+    padding: 5px 1px 7px !important;
+    vertical-align: top !important;
+    line-height: 0.5 !important;
     table-layout: fixed;
 }
 
-    .r-d-g-lt-component .searchHeader th {
-        background-color: #fff;
-        border: 0 !important;
+    .r-d-g-lt-component thead tr.searchHeader th div {
         position: relative;
-        padding: 5px 1px 7px !important;
-        vertical-align: top !important;
-        line-height: 0.5 !important;
-        table-layout: fixed;
+        padding-left: 0px !important;
     }
-
-        .r-d-g-lt-component .searchHeader th div {
-            position: relative;
-            padding-left: 0px !important;
-        }
 
 .r-d-g-lt-component .gridRows:first-child,
 .r-d-g-lt-component .gridRows:first-child td {

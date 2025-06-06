@@ -1,5 +1,17 @@
-import { Button_Column_Key, Button_Column_Width, Default_Grid_Width_VW, Mobile_Column_Width } from "../constants";
-import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from "../helpers/common";
+import {
+    Border_Padding_Margin_Width,
+    Button_Column_Key,
+    Button_Column_Width,
+    Container_Identifier,
+    Default_Grid_Width_VW,
+    Fallback_Column_Width,
+    Mobile_Column_Width
+} from "../constants";
+import {
+    convertViewportUnitToPixels,
+    getContainerWidthInPixels,
+    isNull
+} from "../helpers/common";
 
 export function calculateColumnWidth(
     colWidthArray,
@@ -8,26 +20,49 @@ export function calculateColumnWidth(
     buttonColEnabled = false,
     isMobile = false
 ) {
-    if (!Array.isArray(colWidthArray)) return '0%';
-
+    if (!Array.isArray(colWidthArray)) return '100%';
     const containerWidthFallback = convertViewportUnitToPixels(Default_Grid_Width_VW);
-    const containerWidth = getContainerWidthInPixels('.r-d-g-lt-component', containerWidthFallback);
-    const avoidingBelowHundredPercent = 5; // extra buffer to avoid layout shrinkage
+    const containerWidth = getContainerWidthInPixels(Container_Identifier, containerWidthFallback);
     const buttonColumnWidth = parseFloat(Button_Column_Width?.replace?.('px', '') || '0');
     const mobileColumnWidth = parseFloat(Mobile_Column_Width?.replace?.('px', '') || '0');
-
+    const fallbackWidth = parseFloat(Fallback_Column_Width?.replace?.('px', '') || '0');
+    const netContainerWidth = buttonColEnabled ?
+        containerWidth - buttonColumnWidth - parseFloat(Border_Padding_Margin_Width ?? 0)
+        : containerWidth - parseFloat(Border_Padding_Margin_Width ?? 0);
     let fixedWidthTotal = 0;
     let fixedWidthColCount = 0;
     let nonFixedWidthColCount = 0;
 
+    const tryParseWidth = (val, totalWidth) => {
+        let width = 0;
+        if (typeof val === 'string') {
+            if (val.trim().endsWith('%')) {
+                const percent = parseFloat(val);
+                width = isNaN(percent) ? 0 : (percent * totalWidth) / 100;
+            } else if (val.trim().endsWith('px')) {
+                width = parseFloat(val);
+            } else {
+                width = 0;
+            }
+        } else if (typeof val === 'number') {
+            width = val;
+        }
+        return width;
+    }
+
     colWidthArray.forEach((width, index) => {
         if (!hiddenCols?.includes(index)) {
-            const numeric = parseFloat(width);
-            if (isNull(width)) {
+            const numeric = parseFloat(width?.toString().replace('px', '').replace('%', ''));
+            if (
+                isNull(width) ||
+                isNaN(numeric) ||
+                numeric <= 0
+            ) {
                 nonFixedWidthColCount++;
-            } else if (!isNaN(numeric)) {
+            } else {
+                const pixelValue = tryParseWidth(width, containerWidth);
                 fixedWidthColCount++;
-                fixedWidthTotal += numeric;
+                fixedWidthTotal += pixelValue;
             }
         }
     });
@@ -35,55 +70,49 @@ export function calculateColumnWidth(
     const totalVisibleColumns = fixedWidthColCount + nonFixedWidthColCount;
     if (totalVisibleColumns === 0) return '100%';
 
+    // Handle button column
     if (currentColKey === Button_Column_Key) {
         return Button_Column_Width;
     }
 
-    const netContainerWidth = buttonColEnabled ? containerWidth - buttonColumnWidth : containerWidth;
-    const colWidthSet = colWidthArray?.[currentColKey] ?? null;
-    const parsedColWidthSet = parseFloat(colWidthSet?.replace?.('px', '') || '0');
+    let parsedWidth = tryParseWidth(colWidthArray?.[currentColKey] ?? 0, containerWidth);
 
-    // MOBILE FIRST
+    const isValidWidth = !isNaN(parsedWidth) && parsedWidth > 0;
+    const safeColWidth = isValidWidth ? `${parsedWidth}px` : Fallback_Column_Width;
+    const nonFixedColumnComputedValue = nonFixedWidthColCount > 0 ?
+        ((netContainerWidth - fixedWidthTotal) / nonFixedWidthColCount) : 0;
+
+    // MOBILE LOGIC
     if (isMobile) {
         const totalMobileRequired = totalVisibleColumns * mobileColumnWidth;
         return totalMobileRequired >= netContainerWidth
-            ? (parsedColWidthSet > mobileColumnWidth ? colWidthSet : Mobile_Column_Width)
+            ? (parsedWidth > mobileColumnWidth ? safeColWidth : Mobile_Column_Width)
             : `${(netContainerWidth / totalVisibleColumns)}px`;
     }
 
     // DESKTOP LOGIC
 
-    //  SCENARIO 1: All columns fixed width
+    // SCENARIO 1: All fixed columns
     if (fixedWidthColCount > 0 && nonFixedWidthColCount === 0) {
         if (fixedWidthTotal >= netContainerWidth) {
-            return colWidthSet ?? 'auto';
+            return safeColWidth;
         } else {
-            // Rebalance: stretch fixed cols using % to fill grid
             return `${(netContainerWidth / totalVisibleColumns)}px`;
         }
     }
 
-    // SCENARIO 2: Mixed fixed and flexible columns
+    // SCENARIO 2: Mixed fixed + flexible
     if (nonFixedWidthColCount > 0 && fixedWidthColCount > 0) {
-        const usedPercent = ((fixedWidthTotal + (buttonColEnabled ? buttonColumnWidth : 0)) * 100) / containerWidth;
-        const remainingPercent = 100 + avoidingBelowHundredPercent - usedPercent;
-        const colPercentWidth = remainingPercent / nonFixedWidthColCount;
-        return colWidthSet ?? `${colPercentWidth}%`;
+        return colWidthArray?.[currentColKey] ? safeColWidth :
+            (nonFixedColumnComputedValue > fallbackWidth ? `${nonFixedColumnComputedValue}px` : Fallback_Column_Width);
     }
 
-    // SCENARIO 3: All columns flexible
+    // SCENARIO 3: All flexible
     if (fixedWidthColCount === 0 && nonFixedWidthColCount > 0) {
-        const colWidthCal = (100 + avoidingBelowHundredPercent) / nonFixedWidthColCount;
-        const colPixelEstimate = (colWidthCal * containerWidth) / 100;
-        const nonFixedWidth = colPixelEstimate * nonFixedWidthColCount;
-
-        if (nonFixedWidth >= netContainerWidth) {
-            return `${colWidthCal}%`;
-        } else {
-            return `${(netContainerWidth / totalVisibleColumns)}px`;
-        }
+        return (netContainerWidth / totalVisibleColumns) > fallbackWidth ?
+            `${(netContainerWidth / totalVisibleColumns)}px` : Fallback_Column_Width;
     }
 
-    // 3. Fallback
+    // Fallback
     return `${(netContainerWidth / totalVisibleColumns)}px`;
 }

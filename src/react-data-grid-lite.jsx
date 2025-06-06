@@ -68,6 +68,7 @@ const DataGrid = ({
     const prevPageRef = useRef(null);
     const sortRef = useRef(null);
     const searchRef = useRef(null);
+    const computedColumnWidthsRef = useRef(null);
 
     useEffect(() => {
         dataReceivedRef.current = data ?? [];
@@ -93,7 +94,13 @@ const DataGrid = ({
                 !isNull(col.formatting) && !isNull(col.formatting.type) ?
                     { type: col?.formatting?.type, format: col?.formatting?.format ?? '' } : null) : [],
             cssClassColumns: !isNull(columns) ? columns.map((col) => !isNull(col.class) ? col.class : null) : [],
-            columnWidths: !isNull(columns) ? columns.map((col) => !isNull(col.width) ? col.width : null) : []
+            columnWidths: !isNull(columns)
+                ? columns.map(col =>
+                    typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
+                        ? col.width
+                        : null
+                )
+                : []
         }));
     }, [columns, data]);
 
@@ -283,6 +290,7 @@ const DataGrid = ({
                         onSearchClicked={onSearchClicked}
                         columnWidths={state.columnWidths}
                         gridHeaderRef={gridHeaderRef}
+                        computedColumnWidthsRef={computedColumnWidthsRef}
                     />
                     <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
                         <GridRows
@@ -294,7 +302,6 @@ const DataGrid = ({
                             columnFormatting={state.columnFormatting}
                             cssClassColumns={state.cssClassColumns}
                             columns={state.columns}
-                            columnWidths={state.columnWidths}
                             rowCssClass={state.rowCssClass}
                             rowClickEnabled={state.rowClickEnabled}
                             onRowClick={state.onRowClick}
@@ -304,6 +311,7 @@ const DataGrid = ({
                             deleteButtonEnabled={state.deleteButtonEnabled}
                             editButtonEvent={state.editButtonEvent}
                             deleteButtonEvent={state.deleteButtonEvent}
+                            computedColumnWidthsRef={computedColumnWidthsRef}
                         />
                     </tbody>
                 </table>

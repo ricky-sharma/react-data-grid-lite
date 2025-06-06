@@ -24,24 +24,26 @@ const GridFooter = ({
                 <b>{showingRange}</b> {" of "} <b>{totalRows}</b> {" results"}
             </div>
             <div className="col-2 m-0 p-0 pagerSelect alignCenter">
-                <select value={activePage} onChange={e => onPageChange(e, parseInt(e.target.value, 10))}>
-                    {pagerSelectOptions.map((item, key) => (
-                        <option key={key} value={item}>
-                            {item}
-                        </option>
-                    ))}
-                </select>
+                {pagerSelectOptions?.length ?? 0 > 0 ?
+                    <select value={activePage} onChange={e => onPageChange(e, parseInt(e.target.value, 10))}>
+                        {pagerSelectOptions.map((item, key) => (
+                            <option key={key} value={item}>
+                                {item}
+                            </option>
+                        ))}
+                    </select> : null}
             </div>
             <div className="float-lt col-5 m-0 p-0">
                 <div className="col-12 m-0 p-0">
-                    <GridPagination
-                        enablePaging={enablePaging}
-                        activePage={activePage}
-                        noOfPages={noOfPages}
-                        onPageChange={onPageChange}
-                        onPrevButtonClick={onPrev}
-                        onNextButtonClick={onNext}
-                    />
+                    {pagerSelectOptions?.length ?? 0 > 0 ?
+                        <GridPagination
+                            enablePaging={enablePaging}
+                            activePage={activePage}
+                            noOfPages={noOfPages}
+                            onPageChange={onPageChange}
+                            onPrevButtonClick={onPrev}
+                            onNextButtonClick={onNext}
+                        /> : null}
                 </div>
             </div>
         </div>

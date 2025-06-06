@@ -8,8 +8,6 @@ import {
 import { isNull } from '../helpers/common';
 import { format } from '../helpers/format';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
-import { useWindowWidth } from '../hooks/use-window-width';
-import { calculateColumnWidth } from "../utils/component-utils";
 
 const getConcatValue = (row, key, concatColumns, columns) => {
     const conCols = concatColumns?.[key]?.cols || [];
@@ -39,7 +37,6 @@ const GridRows = ({
     columnFormatting = [],
     cssClassColumns = [],
     columns = [],
-    columnWidths = [],
     rowCssClass = '',
     rowClickEnabled = false,
     onRowClick,
@@ -48,14 +45,12 @@ const GridRows = ({
     editButtonEnabled = false,
     deleteButtonEnabled = false,
     editButtonEvent,
-    deleteButtonEvent
+    deleteButtonEvent,
+    computedColumnWidthsRef
 }) => {
     const loading = useLoadingIndicator();
-    const windowWidth = useWindowWidth();
-    const isMobile = windowWidth < 700;
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex, Button_Column_Key, buttonColEnabled, isMobile);
-
+    const buttonColWidth = computedColumnWidthsRef?.current?.find(i => i?.name === Button_Column_Key)?.width ?? 0;
     if (!Array.isArray(rowsData) || rowsData.length === 0 || buttonColWidth === '100%') {
         const message = loading ? <div className="loader" /> :
             (!rowsData.length ? No_Data_Message : No_Column_Visible_Message);
@@ -68,15 +63,13 @@ const GridRows = ({
             </tr>
         );
     }
-
     return rowsData.slice(first, first + count).map((row, rowIndex) => {
-        const cols = Object.values(row).map((col, key) => {
+        const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
-
             const conValue = getConcatValue(row, key, concatColumns, columns);
-            const columnValue = getFormattedValue(conValue || col, columnFormatting[key]);
+            const columnValue = getFormattedValue(conValue || row[col?.name], columnFormatting[key]);
             const classNames = cssClassColumns?.[key] || '';
-            const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
+            const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
 
             return (
                 <td key={key} className={classNames} style={{ width: colWidth, maxWidth: colWidth }}>
@@ -84,7 +77,6 @@ const GridRows = ({
                 </td>
             );
         });
-
         if (buttonColEnabled) {
             cols.push(
                 <td key="gridButtons" onClick={e => e.stopPropagation()} style={{ width: buttonColWidth, maxWidth: buttonColWidth }}>
