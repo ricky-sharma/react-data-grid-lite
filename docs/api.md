@@ -6,7 +6,7 @@
 
 | **Prop**              | **Type**            | **Description**                                                                                                             | **Default Value** | **Required** |
 | --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------ |
-|    `id`               | `string`            | Unique ID for the DataGrid component. Defaults to a random ID in the format `id-<randomNumber>` if not provided.            |       -           | No           |
+|    `id`               | `string`            | Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not provided. This feature is supported in version 1.0.5 and above.|       -           | No           |
 |    `columns`          | `Array`             | Array of column definitions. Each column can have properties like `name`, `width`, 'alias', 'searchEnable', 'hidden'  etc.  |       -           | Yes          |
 |    `data`             | `Array`             | Array of objects representing the rows of data to display.                                                                  |       -           | Yes          |
 |    `pageSize`         | `Number`            | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |       -           | No           |
@@ -36,7 +36,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `searchEnable`  | `Boolean`           | Determines whether the search textbox is enabled for a specific column                                                                                    |       true        |  No          |
 | `hidden`        | `Boolean`           | Whether the column should be hidden.                                                                                                                      |       false       |  No          |
 | `concatColumns` | `Object`            | Specifies columns to concatenate into this column. It includes: `columns` (array of column keys to concatenate) and `separator` (the separator string).   |        -          |  No          |
-
+| `fixed`         | `Boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. This feature is supported in version 1.1.0 and above.|        false      |  No          |
 
 
 #### **Example of `columns` Array:**
