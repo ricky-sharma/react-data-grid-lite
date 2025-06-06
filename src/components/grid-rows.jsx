@@ -49,20 +49,20 @@ const GridRows = ({
     computedColumnWidthsRef
 }) => {
     const loading = useLoadingIndicator();
-    const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = computedColumnWidthsRef?.current?.find(i => i?.name === Button_Column_Key)?.width ?? 0;
-    if (!Array.isArray(rowsData) || rowsData.length === 0 || buttonColWidth === '100%') {
+    if (!Array.isArray(rowsData) || rowsData.length === 0 || isNull(computedColumnWidthsRef?.current)) {
         const message = loading ? <div className="loader" /> :
             (!rowsData.length ? No_Data_Message : No_Column_Visible_Message);
 
         return (
             <tr key="No-Data" className="align-page-center alignCenter" style={{ backgroundColor: 'transparent' }}>
-                <th className="alignCenter" style={{ border: 0, bottom: 0, margin: 0, padding: 0, position: 'absolute', backgroundColor: 'transparent', top: 0 }}>
+                <th className="alignCenter" style={{ border: 0, margin: 0, padding: 0, position: 'absolute', backgroundColor: 'transparent', top: "25%" }}>
                     {message}
                 </th>
             </tr>
         );
     }
+    const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
+    const buttonColWidth = computedColumnWidthsRef?.current?.find(i => i?.name === Button_Column_Key)?.width ?? 0;
     return rowsData.slice(first, first + count).map((row, rowIndex) => {
         const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;

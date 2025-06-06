@@ -18,10 +18,16 @@ const GridGlobalSearchBar = ({
 }) => {
     const windowWidth = useWindowWidth();
     const isSmallScreen = windowWidth < 500;
+    const noData = !Array.isArray(rowsData) || rowsData.length === 0
     return (
         <div className="row col-12 globalSearchDiv">
             {enableGlobalSearch && (
-                <div className="p-0 m-0">
+                <div
+                    style={{
+                        pointerEvents: (noData ? 'none' : ''),
+                        opacity: (noData ? '0.5' : '')
+                    }}
+                    className="p-0 m-0">
                     <input
                         data-type={`globalSearch${gridID}`}
                         value={globalSearchInput}
@@ -34,8 +40,11 @@ const GridGlobalSearchBar = ({
                     />
                 </div>
             )}
-
             <div
+                style={{
+                    pointerEvents: (noData ? 'none' : ''),
+                    opacity: (noData ? '0.5' : '')
+                }}
                 className="p-0 m-0 icon-div alignCenter clear-icon-div"
                 title="Reset Search"
                 onClick={handleResetSearch}
@@ -43,9 +52,12 @@ const GridGlobalSearchBar = ({
             >
                 <span className="icon-common-css erase-icon"></span>
             </div>
-
             {enableDownload && (
                 <div
+                    style={{
+                        pointerEvents: (noData ? 'none' : ''),
+                        opacity: (noData ? '0.5' : '')
+                    }}
                     className="p-0 m-0 icon-div alignCenter download-icon-div"
                     title="Export CSV"
                     onClick={(e) =>

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { isNull } from '../helpers/common';
 import GridPagination from './grid-pagination';
 
 const GridFooter = ({
@@ -20,9 +21,12 @@ const GridFooter = ({
 
     return (
         <div className="row col-12 m-0 p-0 alignCenter grid-footer">
+            {!isNull(totalRows) && totalRows !== 0 ? (
             <div className="col-5 m-0 p-0 page-results">
-                <b>{showingRange}</b> {" of "} <b>{totalRows}</b> {" results"}
-            </div>
+                    <b>{showingRange}</b> {" of "} <b>{totalRows}</b> {" results"}
+                </div>)
+             : null
+            }
             <div className="col-2 m-0 p-0 pagerSelect alignCenter">
                 {pagerSelectOptions?.length ?? 0 > 0 ?
                     <select value={activePage} onChange={e => onPageChange(e, parseInt(e.target.value, 10))}>

@@ -71,38 +71,65 @@ const DataGrid = ({
     const computedColumnWidthsRef = useRef(null);
 
     useEffect(() => {
+        computedColumnWidthsRef.current = [];
+        if (!isNull(columns))
+            setState((prevState) => ({
+                ...prevState,
+                columnsReceived: !isNull(columns) ? columns : [],
+                columns: !isNull(columns) && Array.isArray(columns) &&
+                    columns.every(obj => typeof obj === 'object')
+                    ? columns.filter(obj => typeof obj === 'object' && obj !== null
+                        && typeof obj.name === 'string' && obj.name.trim() !== '').sort((a, b) => {
+                            const aFlag = !!a.fixed;
+                            const bFlag = !!b.fixed;
+                            return (bFlag - aFlag);
+                        }) : []
+
+            }));
+    }, [columns]);
+
+    useEffect(() => {
         dataReceivedRef.current = data ?? [];
-        setState((prevState) => ({
-            ...prevState,
-            columns: !isNull(columns) ? columns : [],
-            rowsData: !isNull(data) ? data : [],
-            totalRows: data?.length ?? 0,
-            pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
-            currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
-            hiddenColIndex: !isNull(columns) ? columns.map((col, key) =>
-                !isNull(col?.hidden) && col?.hidden === true ? key : null) : [],
-            concatColumns: !isNull(columns) ? columns.map((col) => {
-                let separator = ' '
-                if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
-                    if (!isNull(col.concatColumns.separator))
-                        separator = col.concatColumns.separator
-                    return { cols: col.concatColumns.columns, sep: separator };
-                }
-                return null
-            }) : [],
-            columnFormatting: !isNull(columns) ? columns.map((col) =>
-                !isNull(col.formatting) && !isNull(col.formatting.type) ?
-                    { type: col?.formatting?.type, format: col?.formatting?.format ?? '' } : null) : [],
-            cssClassColumns: !isNull(columns) ? columns.map((col) => !isNull(col.class) ? col.class : null) : [],
-            columnWidths: !isNull(columns)
-                ? columns.map(col =>
-                    typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
-                        ? col.width
-                        : null
-                )
-                : []
-        }));
-    }, [columns, data]);
+        if (!isNull(data))
+            setState((prevState) => ({
+                ...prevState,
+                rowsData: !isNull(data) ? data : [],
+                totalRows: data?.length ?? 0,
+                pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
+                currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0
+            }));
+    }, [data]);
+
+    useEffect(() => {
+        if (!isNull(state?.columns))
+            setState((prevState) => ({
+                ...prevState,
+                hiddenColIndex: !isNull(state?.columns) ? state?.columns.map((col, key) =>
+                    !isNull(col?.hidden) && col?.hidden === true ? key : null) : [],
+                concatColumns: !isNull(state?.columns) ? state?.columns.map((col) => {
+                    let separator = ' '
+                    if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
+                        if (!isNull(col.concatColumns.separator))
+                            separator = col.concatColumns.separator
+                        return { cols: col.concatColumns.columns, sep: separator };
+                    }
+                    return null
+                }) : [],
+                columnFormatting: !isNull(state?.columns) ? state?.columns.map((col) =>
+                    !isNull(col.formatting) && !isNull(col.formatting.type) ?
+                        { type: col?.formatting?.type, format: col?.formatting?.format ?? '' } : null) : [],
+                cssClassColumns: !isNull(state?.columns) ? state?.columns.map((col) =>
+                    !isNull(col.class) ? col.class : null) : [],
+                columnWidths: !isNull(state?.columns)
+                    ? state?.columns.map(col =>
+                        typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
+                            ? col.width
+                            : null
+                    )
+                    : []
+
+            }));
+    }, [state?.columns]);
 
     useEffect(() => {
         setPagingVariables();
