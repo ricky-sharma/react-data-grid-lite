@@ -341,7 +341,7 @@
     }
 
 .r-d-g-lt-component .sort-icon-wrapper {
-    width: 20px !important;
+    width: 25px !important;
     position: relative;
 }
 
@@ -460,6 +460,7 @@
         .r-d-g-lt-component .react-data-grid-lite table tbody {
             background-color: #fff;
             overflow-x: auto !important;
+            display: table-row-group !important;
         }
 
         .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar {
@@ -535,7 +536,7 @@
         width: 2px;
         background-color: rgb(224, 224, 224);
         position: absolute;
-        right: -3px;
+        right: 1px;
         top: 8px;
         bottom: 8px;
         z-index: 1;

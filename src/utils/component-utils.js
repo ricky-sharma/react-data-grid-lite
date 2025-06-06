@@ -21,8 +21,8 @@ export function calculateColumnWidth(
     isMobile = false
 ) {
     if (!Array.isArray(colWidthArray)) return '100%';
-    const containerWidthFallback = convertViewportUnitToPixels(Default_Grid_Width_VW);
-    const containerWidth = getContainerWidthInPixels(Container_Identifier, containerWidthFallback);
+    const containerWidth = getContainerWidthInPixels(Container_Identifier,
+        convertViewportUnitToPixels(Default_Grid_Width_VW));
     const buttonColumnWidth = parseFloat(Button_Column_Width?.replace?.('px', '') || '0');
     const mobileColumnWidth = parseFloat(Mobile_Column_Width?.replace?.('px', '') || '0');
     const fallbackWidth = parseFloat(Fallback_Column_Width?.replace?.('px', '') || '0');
@@ -32,23 +32,6 @@ export function calculateColumnWidth(
     let fixedWidthTotal = 0;
     let fixedWidthColCount = 0;
     let nonFixedWidthColCount = 0;
-
-    const tryParseWidth = (val, totalWidth) => {
-        let width = 0;
-        if (typeof val === 'string') {
-            if (val.trim().endsWith('%')) {
-                const percent = parseFloat(val);
-                width = isNaN(percent) ? 0 : (percent * totalWidth) / 100;
-            } else if (val.trim().endsWith('px')) {
-                width = parseFloat(val);
-            } else {
-                width = 0;
-            }
-        } else if (typeof val === 'number') {
-            width = val;
-        }
-        return width;
-    }
 
     colWidthArray.forEach((width, index) => {
         if (!hiddenCols?.includes(index)) {
@@ -115,4 +98,21 @@ export function calculateColumnWidth(
 
     // Fallback
     return `${(netContainerWidth / totalVisibleColumns)}px`;
+}
+
+export const tryParseWidth = (val, totalWidth = 0) => {
+    let width = 0;
+    if (typeof val === 'string') {
+        if (val.trim().endsWith('%')) {
+            const percent = parseFloat(val);
+            width = isNaN(percent) ? 0 : (percent * totalWidth) / 100;
+        } else if (val.trim().endsWith('px')) {
+            width = parseFloat(val);
+        } else {
+            width = 0;
+        }
+    } else if (typeof val === 'number') {
+        width = val;
+    }
+    return width;
 }

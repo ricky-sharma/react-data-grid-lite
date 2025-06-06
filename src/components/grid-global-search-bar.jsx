@@ -3,6 +3,7 @@ import React from 'react';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { Export_To_CSV_Text } from './../constants';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
+import { isNull } from '../helpers/common';
 
 const GridGlobalSearchBar = ({
     enableGlobalSearch,
@@ -18,7 +19,7 @@ const GridGlobalSearchBar = ({
 }) => {
     const windowWidth = useWindowWidth();
     const isSmallScreen = windowWidth < 500;
-    const noData = !Array.isArray(rowsData) || rowsData.length === 0
+    const noData = !Array.isArray(rowsData) || rowsData.length === 0 || isNull(columns)
     return (
         <div className="row col-12 globalSearchDiv">
             {enableGlobalSearch && (

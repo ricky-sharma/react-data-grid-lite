@@ -342,19 +342,19 @@ const DataGrid = ({
                         />
                     </tbody>
                 </table>
-                <GridFooter
-                    totalRows={state.totalRows}
-                    currentPageRows={state.currentPageRows}
-                    activePage={state.activePage}
-                    pageRows={state.pageRows}
-                    pagerSelectOptions={state.pagerSelectOptions}
-                    enablePaging={state.enablePaging}
-                    noOfPages={state.noOfPages}
-                    onPageChange={handleChangePage}
-                    onPrev={handleBackwardPage}
-                    onNext={handleForwardPage}
-                />
             </div>
+            <GridFooter
+                totalRows={state.totalRows}
+                currentPageRows={state.currentPageRows}
+                activePage={state.activePage}
+                pageRows={state.pageRows}
+                pagerSelectOptions={state.pagerSelectOptions}
+                enablePaging={state.enablePaging}
+                noOfPages={state.noOfPages}
+                onPageChange={handleChangePage}
+                onPrev={handleBackwardPage}
+                onNext={handleForwardPage}
+            />
         </div>
     );
 }
