@@ -37,6 +37,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `hidden`        | `Boolean`           | Whether the column should be hidden.                                                                                                                      |       false       |  No          |
 | `concatColumns` | `Object`            | Specifies columns to concatenate into this column. It includes: `columns` (array of column keys to concatenate) and `separator` (the separator string).   |        -          |  No          |
 | `fixed`         | `Boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. This feature is supported in version 1.1.0 and above.|        false      |  No          |
+| `class`          | `String`           | Custom CSS class applied to each data cell in the column. This feature is supported in version 1.1.0 and above.                                           |        -      |  No          |
 
 
 #### **Example of `columns` Array:**
