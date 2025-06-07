@@ -8,6 +8,7 @@ import {
 import { isNull } from '../helpers/common';
 import { format } from '../helpers/format';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
+import { useWindowWidth } from '../hooks/use-window-width';
 
 const getConcatValue = (row, key, concatColumns, columns) => {
     const conCols = concatColumns?.[key]?.cols || [];
@@ -49,6 +50,7 @@ const GridRows = ({
     computedColumnWidthsRef
 }) => {
     const loading = useLoadingIndicator();
+    useWindowWidth();
     if (!Array.isArray(rowsData) || rowsData.length === 0 || isNull(computedColumnWidthsRef?.current)) {
         const message = loading ? <div className="loader" /> :
             (!rowsData.length ? No_Data_Message : No_Column_Visible_Message);
@@ -63,7 +65,7 @@ const GridRows = ({
     }
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = computedColumnWidthsRef?.current?.find(i => i?.name === Button_Column_Key)?.width ?? 0;
-    return rowsData.slice(first, first + count).map((row, rowIndex) => {
+    const computedRowData = rowsData.slice(first, first + count).map((row, rowIndex) => {
         const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
             const conValue = getConcatValue(row, key, concatColumns, columns);
@@ -108,7 +110,7 @@ const GridRows = ({
         return (
             <tr
                 key={rowIndex}
-                className={`${rowCssClass} gridRows`}
+                className={`${rowCssClass} gridRow innerTableRow`}
                 style={rowClickEnabled ? { cursor: 'pointer' } : {}}
                 onClick={e => onRowClick(e, row)}
                 onMouseOver={e => onRowHover(e, row)}
@@ -118,6 +120,19 @@ const GridRows = ({
             </tr>
         );
     });
-};
+
+    return (
+        <tr className="m-0 p-0">
+            <td className="m-0 p-0">
+                <div className="m-0 p-0 innerTable">
+                    <table className="m-0 p-0">
+                        <tbody className="m-0 p-0">
+                            {computedRowData}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    )};
 
 export default GridRows;

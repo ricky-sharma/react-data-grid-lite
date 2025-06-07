@@ -455,23 +455,18 @@
     .r-d-g-lt-component .react-data-grid-lite table {
         border-radius: 10px;
         width: 100%;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        display: grid !important;
+        border-collapse: collapse;
+        table-layout: fixed;
     }
-
-        .r-d-g-lt-component .react-data-grid-lite table tbody {
-            background-color: #fff;
-            overflow-x: auto !important;
-            display: table-row-group !important;
-        }
 
         .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar {
             height: 15px !important;
-            width: 15px !important;
+            width: 0px !important;
             border: 15px solid #d5d5d5;
             border-start-end-radius: 1px;
-        }
-
-        .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar-track {
-            border-radius: 1px;
         }
 
         .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar-thumb {
@@ -480,39 +475,45 @@
         }
 
             .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar-thumb:hover {
-                background: #555;
+                background-color: #555;
             }
+
+    .r-d-g-lt-component .react-data-grid-lite thead {
+        display: table-header-group !important;
+        width: 100%;
+        border: solid #e0e0e0 !important;
+        border-width: 0 0 2px !important;
+    }
+
+    .r-d-g-lt-component .react-data-grid-lite table tbody {
+        background-color: #fff;
+        display: table-row-group !important;
+        overflow-x: clip !important;
+        overflow-y: auto !important;
+    }
 
         .r-d-g-lt-component .react-data-grid-lite table tbody::-webkit-scrollbar {
             height: 0px !important;
             width: 0px !important;
         }
 
-    .r-d-g-lt-component .react-data-grid-lite thead {
-        display: block;
+    .r-d-g-lt-component .react-data-grid-lite table tr {
+        display: flex !important;
         width: 100%;
-        border: solid #e0e0e0 !important;
-        border-width: 0 0 2px !important;
     }
 
-.r-d-g-lt-component tr {
-    display: flex;
-    width: 100%;
-}
-
-.r-d-g-lt-component thead tr.gridHeader {
+.r-d-g-lt-component table thead tr.gridHeader {
     background-color: #fff;
-    table-layout: fixed;
 }
 
-    .r-d-g-lt-component thead tr.gridHeader th {
+    .r-d-g-lt-component table thead tr.gridHeader th {
         border: 0px solid rgb(224, 224, 224) !important;
         position: relative;
         padding: 15px 0 5px 0 !important;
         vertical-align: top !important;
     }
 
-        .r-d-g-lt-component thead tr.gridHeader th div {
+        .r-d-g-lt-component table thead tr.gridHeader th div {
             position: relative;
             padding: 0px !important;
             width: 100%;
@@ -522,7 +523,7 @@
             height: 55px !important;
         }
 
-            .r-d-g-lt-component thead tr.gridHeader th div h4 {
+            .r-d-g-lt-component table thead tr.gridHeader th div h4 {
                 margin: 0 !important;
                 padding: 0 0 0 5px !important;
                 word-break: break-word;
@@ -532,7 +533,7 @@
                 width: 100%;
             }
 
-    .r-d-g-lt-component thead tr.gridHeader span {
+    .r-d-g-lt-component table thead tr.gridHeader span {
         width: 2px;
         background-color: rgb(224, 224, 224);
         position: absolute;
@@ -543,44 +544,40 @@
         padding: 0 !important
     }
 
-.r-d-g-lt-component thead tr.searchHeader {
-    table-layout: fixed !important;
+.r-d-g-lt-component table thead tr.searchHeader {
     background-color: #fff !important;
 }
 
-.r-d-g-lt-component thead tr.searchHeader th {
-    background-color: #fff;
-    border: 0 !important;
-    position: relative;
-    padding: 5px 1px 7px !important;
-    vertical-align: top !important;
-    line-height: 0.5 !important;
-    table-layout: fixed;
-}
-
-    .r-d-g-lt-component thead tr.searchHeader th div {
+    .r-d-g-lt-component table thead tr.searchHeader th {
+        background-color: #fff;
+        border: 0 !important;
         position: relative;
-        padding-left: 0px !important;
+        padding: 5px 1px 7px !important;
+        vertical-align: top !important;
+        line-height: 0.5 !important;
     }
 
-.r-d-g-lt-component .gridRows:first-child,
-.r-d-g-lt-component .gridRows:first-child td {
+        .r-d-g-lt-component table thead tr.searchHeader th div {
+            position: relative;
+            padding-left: 0px !important;
+        }
+
+.r-d-g-lt-component table tbody .gridRow:first-child,
+.r-d-g-lt-component .gridRow:first-child td {
     border-top: 0px solid rgb(224, 224, 224) !important;
 }
 
-.r-d-g-lt-component .gridRows:last-child {
+.r-d-g-lt-component table tbody .gridRow:last-child {
     border-bottom: 1px solid rgb(224, 224, 224) !important;
 }
 
-.r-d-g-lt-component .gridRows td {
+.r-d-g-lt-component table tbody .gridRow td {
     border: solid #e0e0e0 !important;
     border-width: 1px 0 0 !important;
-    flex: 1;
     padding: 0 !important;
-    display: inline-grid;
 }
 
-    .r-d-g-lt-component .gridRows td div {
+    .r-d-g-lt-component table tbody .gridRow td div {
         overflow: hidden;
         white-space: normal;
         text-overflow: ellipsis;
@@ -589,10 +586,42 @@
         text-align: center;
     }
 
-.r-d-g-lt-component table {
-    overflow-x: auto !important;
-    display: inline-grid !important;
+.r-d-g-lt-component table tbody tr:nth-of-type(even) {
+    background-color: #f8f8f8;
 }
+
+.r-d-g-lt-component table tbody tr:nth-of-type(odd) {
+    background-color: #ebedf0;
+}
+
+.r-d-g-lt-component table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.r-d-g-lt-component table tbody tr td div.innerTable {
+    display: block !important;
+}
+
+    .r-d-g-lt-component table tbody tr td div.innerTable table {
+        display: table !important;
+        border-collapse: collapse;
+        table-layout: fixed;
+        overflow: clip !important;
+    }
+
+        .r-d-g-lt-component table tbody tr td div.innerTable table tbody {
+            display: table-row-group !important;
+            overflow-x: auto !important;
+            overflow-y: clip !important;
+        }
+
+            .r-d-g-lt-component table tbody tr td div.innerTable table tbody tr.innerTableRow {
+                display: table-row !important;
+            }
+
+            .r-d-g-lt-component table tbody tr td div.innerTable table tbody tr td {
+                display: table-cell !important;
+            }
 
 .r-d-g-lt-component .float-lt {
     float: left;
@@ -652,18 +681,6 @@
 .r-d-g-lt-component input[type="text" i].globalSearch,
 .r-d-g-lt-component input[type="text" i].searchInput {
     padding: 1px 5px;
-}
-
-.r-d-g-lt-component table tbody tr:nth-of-type(even) {
-    background-color: #f8f8f8;
-}
-
-.r-d-g-lt-component table tbody tr:nth-of-type(odd) {
-    background-color: #ebedf0;
-}
-
-.r-d-g-lt-component table tbody tr:hover {
-    background: #f5f5f5;
 }
 
 .r-d-g-lt-component .page-results {
@@ -784,11 +801,11 @@
             padding-left: 0px !important;
         }
 
-    .r-d-g-lt-component .gridRows td {
+    .r-d-g-lt-component .gridRow td {
         padding: 4px 0 5px 0 !important;
     }
 
-        .r-d-g-lt-component .gridRows td div {
+        .r-d-g-lt-component .gridRow td div {
             padding-left: 12px !important;
         }
 
@@ -881,12 +898,6 @@
         .r-d-g-lt-component .pagination li i {
             padding-top: 2px !important;
         }
-
-    .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar {
-        height: 12px !important;
-        width: 12px !important;
-        border: 12px solid #d5d5d5;
-    }
 }
 
 @media (max-width: 575.98px) {

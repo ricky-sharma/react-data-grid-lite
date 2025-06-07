@@ -310,7 +310,6 @@ const DataGrid = ({
                     gridHeaderRef={gridHeaderRef}
                     computedColumnWidthsRef={computedColumnWidthsRef}
                 />
-
             </div>
             <GridFooter
                 totalRows={state.totalRows}
