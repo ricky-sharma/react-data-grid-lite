@@ -341,7 +341,7 @@
     }
 
 .r-d-g-lt-component .sort-icon-wrapper {
-    width: 25px !important;
+    width: 30px !important;
     position: relative;
 }
 
@@ -455,23 +455,24 @@
     .r-d-g-lt-component .react-data-grid-lite table {
         border-radius: 10px;
         width: 100%;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
         display: grid !important;
         border-collapse: collapse;
         table-layout: fixed;
+        overflow: auto !important;
     }
 
         .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar {
-            height: 15px !important;
+            height: 20px !important;
             width: 0px !important;
-            border: 15px solid #d5d5d5;
+            border: 20px solid #d5d5d5;
             border-start-end-radius: 1px;
+            z-index: 25;
         }
 
         .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar-thumb {
             -webkit-box-shadow: inset 0 0 10px #808080;
             border-radius: 1px;
+            z-index: 25;
         }
 
             .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar-thumb:hover {
@@ -481,15 +482,18 @@
     .r-d-g-lt-component .react-data-grid-lite thead {
         display: table-header-group !important;
         width: 100%;
-        border: solid #e0e0e0 !important;
-        border-width: 0 0 2px !important;
+        position: sticky;
+        z-index: 20;
+        background-color: inherit;
+        top: 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2),
+        0 1px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
     }
 
     .r-d-g-lt-component .react-data-grid-lite table tbody {
         background-color: #fff;
         display: table-row-group !important;
-        overflow-x: clip !important;
-        overflow-y: auto !important;
     }
 
         .r-d-g-lt-component .react-data-grid-lite table tbody::-webkit-scrollbar {
@@ -552,7 +556,7 @@
         background-color: #fff;
         border: 0 !important;
         position: relative;
-        padding: 5px 1px 7px !important;
+        padding: 7px 1px !important;
         vertical-align: top !important;
         line-height: 0.5 !important;
     }
@@ -574,7 +578,8 @@
 .r-d-g-lt-component table tbody .gridRow td {
     border: solid #e0e0e0 !important;
     border-width: 1px 0 0 !important;
-    padding: 0 !important;
+    padding: 0;
+    text-align: center;
 }
 
     .r-d-g-lt-component table tbody .gridRow td div {
@@ -583,7 +588,6 @@
         text-overflow: ellipsis;
         padding: 10px 8px 10px 10px !important;
         align-content: center;
-        text-align: center;
     }
 
 .r-d-g-lt-component table tbody tr:nth-of-type(even) {
@@ -606,13 +610,10 @@
         display: table !important;
         border-collapse: collapse;
         table-layout: fixed;
-        overflow: clip !important;
     }
 
         .r-d-g-lt-component table tbody tr td div.innerTable table tbody {
             display: table-row-group !important;
-            overflow-x: auto !important;
-            overflow-y: clip !important;
         }
 
             .r-d-g-lt-component table tbody tr td div.innerTable table tbody tr.innerTableRow {
@@ -802,7 +803,7 @@
         }
 
     .r-d-g-lt-component .gridRow td {
-        padding: 4px 0 5px 0 !important;
+        padding: 4px 0 5px 0;
     }
 
         .r-d-g-lt-component .gridRow td div {

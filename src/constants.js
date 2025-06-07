@@ -1,6 +1,6 @@
-export const Mobile_Column_Width = "125px";
-export const Button_Column_Width = "100px";
-export const Fallback_Column_Width = "150px";
+export const Mobile_Column_Width = "150px";
+export const Button_Column_Width = "110px";
+export const Fallback_Column_Width = "200px";
 export const Container_Identifier = ".react-data-grid-lite";
 export const No_Data_Message = "There is no data to display.";
 export const No_Column_Visible_Message = "Column definitions may be missing or misconfigured, or all columns are currently hidden.";

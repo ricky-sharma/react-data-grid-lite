@@ -117,8 +117,8 @@ const DataGrid = ({
                 columnFormatting: !isNull(state?.columns) ? state?.columns.map((col) =>
                     !isNull(col.formatting) && !isNull(col.formatting.type) ?
                         { type: col?.formatting?.type, format: col?.formatting?.format ?? '' } : null) : [],
-                cssClassColumns: !isNull(state?.columns) ? state?.columns.map((col) =>
-                    !isNull(col.class) ? col.class : null) : [],
+                columnClass: !isNull(state?.columns) ? state?.columns.map((col) =>
+                    !isNull(col.class) ? col?.class : null) : [],
                 columnWidths: !isNull(state?.columns)
                     ? state?.columns.map(col =>
                         typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))

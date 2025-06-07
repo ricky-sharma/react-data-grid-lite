@@ -103,7 +103,7 @@ describe('GridRows', () => {
             count: 1,
             hiddenColIndex: [],
             columnWidths: [null, null],
-            cssClassColumns: []
+            columnClass: []
         };
         render(<table><tbody><GridRows {...props} /></tbody></table>);
         expect(screen.getByText('Formatted(Alice)')).toBeInTheDocument();

@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Button_Column_Key } from '../constants';
-import { isNull } from '../helpers/common';
+import { Button_Column_Key, Container_Identifier, Default_Grid_Width_VW } from '../constants';
+import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from '../helpers/common';
 import { useWindowWidth } from '../hooks/use-window-width';
-import { calculateColumnWidth } from "../utils/component-utils";
+import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
 
 const GridHeader = ({
     columns,
@@ -22,13 +22,15 @@ const GridHeader = ({
 }) => {
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
-    if (isNull(columns)) return null;
+    if (isNull(columns) || isNull(columnWidths)) return null;
     let headers = [...columns];
     let computedColumnWidths = [];
     let searchRowEnabled = false;
+    const containerWidth = getContainerWidthInPixels(Container_Identifier,
+        convertViewportUnitToPixels(Default_Grid_Width_VW));
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex, Button_Column_Key, buttonColEnabled, isMobile);
-
+    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
+        Button_Column_Key, buttonColEnabled, isMobile);
     if (Button_Column_Key) {
         computedColumnWidths = [
             ...computedColumnWidths.filter(entry => entry?.name !== Button_Column_Key),
@@ -45,6 +47,7 @@ const GridHeader = ({
     if ((buttonColEnabled) && headers[headers?.length - 1] !== '##Actions##') {
         headers.push('##Actions##');
     }
+    let leftPosition = 0;
     const lastVisibleIndex = Array.isArray(headers)
         ? headers.reduce((lastIdx, item, idx) => {
             return item && !item?.hidden ? idx : lastIdx;
@@ -52,14 +55,18 @@ const GridHeader = ({
 
     const thColHeaders = headers.map((header, key) => {
         if (hiddenColIndex?.includes(key)) return null;
-        const thInnerHtml = lastVisibleIndex !== key ? <span /> : null;
+        const thInnerHtml = lastVisibleIndex !== key ?
+            <span style={{
+                zIndex: (header?.fixed === true ? 101 : '')
+            }} /> : null;
         const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
         if (header?.name) {
             computedColumnWidths = [
                 ...computedColumnWidths.filter(entry => entry?.name !== header?.name),
-                { name: header?.name, width: colWidth ?? 0 }
+                { name: header?.name, width: colWidth ?? 0, leftPosition: `${leftPosition}px` }
             ];
         }
+        leftPosition += tryParseWidth(colWidth, containerWidth);
         if (header === '##Actions##') {
             return (
                 <th
@@ -67,7 +74,6 @@ const GridHeader = ({
                     title="Actions"
                     data-toggle="tooltip"
                     key={key}
-                    className={`${header?.class ?? ''}`}
                 >
                     <div
                         style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
@@ -77,7 +83,7 @@ const GridHeader = ({
                     </div>
                 </th>
             );
-        }
+        };
         const displayName = isNull(header?.alias) || header?.name === header?.alias
             ? header?.name
             : header?.alias;
@@ -88,14 +94,21 @@ const GridHeader = ({
         };
         return (
             <th
-                style={{ width: colWidth, maxWidth: colWidth }}
+                style={{
+                    width: colWidth,
+                    maxWidth: colWidth,
+                    left: (header?.fixed === true ?
+                        computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
+                    position: (header?.fixed === true ? 'sticky' : ''),
+                    zIndex: (header?.fixed === true ? 20 : ''),
+                    backgroundColor: 'inherit'
+                }}
                 key={key}
-                className={`${header?.class ?? ''}`}
             >
-                <div className={`${header?.class ?? ''} row p-0 m-0 alignCenter`}>
+                <div className="row p-0 m-0 alignCenter">
                     <div
                         onClick={onClickHandler}
-                        className={`p-0 alignCenter pointer ${header?.class ?? ''}`}
+                        className="p-0 alignCenter pointer"
                     >
                         <h4>{displayName}</h4>
                         {renderSortIcon()}
@@ -117,32 +130,38 @@ const GridHeader = ({
 
         if (columnSearchEnabled) {
             searchRowEnabled = true;
-        }
+        };
 
         if (header === '##Actions##') {
             return (
                 <th
                     style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
                     key={key}
-                    className={`${header?.class ?? ''}`}
                 >
                     <div
                         style={{
                             width: buttonColWidth,
                             maxWidth: buttonColWidth
                         }}
-                        className={"p-0 alignCenter"}
+                        className="p-0 alignCenter"
                     ></div>
                 </th>
             );
-        }
+        };
         return (
             <th
-                style={{ width: colWidth, maxWidth: colWidth }}
+                style={{
+                    width: colWidth,
+                    maxWidth: colWidth,
+                    left: (header?.fixed === true ?
+                        computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
+                    position: (header?.fixed === true ? 'sticky' : ''),
+                    zIndex: (header?.fixed === true ? 20 : ''),
+                    backgroundColor: 'inherit'
+                }}
                 key={key}
-                className={`${header?.class ?? ''}`}
             >
-                <div className={`${header?.class ?? ''} row searchDiv p-0 m-0 alignCenter`}>
+                <div className="row searchDiv p-0 m-0 alignCenter">
                     {columnSearchEnabled ? (
                         <input
                             className="searchInput"

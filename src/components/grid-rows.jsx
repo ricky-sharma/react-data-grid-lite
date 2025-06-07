@@ -36,7 +36,7 @@ const GridRows = ({
     hiddenColIndex = [],
     concatColumns = [],
     columnFormatting = [],
-    cssClassColumns = [],
+    columnClass = [],
     columns = [],
     rowCssClass = '',
     rowClickEnabled = false,
@@ -64,18 +64,34 @@ const GridRows = ({
         );
     }
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = computedColumnWidthsRef?.current?.find(i => i?.name === Button_Column_Key)?.width ?? 0;
+    const buttonColWidth = computedColumnWidthsRef?.current?.find(i =>
+        i?.name === Button_Column_Key)?.width ?? 0;
+    let lastFixedIndex = -1;
+    columns.reduceRight((_, col, index) => {
+        if (lastFixedIndex === -1 && col.fixed === true && !col?.hidden) {
+            lastFixedIndex = index;
+        }
+    }, null);
     const computedRowData = rowsData.slice(first, first + count).map((row, rowIndex) => {
         const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
             const conValue = getConcatValue(row, key, concatColumns, columns);
             const columnValue = getFormattedValue(conValue || row[col?.name], columnFormatting[key]);
-            const classNames = cssClassColumns?.[key] || '';
+            const classNames = columnClass?.[key] || '';
             const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
 
             return (
-                <td key={key} className={classNames} style={{ width: colWidth, maxWidth: colWidth }}>
-                    <div className={`${classNames} m-0 p-0`} title={columnValue}>{columnValue}</div>
+                <td key={key} className={classNames} style={{
+                    width: colWidth,
+                    maxWidth: colWidth,
+                    left: (col?.fixed === true ?
+                        computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.leftPosition ?? '' : ''),
+                    position: (col?.fixed === true ? 'sticky' : ''),
+                    zIndex: (col?.fixed === true ? 10 : ''),
+                    backgroundColor: 'inherit',
+                    boxShadow: (lastFixedIndex === key ? '#e0e0e0 -2px 0px 1px 0px inset' : '')
+                }}>
+                    <div className="m-0 p-0" title={columnValue}>{columnValue}</div>
                 </td>
             );
         });
@@ -133,6 +149,7 @@ const GridRows = ({
                 </div>
             </td>
         </tr>
-    )};
+    )
+};
 
 export default GridRows;
