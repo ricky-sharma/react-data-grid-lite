@@ -57,7 +57,7 @@ const GridRows = ({
 
         return (
             <tr key="No-Data" className="align-page-center alignCenter" style={{ backgroundColor: 'transparent' }}>
-                <th className="alignCenter" style={{ border: 0, margin: 0, padding: 0, position: 'absolute', backgroundColor: 'transparent', top: "25%" }}>
+                <th className="alignCenter" style={{ border: 0, margin: 0, padding: 0, position: 'absolute', backgroundColor: 'transparent', top: "40%" }}>
                     {message}
                 </th>
             </tr>
@@ -87,7 +87,7 @@ const GridRows = ({
                     left: (col?.fixed === true ?
                         computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.leftPosition ?? '' : ''),
                     position: (col?.fixed === true ? 'sticky' : ''),
-                    zIndex: (col?.fixed === true ? 10 : ''),
+                    zIndex: (col?.fixed === true ? 6 : ''),
                     backgroundColor: 'inherit',
                     boxShadow: (lastFixedIndex === key ? '#e0e0e0 -2px 0px 1px 0px inset' : '')
                 }}>

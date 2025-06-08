@@ -57,7 +57,7 @@ const GridHeader = ({
         if (hiddenColIndex?.includes(key)) return null;
         const thInnerHtml = lastVisibleIndex !== key ?
             <span style={{
-                zIndex: (header?.fixed === true ? 101 : '')
+                zIndex: (header?.fixed === true ? 11 : '')
             }} /> : null;
         const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
         if (header?.name) {
@@ -100,7 +100,7 @@ const GridHeader = ({
                     left: (header?.fixed === true ?
                         computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
                     position: (header?.fixed === true ? 'sticky' : ''),
-                    zIndex: (header?.fixed === true ? 20 : ''),
+                    zIndex: (header?.fixed === true ? 10 : ''),
                     backgroundColor: 'inherit'
                 }}
                 key={key}
@@ -154,7 +154,7 @@ const GridHeader = ({
                     left: (header?.fixed === true ?
                         computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
                     position: (header?.fixed === true ? 'sticky' : ''),
-                    zIndex: (header?.fixed === true ? 20 : ''),
+                    zIndex: (header?.fixed === true ? 10 : ''),
                     backgroundColor: 'inherit'
                 }}
                 key={key}
