@@ -515,7 +515,7 @@
     .r-d-g-lt-component table thead tr.gridHeader th {
         border: 0 !important;
         position: relative;
-        padding: 15px 0 5px 0 !important;
+        padding: 10px 0 !important;
         vertical-align: top !important;
     }
 
