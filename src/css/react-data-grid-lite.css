@@ -511,7 +511,8 @@
 .r-d-g-lt-component table thead tr th {
     font-size: 95% !important;
     position: relative;
-    min-width: 50px;
+    min-width: 100px !important;
+    max-width: 1200px !important;
     border: 0 !important;
     vertical-align: top !important;
 }
@@ -583,7 +584,8 @@
     border-width: 1px 0 0 !important;
     padding: 0;
     text-align: center;
-    min-width: 50px;
+    min-width: 100px !important;
+    max-width: 1200px !important;
 }
 
     .r-d-g-lt-component table tbody .gridRow td div {

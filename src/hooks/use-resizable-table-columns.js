@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export function useResizableTableColumns(tableRef, state, setState, compColWidthsRef) {
+export function useResizableTableColumns(tableRef, state, setState, compColWidthsRef, enableColumnResize) {
     useEffect(() => {
         const table = tableRef?.current;
         if (!table) return;
@@ -21,6 +21,11 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
             processed.add(th);
 
             const columnName = th.dataset.columnName || th.textContent.trim();
+            const columnConfig = state?.columns?.find(i => i?.name === columnName);
+            const colResizable = columnConfig?.resizable ?? enableColumnResize;
+
+            if (!colResizable) return;
+
             const resizer = document.createElement('div');
             resizer.style.position = 'absolute';
             resizer.style.top = '0';

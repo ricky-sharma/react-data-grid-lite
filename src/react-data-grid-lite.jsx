@@ -41,6 +41,7 @@ const DataGrid = ({
         headerCssClass: options?.headerClass ?? '',
         rowCssClass: options?.rowClass ?? '',
         enableColumnSearch: options?.enableColumnSearch ?? true,
+        enableColumnResize: options?.enableColumnResize ?? false,
         enableGlobalSearch: options?.enableGlobalSearch ?? true,
         rowClickEnabled: !isNull(onRowClick),
         onRowClick: onRowClick ?? (() => { }),
@@ -126,7 +127,6 @@ const DataGrid = ({
                             : null
                     )
                     : []
-
             }));
     }, [state?.columns]);
 

@@ -49,7 +49,8 @@ const GridRows = ({
     deleteButtonEnabled = false,
     editButtonEvent,
     deleteButtonEvent,
-    computedColumnWidthsRef
+    computedColumnWidthsRef,
+    enableColumnResize
 }) => {
     const loading = useLoadingIndicator();
     useWindowWidth();
@@ -90,11 +91,12 @@ const GridRows = ({
             const columnValue = getFormattedValue(conValue || row[col?.name], columnFormatting[key]);
             const classNames = columnClass?.[key] || '';
             const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
-
+            const colResizable = col?.resizable ?? enableColumnResize;
             return (
                 <td key={key} className={classNames} style={{
                     width: colWidth,
-                    maxWidth: colWidth,
+                    maxWidth: colResizable ? undefined : colWidth,
+                    minWidth: colResizable ? undefined : colWidth,
                     left: (col?.fixed === true ?
                         computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.leftPosition ?? '' : ''),
                     position: (col?.fixed === true ? 'sticky' : ''),

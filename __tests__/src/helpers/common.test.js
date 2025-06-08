@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull, objectsEqual } from './../../../src/helpers/common';
+import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from './../../../src/helpers/common';
 
 describe('isNull', () => {
     it('returns true for null, undefined, NaN', () => {
@@ -27,27 +27,6 @@ describe('isNull', () => {
         expect(isNull({ a: 1 })).toBe(false);
         expect(isNull(0)).toBe(false);
         expect(isNull(false)).toBe(false);
-    });
-});
-
-describe('objectsEqual', () => {
-    it('returns true for two empty objects', () => {
-        expect(objectsEqual({}, {})).toBe(true);
-    });
-
-    it('returns true for equal objects', () => {
-        expect(objectsEqual({ a: 1 }, { a: 1 })).toBe(true);
-    });
-
-    it('returns false for different keys or values', () => {
-        expect(objectsEqual({ a: 1 }, { b: 1 })).toBe(false);
-        expect(objectsEqual({ a: 1 }, { a: 2 })).toBe(false);
-    });
-
-    it('returns true if both are null-like', () => {
-        expect(objectsEqual(null, undefined)).toBe(true);
-        expect(objectsEqual(undefined, {})).toBe(true);
-        expect(objectsEqual(undefined, { key: 'value' })).toBe(false);
     });
 });
 

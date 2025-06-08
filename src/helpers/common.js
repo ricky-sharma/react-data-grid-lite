@@ -33,14 +33,25 @@ export function isNull(value) {
     return false;
 }
 
-export const objectsEqual = (o1, o2) =>
-    (isNull(o1) && isNull(o2)) ||
-    (!isNull(o1) &&
-        !isNull(o2) &&
-        typeof o1 === 'object' &&
-        typeof o2 === 'object' &&
-        Object.keys(o1).length === Object.keys(o2).length &&
-        Object.keys(o1).every(key => o1[key] === o2[key]));
+export const isEqual = (a, b) => {
+    if (a === b) return true;
+
+    if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) {
+        return false;
+    }
+
+    const keysA = Object.keys(a);
+    const keysB = Object.keys(b);
+
+    if (keysA.length !== keysB.length) return false;
+
+    for (let key of keysA) {
+        if (!keysB.includes(key)) return false;
+        if (!isEqual(a[key], b[key])) return false;
+    }
+
+    return true;
+}
 
 /**
  * Returns the pixel width of a container element, with fallbacks.

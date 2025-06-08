@@ -18,7 +18,8 @@ const GridHeader = ({
     onSearchClicked,
     columnWidths = [],
     gridHeaderRef,
-    computedColumnWidthsRef
+    computedColumnWidthsRef,
+    enableColumnResize
 }) => {
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
@@ -65,13 +66,14 @@ const GridHeader = ({
         const colWidth = isNull(computedColumnWidthsRef?.current) ?
             calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile) :
             computedColumnWidths.find(i => i?.name === header?.name)?.width ?? 0;
-        if (header?.name) {
+        if (header?.name && isNull(computedColumnWidthsRef?.current)) {
             computedColumnWidths = [
                 ...computedColumnWidths.filter(entry => entry?.name !== header?.name),
                 { name: header?.name, width: colWidth ?? 0, leftPosition: `${leftPosition}px` }
             ];
         }
         leftPosition += tryParseWidth(colWidth, containerWidth);
+        const colResizable = header?.resizable ?? enableColumnResize;
         if (header === '##Actions##') {
             return (
                 <th
@@ -101,7 +103,8 @@ const GridHeader = ({
             <th
                 style={{
                     width: colWidth,
-                    maxWidth: colWidth,
+                    maxWidth: colResizable ? undefined : colWidth,
+                    minWidth: colResizable ? undefined : colWidth,
                     left: (header?.fixed === true ?
                         computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
                     position: (header?.fixed === true ? 'sticky' : ''),
@@ -128,10 +131,8 @@ const GridHeader = ({
         const conCols = !isNull(concatColumns[key]) ? concatColumns[key].cols : null;
         const formatting = header?.formatting;
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
-        let columnSearchEnabled = enableColumnSearch
-            ? header?.searchEnable ?? true
-            : header?.searchEnable ?? false;
-
+        const colResizable = header?.resizable ?? enableColumnResize;
+        const columnSearchEnabled = header?.searchEnable ?? enableColumnSearch;
         if (columnSearchEnabled) {
             searchRowEnabled = true;
         };
@@ -156,7 +157,8 @@ const GridHeader = ({
             <th
                 style={{
                     width: colWidth,
-                    maxWidth: colWidth,
+                    maxWidth: colResizable ? undefined : colWidth,
+                    minWidth: colResizable ? undefined : colWidth,
                     left: (header?.fixed === true ?
                         computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
                     position: (header?.fixed === true ? 'sticky' : ''),

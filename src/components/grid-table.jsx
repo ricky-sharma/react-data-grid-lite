@@ -10,10 +10,11 @@ const GridTable = ({
     onHeaderClicked,
     onSearchClicked,
     gridHeaderRef,
-    computedColumnWidthsRef,
+    computedColumnWidthsRef
 }) => {
     const tableRef = useRef(null);
-    useResizableTableColumns(tableRef, state, setState, computedColumnWidthsRef);
+    useResizableTableColumns(tableRef, state, setState,
+        computedColumnWidthsRef, state.enableColumnResize);
     return (
         <table ref={tableRef} className="m-0 p-0">
             <GridHeader
@@ -30,6 +31,7 @@ const GridTable = ({
                 columnWidths={state.columnWidths}
                 gridHeaderRef={gridHeaderRef}
                 computedColumnWidthsRef={computedColumnWidthsRef}
+                enableColumnResize={state.enableColumnResize}
             />
 
             <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
@@ -52,6 +54,7 @@ const GridTable = ({
                     editButtonEvent={state.editButtonEvent}
                     deleteButtonEvent={state.deleteButtonEvent}
                     computedColumnWidthsRef={computedColumnWidthsRef}
+                    enableColumnResize={state.enableColumnResize}
                 />
             </tbody>
         </table>
