@@ -105,15 +105,13 @@ const GridHeader = ({
                 }}
                 key={key}
             >
-                <div className="row p-0 m-0 alignCenter">
                     <div
                         onClick={onClickHandler}
-                        className="p-0 alignCenter pointer"
+                        className="p-0 m-0 alignCenter pointer"
                     >
                         <h4>{displayName}</h4>
                         {renderSortIcon()}
                     </div>
-                </div>
                 {thInnerHtml}
             </th>
         );
