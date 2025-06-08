@@ -4,11 +4,11 @@
     border-radius: 6px;
     color: #212529;
     position: relative;
-    z-index:1;
 }
 
     .r-d-g-lt-component * {
         box-sizing: border-box !important;
+        z-index: 1;
     }
 
     .r-d-g-lt-component * {
@@ -463,9 +463,9 @@
     }
 
         .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar {
-            height: 20px !important;
+            height: 18px !important;
             width: 0px !important;
-            border: 20px solid #d5d5d5;
+            border: 18px solid #d5d5d5;
             border-start-end-radius: 1px;
             z-index: 10;
         }
@@ -488,7 +488,7 @@
         background-color: inherit;
         top: 0;
         left: 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(0, 0, 0, 0.1), inset 0 4px 6px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, .2);
         will-change: transform;
         border: none;
     }
@@ -508,15 +508,20 @@
         width: 100%;
     }
 
+.r-d-g-lt-component table thead tr th {
+    font-size: 95% !important;
+    position: relative;
+    min-width: 50px;
+    border: 0 !important;
+    vertical-align: top !important;
+}
+
 .r-d-g-lt-component table thead tr.gridHeader {
     background-color: #fff;
 }
 
     .r-d-g-lt-component table thead tr.gridHeader th {
-        border: 0 !important;
-        position: relative;
         padding: 10px 0 !important;
-        vertical-align: top !important;
     }
 
         .r-d-g-lt-component table thead tr.gridHeader th div {
@@ -532,11 +537,11 @@
             .r-d-g-lt-component table thead tr.gridHeader th div h4 {
                 margin: 0 !important;
                 padding: 0 0 0 5px !important;
-                word-break: break-word;
-                overflow-wrap: break-word;
                 white-space: normal;
                 text-align: center;
                 width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
     .r-d-g-lt-component table thead tr.gridHeader span {
@@ -556,16 +561,12 @@
 
     .r-d-g-lt-component table thead tr.searchHeader th {
         background-color: #fff;
-        border: 0 !important;
-        position: relative;
         padding: 7px 1px !important;
-        vertical-align: top !important;
         line-height: 0.5 !important;
     }
 
         .r-d-g-lt-component table thead tr.searchHeader th div {
             position: relative;
-            padding-left: 0px !important;
         }
 
 .r-d-g-lt-component table tbody .gridRow:first-child,
@@ -582,6 +583,7 @@
     border-width: 1px 0 0 !important;
     padding: 0;
     text-align: center;
+    min-width: 50px;
 }
 
     .r-d-g-lt-component table tbody .gridRow td div {
@@ -590,6 +592,7 @@
         text-overflow: ellipsis;
         padding: 10px 8px 10px 10px !important;
         align-content: center;
+        font-size: 90% !important;
     }
 
 .r-d-g-lt-component table tbody tr:nth-of-type(even) {

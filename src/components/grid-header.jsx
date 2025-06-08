@@ -24,14 +24,17 @@ const GridHeader = ({
     const isMobile = windowWidth < 700;
     if (isNull(columns) || isNull(columnWidths)) return null;
     let headers = [...columns];
-    let computedColumnWidths = [];
+    let computedColumnWidths = computedColumnWidthsRef?.current ?? [];
     let searchRowEnabled = false;
     const containerWidth = getContainerWidthInPixels(Container_Identifier,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
-        Button_Column_Key, buttonColEnabled, isMobile);
-    if (Button_Column_Key) {
+    const buttonColWidth = isNull(computedColumnWidthsRef?.current) ?
+        calculateColumnWidth(columnWidths, hiddenColIndex,
+            Button_Column_Key, buttonColEnabled, isMobile) :
+        computedColumnWidths?.find(i => i?.name === Button_Column_Key)?.width ?? 0;
+
+    if (Button_Column_Key && isNull(computedColumnWidthsRef?.current)) {
         computedColumnWidths = [
             ...computedColumnWidths.filter(entry => entry?.name !== Button_Column_Key),
             { name: Button_Column_Key, width: buttonColWidth ?? 0 }
@@ -59,7 +62,9 @@ const GridHeader = ({
             <span style={{
                 zIndex: (header?.fixed === true ? 11 : '')
             }} /> : null;
-        const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
+        const colWidth = isNull(computedColumnWidthsRef?.current) ?
+            calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile) :
+            computedColumnWidths.find(i => i?.name === header?.name)?.width ?? 0;
         if (header?.name) {
             computedColumnWidths = [
                 ...computedColumnWidths.filter(entry => entry?.name !== header?.name),
@@ -104,14 +109,15 @@ const GridHeader = ({
                     backgroundColor: 'inherit'
                 }}
                 key={key}
+                data-column-name={header?.name}
             >
-                    <div
-                        onClick={onClickHandler}
-                        className="p-0 m-0 alignCenter pointer"
-                    >
-                        <h4>{displayName}</h4>
-                        {renderSortIcon()}
-                    </div>
+                <div
+                    onClick={onClickHandler}
+                    className="p-0 m-0 alignCenter pointer"
+                >
+                    <h4>{displayName}</h4>
+                    {renderSortIcon()}
+                </div>
                 {thInnerHtml}
             </th>
         );
@@ -158,6 +164,7 @@ const GridHeader = ({
                     backgroundColor: 'inherit'
                 }}
                 key={key}
+                data-column-name={header?.name}
             >
                 <div className="row searchDiv p-0 m-0 alignCenter">
                     {columnSearchEnabled ? (
@@ -174,7 +181,8 @@ const GridHeader = ({
             </th>
         );
     });
-    computedColumnWidthsRef.current = [...computedColumnWidths];
+    if (isNull(computedColumnWidthsRef?.current))
+        computedColumnWidthsRef.current = [...computedColumnWidths];
     return (
         <thead ref={gridHeaderRef}>
             <tr className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>

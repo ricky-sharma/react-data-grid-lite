@@ -1,17 +1,21 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useRef } from 'react';
+import { useResizableTableColumns } from '../hooks/use-resizable-table-columns';
 import GridHeader from './grid-header';
 import GridRows from './grid-rows';
 
 const GridTable = ({
     state,
+    setState,
     onHeaderClicked,
     onSearchClicked,
     gridHeaderRef,
     computedColumnWidthsRef,
 }) => {
+    const tableRef = useRef(null);
+    useResizableTableColumns(tableRef, state, setState, computedColumnWidthsRef);
     return (
-        <table className="m-0 p-0">
+        <table ref={tableRef} className="m-0 p-0">
             <GridHeader
                 columns={state.columns}
                 hiddenColIndex={state.hiddenColIndex}
