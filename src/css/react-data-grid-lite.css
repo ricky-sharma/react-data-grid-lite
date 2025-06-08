@@ -459,6 +459,7 @@
         border-collapse: collapse;
         table-layout: fixed;
         overflow: auto !important;
+        border-spacing: 0;
     }
 
         .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar {
@@ -486,9 +487,10 @@
         z-index: 20;
         background-color: inherit;
         top: 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2),
-        0 1px 0 rgba(255, 255, 255, 0.8),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        left: 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(0, 0, 0, 0.1), inset 0 4px 6px rgba(0,0,0,0.3);
+        will-change: transform;
+        border: none;
     }
 
     .r-d-g-lt-component .react-data-grid-lite table tbody {
@@ -511,7 +513,7 @@
 }
 
     .r-d-g-lt-component table thead tr.gridHeader th {
-        border: 0px solid rgb(224, 224, 224) !important;
+        border: 0 !important;
         position: relative;
         padding: 15px 0 5px 0 !important;
         vertical-align: top !important;
@@ -601,28 +603,6 @@
 .r-d-g-lt-component table tbody tr:hover {
     background-color: #f5f5f5;
 }
-
-.r-d-g-lt-component table tbody tr td div.innerTable {
-    display: block !important;
-}
-
-    .r-d-g-lt-component table tbody tr td div.innerTable table {
-        display: table !important;
-        border-collapse: collapse;
-        table-layout: fixed;
-    }
-
-        .r-d-g-lt-component table tbody tr td div.innerTable table tbody {
-            display: table-row-group !important;
-        }
-
-            .r-d-g-lt-component table tbody tr td div.innerTable table tbody tr.innerTableRow {
-                display: table-row !important;
-            }
-
-            .r-d-g-lt-component table tbody tr td div.innerTable table tbody tr td {
-                display: table-cell !important;
-            }
 
 .r-d-g-lt-component .float-lt {
     float: left;

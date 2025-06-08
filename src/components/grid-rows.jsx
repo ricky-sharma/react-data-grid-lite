@@ -72,7 +72,7 @@ const GridRows = ({
             lastFixedIndex = index;
         }
     }, null);
-    const computedRowData = rowsData.slice(first, first + count).map((row, rowIndex) => {
+    return rowsData.slice(first, first + count).map((row, rowIndex) => {
         const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
             const conValue = getConcatValue(row, key, concatColumns, columns);
@@ -126,7 +126,7 @@ const GridRows = ({
         return (
             <tr
                 key={rowIndex}
-                className={`${rowCssClass} gridRow innerTableRow`}
+                className={`${rowCssClass} gridRow`}
                 style={rowClickEnabled ? { cursor: 'pointer' } : {}}
                 onClick={e => onRowClick(e, row)}
                 onMouseOver={e => onRowHover(e, row)}
@@ -136,20 +136,6 @@ const GridRows = ({
             </tr>
         );
     });
-
-    return (
-        <tr className="m-0 p-0">
-            <td className="m-0 p-0">
-                <div className="m-0 p-0 innerTable">
-                    <table className="m-0 p-0">
-                        <tbody className="m-0 p-0">
-                            {computedRowData}
-                        </tbody>
-                    </table>
-                </div>
-            </td>
-        </tr>
-    )
 };
 
 export default GridRows;
