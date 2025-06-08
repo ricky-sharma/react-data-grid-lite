@@ -305,6 +305,7 @@ const DataGrid = ({
             >
                 <GridTable
                     state={state}
+                    setState={setState}
                     onHeaderClicked={onHeaderClicked}
                     onSearchClicked={onSearchClicked}
                     gridHeaderRef={gridHeaderRef}
