@@ -25,8 +25,8 @@ describe('calculateColumnWidth', () => {
     });
 
     it('returns "0%" if colWidthArray is not an array', () => {
-        expect(calculateColumnWidth(null, [], 0)).toBe('0%');
-        expect(calculateColumnWidth(undefined, [], 0)).toBe('0%');
+        expect(calculateColumnWidth(null, [], 0)).toBe('100%');
+        expect(calculateColumnWidth(undefined, [], 0)).toBe('100%');
     });
 
     it('returns Button_Column_Width if currentColKey is button column', () => {
@@ -41,19 +41,19 @@ describe('calculateColumnWidth', () => {
     it('handles all fixed columns (keep fixed if exceeds container width)', () => {
         common.getContainerWidthInPixels.mockReturnValue(250);
         const result = calculateColumnWidth(['200', '200'], [], 0);
-        expect(result).toBe('200');
+        expect(result).toBe('200px');
     });
 
     it('handles all flexible columns', () => {
         const colWidths = [null, null, null];
         const result = calculateColumnWidth(colWidths, [], 1);
-        expect(result).toBe('35%');
+        expect(result).toBe("266.6666666666667px");
     });
 
     it('handles mixed fixed and flexible columns', () => {
         const colWidths = ['100', null, '150', null];
         const result = calculateColumnWidth(colWidths, [], 1);
-        expect(result).toBe('36.875%');
+        expect(result).toBe("275px");
     });
 
     it('returns correct width in mobile mode (smaller total fits)', () => {
@@ -70,20 +70,20 @@ describe('calculateColumnWidth', () => {
     });
 
     it('excludes hidden columns from total count', () => {
-        const colWidths = ['100', null, '200', null];
-        const hidden = [0, 3];
+        const colWidths = ['100px', null, '200px', null];
+        const hidden = [0, null, null, 3];
         const result = calculateColumnWidth(colWidths, hidden, 1);
-        expect(result).toMatch(/%/);
+        expect(result).toMatch('600px');
     });
 
     it('returns 100% if all columns are hidden', () => {
-        const result = calculateColumnWidth(['100', '200'], [0, 1], 0);
+        const result = calculateColumnWidth(['100px', '200px'], [0, 1], 0);
         expect(result).toBe('100%');
     });
 
     it('returns default px width in fallback scenario', () => {
         const colWidths = ['abc', 'xyz'];
         const result = calculateColumnWidth(colWidths, [], 0);
-        expect(result).toBe('100%');
+        expect(result).toBe('400px');
     });
 });

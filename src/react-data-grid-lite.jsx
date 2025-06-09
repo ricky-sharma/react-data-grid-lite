@@ -77,7 +77,7 @@ const DataGrid = ({
         if (!isNull(columns))
             setState((prevState) => ({
                 ...prevState,
-                columnsReceived: !isNull(columns) ? columns : [],
+                columnsReceived: columns,
                 columns: !isNull(columns) && Array.isArray(columns) &&
                     columns.every(obj => typeof obj === 'object')
                     ? columns.filter(obj => typeof obj === 'object' && obj !== null
@@ -96,9 +96,9 @@ const DataGrid = ({
             setState((prevState) => ({
                 ...prevState,
                 rowsData: !isNull(data) ? data : [],
-                totalRows: data?.length ?? 0,
-                pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
-                currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0
+                totalRows: data?.length,
+                pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length,
+                currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length
             }));
     }, [data]);
 
@@ -215,7 +215,7 @@ const DataGrid = ({
     };
 
     useEffect(() => {
-        if (sortRef?.current?.changeEvent && typeof state.onSortComplete === 'function') {
+        if (typeof state.onSortComplete === 'function' && sortRef?.current?.changeEvent) {
             state.onSortComplete(
                 sortRef.current.changeEvent,
                 sortRef.current.colName,
@@ -224,7 +224,7 @@ const DataGrid = ({
             );
             sortRef.current = null;
         }
-        if (searchRef?.current?.changeEvent && typeof state?.onSearchComplete === 'function') {
+        if (typeof state?.onSearchComplete === 'function' && searchRef?.current?.changeEvent) {
             state.onSearchComplete(
                 searchRef.current.changeEvent,
                 searchRef.current.searchQuery,

@@ -34,19 +34,17 @@ export function calculateColumnWidth(
     let nonFixedWidthColCount = 0;
 
     colWidthArray.forEach((width, index) => {
-        if (!hiddenCols?.includes(index)) {
-            const numeric = parseFloat(width?.toString().replace('px', '').replace('%', ''));
-            if (
-                isNull(width) ||
-                isNaN(numeric) ||
-                numeric <= 0
-            ) {
-                nonFixedWidthColCount++;
-            } else {
-                const pixelValue = tryParseWidth(width, containerWidth);
-                fixedWidthColCount++;
-                fixedWidthTotal += pixelValue;
-            }
+        if (hiddenCols?.includes(index)) return;
+        if (width == null) {
+            nonFixedWidthColCount++;
+            return;
+        }
+        const pixelValue = tryParseWidth(width, containerWidth);
+        if (isNaN(pixelValue) || pixelValue <= 0) {
+            nonFixedWidthColCount++;
+        } else {
+            fixedWidthColCount++;
+            fixedWidthTotal += pixelValue;
         }
     });
 
@@ -64,7 +62,6 @@ export function calculateColumnWidth(
     const safeColWidth = isValidWidth ? `${parsedWidth}px` : Fallback_Column_Width;
     const nonFixedColumnComputedValue = nonFixedWidthColCount > 0 ?
         ((netContainerWidth - fixedWidthTotal) / nonFixedWidthColCount) : 0;
-
     // MOBILE LOGIC
     if (isMobile) {
         const totalMobileRequired = totalVisibleColumns * mobileColumnWidth;
@@ -101,18 +98,21 @@ export function calculateColumnWidth(
 }
 
 export const tryParseWidth = (val, totalWidth = 0) => {
-    let width = 0;
     if (typeof val === 'string') {
-        if (val.trim().endsWith('%')) {
-            const percent = parseFloat(val);
-            width = isNaN(percent) ? 0 : (percent * totalWidth) / 100;
-        } else if (val.trim().endsWith('px')) {
-            width = parseFloat(val);
-        } else {
-            width = 0;
+        const trimmed = val.trim();
+        if (trimmed.endsWith('%')) {
+            const percent = parseFloat(trimmed);
+            return isNaN(percent) ? 0 : (percent * totalWidth) / 100;
         }
-    } else if (typeof val === 'number') {
-        width = val;
+        if (trimmed.endsWith('px')) {
+            const px = parseFloat(trimmed);
+            return isNaN(px) ? 0 : px;
+        }
+        const num = parseFloat(trimmed);
+        return isNaN(num) ? 0 : num;
     }
-    return width;
-}
+    if (typeof val === 'number') {
+        return val;
+    }
+    return 0;
+};

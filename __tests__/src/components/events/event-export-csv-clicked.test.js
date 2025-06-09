@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { eventExportToCSV } from './../../../../src/components/events/event-export-csv-clicked';
 import { CSV_File_Name_Prefix } from './../../../../src/constants';
 import * as commonHelpers from './../../../../src/helpers/common';

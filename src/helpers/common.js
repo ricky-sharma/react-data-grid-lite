@@ -34,6 +34,9 @@ export function isEqual(a, b) {
     if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) {
         return false;
     }
+    if (a.constructor !== b.constructor) {
+        return false;
+    }
     const keysA = Object.keys(a);
     const keysB = Object.keys(b);
     if (keysA.length !== keysB.length) return false;

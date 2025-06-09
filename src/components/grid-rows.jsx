@@ -59,7 +59,6 @@ const GridRows = ({
     if (!Array.isArray(rowsData) || rowsData.length === 0 || isNull(computedColumnWidthsRef?.current)) {
         const message = loading ? <div className="loader" /> :
             (!rowsData.length ? No_Data_Message : No_Column_Visible_Message);
-
         return (
             <tr key="No-Data" className="align-page-center alignCenter" style={{ backgroundColor: 'transparent' }}>
                 <th className="alignCenter"
@@ -80,7 +79,7 @@ const GridRows = ({
         i?.name === Button_Column_Key)?.width ?? 0;
     let lastFixedIndex = -1;
     columns.reduceRight((_, col, index) => {
-        if (lastFixedIndex === -1 && col.fixed === true && !col?.hidden) {
+        if (lastFixedIndex === -1 && col?.fixed === true && !col?.hidden) {
             lastFixedIndex = index;
         }
     }, null);

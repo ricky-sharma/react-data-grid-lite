@@ -12,7 +12,7 @@ jest.mock('./../../../src/helpers/format', () => ({
 }));
 
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import React from 'react';
+import React, { useRef } from 'react';
 import GridRows from './../../../src/components/grid-rows';
 
 beforeEach(() => {
@@ -27,8 +27,8 @@ describe('GridRows', () => {
             { name: 'Bob', age: 30 }
         ],
         columns: [
-            { name: 'name' },
-            { name: 'age' }
+            { name: 'name', fixed: true, concatColumns: ["name", "age"] },
+            { name: 'age', resizable: true }
         ],
         first: 0,
         count: 2,
@@ -37,7 +37,20 @@ describe('GridRows', () => {
     };
 
     it('renders rows and cells correctly', () => {
-        render(<table><tbody><GridRows {...defaultProps} /></tbody></table>);
+        const Wrapper = () => {
+            const ref = useRef(null);
+            ref.current = [
+                { name: 'name', width: '150px', leftPosition: '0px' }
+                , { name: 'age', width: '150px', leftPosition: '150px' }]
+            return (
+                <table>
+                    <tbody>
+                        <GridRows {...defaultProps} computedColumnWidthsRef={ref} />
+                    </tbody>
+                </table>
+            );
+        };
+        render(<Wrapper />);
         expect(screen.getByText('Alice')).toBeInTheDocument();
         expect(screen.getByText('Bob')).toBeInTheDocument();
         expect(screen.getByText('25')).toBeInTheDocument();
@@ -51,7 +64,20 @@ describe('GridRows', () => {
 
     it('calls onRowClick when a row is clicked', () => {
         const onRowClick = jest.fn();
-        render(<table><tbody><GridRows {...defaultProps} onRowClick={onRowClick} rowClickEnabled={true} /></tbody></table>);
+        const Wrapper = () => {
+            const ref = useRef(null);
+            ref.current = [
+                { name: 'name', width: '150px', leftPosition: '0px' }
+                , { name: 'age', width: '150px', leftPosition: '150px' }]
+            return (
+                <table><tbody><GridRows {...defaultProps}
+                    onRowClick={onRowClick}
+                    rowClickEnabled={true}
+                    computedColumnWidthsRef={ref}
+                /></tbody></table>
+            );
+        };
+        render(<Wrapper />);
         fireEvent.click(screen.getByText('Alice'));
         expect(onRowClick).toHaveBeenCalled();
     });
@@ -59,19 +85,29 @@ describe('GridRows', () => {
     it('calls edit and delete event handlers when buttons are clicked', () => {
         const editFn = jest.fn();
         const deleteFn = jest.fn();
+        const Wrapper = () => {
+            const ref = useRef(null);
+            ref.current = [
+                { name: 'name', width: '150px', leftPosition: '0px' }
+                , { name: 'age', width: '150px', leftPosition: '150px' }]
+            return (
+                <table>
+                    <tbody>
+                        <GridRows
+                            {...defaultProps}
+                            editButtonEnabled={true}
+                            deleteButtonEnabled={true}
+                            editButtonEvent={editFn}
+                            deleteButtonEvent={deleteFn}
+                            computedColumnWidthsRef={ref}
+                        />
+                    </tbody>
+                </table>
+            );
+        };
 
         render(
-            <table>
-                <tbody>
-                    <GridRows
-                        {...defaultProps}
-                        editButtonEnabled={true}
-                        deleteButtonEnabled={true}
-                        editButtonEvent={editFn}
-                        deleteButtonEvent={deleteFn}
-                    />
-                </tbody>
-            </table>
+            <Wrapper />
         );
 
         const editIcon = screen.getAllByTitle('Edit')[0];
@@ -89,7 +125,16 @@ describe('GridRows', () => {
             ...defaultProps,
             hiddenColIndex: [0]
         };
-        render(<table><tbody><GridRows {...props} /></tbody></table>);
+        const Wrapper = () => {
+            const ref = useRef(null);
+            ref.current = [
+                { name: 'name', width: '150px', leftPosition: '0px' }
+                , { name: 'age', width: '150px', leftPosition: '150px' }]
+            return (
+                <table><tbody><GridRows {...props} computedColumnWidthsRef={ref} /></tbody></table>
+            );
+        };
+        render(<Wrapper />);
         expect(screen.queryByText('Alice')).not.toBeInTheDocument();
         expect(screen.queryByText('25')).toBeInTheDocument();
     });
@@ -102,10 +147,17 @@ describe('GridRows', () => {
             first: 0,
             count: 1,
             hiddenColIndex: [],
-            columnWidths: [null, null],
-            columnClass: []
+            columnWidths: [null],
+            columnClass: [],
         };
-        render(<table><tbody><GridRows {...props} /></tbody></table>);
+        const Wrapper = () => {
+            const ref = useRef(null);
+            ref.current = [{ name: 'name', width: '150px', leftPosition: '0px' }]
+            return (
+                <table><tbody><GridRows {...props} computedColumnWidthsRef={ref} /></tbody></table>
+            );
+        };
+        render(<Wrapper />);
         expect(screen.getByText('Formatted(Alice)')).toBeInTheDocument();
     });
 

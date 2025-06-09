@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from './../../../src/helpers/common';
+import { convertViewportUnitToPixels, getContainerWidthInPixels, isEqual, isNull } from './../../../src/helpers/common';
 
 describe('isNull', () => {
     it('returns true for null, undefined, NaN', () => {
@@ -77,5 +77,49 @@ describe('convertViewportUnitToPixels', () => {
 
     it('uses 90% of window width if both fail', () => {
         expect(convertViewportUnitToPixels('invalid', 'also-invalid')).toBe(900);
+    });
+});
+
+describe('isEqual', () => {
+    it('returns true for primitive equality', () => {
+        expect(isEqual(1, 1)).toBe(true);
+        expect(isEqual('hello', 'hello')).toBe(true);
+        expect(isEqual(null, null)).toBe(true);
+    });
+
+    it('returns false for different types', () => {
+        expect(isEqual(1, '1')).toBe(false);
+        expect(isEqual(null, {})).toBe(false);
+        expect(isEqual([], {})).toBe(false);
+    });
+
+    it('compares flat objects', () => {
+        expect(isEqual({ a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
+        expect(isEqual({ a: 1, b: 2 }, { a: 1, b: 3 })).toBe(false);
+        expect(isEqual({ a: 1 }, { a: 1, b: 2 })).toBe(false);
+    });
+
+    it('compares nested objects', () => {
+        expect(isEqual({ a: { b: 2 } }, { a: { b: 2 } })).toBe(true);
+        expect(isEqual({ a: { b: 2 } }, { a: { b: 3 } })).toBe(false);
+    });
+
+    it('compares arrays', () => {
+        expect(isEqual([1, 2], [1, 2])).toBe(true);
+        expect(isEqual([1, 2], [2, 1])).toBe(false);
+        expect(isEqual([1, { a: 2 }], [1, { a: 2 }])).toBe(true);
+        expect(isEqual([1, { a: 2 }], [1, { a: 3 }])).toBe(false);
+    });
+
+    it('handles deeply nested structures', () => {
+        const obj1 = { a: { b: { c: { d: [1, 2, 3] } } } };
+        const obj2 = { a: { b: { c: { d: [1, 2, 3] } } } };
+        const obj3 = { a: { b: { c: { d: [1, 2, 4] } } } };
+        expect(isEqual(obj1, obj2)).toBe(true);
+        expect(isEqual(obj1, obj3)).toBe(false);
+    });
+
+    it('returns false if keys mismatch', () => {
+        expect(isEqual({ a: 1, b: 2 }, { a: 1, c: 2 })).toBe(false);
     });
 });

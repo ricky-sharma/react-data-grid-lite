@@ -25,7 +25,6 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
             const columnName = th.dataset.columnName || th.textContent.trim();
             const columnConfig = state?.columns?.find(i => i?.name === columnName);
             const colResizable = columnConfig?.resizable ?? enableColumnResize;
-
             if (!colResizable) return;
 
             const resizer = document.createElement('div');
@@ -41,7 +40,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
             resizer.style.userSelect = 'none';
             resizer.style.zIndex = '50';
             const currentPos = window.getComputedStyle(th).position;
-            if (currentPos === 'static') {
+            if (currentPos !== 'sticky') {
                 th.style.position = 'sticky';
             }
 
@@ -51,11 +50,12 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
 
             const onMouseDown = (e) => {
                 e.preventDefault();
-                startX = e.pageX;
-                startWidth = th.offsetWidth;
+                startX = e?.pageX ?? e?.clientX;
+                startWidth = th?.offsetWidth;
                 const onMouseMove = (e) => {
+                    const newPosition = e?.pageX ?? e?.clientX;
                     const newWidth = Math.min(
-                        Math.max(startWidth + (e.pageX - startX), Minimum_Column_Width),
+                        Math.max(startWidth + (newPosition - startX), Minimum_Column_Width),
                         Maximum_Column_Width
                     );
                     updateColumnWidth(columnName, newWidth);
@@ -63,8 +63,9 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 const onMouseUp = (e) => {
                     document.removeEventListener('mousemove', onMouseMove);
                     document.removeEventListener('mouseup', onMouseUp);
+                    const newPosition = e?.pageX ?? e?.clientX;
                     const newWidth = Math.min(
-                        Math.max(startWidth + (e.pageX - startX), Minimum_Column_Width),
+                        Math.max(startWidth + (newPosition - startX), Minimum_Column_Width),
                         Maximum_Column_Width
                     );
                     updateState(e, newWidth, setState, columnName, state);
@@ -75,15 +76,16 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
 
             const onTouchStart = (e) => {
                 e.preventDefault();
-                const touch = e.touches[0];
-                startX = touch.pageX;
-                startWidth = th.offsetWidth;
+                const touch = e?.touches ? e?.touches[0] : null;
+                startX = touch?.pageX ?? touch?.clientX;
+                startWidth = th?.offsetWidth;
                 let finalWidth = 0;
 
                 const onTouchMove = (e) => {
-                    const moveTouch = e.touches[0];
+                    const moveTouch = e?.touches ? e?.touches[0] : null;
+                    const newPosition = moveTouch?.pageX ?? moveTouch?.clientX ?? 0;
                     finalWidth = Math.min(
-                        Math.max(startWidth + (moveTouch.pageX - startX), Minimum_Column_Width),
+                        Math.max(startWidth + (newPosition - startX), Minimum_Column_Width),
                         Maximum_Column_Width
                     );
                     updateColumnWidth(columnName, finalWidth);
@@ -92,10 +94,11 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 const onTouchEnd = (e) => {
                     document.removeEventListener('touchmove', onTouchMove);
                     document.removeEventListener('touchend', onTouchEnd);
-                    const finalTouch = e.changedTouches?.[0] ?? null;
+                    const finalTouch = e.changedTouches?.[0];
+                    const newPosition = finalTouch?.pageX ?? finalTouch?.clientX ?? 0;
                     const newWidth = finalTouch !== null ?
                         Math.min(
-                            Math.max(startWidth + (finalTouch.pageX - startX), Minimum_Column_Width),
+                            Math.max(startWidth + (newPosition - startX), Minimum_Column_Width),
                             Maximum_Column_Width
                         )
                         : finalWidth;
@@ -116,7 +119,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 const headers = Array.from(row.children);
                 const index = headers.findIndex(
                     (cell) =>
-                        (cell.dataset.columnName || cell.textContent.trim()) === columnName
+                        (cell.dataset.columnName) === columnName
                 );
                 if (index >= 0 && row.children[index]) {
                     row.children[index].style.width = `${newWidth}px`;
@@ -128,7 +131,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 const cells = Array.from(row.children);
                 const index = Array.from(ths).findIndex(
                     (cell) =>
-                        (cell.dataset.columnName || cell.textContent.trim()) === columnName
+                        (cell.dataset.columnName) === columnName
                 );
                 if (index >= 0 && cells[index]) {
                     cells[index].style.width = `${newWidth}px`;
@@ -148,9 +151,9 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
 
             if (typeof state?.onColumnResized === 'function') {
                 state.onColumnResized(
-                    e ?? null,
+                    e,
                     !isNull(newWidth) ? `${newWidth}px` : 0,
-                    columnName ?? ''
+                    columnName
                 );
             }
         };
@@ -169,7 +172,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 }
                 col.leftPosition = `${left}px`;
                 const width = parseInt(col.width || '0', 10);
-                left += width - 1;
+                left += width;
                 updated[i] = col;
             }
             return updated;

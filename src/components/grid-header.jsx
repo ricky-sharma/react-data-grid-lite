@@ -14,12 +14,12 @@ const GridHeader = ({
     deleteButtonEnabled = false,
     headerCssClass = '',
     gridID = '',
+    columnWidths = [],
     onHeaderClicked,
     onSearchClicked,
-    columnWidths = [],
     gridHeaderRef,
     computedColumnWidthsRef,
-    enableColumnResize
+    enableColumnResize = false
 }) => {
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
@@ -97,7 +97,7 @@ const GridHeader = ({
 
         const onClickHandler = (e) => {
             const colNames = !isNull(concatColumns[key]?.cols) ? concatColumns[key].cols : [header?.name];
-            onHeaderClicked(e, colNames);
+            if (typeof onHeaderClicked === 'function') onHeaderClicked(e, colNames);
         };
         return (
             <th
@@ -173,7 +173,10 @@ const GridHeader = ({
                         <input
                             className="searchInput"
                             placeholder="Search"
-                            onChange={(e) => onSearchClicked(e, header?.name, conCols, formatting)}
+                            onChange={typeof onSearchClicked === 'function' ?
+                                (e) => onSearchClicked(e, header?.name, conCols, formatting) :
+                                () => { }
+                            }
                             type="text"
                         />
                     ) : (
@@ -183,8 +186,10 @@ const GridHeader = ({
             </th>
         );
     });
-    if (isNull(computedColumnWidthsRef?.current))
+    if (computedColumnWidthsRef &&
+        isNull(computedColumnWidthsRef?.current)) {
         computedColumnWidthsRef.current = [...computedColumnWidths];
+    }
     return (
         <thead ref={gridHeaderRef}>
             <tr className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>
