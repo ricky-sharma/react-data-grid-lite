@@ -33,11 +33,12 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `alias`         | `String`            | Provides an alternative name or alias for the column key. This alias can be used in column headers and other UI elements to make the grid more intuitive. |        -          |  No          |
 | `width`         | `Number` / `String` | The width of the column. Can be a fixed pixel value (e.g., `100px`) or a percentage (e.g., `'20%'`). Default value is calculated dynamically.             |        -          |  No          | 
 | `formatting`    | `Object`            | Formatting settings for the column. Includes the `type` (e.g., `currency`, `date`) and `format` (the format string, such as `$0,0.00`).                   |        -          |  No          |
-| `searchEnable`  | `Boolean`           | Determines whether the search textbox is enabled for a specific column                                                                                    |       true        |  No          |
+| `searchEnable`  | `Boolean`           |  Enables or disables the search textbox for a specific column. This setting overrides the `enableGlobalSearch` option.                                    |     `undefined`   |  No          |
 | `hidden`        | `Boolean`           | Whether the column should be hidden.                                                                                                                      |       false       |  No          |
 | `concatColumns` | `Object`            | Specifies columns to concatenate into this column. It includes: `columns` (array of column keys to concatenate) and `separator` (the separator string).   |        -          |  No          |
-| `fixed`         | `Boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. This feature is supported in version 1.1.0 and above.|        false      |  No          |
-| `class`          | `String`           | Custom CSS class applied to each data cell in the column. This feature is supported in version 1.1.0 and above.                                           |        -      |  No          |
+| `fixed`         | `Boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version `1.1.0` and above.|        false      |  No          |
+| `class`         | `String`            | Custom CSS class applied to each data cell in the column. Supported in version `1.1.0` and above.                                                         |         -          |  No          |
+| `resizable`     | `Boolean`           | Enables or disables resizing for a specific column. This setting overrides the `enableColumnResize` option. Supported in version `1.1.0` and above.       |     `undefined`    |  No          |
 
 
 #### **Example of `columns` Array:**
@@ -77,12 +78,13 @@ The `options` prop is an **object** that provides additional configuration setti
 | `headerClass`        | `String`  | Custom CSS class for the header row.                                                                                      |       -           | No           |
 | `rowClass`           | `String`  | Custom CSS class for each row in the grid.                                                                                |       -           | No           |
 | `enableColumnSearch` | `Boolean` | Whether to enable column-wise search functionality (search per individual column).                                        |      true         | No           |
-| `enableGlobalSearch` | `Boolean` | Whether to enable global search across all columns.                                                                       |      true         | No           |
+| `enableGlobalSearch` | `Boolean` | Enables global search across all columns. Column-level search settings override this option.                              |      true         | No           |
 | `editButton`         | `Object`  | Configuration for enabling an edit button on each row. Includes an `event` field which is the function triggered when the button is clicked.|        -     | No           |
 | `deleteButton`       | `Object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked.|       -      | No           |
 | `enableDownload`     | `Boolean` | Whether to enable the download functionality (export data as CSV).                                                        |      true         | No           |
 | `downloadFilename`   | `String`  | The filename used when downloading grid data in CSV format. The default value is `'export-{yyyy-MM-dd HH:mm:ss}'`         |       -           | No           |
 | `onDownloadComplete` | `Function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.       |       -           | No           |
+| `enableColumnResize` | `Boolean` | Enables column resizing across all columns. Column-level `resizable settings` override this option. Supported in version `1.1.0` and above.|      false        | No           |
 
 
 #### **Example of `options` Object:**
