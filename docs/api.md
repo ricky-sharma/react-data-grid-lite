@@ -21,6 +21,7 @@
 |    `onSortComplete`   | `Function`          | Callback function triggered after sorting finishes.                                                                         |        -          | No           |
 |    `onSearchComplete` | `Function`          | Callback function triggered after a search operation.                                                                       |        -          | No           |
 |    `onPageChange`     | `Function`          | Callback function triggered when the user navigates to a different page.                                                    |        -          | No           |
+|    `onColumnResized`  | `Function`          | Callback function triggered after a column is resized. Supported in **v1.1.0 and above**.                                   |        -          | No           |
 
 <br><br>
 ## 📊 **`columns` Prop Structure**
