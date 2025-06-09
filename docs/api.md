@@ -21,6 +21,7 @@
 |    `onSortComplete`   | `Function`          | Callback function triggered after sorting finishes.                                                                         |        -          | No           |
 |    `onSearchComplete` | `Function`          | Callback function triggered after a search operation.                                                                       |        -          | No           |
 |    `onPageChange`     | `Function`          | Callback function triggered when the user navigates to a different page.                                                    |        -          | No           |
+|    `onColumnResized`  | `Function`          | Callback function triggered after a column is resized. Supported in **v1.1.0 and above**.                                   |        -          | No           |
 
 <br><br>
 ## 📊 **`columns` Prop Structure**
@@ -29,7 +30,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 
 | **Field**       | **Type**            | **Description**                                                                                                                                           | **Default Value** | **Required** |
 | --------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------ |
-| `name`          | `String`            | The display name of the column header, also acts as key or identifier for the column used to access corresponding data in each row.                       |        -          |  Yes         |
+| `name`          | `String`            | The display name of the column header. It also serves as the key or identifier for accessing the corresponding data in each row. This value must be unique.|        -          |  Yes         |
 | `alias`         | `String`            | Provides an alternative name or alias for the column key. This alias can be used in column headers and other UI elements to make the grid more intuitive. |        -          |  No          |
 | `width`         | `Number` / `String` | The width of the column. Can be a fixed pixel value (e.g., `100px`) or a percentage (e.g., `'20%'`). Default value is calculated dynamically.             |        -          |  No          | 
 | `formatting`    | `Object`            | Formatting settings for the column. Includes the `type` (e.g., `currency`, `date`) and `format` (the format string, such as `$0,0.00`).                   |        -          |  No          |
