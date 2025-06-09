@@ -24,55 +24,46 @@ Fired when pagination changes.
 - `currentPageFirstRow`: Index of first row on current page
 
 ### `onDownloadComplete(e, filename, blob)`  
-Triggered after CSV file download.  
+Triggered after CSV file download. Useful for logging or triggering post-download workflows.
 - `e`: Event object  
 - `filename`: Name of the downloaded file  
-- `blob`: Blob object of the file  
-Useful for logging or triggering post-download workflows.
+- `blob`: Blob object of the file
 
 <br><br>
 ## Row-Level Action Events
 
 ### `editButtonEvent(e, row)`
 
-Triggered when the **Edit** button in a row is clicked.
+Triggered when the **Edit** button in a row is clicked. Use this to open edit forms or modals tied to specific row data.
 
 * `e`: Click event object
 * `row`: Data object representing the clicked row
-  Use this to open edit forms or modals tied to specific row data.
-
 
 ### `deleteButtonEvent(e, row)`
 
-Fired when the **Delete** button in a row is clicked.
+Fired when the **Delete** button in a row is clicked. Typically used to confirm and process row deletions.
 
 * `e`: Click event
 * `row`: The row data being deleted
-  Typically used to confirm and process row deletions.
-
 
 ### `onRowClick(e, row)`
 
-Called when any part of a row (not a specific button) is clicked.
+Called when any part of a row (not a specific button) is clicked. Useful for row-level selection, navigation, or detailed views.
 
 * `e`: Click event
 * `row`: The full row data
-  Useful for row-level selection, navigation, or detailed views.
-
 
 ### `onRowHover(e, row)`
 
-Triggered when the mouse hovers over a row.
+Triggered when the mouse hovers over a row. Ideal for showing tooltips, highlights, or preview actions.
 
 * `e`: Mouse event
 * `row`: Row under the cursor
-  Ideal for showing tooltips, highlights, or preview actions.
-
 
 ### `onRowOut(e, row)`
 
-Fired when the mouse leaves a row area.
+Fired when the mouse leaves a row area. Often used to reset styles or hide tooltips.
 
 * `e`: Mouse event
 * `row`: Row from which the cursor exited
-  Often used to reset styles or hide tooltips.
+
