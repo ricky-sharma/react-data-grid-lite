@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { isNull } from '../helpers/common';
+import { Button_Column_Key, Maximum_Column_Width, Minimum_Column_Width } from '../constants';
 
 export function useResizableTableColumns(tableRef, state, setState, compColWidthsRef, enableColumnResize) {
     useEffect(() => {
@@ -37,7 +39,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
             resizer.style.height = '100%';
             resizer.style.cursor = 'col-resize';
             resizer.style.userSelect = 'none';
-            resizer.style.zIndex = '500';
+            resizer.style.zIndex = '50';
             const currentPos = window.getComputedStyle(th).position;
             if (currentPos === 'static') {
                 th.style.position = 'sticky';
@@ -52,14 +54,20 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 startX = e.pageX;
                 startWidth = th.offsetWidth;
                 const onMouseMove = (e) => {
-                    const newWidth = Math.max(startWidth + (e.pageX - startX), 50);
+                    const newWidth = Math.min(
+                        Math.max(startWidth + (e.pageX - startX), Minimum_Column_Width),
+                        Maximum_Column_Width
+                    );
                     updateColumnWidth(columnName, newWidth);
                 };
                 const onMouseUp = (e) => {
                     document.removeEventListener('mousemove', onMouseMove);
                     document.removeEventListener('mouseup', onMouseUp);
-                    const finalWidth = Math.max(startWidth + (e.pageX - startX), 50);
-                    updateState(finalWidth, setState, columnName);
+                    const newWidth = Math.min(
+                        Math.max(startWidth + (e.pageX - startX), Minimum_Column_Width),
+                        Maximum_Column_Width
+                    );
+                    updateState(e, newWidth, setState, columnName, state);
                 };
                 document.addEventListener('mousemove', onMouseMove);
                 document.addEventListener('mouseup', onMouseUp);
@@ -70,22 +78,28 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 const touch = e.touches[0];
                 startX = touch.pageX;
                 startWidth = th.offsetWidth;
-                let newWidth = 0;
+                let finalWidth = 0;
 
                 const onTouchMove = (e) => {
                     const moveTouch = e.touches[0];
-                    newWidth = Math.max(startWidth + (moveTouch.pageX - startX), 50);
-                    th.style.width = `${newWidth}px`;
-                    updateColumnWidth(columnName, newWidth);
+                    finalWidth = Math.min(
+                        Math.max(startWidth + (moveTouch.pageX - startX), Minimum_Column_Width),
+                        Maximum_Column_Width
+                    );
+                    updateColumnWidth(columnName, finalWidth);
                 };
 
                 const onTouchEnd = (e) => {
                     document.removeEventListener('touchmove', onTouchMove);
                     document.removeEventListener('touchend', onTouchEnd);
                     const finalTouch = e.changedTouches?.[0] ?? null;
-                    const finalWidth = finalTouch !== null ?
-                        Math.max(startWidth + (finalTouch.pageX - startX), 50) : newWidth;
-                    updateState(finalWidth, setState, columnName);
+                    const newWidth = finalTouch !== null ?
+                        Math.min(
+                            Math.max(startWidth + (finalTouch.pageX - startX), Minimum_Column_Width),
+                            Maximum_Column_Width
+                        )
+                        : finalWidth;
+                    updateState(e, newWidth, setState, columnName, state);
                 };
 
                 document.addEventListener('touchmove', onTouchMove, { passive: false });
@@ -122,15 +136,23 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
             });
         };
 
-        const updateState = (finalWidth, setState, columnName) => {
+        const updateState = (e, newWidth, setState, columnName, state) => {
             compColWidthsRef.current = [...updColWidthAndReposition(compColWidthsRef.current,
-                columnName, finalWidth)]
+                columnName, newWidth)]
             setState((prev) => {
                 if (!prev || !Array.isArray(prev.columns)) return prev;
-                const updatedColumns = prev.columns.map((col) => col.name === columnName ? { ...col, width: finalWidth } : col
+                const updatedColumns = prev.columns.map((col) => col.name === columnName ? { ...col, width: newWidth } : col
                 );
                 return { ...prev, columns: updatedColumns };
             });
+
+            if (typeof state?.onColumnResized === 'function') {
+                state.onColumnResized(
+                    e ?? null,
+                    !isNull(newWidth) ? `${newWidth}px` : 0,
+                    columnName ?? ''
+                );
+            }
         };
 
         const updColWidthAndReposition = (columns, targetName, newWidthPx) => {
@@ -138,7 +160,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
             let left = 0;
             for (let i = 0; i < updated.length; i++) {
                 const col = { ...updated[i] };
-                if (col.name === 'ButtonColumnKey') {
+                if (col.name === Button_Column_Key) {
                     updated[i] = col;
                     continue;
                 }

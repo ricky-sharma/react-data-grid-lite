@@ -24,6 +24,7 @@ const DataGrid = ({
     onSortComplete,
     onSearchComplete,
     onPageChange,
+    onColumnResized
 }) => {
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
@@ -50,6 +51,7 @@ const DataGrid = ({
         onSortComplete: onSortComplete ?? (() => { }),
         onSearchComplete: onSearchComplete ?? (() => { }),
         onPageChange: onPageChange ?? (() => { }),
+        onColumnResized: onColumnResized ?? (() => { }),
         editButtonEnabled: options?.editButton ?? false,
         editButtonEvent: options?.editButton?.event ?? (() => { }),
         deleteButtonEnabled: options?.deleteButton ?? false,

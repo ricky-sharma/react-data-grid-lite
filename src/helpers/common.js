@@ -14,42 +14,33 @@ export function isNull(value) {
     if (value === null || value === undefined || Number.isNaN(value)) {
         return true;
     }
-
     if (typeof value === 'string') {
         return value.trim() === '';
     }
-
     if (Array.isArray(value)) {
         return value.length === 0;
     }
-
     if (
         typeof value === 'object' &&
         Object.getPrototypeOf(value) === Object.prototype
     ) {
         return Object.keys(value).length === 0;
     }
-
     return false;
 }
 
-export const isEqual = (a, b) => {
+export function isEqual(a, b) {
     if (a === b) return true;
-
     if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) {
         return false;
     }
-
     const keysA = Object.keys(a);
     const keysB = Object.keys(b);
-
     if (keysA.length !== keysB.length) return false;
-
     for (let key of keysA) {
         if (!keysB.includes(key)) return false;
         if (!isEqual(a[key], b[key])) return false;
     }
-
     return true;
 }
 
