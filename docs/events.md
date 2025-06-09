@@ -29,6 +29,13 @@ Triggered after CSV file download. Useful for logging or triggering post-downloa
 - `filename`: Name of the downloaded file  
 - `blob`: Blob object of the file
 
+### `onColumnResized(e, newWidth, columnName)` — *Supported in `v1.1.0` and above* 
+
+This event handler is called **after a column has been resized**. This function allows you to respond to column resize events, such as updating UI elements or saving user preferences.
+* `e` — The original event object from the resize action, or `null` if unavailable.
+* `newWidth` — The new width of the column in pixels as a string with `px` suffix (e.g., `"150px"`). If the new width is `null` or invalid, it defaults to `0`.
+* `columnName` — The unique identifier (name) of the resized column, or an empty string if not provided.
+
 <br><br>
 ## Row-Level Action Events
 
