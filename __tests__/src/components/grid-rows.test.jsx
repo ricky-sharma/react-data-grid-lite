@@ -58,8 +58,10 @@ describe('GridRows', () => {
     });
 
     it('renders no data message when rowsData is empty', () => {
-        render(<table><tbody><GridRows {...defaultProps} rowsData={[]} /></tbody></table>);
-        expect(screen.getByText(/No Data/i)).toBeInTheDocument();
+        const { container } = render(
+            <table><tbody><GridRows {...defaultProps} rowsData={[]} /></tbody></table>
+        );
+        expect(container.querySelector('tbody')?.childElementCount).toBe(0);
     });
 
     it('calls onRowClick when a row is clicked', () => {

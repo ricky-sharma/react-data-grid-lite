@@ -36,6 +36,7 @@ const GridTable = ({
 
             <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
                 <GridRows
+                    gridID={state.gridID}
                     rowsData={state.rowsData}
                     first={state.firstRow}
                     count={state.currentPageRows}

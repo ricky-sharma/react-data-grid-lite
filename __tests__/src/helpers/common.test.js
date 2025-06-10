@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
-import { convertViewportUnitToPixels, getContainerWidthInPixels, isEqual, isNull } from './../../../src/helpers/common';
+import { cleanup } from '@testing-library/react';
+import { Container_Identifier, Loader_Identifier } from '../../../src/constants';
+import { convertViewportUnitToPixels, getContainerWidthInPixels, hideLoader, isEqual, isNull, showLoader } from './../../../src/helpers/common';
 
 describe('isNull', () => {
     it('returns true for null, undefined, NaN', () => {
@@ -121,5 +123,85 @@ describe('isEqual', () => {
 
     it('returns false if keys mismatch', () => {
         expect(isEqual({ a: 1, b: 2 }, { a: 1, c: 2 })).toBe(false);
+    });
+});
+
+describe('showLoader and hideLoader', () => {
+     beforeAll(() => {
+        window.getComputedStyle = (el) => ({
+            getPropertyValue: () => '',
+            position: el.style.position || 'static',
+        });
+    });
+
+    beforeEach(() => {
+        cleanup();
+        jest.clearAllMocks();
+        document.body.innerHTML = `
+        <div id="testParent">
+            <div class="react-data-grid-lite" style="position: static;"></div>
+        </div>
+    `;
+    });
+
+    afterEach(() => {
+        document.body.innerHTML = '';
+    });
+
+    it('does nothing if parent ID is not found', () => {
+        showLoader('nonExistentId');
+        expect(document.querySelector(`.${Loader_Identifier}`)).toBeNull();
+    });
+
+    it('does nothing if container is not found inside parent', () => {
+        // Remove grid container
+        document.getElementById('testParent').innerHTML = '';
+        showLoader('testParent');
+        expect(document.querySelector(`.${Loader_Identifier}`)).toBeNull();
+    });
+
+    it('adds loader with dots if no message is provided', () => {
+        showLoader('testParent');
+
+        const overlay = document.querySelector(`.${Loader_Identifier}`);
+        expect(overlay).toBeInTheDocument();
+        expect(overlay.querySelector('.dot-loader')).toBeInTheDocument();
+        expect(overlay.textContent).toBe(''); // Only dots, no text
+    });
+
+    it('adds loader with message if message is provided', () => {
+        showLoader('testParent', 'Loading data...');
+
+        const overlay = document.querySelector(`.${Loader_Identifier}`);
+        expect(overlay).toBeInTheDocument();
+        expect(overlay.textContent).toBe('Loading data...');
+        expect(overlay.querySelector('.dot-loader')).not.toBeInTheDocument();
+    });
+
+    it('does not add loader if one already exists', () => {
+        showLoader('testParent');
+        showLoader('testParent'); // second call should do nothing
+
+        const overlays = document.querySelectorAll(`.${Loader_Identifier}`);
+        expect(overlays.length).toBe(1);
+    });
+
+    it('container position is set to relative if it was static', () => {
+        const container = document.querySelector(Container_Identifier);
+        expect(container.style.position).toBe('static');
+
+        showLoader('testParent');
+
+        expect(container.style.position).toBe('relative');
+    });
+
+    it('hideLoader removes the loader overlay', () => {
+        showLoader('testParent');
+        let overlay = document.querySelector(`.${Loader_Identifier}`);
+        expect(overlay).toBeInTheDocument();
+
+        hideLoader('testParent');
+        overlay = document.querySelector(`.${Loader_Identifier}`);
+        expect(overlay).toBeNull();
     });
 });

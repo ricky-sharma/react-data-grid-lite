@@ -2,12 +2,10 @@
 import React from 'react';
 import {
     Button_Column_Key,
-    Container_Identifier,
-    Default_Grid_Width_VW,
     No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
-import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from '../helpers/common';
+import { hideLoader, isNull, showLoader } from '../helpers/common';
 import { format } from '../helpers/format';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
@@ -50,30 +48,19 @@ const GridRows = ({
     editButtonEvent,
     deleteButtonEvent,
     computedColumnWidthsRef,
-    enableColumnResize
+    enableColumnResize,
+    gridID
 }) => {
     const loading = useLoadingIndicator();
     useWindowWidth();
-    const containerWidth = getContainerWidthInPixels(Container_Identifier,
-        convertViewportUnitToPixels(Default_Grid_Width_VW));
     if (!Array.isArray(rowsData) || rowsData.length === 0 || isNull(computedColumnWidthsRef?.current)) {
-        const message = loading ? <div className="loader" /> :
-            (!rowsData.length ? No_Data_Message : No_Column_Visible_Message);
-        return (
-            <tr key="No-Data" className="align-page-center alignCenter" style={{ backgroundColor: 'transparent' }}>
-                <th className="alignCenter"
-                    style={{
-                        border: 0, margin: 0, padding: 0,
-                        position: 'absolute', backgroundColor: 'transparent',
-                        top: "40%",
-                        left: `${(containerWidth / 2) - 100}px`,
-                        transform: 'translate(-50 %, -50 %)'
-                    }}>
-                    {message}
-                </th>
-            </tr>
-        );
+        hideLoader(gridID);
+        loading ? showLoader(gridID) :
+            (!rowsData.length ? showLoader(gridID, No_Data_Message)
+                : showLoader(gridID, No_Column_Visible_Message));
+        return null;
     }
+    hideLoader(gridID);
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = computedColumnWidthsRef?.current?.find(i =>
         i?.name === Button_Column_Key)?.width ?? 0;
