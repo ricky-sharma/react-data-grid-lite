@@ -75,7 +75,9 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
             };
 
             const onTouchStart = (e) => {
-                e.preventDefault();
+                if (e?.cancelable) {
+                    e.preventDefault();
+                }
                 const touch = e?.touches ? e?.touches[0] : null;
                 startX = touch?.pageX ?? touch?.clientX;
                 startWidth = th?.offsetWidth;
@@ -144,7 +146,8 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 columnName, newWidth)]
             setState((prev) => {
                 if (!prev || !Array.isArray(prev.columns)) return prev;
-                const updatedColumns = prev.columns.map((col) => col.name === columnName ? { ...col, width: newWidth } : col
+                const updatedColumns = prev.columns.map((col) => col.name === columnName ?
+                    { ...col, width: newWidth } : col
                 );
                 return { ...prev, columns: updatedColumns };
             });

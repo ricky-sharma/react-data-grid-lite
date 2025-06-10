@@ -37,7 +37,7 @@ const GridFooter = ({
                         ))}
                     </select> : null}
             </div>
-            <div className="float-lt col-5 m-0 p-0">
+            <div className="float-lt col-5 m-0 p-0 page-list">
                 <div className="col-12 m-0 p-0">
                     {pagerSelectOptions?.length ?? 0 > 0 ?
                         <GridPagination

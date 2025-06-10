@@ -25,17 +25,16 @@ const GridHeader = ({
     const isMobile = windowWidth < 700;
     if (isNull(columns) || isNull(columnWidths)) return null;
     let headers = [...columns];
-    let computedColumnWidths = computedColumnWidthsRef?.current ?? [];
+    let computedColumnWidths = [];
+    if (computedColumnWidthsRef) computedColumnWidthsRef.current = [];
     let searchRowEnabled = false;
     const containerWidth = getContainerWidthInPixels(Container_Identifier,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = isNull(computedColumnWidthsRef?.current) ?
-        calculateColumnWidth(columnWidths, hiddenColIndex,
-            Button_Column_Key, buttonColEnabled, isMobile) :
-        computedColumnWidths?.find(i => i?.name === Button_Column_Key)?.width ?? 0;
+    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
+        Button_Column_Key, buttonColEnabled, isMobile);
 
-    if (Button_Column_Key && isNull(computedColumnWidthsRef?.current)) {
+    if (Button_Column_Key) {
         computedColumnWidths = [
             ...computedColumnWidths.filter(entry => entry?.name !== Button_Column_Key),
             { name: Button_Column_Key, width: buttonColWidth ?? 0 }
@@ -43,7 +42,7 @@ const GridHeader = ({
     }
 
     const renderSortIcon = () => (
-        <div className="sort-icon-wrapper alignCenter">
+        <div className="sort-icon-wrapper">
             <i className="updown-icon inactive icon-sort" />
         </div>
     );
@@ -63,10 +62,9 @@ const GridHeader = ({
             <span style={{
                 zIndex: (header?.fixed === true ? 11 : '')
             }} /> : null;
-        const colWidth = isNull(computedColumnWidthsRef?.current) ?
-            calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile) :
-            computedColumnWidths.find(i => i?.name === header?.name)?.width ?? 0;
-        if (header?.name && isNull(computedColumnWidthsRef?.current)) {
+        const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
+            key, buttonColEnabled, isMobile);
+        if (header?.name) {
             computedColumnWidths = [
                 ...computedColumnWidths.filter(entry => entry?.name !== header?.name),
                 { name: header?.name, width: colWidth ?? 0, leftPosition: `${leftPosition}px` }
@@ -113,12 +111,13 @@ const GridHeader = ({
                 }}
                 key={key}
                 data-column-name={header?.name}
+                onClick={onClickHandler}
+                className="pointer"
             >
                 <div
-                    onClick={onClickHandler}
-                    className="p-0 m-0 alignCenter pointer"
+                    className="p-0 m-0 alignCenter"
                 >
-                    <h4>{displayName}</h4>
+                    <div className="headerText">{displayName}</div>
                     {renderSortIcon()}
                 </div>
                 {thInnerHtml}
@@ -168,7 +167,7 @@ const GridHeader = ({
                 key={key}
                 data-column-name={header?.name}
             >
-                <div className="row searchDiv p-0 m-0 alignCenter">
+                <div className="searchDiv p-0 m-0 alignCenter">
                     {columnSearchEnabled ? (
                         <input
                             className="searchInput"
@@ -186,10 +185,7 @@ const GridHeader = ({
             </th>
         );
     });
-    if (computedColumnWidthsRef &&
-        isNull(computedColumnWidthsRef?.current)) {
-        computedColumnWidthsRef.current = [...computedColumnWidths];
-    }
+    if (computedColumnWidthsRef) computedColumnWidthsRef.current = [...computedColumnWidths];
     return (
         <thead ref={gridHeaderRef}>
             <tr className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>

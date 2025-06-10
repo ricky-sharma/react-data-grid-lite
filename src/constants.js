@@ -1,6 +1,6 @@
 export const Mobile_Column_Width = "150px";
 export const Button_Column_Width = "110px";
-export const Fallback_Column_Width = "200px";
+export const Fallback_Column_Width = "150px";
 export const Maximum_Column_Width = 1200; // in pixels, also configured in CSS for td and th
 export const Minimum_Column_Width = 100;  // in pixels, also configured in CSS for td and th
 export const Container_Identifier = ".react-data-grid-lite";

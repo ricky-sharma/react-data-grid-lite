@@ -4,27 +4,18 @@
     border-radius: 6px;
     color: #212529;
     position: relative;
+    font-size: 16px !important;
 }
 
     .r-d-g-lt-component * {
         box-sizing: border-box !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Inter', system-ui, sans-serif;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
         z-index: 1;
-    }
-
-    .r-d-g-lt-component * {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-    }
-
-    .r-d-g-lt-component * {
-        font-family: 'Inter', system-ui, sans-serif !important;
-    }
-
-    .r-d-g-lt-component * {
-        font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
-        font-size: 16px !important;
-        user-select: none !important;
-        -webkit-user-select: none !important;
-        -ms-user-select: none !important;
     }
 
     .r-d-g-lt-component :focus-visible {
@@ -55,6 +46,8 @@
         border: 2px solid #bbb !important;
         text-indent: 4px !important;
         text-overflow: ellipsis !important;
+        -webkit-appearance: auto;
+        -moz-appearance: auto;
     }
 
     .r-d-g-lt-component .pagerSelect select {
@@ -501,7 +494,7 @@
         background-color: inherit;
         top: 0;
         left: 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, .2);
+        box-shadow: 0 2px 2px rgba(0, 0, 0, .15);
         will-change: transform;
         border: none;
     }
@@ -522,12 +515,11 @@
     }
 
 .r-d-g-lt-component table thead tr th {
-    font-size: 95% !important;
     position: relative;
     min-width: 100px !important;
     max-width: 1200px !important;
     border: 0 !important;
-    vertical-align: top !important;
+    vertical-align: middle !important;
 }
 
 .r-d-g-lt-component table thead tr.gridHeader {
@@ -535,27 +527,29 @@
 }
 
     .r-d-g-lt-component table thead tr.gridHeader th {
-        padding: 10px 0 !important;
+        padding: 6px 0 !important;
+        height: 60px !important;
+        display: flex;
     }
 
         .r-d-g-lt-component table thead tr.gridHeader th div {
             position: relative;
             padding: 0px !important;
             width: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             cursor: pointer;
             margin: 0px !important;
-            height: 55px !important;
         }
 
-            .r-d-g-lt-component table thead tr.gridHeader th div h4 {
-                margin: 0 !important;
+            .r-d-g-lt-component table thead tr.gridHeader th div.headerText {
                 padding: 0 0 0 5px !important;
-                white-space: normal;
+                white-space: nowrap;
                 text-align: center;
-                width: 100%;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                text-transform: capitalize;
+                font-size: 20px !important;
+                display: block;
             }
 
     .r-d-g-lt-component table thead tr.gridHeader span {
@@ -577,10 +571,12 @@
         background-color: #fff;
         padding: 7px 1px !important;
         line-height: 0.5 !important;
+        height: 40px !important;
     }
 
         .r-d-g-lt-component table thead tr.searchHeader th div {
             position: relative;
+            height: 100%;
         }
 
 .r-d-g-lt-component table tbody .gridRow:first-child,
@@ -607,7 +603,7 @@
         text-overflow: ellipsis;
         padding: 10px 8px 10px 10px !important;
         align-content: center;
-        font-size: 90% !important;
+        height: 100%;
     }
 
 .r-d-g-lt-component table tbody tr:nth-of-type(even) {
@@ -689,7 +685,7 @@
 
 .r-d-g-lt-component .pagination {
     float: right;
-    padding-right: 15px !important;
+    padding-right: 5px !important;
     list-style: none;
     background: inherit !important;
 }
@@ -701,12 +697,13 @@
         font-size: 96% !important;
         height: 28px;
         line-height: 28px;
-        margin: 0px 2px;
+        margin: 0px 1px 0 0 !important;
         padding: 0px;
         text-align: center;
         text-decoration: none !important;
         width: 32px;
         background-color: inherit;
+        font-weight: 900;
     }
 
         .r-d-g-lt-component .pagination li a:hover {
@@ -780,6 +777,10 @@
     cursor: default !important;
 }
 
+.r-d-g-lt-component .page-list {
+    display: block !important;
+}
+
 @media (max-width: 500px) {
     .r-d-g-lt-component .react-data-grid-lite table tbody {
         max-height: 345px;
@@ -844,7 +845,6 @@
 
     .r-d-g-lt-component .searchInput {
         width: 70% !important;
-        height: 25% !important;
         padding-left: 2px;
         padding-right: 2px;
     }
@@ -899,52 +899,62 @@
         }
 }
 
-@media (max-width: 575.98px) {
-    .r-d-g-lt-component * {
-        font-size: 14px !important;
+@media (max-width: 700px) {
+
+    .r-d-g-lt-component .page-results {
+        width: 50% !important;
+        max-width: 50% !important;
     }
 
-    .r-d-g-lt-component h4 {
-        font-size: 16px !important;
+    .r-d-g-lt-component .pagerSelect {
+        float: right;
+        justify-content: right !important;
+        width: 50% !important;
+        max-width: 50% !important;
+        padding: 0 25px 0 0 !important;
     }
+
+    .r-d-g-lt-component .page-list {
+        display: none !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .r-d-g-lt-component {
+        font-size: 12.5px !important;
+    }
+
+        .r-d-g-lt-component table thead tr th div.headerText {
+            font-size: 15px !important;
+        }
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
-    .r-d-g-lt-component * {
-        font-size: 15px !important;
+    .r-d-g-lt-component {
+        font-size: 14px !important;
     }
 
-    .r-d-g-lt-component h4 {
-        font-size: 17px !important;
-    }
+        .r-d-g-lt-component table thead tr th div.headerText {
+            font-size: 16px !important;
+        }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-    .r-d-g-lt-component * {
-        font-size: 16px !important;
+    .r-d-g-lt-component {
+        font-size: 15px !important;
     }
 
-    .r-d-g-lt-component h4 {
-        font-size: 19px !important;
-    }
+        .r-d-g-lt-component table thead tr th div.headerText {
+            font-size: 17px !important;
+        }
 }
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    .r-d-g-lt-component * {
-        font-size: 17px !important;
+    .r-d-g-lt-component {
+        font-size: 16px !important;
     }
 
-    .r-d-g-lt-component h4 {
-        font-size: 20px !important;
-    }
-}
-
-@media (min-width: 1200px) {
-    .r-d-g-lt-component * {
-        font-size: 18px !important;
-    }
-
-    .r-d-g-lt-component h4 {
-        font-size: 22px !important;
-    }
+        .r-d-g-lt-component table thead tr th div.headerText {
+            font-size: 18px !important;
+        }
 }

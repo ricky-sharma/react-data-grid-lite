@@ -9,8 +9,7 @@ import {
 } from "../constants";
 import {
     convertViewportUnitToPixels,
-    getContainerWidthInPixels,
-    isNull
+    getContainerWidthInPixels
 } from "../helpers/common";
 
 export function calculateColumnWidth(
