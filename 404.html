@@ -102,7 +102,7 @@ function navigate(event, url, page) {
   event.preventDefault();
 
   if (page === 'demo') {
-    window.location.href = 'https://ricky-sharma.github.io/react-data-grid-lite/';
+    window.location.replace('/react-data-grid-lite/');
     return;
   }
 
@@ -128,7 +128,7 @@ function navigate(event, url, page) {
     window.addEventListener('popstate', (e) => {
       const state = e.state;
       if (!state || !state.page || state.page === 'demo') {
-        window.location.href = 'https://ricky-sharma.github.io/react-data-grid-lite/';
+        window.location.replace('/react-data-grid-lite/');
       } else {
         loadPage(state.page);
       }
