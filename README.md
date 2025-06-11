@@ -85,7 +85,8 @@ export default App;
 ```
 
 <br><br>
-<img src="https://github.com/user-attachments/assets/8bebdae1-4ae1-4725-bffa-4790c7761feb" width="1000" />
+<img src="https://github.com/user-attachments/assets/c2071867-136e-4a75-82cc-397f79d6cd3f" width="1000" />
+
 <br><br>
 ## React Compatibility Table
 
