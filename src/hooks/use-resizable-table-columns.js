@@ -21,12 +21,12 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
         ths.forEach((th) => {
             if (!th || processed.has(th)) return;
             processed.add(th);
-
             const columnName = th.dataset.columnName || th.textContent.trim();
             const columnConfig = state?.columns?.find(i => i?.name === columnName);
             const colResizable = columnConfig?.resizable ?? enableColumnResize;
             if (!colResizable) return;
 
+            const colFixed = columnConfig?.fixed;
             const resizer = document.createElement('div');
             resizer.style.position = 'absolute';
             resizer.style.top = '0';
@@ -54,7 +54,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 startWidth = th?.offsetWidth;
                 const onMouseMove = (e) => {
                     const element = document.querySelector(`#${state.gridID} table`);
-                    if (element) element.scrollLeft = 0;
+                    if (element && colFixed === true) element.scrollLeft = 0;
                     const newPosition = e?.pageX ?? e?.clientX;
                     const newWidth = Math.min(
                         Math.max(startWidth + (newPosition - startX), Minimum_Column_Width),
@@ -87,7 +87,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
 
                 const onTouchMove = (e) => {
                     const element = document.querySelector(`#${state.gridID} table`);
-                    if (element) element.scrollLeft = 0;
+                    if (element && colFixed === true) element.scrollLeft = 0;
                     const moveTouch = e?.touches ? e?.touches[0] : null;
                     const newPosition = moveTouch?.pageX ?? moveTouch?.clientX ?? 0;
                     finalWidth = Math.min(
