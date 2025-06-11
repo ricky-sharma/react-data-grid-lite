@@ -7,6 +7,7 @@
 ![npm](https://img.shields.io/npm/dt/react-data-grid-lite)
 
 # React Data Grid Lite
+[![GitHub Pages](https://img.shields.io/badge/demo-online-blue?logo=github)](https://ricky-sharma.github.io/react-data-grid-lite/)
 
 A lightweight and customizable React data grid component designed for high performance and ease of use. The DataGrid component is a highly customizable, feature-rich table component designed to display tabular data in a React application. It is intended for use cases where large datasets need to be presented with advanced features such as pagination, sorting, searching, row interactions, and more.
 
