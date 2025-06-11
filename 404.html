@@ -17,8 +17,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 	
-    <script type="module" crossorigin src="./index-DPpOBjvL.js"></script>
-    <link rel="stylesheet" crossorigin href="./index-ijWcMkeh.css">
+    <script type="module" crossorigin src="index-DPpOBjvL.js"></script>
+    <link rel="stylesheet" crossorigin href="index-ijWcMkeh.css">
     <style>
     html, body {
       margin: 0;
@@ -81,14 +81,14 @@
 </head>
 <body>
  <div class="sidebar">
-    <a href="/" onclick="navigate(event, '/', 'demo')">Demo</a>
-	<a href="/read-me" onclick="navigate(event, '/read-me', 'readme.html')">Read Me</a>
-    <a href="/api-ref" onclick="navigate(event, '/api-ref', 'api.html')">API Reference</a>
-	<a href="/event-callbacks" onclick="navigate(event, '/event-callbacks', 'events.html')">Event Callbacks</a>
-	<a href="/styling-themes" onclick="navigate(event, '/styling-themes', 'styling.html')">Styling Themes</a>
-	<a href="/advanced-usage" onclick="navigate(event, '/advanced-usage', 'advanced.html')">Advanced Usage</a>
-	<a href="/format-guide" onclick="navigate(event, '/format-guide', 'formats.html')">Format Guide</a>
-	<a href="/code-examples" onclick="navigate(event, '/code-examples', 'examples.html')">Code Examples</a>
+    <a href="https://ricky-sharma.github.io/react-data-grid-lite/" onclick="navigate(event, '', 'demo')">Demo</a>
+	<a href="https://ricky-sharma.github.io/react-data-grid-lite/read-me" onclick="navigate(event, 'read-me', 'readme.html')">Read Me</a>
+    <a href="https://ricky-sharma.github.io/react-data-grid-lite/api-ref" onclick="navigate(event, 'api-ref', 'api.html')">API Reference</a>
+	<a href="https://ricky-sharma.github.io/react-data-grid-lite/event-callbacks" onclick="navigate(event, 'event-callbacks', 'events.html')">Event Callbacks</a>
+	<a href="https://ricky-sharma.github.io/react-data-grid-lite/styling-themes" onclick="navigate(event, 'styling-themes', 'styling.html')">Styling Themes</a>
+	<a href="https://ricky-sharma.github.io/react-data-grid-lite/advanced-usage" onclick="navigate(event, 'advanced-usage', 'advanced.html')">Advanced Usage</a>
+	<a href="https://ricky-sharma.github.io/react-data-grid-lite/format-guide" onclick="navigate(event, 'format-guide', 'formats.html')">Format Guide</a>
+	<a href="https://ricky-sharma.github.io/react-data-grid-lite/code-examples" onclick="navigate(event, 'code-examples', 'examples.html')">Code Examples</a>
   </div>
   
   <div class="content" id="main-content">
@@ -102,7 +102,7 @@ function navigate(event, url, page) {
   event.preventDefault();
 
   if (page === 'demo') {
-    window.location.href = '/';
+    window.location.href = 'https://ricky-sharma.github.io/react-data-grid-lite/';
     return;
   }
 
@@ -128,7 +128,7 @@ function navigate(event, url, page) {
     window.addEventListener('popstate', (e) => {
       const state = e.state;
       if (!state || !state.page || state.page === 'demo') {
-        window.location.href = '/';
+        window.location.href = 'https://ricky-sharma.github.io/react-data-grid-lite/';
       } else {
         loadPage(state.page);
       }
@@ -152,7 +152,7 @@ window.addEventListener('DOMContentLoaded', () => {
     return; // Let Demopage load
   } else if (page) {
     loadPage(page);
-    history.replaceState({ page }, '', '/' + path);
+    history.replaceState({ page }, '', path);
   } else {
     document.getElementById('main-content').innerHTML = '<h2>404</h2><p>Page not found.</p>';
   }
