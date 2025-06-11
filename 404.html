@@ -144,11 +144,12 @@ window.addEventListener('DOMContentLoaded', () => {
 	'format-guide':'formats.html',
 	'code-examples':'examples.html'
   };
-
-  const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
+  
+  const urlPath = window.location.pathname.replace(/^\/+|\/+$/g, '')
+  const path = urlPath?.replace('react-data-grid-lite/','');
   const page = routes[path];
 
-  if (!path || path === 'https://ricky-sharma.github.io/react-data-grid-lite/' || path === 'https://ricky-sharma.github.io/react-data-grid-lite') {
+  if (!path || urlPath === 'react-data-grid-lite') {
     return; // Let Demopage load
   } else if (page) {
     loadPage(page);
