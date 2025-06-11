@@ -1,0 +1,164 @@
+<html><head><style>body {
+   color: black;
+}
+</style></head><body>
+<h2 id="🔤-format-guide">🔤 Format Guide</h2>
+<p>This guide explains how to use the <code>formatting</code> option in column definitions to customize how values are displayed in the grid.</p>
+<hr>
+<h3 id="✅-how-to-use">✅ How to Use</h3>
+<p>Use the <code>formatting</code> key inside each column to define how values should appear:</p>
+<pre><code class="language-js">const columns = [
+  {
+    name: &#39;Amount&#39;,
+    formatting: { type: &#39;number&#39;, format: &#39;0,0.00&#39; }, // → &quot;1,234.56&quot;
+  },
+  {
+    name: &#39;Salary&#39;,
+    formatting: { type: &#39;currency&#39;, format: &#39;USD&#39; }, // → &quot;$5,000.00&quot;
+  },
+  {
+    name: &#39;Joining Date&#39;,
+    formatting: { type: &#39;date&#39;, format: &#39;MMMM dd, yyyy&#39; }, // → &quot;January 01, 2024&quot;
+  },
+  {
+    name: &#39;Active&#39;,
+    formatting: { type: &#39;boolean&#39; }, // → &quot;Yes&quot; / &quot;No&quot;
+  }
+];
+</code></pre>
+<p>The grid automatically formats values based on <code>type</code> and <code>format</code>.</p>
+<hr>
+<h3 id="✅-supported-types">✅ Supported Types</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Example Format</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>number</code></td>
+<td>Formats numeric values</td>
+<td><code>&#39;0,0&#39;</code>, <code>&#39;0.00&#39;</code></td>
+<td>Adds commas and/or decimals</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>Localized currency formatting</td>
+<td><code>&#39;USD&#39;</code>, <code>&#39;INR&#39;</code></td>
+<td>Requires valid ISO 4217 code</td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td>Formats date strings</td>
+<td><code>&#39;MM/dd/yyyy&#39;</code></td>
+<td>Delegates to internal <code>formatDate</code></td>
+</tr>
+<tr>
+<td><code>percent</code></td>
+<td>Formats decimals as percentages</td>
+<td>–</td>
+<td>Multiplies value by 100</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td>Formats true/false as Yes / No</td>
+<td>–</td>
+<td>Case-insensitive</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="📌-common-format-tokens-for-dates">📌 Common Format Tokens (for dates)</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>yyyy</code></td>
+<td>4-digit year</td>
+<td><code>2023</code></td>
+</tr>
+<tr>
+<td><code>MM</code></td>
+<td>2-digit month</td>
+<td><code>01</code></td>
+</tr>
+<tr>
+<td><code>MMM</code></td>
+<td>Abbreviated month</td>
+<td><code>Jan</code></td>
+</tr>
+<tr>
+<td><code>MMMM</code></td>
+<td>Full month name</td>
+<td><code>January</code></td>
+</tr>
+<tr>
+<td><code>dd</code></td>
+<td>2-digit day of month</td>
+<td><code>02</code></td>
+</tr>
+<tr>
+<td><code>do</code></td>
+<td>Ordinal day</td>
+<td><code>2nd</code></td>
+</tr>
+<tr>
+<td><code>HH</code></td>
+<td>24-hour format</td>
+<td><code>15</code></td>
+</tr>
+<tr>
+<td><code>hh</code></td>
+<td>12-hour format</td>
+<td><code>03</code></td>
+</tr>
+<tr>
+<td><code>mm</code></td>
+<td>Minutes</td>
+<td><code>04</code></td>
+</tr>
+<tr>
+<td><code>ss</code></td>
+<td>Seconds</td>
+<td><code>00</code></td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>Milliseconds</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>AM/PM</td>
+<td><code>PM</code></td>
+</tr>
+<tr>
+<td><code>EEE</code></td>
+<td>Abbreviated weekday</td>
+<td><code>Mon</code></td>
+</tr>
+<tr>
+<td><code>EEEE</code></td>
+<td>Full weekday name</td>
+<td><code>Monday</code></td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td>Timezone offset</td>
+<td><code>+0000</code></td>
+</tr>
+<tr>
+<td><code>ZZZZ</code></td>
+<td>Timezone full name</td>
+<td><code>Eastern Standard Time</code></td>
+</tr>
+</tbody></table>
+
+</body></html>

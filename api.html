@@ -1,0 +1,348 @@
+<html><head><style>body {
+   color: black;
+}
+</style></head><body><h1 id="api-reference">API Reference</h1>
+<hr>
+<h2 id="🔧-props">🔧 Props</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Prop</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Default Value</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not provided. This feature is supported in version 1.0.5 and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>columns</code></td>
+<td><code>Array</code></td>
+<td>Array of column definitions. Each column can have properties like <code>name</code>, <code>width</code>, &#39;alias&#39;, &#39;searchEnable&#39;, &#39;hidden&#39;  etc.</td>
+<td>-</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td><code>Array</code></td>
+<td>Array of objects representing the rows of data to display.</td>
+<td>-</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>pageSize</code></td>
+<td><code>Number</code></td>
+<td>Number of rows per page for pagination. If <code>null</code> or not provided, pagination is disabled.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>Object</code></td>
+<td>An object for additional customization. Contains options like <code>gridClass</code>, <code>enableGlobalSearch</code>, etc.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The width of the grid. Can be a pixel value (e.g., <code>&#39;500px&#39;</code>) or a percentage (e.g., <code>&#39;100%&#39;</code>). Recommended for optimal display of the column. The width can be set to <code>&#39;inherit&#39;</code> to match the width of the containing element.</td>
+<td><code>&#39;90vw&#39;</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The height of the grid. Can be a pixel value (e.g., <code>&#39;300px&#39;</code>) or a percentage (e.g., <code>&#39;100%&#39;</code>). Recommended for optimal display of the column.</td>
+<td><code>&#39;60vh&#39;</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>maxWidth</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The maximum width of the grid.</td>
+<td><code>&#39;100vw&#39;</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>maxHeight</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The maximum height of the grid.</td>
+<td><code>&#39;100vh&#39;</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onRowClick</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered when a row is clicked. The clicked row data is passed as an argument.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onRowHover</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered when a row is hovered over.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onRowOut</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered when the mouse leaves a hovered row.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onSortComplete</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered after sorting finishes.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onSearchComplete</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered after a search operation.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onPageChange</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered when the user navigates to a different page.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onColumnResized</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered after a column is resized. Supported in <strong>v1.1.0 and above</strong>.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<p><br><br></p>
+<h2 id="📊-columns-prop-structure">📊 <strong><code>columns</code> Prop Structure</strong></h2>
+<p>The <code>columns</code> prop defines the layout and behavior of each column in the <code>DataGrid</code>. It is an <strong>array</strong> of column objects, where each object represents a column&#39;s configuration.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Default Value</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td><code>String</code></td>
+<td>The display name of the column header. It also serves as the key or identifier for accessing the corresponding data in each row. This value must be unique.</td>
+<td>-</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>alias</code></td>
+<td><code>String</code></td>
+<td>Provides an alternative name or alias for the column key. This alias can be used in column headers and other UI elements to make the grid more intuitive.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td><code>Number</code> / <code>String</code></td>
+<td>The width of the column. Can be a fixed pixel value (e.g., <code>100px</code>) or a percentage (e.g., <code>&#39;20%&#39;</code>). Default value is calculated dynamically.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>formatting</code></td>
+<td><code>Object</code></td>
+<td>Formatting settings for the column. Includes the <code>type</code> (e.g., <code>currency</code>, <code>date</code>) and <code>format</code> (the format string, such as <code>$0,0.00</code>).</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>searchEnable</code></td>
+<td><code>Boolean</code></td>
+<td>Enables or disables the search textbox for a specific column. This setting overrides the <code>enableGlobalSearch</code> option.</td>
+<td><code>undefined</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>hidden</code></td>
+<td><code>Boolean</code></td>
+<td>Whether the column should be hidden.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>concatColumns</code></td>
+<td><code>Object</code></td>
+<td>Specifies columns to concatenate into this column. It includes: <code>columns</code> (array of column keys to concatenate) and <code>separator</code> (the separator string).</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>fixed</code></td>
+<td><code>Boolean</code></td>
+<td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version <code>1.1.0</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>class</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class applied to each data cell in the column. Supported in version <code>1.1.0</code> and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>resizable</code></td>
+<td><code>Boolean</code></td>
+<td>Enables or disables resizing for a specific column. This setting overrides the <code>enableColumnResize</code> option. Supported in version <code>1.1.0</code> and above.</td>
+<td><code>undefined</code></td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h4 id="example-of-columns-array"><strong>Example of <code>columns</code> Array:</strong></h4>
+<pre><code class="language-jsx">const columns = [
+  {
+    name: &#39;ID&#39;,
+    width: 50,
+    formatting: { type: &#39;number&#39;, format: &#39;0,0&#39; },
+  },
+  {
+    name: &#39;Name&#39;,
+    alias: &#39;Full Name&#39;,
+    width: &#39;30%&#39;,
+  },
+  {
+    name: &#39;DOB&#39;,
+    alias: &#39;Birth Date&#39;,
+    formatting: { type: &#39;Date&#39;, format: &#39;dd MMM yyyy&#39;}
+  },
+  {
+    name: &#39;row-identifier&#39;,
+    hidden: true
+  },
+
+];
+</code></pre>
+<p><br><br></p>
+<h2 id="⚙️-options-prop-structure">⚙️ <strong><code>options</code> Prop Structure</strong></h2>
+<p>The <code>options</code> prop is an <strong>object</strong> that provides additional configuration settings to further customize the behavior of the <code>DataGrid</code> component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Default Value</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gridClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for the grid container.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>headerClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for the header row.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>rowClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for each row in the grid.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableColumnSearch</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to enable column-wise search functionality (search per individual column).</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableGlobalSearch</code></td>
+<td><code>Boolean</code></td>
+<td>Enables global search across all columns. Column-level search settings override this option.</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>editButton</code></td>
+<td><code>Object</code></td>
+<td>Configuration for enabling an edit button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>deleteButton</code></td>
+<td><code>Object</code></td>
+<td>Configuration for enabling a delete button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableDownload</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to enable the download functionality (export data as CSV).</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>downloadFilename</code></td>
+<td><code>String</code></td>
+<td>The filename used when downloading grid data in CSV format. The default value is <code>&#39;export-{yyyy-MM-dd HH:mm:ss}&#39;</code></td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onDownloadComplete</code></td>
+<td><code>Function</code></td>
+<td>Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableColumnResize</code></td>
+<td><code>Boolean</code></td>
+<td>Enables column resizing across all columns. Column-level <code>resizable settings</code> override this option. Supported in version <code>1.1.0</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<h4 id="example-of-options-object"><strong>Example of <code>options</code> Object:</strong></h4>
+<pre><code class="language-jsx">const options = {
+  gridClass: &#39;custom-grid-class&#39;,
+  headerClass: &#39;custom-header-class&#39;,
+  rowClass: &#39;custom-row-class&#39;,
+  enableColumnSearch: true,
+  enableGlobalSearch: true,
+  editButton: {
+    event: (row) =&gt; { console.log(&#39;Edit row:&#39;, row); }
+  },
+  deleteButton: {
+    event: (row) =&gt; { console.log(&#39;Delete row:&#39;, row); }
+  },
+  enableDownload: true,
+  downloadFilename: &#39;data-grid-export.csv&#39;
+};
+</code></pre>
+<hr>
+
+</body></html>
