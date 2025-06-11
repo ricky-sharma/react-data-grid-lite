@@ -3,26 +3,18 @@
     background-color: #e0e0e0;
     border-radius: 6px;
     color: #212529;
+    position: relative;
+    font-size: 16px !important;
 }
 
     .r-d-g-lt-component * {
         box-sizing: border-box !important;
-    }
-
-    .r-d-g-lt-component * {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-    }
-
-    .r-d-g-lt-component * {
-        font-family: 'Inter', system-ui, sans-serif !important;
-    }
-
-    .r-d-g-lt-component * {
-        font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
-        font-size: 16px !important;
-        user-select: none !important;
-        -webkit-user-select: none !important;
-        -ms-user-select: none !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Inter', system-ui, sans-serif;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
     }
 
     .r-d-g-lt-component :focus-visible {
@@ -53,6 +45,8 @@
         border: 2px solid #bbb !important;
         text-indent: 4px !important;
         text-overflow: ellipsis !important;
+        -webkit-appearance: auto;
+        -moz-appearance: auto;
     }
 
     .r-d-g-lt-component .pagerSelect select {
@@ -77,10 +71,6 @@
         border-radius: 4px !important;
     }
 
-    .r-d-g-lt-component .d-none {
-        display: none !important;
-    }
-
     .r-d-g-lt-component .pointer {
         cursor: pointer !important;
     }
@@ -98,28 +88,41 @@
         position: relative;
     }
 
-.loader {
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid #808080;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    position: absolute;
-    animation: spin-r-d-g-lt-component 1s linear infinite;
-    margin: auto;
-}
-
-@keyframes spin-r-d-g-lt-component {
-    0% {
-        transform: rotate(0deg);
+    .r-d-g-lt-component .dot-loader {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 6px;
+        height: 20px;
     }
 
-    100% {
-        transform: rotate(360deg);
+        .r-d-g-lt-component .dot-loader span {
+            width: 8px;
+            height: 8px;
+            background: #3498db;
+            border-radius: 50%;
+            animation: bounce-r-d-g-lt-component 0.6s infinite ease-in-out;
+        }
+
+            .r-d-g-lt-component .dot-loader span:nth-child(1) {
+                animation-delay: -0.2s;
+            }
+
+            .r-d-g-lt-component .dot-loader span:nth-child(2) {
+                animation-delay: -0.1s;
+            }
+
+            .r-d-g-lt-component .dot-loader span:nth-child(3) {
+                animation-delay: 0s;
+            }
+
+@keyframes bounce-r-d-g-lt-component {
+    0%, 80%, 100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
     }
 }
 
@@ -341,7 +344,7 @@
     }
 
 .r-d-g-lt-component .sort-icon-wrapper {
-    width: 20px !important;
+    width: 30px !important;
     position: relative;
 }
 
@@ -450,146 +453,170 @@
     line-height: 1.43;
     outline: none;
     position: relative;
+    z-index: 1;
 }
 
     .r-d-g-lt-component .react-data-grid-lite table {
         border-radius: 10px;
         width: 100%;
+        display: grid !important;
+        border-collapse: collapse;
+        table-layout: fixed;
+        overflow: auto !important;
+        border-spacing: 0;
+        z-index: 1;
     }
 
-        .r-d-g-lt-component .react-data-grid-lite table tbody {
-            background-color: #fff;
-            overflow-x: auto !important;
-        }
-
         .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar {
-            height: 15px !important;
-            width: 15px !important;
-            border: 15px solid #d5d5d5;
+            height: 18px !important;
+            width: 0px !important;
+            border: 18px solid #d5d5d5;
             border-start-end-radius: 1px;
-        }
-
-        .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar-track {
-            border-radius: 1px;
+            z-index: 10;
         }
 
         .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar-thumb {
             -webkit-box-shadow: inset 0 0 10px #808080;
             border-radius: 1px;
+            z-index: 10;
         }
 
             .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar-thumb:hover {
-                background: #555;
+                background-color: #555;
             }
+
+    .r-d-g-lt-component .react-data-grid-lite thead {
+        display: table-header-group !important;
+        width: 100%;
+        position: sticky;
+        z-index: 8;
+        background-color: inherit;
+        top: 0;
+        left: 0;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, .15);
+        will-change: transform;
+        border: none;
+    }
+
+    .r-d-g-lt-component .react-data-grid-lite table tbody {
+        background-color: #fff;
+        display: table-row-group !important;
+    }
 
         .r-d-g-lt-component .react-data-grid-lite table tbody::-webkit-scrollbar {
             height: 0px !important;
             width: 0px !important;
         }
 
-    .r-d-g-lt-component .react-data-grid-lite thead {
-        display: block;
+    .r-d-g-lt-component .react-data-grid-lite table tr {
+        display: flex !important;
         width: 100%;
-        border: solid #e0e0e0 !important;
-        border-width: 0 0 2px !important;
     }
 
-.r-d-g-lt-component tr {
-    display: flex;
-    width: 100%;
+.r-d-g-lt-component table thead tr th {
+    position: relative;
+    min-width: 100px !important;
+    max-width: 1200px !important;
+    border: 0 !important;
+    vertical-align: middle !important;
 }
 
-.r-d-g-lt-component .gridHeader {
+.r-d-g-lt-component table thead tr.gridHeader {
     background-color: #fff;
-    table-layout: fixed;
 }
 
-    .r-d-g-lt-component .gridHeader th {
-        border: 0px solid rgb(224, 224, 224) !important;
-        position: relative;
-        padding: 15px 0 5px 0 !important;
-        vertical-align: top !important;
+    .r-d-g-lt-component table thead tr.gridHeader th {
+        padding: 6px 0 !important;
+        height: 60px !important;
+        display: flex;
     }
 
-        .r-d-g-lt-component .gridHeader th div {
+        .r-d-g-lt-component table thead tr.gridHeader th div {
             position: relative;
             padding: 0px !important;
             width: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             cursor: pointer;
             margin: 0px !important;
-            height: 55px !important;
         }
 
-            .r-d-g-lt-component .gridHeader th div h4 {
-                margin: 0 !important;
+            .r-d-g-lt-component table thead tr.gridHeader th div.headerText {
                 padding: 0 0 0 5px !important;
-                word-break: break-word;
-                overflow-wrap: break-word;
-                white-space: normal;
+                white-space: nowrap;
                 text-align: center;
-                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-transform: capitalize;
+                font-size: 20px !important;
+                display: block;
             }
 
-    .r-d-g-lt-component .gridHeader span {
+    .r-d-g-lt-component table thead tr.gridHeader span {
         width: 2px;
         background-color: rgb(224, 224, 224);
         position: absolute;
-        right: -3px;
+        right: 1px;
         top: 8px;
         bottom: 8px;
-        z-index: 1;
+        z-index: 5;
         padding: 0 !important
     }
 
-.r-d-g-lt-component .searchHeader {
-    table-layout: fixed;
+.r-d-g-lt-component table thead tr.searchHeader {
+    background-color: #fff !important;
 }
 
-    .r-d-g-lt-component .searchHeader th {
+    .r-d-g-lt-component table thead tr.searchHeader th {
         background-color: #fff;
-        border: 0 !important;
-        position: relative;
-        padding: 5px 1px 7px !important;
-        vertical-align: top !important;
+        padding: 7px 1px !important;
         line-height: 0.5 !important;
-        table-layout: fixed;
+        height: 40px !important;
     }
 
-        .r-d-g-lt-component .searchHeader th div {
+        .r-d-g-lt-component table thead tr.searchHeader th div {
             position: relative;
-            padding-left: 0px !important;
+            height: 100%;
         }
 
-.r-d-g-lt-component .gridRows:first-child,
-.r-d-g-lt-component .gridRows:first-child td {
+.r-d-g-lt-component table tbody .gridRow:first-child,
+.r-d-g-lt-component .gridRow:first-child td {
     border-top: 0px solid rgb(224, 224, 224) !important;
 }
 
-.r-d-g-lt-component .gridRows:last-child {
+.r-d-g-lt-component table tbody .gridRow:last-child {
     border-bottom: 1px solid rgb(224, 224, 224) !important;
 }
 
-.r-d-g-lt-component .gridRows td {
+.r-d-g-lt-component table tbody .gridRow td {
     border: solid #e0e0e0 !important;
     border-width: 1px 0 0 !important;
-    flex: 1;
-    padding: 0 !important;
-    display: inline-grid;
+    padding: 0;
+    text-align: center;
+    min-width: 100px !important;
+    max-width: 1200px !important;
 }
 
-    .r-d-g-lt-component .gridRows td div {
+    .r-d-g-lt-component table tbody .gridRow td div {
         overflow: hidden;
         white-space: normal;
         text-overflow: ellipsis;
         padding: 10px 8px 10px 10px !important;
         align-content: center;
-        text-align: center;
     }
+        .r-d-g-lt-component table tbody .gridRow td div.rowText {
+            height: 100%;
+        }
 
-.r-d-g-lt-component table {
-    overflow-x: auto !important;
-    display: inline-grid !important;
+.r-d-g-lt-component table tbody tr:nth-of-type(even) {
+    background-color: #f8f8f8;
+}
+
+.r-d-g-lt-component table tbody tr:nth-of-type(odd) {
+    background-color: #ebedf0;
+}
+
+.r-d-g-lt-component table tbody tr:hover {
+    background-color: #f5f5f5;
 }
 
 .r-d-g-lt-component .float-lt {
@@ -642,7 +669,7 @@
     }
 
 .r-d-g-lt-component .button-column {
-    flex-wrap: wrap;
+    flex-wrap: wrap !important;
     padding-left: 4px !important;
     padding-right: 2px !important;
 }
@@ -652,18 +679,6 @@
     padding: 1px 5px;
 }
 
-.r-d-g-lt-component table tbody tr:nth-of-type(even) {
-    background-color: #f8f8f8;
-}
-
-.r-d-g-lt-component table tbody tr:nth-of-type(odd) {
-    background-color: #ebedf0;
-}
-
-.r-d-g-lt-component table tbody tr:hover {
-    background: #f5f5f5;
-}
-
 .r-d-g-lt-component .page-results {
     padding-left: 10px !important;
     text-align: left !important;
@@ -671,7 +686,7 @@
 
 .r-d-g-lt-component .pagination {
     float: right;
-    padding-right: 15px !important;
+    padding-right: 5px !important;
     list-style: none;
     background: inherit !important;
 }
@@ -683,12 +698,13 @@
         font-size: 96% !important;
         height: 28px;
         line-height: 28px;
-        margin: 0px 2px;
+        margin: 0px 1px 0 0 !important;
         padding: 0px;
         text-align: center;
         text-decoration: none !important;
         width: 32px;
         background-color: inherit;
+        font-weight: 900;
     }
 
         .r-d-g-lt-component .pagination li a:hover {
@@ -762,6 +778,10 @@
     cursor: default !important;
 }
 
+.r-d-g-lt-component .page-list {
+    display: block !important;
+}
+
 @media (max-width: 500px) {
     .r-d-g-lt-component .react-data-grid-lite table tbody {
         max-height: 345px;
@@ -782,11 +802,11 @@
             padding-left: 0px !important;
         }
 
-    .r-d-g-lt-component .gridRows td {
-        padding: 4px 0 5px 0 !important;
+    .r-d-g-lt-component .gridRow td {
+        padding: 4px 0 5px 0;
     }
 
-        .r-d-g-lt-component .gridRows td div {
+        .r-d-g-lt-component .gridRow td div {
             padding-left: 12px !important;
         }
 
@@ -826,7 +846,6 @@
 
     .r-d-g-lt-component .searchInput {
         width: 70% !important;
-        height: 25% !important;
         padding-left: 2px;
         padding-right: 2px;
     }
@@ -879,60 +898,64 @@
         .r-d-g-lt-component .pagination li i {
             padding-top: 2px !important;
         }
+}
 
-    .r-d-g-lt-component .react-data-grid-lite table::-webkit-scrollbar {
-        height: 12px !important;
-        width: 12px !important;
-        border: 12px solid #d5d5d5;
+@media (max-width: 700px) {
+
+    .r-d-g-lt-component .page-results {
+        width: 50% !important;
+        max-width: 50% !important;
+    }
+
+    .r-d-g-lt-component .pagerSelect {
+        float: right;
+        justify-content: right !important;
+        width: 50% !important;
+        max-width: 50% !important;
+        padding: 0 25px 0 0 !important;
+    }
+
+    .r-d-g-lt-component .page-list {
+        display: none !important;
     }
 }
 
 @media (max-width: 575.98px) {
-    .r-d-g-lt-component * {
-        font-size: 14px !important;
+    .r-d-g-lt-component {
+        font-size: 12.5px !important;
     }
 
-    .r-d-g-lt-component h4 {
-        font-size: 16px !important;
-    }
+        .r-d-g-lt-component table thead tr th div.headerText {
+            font-size: 15px !important;
+        }
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
-    .r-d-g-lt-component * {
-        font-size: 15px !important;
+    .r-d-g-lt-component {
+        font-size: 14px !important;
     }
 
-    .r-d-g-lt-component h4 {
-        font-size: 17px !important;
-    }
+        .r-d-g-lt-component table thead tr th div.headerText {
+            font-size: 16px !important;
+        }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-    .r-d-g-lt-component * {
-        font-size: 16px !important;
+    .r-d-g-lt-component {
+        font-size: 15px !important;
     }
 
-    .r-d-g-lt-component h4 {
-        font-size: 19px !important;
-    }
+        .r-d-g-lt-component table thead tr th div.headerText {
+            font-size: 17px !important;
+        }
 }
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    .r-d-g-lt-component * {
-        font-size: 17px !important;
+    .r-d-g-lt-component {
+        font-size: 16px !important;
     }
 
-    .r-d-g-lt-component h4 {
-        font-size: 20px !important;
-    }
-}
-
-@media (min-width: 1200px) {
-    .r-d-g-lt-component * {
-        font-size: 18px !important;
-    }
-
-    .r-d-g-lt-component h4 {
-        font-size: 22px !important;
-    }
+        .r-d-g-lt-component table thead tr th div.headerText {
+            font-size: 18px !important;
+        }
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { Export_To_CSV_Text } from './../constants';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
+import { isNull } from '../helpers/common';
 
 const GridGlobalSearchBar = ({
     enableGlobalSearch,
@@ -18,10 +19,16 @@ const GridGlobalSearchBar = ({
 }) => {
     const windowWidth = useWindowWidth();
     const isSmallScreen = windowWidth < 500;
+    const noData = !Array.isArray(rowsData) || rowsData.length === 0 || isNull(columns)
     return (
         <div className="row col-12 globalSearchDiv">
             {enableGlobalSearch && (
-                <div className="p-0 m-0">
+                <div
+                    style={{
+                        pointerEvents: (noData ? 'none' : ''),
+                        opacity: (noData ? '0.5' : '')
+                    }}
+                    className="p-0 m-0">
                     <input
                         data-type={`globalSearch${gridID}`}
                         value={globalSearchInput}
@@ -34,7 +41,6 @@ const GridGlobalSearchBar = ({
                     />
                 </div>
             )}
-
             <div
                 className="p-0 m-0 icon-div alignCenter clear-icon-div"
                 title="Reset Search"
@@ -43,9 +49,12 @@ const GridGlobalSearchBar = ({
             >
                 <span className="icon-common-css erase-icon"></span>
             </div>
-
             {enableDownload && (
                 <div
+                    style={{
+                        pointerEvents: (noData ? 'none' : ''),
+                        opacity: (noData ? '0.5' : '')
+                    }}
                     className="p-0 m-0 icon-div alignCenter download-icon-div"
                     title="Export CSV"
                     onClick={(e) =>

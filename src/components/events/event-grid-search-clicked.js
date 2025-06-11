@@ -1,4 +1,4 @@
-import { isNull } from '../../helpers/common';
+import { isEqual, isNull } from '../../helpers/common';
 import { format as formatVal } from '../../helpers/format';
 
 /*
@@ -48,11 +48,11 @@ export const eventGridSearchClicked = (
                     : (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k?.toLowerCase())
                         && !hidden && matchesSearch(o[k]))
                         : !hidden && matchesSearch(o[c.name])));
-                globalSearchData = globalSearchData.length ?
-                    [...globalSearchData, ...colObjSearchData.filter(d => !new Set(globalSearchData.map(x => x.id)).has(d.id))]
-                    : [...colObjSearchData];
+                globalSearchData = [...globalSearchData, ...colObjSearchData];
             });
-            data = [...globalSearchData];
+            data = globalSearchData.filter((item, index, self) =>
+                index === self.findIndex(other => isEqual(item, other))
+            );
         } else {
             const t = (col?.formatting?.type || '').toLowerCase(), f = col?.formatting?.format ?? '';
             data = data.filter(o => formattingType?.includes(t)

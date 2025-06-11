@@ -5,8 +5,7 @@ import { eventGridHeaderClicked } from './components/events/event-grid-header-cl
 import { eventGridSearchClicked } from './components/events/event-grid-search-clicked';
 import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
-import GridHeader from './components/grid-header';
-import GridRows from './components/grid-rows';
+import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
 
 const DataGrid = ({
@@ -25,6 +24,7 @@ const DataGrid = ({
     onSortComplete,
     onSearchComplete,
     onPageChange,
+    onColumnResized
 }) => {
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
@@ -42,6 +42,7 @@ const DataGrid = ({
         headerCssClass: options?.headerClass ?? '',
         rowCssClass: options?.rowClass ?? '',
         enableColumnSearch: options?.enableColumnSearch ?? true,
+        enableColumnResize: options?.enableColumnResize ?? false,
         enableGlobalSearch: options?.enableGlobalSearch ?? true,
         rowClickEnabled: !isNull(onRowClick),
         onRowClick: onRowClick ?? (() => { }),
@@ -50,6 +51,7 @@ const DataGrid = ({
         onSortComplete: onSortComplete ?? (() => { }),
         onSearchComplete: onSearchComplete ?? (() => { }),
         onPageChange: onPageChange ?? (() => { }),
+        onColumnResized: onColumnResized ?? (() => { }),
         editButtonEnabled: options?.editButton ?? false,
         editButtonEvent: options?.editButton?.event ?? (() => { }),
         deleteButtonEnabled: options?.deleteButton ?? false,
@@ -68,34 +70,67 @@ const DataGrid = ({
     const prevPageRef = useRef(null);
     const sortRef = useRef(null);
     const searchRef = useRef(null);
+    const computedColumnWidthsRef = useRef(null);
+
+    useEffect(() => {
+        computedColumnWidthsRef.current = [];
+        if (!isNull(columns))
+            setState((prevState) => ({
+                ...prevState,
+                columnsReceived: columns,
+                columns: !isNull(columns) && Array.isArray(columns) &&
+                    columns.every(obj => typeof obj === 'object')
+                    ? columns.filter(obj => typeof obj === 'object' && obj !== null
+                        && typeof obj.name === 'string' && obj.name.trim() !== '').sort((a, b) => {
+                            const aFlag = !!a.fixed;
+                            const bFlag = !!b.fixed;
+                            return (bFlag - aFlag);
+                        }) : []
+
+            }));
+    }, [columns]);
 
     useEffect(() => {
         dataReceivedRef.current = data ?? [];
-        setState((prevState) => ({
-            ...prevState,
-            columns: !isNull(columns) ? columns : [],
-            rowsData: !isNull(data) ? data : [],
-            totalRows: data?.length ?? 0,
-            pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
-            currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length ?? 0,
-            hiddenColIndex: !isNull(columns) ? columns.map((col, key) =>
-                !isNull(col?.hidden) && col?.hidden === true ? key : null) : [],
-            concatColumns: !isNull(columns) ? columns.map((col) => {
-                let separator = ' '
-                if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
-                    if (!isNull(col.concatColumns.separator))
-                        separator = col.concatColumns.separator
-                    return { cols: col.concatColumns.columns, sep: separator };
-                }
-                return null
-            }) : [],
-            columnFormatting: !isNull(columns) ? columns.map((col) =>
-                !isNull(col.formatting) && !isNull(col.formatting.type) ?
-                    { type: col?.formatting?.type, format: col?.formatting?.format ?? '' } : null) : [],
-            cssClassColumns: !isNull(columns) ? columns.map((col) => !isNull(col.class) ? col.class : null) : [],
-            columnWidths: !isNull(columns) ? columns.map((col) => !isNull(col.width) ? col.width : null) : []
-        }));
-    }, [columns, data]);
+        if (!isNull(data))
+            setState((prevState) => ({
+                ...prevState,
+                rowsData: !isNull(data) ? data : [],
+                totalRows: data?.length,
+                pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length,
+                currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length
+            }));
+    }, [data]);
+
+    useEffect(() => {
+        if (!isNull(state?.columns))
+            setState((prevState) => ({
+                ...prevState,
+                hiddenColIndex: !isNull(state?.columns) ? state?.columns.map((col, key) =>
+                    !isNull(col?.hidden) && col?.hidden === true ? key : null) : [],
+                concatColumns: !isNull(state?.columns) ? state?.columns.map((col) => {
+                    let separator = ' '
+                    if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
+                        if (!isNull(col.concatColumns.separator))
+                            separator = col.concatColumns.separator
+                        return { cols: col.concatColumns.columns, sep: separator };
+                    }
+                    return null
+                }) : [],
+                columnFormatting: !isNull(state?.columns) ? state?.columns.map((col) =>
+                    !isNull(col.formatting) && !isNull(col.formatting.type) ?
+                        { type: col?.formatting?.type, format: col?.formatting?.format ?? '' } : null) : [],
+                columnClass: !isNull(state?.columns) ? state?.columns.map((col) =>
+                    !isNull(col.class) ? col?.class : null) : [],
+                columnWidths: !isNull(state?.columns)
+                    ? state?.columns.map(col =>
+                        typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
+                            ? col.width
+                            : null
+                    )
+                    : []
+            }));
+    }, [state?.columns]);
 
     useEffect(() => {
         setPagingVariables();
@@ -180,7 +215,7 @@ const DataGrid = ({
     };
 
     useEffect(() => {
-        if (sortRef?.current?.changeEvent && typeof state.onSortComplete === 'function') {
+        if (typeof state.onSortComplete === 'function' && sortRef?.current?.changeEvent) {
             state.onSortComplete(
                 sortRef.current.changeEvent,
                 sortRef.current.colName,
@@ -189,7 +224,7 @@ const DataGrid = ({
             );
             sortRef.current = null;
         }
-        if (searchRef?.current?.changeEvent && typeof state?.onSearchComplete === 'function') {
+        if (typeof state?.onSearchComplete === 'function' && searchRef?.current?.changeEvent) {
             state.onSearchComplete(
                 searchRef.current.changeEvent,
                 searchRef.current.searchQuery,
@@ -202,6 +237,7 @@ const DataGrid = ({
     }, [state.toggleState])
 
     const onSearchClicked = (e, colName, colObject, formatting) => {
+        if (e?.target?.value) e.target.value = e?.target?.value.trimStart();
         searchRef.current = {
             changeEvent: e,
             searchQuery: e?.target?.value ?? ''
@@ -269,57 +305,27 @@ const DataGrid = ({
                         : 'col-12 m-0 p-0 react-data-grid-lite'
                 }
             >
-                <table className="m-0 p-0">
-                    <GridHeader
-                        columns={state.columns}
-                        hiddenColIndex={state.hiddenColIndex}
-                        enableColumnSearch={state.enableColumnSearch}
-                        concatColumns={state.concatColumns}
-                        editButtonEnabled={state.editButtonEnabled}
-                        deleteButtonEnabled={state.deleteButtonEnabled}
-                        headerCssClass={state.headerCssClass}
-                        gridID={state.gridID}
-                        onHeaderClicked={onHeaderClicked}
-                        onSearchClicked={onSearchClicked}
-                        columnWidths={state.columnWidths}
-                        gridHeaderRef={gridHeaderRef}
-                    />
-                    <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
-                        <GridRows
-                            rowsData={state.rowsData}
-                            first={state.firstRow}
-                            count={state.currentPageRows}
-                            hiddenColIndex={state.hiddenColIndex}
-                            concatColumns={state.concatColumns}
-                            columnFormatting={state.columnFormatting}
-                            cssClassColumns={state.cssClassColumns}
-                            columns={state.columns}
-                            columnWidths={state.columnWidths}
-                            rowCssClass={state.rowCssClass}
-                            rowClickEnabled={state.rowClickEnabled}
-                            onRowClick={state.onRowClick}
-                            onRowHover={state.onRowHover}
-                            onRowOut={state.onRowOut}
-                            editButtonEnabled={state.editButtonEnabled}
-                            deleteButtonEnabled={state.deleteButtonEnabled}
-                            editButtonEvent={state.editButtonEvent}
-                            deleteButtonEvent={state.deleteButtonEvent}
-                        />
-                    </tbody>
-                </table>
-                <GridFooter
-                    totalRows={state.totalRows}
-                    currentPageRows={state.currentPageRows}
-                    activePage={state.activePage}
-                    pageRows={state.pageRows}
-                    pagerSelectOptions={state.pagerSelectOptions}
-                    enablePaging={state.enablePaging}
-                    noOfPages={state.noOfPages}
-                    onPageChange={handleChangePage}
-                    onPrev={handleBackwardPage}
-                    onNext={handleForwardPage}
+                <GridTable
+                    state={state}
+                    setState={setState}
+                    onHeaderClicked={onHeaderClicked}
+                    onSearchClicked={onSearchClicked}
+                    gridHeaderRef={gridHeaderRef}
+                    computedColumnWidthsRef={computedColumnWidthsRef}
                 />
             </div>
+            <GridFooter
+                totalRows={state.totalRows}
+                currentPageRows={state.currentPageRows}
+                activePage={state.activePage}
+                pageRows={state.pageRows}
+                pagerSelectOptions={state.pagerSelectOptions}
+                enablePaging={state.enablePaging}
+                noOfPages={state.noOfPages}
+                onPageChange={handleChangePage}
+                onPrev={handleBackwardPage}
+                onNext={handleForwardPage}
+            />
         </div>
     );
 }

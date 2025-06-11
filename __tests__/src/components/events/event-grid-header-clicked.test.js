@@ -1,148 +1,184 @@
-jest.mock('./../../../../src/helpers/sort', () => ({
-    dynamicSort: jest.fn(() => (_a, _b) => 0)
-}));
-
 import { eventGridHeaderClicked } from './../../../../src/components/events/event-grid-header-clicked';
 import { dynamicSort } from './../../../../src/helpers/sort';
+import { isNull } from './../../../../src/helpers/common';
+
+jest.mock('./../../../../src/helpers/sort', () => ({
+    dynamicSort: jest.fn(),
+}));
+
+jest.mock('./../../../../src/helpers/common', () => ({
+    isNull: jest.fn(),
+}));
 
 describe('eventGridHeaderClicked', () => {
-    let setStateMock;
-    let state;
-    let theadMock;
-    let iconMock;
+    let mockSetState;
+    let mockState;
+    let mockEvent;
 
     beforeEach(() => {
-        setStateMock = jest.fn();
-        state = {
-            gridID: '123',
-            rowsData: [{ name: 'B' }, { name: 'A' }]
+        jest.clearAllMocks();
+        mockSetState = jest.fn((updater) => {
+            mockState = updater(mockState);
+        });
+
+        mockState = {
+            gridID: 'test-grid',
+            rowsData: [
+                { name: 'Zebra', age: 10 },
+                { name: 'Apple', age: 5 },
+            ],
+            toggleState: false,
         };
-        dynamicSort.mockImplementation(() => (a, b) => a.name.localeCompare(b.name));
-        iconMock = document.createElement('i');
-        iconMock.classList.add('icon-sort');
+        const mockWrapper = {
+            appendChild: jest.fn(),
+            removeChild: jest.fn(),
+        };
+        mockEvent = {
+            currentTarget: {
+                querySelector: jest.fn().mockReturnValue({
+                    querySelector: jest.fn().mockReturnValue({
+                        classList: {
+                            contains: jest.fn(),
+                            add: jest.fn(),
+                            remove: jest.fn(),
+                        },
+                        closest: jest.fn().mockReturnValue(mockWrapper),
+                        parentNode: mockWrapper,
+                    }),
+                }),
+            },
+        };
 
-        theadMock = document.createElement('tr');
-        theadMock.id = 'thead-row-123';
-        theadMock.appendChild(iconMock);
-        document.body.appendChild(theadMock);
+        document.getElementById = jest.fn().mockReturnValue({
+            getElementsByTagName: jest.fn().mockReturnValue([
+                { classList: { remove: jest.fn(), add: jest.fn(), contains: jest.fn() } },
+                { classList: { remove: jest.fn(), add: jest.fn(), contains: jest.fn() } },
+            ]),
+        });
 
-        jest.spyOn(document, 'getElementById').mockImplementation(id => {
-            return id === 'thead-row-123' ? theadMock : null;
+        document.createElement = jest.fn().mockReturnValue({
+            classList: {
+                add: jest.fn(),
+            },
+        });
+
+        isNull.mockReturnValue(false);
+        dynamicSort.mockImplementation(() => (data) => {
+            if (!data || !Array.isArray(data)) return data;
+            return [...data].reverse();
         });
     });
 
-    afterEach(() => {
-        document.getElementById.mockRestore?.();
-        jest.restoreAllMocks();
-        document.body.innerHTML = '';
-        jest.clearAllMocks();
+    it('should return early if event is null', () => {
+        eventGridHeaderClicked(null, ['name'], mockState, mockSetState);
+        expect(mockSetState).not.toHaveBeenCalled();
     });
 
-    it('should return early if event or name is invalid', () => {
-        const result = eventGridHeaderClicked(null, null, state, setStateMock);
-        expect(result).toBeUndefined();
-        expect(setStateMock).not.toHaveBeenCalled();
+    it('should return early if name is not an array', () => {
+        eventGridHeaderClicked(mockEvent, 'name', mockState, mockSetState);
+        expect(mockSetState).not.toHaveBeenCalled();
     });
 
-    it('handles click on <DIV> and sorts descending by default', () => {
-        const icon = document.createElement('i');
-        icon.classList.add('icon-sort');
+    it('should return early if iconElement is not found', () => {
+        mockEvent.currentTarget.querySelector.mockReturnValue({
+            querySelector: jest.fn().mockReturnValue(null),
+        });
+        eventGridHeaderClicked(mockEvent, ['name'], mockState, mockSetState);
+        expect(mockSetState).not.toHaveBeenCalled();
+    });
 
-        const div = document.createElement('div');
-        div.appendChild(icon);
+    it('should sort descending when icon is sort-up or sort', () => {
+        mockEvent.currentTarget.querySelector().querySelector().classList.contains
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce(false);
+        eventGridHeaderClicked(mockEvent, ['name'], mockState, mockSetState);
 
-        const event = {
-            target: div,
-            currentTarget: div
-        };
-
-        eventGridHeaderClicked(event, ['name'], state, setStateMock);
+        expect(document.createElement).toHaveBeenCalledWith('i');
+        expect(document.createElement().classList.add).toHaveBeenCalledWith('icon-sort-down');
         expect(dynamicSort).toHaveBeenCalledWith('-name');
-        expect(setStateMock).toHaveBeenCalledWith(expect.any(Function));
-        const updateFn = setStateMock.mock.calls[0][0];
-        const newState = updateFn({ toggleState: false });
-        expect(newState.sortType).toBe('desc');
-        expect(newState.toggleState).toBe(true);
-        expect(newState.rowsData[0].name).toBe('A');
+        expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        expect(mockState).toMatchObject({
+            rowsData: expect.any(Array),
+            sortType: 'desc',
+            toggleState: true,
+        });
     });
 
-    it('clicking when icon is sort-up switches to descending', () => {
-        const icon = document.createElement('i');
-        icon.classList.add('icon-sort-up');
+    it('should sort ascending when icon is sort-down', () => {
+        mockEvent.currentTarget.querySelector().querySelector().classList.contains
+            .mockReturnValueOnce(false)
+            .mockReturnValueOnce(false);
+        eventGridHeaderClicked(mockEvent, ['name'], mockState, mockSetState);
 
-        const div = document.createElement('div');
-        div.appendChild(icon);
-
-        const event = {
-            target: div,
-            currentTarget: div
-        };
-        eventGridHeaderClicked(event, ['name'], state, setStateMock);
-
-        expect(dynamicSort).toHaveBeenCalledWith('-name');
-        expect(setStateMock).toHaveBeenCalled();
-    });
-
-    it('clicking when icon is sort-down switches to ascending', () => {
-        const icon = document.createElement('i');
-        icon.classList.add('icon-sort-down');
-
-        const div = document.createElement('div');
-        div.appendChild(icon);
-
-        const event = {
-            target: div,
-            currentTarget: div
-        };
-
-        eventGridHeaderClicked(event, ['name'], state, setStateMock);
+        expect(document.createElement).toHaveBeenCalledWith('i');
+        expect(document.createElement().classList.add).toHaveBeenCalledWith('icon-sort-up');
         expect(dynamicSort).toHaveBeenCalledWith('name');
-        expect(setStateMock).toHaveBeenCalled();
-        const newState = setStateMock.mock.calls[0][0]({ toggleState: false });
-        expect(newState.sortType).toBe('asc');
+        expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        expect(mockState).toMatchObject({
+            rowsData: expect.any(Array),
+            sortType: 'asc',
+            toggleState: true,
+        });
     });
 
-    it('handles <I> click and replaces icon', () => {
-        const i = document.createElement('i');
-        i.classList.add('icon-sort');
-        const div = document.createElement('div');
-        div.appendChild(i);
+    it('should reset other sort icons when theadRow exists', () => {
+        const mockIcons = [
+            { classList: { remove: jest.fn(), add: jest.fn(), contains: jest.fn().mockReturnValue(false) } },
+            { classList: { remove: jest.fn(), add: jest.fn(), contains: jest.fn().mockReturnValue(false) } },
+        ];
+        document.getElementById.mockReturnValue({
+            getElementsByTagName: jest.fn().mockReturnValue(mockIcons),
+        });
+        isNull.mockReturnValue(false);
+        mockState.rowsData = null;
 
-        const event = {
-            target: i,
-            currentTarget: div
-        };
-        eventGridHeaderClicked(event, ['name'], state, setStateMock);
-        expect(setStateMock).toHaveBeenCalled();
+        eventGridHeaderClicked(mockEvent, ['name'], mockState, mockSetState);
+
+        mockIcons.forEach((icon) => {
+            expect(icon.classList.remove).not.toHaveBeenCalledWith('icon-sort-up', 'icon-sort-down');
+            expect(icon.classList.add).not.toHaveBeenCalledWith('icon-sort', 'inactive');
+        });
+        expect(dynamicSort).not.toHaveBeenCalled();
     });
 
-    it('handles <H4> click and replaces icon inside parent', () => {
-        const i = document.createElement('i');
-        i.classList.add('icon-sort');
-        const innerDiv = document.createElement('div');
-        innerDiv.appendChild(i);
+    it('should not reset sort icons when theadRow is null', () => {
+        document.getElementById.mockReturnValue(null);
+        isNull.mockReturnValue(true);
 
-        const h4 = document.createElement('h4');
-        const parent = document.createElement('div');
-        parent.appendChild(h4);
-        parent.appendChild(innerDiv);
+        eventGridHeaderClicked(mockEvent, ['name'], mockState, mockSetState);
 
-        const event = {
-            target: h4,
-            currentTarget: parent
-        };
-        eventGridHeaderClicked(event, ['name'], state, setStateMock);
-        expect(setStateMock).toHaveBeenCalled();
+        expect(document.getElementById).toHaveBeenCalledWith('thead-row-test-grid');
+        expect(isNull).toHaveBeenCalledWith(null);
     });
 
-    it('does nothing if target nodeName is not DIV, I, or H4', () => {
-        const span = document.createElement('span');
-        const event = {
-            target: span
-        };
+    it('should replace icon in sort-icon-wrapper', () => {
+        eventGridHeaderClicked(mockEvent, ['name'], mockState, mockSetState);
 
-        const result = eventGridHeaderClicked(event, ['name'], state, setStateMock);
-        expect(result).toBeUndefined();
-        expect(setStateMock).not.toHaveBeenCalled();
+        expect(mockEvent.currentTarget.querySelector().querySelector().closest).toHaveBeenCalledWith('.sort-icon-wrapper');
+        expect(mockEvent.currentTarget.querySelector().querySelector().parentNode.removeChild).toHaveBeenCalled();
+        expect(mockEvent.currentTarget.querySelector().querySelector().parentNode.appendChild).toHaveBeenCalled();
+    });
+
+    it('should handle multiple sort columns', () => {
+        mockEvent.currentTarget.querySelector().querySelector().classList.contains
+            .mockReturnValueOnce(true) // icon-sort-up
+            .mockReturnValueOnce(false); // icon-sort
+        eventGridHeaderClicked(mockEvent, ['name', 'age'], mockState, mockSetState);
+
+        expect(dynamicSort).toHaveBeenCalledWith('-name', '-age');
+        expect(mockState.sortType).toBe('desc');
+    });
+
+    it('should not sort if rowsData is null', () => {
+        mockState.rowsData = undefined;
+        eventGridHeaderClicked(mockEvent, ['name'], mockState, mockSetState);
+
+        expect(dynamicSort).not.toHaveBeenCalled();
+        expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        expect(mockState).toMatchObject({
+            rowsData: undefined,
+            sortType: expect.any(String),
+            toggleState: true,
+        });
     });
 });

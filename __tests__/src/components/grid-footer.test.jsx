@@ -107,7 +107,7 @@ describe('More Tests for GridFooter Component', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        jest.resetModules(); 
+        jest.resetModules();
     });
 
     it('renders pagination controls correctly', () => {
@@ -155,5 +155,9 @@ describe('More Tests for GridFooter Component', () => {
         render(<GridFooter {...defaultProps} activePage={2} />);
         const nextButton = screen.getByTestId('next-button');
         expect(nextButton).not.toBeDisabled();
+    });
+
+    it('renders GridFooter without crashing', () => {
+        expect(() => render(<GridFooter pagerSelectOptions={[]} totalRows={0} />)).not.toThrow();
     });
 });

@@ -5,6 +5,72 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),  and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <br><br>
+
+## 📦 v1.1.0 – Feature Enhancements, UI Improvements & GitHub Pages Deployment
+
+**Release Date:** 2025-06-11
+
+### ✨ New Features
+
+* **Fixed Columns Support**
+  Added support for fixed (sticky) columns via a `fixed` property in column definitions. Enhances table usability during horizontal scrolling.
+
+* **Resizable Columns (Experimental)**
+  Introduced column resizing with live drag interaction. Includes `onColumnResized` callback for external state sync.
+
+* **Dynamic Column-Class Styling**
+  Enabled runtime assignment of CSS classes to columns for greater flexibility in UI theming.
+
+* **GitHub Pages Deployment**
+  Configured GitHub Pages deployment using `gh-pages` and updated `homepage` field in `package.json`.
+
+---
+
+### 🛠️ Improvements
+
+* **Paging Controls UX**
+  Pagination UI now automatically hides when dataset is empty to reduce visual clutter.
+
+* **Dynamic Row-Column Alignment**
+  Row data now dynamically maps to current column configuration, enabling runtime column reordering without breaking layout or data mapping.
+
+* **Column Width Handling**
+  Enhanced logic to retain or recalculate widths when columns are re-ordered or updated dynamically.
+
+* **Grid Layout Refactor**
+  Introduced a new `GridTable` component (`grid-table.jsx`) to modularize rendering logic.
+  Updated CSS to support **sticky positioning** for scrollable sections.
+
+* **Export Button Logic**
+  Disabled "Export CSV" when no data is available, improving UX and preventing invalid actions.
+
+* **Global Search Fix**
+  Resolved issue where global search omitted valid matches due to incorrect column indexing.
+
+---
+
+### 🧪 Testing & Stability
+
+* Refactored `useState` usage for consistent handling of dynamic updates.
+* Added null checks and guards in column config logic.
+* Expanded test suite with cases for:
+
+  * Fixed and resizable columns
+  * Grid responsiveness and dynamic layout
+* Achieved **80%+ code coverage**.
+* Updated data loader:
+
+  * Improved loading spinner positioning with modern dot style
+  * Added scoped messaging and duplicate prevention logic
+
+---
+
+### 🧹 Misc
+
+* Restructured CSS for better sticky layout handling
+* Cleaned up layout and rendering logic for long-term maintainability
+
+<br><br>
 ## [1.0.5] - 2025-06-04
 
 ### Added

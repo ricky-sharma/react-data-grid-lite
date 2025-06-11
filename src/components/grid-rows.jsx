@@ -5,11 +5,10 @@ import {
     No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
-import { isNull } from '../helpers/common';
+import { hideLoader, isNull, showLoader } from '../helpers/common';
 import { format } from '../helpers/format';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
-import { calculateColumnWidth } from "../utils/component-utils";
 
 const getConcatValue = (row, key, concatColumns, columns) => {
     const conCols = concatColumns?.[key]?.cols || [];
@@ -37,9 +36,8 @@ const GridRows = ({
     hiddenColIndex = [],
     concatColumns = [],
     columnFormatting = [],
-    cssClassColumns = [],
+    columnClass = [],
     columns = [],
-    columnWidths = [],
     rowCssClass = '',
     rowClickEnabled = false,
     onRowClick,
@@ -48,46 +46,58 @@ const GridRows = ({
     editButtonEnabled = false,
     deleteButtonEnabled = false,
     editButtonEvent,
-    deleteButtonEvent
+    deleteButtonEvent,
+    computedColumnWidthsRef,
+    enableColumnResize,
+    gridID
 }) => {
     const loading = useLoadingIndicator();
-    const windowWidth = useWindowWidth();
-    const isMobile = windowWidth < 700;
-    const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex, Button_Column_Key, buttonColEnabled, isMobile);
-
-    if (!Array.isArray(rowsData) || rowsData.length === 0 || buttonColWidth === '100%') {
-        const message = loading ? <div className="loader" /> :
-            (!rowsData.length ? No_Data_Message : No_Column_Visible_Message);
-
-        return (
-            <tr key="No-Data" className="align-page-center alignCenter" style={{ backgroundColor: 'transparent' }}>
-                <th className="alignCenter" style={{ border: 0, bottom: 0, margin: 0, padding: 0, position: 'absolute', backgroundColor: 'transparent', top: 0 }}>
-                    {message}
-                </th>
-            </tr>
-        );
+    useWindowWidth();
+    if (!Array.isArray(rowsData) || rowsData.length === 0 || isNull(computedColumnWidthsRef?.current)) {
+        hideLoader(gridID);
+        loading ? showLoader(gridID) :
+            (!rowsData.length ? showLoader(gridID, No_Data_Message)
+                : showLoader(gridID, No_Column_Visible_Message));
+        return null;
     }
-
+    hideLoader(gridID);
+    const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
+    const buttonColWidth = computedColumnWidthsRef?.current?.find(i =>
+        i?.name === Button_Column_Key)?.width ?? 0;
+    let lastFixedIndex = -1;
+    columns.reduceRight((_, col, index) => {
+        if (lastFixedIndex === -1 && col?.fixed === true && !col?.hidden) {
+            lastFixedIndex = index;
+        }
+    }, null);
     return rowsData.slice(first, first + count).map((row, rowIndex) => {
-        const cols = Object.values(row).map((col, key) => {
+        const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
-
             const conValue = getConcatValue(row, key, concatColumns, columns);
-            const columnValue = getFormattedValue(conValue || col, columnFormatting[key]);
-            const classNames = cssClassColumns?.[key] || '';
-            const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex, key, buttonColEnabled, isMobile);
-
+            const columnValue = getFormattedValue(conValue || row[col?.name], columnFormatting[key]);
+            const classNames = columnClass?.[key] || '';
+            const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
+            const colResizable = col?.resizable ?? enableColumnResize;
             return (
-                <td key={key} className={classNames} style={{ width: colWidth, maxWidth: colWidth }}>
-                    <div className={`${classNames} m-0 p-0`} title={columnValue}>{columnValue}</div>
+                <td key={key} className={classNames} style={{
+                    width: colWidth,
+                    maxWidth: colResizable ? undefined : colWidth,
+                    minWidth: colResizable ? undefined : colWidth,
+                    left: (col?.fixed === true ?
+                        computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.leftPosition ?? '' : ''),
+                    position: (col?.fixed === true ? 'sticky' : ''),
+                    zIndex: (col?.fixed === true ? 6 : ''),
+                    backgroundColor: 'inherit',
+                    boxShadow: (lastFixedIndex === key ? '#e0e0e0 -2px 0px 1px 0px inset' : '')
+                }}>
+                    <div className="m-0 p-0 rowText" title={columnValue}>{columnValue}</div>
                 </td>
             );
         });
-
         if (buttonColEnabled) {
             cols.push(
-                <td key="gridButtons" onClick={e => e.stopPropagation()} style={{ width: buttonColWidth, maxWidth: buttonColWidth }}>
+                <td key="gridButtons" className="alignCenter" onClick={e => e.stopPropagation()}
+                    style={{ width: buttonColWidth, maxWidth: buttonColWidth }}>
                     <div className="m-0 p-0 button-column alignCenter" style={{ width: buttonColWidth }}>
                         {editButtonEnabled && (
                             <div
@@ -116,7 +126,7 @@ const GridRows = ({
         return (
             <tr
                 key={rowIndex}
-                className={`${rowCssClass} gridRows`}
+                className={`${rowCssClass} gridRow`}
                 style={rowClickEnabled ? { cursor: 'pointer' } : {}}
                 onClick={e => onRowClick(e, row)}
                 onMouseOver={e => onRowHover(e, row)}

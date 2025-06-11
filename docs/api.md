@@ -6,7 +6,7 @@
 
 | **Prop**              | **Type**            | **Description**                                                                                                             | **Default Value** | **Required** |
 | --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------ |
-|    `id`               | `string`            | Unique ID for the DataGrid component. Defaults to a random ID in the format `id-<randomNumber>` if not provided.            |       -           | No           |
+|    `id`               | `string`            | Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not provided. This feature is supported in version 1.0.5 and above.|       -           | No           |
 |    `columns`          | `Array`             | Array of column definitions. Each column can have properties like `name`, `width`, 'alias', 'searchEnable', 'hidden'  etc.  |       -           | Yes          |
 |    `data`             | `Array`             | Array of objects representing the rows of data to display.                                                                  |       -           | Yes          |
 |    `pageSize`         | `Number`            | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |       -           | No           |
@@ -21,6 +21,7 @@
 |    `onSortComplete`   | `Function`          | Callback function triggered after sorting finishes.                                                                         |        -          | No           |
 |    `onSearchComplete` | `Function`          | Callback function triggered after a search operation.                                                                       |        -          | No           |
 |    `onPageChange`     | `Function`          | Callback function triggered when the user navigates to a different page.                                                    |        -          | No           |
+|    `onColumnResized`  | `Function`          | Callback function triggered after a column is resized. Supported in **v1.1.0 and above**.                                   |        -          | No           |
 
 <br><br>
 ## 📊 **`columns` Prop Structure**
@@ -29,14 +30,16 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 
 | **Field**       | **Type**            | **Description**                                                                                                                                           | **Default Value** | **Required** |
 | --------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------ |
-| `name`          | `String`            | The display name of the column header, also acts as key or identifier for the column used to access corresponding data in each row.                       |        -          |  Yes         |
+| `name`          | `String`            | The display name of the column header. It also serves as the key or identifier for accessing the corresponding data in each row. This value must be unique.|        -          |  Yes         |
 | `alias`         | `String`            | Provides an alternative name or alias for the column key. This alias can be used in column headers and other UI elements to make the grid more intuitive. |        -          |  No          |
 | `width`         | `Number` / `String` | The width of the column. Can be a fixed pixel value (e.g., `100px`) or a percentage (e.g., `'20%'`). Default value is calculated dynamically.             |        -          |  No          | 
 | `formatting`    | `Object`            | Formatting settings for the column. Includes the `type` (e.g., `currency`, `date`) and `format` (the format string, such as `$0,0.00`).                   |        -          |  No          |
-| `searchEnable`  | `Boolean`           | Determines whether the search textbox is enabled for a specific column                                                                                    |       true        |  No          |
+| `searchEnable`  | `Boolean`           |  Enables or disables the search textbox for a specific column. This setting overrides the `enableGlobalSearch` option.                                    |     `undefined`   |  No          |
 | `hidden`        | `Boolean`           | Whether the column should be hidden.                                                                                                                      |       false       |  No          |
 | `concatColumns` | `Object`            | Specifies columns to concatenate into this column. It includes: `columns` (array of column keys to concatenate) and `separator` (the separator string).   |        -          |  No          |
-
+| `fixed`         | `Boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version `1.1.0` and above.|        false      |  No          |
+| `class`         | `String`            | Custom CSS class applied to each data cell in the column. Supported in version `1.1.0` and above.                                                         |         -          |  No          |
+| `resizable`     | `Boolean`           | Enables or disables resizing for a specific column. This setting overrides the `enableColumnResize` option. Supported in version `1.1.0` and above.       |     `undefined`    |  No          |
 
 
 #### **Example of `columns` Array:**
@@ -76,12 +79,13 @@ The `options` prop is an **object** that provides additional configuration setti
 | `headerClass`        | `String`  | Custom CSS class for the header row.                                                                                      |       -           | No           |
 | `rowClass`           | `String`  | Custom CSS class for each row in the grid.                                                                                |       -           | No           |
 | `enableColumnSearch` | `Boolean` | Whether to enable column-wise search functionality (search per individual column).                                        |      true         | No           |
-| `enableGlobalSearch` | `Boolean` | Whether to enable global search across all columns.                                                                       |      true         | No           |
+| `enableGlobalSearch` | `Boolean` | Enables global search across all columns. Column-level search settings override this option.                              |      true         | No           |
 | `editButton`         | `Object`  | Configuration for enabling an edit button on each row. Includes an `event` field which is the function triggered when the button is clicked.|        -     | No           |
 | `deleteButton`       | `Object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked.|       -      | No           |
 | `enableDownload`     | `Boolean` | Whether to enable the download functionality (export data as CSV).                                                        |      true         | No           |
 | `downloadFilename`   | `String`  | The filename used when downloading grid data in CSV format. The default value is `'export-{yyyy-MM-dd HH:mm:ss}'`         |       -           | No           |
 | `onDownloadComplete` | `Function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.       |       -           | No           |
+| `enableColumnResize` | `Boolean` | Enables column resizing across all columns. Column-level `resizable settings` override this option. Supported in version `1.1.0` and above.|      false        | No           |
 
 
 #### **Example of `options` Object:**

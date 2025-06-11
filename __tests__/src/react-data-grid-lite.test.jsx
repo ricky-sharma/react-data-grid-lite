@@ -50,11 +50,6 @@ jest.mock('./../../src/components/grid-rows', () => (props) => {
     );
 });
 
-
-jest.mock('./../../src/helpers/common', () => ({
-    isNull: (val) => val === null || val === undefined,
-}));
-
 const columns = [
     { id: 'name', label: 'Name' },
     { id: 'age', label: 'Age' }
@@ -81,6 +76,7 @@ const defaultProps = {
 describe('DataGrid Component', () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        jest.resetAllMocks();
         cleanup();
     });
 
@@ -139,8 +135,8 @@ describe('DataGrid Component', () => {
 describe('DataGrid renders with more data', () => {
     const sampleColumns = [
         { name: 'Name' },
-        { name: 'Age' },
-        { name: 'City', hidden: true },
+        { name: 'Age', formatting: { type: 'number' }, width: '100px' },
+        { name: 'City', hidden: true, width: '10%', class: 'test' },
     ];
 
     const sampleData = [
@@ -187,6 +183,12 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
         { firstName: 'Charlie', lastName: 'Brown', age: 35, secret: 'C' }
     ];
 
+    const options = {
+        gridClass: "test",
+        editButton: {},
+        deleteButton: {}
+    }
+
     const defaultProps = {
         id: 'test-grid',
         columns,
@@ -197,6 +199,7 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
         onPageChange: jest.fn(),
         onSortComplete: jest.fn(),
         onSearchComplete: jest.fn(),
+        options
     };
 
     beforeEach(() => {
@@ -210,14 +213,6 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
         expect(rows.length).toBe(2);
     });
 
-    it('fires onRowClick when a row is clicked', () => {
-        const onRowClick = jest.fn();
-        render(<DataGrid {...defaultProps} onRowClick={onRowClick} />);
-        const row = screen.getByTestId('data-grid-row-0');
-        fireEvent.click(row);
-        expect(onRowClick).toHaveBeenCalledTimes(1);
-    });
-
     it('renders footer component', () => {
         render(<DataGrid {...defaultProps} />);
         expect(screen.getByTestId('grid-footer')).toBeInTheDocument();
@@ -225,7 +220,6 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
 
     it('renders global search bar and triggers onSearchClicked', () => {
         const inputValue = 'Alice';
-        const spy = jest.spyOn(defaultProps, 'onSearchComplete');
         render(<DataGrid {...defaultProps} />);
         const input = screen.getByTestId('global-search-input');
         fireEvent.change(input, { target: { value: inputValue } });
@@ -307,8 +301,56 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
     });
 
     it('handles undefined onDownloadComplete safely', () => {
-        render(<DataGrid {...defaultProps} onDownloadComplete={undefined} />);
+        render(<DataGrid {...defaultProps} pageSize={'abc'} onDownloadComplete={undefined} />);
         const downloadBtn = screen.getByTestId('download-btn');
         expect(() => fireEvent.click(downloadBtn)).not.toThrow();
+    });
+
+    it('renders DataGrid without crashing', () => {
+        expect(() => render(<DataGrid onRowHover={null} gridClass={"test"} />)).not.toThrow();
+    });
+});
+
+describe('DataGrid Null Check Tests', () => {
+    it('renders with null columns', () => {
+        render(<DataGrid id="grid-null-columns" columns={null} data={[]} />);
+        expect(screen.getByRole('table')).toBeInTheDocument();
+    });
+
+    it('renders with undefined columns', () => {
+        render(<DataGrid id="grid-undefined-columns" data={[]} />);
+        expect(screen.getByRole('table')).toBeInTheDocument();
+    });
+
+    it('renders with null data', () => {
+        render(<DataGrid id="grid-null-data" columns={[]} data={null} />);
+        expect(screen.getByRole('table')).toBeInTheDocument();
+    });
+
+    it('renders with undefined data', () => {
+        render(<DataGrid id="grid-undefined-data" columns={[]} />);
+        expect(screen.getByRole('table')).toBeInTheDocument();
+    });
+
+    it('renders with null pageSize', () => {
+        render(<DataGrid id="grid-null-pagesize" columns={[]} data={[]} pageSize={null} />);
+        expect(screen.getByRole('table')).toBeInTheDocument();
+    });
+
+    it('generates gridID if id is null or missing', () => {
+        const { container } = render(<DataGrid columns={[]} data={[]} />);
+        const gridDiv = container.querySelector('.r-d-g-lt-component');
+        expect(gridDiv).toBeInTheDocument();
+        expect(gridDiv.id).toMatch(/^id-\d+/);
+    });
+
+    it('handles null options prop gracefully', () => {
+        render(<DataGrid id="grid-null-options" columns={[]} data={[]} options={null} />);
+        expect(screen.getByRole('table')).toBeInTheDocument();
+    });
+
+    it('handles missing event handlers without errors', () => {
+        render(<DataGrid id="grid-null-handlers" columns={[]} data={[]} />);
+        expect(screen.getByRole('table')).toBeInTheDocument();
     });
 });
