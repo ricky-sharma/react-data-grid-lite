@@ -102,7 +102,7 @@ function navigate(event, url, page) {
   event.preventDefault();
 
   if (page === 'demo') {
-    window.location.replace('/react-data-grid-lite/');
+    window.location.replace(window.location.origin + '/react-data-grid-lite/');
     return;
   }
 
@@ -128,7 +128,7 @@ function navigate(event, url, page) {
     window.addEventListener('popstate', (e) => {
       const state = e.state;
       if (!state || !state.page || state.page === 'demo') {
-        window.location.replace('/react-data-grid-lite/');
+        window.location.replace(window.location.origin + '/react-data-grid-lite/');
       } else {
         loadPage(state.page);
       }
@@ -148,11 +148,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
   const page = routes[path];
 
-  if (!path || path === 'demo') {
+  if (!path || path === 'https://ricky-sharma.github.io/react-data-grid-lite/' || path === 'https://ricky-sharma.github.io/react-data-grid-lite') {
     return; // Let Demopage load
   } else if (page) {
     loadPage(page);
-    history.replaceState({ page }, '', path);
+    history.replaceState({ page }, '','https://ricky-sharma.github.io/react-data-grid-lite/'+ path);
   } else {
     document.getElementById('main-content').innerHTML = '<h2>404</h2><p>Page not found.</p>';
   }
