@@ -24,8 +24,8 @@
     "example": "npm run build && cd example && npm install ../ && npm run dev",
     "test": "jest --clearCache && jest",
     "test:build": "jest --clearCache && jest & cross-env NODE_ENV=production rollup -c rollup.config.mjs",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "example:build": "cd example && npm run build",
+    "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
     "react": "^17.0.0 ||^18.0.0 || ^19.0.0",
