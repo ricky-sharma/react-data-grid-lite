@@ -10,5 +10,5 @@ export const CSV_File_Name_Prefix = "export";
 export const Default_Grid_Width_VW = '90vw';
 export const Button_Column_Key = 'ButtonColumnKey';
 export const Export_To_CSV_Text = 'Export to CSV';
-export const Border_Padding_Margin_Width = "6";
+export const Border_Padding_Margin_Width = "10";
 export const Loader_Identifier = "table-loader-overlay";
