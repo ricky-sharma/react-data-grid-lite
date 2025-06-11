@@ -53,6 +53,8 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 startX = e?.pageX ?? e?.clientX;
                 startWidth = th?.offsetWidth;
                 const onMouseMove = (e) => {
+                    const element = document.querySelector(`#${state.gridID} table`);
+                    if (element) element.scrollLeft = 0;
                     const newPosition = e?.pageX ?? e?.clientX;
                     const newWidth = Math.min(
                         Math.max(startWidth + (newPosition - startX), Minimum_Column_Width),
@@ -84,6 +86,8 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                 let finalWidth = 0;
 
                 const onTouchMove = (e) => {
+                    const element = document.querySelector(`#${state.gridID} table`);
+                    if (element) element.scrollLeft = 0;
                     const moveTouch = e?.touches ? e?.touches[0] : null;
                     const newPosition = moveTouch?.pageX ?? moveTouch?.clientX ?? 0;
                     finalWidth = Math.min(
@@ -142,12 +146,13 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
         };
 
         const updateState = (e, newWidth, setState, columnName, state) => {
+            const newWidthPx = !isNull(newWidth) ? `${newWidth}px` : 0;
             compColWidthsRef.current = [...updColWidthAndReposition(compColWidthsRef.current,
-                columnName, newWidth)]
+                columnName, newWidthPx)]
             setState((prev) => {
                 if (!prev || !Array.isArray(prev.columns)) return prev;
                 const updatedColumns = prev.columns.map((col) => col.name === columnName ?
-                    { ...col, width: newWidth } : col
+                    { ...col, width: newWidthPx } : col
                 );
                 return { ...prev, columns: updatedColumns };
             });
@@ -155,7 +160,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
             if (typeof state?.onColumnResized === 'function') {
                 state.onColumnResized(
                     e,
-                    !isNull(newWidth) ? `${newWidth}px` : 0,
+                    newWidthPx,
                     columnName
                 );
             }
@@ -171,7 +176,7 @@ export function useResizableTableColumns(tableRef, state, setState, compColWidth
                     continue;
                 }
                 if (col.name === targetName) {
-                    col.width = `${newWidthPx}px`;
+                    col.width = newWidthPx;
                 }
                 col.leftPosition = `${left}px`;
                 const width = parseInt(col.width || '0', 10);

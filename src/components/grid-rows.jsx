@@ -90,13 +90,14 @@ const GridRows = ({
                     backgroundColor: 'inherit',
                     boxShadow: (lastFixedIndex === key ? '#e0e0e0 -2px 0px 1px 0px inset' : '')
                 }}>
-                    <div className="m-0 p-0" title={columnValue}>{columnValue}</div>
+                    <div className="m-0 p-0 rowText" title={columnValue}>{columnValue}</div>
                 </td>
             );
         });
         if (buttonColEnabled) {
             cols.push(
-                <td key="gridButtons" onClick={e => e.stopPropagation()} style={{ width: buttonColWidth, maxWidth: buttonColWidth }}>
+                <td key="gridButtons" className="alignCenter" onClick={e => e.stopPropagation()}
+                    style={{ width: buttonColWidth, maxWidth: buttonColWidth }}>
                     <div className="m-0 p-0 button-column alignCenter" style={{ width: buttonColWidth }}>
                         {editButtonEnabled && (
                             <div

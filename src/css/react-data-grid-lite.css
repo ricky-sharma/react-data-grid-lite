@@ -15,7 +15,6 @@
         user-select: none;
         -webkit-user-select: none;
         -ms-user-select: none;
-        z-index: 1;
     }
 
     .r-d-g-lt-component :focus-visible {
@@ -603,8 +602,10 @@
         text-overflow: ellipsis;
         padding: 10px 8px 10px 10px !important;
         align-content: center;
-        height: 100%;
     }
+        .r-d-g-lt-component table tbody .gridRow td div.rowText {
+            height: 100%;
+        }
 
 .r-d-g-lt-component table tbody tr:nth-of-type(even) {
     background-color: #f8f8f8;
@@ -668,7 +669,7 @@
     }
 
 .r-d-g-lt-component .button-column {
-    flex-wrap: wrap;
+    flex-wrap: wrap !important;
     padding-left: 4px !important;
     padding-right: 2px !important;
 }
