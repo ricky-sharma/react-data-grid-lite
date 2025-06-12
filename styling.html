@@ -1,42 +1,63 @@
-<html><head><style>body {
-   color: black;
-}
-</style></head><body>
-<h1 id="styling--theming">Styling &amp; Theming</h1>
-<h2 id="⚙️-custom-css-classes-for-grid">⚙️ Custom CSS Classes for Grid</h2>
-<p>The <code>react-data-grid-lite</code> component allows you to apply custom CSS classes to various parts of the grid, such as the entire grid container, the header row, and each individual row. You can use the following props to add custom styles:</p>
-<table>
-<thead>
-<tr>
-<th><strong>Prop Name</strong></th>
-<th><strong>Type</strong></th>
-<th><strong>Description</strong></th>
-<th><strong>Required</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>gridClass</code></td>
-<td><code>String</code></td>
-<td>Custom CSS class for the grid container.</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>headerClass</code></td>
-<td><code>String</code></td>
-<td>Custom CSS class for the header row.</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>rowClass</code></td>
-<td><code>String</code></td>
-<td>Custom CSS class for each row in the grid.</td>
-<td>No</td>
-</tr>
-</tbody></table>
-<h4 id="📝-example">📝 Example:</h4>
-<p><img src="https://github.com/user-attachments/assets/8bebdae1-4ae1-4725-bffa-4790c7761feb" alt="image"></p>
-<p>Here’s how you can use these props to add custom styles:</p>
-<pre><code class="language-javascript">&lt;DataGrid
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Data Grid Lite</title>
+    <style>
+      body {
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="styling--theming">Styling &amp; Theming</h1>
+    <h2 id="⚙️-custom-css-classes-for-grid">⚙️ Custom CSS Classes for Grid</h2>
+    <p>
+      The <code>react-data-grid-lite</code> component allows you to apply custom
+      CSS classes to various parts of the grid, such as the entire grid
+      container, the header row, and each individual row. You can use the
+      following props to add custom styles:
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Prop Name</strong></th>
+          <th><strong>Type</strong></th>
+          <th><strong>Description</strong></th>
+          <th><strong>Required</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>gridClass</code></td>
+          <td><code>String</code></td>
+          <td>Custom CSS class for the grid container.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>headerClass</code></td>
+          <td><code>String</code></td>
+          <td>Custom CSS class for the header row.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>rowClass</code></td>
+          <td><code>String</code></td>
+          <td>Custom CSS class for each row in the grid.</td>
+          <td>No</td>
+        </tr>
+      </tbody>
+    </table>
+    <h4 id="📝-example">📝 Example:</h4>
+    <p>
+      <img
+        src="https://github.com/user-attachments/assets/8bebdae1-4ae1-4725-bffa-4790c7761feb"
+        alt="image"
+      />
+    </p>
+    <p>Here’s how you can use these props to add custom styles:</p>
+    <pre><code class="language-javascript">&lt;DataGrid
   options={
     gridClass: &quot;my-custom-grid&quot;,
     headerClass: &quot;my-custom-header&quot;,
@@ -46,8 +67,12 @@
   data={data}
 /&gt;
 </code></pre>
-<p>In this example, <code>my-custom-grid</code>, <code>my-custom-header</code>, and <code>my-custom-row</code> would be the CSS classes you define in your stylesheet.</p>
-<pre><code class="language-css">/*Custom Styles*/
+    <p>
+      In this example, <code>my-custom-grid</code>,
+      <code>my-custom-header</code>, and <code>my-custom-row</code> would be the
+      CSS classes you define in your stylesheet.
+    </p>
+    <pre><code class="language-css">/*Custom Styles*/
 .my-custom-grid {
     background-color: #c0cad3 !important;
     border: 3px solid #c0cad3 !important;
@@ -75,11 +100,21 @@
         background-color: #e0e0e0 !important;
     }
 </code></pre>
-<h4 id="🔄-additional-notes">🔄 Additional Notes:</h4>
-<ul>
-<li>Ensure that the custom styles don’t conflict with the default styles of the grid to maintain proper layout and functionality.</li>
-</ul>
-<p>While the <code>gridClass</code>, <code>headerClass</code>, and <code>rowClass</code> props allow you to apply custom CSS classes to the grid and its elements, the styles might not be perfectly aligned with your desired layout or design out-of-the-box. Depending on your project’s design system or CSS framework, you may need to adjust or override these styles to ensure they work as intended.</p>
-<hr>
-
-</body></html>
+    <h4 id="🔄-additional-notes">🔄 Additional Notes:</h4>
+    <ul>
+      <li>
+        Ensure that the custom styles don’t conflict with the default styles of
+        the grid to maintain proper layout and functionality.
+      </li>
+    </ul>
+    <p>
+      While the <code>gridClass</code>, <code>headerClass</code>, and
+      <code>rowClass</code> props allow you to apply custom CSS classes to the
+      grid and its elements, the styles might not be perfectly aligned with your
+      desired layout or design out-of-the-box. Depending on your project’s
+      design system or CSS framework, you may need to adjust or override these
+      styles to ensure they work as intended.
+    </p>
+    <hr />
+  </body>
+</html>
