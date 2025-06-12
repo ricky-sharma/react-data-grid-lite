@@ -430,7 +430,11 @@
         const activeLink = document.querySelector(
           `.sidebar a[href*="${path}"]`
         );
-        if (activeLink) activeLink.classList.add("active");
+        if (activeLink) {
+          const links = document.querySelectorAll(".sidebar a");
+          links.forEach((link) => link.classList.remove("active"));
+          activeLink.classList.add("active");
+        }
       });
 
       function toggleMenu() {
