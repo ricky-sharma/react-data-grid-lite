@@ -1,48 +1,12 @@
 #root {
     max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
+    margin: 0;
+    padding: 1rem;
 }
 
-.logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-}
-
-    .logo:hover {
-        filter: drop-shadow(0 0 2em #646cffaa);
+    #root h2, #root p {
+        margin: 5px 0 10px;
     }
-
-    .logo.react:hover {
-        filter: drop-shadow(0 0 2em #61dafbaa);
-    }
-
-@keyframes logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    a:nth-of-type(2) .logo {
-        animation: logo-spin infinite 20s linear;
-    }
-}
-
-.card {
-    padding: 2em;
-}
-
-.read-the-docs {
-    color: #888;
-}
 
 /*Custom Styles*/
 .my-custom-grid {
@@ -64,10 +28,54 @@
     background-color: #f3f4f9 !important;
 }
 
-.my-custom-row {
-    border-bottom: 1px solid #4f4d4d !important;
+.my-custom-row:hover {
+    background-color: #c09b95 !important;
 }
 
-    .my-custom-row:hover {
-        background-color: #e0e0e0 !important;
+/*Education Theme (Blue + Beige)*/
+.theme-education-grid {
+    background-color: #FDF6EC !important;
+    padding: 16px !important;
+}
+
+    .theme-education-grid div.globalSearchDiv {
+        padding: 4px 16px 0 16px !important;
+    }
+
+.theme-education-header {
+    background-color: #3B82F6 !important;
+    color: white !important;
+    padding: 12px 0 !important;
+}
+
+.theme-education-row {
+    background-color: #FFFFFF !important;
+}
+
+    .theme-education-row:hover {
+        background-color: #EFF6FF !important;
+    }
+
+/*General Purpose Theme (Cool Gray)*/
+.theme-general-grid {
+    background-color: #EDF2F7 !important;
+    padding: 16px !important;
+}
+
+    .theme-general-grid div.globalSearchDiv {
+        padding: 4px 16px 0 16px !important;
+    }
+
+.theme-general-header {
+    background-color: #4A5568 !important;
+    color: white !important;
+    padding: 12px 0 !important;
+}
+
+.theme-general-row {
+    background-color: #FFFFFF !important;
+}
+
+    .theme-general-row:hover {
+        background-color: #F7FAFC !important;
     }

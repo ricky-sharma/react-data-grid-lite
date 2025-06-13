@@ -134,7 +134,7 @@ export function showLoader(parentId, message) {
     const overlay = document.createElement('div');
     overlay.className = Loader_Identifier;
     overlay.style.position = 'absolute';
-    overlay.style.top = '40%';
+    overlay.style.top = '48%';
     overlay.style.left = '50%';
     overlay.style.transform = 'translate(-50%, -50%)';
     overlay.style.zIndex = '999';

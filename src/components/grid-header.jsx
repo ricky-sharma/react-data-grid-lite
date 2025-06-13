@@ -19,11 +19,13 @@ const GridHeader = ({
     onSearchClicked,
     gridHeaderRef,
     computedColumnWidthsRef,
-    enableColumnResize = false
+    enableColumnResize = false,
+    rowsData
 }) => {
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
     if (isNull(columns) || isNull(columnWidths)) return null;
+    const noData = !Array.isArray(rowsData) || rowsData.length === 0;
     let headers = [...columns];
     let computedColumnWidths = [];
     if (computedColumnWidthsRef) computedColumnWidthsRef.current = [];
@@ -167,7 +169,12 @@ const GridHeader = ({
                 key={key}
                 data-column-name={header?.name}
             >
-                <div className="searchDiv p-0 m-0 alignCenter">
+                <div
+                    style={{
+                        pointerEvents: (noData ? 'none' : ''),
+                        opacity: (noData ? '0.5' : '')
+                    }}
+                    className="searchDiv p-0 m-0 alignCenter">
                     {columnSearchEnabled ? (
                         <input
                             className="searchInput"

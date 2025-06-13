@@ -1,0 +1,202 @@
+/*Professional / Corporate Theme (Dark Blue)*/
+.r-d-g-lt-comp.theme-1,
+.r-d-g-lt-comp .theme-1 {
+    background-color: #E5E8EC !important;
+    padding: 16px !important;
+    color: #1F3B4D !important;
+}
+
+    .r-d-g-lt-comp.theme-1 input {
+        box-shadow: 0 0 0 2px #E5E8EC !important;
+    }
+
+    .r-d-g-lt-comp.theme-1 div.globalSearchDiv {
+        padding: 4px 16px 0 16px !important;
+    }
+
+    .r-d-g-lt-comp.theme-1 i.toolbox-icon {
+        background-color: inherit !important;
+    }
+
+    .r-d-g-lt-comp.theme-1 div.icon-div,
+    .r-d-g-lt-comp.theme-1 input.globalSearch {
+        box-shadow: 0 0 0 0.3px #1F3B4D !important;
+    }
+
+    .r-d-g-lt-comp.theme-1 .grid-footer select {
+        background-color: #F0F4F8 !important;
+        border: 1px solid #B0BEC5 !important;
+        font-weight: 900 !important;
+        color: #1F3B4D !important;
+    }
+
+    .r-d-g-lt-comp.theme-1 .grid-footer .pagination li a {
+        color: #1F3B4D !important;
+    }
+
+    .r-d-g-lt-comp.theme-1 .grid-footer .pagination li.active a {
+        background-color: #1F3B4D !important;
+        color: white !important;
+    }
+
+    .r-d-g-lt-comp .theme-1 .dot-loader span {
+        background: #1F3B4D !important;
+    }
+
+
+.r-d-g-lt-comp .theme-1-h {
+    background-color: #1F3B4D !important;
+    color: white !important;
+    padding: 12px 0 !important;
+}
+
+.r-d-g-lt-comp .theme-1-r {
+    background-color: white !important;
+}
+
+.theme-1-r:nth-child(even) {
+    background-color: #FFFFFF !important;
+}
+
+.theme-1-r:nth-child(odd) {
+    background-color: #F5F8FA !important;
+}
+
+.theme-1-r:hover {
+    background-color: #F0F6FA !important;
+}
+
+
+/*IT / Tech Theme (Dark Gray + Cyan)*/
+.r-d-g-lt-comp.theme-2,
+.r-d-g-lt-comp .theme-2 {
+    background-color: #F5F5F5 !important;
+    padding: 16px !important;
+    color: #2D2D2D !important;
+}
+
+    .r-d-g-lt-comp.theme-2 input {
+        box-shadow: 0 0 0 2px #F5F5F5 !important;
+    }
+
+    .r-d-g-lt-comp.theme-2 div.globalSearchDiv {
+        padding: 4px 16px 0 16px !important;
+    }
+
+    .r-d-g-lt-comp.theme-2 i.toolbox-icon {
+        background-color: inherit !important;
+    }
+
+    .r-d-g-lt-comp.theme-2 div.icon-div,
+    .r-d-g-lt-comp.theme-2 input.globalSearch {
+        box-shadow: 0 0 0 0.3px #2D2D2D !important;
+    }
+
+    .r-d-g-lt-comp.theme-2 .grid-footer select {
+        background-color: #F8F9FA !important;
+        border: 1px solid #CFD8DC !important;
+        font-weight: 900 !important;
+        color: #2D2D2D !important;
+    }
+
+    .r-d-g-lt-comp.theme-2 .grid-footer .pagination li a {
+        color: #2D2D2D !important;
+    }
+
+    .r-d-g-lt-comp.theme-2 .grid-footer .pagination li.active a {
+        background-color: #2D2D2D !important;
+        color: white !important;
+    }
+
+    .r-d-g-lt-comp .theme-2 .dot-loader span {
+        background: #2D2D2D !important;
+    }
+
+.r-d-g-lt-comp .theme-2-h {
+    background-color: #2D2D2D !important;
+    color: white !important;
+    padding: 12px 0 !important;
+}
+
+.r-d-g-lt-comp .theme-2-r {
+    background-color: #FFFFFF !important;
+}
+
+    .r-d-g-lt-comp .theme-2-r:nth-child(even) {
+        background-color: #FFFFFF !important;
+    }
+
+    .r-d-g-lt-comp .theme-2-r:nth-child(odd) {
+        background-color: #FAFAFA !important;
+    }
+
+    .r-d-g-lt-comp .theme-2-r:hover {
+        background-color: #E0F7FA !important;
+    }
+
+/*Green Health Dashboard Theme*/
+.r-d-g-lt-comp.theme-3,
+.r-d-g-lt-comp .theme-3 {
+    background-color: #E8F5E9 !important;
+    padding: 16px !important;
+    color: #256D4F !important;
+}
+
+    .r-d-g-lt-comp.theme-3 input {
+        box-shadow: 0 0 0 2px #E8F5E9 !important;
+    }
+
+    .r-d-g-lt-comp.theme-3 div.globalSearchDiv {
+        padding: 4px 16px 0 16px !important;
+    }
+
+    .r-d-g-lt-comp.theme-3 i.toolbox-icon {
+        background-color: inherit !important;
+    }
+
+    .r-d-g-lt-comp.theme-3 div.icon-div,
+    .r-d-g-lt-comp.theme-3 input.globalSearch {
+        box-shadow: 0 0 0 0.3px #256D4F !important;
+    }
+
+    .r-d-g-lt-comp.theme-3 .grid-footer select {
+        background-color: #E8F5E9 !important;
+        border: 1px solid #B2DFDB !important;
+        font-weight: 900 !important;
+        color: #256D4F !important;
+    }
+
+    .r-d-g-lt-comp.theme-3 .grid-footer .pagination li a {
+        color: #256D4F !important;
+    }
+
+    .r-d-g-lt-comp.theme-3 .grid-footer .pagination li.active a {
+        background-color: #256D4F !important;
+        color: white !important;
+    }
+
+    .r-d-g-lt-comp .theme-3 .dot-loader span {
+        background: #256D4F !important;
+    }
+
+.r-d-g-lt-comp .theme-3-h {
+    background-color: #256D4F !important;
+    color: white !important;
+    padding: 12px 0 !important;
+}
+
+.r-d-g-lt-comp .theme-3-r {
+    background-color: #FFFFFF !important;
+}
+
+    .r-d-g-lt-comp .theme-3-r:nth-child(even) {
+        background-color: #FFFFFF !important;
+    }
+
+    .r-d-g-lt-comp .theme-3-r:nth-child(odd) {
+        background-color: #F1F8F5 !important;
+    }
+
+    .r-d-g-lt-comp .theme-3-r:hover {
+        background-color: #E0F2F1 !important;
+    }

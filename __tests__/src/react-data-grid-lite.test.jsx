@@ -339,7 +339,7 @@ describe('DataGrid Null Check Tests', () => {
 
     it('generates gridID if id is null or missing', () => {
         const { container } = render(<DataGrid columns={[]} data={[]} />);
-        const gridDiv = container.querySelector('.r-d-g-lt-component');
+        const gridDiv = container.querySelector('.r-d-g-lt-comp');
         expect(gridDiv).toBeInTheDocument();
         expect(gridDiv.id).toMatch(/^id-\d+/);
     });

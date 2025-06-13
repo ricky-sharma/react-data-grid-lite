@@ -7,6 +7,7 @@ import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
+import { applyTheme } from './utils/themes-utils';
 
 const DataGrid = ({
     id,
@@ -24,7 +25,8 @@ const DataGrid = ({
     onSortComplete,
     onSearchComplete,
     onPageChange,
-    onColumnResized
+    onColumnResized,
+    theme
 }) => {
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
@@ -38,9 +40,10 @@ const DataGrid = ({
         firstRow: 0,
         lastPageRows: 10,
         activePage: 1,
-        gridCssClass: options?.gridClass ?? '',
-        headerCssClass: options?.headerClass ?? '',
-        rowCssClass: options?.rowClass ?? '',
+        theme: theme,
+        gridCssClass: options?.gridClass ?? applyTheme(theme ?? '')?.grid ?? '',
+        headerCssClass: options?.headerClass ?? applyTheme(theme ?? '')?.header ?? '',
+        rowCssClass: options?.rowClass ?? applyTheme(theme ?? '')?.row ?? '',
         enableColumnSearch: options?.enableColumnSearch ?? true,
         enableColumnResize: options?.enableColumnResize ?? false,
         enableGlobalSearch: options?.enableGlobalSearch ?? true,
@@ -281,8 +284,8 @@ const DataGrid = ({
             id={state.gridID}
             className={
                 !isNull(state.gridCssClass)
-                    ? `${state.gridCssClass} r-d-g-lt-component`
-                    : 'r-d-g-lt-component'
+                    ? `${state.gridCssClass} r-d-g-lt-comp`
+                    : 'r-d-g-lt-comp'
             }
             style={{ maxWidth: state.maxWidth, width: state.width }}
         >

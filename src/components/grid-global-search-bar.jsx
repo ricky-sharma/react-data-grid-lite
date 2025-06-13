@@ -43,7 +43,7 @@ const GridGlobalSearchBar = ({
             )}
             <div
                 className="p-0 m-0 icon-div alignCenter clear-icon-div"
-                title="Reset Search"
+                title="Reset Filters"
                 onClick={handleResetSearch}
                 data-toggle="tooltip"
             >

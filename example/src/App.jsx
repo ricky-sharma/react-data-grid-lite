@@ -1,91 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import DataGrid, { trackPromise } from 'react-data-grid-lite';
-import './App.css';
-
-const options = {
-    editButton: {
-        event: (e, row) => {
-            alert('Edit Button clicked!');
-            console.log(row);
-        }
-    },
-    deleteButton: {
-        event: (e, row) => {
-            alert('Delete Button clicked!');
-            console.log(row);
-        }
-    },
-    gridClass: "my-custom-grid",
-    headerClass: "my-custom-header",
-    rowClass: "my-custom-row"
-}
+import React from 'react';
+import { Route, HashRouter as Router, Routes } from 'react-router-dom';
+import Navbar from './navbar';
+import Grid1 from './pages/grid1';
+import Grid2 from './pages/grid2';
+import Grid3 from './pages/grid3';
+import Grid4 from './pages/grid4';
 
 function App() {
-    const [users, setUsers] = useState([]);
-    const [userColumns, setUserColumns] = useState({});
-    useEffect(() => {
-        const promise = fetch('https://fakerapi.it/api/v1/users?_quantity=1000')
-            .then(response => response.json())
-            .then(data => {
-                const Columns = Object.keys(data.data[0])
-                setUserColumns(Columns.map((val) => {
-                    if (val.toLowerCase() === 'id')
-                        return {
-                            name: val,
-                            alias: 'ID',
-                            width: '100px'
-                        }
-                    else if (val.toLowerCase() === 'uuid')
-                        return {
-                            name: val,
-                            alias: 'UUID'
-                        }
-                    else if (val.toLowerCase() === 'email')
-                        return {
-                            name: val,
-                            alias: 'Email',
-                        }
-                    else if (val.toLowerCase() === 'website')
-                        return {
-                            name: val,
-                            alias: 'Website',
-                        }
-                    else if (val.toLowerCase() === 'firstname')
-                        return {
-                            name: val,
-                            alias: 'Name',
-                            concatColumns: {
-                                columns: ['firstname', 'lastname']
-                            }
-                        }
-                    else
-                        return {
-                            name: val,
-                            hidden: true
-                        }
-                }));
-                setUsers(data.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-        trackPromise(promise);
-    }, []);
-
     return (
-        <>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <h2>React Data Grid Lite Example</h2>
+        <Router>
+            <Navbar style={{ display: 'flex', justifyContent: 'center' }} />
+            <div style={{ padding: '10px' }}>
+                <Routes>
+                    <Route path="/" element={<Grid1 />} />
+                    <Route path="/Grid2" element={<Grid2 />} />
+                    <Route path="/Grid3" element={<Grid3 />} />
+                    <Route path="/Grid4" element={<Grid4 />} />
+                </Routes>
             </div>
-            <DataGrid
-                columns={userColumns}
-                data={users}
-                pageSize={20}
-                options={options}
-                width={"1200px"}
-            />
-        </>
-    )
+        </Router>
+    );
 }
 
-export default App
+export default App;

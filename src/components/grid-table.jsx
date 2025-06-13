@@ -32,6 +32,7 @@ const GridTable = ({
                 gridHeaderRef={gridHeaderRef}
                 computedColumnWidthsRef={computedColumnWidthsRef}
                 enableColumnResize={state.enableColumnResize}
+                rowsData={state.rowsData}
             />
 
             <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
