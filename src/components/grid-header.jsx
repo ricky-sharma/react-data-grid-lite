@@ -4,6 +4,7 @@ import { Button_Column_Key, Container_Identifier, Default_Grid_Width_VW } from '
 import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from '../helpers/common';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
+import ColumnSortIcon from './column-sort-icon';
 
 const GridHeader = ({
     columns,
@@ -20,7 +21,8 @@ const GridHeader = ({
     gridHeaderRef,
     computedColumnWidthsRef,
     enableColumnResize = false,
-    rowsData
+    rowsData,
+    columnSortOrders
 }) => {
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
@@ -42,12 +44,6 @@ const GridHeader = ({
             { name: Button_Column_Key, width: buttonColWidth ?? 0 }
         ];
     }
-
-    const renderSortIcon = () => (
-        <div className="sort-icon-wrapper">
-            <i className="updown-icon inactive icon-sort" />
-        </div>
-    );
 
     if ((buttonColEnabled) && headers[headers?.length - 1] !== '##Actions##') {
         headers.push('##Actions##');
@@ -97,8 +93,9 @@ const GridHeader = ({
 
         const onClickHandler = (e) => {
             const colNames = !isNull(concatColumns[key]?.cols) ? concatColumns[key].cols : [header?.name];
-            if (typeof onHeaderClicked === 'function') onHeaderClicked(e, colNames);
+            if (typeof onHeaderClicked === 'function') onHeaderClicked(e, colNames, header?.name);
         };
+
         return (
             <th
                 style={{
@@ -120,7 +117,7 @@ const GridHeader = ({
                     className="p-0 m-0 alignCenter"
                 >
                     <div className="headerText">{displayName}</div>
-                    {renderSortIcon()}
+                    <ColumnSortIcon columnSortOrders={columnSortOrders} header={header} />
                 </div>
                 {thInnerHtml}
             </th>

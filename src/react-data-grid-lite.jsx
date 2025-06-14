@@ -63,7 +63,6 @@ const DataGrid = ({
         downloadFilename: options?.downloadFilename ?? null,
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
         globalSearchInput: '',
-        sortType: '',
         toggleState: true
     });
 
@@ -131,7 +130,11 @@ const DataGrid = ({
                             ? col.width
                             : null
                     )
-                    : []
+                    : [],
+                columnSortOrders: state?.columns?.map(col => ({
+                    name: col.name,
+                    sortOrder: typeof col?.sortOrder === 'string' ? col.sortOrder : null,
+                })) ?? []
             }));
     }, [state?.columns]);
 
@@ -212,18 +215,19 @@ const DataGrid = ({
         }
     }, [state?.firstRow, state?.currentPageRows]);
 
-    const onHeaderClicked = (e, name) => {
-        sortRef.current = { changeEvent: e, colName: name }
-        eventGridHeaderClicked(e, name, state, setState);
+    const onHeaderClicked = (e, colObject, colKey) => {
+        sortRef.current = { changeEvent: e, colObject: colObject, colKey: colKey }
+        eventGridHeaderClicked(colObject, state, setState, colKey);
     };
 
     useEffect(() => {
         if (typeof state.onSortComplete === 'function' && sortRef?.current?.changeEvent) {
             state.onSortComplete(
                 sortRef.current.changeEvent,
-                sortRef.current.colName,
+                sortRef.current.colObject,
                 state.rowsData,
-                state.sortType
+                state.columnSortOrders.find(col => col?.name
+                    === sortRef.current.colKey)?.sortOrder ?? ''
             );
             sortRef.current = null;
         }
@@ -253,7 +257,8 @@ const DataGrid = ({
                 globalSearchInput: e?.target?.value ?? ''
             }));
         }
-        eventGridSearchClicked(e, colName, colObject, formatting, dataReceivedRef, searchColsRef, state, setState);
+        eventGridSearchClicked(e, colName, colObject, formatting,
+            dataReceivedRef, searchColsRef, state, setState);
     };
 
     const handleResetSearch = (e) => {
@@ -275,7 +280,10 @@ const DataGrid = ({
             activePage: 1,
             totalRows: dataReceivedRef?.current?.length ?? 0,
             firstRow: 0,
-            currentPageRows: prev.currentPageRows
+            columnSortOrders: prev.columnSortOrders.map((col) => ({
+                ...col,
+                sortOrder: '',
+            }))
         }));
     };
 
