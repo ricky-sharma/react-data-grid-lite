@@ -68,10 +68,25 @@
         padding-right: 14px !important;
         border-radius: 4px !important;
         box-shadow: 0 0 0 1px #e0e0e0;
-        border: 0 !important;
+        border: 0.5px solid #e0e0e0;
         background-color: #fff;
         padding: 1px 5px !important;
     }
+
+    .r-d-g-lt-comp .clear-input {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
+        font-size: 18px;
+        user-select: none;
+    }
+
+        .r-d-g-lt-comp .clear-input:hover {
+            color: #333;
+        }
 
     .r-d-g-lt-comp .pointer {
         cursor: pointer !important;
@@ -455,6 +470,7 @@
 }
 
     .r-d-g-lt-comp .react-data-grid-lite table {
+        border: 0;
         border-radius: 10px;
         width: 100%;
         display: grid !important;
@@ -602,6 +618,7 @@
         padding: 10px 8px 10px 10px !important;
         align-content: center;
     }
+
         .r-d-g-lt-comp table tbody .gridRow td div.rowText {
             height: 100%;
         }
@@ -630,10 +647,11 @@
     align-items: center !important;
     display: inline-block;
     color: #fff;
+    width: 90% !important;
 }
 
 .r-d-g-lt-comp .searchInput {
-    width: 90% !important;
+    width: 100% !important;
     height: 100% !important;
     border-radius: 2px;
 }
@@ -645,14 +663,18 @@
     height: 50px;
 }
 
-.r-d-g-lt-comp input.globalSearch {
-    border-radius: 4px;
-    float: left !important;
-    height: 36px !important;
-    margin-bottom: 5px;
-    margin-right: 12px;
+.r-d-g-lt-comp div.globalSearch {
     width: 35% !important;
+    height: 36px !important;
+    float: left !important;
+    margin-right: 12px;
+    position: relative;
 }
+
+    .r-d-g-lt-comp div.globalSearch input {
+        border-radius: 4px;
+        width: 100% !important;
+    }
 
 .r-d-g-lt-comp .button-column {
     flex-wrap: wrap !important;
@@ -826,7 +848,6 @@
     }
 
     .r-d-g-lt-comp .searchInput {
-        width: 70% !important;
         padding-left: 2px;
         padding-right: 2px;
     }
@@ -850,12 +871,15 @@
         height: 42px;
     }
 
-    .r-d-g-lt-comp input.globalSearch {
+    .r-d-g-lt-comp div.globalSearch {
         width: 40% !important;
-        padding-left: 2px;
-        padding-right: 2px;
         height: 32px !important;
     }
+
+        .r-d-g-lt-comp div.globalSearch input {
+            padding-left: 2px;
+            padding-right: 2px;
+        }
 
     .r-d-g-lt-comp .pagerSelect select {
         width: 50px !important;

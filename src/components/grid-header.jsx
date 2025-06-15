@@ -5,27 +5,32 @@ import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from '
 import { useWindowWidth } from '../hooks/use-window-width';
 import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
 import ColumnSortIcon from './column-sort-icon';
+import Input from './input';
 
 const GridHeader = ({
-    columns,
-    hiddenColIndex = [],
-    enableColumnSearch = true,
-    concatColumns = [],
-    editButtonEnabled = false,
-    deleteButtonEnabled = false,
-    headerCssClass = '',
-    gridID = '',
-    columnWidths = [],
+    state,
+    setState,
     onHeaderClicked,
     onSearchClicked,
     gridHeaderRef,
-    computedColumnWidthsRef,
-    enableColumnResize = false,
-    rowsData,
-    columnSortOrders
+    computedColumnWidthsRef
 }) => {
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth < 700;
+    const {
+        columns,
+        hiddenColIndex,
+        enableColumnSearch,
+        concatColumns,
+        editButtonEnabled,
+        deleteButtonEnabled,
+        headerCssClass,
+        gridID,
+        columnWidths,
+        enableColumnResize,
+        rowsData,
+        searchValues
+    } = state;
     if (isNull(columns) || isNull(columnWidths)) return null;
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
     let headers = [...columns];
@@ -117,7 +122,7 @@ const GridHeader = ({
                     className="p-0 m-0 alignCenter"
                 >
                     <div className="headerText">{displayName}</div>
-                    <ColumnSortIcon columnSortOrders={columnSortOrders} header={header} />
+                    <ColumnSortIcon columns={columns} header={header} />
                 </div>
                 {thInnerHtml}
             </th>
@@ -153,6 +158,7 @@ const GridHeader = ({
         };
         return (
             <th
+                className="alignCenter"
                 style={{
                     width: colWidth,
                     maxWidth: colResizable ? undefined : colWidth,
@@ -168,20 +174,30 @@ const GridHeader = ({
             >
                 <div
                     style={{
-                        pointerEvents: (noData ? 'none' : ''),
-                        opacity: (noData ? '0.5' : '')
+                        opacity: (noData ? '0.8' : '')
                     }}
-                    className="searchDiv p-0 m-0 alignCenter">
+                    className="searchDiv p-0 m-0">
                     {columnSearchEnabled ? (
-                        <input
+                        <Input
                             className="searchInput"
                             placeholder="Search"
-                            onChange={typeof onSearchClicked === 'function' ?
-                                (e) => onSearchClicked(e, header?.name, conCols, formatting) :
-                                () => { }
-                            }
                             type="text"
+                            value={searchValues?.[header?.name] ?? ''}
+                            onChange={(e) => {
+                                const updatedVal = e.target.value;
+                                setState(prev => ({
+                                    ...prev,
+                                    searchValues: {
+                                        ...prev.searchValues,
+                                        [header?.name]: updatedVal
+                                    }
+                                }));
+                                if (typeof onSearchClicked === 'function') {
+                                    onSearchClicked(e, header?.name, conCols, formatting);
+                                }
+                            }}
                         />
+
                     ) : (
                         <>.</>
                     )}

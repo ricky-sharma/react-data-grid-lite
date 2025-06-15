@@ -8,6 +8,7 @@
 
     .r-d-g-lt-comp.theme-1 input {
         box-shadow: 0 0 0 2px #E5E8EC !important;
+        border: 0.5px solid #E5E8EC !important;
     }
 
     .r-d-g-lt-comp.theme-1 div.globalSearchDiv {
@@ -19,7 +20,7 @@
     }
 
     .r-d-g-lt-comp.theme-1 div.icon-div,
-    .r-d-g-lt-comp.theme-1 input.globalSearch {
+    .r-d-g-lt-comp.theme-1 div.globalSearch input {
         box-shadow: 0 0 0 0.3px #1F3B4D !important;
     }
 
@@ -77,6 +78,7 @@
 
     .r-d-g-lt-comp.theme-2 input {
         box-shadow: 0 0 0 2px #F5F5F5 !important;
+        border: 0.5px solid #F5F5F5 !important;
     }
 
     .r-d-g-lt-comp.theme-2 div.globalSearchDiv {
@@ -88,7 +90,7 @@
     }
 
     .r-d-g-lt-comp.theme-2 div.icon-div,
-    .r-d-g-lt-comp.theme-2 input.globalSearch {
+    .r-d-g-lt-comp.theme-2 div.globalSearch input {
         box-shadow: 0 0 0 0.3px #2D2D2D !important;
     }
 
@@ -144,6 +146,7 @@
 
     .r-d-g-lt-comp.theme-3 input {
         box-shadow: 0 0 0 2px #E8F5E9 !important;
+        border: 0.5px solid #E8F5E9 !important;
     }
 
     .r-d-g-lt-comp.theme-3 div.globalSearchDiv {
@@ -155,7 +158,7 @@
     }
 
     .r-d-g-lt-comp.theme-3 div.icon-div,
-    .r-d-g-lt-comp.theme-3 input.globalSearch {
+    .r-d-g-lt-comp.theme-3 div.globalSearch input {
         box-shadow: 0 0 0 0.3px #256D4F !important;
     }
 

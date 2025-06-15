@@ -26,13 +26,13 @@ export default function Grid3() {
             return {
                 name: val,
                 alias: 'ID',
-                width: '100px'
+                width: '100px', fixed: true
             }
         else if (val.toLowerCase() === 'uuid')
             return {
                 name: val,
                 alias: 'UUID',
-                width: '340px'
+                width: '340px', resizable: true
             }
         else if (val.toLowerCase() === 'email' || val.toLowerCase() === 'website')
             return {

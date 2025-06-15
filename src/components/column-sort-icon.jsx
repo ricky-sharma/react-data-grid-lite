@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-const ColumnSortIcon = ({ columnSortOrders = [], header }) => {
-    const currentColumn = Array.isArray(columnSortOrders)
-        ? columnSortOrders.find(entry => entry?.name === header?.name)
+const ColumnSortIcon = ({ columns = [], header }) => {
+    const currentColumn = Array.isArray(columns)
+        ? columns.find(entry => entry?.name === header?.name)
         : null;
 
     const sortOrder = typeof currentColumn?.sortOrder === 'string'

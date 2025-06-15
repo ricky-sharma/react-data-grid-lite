@@ -134,13 +134,11 @@ export function showLoader(parentId, message) {
     const overlay = document.createElement('div');
     overlay.className = Loader_Identifier;
     overlay.style.position = 'absolute';
-    overlay.style.top = '48%';
+    overlay.style.top = '50%';
     overlay.style.left = '50%';
     overlay.style.transform = 'translate(-50%, -50%)';
     overlay.style.zIndex = '999';
     overlay.style.backgroundColor = 'rgba(255,255,255,0.6)';
-    overlay.style.padding = '20px';
-    overlay.style.borderRadius = '8px';
     overlay.style.textAlign = 'center';
 
     if (message) {

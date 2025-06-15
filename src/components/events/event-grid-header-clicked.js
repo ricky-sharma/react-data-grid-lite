@@ -3,10 +3,11 @@ import { dynamicSort } from '../../helpers/sort';
 /**
  * Handles sorting logic when a table header is clicked.
  */
-export const eventGridHeaderClicked = (colObject, state, setState, colKey) => {
+export const eventGridHeaderClicked = (colObject, state, setState, colKey, isResizingRef) => {
+    if (isResizingRef?.current === true) return;
     if (!Array.isArray(colObject)) return;
 
-    const currentSortEntry = state.columnSortOrders.find(col => col?.name === colKey);
+    const currentSortEntry = state.columns.find(col => col?.name === colKey);
     const prevSortOrder = currentSortEntry?.sortOrder || '';
     const sortOrder = prevSortOrder === 'desc' ? 'asc' : 'desc';
     const sortColumns = colObject.map(field => (sortOrder === 'asc' ? field : `-${field}`));
@@ -15,7 +16,7 @@ export const eventGridHeaderClicked = (colObject, state, setState, colKey) => {
     setState(prev => ({
         ...prev,
         rowsData: sortedData,
-        columnSortOrders: prev.columnSortOrders.map(col => ({
+        columns: prev.columns.map(col => ({
             ...col,
             sortOrder: col.name === colKey ? sortOrder : '',
         })),
