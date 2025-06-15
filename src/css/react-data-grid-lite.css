@@ -658,14 +658,14 @@
 
 .r-d-g-lt-comp .globalSearchDiv {
     display: block !important;
-    padding: 4px 6px 0px 4px !important;
+    padding: 4px 4px 0 !important;
     margin: 0 !important;
     height: 50px;
 }
 
 .r-d-g-lt-comp div.globalSearch {
     width: 35% !important;
-    height: 36px !important;
+    height: 36.5px !important;
     float: left !important;
     margin-right: 12px;
     position: relative;
@@ -852,35 +852,6 @@
         padding-right: 2px;
     }
 
-    .r-d-g-lt-comp .download-icon-div {
-        width: 40px !important;
-        height: 32px !important;
-    }
-
-    .r-d-g-lt-comp .download-icon {
-        margin-left: 0px !important;
-    }
-
-    .r-d-g-lt-comp .clear-icon-div {
-        width: 40px !important;
-        height: 32px !important;
-    }
-
-    .r-d-g-lt-comp .globalSearchDiv {
-        padding-top: 2px !important;
-        height: 42px;
-    }
-
-    .r-d-g-lt-comp div.globalSearch {
-        width: 40% !important;
-        height: 32px !important;
-    }
-
-        .r-d-g-lt-comp div.globalSearch input {
-            padding-left: 2px;
-            padding-right: 2px;
-        }
-
     .r-d-g-lt-comp .pagerSelect select {
         width: 50px !important;
         height: 32px !important;
@@ -906,6 +877,14 @@
 }
 
 @media (max-width: 700px) {
+    .r-d-g-lt-comp .download-icon-div {
+        width: 40px !important;
+        height: 32px !important;
+    }
+
+    .r-d-g-lt-comp .download-icon {
+        margin-left: 0px !important;
+    }
 
     .r-d-g-lt-comp .page-results {
         width: 50% !important;
@@ -922,6 +901,26 @@
 
     .r-d-g-lt-comp .page-list {
         display: none !important;
+    }
+
+    .r-d-g-lt-comp .clear-icon-div {
+        width: 40px !important;
+        height: 32px !important;
+    }
+
+    .r-d-g-lt-comp div.globalSearch {
+        width: 50% !important;
+        height: 32.5px !important;
+    }
+
+        .r-d-g-lt-comp div.globalSearch input {
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+    .r-d-g-lt-comp .globalSearchDiv {
+        padding-top: 2px !important;
+        height: 42px;
     }
 }
 

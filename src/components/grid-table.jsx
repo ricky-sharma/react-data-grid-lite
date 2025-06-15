@@ -29,26 +29,8 @@ const GridTable = ({
 
             <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
                 <GridRows
-                    gridID={state.gridID}
-                    rowsData={state.rowsData}
-                    first={state.firstRow}
-                    count={state.currentPageRows}
-                    hiddenColIndex={state.hiddenColIndex}
-                    concatColumns={state.concatColumns}
-                    columnFormatting={state.columnFormatting}
-                    columnClass={state.columnClass}
-                    columns={state.columns}
-                    rowCssClass={state.rowCssClass}
-                    rowClickEnabled={state.rowClickEnabled}
-                    onRowClick={state.onRowClick}
-                    onRowHover={state.onRowHover}
-                    onRowOut={state.onRowOut}
-                    editButtonEnabled={state.editButtonEnabled}
-                    deleteButtonEnabled={state.deleteButtonEnabled}
-                    editButtonEvent={state.editButtonEvent}
-                    deleteButtonEvent={state.deleteButtonEvent}
+                    state={state}
                     computedColumnWidthsRef={computedColumnWidthsRef}
-                    enableColumnResize={state.enableColumnResize}
                 />
             </tbody>
         </table>

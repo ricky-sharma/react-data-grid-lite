@@ -271,7 +271,6 @@ const DataGrid = ({
             })),
         }));
     };
-
     return (
         <div
             id={state.gridID}

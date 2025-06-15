@@ -30,33 +30,36 @@ const getFormattedValue = (value, formatting) => {
 };
 
 const GridRows = ({
-    rowsData = [],
-    first,
-    count,
-    hiddenColIndex = [],
-    concatColumns = [],
-    columnFormatting = [],
-    columnClass = [],
-    columns = [],
-    rowCssClass = '',
-    rowClickEnabled = false,
-    onRowClick,
-    onRowHover,
-    onRowOut,
-    editButtonEnabled = false,
-    deleteButtonEnabled = false,
-    editButtonEvent,
-    deleteButtonEvent,
-    computedColumnWidthsRef,
-    enableColumnResize,
-    gridID
+    state,
+    computedColumnWidthsRef
 }) => {
     const loading = useLoadingIndicator();
     useWindowWidth();
-    if (!Array.isArray(rowsData) || rowsData.length === 0 || isNull(computedColumnWidthsRef?.current)) {
+    const {
+        rowsData,
+        firstRow,
+        currentPageRows,
+        hiddenColIndex,
+        concatColumns,
+        columnFormatting,
+        columnClass,
+        columns,
+        rowCssClass,
+        rowClickEnabled,
+        onRowClick,
+        onRowHover,
+        onRowOut,
+        editButtonEnabled,
+        deleteButtonEnabled,
+        editButtonEvent,
+        deleteButtonEvent,
+        enableColumnResize,
+        gridID
+    } = state;
+    if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)) {
         hideLoader(gridID);
         loading ? showLoader(gridID) :
-            (!rowsData.length ? showLoader(gridID, No_Data_Message)
+            (isNull(rowsData) ? showLoader(gridID, No_Data_Message)
                 : showLoader(gridID, No_Column_Visible_Message));
         return null;
     }
@@ -70,7 +73,7 @@ const GridRows = ({
             lastFixedIndex = index;
         }
     }, null);
-    return rowsData.slice(first, first + count).map((row, rowIndex) => {
+    return rowsData.slice(firstRow, firstRow + currentPageRows).map((row, rowIndex) => {
         const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
             const conValue = getConcatValue(row, key, concatColumns, columns);

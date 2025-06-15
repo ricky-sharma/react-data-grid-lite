@@ -95,12 +95,10 @@ const GridHeader = ({
         const displayName = isNull(header?.alias) || header?.name === header?.alias
             ? header?.name
             : header?.alias;
-
         const onClickHandler = (e) => {
             const colNames = !isNull(concatColumns[key]?.cols) ? concatColumns[key].cols : [header?.name];
             if (typeof onHeaderClicked === 'function') onHeaderClicked(e, colNames, header?.name);
         };
-
         return (
             <th
                 style={{
@@ -128,7 +126,6 @@ const GridHeader = ({
             </th>
         );
     });
-
     const thSearchHeaders = headers.map((header, key) => {
         if (hiddenColIndex?.includes(key)) return null;
         const conCols = !isNull(concatColumns[key]) ? concatColumns[key].cols : null;
@@ -139,7 +136,6 @@ const GridHeader = ({
         if (columnSearchEnabled) {
             searchRowEnabled = true;
         };
-
         if (header === '##Actions##') {
             return (
                 <th
