@@ -5,6 +5,7 @@ import { ExampleBlock } from '../example-block';
 import './../App.css';
 
 const options = {
+    actionColumnAlign: 'right',
     editButton: {
         event: (e, row) => {
             alert('Edit Button clicked!');

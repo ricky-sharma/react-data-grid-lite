@@ -6,7 +6,14 @@ import './../App.css';
 
 const options = {
     enableColumnSearch: false,
-    enableColumnResize: true
+    enableColumnResize: true,
+    actionColumnAlign: 'right',
+    editButton: {
+        event: (e, row) => {
+            alert('Edit Button clicked!');
+            console.log(row);
+        }
+    }
 }
 
 export default function Grid2() {
@@ -16,9 +23,9 @@ export default function Grid2() {
             return {
                 name: val, alias: 'ID', width: '100px', fixed: true
             }
-        else if (val.toLowerCase() === 'title' || val.toLowerCase() === 'author')
+        else if (val.toLowerCase() === 'title')
             return {
-                name: val, fixed: true, width: '200px'
+                name: val, fixed: true, width: '180px'
             }
         else if (val.toLowerCase() === 'description')
             return {

@@ -5,6 +5,7 @@ import { ExampleBlock } from '../example-block';
 import './../App.css';
 
 const options = {
+    actionColumnAlign: 'left',
     editButton: {
         event: (e, row) => {
             alert('Edit Button clicked!');
@@ -34,7 +35,7 @@ export default function Grid1() {
             return {
                 name: val, formatting: {
                     type: 'Date', format: 'dd-MMMM-yyyy'
-                }
+                }, width: '200px'
             }
         else
             return {

@@ -59,6 +59,7 @@ const DataGrid = ({
         editButtonEvent: options?.editButton?.event ?? (() => { }),
         deleteButtonEnabled: options?.deleteButton ?? false,
         deleteButtonEvent: options?.deleteButton?.event ?? (() => { }),
+        actionColumnAlign: options?.actionColumnAlign ?? '',
         enableDownload: options?.enableDownload ?? true,
         downloadFilename: options?.downloadFilename ?? null,
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),

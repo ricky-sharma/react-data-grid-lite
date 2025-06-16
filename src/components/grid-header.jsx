@@ -29,7 +29,8 @@ const GridHeader = ({
         columnWidths,
         enableColumnResize,
         rowsData,
-        searchValues
+        searchValues,
+        actionColumnAlign
     } = state;
     if (isNull(columns) || isNull(columnWidths)) return null;
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
@@ -50,35 +51,59 @@ const GridHeader = ({
         ];
     }
 
-    if ((buttonColEnabled) && headers[headers?.length - 1] !== '##Actions##') {
-        headers.push('##Actions##');
+    const isActionColumnLeft = actionColumnAlign === 'left';
+    const isActionColumnRight = actionColumnAlign === 'right';
+
+    if (buttonColEnabled && headers[headers.length - 1] !== '##Actions##') {
+        const insert = isActionColumnLeft ? 'unshift' : 'push';
+        headers[insert]('##Actions##');
     }
+
     let leftPosition = 0;
-    const lastVisibleIndex = Array.isArray(headers)
-        ? headers.reduce((lastIdx, item, idx) => {
-            return item && !item?.hidden ? idx : lastIdx;
-        }, -1) : -1;
+
+    const lastVisibleIndex = (Array.isArray(headers) ?
+        headers.reduce((lastIdx, item, idx) =>
+            (!item?.hidden ? idx : lastIdx), -1)
+        : -1
+    ) - ((isActionColumnLeft && buttonColEnabled) ? 1 : 0);
 
     const thColHeaders = headers.map((header, key) => {
+        key -= (isActionColumnLeft && buttonColEnabled) ? 1 : 0;
+
         if (hiddenColIndex?.includes(key)) return null;
+
         const thInnerHtml = lastVisibleIndex !== key ?
             <span style={{
                 zIndex: (header?.fixed === true ? 11 : '')
             }} /> : null;
+
         const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
             key, buttonColEnabled, isMobile);
+
         if (header?.name) {
             computedColumnWidths = [
                 ...computedColumnWidths.filter(entry => entry?.name !== header?.name),
                 { name: header?.name, width: colWidth ?? 0, leftPosition: `${leftPosition}px` }
             ];
         }
-        leftPosition += tryParseWidth(colWidth, containerWidth);
+
+        leftPosition += tryParseWidth((isActionColumnLeft && key === -1 ?
+            buttonColWidth : colWidth), containerWidth);
+
         const colResizable = header?.resizable ?? enableColumnResize;
         if (header === '##Actions##') {
             return (
                 <th
-                    style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
+                    style={{
+                        width: buttonColWidth,
+                        maxWidth: buttonColWidth,
+                        minWidth: buttonColWidth,
+                        left: (isActionColumnLeft ? 0 : ''),
+                        right: (isActionColumnRight ? "0.5px" : ''),
+                        position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
+                        zIndex: (isActionColumnRight || isActionColumnLeft ? 10 : ''),
+                        backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
+                    }}
                     title="Actions"
                     data-toggle="tooltip"
                     key={key}
@@ -89,6 +114,9 @@ const GridHeader = ({
                     >
                         <i className="icon-common-css toolbox-icon emptyHeader" />
                     </div>
+                    {actionColumnAlign === 'left' ? <span style={{
+                        zIndex: 11
+                    }} /> : null}
                 </th>
             );
         };
@@ -127,6 +155,7 @@ const GridHeader = ({
         );
     });
     const thSearchHeaders = headers.map((header, key) => {
+        key -= actionColumnAlign === 'left' ? 1 : 0;
         if (hiddenColIndex?.includes(key)) return null;
         const conCols = !isNull(concatColumns[key]) ? concatColumns[key].cols : null;
         const formatting = header?.formatting;
@@ -139,7 +168,19 @@ const GridHeader = ({
         if (header === '##Actions##') {
             return (
                 <th
-                    style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
+                    style={{
+                        width: buttonColWidth,
+                        maxWidth: buttonColWidth,
+                        minWidth: buttonColWidth,
+                        left: (isActionColumnLeft ? 0 : ''),
+                        right: (isActionColumnRight ? "0.5px" : ''),
+                        position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
+                        zIndex: (isActionColumnRight || isActionColumnLeft ? 10 : ''),
+                        backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
+                        boxShadow: (isActionColumnLeft ?
+                            '#e0e0e0 -0.5px 0px 0px 0px inset' :
+                            (isActionColumnRight ? '#e0e0e0 0.5px 0px 0px 0px inset' : ''))
+                    }}
                     key={key}
                 >
                     <div
@@ -201,7 +242,9 @@ const GridHeader = ({
             </th>
         );
     });
+
     if (computedColumnWidthsRef) computedColumnWidthsRef.current = [...computedColumnWidths];
+
     return (
         <thead ref={gridHeaderRef}>
             <tr className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>

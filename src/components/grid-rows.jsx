@@ -36,7 +36,8 @@ const GridRows = ({
         editButtonEvent,
         deleteButtonEvent,
         enableColumnResize,
-        gridID
+        gridID,
+        actionColumnAlign
     } = state;
     if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)) {
         hideLoader(gridID);
@@ -49,12 +50,14 @@ const GridRows = ({
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = computedColumnWidthsRef?.current?.find(i =>
         i?.name === Button_Column_Key)?.width ?? 0;
+
     let lastFixedIndex = -1;
     columns.reduceRight((_, col, index) => {
         if (lastFixedIndex === -1 && col?.fixed === true && !col?.hidden) {
             lastFixedIndex = index;
         }
     }, null);
+
     return rowsData.slice(firstRow, firstRow + currentPageRows).map((row, rowIndex) => {
         const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
@@ -69,20 +72,38 @@ const GridRows = ({
                     maxWidth: colResizable ? undefined : colWidth,
                     minWidth: colResizable ? undefined : colWidth,
                     left: (col?.fixed === true ?
-                        computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.leftPosition ?? '' : ''),
+                        computedColumnWidthsRef?.current?.find(i =>
+                            i?.name === col?.name)?.leftPosition ?? '' : ''),
                     position: (col?.fixed === true ? 'sticky' : ''),
                     zIndex: (col?.fixed === true ? 6 : ''),
                     backgroundColor: 'inherit',
-                    boxShadow: (lastFixedIndex === key ? '#e0e0e0 -2px 0px 1px 0px inset' : '')
+                    boxShadow: (lastFixedIndex === key ? '#e0e0e0 -0.5px 0px 1px 0px inset' : '')
                 }}>
-                    <div className="m-0 p-0 rowText" title={columnValue}>{columnValue}</div>
+                    <div className="m-0 p-0 rowText" title={columnValue}>
+                        {columnValue}
+                    </div>
                 </td>
             );
         });
+        const isActionColumnLeft = actionColumnAlign === 'left';
+        const isActionColumnRight = actionColumnAlign === 'right';
+        const insert = isActionColumnLeft ? 'unshift' : 'push';
         if (buttonColEnabled) {
-            cols.push(
+            cols[insert](
                 <td key="gridButtons" className="alignCenter" onClick={e => e.stopPropagation()}
-                    style={{ width: buttonColWidth, maxWidth: buttonColWidth }}>
+                    style={{
+                        width: buttonColWidth,
+                        maxWidth: buttonColWidth,
+                        minWidth: buttonColWidth,
+                        left: (isActionColumnLeft ? 0 : ''),
+                        right: (isActionColumnRight ? "0.5px" : ''),
+                        position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
+                        zIndex: (isActionColumnRight || isActionColumnLeft ? 6 : ''),
+                        backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
+                        boxShadow: (isActionColumnLeft ?
+                            '#e0e0e0 -0.5px 0px 0px 0px inset' :
+                            (isActionColumnRight ? '#e0e0e0 0.5px 0px 0px 0px inset' : ''))
+                    }}>
                     <div className="m-0 p-0 button-column alignCenter" style={{ width: buttonColWidth }}>
                         {editButtonEnabled && (
                             <div
