@@ -30,6 +30,12 @@ export default function Grid1() {
             return {
                 name: val, hidden: true
             }
+        else if (val.toLowerCase() === 'published')
+            return {
+                name: val, formatting: {
+                    type: 'Date', format: 'dd-MMMM-yyyy'
+                }
+            }
         else
             return {
                 name: val, width: '250px'

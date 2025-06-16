@@ -292,6 +292,8 @@ const DataGrid = ({
                 rowsData={state.rowsData}
                 downloadFilename={state.downloadFilename}
                 onDownloadComplete={state.onDownloadComplete}
+                concatColumns={state.concatColumns}
+                columnFormatting={state.columnFormatting}
             />
             <div
                 className={

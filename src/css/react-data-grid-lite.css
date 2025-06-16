@@ -100,7 +100,7 @@
 
         .r-d-g-lt-comp .dropdown-option.selected {
             background-color: #667;
-            color:#fff;
+            color: #fff;
             font-weight: 500;
         }
 
@@ -536,7 +536,7 @@
 
     .r-d-g-lt-comp .react-data-grid-lite table::-webkit-scrollbar-thumb:hover,
     .r-d-g-lt-comp .dropdown-options::-webkit-scrollbar-thumb:hover {
-        background-color: #555;
+        background-color: #e0e0e0;
     }
 
 .r-d-g-lt-comp .react-data-grid-lite thead {

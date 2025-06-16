@@ -11,6 +11,11 @@
         border: 0.5px solid #E5E8EC !important;
     }
 
+    .r-d-g-lt-comp.theme-1 .react-data-grid-lite table::-webkit-scrollbar-thumb:hover,
+    .r-d-g-lt-comp.theme-1 .dropdown-options::-webkit-scrollbar-thumb:hover {
+        background-color: #E5E8EC !important;
+    }
+
     .r-d-g-lt-comp.theme-1 div.globalSearchDiv {
         padding: 4px 18px 0 !important;
     }
@@ -92,6 +97,11 @@
         border: 0.5px solid #F5F5F5 !important;
     }
 
+    .r-d-g-lt-comp.theme-2 .react-data-grid-lite table::-webkit-scrollbar-thumb:hover,
+    .r-d-g-lt-comp.theme-2 .dropdown-options::-webkit-scrollbar-thumb:hover {
+        background-color: #F5F5F5 !important;
+    }
+
     .r-d-g-lt-comp.theme-2 div.globalSearchDiv {
         padding: 4px 18px 0 !important;
     }
@@ -169,6 +179,11 @@
     .r-d-g-lt-comp.theme-3 input {
         box-shadow: 0 0 0 2px #E8F5E9 !important;
         border: 0.5px solid #E8F5E9 !important;
+    }
+
+    .r-d-g-lt-comp.theme-3 .react-data-grid-lite table::-webkit-scrollbar-thumb:hover,
+    .r-d-g-lt-comp.theme-3 .dropdown-options::-webkit-scrollbar-thumb:hover {
+        background-color: #E8F5E9 !important;
     }
 
     .r-d-g-lt-comp.theme-3 div.globalSearchDiv {

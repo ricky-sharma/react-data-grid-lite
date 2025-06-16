@@ -24,6 +24,12 @@ export default function Grid2() {
             return {
                 name: val, hidden: true
             }
+        else if (val.toLowerCase() === 'published')
+            return {
+                name: val, formatting: {
+                    type: 'Date', format: 'dd-MMM-yyyy'
+                }
+            }
         else
             return {
                 name: val, width: '250px'

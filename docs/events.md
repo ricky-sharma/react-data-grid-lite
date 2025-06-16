@@ -35,6 +35,7 @@ This event handler is called **after a column has been resized**. This function 
 * `e` — The original event object from the resize action.
 * `newWidth` — The new width of the column in pixels as a string with `px` suffix (e.g., `"150px"`). If the new width is `null` or invalid, it defaults to `0`.
 * `columnName` — The unique identifier (name) of the resized column.
+* `gridID` — The unique identifier (id) for the DataGrid component.
 
 <br><br>
 ## Row-Level Action Events

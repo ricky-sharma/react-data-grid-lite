@@ -17,6 +17,8 @@ const GridGlobalSearchBar = ({
     rowsData,
     downloadFilename,
     onDownloadComplete,
+    concatColumns,
+    columnFormatting
 }) => {
     const windowWidth = useWindowWidth();
     const isSmallScreen = windowWidth < 700;
@@ -66,6 +68,8 @@ const GridGlobalSearchBar = ({
                             e,
                             rowsData,
                             columns,
+                            concatColumns,
+                            columnFormatting,
                             downloadFilename,
                             onDownloadComplete
                         )

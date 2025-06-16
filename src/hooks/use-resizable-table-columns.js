@@ -171,7 +171,8 @@ export function useResizableTableColumns(tableRef, state, setState,
                 state.onColumnResized(
                     e,
                     newWidthPx,
-                    columnName
+                    columnName,
+                    state.gridID
                 );
             }
         };

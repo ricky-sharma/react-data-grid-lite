@@ -6,28 +6,9 @@ import {
     No_Data_Message
 } from '../constants';
 import { hideLoader, isNull, showLoader } from '../helpers/common';
-import { format } from '../helpers/format';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
-
-const getConcatValue = (row, key, concatColumns, columns) => {
-    const conCols = concatColumns?.[key]?.cols || [];
-    const conSep = concatColumns?.[key]?.sep || '';
-    return conCols
-        .map(conName => {
-            const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());
-            return colDef ? row[colDef.name] : '';
-        })
-        .filter(Boolean)
-        .join(conSep);
-};
-
-const getFormattedValue = (value, formatting) => {
-    if (!isNull(value) && formatting?.type) {
-        return format(value, formatting.type, formatting.format);
-    }
-    return value;
-};
+import { getConcatValue, getFormattedValue } from '../utils/component-utils';
 
 const GridRows = ({
     state,
