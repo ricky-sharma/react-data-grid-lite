@@ -29,8 +29,7 @@
         box-shadow: 0 0 0 0 !important;
     }
 
-    .r-d-g-lt-comp input,
-    .r-d-g-lt-comp select {
+    .r-d-g-lt-comp input {
         -moz-border-radius: 10px !important;
         -webkit-border-radius: 10px !important;
         -moz-box-sizing: border-box !important;
@@ -40,30 +39,6 @@
         height: 100% !important;
         font-weight: 400 !important;
         color: #212529;
-    }
-
-    .r-d-g-lt-comp .pagerSelect select {
-        border: 2px solid #bbb !important;
-        text-indent: 4px !important;
-        text-overflow: ellipsis !important;
-        -webkit-appearance: auto;
-        -moz-appearance: auto;
-        width: 70px !important;
-        border-radius: 8px !important;
-        height: 40px !important;
-        padding: 0;
-        background-color: rgb(224, 224, 224);
-        text-align: center;
-    }
-
-    .r-d-g-lt-comp select option {
-        background-color: #e0e0e0 !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-
-    .r-d-g-lt-comp input {
         padding-left: 10px !important;
         padding-right: 14px !important;
         border-radius: 4px !important;
@@ -72,6 +47,62 @@
         background-color: #fff;
         padding: 1px 5px !important;
     }
+
+    .r-d-g-lt-comp .dropdown {
+        position: relative;
+        width: 60px !important;
+        border-radius: 6px !important;
+        height: 32px !important;
+        padding: 0;
+        background-color: #e0e0e0;
+        cursor: pointer;
+        border: 1px solid #667;
+        font-weight: 900 !important;
+    }
+
+    .r-d-g-lt-comp .dropdown-selected {
+        padding: 4px 4px 4px 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: border-color 0.2s;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    .r-d-g-lt-comp .dropdown-arrow {
+        font-size: 10px;
+        margin-left: 4px;
+    }
+
+    .r-d-g-lt-comp .dropdown-options {
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        width: 100%;
+        max-height: 140px;
+        overflow-y: auto;
+        background: white;
+        border: 1px solid #667;
+        border-radius: 6px;
+        margin-top: 4px;
+        z-index: 1000;
+    }
+
+    .r-d-g-lt-comp .dropdown-option {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+        .r-d-g-lt-comp .dropdown-option:hover {
+            background-color: #e0e0e0;
+        }
+
+        .r-d-g-lt-comp .dropdown-option.selected {
+            background-color: #667;
+            color:#fff;
+            font-weight: 500;
+        }
 
     .r-d-g-lt-comp .clear-input {
         position: absolute;
@@ -489,43 +520,52 @@
             z-index: 10;
         }
 
-        .r-d-g-lt-comp .react-data-grid-lite table::-webkit-scrollbar-thumb {
-            -webkit-box-shadow: inset 0 0 10px #808080;
-            border-radius: 1px;
-            z-index: 10;
-        }
+.r-d-g-lt-comp .dropdown-options::-webkit-scrollbar {
+    width: 6px !important;
+    border: 6px solid #d5d5d5;
+    border-start-end-radius: 6px;
+    z-index: 10;
+}
 
-            .r-d-g-lt-comp .react-data-grid-lite table::-webkit-scrollbar-thumb:hover {
-                background-color: #555;
-            }
+.r-d-g-lt-comp .react-data-grid-lite table::-webkit-scrollbar-thumb,
+.r-d-g-lt-comp .dropdown-options::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 10px #808080;
+    border-radius: 1px;
+    z-index: 10;
+}
 
-    .r-d-g-lt-comp .react-data-grid-lite thead {
-        display: table-header-group !important;
-        width: 100%;
-        position: sticky;
-        z-index: 8;
-        background-color: inherit;
-        top: 0;
-        left: 0;
-        box-shadow: 0 2px 2px rgba(0, 0, 0, .15);
-        will-change: transform;
-        border: none;
+    .r-d-g-lt-comp .react-data-grid-lite table::-webkit-scrollbar-thumb:hover,
+    .r-d-g-lt-comp .dropdown-options::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
     }
 
-    .r-d-g-lt-comp .react-data-grid-lite table tbody {
-        background-color: #fff;
-        display: table-row-group !important;
+.r-d-g-lt-comp .react-data-grid-lite thead {
+    display: table-header-group !important;
+    width: 100%;
+    position: sticky;
+    z-index: 8;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .15);
+    will-change: transform;
+    border: none;
+}
+
+.r-d-g-lt-comp .react-data-grid-lite table tbody {
+    background-color: #fff;
+    display: table-row-group !important;
+}
+
+    .r-d-g-lt-comp .react-data-grid-lite table tbody::-webkit-scrollbar {
+        height: 0px !important;
+        width: 0px !important;
     }
 
-        .r-d-g-lt-comp .react-data-grid-lite table tbody::-webkit-scrollbar {
-            height: 0px !important;
-            width: 0px !important;
-        }
-
-    .r-d-g-lt-comp .react-data-grid-lite table tr {
-        display: flex !important;
-        width: 100%;
-    }
+.r-d-g-lt-comp .react-data-grid-lite table tr {
+    display: flex !important;
+    width: 100%;
+}
 
 .r-d-g-lt-comp table thead tr th {
     position: relative;
@@ -698,14 +738,14 @@
         border: 0;
         border-radius: 10px !important;
         color: #999 !important;
-        font-size: 96% !important;
+        font-size: 95% !important;
         height: 28px;
         line-height: 28px;
         margin: 0px 1px 0 0 !important;
         padding: 0px;
         text-align: center;
         text-decoration: none !important;
-        width: 32px;
+        width: 34px;
         background-color: inherit;
         font-weight: 900;
     }
@@ -851,29 +891,6 @@
         padding-left: 2px;
         padding-right: 2px;
     }
-
-    .r-d-g-lt-comp .pagerSelect select {
-        width: 50px !important;
-        height: 32px !important;
-        border-radius: 6px;
-    }
-
-    .r-d-g-lt-comp .pagination {
-        padding: 0px !important;
-        margin: 0px !important;
-    }
-
-        .r-d-g-lt-comp .pagination li a {
-            height: 26px !important;
-            width: 26px !important;
-            line-height: 26px !important;
-            margin: 0 !important;
-            border-radius: 6px !important;
-        }
-
-        .r-d-g-lt-comp .pagination li i {
-            padding-top: 2px !important;
-        }
 }
 
 @media (max-width: 700px) {
@@ -921,6 +938,11 @@
     .r-d-g-lt-comp .globalSearchDiv {
         padding-top: 2px !important;
         height: 42px;
+    }
+
+    .r-d-g-lt-comp .dropdown {
+        width: 50px !important;
+        height: 32px !important;
     }
 }
 

@@ -24,12 +24,23 @@
         box-shadow: 0 0 0 0.3px #1F3B4D !important;
     }
 
-    .r-d-g-lt-comp.theme-1 .grid-footer select {
-        background-color: #F0F4F8 !important;
-        border: 1px solid #B0BEC5 !important;
-        font-weight: 900 !important;
-        color: #1F3B4D !important;
+    .r-d-g-lt-comp.theme-1 .grid-footer .dropdown {
+        border: 1px solid #1F3B4D !important;
+        background-color: #E5E8EC !important;
     }
+
+        .r-d-g-lt-comp.theme-1 .grid-footer .dropdown .dropdown-options {
+            border: 1px solid #1F3B4D !important;
+        }
+
+        .r-d-g-lt-comp.theme-1 .grid-footer .dropdown .dropdown-option:hover {
+            background-color: #E5E8EC !important;
+        }
+
+        .r-d-g-lt-comp.theme-1 .grid-footer .dropdown .dropdown-option.selected {
+            background-color: #1F3B4D !important;
+            color: #FFF !important;
+        }
 
     .r-d-g-lt-comp.theme-1 .grid-footer .pagination li a {
         color: #1F3B4D !important;
@@ -94,12 +105,23 @@
         box-shadow: 0 0 0 0.3px #2D2D2D !important;
     }
 
-    .r-d-g-lt-comp.theme-2 .grid-footer select {
-        background-color: #F8F9FA !important;
-        border: 1px solid #CFD8DC !important;
-        font-weight: 900 !important;
-        color: #2D2D2D !important;
+    .r-d-g-lt-comp.theme-2 .grid-footer .dropdown {
+        border: 1px solid #2D2D2D !important;
+        background-color: #F5F5F5 !important;
     }
+
+        .r-d-g-lt-comp.theme-2 .grid-footer .dropdown .dropdown-options {
+            border: 1px solid #2D2D2D !important;
+        }
+
+        .r-d-g-lt-comp.theme-2 .grid-footer .dropdown .dropdown-option:hover {
+            background-color: #F5F5F5 !important;
+        }
+
+        .r-d-g-lt-comp.theme-2 .grid-footer .dropdown .dropdown-option.selected {
+            background-color: #2D2D2D !important;
+            color: #FFF !important;
+        }
 
     .r-d-g-lt-comp.theme-2 .grid-footer .pagination li a {
         color: #2D2D2D !important;
@@ -162,12 +184,23 @@
         box-shadow: 0 0 0 0.3px #256D4F !important;
     }
 
-    .r-d-g-lt-comp.theme-3 .grid-footer select {
+    .r-d-g-lt-comp.theme-3 .grid-footer .dropdown {
+        border: 1px solid #256D4F !important;
         background-color: #E8F5E9 !important;
-        border: 1px solid #B2DFDB !important;
-        font-weight: 900 !important;
-        color: #256D4F !important;
     }
+
+        .r-d-g-lt-comp.theme-3 .grid-footer .dropdown .dropdown-options {
+            border: 1px solid #256D4F !important;
+        }
+
+        .r-d-g-lt-comp.theme-3 .grid-footer .dropdown .dropdown-option:hover {
+            background-color: #E8F5E9 !important;
+        }
+
+        .r-d-g-lt-comp.theme-3 .grid-footer .dropdown .dropdown-option.selected {
+            background-color: #256D4F !important;
+            color: #FFF !important;
+        }
 
     .r-d-g-lt-comp.theme-3 .grid-footer .pagination li a {
         color: #256D4F !important;
