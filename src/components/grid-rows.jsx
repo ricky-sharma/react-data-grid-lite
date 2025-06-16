@@ -5,10 +5,11 @@ import {
     No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
-import { hideLoader, isNull, showLoader } from '../helpers/common';
+import { isNull } from '../helpers/common';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { getConcatValue, getFormattedValue } from '../utils/component-utils';
+import { hideLoader, showLoader } from '../utils/loading-utils';
 
 const GridRows = ({
     state,
