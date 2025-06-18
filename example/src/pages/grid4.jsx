@@ -9,11 +9,10 @@ export default function Grid4() {
     const columns = users?.length > 0 ? Object.keys(users[0])?.map((val) => {
         if (val.toLowerCase() === 'id')
             return {
-                name: val,
-                alias: 'ID',
-                width: '100px'
+                name: val, alias: 'ID', width: '100px'
             }
-        else if (val.toLowerCase() === 'email' || val.toLowerCase() === 'website')
+        else if (val.toLowerCase() === 'email' || val.toLowerCase() === 'website'
+            || val.toLowerCase() === 'image')
             return {
                 name: val
             }

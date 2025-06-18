@@ -42,7 +42,7 @@
         padding-left: 10px !important;
         padding-right: 14px !important;
         border-radius: 4px !important;
-        box-shadow: 0 0 0 1px #e0e0e0;
+        box-shadow: inset 0 1px 4px #444455;
         border: 0.5px solid #e0e0e0;
         background-color: #fff;
         padding: 1px 5px !important;
@@ -177,22 +177,23 @@
 
 .r-d-g-lt-comp .icon-div {
     border-radius: 4px;
-    box-shadow: 0 0 0 1px #a9a9a9;
+    box-shadow: 0 0 0 1px #667;
     height: 32px;
     letter-spacing: .001em;
     line-height: 1.43;
     margin: 0;
-    transition: background-color 0.3s ease;
+    transition: box-shadow 0.1s ease;
     cursor: pointer;
     width: 32px;
+    z-index: 100;
 }
 
     .r-d-g-lt-comp .icon-div:hover {
-        transform: scale(1.03);
+        box-shadow: 0 0 0 2px #555566;
     }
 
     .r-d-g-lt-comp .icon-div:active {
-        transform: scale(0.98);
+        box-shadow: inset 0 1px 4px #444455;
     }
 
 .r-d-g-lt-comp .grid-icon-div {
@@ -209,83 +210,6 @@
     height: 36px;
 }
 
-.r-d-g-lt-comp .icon-common-css {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    transform: scale(var(--ggs, 1));
-    cursor: pointer;
-}
-
-.r-d-g-lt-comp .erase-icon {
-    width: 22px;
-    height: 18px;
-}
-
-    .r-d-g-lt-comp .delete-icon::after,
-    .r-d-g-lt-comp .delete-icon::before,
-    .r-d-g-lt-comp .erase-icon::after,
-    .r-d-g-lt-comp .erase-icon::before,
-    .r-d-g-lt-comp .edit-icon-pen::after,
-    .r-d-g-lt-comp .edit-icon-pen::before,
-    .r-d-g-lt-comp .download-icon::after,
-    .r-d-g-lt-comp .download-icon::before,
-    .r-d-g-lt-comp .toolbox-icon::after,
-    .r-d-g-lt-comp .toolbox-icon::before {
-        content: "";
-        display: block;
-        box-sizing: border-box;
-        position: absolute;
-    }
-
-.r-d-g-lt-comp .toolbox-icon {
-    background-color: inherit;
-    border: 2px solid;
-    border-radius: 2px;
-    height: 22px;
-    width: 30px;
-}
-
-    .r-d-g-lt-comp .toolbox-icon::before {
-        border: 2px solid;
-        border-bottom: 0;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        left: 4px;
-        width: 14px;
-        height: 4px;
-        top: -5px;
-    }
-
-    .r-d-g-lt-comp .toolbox-icon::after {
-        width: 22px;
-        height: 2px;
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        box-shadow: 0 -2px 0, inset 4px 0 0, inset -4px 0 0;
-        top: 4px;
-    }
-
-
-.r-d-g-lt-comp .erase-icon::before {
-    width: 6px;
-    height: 14px;
-    border-bottom: 4px solid transparent;
-    border-radius: 1px;
-    box-shadow: 0 0 0 2px, inset 0 -2px 0 0;
-    left: 7px;
-    top: 0px;
-    transform: rotate(45deg);
-}
-
-.r-d-g-lt-comp .erase-icon::after {
-    background: currentColor;
-    width: 22px;
-    height: 2px;
-    bottom: 0;
-    border-radius: 20px;
-}
-
 .r-d-g-lt-comp .download-icon-div {
     float: right;
     width: 160px !important;
@@ -295,98 +219,16 @@
     height: 36px;
 }
 
-.r-d-g-lt-comp .download-icon {
-    width: 16px;
-    height: 6px;
-    border: 2px solid;
-    border-top: 0;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    margin-top: 8px;
-    margin-left: 10px;
-}
-
-    .r-d-g-lt-comp .download-icon::after {
-        width: 8px;
-        height: 8px;
-        border-left: 2px solid;
-        border-bottom: 2px solid;
-        transform: rotate(-45deg);
-        left: 2px;
-        bottom: 4px;
+    .r-d-g-lt-comp .download-icon-div div.icon-content {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
     }
 
-    .r-d-g-lt-comp .download-icon::before {
-        border-radius: 3px;
-        width: 2px;
-        height: 10px;
-        background: currentColor;
-        left: 5px;
-        bottom: 5px;
-    }
-
-.r-d-g-lt-comp .edit-icon-pen {
-    transform: rotate(-45deg) scale(var(--ggs, 1)) !important;
-    width: 14px;
-    height: 4px;
-    border-right: 2px solid transparent;
-    box-shadow: 0 0 0 2px, inset -2px 0 0;
-    border-top-right-radius: 1px;
-    border-bottom-right-radius: 1px;
-    margin-right: -2px;
-    background-color: #f0f0f0;
-}
-
-    .r-d-g-lt-comp .edit-icon-pen::before {
-        background: currentColor;
-        border-left: 0;
-        right: -6px;
-        width: 3px;
-        height: 4px;
-        border-radius: 1px;
-        top: 0;
-    }
-
-    .r-d-g-lt-comp .edit-icon-pen::after {
-        width: 8px;
-        height: 7px;
-        border-top: 4px solid transparent;
-        border-bottom: 4px solid transparent;
-        border-right: 7px solid;
-        left: -11px;
-        top: -2px;
-    }
-
-.r-d-g-lt-comp .delete-icon {
-    width: 10px;
-    height: 12px;
-    border: 2px solid transparent;
-    box-shadow: 0 0 0 2px, inset -2px 0 0, inset 2px 0 0;
-    border-bottom-left-radius: 1px;
-    border-bottom-right-radius: 1px;
-    margin-top: 4px;
-    background-color: #f0f0f0;
-}
-
-    .r-d-g-lt-comp .delete-icon::after {
-        background: currentColor;
-        border-radius: 3px;
-        width: 16px;
-        height: 2px;
-        top: -4px;
-        left: -5px;
-    }
-
-    .r-d-g-lt-comp .delete-icon::before {
-        width: 10px;
-        height: 4px;
-        border: 2px solid;
-        border-bottom: transparent;
-        border-top-left-radius: 2px;
-        border-top-right-radius: 2px;
-        top: -7px;
-        left: -2px;
-    }
+        .r-d-g-lt-comp .download-icon-div div.icon-content svg {
+            width: 24px;
+            height: 24px;
+        }
 
 .r-d-g-lt-comp .sort-icon-wrapper {
     width: 30px !important;
@@ -471,10 +313,6 @@
     flex: 0 0 auto;
 }
 
-.r-d-g-lt-comp .col-1 {
-    width: 8.333%;
-}
-
 .r-d-g-lt-comp .col-2 {
     width: 16.666%;
 }
@@ -513,9 +351,9 @@
     }
 
         .r-d-g-lt-comp .react-data-grid-lite table::-webkit-scrollbar {
-            height: 18px !important;
+            height: 14px !important;
             width: 0px !important;
-            border: 18px solid #d5d5d5;
+            border: 14px solid #d5d5d5;
             border-start-end-radius: 1px;
             z-index: 10;
         }
@@ -573,6 +411,11 @@
     max-width: 1200px !important;
     border: 0 !important;
     vertical-align: middle !important;
+}
+
+.r-d-g-lt-comp table thead th div.emptyHeader svg path {
+    width: 32px;
+    height: 32px;
 }
 
 .r-d-g-lt-comp table thead tr.gridHeader {
@@ -655,12 +498,13 @@
         overflow: hidden;
         white-space: normal;
         text-overflow: ellipsis;
-        padding: 10px 8px 10px 10px !important;
         align-content: center;
     }
 
         .r-d-g-lt-comp table tbody .gridRow td div.rowText {
             height: 100%;
+            text-align: left;
+            padding: 10px 18px !important;
         }
 
 .r-d-g-lt-comp table tbody tr:nth-of-type(even) {
@@ -718,8 +562,7 @@
 
 .r-d-g-lt-comp .button-column {
     flex-wrap: wrap !important;
-    padding-left: 4px !important;
-    padding-right: 2px !important;
+    padding: 10px !important;
 }
 
 .r-d-g-lt-comp .page-results {
@@ -848,10 +691,6 @@
     .r-d-g-lt-comp .gridRow td {
         padding: 4px 0 5px 0;
     }
-
-        .r-d-g-lt-comp .gridRow td div {
-            padding-left: 12px !important;
-        }
 
     .r-d-g-lt-comp .updown-icon {
         font-size: 10px !important;

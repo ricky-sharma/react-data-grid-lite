@@ -7,7 +7,7 @@
 }
 
     .r-d-g-lt-comp.theme-1 input {
-        box-shadow: 0 0 0 2px #E5E8EC !important;
+        box-shadow: inset 0 1px 4px #11242F !important;
         border: 0.5px solid #E5E8EC !important;
     }
 
@@ -24,10 +24,17 @@
         background-color: inherit !important;
     }
 
-    .r-d-g-lt-comp.theme-1 div.icon-div,
-    .r-d-g-lt-comp.theme-1 div.globalSearch input {
+    .r-d-g-lt-comp.theme-1 div.icon-div {
         box-shadow: 0 0 0 0.3px #1F3B4D !important;
     }
+
+        .r-d-g-lt-comp.theme-1 div.icon-div:hover {
+            box-shadow: 0 0 0 2px #18303F !important;
+        }
+
+        .r-d-g-lt-comp.theme-1 div.icon-div:active {
+            box-shadow: inset 0 1px 4px #11242F !important;
+        }
 
     .r-d-g-lt-comp.theme-1 .grid-footer .dropdown {
         border: 1px solid #1F3B4D !important;
@@ -93,7 +100,7 @@
 }
 
     .r-d-g-lt-comp.theme-2 input {
-        box-shadow: 0 0 0 2px #F5F5F5 !important;
+        box-shadow: inset 0 1px 4px #141414 !important;
         border: 0.5px solid #F5F5F5 !important;
     }
 
@@ -110,10 +117,17 @@
         background-color: inherit !important;
     }
 
-    .r-d-g-lt-comp.theme-2 div.icon-div,
-    .r-d-g-lt-comp.theme-2 div.globalSearch input {
+    .r-d-g-lt-comp.theme-2 div.icon-div {
         box-shadow: 0 0 0 0.3px #2D2D2D !important;
     }
+
+        .r-d-g-lt-comp.theme-2 div.icon-div:hover {
+            box-shadow: 0 0 0 2px #1F1F1F !important;
+        }
+
+        .r-d-g-lt-comp.theme-2 div.icon-div:active {
+            box-shadow: inset 0 1px 4px #141414 !important;
+        }
 
     .r-d-g-lt-comp.theme-2 .grid-footer .dropdown {
         border: 1px solid #2D2D2D !important;
@@ -177,8 +191,8 @@
 }
 
     .r-d-g-lt-comp.theme-3 input {
-        box-shadow: 0 0 0 2px #E8F5E9 !important;
         border: 0.5px solid #E8F5E9 !important;
+        box-shadow: inset 0 1px 4px #174736 !important;
     }
 
     .r-d-g-lt-comp.theme-3 .react-data-grid-lite table::-webkit-scrollbar-thumb:hover,
@@ -194,10 +208,17 @@
         background-color: inherit !important;
     }
 
-    .r-d-g-lt-comp.theme-3 div.icon-div,
-    .r-d-g-lt-comp.theme-3 div.globalSearch input {
+    .r-d-g-lt-comp.theme-3 div.icon-div {
         box-shadow: 0 0 0 0.3px #256D4F !important;
     }
+
+        .r-d-g-lt-comp.theme-3 div.icon-div:hover {
+            box-shadow: 0 0 0 2px #1F5C44 !important;
+        }
+
+        .r-d-g-lt-comp.theme-3 div.icon-div:active {
+            box-shadow: inset 0 1px 4px #174736 !important;
+        }
 
     .r-d-g-lt-comp.theme-3 .grid-footer .dropdown {
         border: 1px solid #256D4F !important;

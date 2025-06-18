@@ -8,6 +8,8 @@ import {
 import { isNull } from '../helpers/common';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
+import DeleteIcon from '../icons/delete-icon';
+import EditIcon from '../icons/edit-icon';
 import { getConcatValue, getFormattedValue } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
 
@@ -77,7 +79,8 @@ const GridRows = ({
                     position: (col?.fixed === true ? 'sticky' : ''),
                     zIndex: (col?.fixed === true ? 6 : ''),
                     backgroundColor: 'inherit',
-                    boxShadow: (lastFixedIndex === key ? '#e0e0e0 -0.5px 0px 1px 0px inset' : '')
+                    boxShadow: (lastFixedIndex === key ? '#e0e0e0 -0.5px 0px 1px 0px inset' : ''),
+                    contain: 'layout paint'
                 }}>
                     <div className="m-0 p-0 rowText" title={columnValue}>
                         {columnValue}
@@ -96,13 +99,14 @@ const GridRows = ({
                         maxWidth: buttonColWidth,
                         minWidth: buttonColWidth,
                         left: (isActionColumnLeft ? 0 : ''),
-                        right: (isActionColumnRight ? "0.5px" : ''),
+                        right: (isActionColumnRight ? 0 : ''),
                         position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
                         zIndex: (isActionColumnRight || isActionColumnLeft ? 6 : ''),
                         backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
                         boxShadow: (isActionColumnLeft ?
                             '#e0e0e0 -0.5px 0px 0px 0px inset' :
-                            (isActionColumnRight ? '#e0e0e0 0.5px 0px 0px 0px inset' : ''))
+                            (isActionColumnRight ? '#e0e0e0 0.5px 0px 0px 0px inset' : '')),
+                        contain: 'layout paint'
                     }}>
                     <div className="m-0 p-0 button-column alignCenter" style={{ width: buttonColWidth }}>
                         {editButtonEnabled && (
@@ -112,7 +116,7 @@ const GridRows = ({
                                 onClick={e => editButtonEvent(e, row)}
                                 data-toggle="tooltip"
                             >
-                                <span className="icon-common-css edit-icon-pen" />
+                                <EditIcon />
                             </div>
                         )}
                         {deleteButtonEnabled && (
@@ -122,7 +126,7 @@ const GridRows = ({
                                 onClick={e => deleteButtonEvent(e, row)}
                                 data-toggle="tooltip"
                             >
-                                <span className="icon-common-css delete-icon" />
+                                <DeleteIcon />
                             </div>
                         )}
                     </div>

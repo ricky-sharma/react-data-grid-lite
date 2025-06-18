@@ -25,32 +25,27 @@ export default function Grid3() {
     const columns = users?.length > 0 ? Object.keys(users[0])?.map((val) => {
         if (val.toLowerCase() === 'id')
             return {
-                name: val,
-                alias: 'ID',
-                width: '100px', fixed: true
+                name: val, alias: 'ID', width: '100px', fixed: true
             }
         else if (val.toLowerCase() === 'uuid')
             return {
-                name: val,
-                alias: 'UUID',
-                width: '340px', resizable: true
+                name: val, alias: 'UUID', width: '400px', resizable: true
             }
-        else if (val.toLowerCase() === 'email' || val.toLowerCase() === 'website')
+        else if (val.toLowerCase() === 'email' || val.toLowerCase() === 'website'
+            || val.toLowerCase() === 'image')
             return {
-                name: val
+                name: val, width: '200px'
             }
         else if (val.toLowerCase() === 'firstname')
             return {
-                name: val,
-                alias: 'Name',
+                name: val, alias: 'Name',
                 concatColumns: {
                     columns: ['firstname', 'lastname']
                 }
             }
         else
             return {
-                name: val,
-                hidden: true
+                name: val, hidden: true
             }
     }) : [];
 

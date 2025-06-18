@@ -37,9 +37,13 @@ export default function Grid1() {
                     type: 'Date', format: 'dd-MMMM-yyyy'
                 }, width: '200px'
             }
+        else if (val.toLowerCase() === 'genre')
+            return {
+                name: val, width: '150px'
+            }
         else
             return {
-                name: val, width: '250px'
+                name: val, width: '200px'
             }
     }) : [];
 

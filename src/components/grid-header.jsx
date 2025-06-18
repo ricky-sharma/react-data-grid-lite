@@ -6,6 +6,7 @@ import { useWindowWidth } from '../hooks/use-window-width';
 import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
 import ColumnSortIcon from './column-sort-icon';
 import Input from './input';
+import ActionIcon from '../icons/action-icon';
 
 const GridHeader = ({
     state,
@@ -99,10 +100,11 @@ const GridHeader = ({
                         maxWidth: buttonColWidth,
                         minWidth: buttonColWidth,
                         left: (isActionColumnLeft ? 0 : ''),
-                        right: (isActionColumnRight ? "0.5px" : ''),
+                        right: (isActionColumnRight ? 0 : ''),
                         position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
                         zIndex: (isActionColumnRight || isActionColumnLeft ? 10 : ''),
                         backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
+                        contain: 'layout paint'
                     }}
                     title="Actions"
                     data-toggle="tooltip"
@@ -112,7 +114,7 @@ const GridHeader = ({
                         style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
                         className={"p-0 emptyHeader alignCenter"}
                     >
-                        <i className="icon-common-css toolbox-icon emptyHeader" />
+                        <ActionIcon />
                     </div>
                     {actionColumnAlign === 'left' ? <span style={{
                         zIndex: 11
@@ -137,7 +139,8 @@ const GridHeader = ({
                         computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
                     position: (header?.fixed === true ? 'sticky' : ''),
                     zIndex: (header?.fixed === true ? 10 : ''),
-                    backgroundColor: 'inherit'
+                    backgroundColor: 'inherit',
+                    contain: 'layout paint'
                 }}
                 key={key}
                 data-column-name={header?.name}
@@ -173,13 +176,14 @@ const GridHeader = ({
                         maxWidth: buttonColWidth,
                         minWidth: buttonColWidth,
                         left: (isActionColumnLeft ? 0 : ''),
-                        right: (isActionColumnRight ? "0.5px" : ''),
+                        right: (isActionColumnRight ? 0 : ''),
                         position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
                         zIndex: (isActionColumnRight || isActionColumnLeft ? 10 : ''),
                         backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
                         boxShadow: (isActionColumnLeft ?
                             '#e0e0e0 -0.5px 0px 0px 0px inset' :
-                            (isActionColumnRight ? '#e0e0e0 0.5px 0px 0px 0px inset' : ''))
+                            (isActionColumnRight ? '#e0e0e0 0.5px 0px 0px 0px inset' : '')),
+                        contain: 'layout paint'
                     }}
                     key={key}
                 >
@@ -204,7 +208,8 @@ const GridHeader = ({
                         computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
                     position: (header?.fixed === true ? 'sticky' : ''),
                     zIndex: (header?.fixed === true ? 10 : ''),
-                    backgroundColor: 'inherit'
+                    backgroundColor: 'inherit',
+                    contain: 'layout paint'
                 }}
                 key={key}
                 data-column-name={header?.name}
