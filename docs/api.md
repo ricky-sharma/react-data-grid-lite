@@ -1,5 +1,13 @@
 # API Reference
 
+### 🗂️ Documentation
+- [Events](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/events.md)
+- [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/styling.md)
+- [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/advanced.md)
+- [Format Guide](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/format_guide.md)
+- [Examples](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/examples.md)
+- [Project ReadMe](https://github.com/ricky-sharma/react-data-grid-lite#readme)
+
 ---
 
 ## 🔧 Props
