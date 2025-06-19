@@ -13,21 +13,19 @@
 </head>
 
 <body>
-   <h1 id="event-callbacks">Event Callbacks</h1>
-   <h3 id="onsortcompletee-sortcolumns-sorteddata-sorttype">
-      <code>onSortComplete(e, sortColumns, sortedData, sortType)</code>
-   </h3>
+   <h1>Event Callbacks</h1>
+   <h3><code>onSortComplete(e, sortColumns, sortedData, sortOrder)</code></h3>
    <p>Triggered after sorting completes.</p>
    <ul>
       <li><code>e</code>: Event object</li>
       <li><code>sortColumns</code>: Array of sorted column keys</li>
       <li><code>sortedData</code>: The sorted data array</li>
       <li>
-         <code>sortType</code>: <code>&#39;asc&#39;</code> or
+         <code>sortOrder</code>: <code>&#39;asc&#39;</code> or
          <code>&#39;desc&#39;</code>
       </li>
    </ul>
-   <h3 id="onsearchcompletee-query-columns-result-matchcount">
+   <h3>
       <code>onSearchComplete(e, query, columns, result, matchCount)</code>
    </h3>
    <p>Fired after search operation finishes.</p>
@@ -38,7 +36,7 @@
       <li><code>result</code>: Filtered rows</li>
       <li><code>matchCount</code>: Number of matches</li>
    </ul>
-   <h3 id="onpagechangee-currentpage-previouspage-currentpagerows-currentpagefirstrow">
+   <h3>
       <code>onPageChange(e, currentPage, previousPage, currentPageRows,
         currentPageFirstRow)</code>
    </h3>
@@ -52,9 +50,7 @@
          <code>currentPageFirstRow</code>: Index of first row on current page
       </li>
    </ul>
-   <h3 id="ondownloadcompletee-filename-blob">
-      <code>onDownloadComplete(e, filename, blob)</code>
-   </h3>
+   <h3><code>onDownloadComplete(e, filename, blob)</code></h3>
    <p>
       Triggered after CSV file download. Useful for logging or triggering
       post-download workflows.
@@ -64,7 +60,7 @@
       <li><code>filename</code>: Name of the downloaded file</li>
       <li><code>blob</code>: Blob object of the file</li>
    </ul>
-   <h3 id="oncolumnresizede-newwidth-columnname--supported-in-v110-and-above">
+   <h3>
       <code>onColumnResized(e, newWidth, columnName)</code> —
       <em>Supported in <code>v1.1.0</code> and above</em>
    </h3>
@@ -88,10 +84,14 @@
          <code>columnName</code> — The unique identifier (name) of the resized
          column.
       </li>
+      <li>
+         <code>gridID</code> — The unique identifier (id) for the DataGrid
+         component.
+      </li>
    </ul>
    <p><br /><br /></p>
-   <h2 id="row-level-action-events">Row-Level Action Events</h2>
-   <h3 id="editbuttonevente-row"><code>editButtonEvent(e, row)</code></h3>
+   <h2>Row-Level Action Events</h2>
+   <h3><code>editButtonEvent(e, row)</code></h3>
    <p>
       Triggered when the <strong>Edit</strong> button in a row is clicked. Use
       this to open edit forms or modals tied to specific row data.
@@ -100,7 +100,7 @@
       <li><code>e</code>: Click event object</li>
       <li><code>row</code>: Data object representing the clicked row</li>
    </ul>
-   <h3 id="deletebuttonevente-row"><code>deleteButtonEvent(e, row)</code></h3>
+   <h3><code>deleteButtonEvent(e, row)</code></h3>
    <p>
       Fired when the <strong>Delete</strong> button in a row is clicked.
       Typically used to confirm and process row deletions.
@@ -109,7 +109,7 @@
       <li><code>e</code>: Click event</li>
       <li><code>row</code>: The row data being deleted</li>
    </ul>
-   <h3 id="onrowclicke-row"><code>onRowClick(e, row)</code></h3>
+   <h3><code>onRowClick(e, row)</code></h3>
    <p>
       Called when any part of a row (not a specific button) is clicked. Useful
       for row-level selection, navigation, or detailed views.
@@ -118,7 +118,7 @@
       <li><code>e</code>: Click event</li>
       <li><code>row</code>: The full row data</li>
    </ul>
-   <h3 id="onrowhovere-row"><code>onRowHover(e, row)</code></h3>
+   <h3><code>onRowHover(e, row)</code></h3>
    <p>
       Triggered when the mouse hovers over a row. Ideal for showing tooltips,
       highlights, or preview actions.
@@ -127,7 +127,7 @@
       <li><code>e</code>: Mouse event</li>
       <li><code>row</code>: Row under the cursor</li>
    </ul>
-   <h3 id="onrowoute-row"><code>onRowOut(e, row)</code></h3>
+   <h3><code>onRowOut(e, row)</code></h3>
    <p>
       Fired when the mouse leaves a row area. Often used to reset styles or hide
       tooltips.

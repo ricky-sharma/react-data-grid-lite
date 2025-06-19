@@ -10,9 +10,154 @@
       }
     </style>
   </head>
+
   <body>
-    <h1 id="styling--theming">Styling &amp; Theming</h1>
-    <h2 id="⚙️-custom-css-classes-for-grid">⚙️ Custom CSS Classes for Grid</h2>
+    <h1>Styling &amp; Theming</h1>
+    <h2>🎨 Theming Support</h2>
+    <p>
+      The grid provides several built-in <strong>visual themes</strong> to help
+      match your application&#39;s branding and improve usability across
+      different domains. These themes improve readability and help visually
+      align the grid with the surrounding application UI.
+    </p>
+    <p>
+      Apply a theme by passing the <code>theme</code> prop to the grid
+      component:
+    </p>
+    <pre><code class="language-jsx">&lt;Grid theme=&quot;blue-core&quot; /&gt;
+</code></pre>
+    <hr />
+    <h3>🧱 What Themes Affect</h3>
+    <p>Each theme customizes the following UI aspects:</p>
+    <ul>
+      <li>
+        <strong>Header Background Color</strong> – applies to column headers
+      </li>
+      <li>
+        <strong>Grid Body Background Color</strong> – applies to outer grid
+        container
+      </li>
+      <li>
+        <strong>Text &amp; Control Color</strong> – used in controls like the
+        pagination, dropdown, etc.
+      </li>
+    </ul>
+    <hr />
+    <h3>🎨 Available Themes</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Theme Name</th>
+          <th>Header Background</th>
+          <th>Body Background</th>
+          <th>Text / Control Color</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>blue-core</code></td>
+          <td><code>#1F3B4D</code></td>
+          <td><code>#E5E8EC</code></td>
+          <td><code>#1F3B4D</code></td>
+          <td>
+            Professional and clean blue-gray theme, great for enterprise
+            dashboards.
+          </td>
+        </tr>
+        <tr>
+          <td><code>dark-stack</code></td>
+          <td><code>#2D2D2D</code></td>
+          <td><code>#F5F5F5</code></td>
+          <td><code>#2D2D2D</code></td>
+          <td>
+            Modern grayscale palette ideal for minimal UI and clean layouts.
+          </td>
+        </tr>
+        <tr>
+          <td><code>medi-glow</code></td>
+          <td><code>#256D4F</code></td>
+          <td><code>#E8F5E9</code></td>
+          <td><code>#256D4F</code></td>
+          <td>
+            Soft green tone suitable for healthcare, wellness, and eco-focused
+            UIs.
+          </td>
+        </tr>
+        <tr>
+          <td><em>(default)</em></td>
+          <td><code>#667</code></td>
+          <td><code>#E0E0E0</code></td>
+          <td><code>#667</code></td>
+          <td>Neutral base styling used when no theme is specified.</td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <h3>📝 Notes</h3>
+    <ul>
+      <li>
+        The <code>theme</code> prop accepts one of the predefined theme names.
+      </li>
+      <li>
+        When no <code>theme</code> is passed, the default neutral styling is
+        applied.
+      </li>
+      <li>
+        These themes adjust key colors via CSS with <code>!important</code> to
+        maintain consistency across browsers.
+      </li>
+      <li>
+        You can extend or override styles using your own custom classes if
+        needed.
+      </li>
+    </ul>
+    <hr />
+    <h3>🎛️ Overriding Themes with Class Props</h3>
+    <p>
+      You can override or extend theme styling using the following optional
+      props:
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Prop Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>gridClass</code></td>
+          <td><code>string</code></td>
+          <td>Applies a custom class to the outer grid container.</td>
+        </tr>
+        <tr>
+          <td><code>headerClass</code></td>
+          <td><code>string</code></td>
+          <td>
+            Overrides header styling. Useful for setting your own background or
+            text color.
+          </td>
+        </tr>
+        <tr>
+          <td><code>rowClass</code></td>
+          <td><code>string</code></td>
+          <td>
+            Applies custom styles to each data row. Can be used to add hover
+            effects, borders, etc.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>These props are especially useful if you want to:</p>
+    <ul>
+      <li>Apply branding-specific colors or layout tweaks</li>
+      <li>Layer custom styles on top of a base theme</li>
+      <li>Disable or override theme values selectively</li>
+    </ul>
+    <p><br /><br /></p>
+    <h2>⚙️ Custom CSS Classes for Grid</h2>
     <p>
       The <code>react-data-grid-lite</code> component allows you to apply custom
       CSS classes to various parts of the grid, such as the entire grid
@@ -49,7 +194,7 @@
         </tr>
       </tbody>
     </table>
-    <h4 id="📝-example">📝 Example:</h4>
+    <h4>📝 Example:</h4>
     <p>
       <img
         src="https://github.com/user-attachments/assets/8bebdae1-4ae1-4725-bffa-4790c7761feb"
@@ -100,7 +245,7 @@
         background-color: #e0e0e0 !important;
     }
 </code></pre>
-    <h4 id="🔄-additional-notes">🔄 Additional Notes:</h4>
+    <h4>🔄 Additional Notes:</h4>
     <ul>
       <li>
         Ensure that the custom styles don’t conflict with the default styles of

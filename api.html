@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -145,6 +146,15 @@
         <td><code>Function</code></td>
         <td>Callback function triggered after a column is resized. Supported in <strong>v1.1.0 and above</strong>.</td>
         <td>-</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><code>theme</code></td>
+        <td><code>string ('blue-core' | 'dark-stack' | 'medi-glow' | '')</code></td>
+        <td>Applies a predefined visual theme to the grid. Affects header background, grid body background, borders, and
+          control colors. Use an empty string to apply the default neutral style. Supported in <strong>v1.1.1</strong>
+          and above.</td>
+        <td>'' (empty string)</td>
         <td>No</td>
       </tr>
     </tbody>
@@ -372,6 +382,15 @@
         <td>Enables column resizing across all columns. Column-level <code>resizable settings</code> override this
           option. Supported in version <code>1.1.0</code> and above.</td>
         <td>false</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><code>actionColumnAlign</code></td>
+        <td><code>string ('left' | 'right' | '')</code></td>
+        <td>Controls alignment of the Actions column. Set to <code>'left'</code> or <code>'right'</code> to fix its position. Leave empty to allow
+          the column to scroll with the rest of the table. Supported in <code>v1.1.1</code> and above.
+        </td>
+        <td><code>'' (empty string)</code></td>
         <td>No</td>
       </tr>
     </tbody>
