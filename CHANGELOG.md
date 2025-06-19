@@ -3,6 +3,73 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),  and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+<br><br>
+
+## 📦 v1.1.1 - 2025-06-19
+
+### 🚀 Features
+
+- **Theme Support in DataGrid**
+  - Added `theme` prop to `DataGrid` for applying visual themes.
+  - Introduced three themes: `blue-core`, `dark-stack`, `medi-glow`.
+  - Refined default theme for better visual consistency.
+  - Updated example project with themed demos and improved folder structure.
+
+- **Custom Dropdown Component**
+  - Replaced native `<select>` with a fully accessible and stylized custom `Dropdown`.
+  - Supports keyboard navigation, outside click detection, and auto-scroll to selected.
+  - Improves UX with better control, accessibility, and styling flexibility.
+
+- **Column Search & Header Enhancements**
+  - Made column search inputs controlled via internal state.
+  - Added clear (`×`) icons to reset individual filters.
+  - Prevented accidental sort triggering during column resize.
+  - Ensured reliable `onChange` behavior for all filter inputs.
+
+- **Configurable Actions Column Alignment**
+  - Added support to align the Actions column left or right using a new prop.
+
+---
+
+### 📦 CSV Export Improvements
+
+- Exported CSV now includes **only visible columns** from the grid.
+- Values are exported with **formatted output** (e.g., date, currency).
+- Supports **concatenated/derived columns** (e.g., full name).
+- Output is now aligned with what's rendered in the UI, rather than raw data.
+
+---
+
+### 🔧 Resize Callback Update
+
+- **Resize callback** now includes a `gridId` parameter for **scoped column resizing** support across multiple grids.
+
+---
+
+### 🛠 Refactoring
+
+- **Sort Icon Logic Refactor**
+  - Replaced DOM-based logic with state-driven sort handling.
+  - Introduced `ColumnSortIcon` component for dynamic rendering.
+  - Added full reset support to clear all sorts and restore original data.
+
+- **Utility Cleanup**
+  - Moved `showLoader` and `hideLoader` logic to a shared `utils/` directory.
+
+- **SVG Migration**
+  - Replaced CSS-based icons with SVGs for better visual performance and consistency.
+
+---
+
+### ✅ Tests
+
+- **Unit Tests Added (Jest + React Testing Library):**
+  - `Dropdown`: open/close logic, outside click handling, option selection, clear icon
+  - `Input`: default props, controlled behavior, onChange handler, clear button
+  - `applyTheme`: theme mapping for valid/invalid inputs
+  - `ColumnSortIcon`: icon state for `asc`, `desc`, and default
+- **Fixed component behavior based on test coverage feedback.**
+
 
 <br><br>
 
