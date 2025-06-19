@@ -28,17 +28,16 @@ A lightweight and customizable React data grid component designed for high perfo
 🧪 Fully tested – Robust unit coverage and fixes  
 
 <br><br>
-![react-data-grid-lite](https://github.com/user-attachments/assets/948c8601-0c36-42d7-8cbf-b7753c634182)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/bf6ef7d8-1475-4554-8177-de1f794edb4b" alt="react-data-grid-lite 19 July -2" width="95%" />
+</p>
+
+
 
 <br><br>
 ## 🗂️ Documentation
 
 - [API Reference](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/api.md)
-- [Events](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/events.md)
-- [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/styling.md)
-- [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/advanced.md)
-- [Format Guide](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/format_guide.md)
-- [Examples](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/examples.md)
 <br><br>
 
 ## 📦 Installation
@@ -87,9 +86,6 @@ function App() {
 
 export default App;
 ```
-
-<br><br>
-<img src="https://github.com/user-attachments/assets/c2071867-136e-4a75-82cc-397f79d6cd3f" width="1000" />
 
 <br><br>
 ## React Compatibility Table
