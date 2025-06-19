@@ -24,10 +24,28 @@ describe('GridGlobalSearchBar', () => {
         rowsData: [{ col1: 'value1' }],
         downloadFilename: 'my-data',
         onDownloadComplete: jest.fn(),
+        concatColumns: [null],
+        columnFormatting: [null],
+        setState: jest.fn()
     };
 
     afterEach(() => {
         jest.clearAllMocks();
+    });
+
+    it('renders GridGlobalSearchBar without crashing with rowsData null or empty', () => {
+        expect(() => render(
+            <GridGlobalSearchBar
+                rowsData={null}
+                enableDownload={true}
+                enableGlobalSearch={true}
+            />)).not.toThrow();
+        expect(() => render(
+            <GridGlobalSearchBar
+                rowsData={[]}
+                enableDownload={true}
+                enableGlobalSearch={true}
+            />)).not.toThrow();
     });
 
     it('renders global search input when enabled', () => {
@@ -55,7 +73,7 @@ describe('GridGlobalSearchBar', () => {
 
     it('calls handleResetSearch on reset icon click', () => {
         render(<GridGlobalSearchBar {...defaultProps} />);
-        const resetIcon = screen.getByTitle(/Reset Search/i);
+        const resetIcon = screen.getByTitle(/Reset Filters/i);
         fireEvent.click(resetIcon);
         expect(defaultProps.handleResetSearch).toHaveBeenCalled();
     });
@@ -69,7 +87,9 @@ describe('GridGlobalSearchBar', () => {
             defaultProps.rowsData,
             defaultProps.columns,
             defaultProps.downloadFilename,
-            defaultProps.onDownloadComplete
+            defaultProps.onDownloadComplete,
+            defaultProps.concatColumns,
+            defaultProps.columnFormatting
         );
     });
 
@@ -85,7 +105,6 @@ describe('GridGlobalSearchBar', () => {
         }));
         const SmallScreenComponent = require('./../../../src/components/grid-global-search-bar').default;
         render(<SmallScreenComponent {...defaultProps} />);
-
         const exportDiv = screen.getByTitle(/Export CSV/i);
         expect(exportDiv).toBeInTheDocument();
         expect(exportDiv.textContent).not.toMatch(/Export To CSV/i);

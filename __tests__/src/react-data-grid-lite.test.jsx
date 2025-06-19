@@ -1,26 +1,45 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 
-import React from 'react';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
 import * as eventHandlers from './../../src/components/events/event-grid-header-clicked';
 import * as searchHandlers from './../../src/components/events/event-grid-search-clicked';
 import DataGrid from './../../src/react-data-grid-lite';
 
 jest.mock('./../../src/components/grid-footer', () => () => <div data-testid="grid-footer">Footer</div>);
 
-jest.mock('./../../src/components/grid-global-search-bar', () => (props) => (
-    <div data-testid="global-search-bar">
-        <input
-            data-testid="global-search-input"
-            data-type={`globalSearch${props.gridID}`}
-            value={props.globalSearchInput || ''}
-            onChange={(e) => props.onSearchClicked(e)}
-        />
-        <button onClick={(e) => props.handleResetSearch(e)}>Reset</button>
-        <button data-testid="download-btn" onClick={(e) => props.onDownloadComplete(e)}>Export CSV</button>
-    </div>
-));
+jest.mock('./../../src/components/grid-global-search-bar', () => {
+    const React = require('react');
+    const { useState } = React;
+
+    return function MockedGridGlobalSearchBar(props) {
+        const [value, setValue] = useState(props?.globalSearchInput || '');
+
+        return (
+            <div data-testid="global-search-bar">
+                <input
+                    data-testid="global-search-input"
+                    value={value}
+                    onChange={(e) => {
+                        setValue(e.target.value);
+                        props?.onSearchClicked?.(e);
+                    }}
+                />
+                <button onClick={(e) => {
+                    setValue('');
+                    props?.handleResetSearch?.(e);
+                }}>Reset</button>
+                <button
+                    data-testid="download-btn"
+                    onClick={(e) => props?.onDownloadComplete?.(e)}
+                >Export CSV</button>
+            </div>
+        );
+    };
+});
+
 
 jest.mock('./../../src/components/grid-header', () => () => (
     <thead>
@@ -31,15 +50,16 @@ jest.mock('./../../src/components/grid-header', () => () => (
 ));
 
 jest.mock('./../../src/components/grid-rows', () => (props) => {
-    const pageRows = props?.pageSize ?? props?.count ?? props?.rowsData?.length ?? 0;
-    const visibleRows = props.rowsData?.slice(0, pageRows) ?? [];
+    const pageRows = props?.state?.pageSize ??
+        props?.state?.currentPageRows ?? props?.state?.rowsData?.length ?? 0;
+    const visibleRows = props?.state?.rowsData?.slice(0, pageRows) ?? [];
     return (
         <>
             {visibleRows.map((_, index) => (
                 <tr
                     key={index}
                     data-testid={`data-grid-row-${index}`}
-                    onClick={() => props.onRowClick({ rowData: visibleRows[index] })}
+                    onClick={() => props?.state?.onRowClick({ rowData: visibleRows?.[index] })}
                 >
                     <td>
                         <div>Row {index + 1}</div>

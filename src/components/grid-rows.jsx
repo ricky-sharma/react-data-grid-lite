@@ -40,7 +40,7 @@ const GridRows = ({
         enableColumnResize,
         gridID,
         actionColumnAlign
-    } = state;
+    } = state || {};
     if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)) {
         hideLoader(gridID);
         loading ? showLoader(gridID) :
@@ -64,7 +64,7 @@ const GridRows = ({
         const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
             const conValue = getConcatValue(row, key, concatColumns, columns);
-            const columnValue = getFormattedValue(conValue || row[col?.name], columnFormatting[key]);
+            const columnValue = getFormattedValue(conValue || row[col?.name], columnFormatting?.[key]);
             const classNames = columnClass?.[key] || '';
             const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
             const colResizable = col?.resizable ?? enableColumnResize;

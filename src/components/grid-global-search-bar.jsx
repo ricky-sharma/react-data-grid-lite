@@ -70,10 +70,10 @@ const GridGlobalSearchBar = ({
                             e,
                             rowsData,
                             columns,
-                            concatColumns,
-                            columnFormatting,
                             downloadFilename,
-                            onDownloadComplete
+                            onDownloadComplete,
+                            concatColumns,
+                            columnFormatting
                         )
                     }
                     data-toggle="tooltip"

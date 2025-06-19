@@ -52,11 +52,11 @@ export function useResizableTableColumns(tableRef, state, setState,
 
             const onMouseDown = (e) => {
                 e.preventDefault();
-                isResizingRef.current = false;
+                if (isResizingRef) isResizingRef.current = false;
                 startX = e?.pageX ?? e?.clientX;
                 startWidth = th?.offsetWidth;
                 const onMouseMove = (e) => {
-                    isResizingRef.current = true;
+                    if (isResizingRef) isResizingRef.current = true;
                     const element = document.querySelector(`#${state.gridID} table`);
                     if (element && colFixed === true) element.scrollLeft = 0;
                     const newPosition = e?.pageX ?? e?.clientX;
@@ -70,7 +70,7 @@ export function useResizableTableColumns(tableRef, state, setState,
                     document.removeEventListener('mousemove', onMouseMove);
                     document.removeEventListener('mouseup', onMouseUp);
                     setTimeout(() => {
-                        isResizingRef.current = false;
+                        if (isResizingRef) isResizingRef.current = false;
                     }, 100);
                     const newPosition = e?.pageX ?? e?.clientX;
                     const newWidth = Math.min(
@@ -87,13 +87,13 @@ export function useResizableTableColumns(tableRef, state, setState,
                 if (e?.cancelable) {
                     e.preventDefault();
                 }
-                isResizingRef.current = false;
+                if (isResizingRef) isResizingRef.current = false;
                 const touch = e?.touches ? e?.touches[0] : null;
                 startX = touch?.pageX ?? touch?.clientX;
                 startWidth = th?.offsetWidth;
                 let finalWidth = 0;
                 const onTouchMove = (e) => {
-                    isResizingRef.current = true;
+                    if (isResizingRef) isResizingRef.current = true;
                     const element = document.querySelector(`#${state.gridID} table`);
                     if (element && colFixed === true) element.scrollLeft = 0;
                     const moveTouch = e?.touches ? e?.touches[0] : null;
@@ -109,7 +109,7 @@ export function useResizableTableColumns(tableRef, state, setState,
                     document.removeEventListener('touchmove', onTouchMove);
                     document.removeEventListener('touchend', onTouchEnd);
                     setTimeout(() => {
-                        isResizingRef.current = false;
+                        if (isResizingRef) isResizingRef.current = false;
                     }, 100);
                     const finalTouch = e.changedTouches?.[0];
                     const newPosition = finalTouch?.pageX ?? finalTouch?.clientX ?? 0;

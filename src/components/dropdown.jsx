@@ -16,7 +16,7 @@ const Dropdown = ({ options = [], value, onChange }) => {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+            if (wrapperRef?.current && !wrapperRef?.current?.contains(event.target)) {
                 setOpen(false);
             }
         };
@@ -27,8 +27,8 @@ const Dropdown = ({ options = [], value, onChange }) => {
     }, []);
 
     useEffect(() => {
-        if (open && optionRefs.current[value]) {
-            optionRefs.current[value].scrollIntoView({
+        if (open && optionRefs?.current?.[value]?.scrollIntoView) {
+            optionRefs.current?.[value]?.scrollIntoView({
                 behavior: 'auto',
                 block: 'nearest',
             });

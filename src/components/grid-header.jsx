@@ -32,7 +32,7 @@ const GridHeader = ({
         rowsData,
         searchValues,
         actionColumnAlign
-    } = state;
+    } = state || {};
     if (isNull(columns) || isNull(columnWidths)) return null;
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
     let headers = [...columns];
@@ -126,7 +126,7 @@ const GridHeader = ({
             ? header?.name
             : header?.alias;
         const onClickHandler = (e) => {
-            const colNames = !isNull(concatColumns[key]?.cols) ? concatColumns[key].cols : [header?.name];
+            const colNames = !isNull(concatColumns?.[key]?.cols) ? concatColumns[key].cols : [header?.name];
             if (typeof onHeaderClicked === 'function') onHeaderClicked(e, colNames, header?.name);
         };
         return (
@@ -160,7 +160,7 @@ const GridHeader = ({
     const thSearchHeaders = headers.map((header, key) => {
         key -= actionColumnAlign === 'left' ? 1 : 0;
         if (hiddenColIndex?.includes(key)) return null;
-        const conCols = !isNull(concatColumns[key]) ? concatColumns[key].cols : null;
+        const conCols = concatColumns?.[key]?.cols ?? null;
         const formatting = header?.formatting;
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
         const colResizable = header?.resizable ?? enableColumnResize;
@@ -205,7 +205,8 @@ const GridHeader = ({
                     maxWidth: colResizable ? undefined : colWidth,
                     minWidth: colResizable ? undefined : colWidth,
                     left: (header?.fixed === true ?
-                        computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
+                        computedColumnWidths?.find(i => i?.name
+                            === header?.name)?.leftPosition ?? '' : ''),
                     position: (header?.fixed === true ? 'sticky' : ''),
                     zIndex: (header?.fixed === true ? 10 : ''),
                     backgroundColor: 'inherit',

@@ -10,10 +10,10 @@ export const eventExportToCSV = (
     e,
     data,
     columns,
-    concatColumns,
-    columnFormatting,
     filename,
-    onDownloadComplete = () => { }
+    onDownloadComplete = () => { },
+    concatColumns,
+    columnFormatting
 ) => {
     if (!data || data.length === 0 || !columns) {
         return;
@@ -23,7 +23,7 @@ export const eventExportToCSV = (
         filename = `${CSV_File_Name_Prefix}-${formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss')}.csv`;
 
     // Ensure the filename ends with `.csv`
-    if (!filename.toLowerCase().endsWith('.csv')) {
+    if (!filename?.toLowerCase()?.endsWith('.csv')) {
         filename += '.csv';
     }
     // Extract headers
@@ -35,7 +35,7 @@ export const eventExportToCSV = (
         const keyMap = {};
         Object.keys(row).forEach((col, key) => {
             const conValue = getConcatValue(row, key, concatColumns, columns);
-            const value = getFormattedValue(conValue || row[col], columnFormatting[key]);
+            const value = getFormattedValue(conValue || row[col], columnFormatting?.[key]);
             keyMap[col.toLowerCase()] = value;
         });
         return keyMap;
