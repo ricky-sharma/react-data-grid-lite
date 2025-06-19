@@ -24,7 +24,7 @@ jest.mock('./../../../src/components/grid-pagination', () => (props) => (
     </div>
 ));
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 import GridFooter from './../../../src/components/grid-footer';
 
@@ -64,17 +64,26 @@ describe('GridFooter Component', () => {
     });
 
     it('renders pager select with correct values', () => {
-        render(<GridFooter {...defaultProps} />);
-        const select = screen.getByRole('combobox');
-        expect(select.value).toBe('2');
-        const options = screen.getAllByRole('option');
-        expect(options).toHaveLength(3);
-        expect(options[0].value).toBe('1');
+        const { container } = render(<GridFooter {...defaultProps} />);
+
+        const dropdownTrigger = screen.getByRole('button', { name: /2/i });
+        expect(dropdownTrigger).toBeInTheDocument();
+
+        fireEvent.click(dropdownTrigger);
+        const optionsContainer = container.querySelector('.dropdown-options');
+        const optionItems = within(optionsContainer).getAllByText(/^\d+$/);
+
+        expect(optionItems).toHaveLength(3);
+        expect(optionItems[0].textContent).toBe('1');
     });
+
 
     it('triggers onPageChange when a new page is selected from dropdown', () => {
         render(<GridFooter {...defaultProps} />);
-        fireEvent.change(screen.getByRole('combobox'), { target: { value: '3' } });
+        const dropdownTrigger = screen.getByRole('button', { name: /2/i });
+        fireEvent.click(dropdownTrigger);
+        const option = screen.getByText('3');
+        fireEvent.click(option);
         expect(defaultProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3);
     });
 
@@ -134,9 +143,11 @@ describe('More Tests for GridFooter Component', () => {
 
     it('calls onPageChange when a page is selected from the dropdown', () => {
         render(<GridFooter {...defaultProps} />);
-        const select = screen.getByRole('combobox');
-        fireEvent.change(select, { target: { value: '2' } });
-        expect(defaultProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 2);
+        const dropdownTrigger = screen.getByRole('button', { name: /2/i });
+        fireEvent.click(dropdownTrigger);
+        const option = screen.getByText('5');
+        fireEvent.click(option);
+        expect(defaultProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 5);
     });
 
     it('disables Previous button on the first page', () => {

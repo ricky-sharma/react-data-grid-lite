@@ -7,7 +7,7 @@
 ![npm](https://img.shields.io/npm/dt/react-data-grid-lite)
 
 # React Data Grid Lite
-[![GitHub Pages](https://img.shields.io/badge/demo-online-blue?logo=github)](https://ricky-sharma.github.io/react-data-grid-lite/)
+[![🚀 Live Demo & Docs](https://img.shields.io/badge/🚀%20Live%20Demo%20%26%20Docs-Click%20Here-blueviolet?style=for-the-badge)](https://ricky-sharma.github.io/react-data-grid-lite/)
 
 A lightweight and customizable React data grid component designed for high performance and ease of use. The DataGrid component is a highly customizable, feature-rich table component designed to display tabular data in a React application. It is intended for use cases where large datasets need to be presented with advanced features such as pagination, sorting, searching, row interactions, and more.
 
@@ -23,20 +23,19 @@ A lightweight and customizable React data grid component designed for high perfo
 ✏️ **Row actions** – Built-in edit/delete hooks  
 🧩 **Merged columns** – Combine multiple fields  
 📊 **Analytics events** – Track user interactions  
+🎨 Theming – Pre-built themes & easy customization  
+🧩 Actions align – Fix column left or right via prop  
+🧪 Fully tested – Robust unit coverage and fixes  
 
 <br><br>
-![react-data-grid-lite](https://github.com/user-attachments/assets/948c8601-0c36-42d7-8cbf-b7753c634182)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/bf6ef7d8-1475-4554-8177-de1f794edb4b" alt="react-data-grid-lite 19 July -2" width="95%" />
+</p>
+
+
 
 <br><br>
-## 🗂️ Documentation
 
-- [API Reference](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/api.md)
-- [Events](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/events.md)
-- [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/styling.md)
-- [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/advanced.md)
-- [Format Guide](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/format_guide.md)
-- [Examples](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/examples.md)
-<br><br>
 
 ## 📦 Installation
 
@@ -86,9 +85,6 @@ export default App;
 ```
 
 <br><br>
-<img src="https://github.com/user-attachments/assets/c2071867-136e-4a75-82cc-397f79d6cd3f" width="1000" />
-
-<br><br>
 ## React Compatibility Table
 
 The `react-data-grid-lite` library is compatible with the following versions of React:
@@ -100,7 +96,11 @@ The `react-data-grid-lite` library is compatible with the following versions of 
 | **React 17+**     | ✅ Fully Compatible |
 
 <br><br>
+## 🗂️ Documentation
 
+- [API Reference](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/api.md)
+
+<br><br>
 ## 🚀 Try It Out!
 
 Feel free to fork the repository and experiment with the grid's behavior for concatenating columns. Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉

@@ -1,11 +1,11 @@
 # Event Callbacks
 
-### `onSortComplete(e, sortColumns, sortedData, sortType)`  
+### `onSortComplete(e, sortColumns, sortedData, sortOrder)`  
 Triggered after sorting completes.  
 - `e`: Event object  
 - `sortColumns`: Array of sorted column keys  
 - `sortedData`: The sorted data array  
-- `sortType`: `'asc'` or `'desc'`
+- `sortOrder`: `'asc'` or `'desc'`
 
 ### `onSearchComplete(e, query, columns, result, matchCount)`  
 Fired after search operation finishes.  
@@ -35,6 +35,7 @@ This event handler is called **after a column has been resized**. This function 
 * `e` — The original event object from the resize action.
 * `newWidth` — The new width of the column in pixels as a string with `px` suffix (e.g., `"150px"`). If the new width is `null` or invalid, it defaults to `0`.
 * `columnName` — The unique identifier (name) of the resized column.
+* `gridID` — The unique identifier (id) for the DataGrid component.
 
 <br><br>
 ## Row-Level Action Events

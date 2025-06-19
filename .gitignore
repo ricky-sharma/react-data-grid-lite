@@ -27,3 +27,6 @@ dist-ssr
 stats.html
 coverage
 coverage/
+.vite
+build
+.vite/

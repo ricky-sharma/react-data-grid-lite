@@ -7,6 +7,7 @@ import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
+import { applyTheme } from './utils/themes-utils';
 
 const DataGrid = ({
     id,
@@ -24,7 +25,8 @@ const DataGrid = ({
     onSortComplete,
     onSearchComplete,
     onPageChange,
-    onColumnResized
+    onColumnResized,
+    theme
 }) => {
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
@@ -38,9 +40,10 @@ const DataGrid = ({
         firstRow: 0,
         lastPageRows: 10,
         activePage: 1,
-        gridCssClass: options?.gridClass ?? '',
-        headerCssClass: options?.headerClass ?? '',
-        rowCssClass: options?.rowClass ?? '',
+        theme: theme,
+        gridCssClass: options?.gridClass ?? applyTheme(theme ?? '')?.grid ?? '',
+        headerCssClass: options?.headerClass ?? applyTheme(theme ?? '')?.header ?? '',
+        rowCssClass: options?.rowClass ?? applyTheme(theme ?? '')?.row ?? '',
         enableColumnSearch: options?.enableColumnSearch ?? true,
         enableColumnResize: options?.enableColumnResize ?? false,
         enableGlobalSearch: options?.enableGlobalSearch ?? true,
@@ -56,12 +59,13 @@ const DataGrid = ({
         editButtonEvent: options?.editButton?.event ?? (() => { }),
         deleteButtonEnabled: options?.deleteButton ?? false,
         deleteButtonEvent: options?.deleteButton?.event ?? (() => { }),
+        actionColumnAlign: options?.actionColumnAlign ?? '',
         enableDownload: options?.enableDownload ?? true,
         downloadFilename: options?.downloadFilename ?? null,
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
         globalSearchInput: '',
-        sortType: '',
-        toggleState: true
+        toggleState: true,
+        searchValues: {}
     });
 
     const dataReceivedRef = useRef(data);
@@ -71,6 +75,7 @@ const DataGrid = ({
     const sortRef = useRef(null);
     const searchRef = useRef(null);
     const computedColumnWidthsRef = useRef(null);
+    const isResizingRef = useRef(false);
 
     useEffect(() => {
         computedColumnWidthsRef.current = [];
@@ -86,7 +91,6 @@ const DataGrid = ({
                             const bFlag = !!b.fixed;
                             return (bFlag - aFlag);
                         }) : []
-
             }));
     }, [columns]);
 
@@ -209,18 +213,19 @@ const DataGrid = ({
         }
     }, [state?.firstRow, state?.currentPageRows]);
 
-    const onHeaderClicked = (e, name) => {
-        sortRef.current = { changeEvent: e, colName: name }
-        eventGridHeaderClicked(e, name, state, setState);
+    const onHeaderClicked = (e, colObject, colKey) => {
+        sortRef.current = { changeEvent: e, colObject: colObject, colKey: colKey }
+        eventGridHeaderClicked(colObject, state, setState, colKey, isResizingRef);
     };
 
     useEffect(() => {
         if (typeof state.onSortComplete === 'function' && sortRef?.current?.changeEvent) {
             state.onSortComplete(
                 sortRef.current.changeEvent,
-                sortRef.current.colName,
+                sortRef.current.colObject,
                 state.rowsData,
-                state.sortType
+                state.columns.find(col => col?.name
+                    === sortRef.current.colKey)?.sortOrder ?? ''
             );
             sortRef.current = null;
         }
@@ -242,54 +247,45 @@ const DataGrid = ({
             changeEvent: e,
             searchQuery: e?.target?.value ?? ''
         };
-        const isGlobalSearch =
-            e?.target?.getAttribute('data-type') === `globalSearch${state.gridID}`;
-        if (isGlobalSearch) {
-            setState(prev => ({
-                ...prev,
-                globalSearchInput: e?.target?.value ?? ''
-            }));
-        }
-        eventGridSearchClicked(e, colName, colObject, formatting, dataReceivedRef, searchColsRef, state, setState);
+        eventGridSearchClicked(e, colName, colObject, formatting,
+            dataReceivedRef, searchColsRef, state, setState);
     };
 
     const handleResetSearch = (e) => {
         e.preventDefault();
         searchColsRef.current = [];
-        const gridHeader = gridHeaderRef.current;
-        if (gridHeader) {
-            const inputs = gridHeader.querySelectorAll('input');
-            if (inputs) {
-                inputs.forEach(input => {
-                    input.value = '';
-                });
-            }
-        }
         setState(prev => ({
             ...prev,
+            searchValues: Object.fromEntries(
+                (Array.isArray(prev.columns) ? prev.columns : [])
+                    .filter(col => col && col.name)
+                    .map(col => [col.name, ''])
+            ),
             globalSearchInput: '',
             rowsData: dataReceivedRef?.current ?? [],
             activePage: 1,
             totalRows: dataReceivedRef?.current?.length ?? 0,
             firstRow: 0,
-            currentPageRows: prev.currentPageRows
+            columns: prev.columns.map(col => ({
+                ...col,
+                sortOrder: '',
+            })),
         }));
     };
-
     return (
         <div
             id={state.gridID}
             className={
                 !isNull(state.gridCssClass)
-                    ? `${state.gridCssClass} r-d-g-lt-component`
-                    : 'r-d-g-lt-component'
+                    ? `${state.gridCssClass} r-d-g-lt-comp`
+                    : 'r-d-g-lt-comp'
             }
             style={{ maxWidth: state.maxWidth, width: state.width }}
         >
             <GridGlobalSearchBar
+                setState={setState}
                 enableGlobalSearch={state.enableGlobalSearch}
                 globalSearchInput={state.globalSearchInput}
-                gridID={state.gridID}
                 columns={state.columns}
                 onSearchClicked={onSearchClicked}
                 handleResetSearch={handleResetSearch}
@@ -297,6 +293,8 @@ const DataGrid = ({
                 rowsData={state.rowsData}
                 downloadFilename={state.downloadFilename}
                 onDownloadComplete={state.onDownloadComplete}
+                concatColumns={state.concatColumns}
+                columnFormatting={state.columnFormatting}
             />
             <div
                 className={
@@ -312,6 +310,7 @@ const DataGrid = ({
                     onSearchClicked={onSearchClicked}
                     gridHeaderRef={gridHeaderRef}
                     computedColumnWidthsRef={computedColumnWidthsRef}
+                    isResizingRef={isResizingRef}
                 />
             </div>
             <GridFooter

@@ -36,6 +36,7 @@ describe('useResizableTableColumns', () => {
         const [state, setState] = useState({
             columns: [{ name: 'Name', resizable: true }],
             onColumnResized,
+            gridID:'test-grid-id'
         });
         const computedRef = useRef(initialWidths);
 
@@ -93,7 +94,8 @@ describe('useResizableTableColumns', () => {
         });
 
         expect(th.style.width).toBe('150px');
-        expect(onColumnResized).toHaveBeenCalledWith(expect.any(MouseEvent), '150px', 'Name');
+        expect(onColumnResized).toHaveBeenCalledWith(expect.any(MouseEvent), '150px', 'Name',
+            'test-grid-id');
     });
 
     it('respects minimum and maximum column width', () => {
@@ -123,10 +125,10 @@ describe('More tests for useResizableTableColumns', () => {
     const MockTable = ({ initialWidth = 100, resizable = true, onColumnResized }) => {
         const tableRef = useRef(null);
         const compColWidthsRef = useRef([{ name: 'Name', width: `${initialWidth}px`, leftPosition: '0px' }]);
-
         const [state, setState] = useState({
             columns: [{ name: 'Name', width: `${initialWidth}px`, resizable }],
             onColumnResized,
+            gridID: 'test-grid-id'
         });
 
         useResizableTableColumns(tableRef, state, setState, compColWidthsRef, true);
@@ -155,18 +157,17 @@ describe('More tests for useResizableTableColumns', () => {
         const resizer = th.querySelector('div');
         act(() => {
             fireEvent.mouseDown(resizer, { pageX: 100 });
-
             const moveEvent = new MouseEvent('mousemove', { bubbles: true });
             Object.defineProperty(moveEvent, 'pageX', { get: () => 200 });
             document.dispatchEvent(moveEvent);
-
             const upEvent = new MouseEvent('mouseup', { bubbles: true });
             Object.defineProperty(upEvent, 'pageX', { get: () => 200 });
             document.dispatchEvent(upEvent);
         });
 
         expect(th.style.width).toBe('200px');
-        expect(onColumnResized).toHaveBeenCalledWith(expect.any(Object), '200px', 'Name');
+        expect(onColumnResized).toHaveBeenCalledWith(expect.any(Object), '200px', 'Name',
+            'test-grid-id');
     });
 
     it('does not resize if column is not resizable', () => {

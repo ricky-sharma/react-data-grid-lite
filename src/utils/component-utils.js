@@ -9,8 +9,10 @@ import {
 } from "../constants";
 import {
     convertViewportUnitToPixels,
-    getContainerWidthInPixels
+    getContainerWidthInPixels,
+    isNull
 } from "../helpers/common";
+import { format } from "../helpers/format";
 
 export function calculateColumnWidth(
     colWidthArray,
@@ -114,4 +116,23 @@ export const tryParseWidth = (val, totalWidth = 0) => {
         return val;
     }
     return 0;
+};
+
+export const getConcatValue = (row, key, concatColumns, columns) => {
+    const conCols = concatColumns?.[key]?.cols || [];
+    const conSep = concatColumns?.[key]?.sep || '';
+    return conCols
+        .map(conName => {
+            const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());
+            return colDef ? row[colDef.name] : '';
+        })
+        .filter(Boolean)
+        .join(conSep);
+};
+
+export const getFormattedValue = (value, formatting) => {
+    if (!isNull(value) && formatting?.type) {
+        return format(value, formatting.type, formatting.format);
+    }
+    return value;
 };

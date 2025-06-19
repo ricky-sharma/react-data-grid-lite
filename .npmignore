@@ -27,3 +27,6 @@ docs/
 docs
 coverage
 coverage/
+.vite
+build
+.vite/

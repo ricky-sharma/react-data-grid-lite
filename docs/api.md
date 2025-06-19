@@ -1,5 +1,13 @@
 # API Reference
 
+### 🗂️ Documentation
+- [Events](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/events.md)
+- [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/styling.md)
+- [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/advanced.md)
+- [Format Guide](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/format_guide.md)
+- [Examples](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/examples.md)
+- [Project ReadMe](https://github.com/ricky-sharma/react-data-grid-lite#readme)
+
 ---
 
 ## 🔧 Props
@@ -22,6 +30,7 @@
 |    `onSearchComplete` | `Function`          | Callback function triggered after a search operation.                                                                       |        -          | No           |
 |    `onPageChange`     | `Function`          | Callback function triggered when the user navigates to a different page.                                                    |        -          | No           |
 |    `onColumnResized`  | `Function`          | Callback function triggered after a column is resized. Supported in **v1.1.0 and above**.                                   |        -          | No           |
+|    `theme`            | `string` (`'blue-core'` \| `'dark-stack'` \| `'medi-glow'` \| `''`)           | Applies a predefined visual theme to the grid. Affects header background, grid body background, borders, and control colors. Use an empty string to apply the default neutral style. Supported in **v1.1.1 and above**.|  `''` (empty string)   | No           |
 
 <br><br>
 ## 📊 **`columns` Prop Structure**
@@ -86,6 +95,7 @@ The `options` prop is an **object** that provides additional configuration setti
 | `downloadFilename`   | `String`  | The filename used when downloading grid data in CSV format. The default value is `'export-{yyyy-MM-dd HH:mm:ss}'`         |       -           | No           |
 | `onDownloadComplete` | `Function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.       |       -           | No           |
 | `enableColumnResize` | `Boolean` | Enables column resizing across all columns. Column-level `resizable settings` override this option. Supported in version `1.1.0` and above.|      false        | No           |
+| `actionColumnAlign`  | `string` (`'left'` \| `'right'` \| `''`)  | Controls alignment of the Actions column. Set to `'left'` or `'right'` to fix its position. Leave empty to allow the column to scroll with the rest of the table. Supported in **v1.1.1 and above**.|      `''` (empty string)        | No           |
 
 
 #### **Example of `options` Object:**

@@ -2,6 +2,7 @@
 import React from 'react';
 import { isNull } from '../helpers/common';
 import GridPagination from './grid-pagination';
+import Dropdown from './dropdown';
 
 const GridFooter = ({
     totalRows,
@@ -29,13 +30,13 @@ const GridFooter = ({
             }
             <div className="col-2 m-0 p-0 pagerSelect alignCenter">
                 {pagerSelectOptions?.length ?? 0 > 0 ?
-                    <select value={activePage} onChange={e => onPageChange(e, parseInt(e.target.value, 10))}>
-                        {pagerSelectOptions.map((item, key) => (
-                            <option key={key} value={item}>
-                                {item}
-                            </option>
-                        ))}
-                    </select> : null}
+                    <Dropdown
+                        options={pagerSelectOptions}
+                        value={activePage}
+                        onChange={(e, val) => onPageChange(e, parseInt(val, 10))}
+                    />
+                    : null
+                }
             </div>
             <div className="float-lt col-5 m-0 p-0 page-list">
                 <div className="col-12 m-0 p-0">

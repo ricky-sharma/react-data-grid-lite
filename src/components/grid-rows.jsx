@@ -5,58 +5,46 @@ import {
     No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
-import { hideLoader, isNull, showLoader } from '../helpers/common';
-import { format } from '../helpers/format';
+import { isNull } from '../helpers/common';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
-
-const getConcatValue = (row, key, concatColumns, columns) => {
-    const conCols = concatColumns?.[key]?.cols || [];
-    const conSep = concatColumns?.[key]?.sep || '';
-    return conCols
-        .map(conName => {
-            const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());
-            return colDef ? row[colDef.name] : '';
-        })
-        .filter(Boolean)
-        .join(conSep);
-};
-
-const getFormattedValue = (value, formatting) => {
-    if (!isNull(value) && formatting?.type) {
-        return format(value, formatting.type, formatting.format);
-    }
-    return value;
-};
+import DeleteIcon from '../icons/delete-icon';
+import EditIcon from '../icons/edit-icon';
+import { getConcatValue, getFormattedValue } from '../utils/component-utils';
+import { hideLoader, showLoader } from '../utils/loading-utils';
 
 const GridRows = ({
-    rowsData = [],
-    first,
-    count,
-    hiddenColIndex = [],
-    concatColumns = [],
-    columnFormatting = [],
-    columnClass = [],
-    columns = [],
-    rowCssClass = '',
-    rowClickEnabled = false,
-    onRowClick,
-    onRowHover,
-    onRowOut,
-    editButtonEnabled = false,
-    deleteButtonEnabled = false,
-    editButtonEvent,
-    deleteButtonEvent,
-    computedColumnWidthsRef,
-    enableColumnResize,
-    gridID
+    state,
+    computedColumnWidthsRef
 }) => {
     const loading = useLoadingIndicator();
     useWindowWidth();
-    if (!Array.isArray(rowsData) || rowsData.length === 0 || isNull(computedColumnWidthsRef?.current)) {
+    const {
+        rowsData,
+        firstRow,
+        currentPageRows,
+        hiddenColIndex,
+        concatColumns,
+        columnFormatting,
+        columnClass,
+        columns,
+        rowCssClass,
+        rowClickEnabled,
+        onRowClick,
+        onRowHover,
+        onRowOut,
+        editButtonEnabled,
+        deleteButtonEnabled,
+        editButtonEvent,
+        deleteButtonEvent,
+        enableColumnResize,
+        gridID,
+        actionColumnAlign
+    } = state || {};
+    if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)) {
         hideLoader(gridID);
         loading ? showLoader(gridID) :
-            (!rowsData.length ? showLoader(gridID, No_Data_Message)
+            (isNull(rowsData) ? showLoader(gridID, No_Data_Message)
                 : showLoader(gridID, No_Column_Visible_Message));
         return null;
     }
@@ -64,17 +52,19 @@ const GridRows = ({
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = computedColumnWidthsRef?.current?.find(i =>
         i?.name === Button_Column_Key)?.width ?? 0;
+
     let lastFixedIndex = -1;
     columns.reduceRight((_, col, index) => {
         if (lastFixedIndex === -1 && col?.fixed === true && !col?.hidden) {
             lastFixedIndex = index;
         }
     }, null);
-    return rowsData.slice(first, first + count).map((row, rowIndex) => {
+
+    return rowsData.slice(firstRow, firstRow + currentPageRows).map((row, rowIndex) => {
         const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
             const conValue = getConcatValue(row, key, concatColumns, columns);
-            const columnValue = getFormattedValue(conValue || row[col?.name], columnFormatting[key]);
+            const columnValue = getFormattedValue(conValue || row[col?.name], columnFormatting?.[key]);
             const classNames = columnClass?.[key] || '';
             const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
             const colResizable = col?.resizable ?? enableColumnResize;
@@ -84,20 +74,40 @@ const GridRows = ({
                     maxWidth: colResizable ? undefined : colWidth,
                     minWidth: colResizable ? undefined : colWidth,
                     left: (col?.fixed === true ?
-                        computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.leftPosition ?? '' : ''),
+                        computedColumnWidthsRef?.current?.find(i =>
+                            i?.name === col?.name)?.leftPosition ?? '' : ''),
                     position: (col?.fixed === true ? 'sticky' : ''),
                     zIndex: (col?.fixed === true ? 6 : ''),
                     backgroundColor: 'inherit',
-                    boxShadow: (lastFixedIndex === key ? '#e0e0e0 -2px 0px 1px 0px inset' : '')
+                    boxShadow: (lastFixedIndex === key ? '#e0e0e0 -0.5px 0px 1px 0px inset' : ''),
+                    contain: 'layout paint'
                 }}>
-                    <div className="m-0 p-0 rowText" title={columnValue}>{columnValue}</div>
+                    <div className="m-0 p-0 rowText" title={columnValue}>
+                        {columnValue}
+                    </div>
                 </td>
             );
         });
+        const isActionColumnLeft = actionColumnAlign === 'left';
+        const isActionColumnRight = actionColumnAlign === 'right';
+        const insert = isActionColumnLeft ? 'unshift' : 'push';
         if (buttonColEnabled) {
-            cols.push(
+            cols[insert](
                 <td key="gridButtons" className="alignCenter" onClick={e => e.stopPropagation()}
-                    style={{ width: buttonColWidth, maxWidth: buttonColWidth }}>
+                    style={{
+                        width: buttonColWidth,
+                        maxWidth: buttonColWidth,
+                        minWidth: buttonColWidth,
+                        left: (isActionColumnLeft ? 0 : ''),
+                        right: (isActionColumnRight ? 0 : ''),
+                        position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
+                        zIndex: (isActionColumnRight || isActionColumnLeft ? 6 : ''),
+                        backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
+                        boxShadow: (isActionColumnLeft ?
+                            '#e0e0e0 -0.5px 0px 0px 0px inset' :
+                            (isActionColumnRight ? '#e0e0e0 0.5px 0px 0px 0px inset' : '')),
+                        contain: 'layout paint'
+                    }}>
                     <div className="m-0 p-0 button-column alignCenter" style={{ width: buttonColWidth }}>
                         {editButtonEnabled && (
                             <div
@@ -106,7 +116,7 @@ const GridRows = ({
                                 onClick={e => editButtonEvent(e, row)}
                                 data-toggle="tooltip"
                             >
-                                <span className="icon-common-css edit-icon-pen" />
+                                <EditIcon />
                             </div>
                         )}
                         {deleteButtonEnabled && (
@@ -116,7 +126,7 @@ const GridRows = ({
                                 onClick={e => deleteButtonEvent(e, row)}
                                 data-toggle="tooltip"
                             >
-                                <span className="icon-common-css delete-icon" />
+                                <DeleteIcon />
                             </div>
                         )}
                     </div>
