@@ -17,7 +17,7 @@
     </script>
     <!-- Google tag (gtag.js) -->
 
-    <title>📘 Introduction</title>
+    <title>🔤 Format Guide</title>
     <meta
       name="description"
       content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
@@ -331,10 +331,10 @@
       >
         <article class="">
           <header class="">
-            <p class="text-base font-medium text-slate-500">Overview</p>
+            <p class="text-base font-medium text-slate-500">Documentation</p>
 
             <h1 class="text-3xl font-bold tracking-tight text-slate-900">
-              📘 Introduction
+              🔤 Format Guide
             </h1>
           </header>
 
@@ -342,127 +342,176 @@
             class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900"
           >
             <p>
-              A lightweight and customizable React data grid component designed
-              for high performance and ease of use. The DataGrid component is a
-              highly customizable, feature-rich table component designed to
-              display tabular data in a React application. It is intended for
-              use cases where large datasets need to be presented with advanced
-              features such as pagination, sorting, searching, row interactions,
-              and more.
+              This guide explains how to use the <code>formatting</code> option
+              in column definitions to customize how values are displayed in the
+              grid.
             </p>
+            <hr />
+            <h3>✅ How to Use</h3>
             <p>
-              ✅ <strong>Key Features</strong><br />
-              ⚡ <strong>Lightweight</strong> – Small bundle size, fast
-              loading<br />
-              📦 <strong>API-ready</strong> – Works with any JSON API<br />
-              🛠️ <strong>Dynamic columns</strong> – Auto-adapts to data
-              schema<br />
-              🔍 <strong>Search &amp; aliases</strong> – Fast filtering, custom
-              labels<br />
-              📌 <strong>Fixed columns</strong> – Lock columns during scroll<br />
-              📏 <strong>Resizable columns</strong> – User can drag to resize<br />
-              📱 <strong>Responsive layout</strong> – Adapts to all screen
-              sizes<br />
-              🧾 <strong>CSV export</strong> – Download full data grid<br />
-              ✏️ <strong>Row actions</strong> – Built-in edit/delete hooks<br />
-              🧩 <strong>Merged columns</strong> – Combine multiple fields<br />
-              📊 <strong>Analytics events</strong> – Track user interactions<br />
-              🎨 <strong>Theming</strong> – Pre-built themes &amp; easy
-              customization<br />
-              🧩 <strong>Actions align</strong> – Fix column left or right via
-              prop<br />
-              🧪 <strong>Fully tested</strong> – Robust unit coverage and fixes
+              Use the <code>formatting</code> key inside each column to define
+              how values should appear:
             </p>
-            <br />
-            <p align="center">
-              <img
-                src="https://github.com/user-attachments/assets/bf6ef7d8-1475-4554-8177-de1f794edb4b"
-                alt="react data grid lite"
-                width="100%"
-              />
-            </p>
-            <br />
-            <h2>📦 Installation</h2>
-            <pre><code class="language-bash">npm install react-data-grid-lite
-</code></pre>
-            <p>or</p>
-            <pre><code class="language-bash">yarn add react-data-grid-lite
-</code></pre>
-            <br />
-            <h2>🚀 Usage</h2>
-            <pre><code class="language-jsx">import React from 'react';
-import DataGrid from 'react-data-grid-lite';
-
-const columns = [
-  { name: 'id', width:'50px' },
-  { name: 'name', alias:'Full Name' },
-  { name: 'age' }
+            <pre><code class="language-js">const columns = [
+  {
+    name: 'Amount',
+    formatting: { type: 'number', format: '0,0.00' }, // → &quot;1,234.56&quot;
+  },
+  {
+    name: 'Salary',
+    formatting: { type: 'currency', format: 'USD' }, // → &quot;$5,000.00&quot;
+  },
+  {
+    name: 'Joining Date',
+    formatting: { type: 'date', format: 'MMMM dd, yyyy' }, // → &quot;January 01, 2024&quot;
+  },
+  {
+    name: 'Active',
+    formatting: { type: 'boolean' }, // → &quot;Yes&quot; / &quot;No&quot;
+  }
 ];
-
-const rows = [
-  { id: 1, name: 'John Doe', age: 28 },
-  { id: 2, name: 'Jane Smith', age: 34 }
-];
-
-function App() {
-  return (
-    &lt;DataGrid columns={columns} data={rows} /&gt;
-  );
-}
-
-export default App;
 </code></pre>
-            <br />
-            <h2>React Compatibility Table</h2>
             <p>
-              The <code>react-data-grid-lite</code> library is compatible with
-              the following versions of React:
+              The grid automatically formats values based on
+              <code>type</code> and <code>format</code>.
             </p>
+            <hr />
+            <h3>✅ Supported Types</h3>
             <table>
               <thead>
                 <tr>
-                  <th><strong>React Version</strong></th>
-                  <th><strong>Compatibility</strong></th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Example Format</th>
+                  <th>Notes</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>React 19+</strong></td>
-                  <td>✅ Fully Compatible</td>
+                  <td><code>number</code></td>
+                  <td>Formats numeric values</td>
+                  <td><code>'0,0'</code>, <code>'0.00'</code></td>
+                  <td>Adds commas and/or decimals</td>
                 </tr>
                 <tr>
-                  <td><strong>React 18+</strong></td>
-                  <td>✅ Fully Compatible</td>
+                  <td><code>currency</code></td>
+                  <td>Localized currency formatting</td>
+                  <td><code>'USD'</code>, <code>'INR'</code></td>
+                  <td>Requires valid ISO 4217 code</td>
                 </tr>
                 <tr>
-                  <td><strong>React 17+</strong></td>
-                  <td>✅ Fully Compatible</td>
+                  <td><code>date</code></td>
+                  <td>Formats date strings</td>
+                  <td><code>'MM/dd/yyyy'</code></td>
+                  <td>Delegates to internal <code>formatDate</code></td>
+                </tr>
+                <tr>
+                  <td><code>percent</code></td>
+                  <td>Formats decimals as percentages</td>
+                  <td>–</td>
+                  <td>Multiplies value by 100</td>
+                </tr>
+                <tr>
+                  <td><code>boolean</code></td>
+                  <td>Formats true/false as Yes / No</td>
+                  <td>–</td>
+                  <td>Case-insensitive</td>
                 </tr>
               </tbody>
             </table>
-            <br />
-            <h2>🚀 Try It Out!</h2>
-            <p>
-              Feel free to fork the repository and experiment with the grid's
-              behavior for concatenating columns. Let me know if you'd like any
-              further adjustments or clarification! Happy coding! 🎉
-            </p>
-            <br />
-            <h2>📄 License</h2>
-            <p>
-              This project is licensed under the MIT License - see the
-              <a href="license.html">LICENSE</a> file for details.
-            </p>
-            <br />
-            <h2>🙋‍♂️ Available for freelance work!</h2>
-            <p>
-              Reach out via
-              <a href="https://www.linkedin.com/in/vinay-sharma-2022354"
-                >LinkedIn</a
-              >
-              or check out my projects on
-              <a href="https://github.com/ricky-sharma">GitHub</a>.
-            </p>
+            <hr />
+            <h3>📌 Common Format Tokens (for dates)</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Meaning</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>yyyy</code></td>
+                  <td>4-digit year</td>
+                  <td><code>2023</code></td>
+                </tr>
+                <tr>
+                  <td><code>MM</code></td>
+                  <td>2-digit month</td>
+                  <td><code>01</code></td>
+                </tr>
+                <tr>
+                  <td><code>MMM</code></td>
+                  <td>Abbreviated month</td>
+                  <td><code>Jan</code></td>
+                </tr>
+                <tr>
+                  <td><code>MMMM</code></td>
+                  <td>Full month name</td>
+                  <td><code>January</code></td>
+                </tr>
+                <tr>
+                  <td><code>dd</code></td>
+                  <td>2-digit day of month</td>
+                  <td><code>02</code></td>
+                </tr>
+                <tr>
+                  <td><code>do</code></td>
+                  <td>Ordinal day</td>
+                  <td><code>2nd</code></td>
+                </tr>
+                <tr>
+                  <td><code>HH</code></td>
+                  <td>24-hour format</td>
+                  <td><code>15</code></td>
+                </tr>
+                <tr>
+                  <td><code>hh</code></td>
+                  <td>12-hour format</td>
+                  <td><code>03</code></td>
+                </tr>
+                <tr>
+                  <td><code>mm</code></td>
+                  <td>Minutes</td>
+                  <td><code>04</code></td>
+                </tr>
+                <tr>
+                  <td><code>ss</code></td>
+                  <td>Seconds</td>
+                  <td><code>00</code></td>
+                </tr>
+                <tr>
+                  <td><code>S</code></td>
+                  <td>Milliseconds</td>
+                  <td><code>0</code></td>
+                </tr>
+                <tr>
+                  <td><code>a</code></td>
+                  <td>AM/PM</td>
+                  <td><code>PM</code></td>
+                </tr>
+                <tr>
+                  <td><code>EEE</code></td>
+                  <td>Abbreviated weekday</td>
+                  <td><code>Mon</code></td>
+                </tr>
+                <tr>
+                  <td><code>EEEE</code></td>
+                  <td>Full weekday name</td>
+                  <td><code>Monday</code></td>
+                </tr>
+                <tr>
+                  <td><code>Z</code></td>
+                  <td>Timezone offset</td>
+                  <td><code>+0000</code></td>
+                </tr>
+                <tr>
+                  <td><code>ZZZZ</code></td>
+                  <td>Timezone full name</td>
+                  <td><code>Eastern Standard Time</code></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
@@ -482,20 +531,6 @@ export default App;
         </article>
 
         <dl class="flex pt-6 mt-6 border-t border-slate-200">
-          <div class="mr-auto text-left">
-            <dt class="text-sm font-normal tracking-tight text-slate-600">
-              Previous
-            </dt>
-
-            <dd class="mt-1">
-              <a
-                href="license.html"
-                class="text-base font-semibold text-slate-900 hover:underline"
-              >
-                ⚖️ License
-              </a>
-            </dd>
-          </div>
           <div class="ml-auto text-right">
             <dt class="text-sm font-normal tracking-tight text-slate-600">
               Next
@@ -503,10 +538,10 @@ export default App;
 
             <dd class="mt-1">
               <a
-                href="example-2.html"
+                href="advanced.html"
                 class="text-base font-semibold text-slate-900 hover:underline"
               >
-                📝 Global &amp; Column Search
+                🔍 Advanced Usage
               </a>
             </dd>
           </div>
