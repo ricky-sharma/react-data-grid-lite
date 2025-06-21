@@ -15,9 +15,7 @@
 
 			gtag("config", "G-1KMZ9EZBKL");
 		</script>
-		<!-- Google tag (gtag.js) -->
-		
-		<title>📘 Introduction</title>
+		<title>📡 Consuming Remote API Data</title>
 		<meta
 		  name="description"
 		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
@@ -25,43 +23,6 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-		<meta name="keywords"
-		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
-    />
-		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
-		
-		<!-- Open Graph for social sharing -->
-		<meta property="og:title" content="React Data Grid Lite" />
-		<meta
-		  property="og:description"
-		  content="A lightweight React data grid with full API and usage examples."
-    />
-		<meta
-		  property="og:url"
-		  content="https://ricky-sharma.github.io/react-data-grid-lite/"
-    />
-		<meta property="og:type" content="website" />
-		<meta
-		  property="og:image"
-		  content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
-    />
-		<!-- Open Graph for social sharing -->
-		
-		<!-- goat counter -->
-		<script
-      data-goatcounter="https://react-data-grid-lite.goatcounter.com/count"
-      async=""
-      src="https://gc.zgo.at/count.js"
-    ></script>
-		<!-- goat counter -->
-		
-		<!-- google site verification -->
-		<meta
-		  name="google-site-verification"
-		  content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
-    />
-		<!-- google site verification -->
-		
 		<link href="/index.css" rel="stylesheet" />
 	</head>
 
@@ -168,31 +129,31 @@
           <ul role="list" class="pl-3 mt-3 space-y-2">
             
               <li>
-                <a href="/docs/documentation/api/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/api/" class="text-slate-900 hover:text-slate-800">
                   📦 API Reference
                 </a>
               </li>
             
               <li>
-                <a href="/docs/documentation/events/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/events/" class="text-slate-900 hover:text-slate-800">
                   🔁 Event Callbacks
                 </a>
               </li>
             
               <li>
-                <a href="/docs/documentation/styling/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/styling/" class="text-slate-900 hover:text-slate-800">
                   🪄 Styling &amp; Theming
                 </a>
               </li>
             
               <li>
-                <a href="/docs/documentation/advanced/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/advanced/" class="text-slate-900 hover:text-slate-800">
                   🔍 Advanced Usage
                 </a>
               </li>
             
               <li>
-                <a href="/docs/documentation/format_guide/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/format_guide/" class="text-slate-900 hover:text-slate-800">
                   🔤 Format Guide
                 </a>
               </li>
@@ -209,26 +170,8 @@
           <ul role="list" class="pl-3 mt-3 space-y-2">
             
               <li>
-                <a href="/docs/examples/example-1/" class="text-slate-900 hover:text-slate-800">
-                  📡 Consuming Remote API
-                </a>
-              </li>
-            
-              <li>
-                <a href="/docs/examples/example-2/" class="text-slate-900 hover:text-slate-800">
-                  📝 Global &amp; Column Search
-                </a>
-              </li>
-            
-              <li>
-                <a href="/docs/examples/example-3/" class="text-slate-900 hover:text-slate-800">
-                  ↔️ Pinned &amp; Resizable Columns
-                </a>
-              </li>
-            
-              <li>
-                <a href="/docs/examples/example-4/" class="text-slate-900 hover:text-slate-800">
-                  🖇️ Column Control
+                <a href="/docs/examples/" class="text-slate-900 hover:text-slate-800">
+                  📡 Consuming Remote API Data
                 </a>
               </li>
             
@@ -267,11 +210,11 @@
 				<article class="">
 					<header class="">
 						<p class="text-base font-medium text-slate-500">
-							Overview
+							Examples
 						</p>
 
 						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
-							📘 Introduction
+							📡 Consuming Remote API Data
 						</h1>
 					</header>
 
@@ -282,91 +225,115 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						<p>A lightweight and customizable React data grid component designed for high performance and ease of use. The DataGrid component is a highly customizable, feature-rich table component designed to display tabular data in a React application. It is intended for use cases where large datasets need to be presented with advanced features such as pagination, sorting, searching, row interactions, and more.</p>
-<p>✅ <strong>Key Features</strong><br>
-⚡ <strong>Lightweight</strong> – Small bundle size, fast loading<br>
-📦 <strong>API-ready</strong> – Works with any JSON API<br>
-🛠️ <strong>Dynamic columns</strong> – Auto-adapts to data schema<br>
-🔍 <strong>Search &amp; aliases</strong> – Fast filtering, custom labels<br>
-📌 <strong>Fixed columns</strong> – Lock columns during scroll<br>
-📏 <strong>Resizable columns</strong> – User can drag to resize<br>
-📱 <strong>Responsive layout</strong> – Adapts to all screen sizes<br>
-🧾 <strong>CSV export</strong> – Download full data grid<br>
-✏️ <strong>Row actions</strong> – Built-in edit/delete hooks<br>
-🧩 <strong>Merged columns</strong> – Combine multiple fields<br>
-📊 <strong>Analytics events</strong> – Track user interactions<br>
-🎨 <strong>Theming</strong> – Pre-built themes &amp; easy customization<br>
-🧩 <strong>Actions align</strong> – Fix column left or right via prop<br>
-🧪 <strong>Fully tested</strong> – Robust unit coverage and fixes</p>
-<br>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/bf6ef7d8-1475-4554-8177-de1f794edb4b" alt="react-data-grid-lite 19 July -2" width="100%" />
-</p>
-<br>
-<h2>📦 Installation</h2>
-<pre><code class="language-bash">npm install react-data-grid-lite
+						<p>This example shows how to fetch and display data from a remote API using <code>react-data-grid-lite</code>. It demonstrates how to:</p>
+<ul>
+<li>Dynamically build column definitions from API response keys.</li>
+<li>Transform and format certain columns (e.g. combining names).</li>
+<li>Exclude or hide sensitive or unnecessary fields.</li>
+<li>Render the data in a performant, paginated grid with actions.</li>
+</ul>
+<h3>🔗 API Used</h3>
+<p><strong><a href="https://fakerapi.it">fakerapi.it</a></strong> – Returns fake user data for testing:</p>
+<pre><code>GET https://fakerapi.it/api/v1/users?_quantity=100
 </code></pre>
-<p>or</p>
-<pre><code class="language-bash">yarn add react-data-grid-lite
-</code></pre>
-<br>
-<h2>🚀 Usage</h2>
-<pre><code class="language-jsx">import React from 'react';
-import DataGrid from 'react-data-grid-lite';
+<h3>🧩 Dynamic Column Mapping</h3>
+<p>Column definitions are generated by inspecting API response keys and applying logic to:</p>
+<ul>
+<li><strong>Rename</strong> columns (e.g. <code>firstname</code> → <code>Name</code>)</li>
+<li><strong>Combine</strong> fields (e.g. <code>firstname + lastname</code>)</li>
+<li><strong>Hide</strong> sensitive or redundant columns (e.g. <code>password</code>, <code>macaddress</code>)</li>
+</ul>
+<p>This approach is flexible and adapts to schema changes without hardcoding each field.</p>
+<h4>🚀 Code</h4>
+<pre><code class="language-jsx">import React, { useEffect, useState } from 'react';
+import DataGrid, { trackPromise } from 'react-data-grid-lite';
 
-const columns = [
-  { name: 'id', width:'50px' },
-  { name: 'name', alias:'Full Name' },
-  { name: 'age' }
-];
-
-const rows = [
-  { id: 1, name: 'John Doe', age: 28 },
-  { id: 2, name: 'Jane Smith', age: 34 }
-];
-
-function App() {
-  return (
-    &lt;DataGrid columns={columns} data={rows} /&gt;
-  );
+const options = {
+    editButton: {
+        event: (e, row) =&gt; {
+            alert('Edit Button clicked!');
+            console.log(row);
+        }
+    },
+    deleteButton: {
+        event: (e, row) =&gt; {
+            alert('Delete Button clicked!');
+            console.log(row);
+        }
+    }
 }
 
-export default App;
+function App() {
+    const [users, setUsers] = useState([]);
+    const [userColumns, setUserColumns] = useState({});
+    useEffect(() =&gt; {
+        const promise = fetch('https://fakerapi.it/api/v1/users?_quantity=1000')
+            .then(response =&gt; response.json())
+            .then(data =&gt; {
+                const Columns = Object.keys(data.data[0])
+                setUserColumns(Columns.map((val) =&gt; {
+                    if (val.toLowerCase() === 'id')
+                        return {
+                            name: val,
+                            alias: 'ID',
+                            width: '100px'
+                        }
+                    else if (val.toLowerCase() === 'uuid')
+                        return {
+                            name: val,
+                            alias: 'UUID'
+                        }
+                    else if (val.toLowerCase() === 'email')
+                        return {
+                            name: val,
+                            alias: 'Email',
+                        }
+                    else if (val.toLowerCase() === 'website')
+                        return {
+                            name: val,
+                            alias: 'Website',
+                        }
+                    else if (val.toLowerCase() === 'firstname')
+                        return {
+                            name: val,
+                            alias: 'Name',
+                            concatColumns: {
+                                columns: ['firstname', 'lastname']
+                            }
+                        }
+                    else
+                        return {
+                            name: val,
+                            hidden: true
+                        }
+                }));
+                setUsers(data.data);
+            })
+            .catch(error =&gt; {
+                console.error('Error fetching data:', error);
+            });
+        trackPromise(promise);
+    }, []);
+
+    return (
+        &lt;&gt;
+            &lt;div&gt;
+                &lt;h2&gt;React Data Grid Lite Example&lt;/h2&gt;
+            &lt;/div&gt;
+            &lt;DataGrid
+                columns={userColumns}
+                data={users}
+                pageSize={20}
+                options={options}
+                width={&quot;1200px&quot;}
+            /&gt;
+        &lt;/&gt;
+    )
+}
+
+export default App
 </code></pre>
-<br>
-<h2>React Compatibility Table</h2>
-<p>The <code>react-data-grid-lite</code> library is compatible with the following versions of React:</p>
-<table>
-<thead>
-<tr>
-<th><strong>React Version</strong></th>
-<th><strong>Compatibility</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>React 19+</strong></td>
-<td>✅ Fully Compatible</td>
-</tr>
-<tr>
-<td><strong>React 18+</strong></td>
-<td>✅ Fully Compatible</td>
-</tr>
-<tr>
-<td><strong>React 17+</strong></td>
-<td>✅ Fully Compatible</td>
-</tr>
-</tbody>
-</table>
-<br>
-<h2>🚀 Try It Out!</h2>
-<p>Feel free to fork the repository and experiment with the grid's behavior for concatenating columns. Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉</p>
-<br>
-<h2>📄 License</h2>
-<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
-<br>
-<h2>🙋‍♂️ Available for freelance work!</h2>
-<p>Reach out via <a href="https://www.linkedin.com/in/vinay-sharma-2022354">LinkedIn</a> or check out my projects on <a href="https://github.com/ricky-sharma">GitHub</a>.</p>
+<hr>
 
 					</div>
 
@@ -393,8 +360,8 @@ export default App;
           </dt>
 
           <dd class="mt-1">
-            <a href="/docs/LICENSE/" class="text-base font-semibold text-slate-900 hover:underline">
-              ⚖️ License
+            <a href="/docs/events/" class="text-base font-semibold text-slate-900 hover:underline">
+              🔁 Event Callbacks
             </a>
           </dd>
         </div>
@@ -407,8 +374,8 @@ export default App;
           </dt>
 
           <dd class="mt-1">
-            <a href="/docs/examples/example-2/" class="text-base font-semibold text-slate-900 hover:underline">
-              📝 Global &amp; Column Search
+            <a href="/docs/CHANGELOG/" class="text-base font-semibold text-slate-900 hover:underline">
+              📌 Changelog
             </a>
           </dd>
         </div>

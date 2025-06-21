@@ -17,7 +17,7 @@
 		</script>
 		<!-- Google tag (gtag.js) -->
 		
-		<title>📘 Introduction</title>
+		<title>↔️ Pinned &amp; Resizable Columns</title>
 		<meta
 		  name="description"
 		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
@@ -267,11 +267,11 @@
 				<article class="">
 					<header class="">
 						<p class="text-base font-medium text-slate-500">
-							Overview
+							Examples
 						</p>
 
 						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
-							📘 Introduction
+							↔️ Pinned &amp; Resizable Columns
 						</h1>
 					</header>
 
@@ -282,91 +282,74 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						<p>A lightweight and customizable React data grid component designed for high performance and ease of use. The DataGrid component is a highly customizable, feature-rich table component designed to display tabular data in a React application. It is intended for use cases where large datasets need to be presented with advanced features such as pagination, sorting, searching, row interactions, and more.</p>
-<p>✅ <strong>Key Features</strong><br>
-⚡ <strong>Lightweight</strong> – Small bundle size, fast loading<br>
-📦 <strong>API-ready</strong> – Works with any JSON API<br>
-🛠️ <strong>Dynamic columns</strong> – Auto-adapts to data schema<br>
-🔍 <strong>Search &amp; aliases</strong> – Fast filtering, custom labels<br>
-📌 <strong>Fixed columns</strong> – Lock columns during scroll<br>
-📏 <strong>Resizable columns</strong> – User can drag to resize<br>
-📱 <strong>Responsive layout</strong> – Adapts to all screen sizes<br>
-🧾 <strong>CSV export</strong> – Download full data grid<br>
-✏️ <strong>Row actions</strong> – Built-in edit/delete hooks<br>
-🧩 <strong>Merged columns</strong> – Combine multiple fields<br>
-📊 <strong>Analytics events</strong> – Track user interactions<br>
-🎨 <strong>Theming</strong> – Pre-built themes &amp; easy customization<br>
-🧩 <strong>Actions align</strong> – Fix column left or right via prop<br>
-🧪 <strong>Fully tested</strong> – Robust unit coverage and fixes</p>
-<br>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/bf6ef7d8-1475-4554-8177-de1f794edb4b" alt="react-data-grid-lite 19 July -2" width="100%" />
-</p>
-<br>
-<h2>📦 Installation</h2>
-<pre><code class="language-bash">npm install react-data-grid-lite
-</code></pre>
-<p>or</p>
-<pre><code class="language-bash">yarn add react-data-grid-lite
-</code></pre>
-<br>
-<h2>🚀 Usage</h2>
+						<p>This example showcases the <code>react-data-grid-lite</code> component with <strong>pinned columns</strong>, <strong>resizable columns</strong>, and <strong>column search disabled</strong>.</p>
+<blockquote>
+<p>It builds on dynamic column mapping and highlights how to fix important columns (like <code>ID</code> and <code>Title</code>) to the left for usability.</p>
+</blockquote>
+<hr>
+<h2>✅ Key Features</h2>
+<ul>
+<li><strong>Pinned Columns</strong>: <code>ID</code> and <code>Title</code> stay visible during horizontal scroll.</li>
+<li><strong>Column Resize</strong>: Columns can be resized using drag handles.</li>
+<li><strong>Column Search Disabled</strong>: All column-specific search fields are hidden.</li>
+<li><strong>Date Formatting</strong>: Applies <code>dd-MMM-yyyy</code> format to the <code>published</code> field.</li>
+<li><strong>Hidden Columns</strong>: <code>description</code> is excluded from display.</li>
+<li><strong>Dark Theme</strong>: Uses the <code>dark-stack</code> theme.</li>
+</ul>
+<hr>
+<h2>🧩 Grid Component Code</h2>
 <pre><code class="language-jsx">import React from 'react';
 import DataGrid from 'react-data-grid-lite';
+import { useFetch } from '../data';
 
-const columns = [
-  { name: 'id', width:'50px' },
-  { name: 'name', alias:'Full Name' },
-  { name: 'age' }
-];
+const options = {
+  enableColumnSearch: false,
+  enableColumnResize: true,
+  actionColumnAlign: 'right',
+  editButton: { event: (e, row) =&gt; { alert('Edit Button clicked!'); console.log(row); }}
+};
 
-const rows = [
-  { id: 1, name: 'John Doe', age: 28 },
-  { id: 2, name: 'Jane Smith', age: 34 }
-];
+export default function Grid() {
+  const users = useFetch();
+  const columns = users?.length &gt; 0 ? Object.keys(users[0]).map((val) =&gt; {
+    if (val.toLowerCase() === 'id')
+      return { name: val, alias: 'ID', width: '100px', fixed: true };
+    else if (val.toLowerCase() === 'title')
+      return { name: val, fixed: true, width: '180px' };
+    else if (val.toLowerCase() === 'description')
+      return { name: val, hidden: true };
+    else if (val.toLowerCase() === 'published')
+      return { formatting: { type: 'Date', format: 'dd-MMM-yyyy' }, name: val };
+    else return { name: val, width: '250px' };
+  }) : [];
 
-function App() {
   return (
-    &lt;DataGrid columns={columns} data={rows} /&gt;
+      &lt;DataGrid columns={columns} data={users} pageSize={10} options={options} 
+        width=&quot;70vw&quot; height=&quot;35vh&quot; theme=&quot;dark-stack&quot;
+      /&gt;
   );
 }
-
-export default App;
 </code></pre>
-<br>
-<h2>React Compatibility Table</h2>
-<p>The <code>react-data-grid-lite</code> library is compatible with the following versions of React:</p>
-<table>
-<thead>
-<tr>
-<th><strong>React Version</strong></th>
-<th><strong>Compatibility</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>React 19+</strong></td>
-<td>✅ Fully Compatible</td>
-</tr>
-<tr>
-<td><strong>React 18+</strong></td>
-<td>✅ Fully Compatible</td>
-</tr>
-<tr>
-<td><strong>React 17+</strong></td>
-<td>✅ Fully Compatible</td>
-</tr>
-</tbody>
-</table>
-<br>
-<h2>🚀 Try It Out!</h2>
-<p>Feel free to fork the repository and experiment with the grid's behavior for concatenating columns. Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉</p>
-<br>
-<h2>📄 License</h2>
-<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
-<br>
-<h2>🙋‍♂️ Available for freelance work!</h2>
-<p>Reach out via <a href="https://www.linkedin.com/in/vinay-sharma-2022354">LinkedIn</a> or check out my projects on <a href="https://github.com/ricky-sharma">GitHub</a>.</p>
+<hr>
+<h2>📡 Data Fetching: <code>useFetch()</code> Hook</h2>
+<pre><code class="language-js">import { useEffect, useState } from 'react';
+import { trackPromise } from 'react-data-grid-lite';
+
+export const useFetch = (api = 'books') =&gt; {
+  const [data, setData] = useState([]);
+
+  useEffect(() =&gt; {
+    const promise = fetch(`https://fakerapi.it/api/v2/${api}?_quantity=100`)
+      .then(response =&gt; response.json())
+      .then(response =&gt; { setData(response.data); });
+
+    trackPromise(promise);
+  }, []);
+
+  return data;
+};
+</code></pre>
+<hr>
 
 					</div>
 
@@ -393,8 +376,8 @@ export default App;
           </dt>
 
           <dd class="mt-1">
-            <a href="/docs/LICENSE/" class="text-base font-semibold text-slate-900 hover:underline">
-              ⚖️ License
+            <a href="/docs/examples/example-2/" class="text-base font-semibold text-slate-900 hover:underline">
+              📝 Global &amp; Column Search
             </a>
           </dd>
         </div>
@@ -407,8 +390,8 @@ export default App;
           </dt>
 
           <dd class="mt-1">
-            <a href="/docs/examples/example-2/" class="text-base font-semibold text-slate-900 hover:underline">
-              📝 Global &amp; Column Search
+            <a href="/docs/examples/example-4/" class="text-base font-semibold text-slate-900 hover:underline">
+              🖇️ Column Control
             </a>
           </dd>
         </div>

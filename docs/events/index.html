@@ -15,9 +15,7 @@
 
 			gtag("config", "G-1KMZ9EZBKL");
 		</script>
-		<!-- Google tag (gtag.js) -->
-		
-		<title>📘 Introduction</title>
+		<title>🔁 Event Callbacks</title>
 		<meta
 		  name="description"
 		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
@@ -25,43 +23,6 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-		<meta name="keywords"
-		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
-    />
-		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
-		
-		<!-- Open Graph for social sharing -->
-		<meta property="og:title" content="React Data Grid Lite" />
-		<meta
-		  property="og:description"
-		  content="A lightweight React data grid with full API and usage examples."
-    />
-		<meta
-		  property="og:url"
-		  content="https://ricky-sharma.github.io/react-data-grid-lite/"
-    />
-		<meta property="og:type" content="website" />
-		<meta
-		  property="og:image"
-		  content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
-    />
-		<!-- Open Graph for social sharing -->
-		
-		<!-- goat counter -->
-		<script
-      data-goatcounter="https://react-data-grid-lite.goatcounter.com/count"
-      async=""
-      src="https://gc.zgo.at/count.js"
-    ></script>
-		<!-- goat counter -->
-		
-		<!-- google site verification -->
-		<meta
-		  name="google-site-verification"
-		  content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
-    />
-		<!-- google site verification -->
-		
 		<link href="/index.css" rel="stylesheet" />
 	</head>
 
@@ -168,31 +129,31 @@
           <ul role="list" class="pl-3 mt-3 space-y-2">
             
               <li>
-                <a href="/docs/documentation/api/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/api/" class="text-slate-900 hover:text-slate-800">
                   📦 API Reference
                 </a>
               </li>
             
               <li>
-                <a href="/docs/documentation/events/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/events/" class="text-slate-900 hover:text-slate-800">
                   🔁 Event Callbacks
                 </a>
               </li>
             
               <li>
-                <a href="/docs/documentation/styling/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/styling/" class="text-slate-900 hover:text-slate-800">
                   🪄 Styling &amp; Theming
                 </a>
               </li>
             
               <li>
-                <a href="/docs/documentation/advanced/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/advanced/" class="text-slate-900 hover:text-slate-800">
                   🔍 Advanced Usage
                 </a>
               </li>
             
               <li>
-                <a href="/docs/documentation/format_guide/" class="text-slate-900 hover:text-slate-800">
+                <a href="/docs/format_guide/" class="text-slate-900 hover:text-slate-800">
                   🔤 Format Guide
                 </a>
               </li>
@@ -209,26 +170,8 @@
           <ul role="list" class="pl-3 mt-3 space-y-2">
             
               <li>
-                <a href="/docs/examples/example-1/" class="text-slate-900 hover:text-slate-800">
-                  📡 Consuming Remote API
-                </a>
-              </li>
-            
-              <li>
-                <a href="/docs/examples/example-2/" class="text-slate-900 hover:text-slate-800">
-                  📝 Global &amp; Column Search
-                </a>
-              </li>
-            
-              <li>
-                <a href="/docs/examples/example-3/" class="text-slate-900 hover:text-slate-800">
-                  ↔️ Pinned &amp; Resizable Columns
-                </a>
-              </li>
-            
-              <li>
-                <a href="/docs/examples/example-4/" class="text-slate-900 hover:text-slate-800">
-                  🖇️ Column Control
+                <a href="/docs/examples/" class="text-slate-900 hover:text-slate-800">
+                  📡 Consuming Remote API Data
                 </a>
               </li>
             
@@ -267,11 +210,11 @@
 				<article class="">
 					<header class="">
 						<p class="text-base font-medium text-slate-500">
-							Overview
+							Documentation
 						</p>
 
 						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
-							📘 Introduction
+							🔁 Event Callbacks
 						</h1>
 					</header>
 
@@ -282,91 +225,79 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						<p>A lightweight and customizable React data grid component designed for high performance and ease of use. The DataGrid component is a highly customizable, feature-rich table component designed to display tabular data in a React application. It is intended for use cases where large datasets need to be presented with advanced features such as pagination, sorting, searching, row interactions, and more.</p>
-<p>✅ <strong>Key Features</strong><br>
-⚡ <strong>Lightweight</strong> – Small bundle size, fast loading<br>
-📦 <strong>API-ready</strong> – Works with any JSON API<br>
-🛠️ <strong>Dynamic columns</strong> – Auto-adapts to data schema<br>
-🔍 <strong>Search &amp; aliases</strong> – Fast filtering, custom labels<br>
-📌 <strong>Fixed columns</strong> – Lock columns during scroll<br>
-📏 <strong>Resizable columns</strong> – User can drag to resize<br>
-📱 <strong>Responsive layout</strong> – Adapts to all screen sizes<br>
-🧾 <strong>CSV export</strong> – Download full data grid<br>
-✏️ <strong>Row actions</strong> – Built-in edit/delete hooks<br>
-🧩 <strong>Merged columns</strong> – Combine multiple fields<br>
-📊 <strong>Analytics events</strong> – Track user interactions<br>
-🎨 <strong>Theming</strong> – Pre-built themes &amp; easy customization<br>
-🧩 <strong>Actions align</strong> – Fix column left or right via prop<br>
-🧪 <strong>Fully tested</strong> – Robust unit coverage and fixes</p>
-<br>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/bf6ef7d8-1475-4554-8177-de1f794edb4b" alt="react-data-grid-lite 19 July -2" width="100%" />
-</p>
-<br>
-<h2>📦 Installation</h2>
-<pre><code class="language-bash">npm install react-data-grid-lite
-</code></pre>
-<p>or</p>
-<pre><code class="language-bash">yarn add react-data-grid-lite
-</code></pre>
-<br>
-<h2>🚀 Usage</h2>
-<pre><code class="language-jsx">import React from 'react';
-import DataGrid from 'react-data-grid-lite';
-
-const columns = [
-  { name: 'id', width:'50px' },
-  { name: 'name', alias:'Full Name' },
-  { name: 'age' }
-];
-
-const rows = [
-  { id: 1, name: 'John Doe', age: 28 },
-  { id: 2, name: 'Jane Smith', age: 34 }
-];
-
-function App() {
-  return (
-    &lt;DataGrid columns={columns} data={rows} /&gt;
-  );
-}
-
-export default App;
-</code></pre>
-<br>
-<h2>React Compatibility Table</h2>
-<p>The <code>react-data-grid-lite</code> library is compatible with the following versions of React:</p>
-<table>
-<thead>
-<tr>
-<th><strong>React Version</strong></th>
-<th><strong>Compatibility</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>React 19+</strong></td>
-<td>✅ Fully Compatible</td>
-</tr>
-<tr>
-<td><strong>React 18+</strong></td>
-<td>✅ Fully Compatible</td>
-</tr>
-<tr>
-<td><strong>React 17+</strong></td>
-<td>✅ Fully Compatible</td>
-</tr>
-</tbody>
-</table>
-<br>
-<h2>🚀 Try It Out!</h2>
-<p>Feel free to fork the repository and experiment with the grid's behavior for concatenating columns. Let me know if you'd like any further adjustments or clarification! Happy coding! 🎉</p>
-<br>
-<h2>📄 License</h2>
-<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
-<br>
-<h2>🙋‍♂️ Available for freelance work!</h2>
-<p>Reach out via <a href="https://www.linkedin.com/in/vinay-sharma-2022354">LinkedIn</a> or check out my projects on <a href="https://github.com/ricky-sharma">GitHub</a>.</p>
+						<h3><code>onSortComplete(e, sortColumns, sortedData, sortOrder)</code></h3>
+<p>Triggered after sorting completes.</p>
+<ul>
+<li><code>e</code>: Event object</li>
+<li><code>sortColumns</code>: Array of sorted column keys</li>
+<li><code>sortedData</code>: The sorted data array</li>
+<li><code>sortOrder</code>: <code>'asc'</code> or <code>'desc'</code></li>
+</ul>
+<h3><code>onSearchComplete(e, query, columns, result, matchCount)</code></h3>
+<p>Fired after search operation finishes.</p>
+<ul>
+<li><code>e</code>: Event object</li>
+<li><code>query</code>: Search string</li>
+<li><code>columns</code>: Columns searched</li>
+<li><code>result</code>: Filtered rows</li>
+<li><code>matchCount</code>: Number of matches</li>
+</ul>
+<h3><code>onPageChange(e, currentPage, previousPage, currentPageRows, currentPageFirstRow)</code></h3>
+<p>Fired when pagination changes.</p>
+<ul>
+<li><code>e</code>: Event object</li>
+<li><code>currentPage</code>: Current active page number</li>
+<li><code>previousPage</code>: Previous active page number</li>
+<li><code>currentPageRows</code>: Number of rows on current page</li>
+<li><code>currentPageFirstRow</code>: Index of first row on current page</li>
+</ul>
+<h3><code>onDownloadComplete(e, filename, blob)</code></h3>
+<p>Triggered after CSV file download. Useful for logging or triggering post-download workflows.</p>
+<ul>
+<li><code>e</code>: Event object</li>
+<li><code>filename</code>: Name of the downloaded file</li>
+<li><code>blob</code>: Blob object of the file</li>
+</ul>
+<h3><code>onColumnResized(e, newWidth, columnName)</code> — <em>Supported in <code>v1.1.0</code> and above</em></h3>
+<p>This event handler is called <strong>after a column has been resized</strong>. This function allows you to respond to column resize events, such as updating UI elements or saving user preferences.</p>
+<ul>
+<li><code>e</code> — The original event object from the resize action.</li>
+<li><code>newWidth</code> — The new width of the column in pixels as a string with <code>px</code> suffix (e.g., <code>&quot;150px&quot;</code>). If the new width is <code>null</code> or invalid, it defaults to <code>0</code>.</li>
+<li><code>columnName</code> — The unique identifier (name) of the resized column.</li>
+<li><code>gridID</code> — The unique identifier (id) for the DataGrid component.</li>
+</ul>
+<p><br><br></p>
+<h2>Row-Level Action Events</h2>
+<h3><code>editButtonEvent(e, row)</code></h3>
+<p>Triggered when the <strong>Edit</strong> button in a row is clicked. Use this to open edit forms or modals tied to specific row data.</p>
+<ul>
+<li><code>e</code>: Click event object</li>
+<li><code>row</code>: Data object representing the clicked row</li>
+</ul>
+<h3><code>deleteButtonEvent(e, row)</code></h3>
+<p>Fired when the <strong>Delete</strong> button in a row is clicked. Typically used to confirm and process row deletions.</p>
+<ul>
+<li><code>e</code>: Click event</li>
+<li><code>row</code>: The row data being deleted</li>
+</ul>
+<h3><code>onRowClick(e, row)</code></h3>
+<p>Called when any part of a row (not a specific button) is clicked. Useful for row-level selection, navigation, or detailed views.</p>
+<ul>
+<li><code>e</code>: Click event</li>
+<li><code>row</code>: The full row data</li>
+</ul>
+<h3><code>onRowHover(e, row)</code></h3>
+<p>Triggered when the mouse hovers over a row. Ideal for showing tooltips, highlights, or preview actions.</p>
+<ul>
+<li><code>e</code>: Mouse event</li>
+<li><code>row</code>: Row under the cursor</li>
+</ul>
+<h3><code>onRowOut(e, row)</code></h3>
+<p>Fired when the mouse leaves a row area. Often used to reset styles or hide tooltips.</p>
+<ul>
+<li><code>e</code>: Mouse event</li>
+<li><code>row</code>: Row from which the cursor exited</li>
+</ul>
 
 					</div>
 
@@ -393,8 +324,8 @@ export default App;
           </dt>
 
           <dd class="mt-1">
-            <a href="/docs/LICENSE/" class="text-base font-semibold text-slate-900 hover:underline">
-              ⚖️ License
+            <a href="/docs/api/" class="text-base font-semibold text-slate-900 hover:underline">
+              📦 API Reference
             </a>
           </dd>
         </div>
@@ -407,8 +338,8 @@ export default App;
           </dt>
 
           <dd class="mt-1">
-            <a href="/docs/examples/example-2/" class="text-base font-semibold text-slate-900 hover:underline">
-              📝 Global &amp; Column Search
+            <a href="/docs/examples/" class="text-base font-semibold text-slate-900 hover:underline">
+              📡 Consuming Remote API Data
             </a>
           </dd>
         </div>
