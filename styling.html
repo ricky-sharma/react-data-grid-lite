@@ -1,540 +1,419 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-US">
-  <head>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async=""
-      src="https://www.googletagmanager.com/gtag/js?id=G-1KMZ9EZBKL"
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script
+		  async=""
+		  src="https://www.googletagmanager.com/gtag/js?id=G-1KMZ9EZBKL"
     ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+			dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
 
-      gtag("config", "G-1KMZ9EZBKL");
-    </script>
-    <!-- Google tag (gtag.js) -->
-
-    <title>🪄 Styling &amp; Theming</title>
-    <meta
-      name="description"
-      content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+			gtag("config", "G-1KMZ9EZBKL");
+		</script>
+		<!-- Google tag (gtag.js) -->
+		
+		<title>🪄 Styling &amp; Theming</title>
+		<meta
+		  name="description"
+		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
     />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
-    <meta
-      name="keywords"
-      content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+		<meta name="keywords"
+		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
-    <meta name="author" content="Vinay Sharma (ricky-sharma)" />
-
-    <!-- Open Graph for social sharing -->
-    <meta property="og:title" content="React Data Grid Lite" />
-    <meta
-      property="og:description"
-      content="A lightweight React data grid with full API and usage examples."
+		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
+		
+		<!-- Open Graph for social sharing -->
+		<meta property="og:title" content="React Data Grid Lite" />
+		<meta
+		  property="og:description"
+		  content="A lightweight React data grid with full API and usage examples."
     />
-    <meta
-      property="og:url"
-      content="https://ricky-sharma.github.io/react-data-grid-lite/"
+		<meta
+		  property="og:url"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/"
     />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:image"
-      content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
+		<meta property="og:type" content="website" />
+		<meta
+		  property="og:image"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
     />
-    <!-- Open Graph for social sharing -->
-
-    <!-- goat counter -->
-    <script
+		<!-- Open Graph for social sharing -->
+		
+		<!-- goat counter -->
+		<script
       data-goatcounter="https://react-data-grid-lite.goatcounter.com/count"
       async=""
       src="https://gc.zgo.at/count.js"
     ></script>
-    <!-- goat counter -->
-
-    <!-- google site verification -->
-    <meta
-      name="google-site-verification"
-      content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
+		<!-- goat counter -->
+		
+		<!-- google site verification -->
+		<meta
+		  name="google-site-verification"
+		  content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
     />
-    <!-- google site verification -->
+		<!-- google site verification -->
+		
+		<link href="index.css" rel="stylesheet" />
+	</head>
 
-    <link href="index.css" rel="stylesheet" />
-  </head>
-
-  <body>
-    <header
-      class="sticky top-0 z-50 flex items-center justify-between px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40"
-    >
-      <div class="flex items-center flex-grow basis-0">
-        <a
-          href="index.html"
-          class="text-2xl font-semibold tracking-tight text-slate-900"
-        >
-          React Data Grid Lite
-        </a>
-      </div>
-      <div class="items-center justify-end flex-grow hidden basis-0 md:flex">
-        <p
-          style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center"
-        >
-          <a
-            href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip"
+	<body>
+		<header class="sticky top-0 z-50 flex items-center justify-between px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40">
+	<div class="flex items-center flex-grow basis-0">
+		<a href="index.html" class="text-2xl font-semibold tracking-tight text-slate-900">
+			React Data Grid Lite
+		</a>
+	</div>
+	<div class="items-center justify-end flex-grow hidden basis-0 md:flex">
+		<p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+			<a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
+				<img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
+                class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
+					 alt="Download ZIP" />
+			</a>
+			<a
+		  href="https://www.npmjs.com/package/react-data-grid-lite"
+		  target="_blank"
+		  aria-label="NPM"
+		  rel="noopener"
+		  class="inline-block rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
+		  style="line-height: 0;"
+>
+				<img
+				  src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
+				  alt="NPM Badge"
+				  class="block"
+  />
+			</a>
+			<img src="https://img.shields.io/npm/dt/react-data-grid-lite"
+				class="rounded bg-slate-900"
+				 alt="npm downloads" />
+			<a
+					href="https://github.com/ricky-sharma/react-data-grid-lite"
+					target="_blank"
+					aria-label="GitHub"
+					rel="noopener"
           >
-            <img
-              src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
-              class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-              alt="Download ZIP"
+				<img
+				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+				  alt="GitHub"
+				  style="display: block; height: 20px;"
+				  class="rounded transition-transform ease-in-out duration-200 hover:scale-105"
             />
-          </a>
-          <a
-            href="https://www.npmjs.com/package/react-data-grid-lite"
-            target="_blank"
-            aria-label="NPM"
-            rel="noopener"
-            class="inline-block rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-            style="line-height: 0"
+			</a>
+			<a
+		   href="https://www.linkedin.com/in/vinay-sharma-2022354/"
+		   target="_blank"
+		   aria-label="LinkedIn"
+		   rel="noopener"
           >
-            <img
-              src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
-              alt="NPM Badge"
-              class="block"
-            />
-          </a>
-          <img
-            src="https://img.shields.io/npm/dt/react-data-grid-lite"
-            class="rounded bg-slate-900"
-            alt="npm downloads"
-          />
-          <a
-            href="https://github.com/ricky-sharma/react-data-grid-lite"
-            target="_blank"
-            aria-label="GitHub"
-            rel="noopener"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-              alt="GitHub"
-              style="display: block; height: 20px"
-              class="rounded transition-transform ease-in-out duration-200 hover:scale-105"
-            />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/vinay-sharma-2022354/"
-            target="_blank"
-            aria-label="LinkedIn"
-            rel="noopener"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-              alt="LinkedIn"
-              style="background-color: white; display: block; height: 20px"
-              class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-            />
-          </a>
-        </p>
-      </div>
-    </header>
+				<img
+				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
+				  alt="LinkedIn"
+				  style="background-color: white; display: block; height: 20px;"
+				  		  class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
 
-    <main
-      class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12"
-    >
-      <label
-        for="navigation"
-        class="fixed bottom-0 left-0 z-50 flex items-center justify-center w-12 h-12 mb-4 ml-4 bg-white border rounded-full shadow-lg cursor-pointer text-slate-600 border-slate-300 lg:hidden transition duration-200 ease-in-out active:scale-95"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 8h16M4 16h16"
-          />
-        </svg>
-      </label>
+/>
+			</a>
+		</p>
+	</div>
+</header>
 
-      <input
-        type="checkbox"
-        name="navigation"
-        id="navigation"
-        class="hidden peer"
-      />
-      <div
-        class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none"
-      >
-        <div
-          class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"
-        ></div>
 
-        <nav
-          class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16"
-        >
-          <ul
-            role="list"
-            class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8"
-          >
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Overview
-              </h3>
+		<main class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12">
+			<label for="navigation" class="fixed bottom-0 left-0 z-50 flex items-center justify-center w-12 h-12 mb-4 ml-4 bg-white border rounded-full shadow-lg cursor-pointer text-slate-600 border-slate-300 lg:hidden transition duration-200 ease-in-out active:scale-95">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+  </svg>
+</label>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="index.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📘 Introduction
-                  </a>
-                </li>
-              </ul>
-            </li>
+<input type="checkbox" name="navigation" id="navigation" class="hidden peer" />
+<div class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none">
+  <div class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"></div>
 
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Documentation
-              </h3>
+  <nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16">
+    <ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8">
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Overview
+			</h3>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="api.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📦 API Reference
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="index.html" class="text-slate-900 hover:text-slate-800">
+						📘 Introduction
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Documentation
+			</h3>
 
-                <li>
-                  <a
-                    href="events.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🔁 Event Callbacks
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="api.html" class="text-slate-900 hover:text-slate-800">
+						📦 API Reference
+					</a>
+				</li>
+				
+				<li>
+					<a href="events.html" class="text-slate-900 hover:text-slate-800">
+						🔁 Event Callbacks
+					</a>
+				</li>
+				
+				<li>
+					<a href="styling.html" class="text-slate-900 hover:text-slate-800">
+						🪄 Styling &amp; Theming
+					</a>
+				</li>
+				
+				<li>
+					<a href="advanced.html" class="text-slate-900 hover:text-slate-800">
+						🔍 Advanced Usage
+					</a>
+				</li>
+				
+				<li>
+					<a href="format-guide.html" class="text-slate-900 hover:text-slate-800">
+						🔤 Format Guide
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Examples
+			</h3>
 
-                <li>
-                  <a
-                    href="styling.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🪄 Styling &amp; Theming
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="example-1.html" class="text-slate-900 hover:text-slate-800">
+						📡 Consuming Remote API
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-2.html" class="text-slate-900 hover:text-slate-800">
+						📝 Global &amp; Column Search
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-3.html" class="text-slate-900 hover:text-slate-800">
+						↔️ Pinned &amp; Resizable Columns
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-4.html" class="text-slate-900 hover:text-slate-800">
+						🖇️ Column Control
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Terms &amp; Changes
+			</h3>
 
-                <li>
-                  <a
-                    href="advanced.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🔍 Advanced Usage
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="changelog.html" class="text-slate-900 hover:text-slate-800">
+						📌 Changelog
+					</a>
+				</li>
+				
+				<li>
+					<a href="license.html" class="text-slate-900 hover:text-slate-800">
+						⚖️ License
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+	</ul>
+  </nav>
+</div>
 
-                <li>
-                  <a
-                    href="format_guide.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🔤 Format Guide
-                  </a>
-                </li>
-              </ul>
-            </li>
 
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Examples
-              </h3>
+			<div class="flex-auto max-w-2xl min-w-0 px-4 py-10 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
+				<article class="">
+					<header class="">
+						<p class="text-base font-medium text-slate-500">
+							Documentation
+						</p>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="example-1.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📡 Consuming Remote API
-                  </a>
-                </li>
+						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
+							🪄 Styling &amp; Theming
+						</h1>
+					</header>
 
-                <li>
-                  <a
-                    href="example-2.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📝 Global &amp; Column Search
-                  </a>
-                </li>
+					
 
-                <li>
-                  <a
-                    href="example-3.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    ↔️ Pinned &amp; Resizable Columns
-                  </a>
-                </li>
+					
 
-                <li>
-                  <a
-                    href="example-4.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🖇️ Column Control
-                  </a>
-                </li>
-              </ul>
-            </li>
+					
 
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Terms &amp; Changes
-              </h3>
-
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="changelog.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📌 Changelog
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="license.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    ⚖️ License
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <div
-        class="flex-auto max-w-2xl min-w-0 px-4 py-10 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16"
-      >
-        <article class="">
-          <header class="">
-            <p class="text-base font-medium text-slate-500">Documentation</p>
-
-            <h1 class="text-3xl font-bold tracking-tight text-slate-900">
-              🪄 Styling &amp; Theming
-            </h1>
-          </header>
-
-          <div
-            class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900"
-          >
-            <h2>🎨 Theming Support</h2>
-            <p>
-              The grid provides several built-in
-              <strong>visual themes</strong> to help match your application's
-              branding and improve usability across different domains. These
-              themes improve readability and help visually align the grid with
-              the surrounding application UI.
-            </p>
-            <p>
-              Apply a theme by passing the <code>theme</code> prop to the grid
-              component:
-            </p>
-            <pre><code class="language-jsx">&lt;Grid theme=&quot;blue-core&quot; /&gt;
+					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
+						<h2>🎨 Theming Support</h2>
+<p>The grid provides several built-in <strong>visual themes</strong> to help match your application's branding and improve usability across different domains. These themes improve readability and help visually align the grid with the surrounding application UI.</p>
+<p>Apply a theme by passing the <code>theme</code> prop to the grid component:</p>
+<pre><code class="language-jsx">&lt;Grid theme=&quot;blue-core&quot; /&gt;
 </code></pre>
-            <hr />
-            <h3>🧱 What Themes Affect</h3>
-            <p>Each theme customizes the following UI aspects:</p>
-            <ul>
-              <li>
-                <strong>Header Background Color</strong> – applies to column
-                headers
-              </li>
-              <li>
-                <strong>Grid Body Background Color</strong> – applies to outer
-                grid container
-              </li>
-              <li>
-                <strong>Text &amp; Control Color</strong> – used in controls
-                like the pagination, dropdown, etc.
-              </li>
-            </ul>
-            <hr />
-            <h3>🎨 Available Themes</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Theme Name</th>
-                  <th>Header Background</th>
-                  <th>Body Background</th>
-                  <th>Text / Control Color</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>blue-core</code></td>
-                  <td><code>#1F3B4D</code></td>
-                  <td><code>#E5E8EC</code></td>
-                  <td><code>#1F3B4D</code></td>
-                  <td>
-                    Professional and clean blue-gray theme, great for enterprise
-                    dashboards.
-                  </td>
-                </tr>
-                <tr>
-                  <td><code>dark-stack</code></td>
-                  <td><code>#2D2D2D</code></td>
-                  <td><code>#F5F5F5</code></td>
-                  <td><code>#2D2D2D</code></td>
-                  <td>
-                    Modern grayscale palette ideal for minimal UI and clean
-                    layouts.
-                  </td>
-                </tr>
-                <tr>
-                  <td><code>medi-glow</code></td>
-                  <td><code>#256D4F</code></td>
-                  <td><code>#E8F5E9</code></td>
-                  <td><code>#256D4F</code></td>
-                  <td>
-                    Soft green tone suitable for healthcare, wellness, and
-                    eco-focused UIs.
-                  </td>
-                </tr>
-                <tr>
-                  <td><em>(default)</em></td>
-                  <td><code>#667</code></td>
-                  <td><code>#E0E0E0</code></td>
-                  <td><code>#667</code></td>
-                  <td>Neutral base styling used when no theme is specified.</td>
-                </tr>
-              </tbody>
-            </table>
-            <hr />
-            <h3>📝 Notes</h3>
-            <ul>
-              <li>
-                The <code>theme</code> prop accepts one of the predefined theme
-                names.
-              </li>
-              <li>
-                When no <code>theme</code> is passed, the default neutral
-                styling is applied.
-              </li>
-              <li>
-                These themes adjust key colors via CSS with
-                <code>!important</code> to maintain consistency across browsers.
-              </li>
-              <li>
-                You can extend or override styles using your own custom classes
-                if needed.
-              </li>
-            </ul>
-            <hr />
-            <h3>🎛️ Overriding Themes with Class Props</h3>
-            <p>
-              You can override or extend theme styling using the following
-              optional props:
-            </p>
-            <table>
-              <thead>
-                <tr>
-                  <th>Prop Name</th>
-                  <th>Type</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>gridClass</code></td>
-                  <td><code>string</code></td>
-                  <td>Applies a custom class to the outer grid container.</td>
-                </tr>
-                <tr>
-                  <td><code>headerClass</code></td>
-                  <td><code>string</code></td>
-                  <td>
-                    Overrides header styling. Useful for setting your own
-                    background or text color.
-                  </td>
-                </tr>
-                <tr>
-                  <td><code>rowClass</code></td>
-                  <td><code>string</code></td>
-                  <td>
-                    Applies custom styles to each data row. Can be used to add
-                    hover effects, borders, etc.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <p>These props are especially useful if you want to:</p>
-            <ul>
-              <li>Apply branding-specific colors or layout tweaks</li>
-              <li>Layer custom styles on top of a base theme</li>
-              <li>Disable or override theme values selectively</li>
-            </ul>
-            <p><br /><br /></p>
-            <h2>⚙️ Custom CSS Classes for Grid</h2>
-            <p>
-              The <code>react-data-grid-lite</code> component allows you to
-              apply custom CSS classes to various parts of the grid, such as the
-              entire grid container, the header row, and each individual row.
-              You can use the following props to add custom styles:
-            </p>
-            <table>
-              <thead>
-                <tr>
-                  <th><strong>Prop Name</strong></th>
-                  <th><strong>Type</strong></th>
-                  <th><strong>Description</strong></th>
-                  <th><strong>Required</strong></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>gridClass</code></td>
-                  <td><code>String</code></td>
-                  <td>Custom CSS class for the grid container.</td>
-                  <td>No</td>
-                </tr>
-                <tr>
-                  <td><code>headerClass</code></td>
-                  <td><code>String</code></td>
-                  <td>Custom CSS class for the header row.</td>
-                  <td>No</td>
-                </tr>
-                <tr>
-                  <td><code>rowClass</code></td>
-                  <td><code>String</code></td>
-                  <td>Custom CSS class for each row in the grid.</td>
-                  <td>No</td>
-                </tr>
-              </tbody>
-            </table>
-            <h4>📝 Example:</h4>
-            <p>
-              <img
-                src="https://github.com/user-attachments/assets/8bebdae1-4ae1-4725-bffa-4790c7761feb"
-                alt="image"
-              />
-            </p>
-            <p>Here’s how you can use these props to add custom styles:</p>
-            <pre><code class="language-javascript">&lt;DataGrid
+<hr>
+<h3>🧱 What Themes Affect</h3>
+<p>Each theme customizes the following UI aspects:</p>
+<ul>
+<li><strong>Header Background Color</strong> – applies to column headers</li>
+<li><strong>Grid Body Background Color</strong> – applies to outer grid container</li>
+<li><strong>Text &amp; Control Color</strong> – used in controls like the pagination, dropdown, etc.</li>
+</ul>
+<hr>
+<h3>🎨 Available Themes</h3>
+<table>
+<thead>
+<tr>
+<th>Theme Name</th>
+<th>Header Background</th>
+<th>Body Background</th>
+<th>Text / Control Color</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>blue-core</code></td>
+<td><code>#1F3B4D</code></td>
+<td><code>#E5E8EC</code></td>
+<td><code>#1F3B4D</code></td>
+<td>Professional and clean blue-gray theme, great for enterprise dashboards.</td>
+</tr>
+<tr>
+<td><code>dark-stack</code></td>
+<td><code>#2D2D2D</code></td>
+<td><code>#F5F5F5</code></td>
+<td><code>#2D2D2D</code></td>
+<td>Modern grayscale palette ideal for minimal UI and clean layouts.</td>
+</tr>
+<tr>
+<td><code>medi-glow</code></td>
+<td><code>#256D4F</code></td>
+<td><code>#E8F5E9</code></td>
+<td><code>#256D4F</code></td>
+<td>Soft green tone suitable for healthcare, wellness, and eco-focused UIs.</td>
+</tr>
+<tr>
+<td><em>(default)</em></td>
+<td><code>#667</code></td>
+<td><code>#E0E0E0</code></td>
+<td><code>#667</code></td>
+<td>Neutral base styling used when no theme is specified.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>📝 Notes</h3>
+<ul>
+<li>The <code>theme</code> prop accepts one of the predefined theme names.</li>
+<li>When no <code>theme</code> is passed, the default neutral styling is applied.</li>
+<li>These themes adjust key colors via CSS with <code>!important</code> to maintain consistency across browsers.</li>
+<li>You can extend or override styles using your own custom classes if needed.</li>
+</ul>
+<hr>
+<h3>🎛️ Overriding Themes with Class Props</h3>
+<p>You can override or extend theme styling using the following optional props:</p>
+<table>
+<thead>
+<tr>
+<th>Prop Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gridClass</code></td>
+<td><code>string</code></td>
+<td>Applies a custom class to the outer grid container.</td>
+</tr>
+<tr>
+<td><code>headerClass</code></td>
+<td><code>string</code></td>
+<td>Overrides header styling. Useful for setting your own background or text color.</td>
+</tr>
+<tr>
+<td><code>rowClass</code></td>
+<td><code>string</code></td>
+<td>Applies custom styles to each data row. Can be used to add hover effects, borders, etc.</td>
+</tr>
+</tbody>
+</table>
+<p>These props are especially useful if you want to:</p>
+<ul>
+<li>Apply branding-specific colors or layout tweaks</li>
+<li>Layer custom styles on top of a base theme</li>
+<li>Disable or override theme values selectively</li>
+</ul>
+<p><br><br></p>
+<h2>⚙️ Custom CSS Classes for Grid</h2>
+<p>The <code>react-data-grid-lite</code> component allows you to apply custom CSS classes to various parts of the grid, such as the entire grid container, the header row, and each individual row. You can use the following props to add custom styles:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Prop Name</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gridClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for the grid container.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>headerClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for the header row.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>rowClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for each row in the grid.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4>📝 Example:</h4>
+<p><img src="https://github.com/user-attachments/assets/8bebdae1-4ae1-4725-bffa-4790c7761feb" alt="image"></p>
+<p>Here’s how you can use these props to add custom styles:</p>
+<pre><code class="language-javascript">&lt;DataGrid
   options={
     gridClass: &quot;my-custom-grid&quot;,
     headerClass: &quot;my-custom-header&quot;,
@@ -544,13 +423,8 @@
   data={data}
 /&gt;
 </code></pre>
-            <p>
-              In this example, <code>my-custom-grid</code>,
-              <code>my-custom-header</code>, and
-              <code>my-custom-row</code> would be the CSS classes you define in
-              your stylesheet.
-            </p>
-            <pre><code class="language-css">/*Custom Styles*/
+<p>In this example, <code>my-custom-grid</code>, <code>my-custom-header</code>, and <code>my-custom-row</code> would be the CSS classes you define in your stylesheet.</p>
+<pre><code class="language-css">/*Custom Styles*/
 .my-custom-grid {
     background-color: #c0cad3 !important;
     border: 3px solid #c0cad3 !important;
@@ -578,73 +452,63 @@
         background-color: #e0e0e0 !important;
     }
 </code></pre>
-            <h4>🔄 Additional Notes:</h4>
-            <ul>
-              <li>
-                Ensure that the custom styles don’t conflict with the default
-                styles of the grid to maintain proper layout and functionality.
-              </li>
-            </ul>
-            <p>
-              While the <code>gridClass</code>, <code>headerClass</code>, and
-              <code>rowClass</code> props allow you to apply custom CSS classes
-              to the grid and its elements, the styles might not be perfectly
-              aligned with your desired layout or design out-of-the-box.
-              Depending on your project’s design system or CSS framework, you
-              may need to adjust or override these styles to ensure they work as
-              intended.
-            </p>
-            <hr />
-          </div>
+<h4>🔄 Additional Notes:</h4>
+<ul>
+<li>Ensure that the custom styles don’t conflict with the default styles of the grid to maintain proper layout and functionality.</li>
+</ul>
+<p>While the <code>gridClass</code>, <code>headerClass</code>, and <code>rowClass</code> props allow you to apply custom CSS classes to the grid and its elements, the styles might not be perfectly aligned with your desired layout or design out-of-the-box. Depending on your project’s design system or CSS framework, you may need to adjust or override these styles to ensure they work as intended.</p>
+<hr>
 
-          <h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
-            Have questions?
-          </h3>
+					</div>
 
-          <p class="text-slate-900">
-            Still have questions?
-            <a
-              href="https://github.com/ricky-sharma/react-data-grid-lite/discussions"
-              target="_blank"
-              rel="noopener"
-              class="underline hover:no-underline"
-              >Contact on GitHub</a
-            >.
-          </p>
-        </article>
+					<h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
+	Have questions?
+</h3>
 
-        <dl class="flex pt-6 mt-6 border-t border-slate-200">
-          <div class="mr-auto text-left">
-            <dt class="text-sm font-normal tracking-tight text-slate-600">
-              Previous
-            </dt>
+<p class="text-slate-900">
+	Still have questions? <a href="https://github.com/ricky-sharma/react-data-grid-lite/discussions" target="_blank" rel="noopener" class="underline hover:no-underline">Contact on GitHub</a>.
+</p>
 
-            <dd class="mt-1">
-              <a
-                href="advanced.html"
-                class="text-base font-semibold text-slate-900 hover:underline"
-              >
-                🔍 Advanced Usage
-              </a>
-            </dd>
-          </div>
+				</article>
 
-          <div class="ml-auto text-right">
-            <dt class="text-sm font-normal tracking-tight text-slate-600">
-              Next
-            </dt>
+				
+  
+  
 
-            <dd class="mt-1">
-              <a
-                href="api.html"
-                class="text-base font-semibold text-slate-900 hover:underline"
-              >
-                📦 API Reference
-              </a>
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </main>
-  </body>
+  
+    <dl class="flex pt-6 mt-6 border-t border-slate-200">
+      
+        <div class="mr-auto text-left">
+          <dt class="text-sm font-normal tracking-tight text-slate-600">
+            Previous
+          </dt>
+
+          <dd class="mt-1">
+            <a href="format-guide.html" class="text-base font-semibold text-slate-900 hover:underline">
+              🔤 Format Guide
+            </a>
+          </dd>
+        </div>
+      
+
+      
+        <div class="ml-auto text-right">
+          <dt class="text-sm font-normal tracking-tight text-slate-600">
+            Next
+          </dt>
+
+          <dd class="mt-1">
+            <a href="example-1.html" class="text-base font-semibold text-slate-900 hover:underline">
+              📡 Consuming Remote API
+            </a>
+          </dd>
+        </div>
+      
+    </dl>
+  
+
+
+			</div>
+		</main>
+	</body>
 </html>

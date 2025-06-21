@@ -1,478 +1,508 @@
 <!doctype html>
 <html lang="en-US">
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script
+		  async=""
+		  src="https://www.googletagmanager.com/gtag/js?id=G-1KMZ9EZBKL"
+    ></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+			dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
 
-<head>
-  <!-- Google tag (gtag.js) -->
-  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-1KMZ9EZBKL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
+			gtag("config", "G-1KMZ9EZBKL");
+		</script>
+		<!-- Google tag (gtag.js) -->
+		
+		<title>📦 API Reference</title>
+		<meta
+		  name="description"
+		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+    />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+		<meta name="keywords"
+		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+    />
+		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
+		
+		<!-- Open Graph for social sharing -->
+		<meta property="og:title" content="React Data Grid Lite" />
+		<meta
+		  property="og:description"
+		  content="A lightweight React data grid with full API and usage examples."
+    />
+		<meta
+		  property="og:url"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/"
+    />
+		<meta property="og:type" content="website" />
+		<meta
+		  property="og:image"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
+    />
+		<!-- Open Graph for social sharing -->
+		
+		<!-- goat counter -->
+		<script
+      data-goatcounter="https://react-data-grid-lite.goatcounter.com/count"
+      async=""
+      src="https://gc.zgo.at/count.js"
+    ></script>
+		<!-- goat counter -->
+		
+		<!-- google site verification -->
+		<meta
+		  name="google-site-verification"
+		  content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
+    />
+		<!-- google site verification -->
+		
+		<link href="index.css" rel="stylesheet" />
+	</head>
 
-    gtag("config", "G-1KMZ9EZBKL");
-  </script>
-  <!-- Google tag (gtag.js) -->
+	<body>
+		<header class="sticky top-0 z-50 flex items-center justify-between px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40">
+	<div class="flex items-center flex-grow basis-0">
+		<a href="index.html" class="text-2xl font-semibold tracking-tight text-slate-900">
+			React Data Grid Lite
+		</a>
+	</div>
+	<div class="items-center justify-end flex-grow hidden basis-0 md:flex">
+		<p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+			<a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
+				<img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
+                class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
+					 alt="Download ZIP" />
+			</a>
+			<a
+		  href="https://www.npmjs.com/package/react-data-grid-lite"
+		  target="_blank"
+		  aria-label="NPM"
+		  rel="noopener"
+		  class="inline-block rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
+		  style="line-height: 0;"
+>
+				<img
+				  src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
+				  alt="NPM Badge"
+				  class="block"
+  />
+			</a>
+			<img src="https://img.shields.io/npm/dt/react-data-grid-lite"
+				class="rounded bg-slate-900"
+				 alt="npm downloads" />
+			<a
+					href="https://github.com/ricky-sharma/react-data-grid-lite"
+					target="_blank"
+					aria-label="GitHub"
+					rel="noopener"
+          >
+				<img
+				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+				  alt="GitHub"
+				  style="display: block; height: 20px;"
+				  class="rounded transition-transform ease-in-out duration-200 hover:scale-105"
+            />
+			</a>
+			<a
+		   href="https://www.linkedin.com/in/vinay-sharma-2022354/"
+		   target="_blank"
+		   aria-label="LinkedIn"
+		   rel="noopener"
+          >
+				<img
+				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
+				  alt="LinkedIn"
+				  style="background-color: white; display: block; height: 20px;"
+				  		  class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
 
-  <title>📦 API Reference</title>
-  <meta name="description"
-    content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides." />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
-  <meta name="keywords"
-    content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination" />
-  <meta name="author" content="Vinay Sharma (ricky-sharma)" />
-
-  <!-- Open Graph for social sharing -->
-  <meta property="og:title" content="React Data Grid Lite" />
-  <meta property="og:description" content="A lightweight React data grid with full API and usage examples." />
-  <meta property="og:url" content="https://ricky-sharma.github.io/react-data-grid-lite/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
-  <!-- Open Graph for social sharing -->
-
-  <!-- goat counter -->
-  <script data-goatcounter="https://react-data-grid-lite.goatcounter.com/count" async=""
-    src="https://gc.zgo.at/count.js"></script>
-  <!-- goat counter -->
-
-  <!-- google site verification -->
-  <meta name="google-site-verification" content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs" />
-  <!-- google site verification -->
-
-  <link href="index.css" rel="stylesheet" />
-</head>
-
-<body>
-  <header
-    class="sticky top-0 z-50 flex items-center justify-between px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40">
-    <div class="flex items-center flex-grow basis-0">
-      <a href="index.html" class="text-2xl font-semibold tracking-tight text-slate-900">
-        React Data Grid Lite
-      </a>
-    </div>
-    <div class="items-center justify-end flex-grow hidden basis-0 md:flex">
-      <p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-        <a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
-          <img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
-            class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-            alt="Download ZIP" />
-        </a>
-        <a href="https://www.npmjs.com/package/react-data-grid-lite" target="_blank" aria-label="NPM" rel="noopener"
-          class="inline-block rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-          style="line-height: 0;">
-          <img src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
-            alt="NPM Badge" class="block" />
-        </a>
-        <img src="https://img.shields.io/npm/dt/react-data-grid-lite" class="rounded bg-slate-900"
-          alt="npm downloads" />
-        <a href="https://github.com/ricky-sharma/react-data-grid-lite" target="_blank" aria-label="GitHub"
-          rel="noopener">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"
-            style="display: block; height: 20px;"
-            class="rounded transition-transform ease-in-out duration-200 hover:scale-105" />
-        </a>
-        <a href="https://www.linkedin.com/in/vinay-sharma-2022354/" target="_blank" aria-label="LinkedIn"
-          rel="noopener">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn"
-            style="background-color: white; display: block; height: 20px;"
-            class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105" />
-        </a>
-      </p>
-    </div>
-  </header>
-  <main class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12">
-    <label for="navigation"
-      class="fixed bottom-0 left-0 z-50 flex items-center justify-center w-12 h-12 mb-4 ml-4 bg-white border rounded-full shadow-lg cursor-pointer text-slate-600 border-slate-300 lg:hidden transition duration-200 ease-in-out active:scale-95">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-        stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
-      </svg>
-    </label>
-
-    <input type="checkbox" name="navigation" id="navigation" class="hidden peer" />
-    <div
-      class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none">
-      <div class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"></div>
-      <nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16">
-        <ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8">
-
-
-          <li>
-            <h3 class="font-semibold tracking-tight text-slate-900">
-              Overview
-            </h3>
-
-            <ul role="list" class="pl-3 mt-3 space-y-2">
-
-              <li>
-                <a href="index.html" class="text-slate-900 hover:text-slate-800">
-                  📘 Introduction
-                </a>
-              </li>
-
-            </ul>
-          </li>
-
-
-          <li>
-            <h3 class="font-semibold tracking-tight text-slate-900">
-              Documentation
-            </h3>
-
-            <ul role="list" class="pl-3 mt-3 space-y-2">
-
-              <li>
-                <a href="api.html" class="text-slate-900 hover:text-slate-800">
-                  📦 API Reference
-                </a>
-              </li>
-
-              <li>
-                <a href="events.html" class="text-slate-900 hover:text-slate-800">
-                  🔁 Event Callbacks
-                </a>
-              </li>
-
-              <li>
-                <a href="styling.html" class="text-slate-900 hover:text-slate-800">
-                  🪄 Styling &amp; Theming
-                </a>
-              </li>
-
-              <li>
-                <a href="advanced.html" class="text-slate-900 hover:text-slate-800">
-                  🔍 Advanced Usage
-                </a>
-              </li>
-
-              <li>
-                <a href="format_guide.html" class="text-slate-900 hover:text-slate-800">
-                  🔤 Format Guide
-                </a>
-              </li>
-
-            </ul>
-          </li>
+/>
+			</a>
+		</p>
+	</div>
+</header>
 
 
-          <li>
-            <h3 class="font-semibold tracking-tight text-slate-900">
-              Examples
-            </h3>
+		<main class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12">
+			<label for="navigation" class="fixed bottom-0 left-0 z-50 flex items-center justify-center w-12 h-12 mb-4 ml-4 bg-white border rounded-full shadow-lg cursor-pointer text-slate-600 border-slate-300 lg:hidden transition duration-200 ease-in-out active:scale-95">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+  </svg>
+</label>
 
-            <ul role="list" class="pl-3 mt-3 space-y-2">
+<input type="checkbox" name="navigation" id="navigation" class="hidden peer" />
+<div class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none">
+  <div class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"></div>
 
-              <li>
-                <a href="example-1.html" class="text-slate-900 hover:text-slate-800">
-                  📡 Consuming Remote API
-                </a>
-              </li>
+  <nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16">
+    <ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8">
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Overview
+			</h3>
 
-              <li>
-                <a href="example-2.html" class="text-slate-900 hover:text-slate-800">
-                  📝 Global &amp; Column Search
-                </a>
-              </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="index.html" class="text-slate-900 hover:text-slate-800">
+						📘 Introduction
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Documentation
+			</h3>
 
-              <li>
-                <a href="example-3.html" class="text-slate-900 hover:text-slate-800">
-                  ↔️ Pinned &amp; Resizable Columns
-                </a>
-              </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="api.html" class="text-slate-900 hover:text-slate-800">
+						📦 API Reference
+					</a>
+				</li>
+				
+				<li>
+					<a href="events.html" class="text-slate-900 hover:text-slate-800">
+						🔁 Event Callbacks
+					</a>
+				</li>
+				
+				<li>
+					<a href="styling.html" class="text-slate-900 hover:text-slate-800">
+						🪄 Styling &amp; Theming
+					</a>
+				</li>
+				
+				<li>
+					<a href="advanced.html" class="text-slate-900 hover:text-slate-800">
+						🔍 Advanced Usage
+					</a>
+				</li>
+				
+				<li>
+					<a href="format-guide.html" class="text-slate-900 hover:text-slate-800">
+						🔤 Format Guide
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Examples
+			</h3>
 
-              <li>
-                <a href="example-4.html" class="text-slate-900 hover:text-slate-800">
-                  🖇️ Column Control
-                </a>
-              </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="example-1.html" class="text-slate-900 hover:text-slate-800">
+						📡 Consuming Remote API
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-2.html" class="text-slate-900 hover:text-slate-800">
+						📝 Global &amp; Column Search
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-3.html" class="text-slate-900 hover:text-slate-800">
+						↔️ Pinned &amp; Resizable Columns
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-4.html" class="text-slate-900 hover:text-slate-800">
+						🖇️ Column Control
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Terms &amp; Changes
+			</h3>
 
-            </ul>
-          </li>
-          <li>
-            <h3 class="font-semibold tracking-tight text-slate-900">
-              Terms &amp; Changes
-            </h3>
-            <ul role="list" class="pl-3 mt-3 space-y-2">
-              <li>
-                <a href="changelog.html" class="text-slate-900 hover:text-slate-800">
-                  📌 Changelog
-                </a>
-              </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="changelog.html" class="text-slate-900 hover:text-slate-800">
+						📌 Changelog
+					</a>
+				</li>
+				
+				<li>
+					<a href="license.html" class="text-slate-900 hover:text-slate-800">
+						⚖️ License
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+	</ul>
+  </nav>
+</div>
 
-              <li>
-                <a href="license.html" class="text-slate-900 hover:text-slate-800">
-                  ⚖️ License
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <div class="flex-auto max-w-2xl min-w-0 px-4 py-10 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
-      <article class="">
-        <header class="">
-          <p class="text-base font-medium text-slate-500">
-            Documentation
-          </p>
 
-          <h1 class="text-3xl font-bold tracking-tight text-slate-900">
-            📦 API Reference
-          </h1>
-        </header>
-        <p class="mt-3 text-lg text-slate-600">
-          A lightweight and customizable React data grid component designed for high performance and ease of use.
-        </p>
-        <div
-          class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-          <h2>🔧 Props</h2>
-          <table>
-            <thead>
-              <tr>
-                <th><strong>Prop</strong></th>
-                <th><strong>Type</strong></th>
-                <th><strong>Description</strong></th>
-                <th><strong>Default Value</strong></th>
-                <th><strong>Required</strong></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>id</code></td>
-                <td><code>string</code></td>
-                <td>Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not
-                    provided. This feature is supported in version 1.0.5 and above.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>columns</code></td>
-                <td><code>Array</code></td>
-                <td>Array of column definitions. Each column can have properties like <code>name</code>,
-                  <code>width</code>, 'alias', 'searchEnable', 'hidden' etc.</td>
-                <td>-</td>
-                <td>Yes</td>
-              </tr>
-              <tr>
-                <td><code>data</code></td>
-                <td><code>Array</code></td>
-                <td>Array of objects representing the rows of data to display.</td>
-                <td>-</td>
-                <td>Yes</td>
-              </tr>
-              <tr>
-                <td><code>pageSize</code></td>
-                <td><code>Number</code></td>
-                <td>Number of rows per page for pagination. If <code>null</code> or not provided, pagination is
-                  disabled.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>options</code></td>
-                <td><code>Object</code></td>
-                <td>An object for additional customization. Contains options like <code>gridClass</code>,
-                  <code>enableGlobalSearch</code>, etc.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>width</code></td>
-                <td><code>String</code> / <code>Number</code></td>
-                <td>The width of the grid. Can be a pixel value (e.g., <code>'500px'</code>) or a percentage (e.g.,
-                  <code>'100%'</code>). Recommended for optimal display of the column. The width can be set to
-                  <code>'inherit'</code> to match the width of the containing element.</td>
-                <td><code>'90vw'</code></td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>height</code></td>
-                <td><code>String</code> / <code>Number</code></td>
-                <td>The height of the grid. Can be a pixel value (e.g., <code>'300px'</code>) or a percentage (e.g.,
-                  <code>'100%'</code>). Recommended for optimal display of the column.</td>
-                <td><code>'60vh'</code></td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>maxWidth</code></td>
-                <td><code>String</code> / <code>Number</code></td>
-                <td>The maximum width of the grid.</td>
-                <td><code>'100vw'</code></td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>maxHeight</code></td>
-                <td><code>String</code> / <code>Number</code></td>
-                <td>The maximum height of the grid.</td>
-                <td><code>'100vh'</code></td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>onRowClick</code></td>
-                <td><code>Function</code></td>
-                <td>Callback function triggered when a row is clicked. The clicked row data is passed as an argument.
-                </td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>onRowHover</code></td>
-                <td><code>Function</code></td>
-                <td>Callback function triggered when a row is hovered over.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>onRowOut</code></td>
-                <td><code>Function</code></td>
-                <td>Callback function triggered when the mouse leaves a hovered row.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>onSortComplete</code></td>
-                <td><code>Function</code></td>
-                <td>Callback function triggered after sorting finishes.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>onSearchComplete</code></td>
-                <td><code>Function</code></td>
-                <td>Callback function triggered after a search operation.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>onPageChange</code></td>
-                <td><code>Function</code></td>
-                <td>Callback function triggered when the user navigates to a different page.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>onColumnResized</code></td>
-                <td><code>Function</code></td>
-                <td>Callback function triggered after a column is resized. Supported in <strong>v1.1.0 and
-                    above</strong>.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>theme</code></td>
-                <td><code>string</code> (<code>'blue-core'</code> | <code>'dark-stack'</code> | <code>'medi-glow'</code>
-                  | <code>''</code>)</td>
-                <td>Applies a predefined visual theme to the grid. Affects header background, grid body background,
-                  borders, and control colors. Use an empty string to apply the default neutral style. Supported in
-                  <strong>v1.1.1 and above</strong>.</td>
-                <td><code>''</code> (empty string)</td>
-                <td>No</td>
-              </tr>
-            </tbody>
-          </table>
-          <p><br><br></p>
-          <h2>📊 <strong><code>columns</code> Prop Structure</strong></h2>
-          <p>The <code>columns</code> prop defines the layout and behavior of each column in the <code>DataGrid</code>.
-            It is an <strong>array</strong> of column objects, where each object represents a column's configuration.
-          </p>
-          <table>
-            <thead>
-              <tr>
-                <th><strong>Field</strong></th>
-                <th><strong>Type</strong></th>
-                <th><strong>Description</strong></th>
-                <th><strong>Default Value</strong></th>
-                <th><strong>Required</strong></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>name</code></td>
-                <td><code>String</code></td>
-                <td>The display name of the column header. It also serves as the key or identifier for accessing the
-                  corresponding data in each row. This value must be unique.</td>
-                <td>-</td>
-                <td>Yes</td>
-              </tr>
-              <tr>
-                <td><code>alias</code></td>
-                <td><code>String</code></td>
-                <td>Provides an alternative name or alias for the column key. This alias can be used in column headers
-                  and other UI elements to make the grid more intuitive.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>width</code></td>
-                <td><code>Number</code> / <code>String</code></td>
-                <td>The width of the column. Can be a fixed pixel value (e.g., <code>100px</code>) or a percentage
-                  (e.g., <code>'20%'</code>). Default value is calculated dynamically.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>formatting</code></td>
-                <td><code>Object</code></td>
-                <td>Formatting settings for the column. Includes the <code>type</code> (e.g., <code>currency</code>,
-                  <code>date</code>) and <code>format</code> (the format string, such as <code>$0,0.00</code>).</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>searchEnable</code></td>
-                <td><code>Boolean</code></td>
-                <td>Enables or disables the search textbox for a specific column. This setting overrides the
-                  <code>enableGlobalSearch</code> option.</td>
-                <td><code>undefined</code></td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>hidden</code></td>
-                <td><code>Boolean</code></td>
-                <td>Whether the column should be hidden.</td>
-                <td>false</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>concatColumns</code></td>
-                <td><code>Object</code></td>
-                <td>Specifies columns to concatenate into this column. It includes: <code>columns</code> (array of
-                  column keys to concatenate) and <code>separator</code> (the separator string).</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>fixed</code></td>
-                <td><code>Boolean</code></td>
-                <td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the
-                  left side of the grid based on its position in the column configuration. Supported in version
-                  <code>1.1.0</code> and above.</td>
-                <td>false</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>class</code></td>
-                <td><code>String</code></td>
-                <td>Custom CSS class applied to each data cell in the column. Supported in version <code>1.1.0</code>
-                  and above.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>resizable</code></td>
-                <td><code>Boolean</code></td>
-                <td>Enables or disables resizing for a specific column. This setting overrides the
-                  <code>enableColumnResize</code> option. Supported in version <code>1.1.0</code> and above.</td>
-                <td><code>undefined</code></td>
-                <td>No</td>
-              </tr>
-            </tbody>
-          </table>
-          <h4><strong>Example of <code>columns</code> Array:</strong></h4>
-          <pre><code class="language-jsx">const columns = [
+			<div class="flex-auto max-w-2xl min-w-0 px-4 py-10 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
+				<article class="">
+					<header class="">
+						<p class="text-base font-medium text-slate-500">
+							Documentation
+						</p>
+
+						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
+							📦 API Reference
+						</h1>
+					</header>
+
+					
+					<p class="mt-3 text-lg text-slate-600">
+						A lightweight and customizable React data grid component designed for high performance and ease of use.
+					</p>
+					
+
+					
+
+					
+
+					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
+						<h2>🔧 Props</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Prop</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Default Value</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not provided. This feature is supported in version 1.0.5 and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>columns</code></td>
+<td><code>Array</code></td>
+<td>Array of column definitions. Each column can have properties like <code>name</code>, <code>width</code>, 'alias', 'searchEnable', 'hidden'  etc.</td>
+<td>-</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td><code>Array</code></td>
+<td>Array of objects representing the rows of data to display.</td>
+<td>-</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>pageSize</code></td>
+<td><code>Number</code></td>
+<td>Number of rows per page for pagination. If <code>null</code> or not provided, pagination is disabled.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>Object</code></td>
+<td>An object for additional customization. Contains options like <code>gridClass</code>, <code>enableGlobalSearch</code>, etc.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The width of the grid. Can be a pixel value (e.g., <code>'500px'</code>) or a percentage (e.g., <code>'100%'</code>). Recommended for optimal display of the column. The width can be set to <code>'inherit'</code> to match the width of the containing element.</td>
+<td><code>'90vw'</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The height of the grid. Can be a pixel value (e.g., <code>'300px'</code>) or a percentage (e.g., <code>'100%'</code>). Recommended for optimal display of the column.</td>
+<td><code>'60vh'</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>maxWidth</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The maximum width of the grid.</td>
+<td><code>'100vw'</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>maxHeight</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The maximum height of the grid.</td>
+<td><code>'100vh'</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onRowClick</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered when a row is clicked. The clicked row data is passed as an argument.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onRowHover</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered when a row is hovered over.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onRowOut</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered when the mouse leaves a hovered row.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onSortComplete</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered after sorting finishes.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onSearchComplete</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered after a search operation.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onPageChange</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered when the user navigates to a different page.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onColumnResized</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered after a column is resized. Supported in <strong>v1.1.0 and above</strong>.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>theme</code></td>
+<td><code>string</code> (<code>'blue-core'</code> | <code>'dark-stack'</code> | <code>'medi-glow'</code> | <code>''</code>)</td>
+<td>Applies a predefined visual theme to the grid. Affects header background, grid body background, borders, and control colors. Use an empty string to apply the default neutral style. Supported in <strong>v1.1.1 and above</strong>.</td>
+<td><code>''</code> (empty string)</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p><br><br></p>
+<h2>📊 <strong><code>columns</code> Prop Structure</strong></h2>
+<p>The <code>columns</code> prop defines the layout and behavior of each column in the <code>DataGrid</code>. It is an <strong>array</strong> of column objects, where each object represents a column's configuration.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Default Value</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>String</code></td>
+<td>The display name of the column header. It also serves as the key or identifier for accessing the corresponding data in each row. This value must be unique.</td>
+<td>-</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>alias</code></td>
+<td><code>String</code></td>
+<td>Provides an alternative name or alias for the column key. This alias can be used in column headers and other UI elements to make the grid more intuitive.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td><code>Number</code> / <code>String</code></td>
+<td>The width of the column. Can be a fixed pixel value (e.g., <code>100px</code>) or a percentage (e.g., <code>'20%'</code>). Default value is calculated dynamically.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>formatting</code></td>
+<td><code>Object</code></td>
+<td>Formatting settings for the column. Includes the <code>type</code> (e.g., <code>currency</code>, <code>date</code>) and <code>format</code> (the format string, such as <code>$0,0.00</code>).</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>searchEnable</code></td>
+<td><code>Boolean</code></td>
+<td>Enables or disables the search textbox for a specific column. This setting overrides the <code>enableGlobalSearch</code> option.</td>
+<td><code>undefined</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>hidden</code></td>
+<td><code>Boolean</code></td>
+<td>Whether the column should be hidden.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>concatColumns</code></td>
+<td><code>Object</code></td>
+<td>Specifies columns to concatenate into this column. It includes: <code>columns</code> (array of column keys to concatenate) and <code>separator</code> (the separator string).</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>fixed</code></td>
+<td><code>Boolean</code></td>
+<td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version <code>1.1.0</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>class</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class applied to each data cell in the column. Supported in version <code>1.1.0</code> and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>resizable</code></td>
+<td><code>Boolean</code></td>
+<td>Enables or disables resizing for a specific column. This setting overrides the <code>enableColumnResize</code> option. Supported in version <code>1.1.0</code> and above.</td>
+<td><code>undefined</code></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4><strong>Example of <code>columns</code> Array:</strong></h4>
+<pre><code class="language-jsx">const columns = [
   {
     name: 'ID',
     width: 50,
@@ -495,117 +525,108 @@
 
 ];
 </code></pre>
-          <p><br><br></p>
-          <h2>⚙️ <strong><code>options</code> Prop Structure</strong></h2>
-          <p>The <code>options</code> prop is an <strong>object</strong> that provides additional configuration settings
-            to further customize the behavior of the <code>DataGrid</code> component. These settings control various
-            aspects of the grid, such as styling, button visibility, search options, and download functionality.</p>
-          <table>
-            <thead>
-              <tr>
-                <th><strong>Field</strong></th>
-                <th><strong>Type</strong></th>
-                <th><strong>Description</strong></th>
-                <th><strong>Default Value</strong></th>
-                <th><strong>Required</strong></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>gridClass</code></td>
-                <td><code>String</code></td>
-                <td>Custom CSS class for the grid container.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>headerClass</code></td>
-                <td><code>String</code></td>
-                <td>Custom CSS class for the header row.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>rowClass</code></td>
-                <td><code>String</code></td>
-                <td>Custom CSS class for each row in the grid.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>enableColumnSearch</code></td>
-                <td><code>Boolean</code></td>
-                <td>Whether to enable column-wise search functionality (search per individual column).</td>
-                <td>true</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>enableGlobalSearch</code></td>
-                <td><code>Boolean</code></td>
-                <td>Enables global search across all columns. Column-level search settings override this option.</td>
-                <td>true</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>editButton</code></td>
-                <td><code>Object</code></td>
-                <td>Configuration for enabling an edit button on each row. Includes an <code>event</code> field which is
-                  the function triggered when the button is clicked.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>deleteButton</code></td>
-                <td><code>Object</code></td>
-                <td>Configuration for enabling a delete button on each row. Includes an <code>event</code> field which
-                  is the function triggered when the button is clicked.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>enableDownload</code></td>
-                <td><code>Boolean</code></td>
-                <td>Whether to enable the download functionality (export data as CSV).</td>
-                <td>true</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>downloadFilename</code></td>
-                <td><code>String</code></td>
-                <td>The filename used when downloading grid data in CSV format. The default value is
-                  <code>'export-{yyyy-MM-dd HH:mm:ss}'</code></td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>onDownloadComplete</code></td>
-                <td><code>Function</code></td>
-                <td>Callback function that enables post-download handling such as logging, notifications, or emailing
-                  downloaded files.</td>
-                <td>-</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>enableColumnResize</code></td>
-                <td><code>Boolean</code></td>
-                <td>Enables column resizing across all columns. Column-level <code>resizable settings</code> override
-                  this option. Supported in version <code>1.1.0</code> and above.</td>
-                <td>false</td>
-                <td>No</td>
-              </tr>
-              <tr>
-                <td><code>actionColumnAlign</code></td>
-                <td><code>string</code> (<code>'left'</code> | <code>'right'</code> | <code>''</code>)</td>
-                <td>Controls alignment of the Actions column. Set to <code>'left'</code> or <code>'right'</code> to fix
-                  its position. Leave empty to allow the column to scroll with the rest of the table. Supported in
-                  <strong>v1.1.1 and above</strong>.</td>
-                <td><code>''</code> (empty string)</td>
-                <td>No</td>
-              </tr>
-            </tbody>
-          </table>
-          <h4><strong>Example of <code>options</code> Object:</strong></h4>
-          <pre><code class="language-jsx">const options = {
+<p><br><br></p>
+<h2>⚙️ <strong><code>options</code> Prop Structure</strong></h2>
+<p>The <code>options</code> prop is an <strong>object</strong> that provides additional configuration settings to further customize the behavior of the <code>DataGrid</code> component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Default Value</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gridClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for the grid container.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>headerClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for the header row.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>rowClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for each row in the grid.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableColumnSearch</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to enable column-wise search functionality (search per individual column).</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableGlobalSearch</code></td>
+<td><code>Boolean</code></td>
+<td>Enables global search across all columns. Column-level search settings override this option.</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>editButton</code></td>
+<td><code>Object</code></td>
+<td>Configuration for enabling an edit button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>deleteButton</code></td>
+<td><code>Object</code></td>
+<td>Configuration for enabling a delete button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableDownload</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to enable the download functionality (export data as CSV).</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>downloadFilename</code></td>
+<td><code>String</code></td>
+<td>The filename used when downloading grid data in CSV format. The default value is <code>'export-{yyyy-MM-dd HH:mm:ss}'</code></td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onDownloadComplete</code></td>
+<td><code>Function</code></td>
+<td>Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableColumnResize</code></td>
+<td><code>Boolean</code></td>
+<td>Enables column resizing across all columns. Column-level <code>resizable settings</code> override this option. Supported in version <code>1.1.0</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>actionColumnAlign</code></td>
+<td><code>string</code> (<code>'left'</code> | <code>'right'</code> | <code>''</code>)</td>
+<td>Controls alignment of the Actions column. Set to <code>'left'</code> or <code>'right'</code> to fix its position. Leave empty to allow the column to scroll with the rest of the table. Supported in <strong>v1.1.1 and above</strong>.</td>
+<td><code>''</code> (empty string)</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4><strong>Example of <code>options</code> Object:</strong></h4>
+<pre><code class="language-jsx">const options = {
   gridClass: 'custom-grid-class',
   headerClass: 'custom-header-class',
   rowClass: 'custom-row-class',
@@ -621,33 +642,41 @@
   downloadFilename: 'data-grid-export.csv'
 };
 </code></pre>
-          <hr>
+<hr>
 
-        </div>
+					</div>
 
-        <h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
-          Have questions?
-        </h3>
+					<h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
+	Have questions?
+</h3>
 
-        <p class="text-slate-900">
-          Still have questions? <a href="https://github.com/ricky-sharma/react-data-grid-lite/discussions"
-            target="_blank" rel="noopener" class="underline hover:no-underline">Contact on GitHub</a>.
-        </p>
+<p class="text-slate-900">
+	Still have questions? <a href="https://github.com/ricky-sharma/react-data-grid-lite/discussions" target="_blank" rel="noopener" class="underline hover:no-underline">Contact on GitHub</a>.
+</p>
 
-      </article>
-      <dl class="flex pt-6 mt-6 border-t border-slate-200">
+				</article>
 
+				
+  
+  
+
+  
+    <dl class="flex pt-6 mt-6 border-t border-slate-200">
+      
         <div class="mr-auto text-left">
           <dt class="text-sm font-normal tracking-tight text-slate-600">
             Previous
           </dt>
 
           <dd class="mt-1">
-            <a href="styling.html" class="text-base font-semibold text-slate-900 hover:underline">
-              🪄 Styling &amp; Theming
+            <a href="advanced.html" class="text-base font-semibold text-slate-900 hover:underline">
+              🔍 Advanced Usage
             </a>
           </dd>
         </div>
+      
+
+      
         <div class="ml-auto text-right">
           <dt class="text-sm font-normal tracking-tight text-slate-600">
             Next
@@ -659,8 +688,12 @@
             </a>
           </dd>
         </div>
-      </dl>
-    </div>
-  </main>
-</body>
+      
+    </dl>
+  
+
+
+			</div>
+		</main>
+	</body>
 </html>

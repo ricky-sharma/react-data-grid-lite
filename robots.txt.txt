@@ -1,0 +1,5 @@
+# Allow everything
+User-agent: *
+Disallow:
+
+Sitemap: https://ricky-sharma.github.io/react-data-grid-lite/sitemap.xml

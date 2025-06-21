@@ -1,978 +1,632 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-US">
-  <head>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async=""
-      src="https://www.googletagmanager.com/gtag/js?id=G-1KMZ9EZBKL"
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script
+		  async=""
+		  src="https://www.googletagmanager.com/gtag/js?id=G-1KMZ9EZBKL"
     ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+			dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
 
-      gtag("config", "G-1KMZ9EZBKL");
-    </script>
-    <!-- Google tag (gtag.js) -->
-
-    <title>📌 Changelog</title>
-    <meta
-      name="description"
-      content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+			gtag("config", "G-1KMZ9EZBKL");
+		</script>
+		<!-- Google tag (gtag.js) -->
+		
+		<title>📌 Changelog</title>
+		<meta
+		  name="description"
+		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
     />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
-    <meta
-      name="keywords"
-      content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+		<meta name="keywords"
+		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
-    <meta name="author" content="Vinay Sharma (ricky-sharma)" />
-
-    <!-- Open Graph for social sharing -->
-    <meta property="og:title" content="React Data Grid Lite" />
-    <meta
-      property="og:description"
-      content="A lightweight React data grid with full API and usage examples."
+		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
+		
+		<!-- Open Graph for social sharing -->
+		<meta property="og:title" content="React Data Grid Lite" />
+		<meta
+		  property="og:description"
+		  content="A lightweight React data grid with full API and usage examples."
     />
-    <meta
-      property="og:url"
-      content="https://ricky-sharma.github.io/react-data-grid-lite/"
+		<meta
+		  property="og:url"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/"
     />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:image"
-      content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
+		<meta property="og:type" content="website" />
+		<meta
+		  property="og:image"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
     />
-    <!-- Open Graph for social sharing -->
-
-    <!-- goat counter -->
-    <script
+		<!-- Open Graph for social sharing -->
+		
+		<!-- goat counter -->
+		<script
       data-goatcounter="https://react-data-grid-lite.goatcounter.com/count"
       async=""
       src="https://gc.zgo.at/count.js"
     ></script>
-    <!-- goat counter -->
-
-    <!-- google site verification -->
-    <meta
-      name="google-site-verification"
-      content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
+		<!-- goat counter -->
+		
+		<!-- google site verification -->
+		<meta
+		  name="google-site-verification"
+		  content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
     />
-    <!-- google site verification -->
+		<!-- google site verification -->
+		
+		<link href="index.css" rel="stylesheet" />
+	</head>
 
-    <link href="index.css" rel="stylesheet" />
-  </head>
-
-  <body>
-    <header
-      class="sticky top-0 z-50 flex items-center justify-between px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40"
-    >
-      <div class="flex items-center flex-grow basis-0">
-        <a
-          href="index.html"
-          class="text-2xl font-semibold tracking-tight text-slate-900"
-        >
-          React Data Grid Lite
-        </a>
-      </div>
-      <div class="items-center justify-end flex-grow hidden basis-0 md:flex">
-        <p
-          style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center"
-        >
-          <a
-            href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip"
+	<body>
+		<header class="sticky top-0 z-50 flex items-center justify-between px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40">
+	<div class="flex items-center flex-grow basis-0">
+		<a href="index.html" class="text-2xl font-semibold tracking-tight text-slate-900">
+			React Data Grid Lite
+		</a>
+	</div>
+	<div class="items-center justify-end flex-grow hidden basis-0 md:flex">
+		<p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+			<a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
+				<img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
+                class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
+					 alt="Download ZIP" />
+			</a>
+			<a
+		  href="https://www.npmjs.com/package/react-data-grid-lite"
+		  target="_blank"
+		  aria-label="NPM"
+		  rel="noopener"
+		  class="inline-block rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
+		  style="line-height: 0;"
+>
+				<img
+				  src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
+				  alt="NPM Badge"
+				  class="block"
+  />
+			</a>
+			<img src="https://img.shields.io/npm/dt/react-data-grid-lite"
+				class="rounded bg-slate-900"
+				 alt="npm downloads" />
+			<a
+					href="https://github.com/ricky-sharma/react-data-grid-lite"
+					target="_blank"
+					aria-label="GitHub"
+					rel="noopener"
           >
-            <img
-              src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
-              class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-              alt="Download ZIP"
+				<img
+				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+				  alt="GitHub"
+				  style="display: block; height: 20px;"
+				  class="rounded transition-transform ease-in-out duration-200 hover:scale-105"
             />
-          </a>
-          <a
-            href="https://www.npmjs.com/package/react-data-grid-lite"
-            target="_blank"
-            aria-label="NPM"
-            rel="noopener"
-            class="inline-block rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-            style="line-height: 0"
+			</a>
+			<a
+		   href="https://www.linkedin.com/in/vinay-sharma-2022354/"
+		   target="_blank"
+		   aria-label="LinkedIn"
+		   rel="noopener"
           >
-            <img
-              src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
-              alt="NPM Badge"
-              class="block"
-            />
-          </a>
-          <img
-            src="https://img.shields.io/npm/dt/react-data-grid-lite"
-            class="rounded bg-slate-900"
-            alt="npm downloads"
-          />
-          <a
-            href="https://github.com/ricky-sharma/react-data-grid-lite"
-            target="_blank"
-            aria-label="GitHub"
-            rel="noopener"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-              alt="GitHub"
-              style="display: block; height: 20px"
-              class="rounded transition-transform ease-in-out duration-200 hover:scale-105"
-            />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/vinay-sharma-2022354/"
-            target="_blank"
-            aria-label="LinkedIn"
-            rel="noopener"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-              alt="LinkedIn"
-              style="background-color: white; display: block; height: 20px"
-              class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-            />
-          </a>
-        </p>
-      </div>
-    </header>
+				<img
+				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
+				  alt="LinkedIn"
+				  style="background-color: white; display: block; height: 20px;"
+				  		  class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
 
-    <main
-      class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12"
-    >
-      <label
-        for="navigation"
-        class="fixed bottom-0 left-0 z-50 flex items-center justify-center w-12 h-12 mb-4 ml-4 bg-white border rounded-full shadow-lg cursor-pointer text-slate-600 border-slate-300 lg:hidden transition duration-200 ease-in-out active:scale-95"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 8h16M4 16h16"
-          />
-        </svg>
-      </label>
+/>
+			</a>
+		</p>
+	</div>
+</header>
 
-      <input
-        type="checkbox"
-        name="navigation"
-        id="navigation"
-        class="hidden peer"
-      />
-      <div
-        class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none"
-      >
-        <div
-          class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"
-        ></div>
-        <nav
-          class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16"
-        >
-          <ul
-            role="list"
-            class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8"
-          >
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Overview
-              </h3>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="index.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📘 Introduction
-                  </a>
-                </li>
-              </ul>
-            </li>
+		<main class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12">
+			<label for="navigation" class="fixed bottom-0 left-0 z-50 flex items-center justify-center w-12 h-12 mb-4 ml-4 bg-white border rounded-full shadow-lg cursor-pointer text-slate-600 border-slate-300 lg:hidden transition duration-200 ease-in-out active:scale-95">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+  </svg>
+</label>
 
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Documentation
-              </h3>
+<input type="checkbox" name="navigation" id="navigation" class="hidden peer" />
+<div class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none">
+  <div class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"></div>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="api.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📦 API Reference
-                  </a>
-                </li>
+  <nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16">
+    <ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8">
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Overview
+			</h3>
 
-                <li>
-                  <a
-                    href="events.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🔁 Event Callbacks
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="index.html" class="text-slate-900 hover:text-slate-800">
+						📘 Introduction
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Documentation
+			</h3>
 
-                <li>
-                  <a
-                    href="styling.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🪄 Styling &amp; Theming
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="api.html" class="text-slate-900 hover:text-slate-800">
+						📦 API Reference
+					</a>
+				</li>
+				
+				<li>
+					<a href="events.html" class="text-slate-900 hover:text-slate-800">
+						🔁 Event Callbacks
+					</a>
+				</li>
+				
+				<li>
+					<a href="styling.html" class="text-slate-900 hover:text-slate-800">
+						🪄 Styling &amp; Theming
+					</a>
+				</li>
+				
+				<li>
+					<a href="advanced.html" class="text-slate-900 hover:text-slate-800">
+						🔍 Advanced Usage
+					</a>
+				</li>
+				
+				<li>
+					<a href="format-guide.html" class="text-slate-900 hover:text-slate-800">
+						🔤 Format Guide
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Examples
+			</h3>
 
-                <li>
-                  <a
-                    href="advanced.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🔍 Advanced Usage
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="example-1.html" class="text-slate-900 hover:text-slate-800">
+						📡 Consuming Remote API
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-2.html" class="text-slate-900 hover:text-slate-800">
+						📝 Global &amp; Column Search
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-3.html" class="text-slate-900 hover:text-slate-800">
+						↔️ Pinned &amp; Resizable Columns
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-4.html" class="text-slate-900 hover:text-slate-800">
+						🖇️ Column Control
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Terms &amp; Changes
+			</h3>
 
-                <li>
-                  <a
-                    href="format_guide.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🔤 Format Guide
-                  </a>
-                </li>
-              </ul>
-            </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="changelog.html" class="text-slate-900 hover:text-slate-800">
+						📌 Changelog
+					</a>
+				</li>
+				
+				<li>
+					<a href="license.html" class="text-slate-900 hover:text-slate-800">
+						⚖️ License
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+	</ul>
+  </nav>
+</div>
 
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Examples
-              </h3>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="example-1.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📡 Consuming Remote API
-                  </a>
-                </li>
+			<div class="flex-auto max-w-2xl min-w-0 px-4 py-10 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
+				<article class="">
+					<header class="">
+						<p class="text-base font-medium text-slate-500">
+							Terms &amp; Changes
+						</p>
 
-                <li>
-                  <a
-                    href="example-2.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📝 Global &amp; Column Search
-                  </a>
-                </li>
+						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
+							📌 Changelog
+						</h1>
+					</header>
 
-                <li>
-                  <a
-                    href="example-3.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    ↔️ Pinned &amp; Resizable Columns
-                  </a>
-                </li>
+					
 
-                <li>
-                  <a
-                    href="example-4.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🖇️ Column Control
-                  </a>
-                </li>
-              </ul>
-            </li>
+					
 
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Terms &amp; Changes
-              </h3>
+					
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="changelog.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📌 Changelog
-                  </a>
-                </li>
+					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
+						<p>All notable changes to this project will be documented in this file.</p>
+<p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.
+<br><br></p>
+<h2>📦 v1.1.1 - 2025-06-19</h2>
+<h3>🚀 Features</h3>
+<ul>
+<li>
+<p><strong>Theme Support in DataGrid</strong></p>
+<ul>
+<li>Added <code>theme</code> prop to <code>DataGrid</code> for applying visual themes.</li>
+<li>Introduced three themes: <code>blue-core</code>, <code>dark-stack</code>, <code>medi-glow</code>.</li>
+<li>Refined default theme for better visual consistency.</li>
+<li>Updated example project with themed demos and improved folder structure.</li>
+</ul>
+</li>
+<li>
+<p><strong>Custom Dropdown Component</strong></p>
+<ul>
+<li>Replaced native <code>&lt;select&gt;</code> with a fully accessible and stylized custom <code>Dropdown</code>.</li>
+<li>Supports keyboard navigation, outside click detection, and auto-scroll to selected.</li>
+<li>Improves UX with better control, accessibility, and styling flexibility.</li>
+</ul>
+</li>
+<li>
+<p><strong>Column Search &amp; Header Enhancements</strong></p>
+<ul>
+<li>Made column search inputs controlled via internal state.</li>
+<li>Added clear (<code>×</code>) icons to reset individual filters.</li>
+<li>Prevented accidental sort triggering during column resize.</li>
+<li>Ensured reliable <code>onChange</code> behavior for all filter inputs.</li>
+</ul>
+</li>
+<li>
+<p><strong>Configurable Actions Column Alignment</strong></p>
+<ul>
+<li>Added support to align the Actions column left or right using a new prop.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>📦 CSV Export Improvements</h3>
+<ul>
+<li>Exported CSV now includes <strong>only visible columns</strong> from the grid.</li>
+<li>Values are exported with <strong>formatted output</strong> (e.g., date, currency).</li>
+<li>Supports <strong>concatenated/derived columns</strong> (e.g., full name).</li>
+<li>Output is now aligned with what's rendered in the UI, rather than raw data.</li>
+</ul>
+<hr>
+<h3>🔧 Resize Callback Update</h3>
+<ul>
+<li><strong>Resize callback</strong> now includes a <code>gridId</code> parameter for <strong>scoped column resizing</strong> support across multiple grids.</li>
+</ul>
+<hr>
+<h3>🛠 Refactoring</h3>
+<ul>
+<li>
+<p><strong>Sort Icon Logic Refactor</strong></p>
+<ul>
+<li>Replaced DOM-based logic with state-driven sort handling.</li>
+<li>Introduced <code>ColumnSortIcon</code> component for dynamic rendering.</li>
+<li>Added full reset support to clear all sorts and restore original data.</li>
+</ul>
+</li>
+<li>
+<p><strong>Utility Cleanup</strong></p>
+<ul>
+<li>Moved <code>showLoader</code> and <code>hideLoader</code> logic to a shared <code>utils/</code> directory.</li>
+</ul>
+</li>
+<li>
+<p><strong>SVG Migration</strong></p>
+<ul>
+<li>Replaced CSS-based icons with SVGs for better visual performance and consistency.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>✅ Tests</h3>
+<ul>
+<li><strong>Unit Tests Added (Jest + React Testing Library):</strong>
+<ul>
+<li><code>Dropdown</code>: open/close logic, outside click handling, option selection, clear icon</li>
+<li><code>Input</code>: default props, controlled behavior, onChange handler, clear button</li>
+<li><code>applyTheme</code>: theme mapping for valid/invalid inputs</li>
+<li><code>ColumnSortIcon</code>: icon state for <code>asc</code>, <code>desc</code>, and default</li>
+</ul>
+</li>
+<li><strong>Fixed component behavior based on test coverage feedback.</strong></li>
+</ul>
+<p><br><br></p>
+<h2>📦 v1.1.0 – Feature Enhancements, UI Improvements &amp; GitHub Pages Deployment</h2>
+<p><strong>Release Date:</strong> 2025-06-11</p>
+<h3>✨ New Features</h3>
+<ul>
+<li>
+<p><strong>Fixed Columns Support</strong>
+Added support for fixed (sticky) columns via a <code>fixed</code> property in column definitions. Enhances table usability during horizontal scrolling.</p>
+</li>
+<li>
+<p><strong>Resizable Columns (Experimental)</strong>
+Introduced column resizing with live drag interaction. Includes <code>onColumnResized</code> callback for external state sync.</p>
+</li>
+<li>
+<p><strong>Dynamic Column-Class Styling</strong>
+Enabled runtime assignment of CSS classes to columns for greater flexibility in UI theming.</p>
+</li>
+<li>
+<p><strong>GitHub Pages Deployment</strong>
+Configured GitHub Pages deployment using <code>gh-pages</code> and updated <code>homepage</code> field in <code>package.json</code>.</p>
+</li>
+</ul>
+<hr>
+<h3>🛠️ Improvements</h3>
+<ul>
+<li>
+<p><strong>Paging Controls UX</strong>
+Pagination UI now automatically hides when dataset is empty to reduce visual clutter.</p>
+</li>
+<li>
+<p><strong>Dynamic Row-Column Alignment</strong>
+Row data now dynamically maps to current column configuration, enabling runtime column reordering without breaking layout or data mapping.</p>
+</li>
+<li>
+<p><strong>Column Width Handling</strong>
+Enhanced logic to retain or recalculate widths when columns are re-ordered or updated dynamically.</p>
+</li>
+<li>
+<p><strong>Grid Layout Refactor</strong>
+Introduced a new <code>GridTable</code> component (<code>grid-table.jsx</code>) to modularize rendering logic.
+Updated CSS to support <strong>sticky positioning</strong> for scrollable sections.</p>
+</li>
+<li>
+<p><strong>Export Button Logic</strong>
+Disabled &quot;Export CSV&quot; when no data is available, improving UX and preventing invalid actions.</p>
+</li>
+<li>
+<p><strong>Global Search Fix</strong>
+Resolved issue where global search omitted valid matches due to incorrect column indexing.</p>
+</li>
+</ul>
+<hr>
+<h3>🧪 Testing &amp; Stability</h3>
+<ul>
+<li>
+<p>Refactored <code>useState</code> usage for consistent handling of dynamic updates.</p>
+</li>
+<li>
+<p>Added null checks and guards in column config logic.</p>
+</li>
+<li>
+<p>Expanded test suite with cases for:</p>
+<ul>
+<li>Fixed and resizable columns</li>
+<li>Grid responsiveness and dynamic layout</li>
+</ul>
+</li>
+<li>
+<p>Achieved <strong>80%+ code coverage</strong>.</p>
+</li>
+<li>
+<p>Updated data loader:</p>
+<ul>
+<li>Improved loading spinner positioning with modern dot style</li>
+<li>Added scoped messaging and duplicate prevention logic</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>🧹 Misc</h3>
+<ul>
+<li>Restructured CSS for better sticky layout handling</li>
+<li>Cleaned up layout and rendering logic for long-term maintainability</li>
+</ul>
+<p><br><br></p>
+<h2>[1.0.5] - 2025-06-04</h2>
+<h3>Added</h3>
+<ul>
+<li><strong>Testing</strong>: Set up Jest for unit testing and added initial test configuration.</li>
+<li><strong>Tests</strong>: Implemented test cases to achieve over 80% coverage across statements, branches, functions, and lines.</li>
+<li><strong>Compatibility</strong>: Added support for React 17+ and verified functionality in React 17+ environments.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li><strong>Documentation</strong>:
+<ul>
+<li>Moved usage example from <code>api.md</code> to a new <code>examples.md</code>.</li>
+<li>Updated <code>README.md</code> to include a link to <code>examples.md</code> alongside the existing API documentation.</li>
+</ul>
+</li>
+<li><strong>Refactor</strong>:
+<ul>
+<li>Migrated the entire DataGrid package to React functional components for improved maintainability and performance.</li>
+<li>Converted <code>Datagrid</code> component in <code>react-data-grid-lite.jsx</code> from a class to a functional component.</li>
+<li>Refactored <code>eventGridSearchClicked</code> in <code>event-grid-search-clicked.js</code> to streamline logic and reduce bundle size.</li>
+<li>Simplified the <code>format</code> function API by removing the <code>currencyCode</code> argument and using the <code>format</code> parameter as the currency code instead.</li>
+</ul>
+</li>
+<li><strong>Code Quality</strong>: Refactored and improved code based on insights from test results.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><strong>Props Handling</strong>: Added an <code>id</code> prop to <code>DataGrid</code>, defaulting to <code>id-&lt;randomNumber&gt;</code> if not explicitly provided.</li>
+</ul>
+<p><br><br></p>
+<h2>[1.0.4] - 2025-05-29</h2>
+<h3>Added</h3>
+<ul>
+<li><code>grid-footer.jsx</code>: New functional component to manage pagination footer layout.</li>
+<li><code>format_guide.md</code>: Documentation with examples for <code>format()</code> and <code>formatDate()</code> utilities, including supported types and formats.</li>
+<li>Icon added to the <strong>Actions</strong> column for clearer interaction.</li>
+<li>Global search bar refactored into a functional component with enhanced support for smaller screens.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Refactored <code>grid-header.jsx</code>, <code>grid-rows.jsx</code>, and <code>grid-pagination.jsx</code> to improve structure, maintainability, and loading performance.</li>
+<li>Updated <code>package.json</code> description for better clarity.</li>
+<li>Replaced deprecated <code>rollup-plugin-strip</code> with <code>@rollup/plugin-strip</code> in Rollup configuration.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Sorting icon alignment issues, including conflicts introduced by the new Actions column icon.</li>
+<li>Loader (loading spinner) alignment issue — previously rendered off-screen, now centered properly.</li>
+<li>Minor layout inconsistencies and CSS bugs in grid components.</li>
+<li>Inconsistent date formatting in grid display logic.</li>
+</ul>
+<p><br><br></p>
+<h2>[1.0.3] - 2025-05-25</h2>
+<h3>Added</h3>
+<ul>
+<li><strong>Data Loading Enhancements:</strong> Integrated <code>trackPromise</code> into the export flow in <code>index.js</code> to improve loading state handling.</li>
+<li><strong>New Events:</strong>
+<ul>
+<li><code>onSortComplete</code> — Triggered after sorting finishes. Provides event object, sorted columns (array), sorted data, and sort order (<code>asc</code>/<code>desc</code>).</li>
+<li><code>onSearchComplete</code> — Triggered after a search operation. Includes the search query, matching columns, result set, and match count.</li>
+<li><code>onPageChange</code> — Fires on pagination changes with detailed context including current and previous page numbers, row counts, and the index of the first row on the new page.</li>
+<li><code>onDownloadComplete(e, filename, blob)</code> — Enables post-download handling such as logging, notifications, or emailing downloaded files.</li>
+</ul>
+</li>
+<li><strong>Changelog Initialization:</strong> Added <code>CHANGELOG.md</code> file for version tracking and release documentation.</li>
+<li>**Introduced a structured <code>docs/</code> folder with dedicated markdown files:
+<ul>
+<li><code>api.md</code> for component props and configuration options</li>
+<li><code>events.md</code> for event callback documentation</li>
+<li><code>styling.md</code> for theming and CSS customization</li>
+<li><code>advanced.md</code> covering column width logic, performance tips, and export handling</li>
+</ul>
+</li>
+<li>Updated <code>README.md</code> with links to the new documentation files for improved maintainability and developer onboarding</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li><strong>Sorting Functionality:</strong>
+<ul>
+<li>Added support for multi-column (concatenated) sorting.</li>
+<li>Improved sorting for UUIDs, email addresses, numeric values, currency, and date columns — in both ascending and descending orders.</li>
+</ul>
+</li>
+<li><strong>Pagination UI &amp; CSS:</strong>
+<ul>
+<li>Refined pagination interface for better usability.</li>
+<li>Formatted and cleaned related CSS for maintainability.</li>
+</ul>
+</li>
+<li><strong>Code Formatting:</strong> General code cleanup for consistency and readability.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><strong>Column Width Logic:</strong> Improved column resizing behavior to better support:
+<ul>
+<li>Fixed + flexible column layouts.</li>
+<li>All-fixed column grids (auto-stretch to fill).</li>
+<li>Fully flexible columns (equal distribution with no gaps).</li>
+<li>Mobile responsiveness and dynamic container resizing with action buttons.</li>
+</ul>
+</li>
+</ul>
+<h3>Optimized</h3>
+<ul>
+<li><strong>Bundle Size:</strong> Reduced overall npm package size by removing unused styles, optimizing CSS.</li>
+</ul>
+<p><br><br></p>
+<h2>[1.0.2] - 2025-05-21</h2>
+<h3>Fixed</h3>
+<ul>
+<li>Fixed an issue with sorting columns that contain currency-formatted values.</li>
+</ul>
+<p><br><br></p>
+<h2>[1.0.1] - 2025-05-21</h2>
+<h3>Removed</h3>
+<ul>
+<li>Removed <code>prop-types</code> package from dependencies.</li>
+</ul>
+<p><br><br></p>
+<h2>[1.0.0] - 2025-05-21</h2>
+<h3>Added</h3>
+<ul>
+<li>Initial release of the <a href="https://www.npmjs.com/package/react-data-grid-lite">NPM package</a>.</li>
+</ul>
 
-                <li>
-                  <a
-                    href="license.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    ⚖️ License
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-      </div>
+					</div>
 
-      <div
-        class="flex-auto max-w-2xl min-w-0 px-4 py-10 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16"
-      >
-        <article class="">
-          <header class="">
-            <p class="text-base font-medium text-slate-500">
-              Terms &amp; Changes
-            </p>
+					<h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
+	Have questions?
+</h3>
 
-            <h1 class="text-3xl font-bold tracking-tight text-slate-900">
-              📌 Changelog
-            </h1>
-          </header>
+<p class="text-slate-900">
+	Still have questions? <a href="https://github.com/ricky-sharma/react-data-grid-lite/discussions" target="_blank" rel="noopener" class="underline hover:no-underline">Contact on GitHub</a>.
+</p>
 
-          <div
-            class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900"
-          >
-            <h1>Changelog</h1>
-            <p>
-              All notable changes to this project will be documented in this
-              file.
-            </p>
-            <p>
-              The format is based on
-              <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a
-              >, and this project adheres to
-              <a href="https://semver.org/spec/v2.0.0.html"
-                >Semantic Versioning</a
-              >. <br /><br />
-            </p>
-            <h2>📦 v1.1.1 - 2025-06-19</h2>
-            <h3>🚀 Features</h3>
-            <ul>
-              <li>
-                <p><strong>Theme Support in DataGrid</strong></p>
-                <ul>
-                  <li>
-                    Added <code>theme</code> prop to <code>DataGrid</code> for
-                    applying visual themes.
-                  </li>
-                  <li>
-                    Introduced three themes: <code>blue-core</code>,
-                    <code>dark-stack</code>, <code>medi-glow</code>.
-                  </li>
-                  <li>Refined default theme for better visual consistency.</li>
-                  <li>
-                    Updated example project with themed demos and improved
-                    folder structure.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <p><strong>Custom Dropdown Component</strong></p>
-                <ul>
-                  <li>
-                    Replaced native <code>&lt;select&gt;</code> with a fully
-                    accessible and stylized custom <code>Dropdown</code>.
-                  </li>
-                  <li>
-                    Supports keyboard navigation, outside click detection, and
-                    auto-scroll to selected.
-                  </li>
-                  <li>
-                    Improves UX with better control, accessibility, and styling
-                    flexibility.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <p><strong>Column Search &amp; Header Enhancements</strong></p>
-                <ul>
-                  <li>
-                    Made column search inputs controlled via internal state.
-                  </li>
-                  <li>
-                    Added clear (<code>×</code>) icons to reset individual
-                    filters.
-                  </li>
-                  <li>
-                    Prevented accidental sort triggering during column resize.
-                  </li>
-                  <li>
-                    Ensured reliable <code>onChange</code> behavior for all
-                    filter inputs.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <p><strong>Configurable Actions Column Alignment</strong></p>
-                <ul>
-                  <li>
-                    Added support to align the Actions column left or right
-                    using a new prop.
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            <hr />
-            <h3>📦 CSV Export Improvements</h3>
-            <ul>
-              <li>
-                Exported CSV now includes
-                <strong>only visible columns</strong> from the grid.
-              </li>
-              <li>
-                Values are exported with
-                <strong>formatted output</strong> (e.g., date, currency).
-              </li>
-              <li>
-                Supports <strong>concatenated/derived columns</strong> (e.g.,
-                full name).
-              </li>
-              <li>
-                Output is now aligned with what's rendered in the UI, rather
-                than raw data.
-              </li>
-            </ul>
-            <hr />
-            <h3>🔧 Resize Callback Update</h3>
-            <ul>
-              <li>
-                <strong>Resize callback</strong> now includes a
-                <code>gridId</code> parameter for
-                <strong>scoped column resizing</strong> support across multiple
-                grids.
-              </li>
-            </ul>
-            <hr />
-            <h3>🛠 Refactoring</h3>
-            <ul>
-              <li>
-                <p><strong>Sort Icon Logic Refactor</strong></p>
-                <ul>
-                  <li>
-                    Replaced DOM-based logic with state-driven sort handling.
-                  </li>
-                  <li>
-                    Introduced <code>ColumnSortIcon</code> component for dynamic
-                    rendering.
-                  </li>
-                  <li>
-                    Added full reset support to clear all sorts and restore
-                    original data.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <p><strong>Utility Cleanup</strong></p>
-                <ul>
-                  <li>
-                    Moved <code>showLoader</code> and
-                    <code>hideLoader</code> logic to a shared
-                    <code>utils/</code> directory.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <p><strong>SVG Migration</strong></p>
-                <ul>
-                  <li>
-                    Replaced CSS-based icons with SVGs for better visual
-                    performance and consistency.
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            <hr />
-            <h3>✅ Tests</h3>
-            <ul>
-              <li>
-                <strong
-                  >Unit Tests Added (Jest + React Testing Library):</strong
-                >
-                <ul>
-                  <li>
-                    <code>Dropdown</code>: open/close logic, outside click
-                    handling, option selection, clear icon
-                  </li>
-                  <li>
-                    <code>Input</code>: default props, controlled behavior,
-                    onChange handler, clear button
-                  </li>
-                  <li>
-                    <code>applyTheme</code>: theme mapping for valid/invalid
-                    inputs
-                  </li>
-                  <li>
-                    <code>ColumnSortIcon</code>: icon state for
-                    <code>asc</code>, <code>desc</code>, and default
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong
-                  >Fixed component behavior based on test coverage
-                  feedback.</strong
-                >
-              </li>
-            </ul>
-            <p><br /><br /></p>
-            <h2>
-              📦 v1.1.0 – Feature Enhancements, UI Improvements &amp; GitHub
-              Pages Deployment
-            </h2>
-            <p><strong>Release Date:</strong> 2025-06-11</p>
-            <h3>✨ New Features</h3>
-            <ul>
-              <li>
-                <p>
-                  <strong>Fixed Columns Support</strong> Added support for fixed
-                  (sticky) columns via a <code>fixed</code> property in column
-                  definitions. Enhances table usability during horizontal
-                  scrolling.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>Resizable Columns (Experimental)</strong> Introduced
-                  column resizing with live drag interaction. Includes
-                  <code>onColumnResized</code> callback for external state sync.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>Dynamic Column-Class Styling</strong> Enabled runtime
-                  assignment of CSS classes to columns for greater flexibility
-                  in UI theming.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>GitHub Pages Deployment</strong> Configured GitHub
-                  Pages deployment using <code>gh-pages</code> and updated
-                  <code>homepage</code> field in <code>package.json</code>.
-                </p>
-              </li>
-            </ul>
-            <hr />
-            <h3>🛠️ Improvements</h3>
-            <ul>
-              <li>
-                <p>
-                  <strong>Paging Controls UX</strong> Pagination UI now
-                  automatically hides when dataset is empty to reduce visual
-                  clutter.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>Dynamic Row-Column Alignment</strong> Row data now
-                  dynamically maps to current column configuration, enabling
-                  runtime column reordering without breaking layout or data
-                  mapping.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>Column Width Handling</strong> Enhanced logic to
-                  retain or recalculate widths when columns are re-ordered or
-                  updated dynamically.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>Grid Layout Refactor</strong> Introduced a new
-                  <code>GridTable</code> component (<code>grid-table.jsx</code>)
-                  to modularize rendering logic. Updated CSS to support
-                  <strong>sticky positioning</strong> for scrollable sections.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>Export Button Logic</strong> Disabled &quot;Export
-                  CSV&quot; when no data is available, improving UX and
-                  preventing invalid actions.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>Global Search Fix</strong> Resolved issue where global
-                  search omitted valid matches due to incorrect column indexing.
-                </p>
-              </li>
-            </ul>
-            <hr />
-            <h3>🧪 Testing &amp; Stability</h3>
-            <ul>
-              <li>
-                <p>
-                  Refactored <code>useState</code> usage for consistent handling
-                  of dynamic updates.
-                </p>
-              </li>
-              <li>
-                <p>Added null checks and guards in column config logic.</p>
-              </li>
-              <li>
-                <p>Expanded test suite with cases for:</p>
-                <ul>
-                  <li>Fixed and resizable columns</li>
-                  <li>Grid responsiveness and dynamic layout</li>
-                </ul>
-              </li>
-              <li>
-                <p>Achieved <strong>80%+ code coverage</strong>.</p>
-              </li>
-              <li>
-                <p>Updated data loader:</p>
-                <ul>
-                  <li>
-                    Improved loading spinner positioning with modern dot style
-                  </li>
-                  <li>Added scoped messaging and duplicate prevention logic</li>
-                </ul>
-              </li>
-            </ul>
-            <hr />
-            <h3>🧹 Misc</h3>
-            <ul>
-              <li>Restructured CSS for better sticky layout handling</li>
-              <li>
-                Cleaned up layout and rendering logic for long-term
-                maintainability
-              </li>
-            </ul>
-            <p><br /><br /></p>
-            <h2>[1.0.5] - 2025-06-04</h2>
-            <h3>Added</h3>
-            <ul>
-              <li>
-                <strong>Testing</strong>: Set up Jest for unit testing and added
-                initial test configuration.
-              </li>
-              <li>
-                <strong>Tests</strong>: Implemented test cases to achieve over
-                80% coverage across statements, branches, functions, and lines.
-              </li>
-              <li>
-                <strong>Compatibility</strong>: Added support for React 17+ and
-                verified functionality in React 17+ environments.
-              </li>
-            </ul>
-            <h3>Changed</h3>
-            <ul>
-              <li>
-                <strong>Documentation</strong>:
-                <ul>
-                  <li>
-                    Moved usage example from <code>api.md</code> to a new
-                    <code>examples.md</code>.
-                  </li>
-                  <li>
-                    Updated <code>README.md</code> to include a link to
-                    <code>examples.md</code> alongside the existing API
-                    documentation.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong>Refactor</strong>:
-                <ul>
-                  <li>
-                    Migrated the entire DataGrid package to React functional
-                    components for improved maintainability and performance.
-                  </li>
-                  <li>
-                    Converted <code>Datagrid</code> component in
-                    <code>react-data-grid-lite.jsx</code> from a class to a
-                    functional component.
-                  </li>
-                  <li>
-                    Refactored <code>eventGridSearchClicked</code> in
-                    <code>event-grid-search-clicked.js</code> to streamline
-                    logic and reduce bundle size.
-                  </li>
-                  <li>
-                    Simplified the <code>format</code> function API by removing
-                    the <code>currencyCode</code> argument and using the
-                    <code>format</code> parameter as the currency code instead.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong>Code Quality</strong>: Refactored and improved code
-                based on insights from test results.
-              </li>
-            </ul>
-            <h3>Fixed</h3>
-            <ul>
-              <li>
-                <strong>Props Handling</strong>: Added an <code>id</code> prop
-                to <code>DataGrid</code>, defaulting to
-                <code>id-&lt;randomNumber&gt;</code> if not explicitly provided.
-              </li>
-            </ul>
-            <p><br /><br /></p>
-            <h2>[1.0.4] - 2025-05-29</h2>
-            <h3>Added</h3>
-            <ul>
-              <li>
-                <code>grid-footer.jsx</code>: New functional component to manage
-                pagination footer layout.
-              </li>
-              <li>
-                <code>format_guide.md</code>: Documentation with examples for
-                <code>format()</code> and <code>formatDate()</code> utilities,
-                including supported types and formats.
-              </li>
-              <li>
-                Icon added to the <strong>Actions</strong> column for clearer
-                interaction.
-              </li>
-              <li>
-                Global search bar refactored into a functional component with
-                enhanced support for smaller screens.
-              </li>
-            </ul>
-            <h3>Changed</h3>
-            <ul>
-              <li>
-                Refactored <code>grid-header.jsx</code>,
-                <code>grid-rows.jsx</code>, and
-                <code>grid-pagination.jsx</code> to improve structure,
-                maintainability, and loading performance.
-              </li>
-              <li>
-                Updated <code>package.json</code> description for better
-                clarity.
-              </li>
-              <li>
-                Replaced deprecated <code>rollup-plugin-strip</code> with
-                <code>@rollup/plugin-strip</code> in Rollup configuration.
-              </li>
-            </ul>
-            <h3>Fixed</h3>
-            <ul>
-              <li>
-                Sorting icon alignment issues, including conflicts introduced by
-                the new Actions column icon.
-              </li>
-              <li>
-                Loader (loading spinner) alignment issue — previously rendered
-                off-screen, now centered properly.
-              </li>
-              <li>
-                Minor layout inconsistencies and CSS bugs in grid components.
-              </li>
-              <li>Inconsistent date formatting in grid display logic.</li>
-            </ul>
-            <p><br /><br /></p>
-            <h2>[1.0.3] - 2025-05-25</h2>
-            <h3>Added</h3>
-            <ul>
-              <li>
-                <strong>Data Loading Enhancements:</strong> Integrated
-                <code>trackPromise</code> into the export flow in
-                <code>index.js</code> to improve loading state handling.
-              </li>
-              <li>
-                <strong>New Events:</strong>
-                <ul>
-                  <li>
-                    <code>onSortComplete</code> — Triggered after sorting
-                    finishes. Provides event object, sorted columns (array),
-                    sorted data, and sort order
-                    (<code>asc</code>/<code>desc</code>).
-                  </li>
-                  <li>
-                    <code>onSearchComplete</code> — Triggered after a search
-                    operation. Includes the search query, matching columns,
-                    result set, and match count.
-                  </li>
-                  <li>
-                    <code>onPageChange</code> — Fires on pagination changes with
-                    detailed context including current and previous page
-                    numbers, row counts, and the index of the first row on the
-                    new page.
-                  </li>
-                  <li>
-                    <code>onDownloadComplete(e, filename, blob)</code> — Enables
-                    post-download handling such as logging, notifications, or
-                    emailing downloaded files.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong>Changelog Initialization:</strong> Added
-                <code>CHANGELOG.md</code> file for version tracking and release
-                documentation.
-              </li>
-              <li>
-                **Introduced a structured <code>docs/</code> folder with
-                dedicated markdown files:
-                <ul>
-                  <li>
-                    <code>api.md</code> for component props and configuration
-                    options
-                  </li>
-                  <li>
-                    <code>events.md</code> for event callback documentation
-                  </li>
-                  <li>
-                    <code>styling.md</code> for theming and CSS customization
-                  </li>
-                  <li>
-                    <code>advanced.md</code> covering column width logic,
-                    performance tips, and export handling
-                  </li>
-                </ul>
-              </li>
-              <li>
-                Updated <code>README.md</code> with links to the new
-                documentation files for improved maintainability and developer
-                onboarding
-              </li>
-            </ul>
-            <h3>Changed</h3>
-            <ul>
-              <li>
-                <strong>Sorting Functionality:</strong>
-                <ul>
-                  <li>
-                    Added support for multi-column (concatenated) sorting.
-                  </li>
-                  <li>
-                    Improved sorting for UUIDs, email addresses, numeric values,
-                    currency, and date columns — in both ascending and
-                    descending orders.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong>Pagination UI &amp; CSS:</strong>
-                <ul>
-                  <li>Refined pagination interface for better usability.</li>
-                  <li>
-                    Formatted and cleaned related CSS for maintainability.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong>Code Formatting:</strong> General code cleanup for
-                consistency and readability.
-              </li>
-            </ul>
-            <h3>Fixed</h3>
-            <ul>
-              <li>
-                <strong>Column Width Logic:</strong> Improved column resizing
-                behavior to better support:
-                <ul>
-                  <li>Fixed + flexible column layouts.</li>
-                  <li>All-fixed column grids (auto-stretch to fill).</li>
-                  <li>
-                    Fully flexible columns (equal distribution with no gaps).
-                  </li>
-                  <li>
-                    Mobile responsiveness and dynamic container resizing with
-                    action buttons.
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            <h3>Optimized</h3>
-            <ul>
-              <li>
-                <strong>Bundle Size:</strong> Reduced overall npm package size
-                by removing unused styles, optimizing CSS.
-              </li>
-            </ul>
-            <p><br /><br /></p>
-            <h2>[1.0.2] - 2025-05-21</h2>
-            <h3>Fixed</h3>
-            <ul>
-              <li>
-                Fixed an issue with sorting columns that contain
-                currency-formatted values.
-              </li>
-            </ul>
-            <p><br /><br /></p>
-            <h2>[1.0.1] - 2025-05-21</h2>
-            <h3>Removed</h3>
-            <ul>
-              <li>
-                Removed <code>prop-types</code> package from dependencies.
-              </li>
-            </ul>
-            <p><br /><br /></p>
-            <h2>[1.0.0] - 2025-05-21</h2>
-            <h3>Added</h3>
-            <ul>
-              <li>
-                Initial release of the
-                <a href="https://www.npmjs.com/package/react-data-grid-lite"
-                  >NPM package</a
-                >.
-              </li>
-            </ul>
-          </div>
+				</article>
 
-          <h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
-            Have questions?
-          </h3>
+				
+  
+  
 
-          <p class="text-slate-900">
-            Still have questions?
-            <a
-              href="https://github.com/ricky-sharma/react-data-grid-lite/discussions"
-              target="_blank"
-              rel="noopener"
-              class="underline hover:no-underline"
-              >Contact on GitHub</a
-            >.
-          </p>
-        </article>
+  
+    <dl class="flex pt-6 mt-6 border-t border-slate-200">
+      
+        <div class="mr-auto text-left">
+          <dt class="text-sm font-normal tracking-tight text-slate-600">
+            Previous
+          </dt>
 
-        <dl class="flex pt-6 mt-6 border-t border-slate-200">
-          <div class="mr-auto text-left">
-            <dt class="text-sm font-normal tracking-tight text-slate-600">
-              Previous
-            </dt>
+          <dd class="mt-1">
+            <a href="example-4.html" class="text-base font-semibold text-slate-900 hover:underline">
+              🖇️ Column Control
+            </a>
+          </dd>
+        </div>
+      
 
-            <dd class="mt-1">
-              <a
-                href="example-1.html"
-                class="text-base font-semibold text-slate-900 hover:underline"
-              >
-                📡 Consuming Remote API
-              </a>
-            </dd>
-          </div>
+      
+        <div class="ml-auto text-right">
+          <dt class="text-sm font-normal tracking-tight text-slate-600">
+            Next
+          </dt>
 
-          <div class="ml-auto text-right">
-            <dt class="text-sm font-normal tracking-tight text-slate-600">
-              Next
-            </dt>
+          <dd class="mt-1">
+            <a href="license.html" class="text-base font-semibold text-slate-900 hover:underline">
+              ⚖️ License
+            </a>
+          </dd>
+        </div>
+      
+    </dl>
+  
 
-            <dd class="mt-1">
-              <a
-                href="license.html"
-                class="text-base font-semibold text-slate-900 hover:underline"
-              >
-                ⚖️ License
-              </a>
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </main>
-  </body>
+
+			</div>
+		</main>
+	</body>
 </html>

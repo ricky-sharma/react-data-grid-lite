@@ -1,531 +1,407 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-US">
-  <head>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async=""
-      src="https://www.googletagmanager.com/gtag/js?id=G-1KMZ9EZBKL"
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script
+		  async=""
+		  src="https://www.googletagmanager.com/gtag/js?id=G-1KMZ9EZBKL"
     ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+			dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
 
-      gtag("config", "G-1KMZ9EZBKL");
-    </script>
-    <!-- Google tag (gtag.js) -->
-
-    <title>🔁 Event Callbacks</title>
-    <meta
-      name="description"
-      content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+			gtag("config", "G-1KMZ9EZBKL");
+		</script>
+		<!-- Google tag (gtag.js) -->
+		
+		<title>🔁 Event Callbacks</title>
+		<meta
+		  name="description"
+		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
     />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
-    <meta
-      name="keywords"
-      content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+		<meta name="keywords"
+		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
-    <meta name="author" content="Vinay Sharma (ricky-sharma)" />
-
-    <!-- Open Graph for social sharing -->
-    <meta property="og:title" content="React Data Grid Lite" />
-    <meta
-      property="og:description"
-      content="A lightweight React data grid with full API and usage examples."
+		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
+		
+		<!-- Open Graph for social sharing -->
+		<meta property="og:title" content="React Data Grid Lite" />
+		<meta
+		  property="og:description"
+		  content="A lightweight React data grid with full API and usage examples."
     />
-    <meta
-      property="og:url"
-      content="https://ricky-sharma.github.io/react-data-grid-lite/"
+		<meta
+		  property="og:url"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/"
     />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:image"
-      content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
+		<meta property="og:type" content="website" />
+		<meta
+		  property="og:image"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
     />
-    <!-- Open Graph for social sharing -->
-
-    <!-- goat counter -->
-    <script
+		<!-- Open Graph for social sharing -->
+		
+		<!-- goat counter -->
+		<script
       data-goatcounter="https://react-data-grid-lite.goatcounter.com/count"
       async=""
       src="https://gc.zgo.at/count.js"
     ></script>
-    <!-- goat counter -->
-
-    <!-- google site verification -->
-    <meta
-      name="google-site-verification"
-      content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
+		<!-- goat counter -->
+		
+		<!-- google site verification -->
+		<meta
+		  name="google-site-verification"
+		  content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
     />
-    <!-- google site verification -->
+		<!-- google site verification -->
+		
+		<link href="index.css" rel="stylesheet" />
+	</head>
 
-    <link href="index.css" rel="stylesheet" />
-  </head>
-
-  <body>
-    <header
-      class="sticky top-0 z-50 flex items-center justify-between px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40"
-    >
-      <div class="flex items-center flex-grow basis-0">
-        <a
-          href="index.html"
-          class="text-2xl font-semibold tracking-tight text-slate-900"
-        >
-          React Data Grid Lite
-        </a>
-      </div>
-      <div class="items-center justify-end flex-grow hidden basis-0 md:flex">
-        <p
-          style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center"
-        >
-          <a
-            href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip"
+	<body>
+		<header class="sticky top-0 z-50 flex items-center justify-between px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40">
+	<div class="flex items-center flex-grow basis-0">
+		<a href="index.html" class="text-2xl font-semibold tracking-tight text-slate-900">
+			React Data Grid Lite
+		</a>
+	</div>
+	<div class="items-center justify-end flex-grow hidden basis-0 md:flex">
+		<p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+			<a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
+				<img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
+                class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
+					 alt="Download ZIP" />
+			</a>
+			<a
+		  href="https://www.npmjs.com/package/react-data-grid-lite"
+		  target="_blank"
+		  aria-label="NPM"
+		  rel="noopener"
+		  class="inline-block rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
+		  style="line-height: 0;"
+>
+				<img
+				  src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
+				  alt="NPM Badge"
+				  class="block"
+  />
+			</a>
+			<img src="https://img.shields.io/npm/dt/react-data-grid-lite"
+				class="rounded bg-slate-900"
+				 alt="npm downloads" />
+			<a
+					href="https://github.com/ricky-sharma/react-data-grid-lite"
+					target="_blank"
+					aria-label="GitHub"
+					rel="noopener"
           >
-            <img
-              src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
-              class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-              alt="Download ZIP"
+				<img
+				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+				  alt="GitHub"
+				  style="display: block; height: 20px;"
+				  class="rounded transition-transform ease-in-out duration-200 hover:scale-105"
             />
-          </a>
-          <a
-            href="https://www.npmjs.com/package/react-data-grid-lite"
-            target="_blank"
-            aria-label="NPM"
-            rel="noopener"
-            class="inline-block rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-            style="line-height: 0"
+			</a>
+			<a
+		   href="https://www.linkedin.com/in/vinay-sharma-2022354/"
+		   target="_blank"
+		   aria-label="LinkedIn"
+		   rel="noopener"
           >
-            <img
-              src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
-              alt="NPM Badge"
-              class="block"
-            />
-          </a>
-          <img
-            src="https://img.shields.io/npm/dt/react-data-grid-lite"
-            class="rounded bg-slate-900"
-            alt="npm downloads"
-          />
-          <a
-            href="https://github.com/ricky-sharma/react-data-grid-lite"
-            target="_blank"
-            aria-label="GitHub"
-            rel="noopener"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-              alt="GitHub"
-              style="display: block; height: 20px"
-              class="rounded transition-transform ease-in-out duration-200 hover:scale-105"
-            />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/vinay-sharma-2022354/"
-            target="_blank"
-            aria-label="LinkedIn"
-            rel="noopener"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-              alt="LinkedIn"
-              style="background-color: white; display: block; height: 20px"
-              class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-            />
-          </a>
-        </p>
-      </div>
-    </header>
+				<img
+				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
+				  alt="LinkedIn"
+				  style="background-color: white; display: block; height: 20px;"
+				  		  class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
 
-    <main
-      class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12"
-    >
-      <label
-        for="navigation"
-        class="fixed bottom-0 left-0 z-50 flex items-center justify-center w-12 h-12 mb-4 ml-4 bg-white border rounded-full shadow-lg cursor-pointer text-slate-600 border-slate-300 lg:hidden transition duration-200 ease-in-out active:scale-95"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 8h16M4 16h16"
-          />
-        </svg>
-      </label>
+/>
+			</a>
+		</p>
+	</div>
+</header>
 
-      <input
-        type="checkbox"
-        name="navigation"
-        id="navigation"
-        class="hidden peer"
-      />
-      <div
-        class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none"
-      >
-        <div
-          class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"
-        ></div>
 
-        <nav
-          class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16"
-        >
-          <ul
-            role="list"
-            class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8"
-          >
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Overview
-              </h3>
+		<main class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12">
+			<label for="navigation" class="fixed bottom-0 left-0 z-50 flex items-center justify-center w-12 h-12 mb-4 ml-4 bg-white border rounded-full shadow-lg cursor-pointer text-slate-600 border-slate-300 lg:hidden transition duration-200 ease-in-out active:scale-95">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+  </svg>
+</label>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="index.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📘 Introduction
-                  </a>
-                </li>
-              </ul>
-            </li>
+<input type="checkbox" name="navigation" id="navigation" class="hidden peer" />
+<div class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none">
+  <div class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"></div>
 
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Documentation
-              </h3>
+  <nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16">
+    <ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8">
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Overview
+			</h3>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="api.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📦 API Reference
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="index.html" class="text-slate-900 hover:text-slate-800">
+						📘 Introduction
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Documentation
+			</h3>
 
-                <li>
-                  <a
-                    href="events.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🔁 Event Callbacks
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="api.html" class="text-slate-900 hover:text-slate-800">
+						📦 API Reference
+					</a>
+				</li>
+				
+				<li>
+					<a href="events.html" class="text-slate-900 hover:text-slate-800">
+						🔁 Event Callbacks
+					</a>
+				</li>
+				
+				<li>
+					<a href="styling.html" class="text-slate-900 hover:text-slate-800">
+						🪄 Styling &amp; Theming
+					</a>
+				</li>
+				
+				<li>
+					<a href="advanced.html" class="text-slate-900 hover:text-slate-800">
+						🔍 Advanced Usage
+					</a>
+				</li>
+				
+				<li>
+					<a href="format-guide.html" class="text-slate-900 hover:text-slate-800">
+						🔤 Format Guide
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Examples
+			</h3>
 
-                <li>
-                  <a
-                    href="styling.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🪄 Styling &amp; Theming
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="example-1.html" class="text-slate-900 hover:text-slate-800">
+						📡 Consuming Remote API
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-2.html" class="text-slate-900 hover:text-slate-800">
+						📝 Global &amp; Column Search
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-3.html" class="text-slate-900 hover:text-slate-800">
+						↔️ Pinned &amp; Resizable Columns
+					</a>
+				</li>
+				
+				<li>
+					<a href="example-4.html" class="text-slate-900 hover:text-slate-800">
+						🖇️ Column Control
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+		<li>
+			<h3 class="font-semibold tracking-tight text-slate-900">
+				Terms &amp; Changes
+			</h3>
 
-                <li>
-                  <a
-                    href="advanced.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🔍 Advanced Usage
-                  </a>
-                </li>
+			<ul role="list" class="pl-3 mt-3 space-y-2">
+				
+				<li>
+					<a href="changelog.html" class="text-slate-900 hover:text-slate-800">
+						📌 Changelog
+					</a>
+				</li>
+				
+				<li>
+					<a href="license.html" class="text-slate-900 hover:text-slate-800">
+						⚖️ License
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+		
+	</ul>
+  </nav>
+</div>
 
-                <li>
-                  <a
-                    href="format_guide.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🔤 Format Guide
-                  </a>
-                </li>
-              </ul>
-            </li>
 
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Examples
-              </h3>
+			<div class="flex-auto max-w-2xl min-w-0 px-4 py-10 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
+				<article class="">
+					<header class="">
+						<p class="text-base font-medium text-slate-500">
+							Documentation
+						</p>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="example-1.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📡 Consuming Remote API
-                  </a>
-                </li>
+						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
+							🔁 Event Callbacks
+						</h1>
+					</header>
 
-                <li>
-                  <a
-                    href="example-2.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📝 Global &amp; Column Search
-                  </a>
-                </li>
+					
 
-                <li>
-                  <a
-                    href="example-3.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    ↔️ Pinned &amp; Resizable Columns
-                  </a>
-                </li>
+					
 
-                <li>
-                  <a
-                    href="example-4.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    🖇️ Column Control
-                  </a>
-                </li>
-              </ul>
-            </li>
+					
 
-            <li>
-              <h3 class="font-semibold tracking-tight text-slate-900">
-                Terms &amp; Changes
-              </h3>
+					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
+						<h3><code>onSortComplete(e, sortColumns, sortedData, sortOrder)</code></h3>
+<p>Triggered after sorting completes.</p>
+<ul>
+<li><code>e</code>: Event object</li>
+<li><code>sortColumns</code>: Array of sorted column keys</li>
+<li><code>sortedData</code>: The sorted data array</li>
+<li><code>sortOrder</code>: <code>'asc'</code> or <code>'desc'</code></li>
+</ul>
+<h3><code>onSearchComplete(e, query, columns, result, matchCount)</code></h3>
+<p>Fired after search operation finishes.</p>
+<ul>
+<li><code>e</code>: Event object</li>
+<li><code>query</code>: Search string</li>
+<li><code>columns</code>: Columns searched</li>
+<li><code>result</code>: Filtered rows</li>
+<li><code>matchCount</code>: Number of matches</li>
+</ul>
+<h3><code>onPageChange(e, currentPage, previousPage, currentPageRows, currentPageFirstRow)</code></h3>
+<p>Fired when pagination changes.</p>
+<ul>
+<li><code>e</code>: Event object</li>
+<li><code>currentPage</code>: Current active page number</li>
+<li><code>previousPage</code>: Previous active page number</li>
+<li><code>currentPageRows</code>: Number of rows on current page</li>
+<li><code>currentPageFirstRow</code>: Index of first row on current page</li>
+</ul>
+<h3><code>onDownloadComplete(e, filename, blob)</code></h3>
+<p>Triggered after CSV file download. Useful for logging or triggering post-download workflows.</p>
+<ul>
+<li><code>e</code>: Event object</li>
+<li><code>filename</code>: Name of the downloaded file</li>
+<li><code>blob</code>: Blob object of the file</li>
+</ul>
+<h3><code>onColumnResized(e, newWidth, columnName)</code> — <em>Supported in <code>v1.1.0</code> and above</em></h3>
+<p>This event handler is called <strong>after a column has been resized</strong>. This function allows you to respond to column resize events, such as updating UI elements or saving user preferences.</p>
+<ul>
+<li><code>e</code> — The original event object from the resize action.</li>
+<li><code>newWidth</code> — The new width of the column in pixels as a string with <code>px</code> suffix (e.g., <code>&quot;150px&quot;</code>). If the new width is <code>null</code> or invalid, it defaults to <code>0</code>.</li>
+<li><code>columnName</code> — The unique identifier (name) of the resized column.</li>
+<li><code>gridID</code> — The unique identifier (id) for the DataGrid component.</li>
+</ul>
+<p><br><br></p>
+<h2>Row-Level Action Events</h2>
+<h3><code>editButtonEvent(e, row)</code></h3>
+<p>Triggered when the <strong>Edit</strong> button in a row is clicked. Use this to open edit forms or modals tied to specific row data.</p>
+<ul>
+<li><code>e</code>: Click event object</li>
+<li><code>row</code>: Data object representing the clicked row</li>
+</ul>
+<h3><code>deleteButtonEvent(e, row)</code></h3>
+<p>Fired when the <strong>Delete</strong> button in a row is clicked. Typically used to confirm and process row deletions.</p>
+<ul>
+<li><code>e</code>: Click event</li>
+<li><code>row</code>: The row data being deleted</li>
+</ul>
+<h3><code>onRowClick(e, row)</code></h3>
+<p>Called when any part of a row (not a specific button) is clicked. Useful for row-level selection, navigation, or detailed views.</p>
+<ul>
+<li><code>e</code>: Click event</li>
+<li><code>row</code>: The full row data</li>
+</ul>
+<h3><code>onRowHover(e, row)</code></h3>
+<p>Triggered when the mouse hovers over a row. Ideal for showing tooltips, highlights, or preview actions.</p>
+<ul>
+<li><code>e</code>: Mouse event</li>
+<li><code>row</code>: Row under the cursor</li>
+</ul>
+<h3><code>onRowOut(e, row)</code></h3>
+<p>Fired when the mouse leaves a row area. Often used to reset styles or hide tooltips.</p>
+<ul>
+<li><code>e</code>: Mouse event</li>
+<li><code>row</code>: Row from which the cursor exited</li>
+</ul>
 
-              <ul role="list" class="pl-3 mt-3 space-y-2">
-                <li>
-                  <a
-                    href="changelog.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    📌 Changelog
-                  </a>
-                </li>
+					</div>
 
-                <li>
-                  <a
-                    href="license.html"
-                    class="text-slate-900 hover:text-slate-800"
-                  >
-                    ⚖️ License
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-      </div>
+					<h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
+	Have questions?
+</h3>
 
-      <div
-        class="flex-auto max-w-2xl min-w-0 px-4 py-10 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16"
-      >
-        <article class="">
-          <header class="">
-            <p class="text-base font-medium text-slate-500">Documentation</p>
+<p class="text-slate-900">
+	Still have questions? <a href="https://github.com/ricky-sharma/react-data-grid-lite/discussions" target="_blank" rel="noopener" class="underline hover:no-underline">Contact on GitHub</a>.
+</p>
 
-            <h1 class="text-3xl font-bold tracking-tight text-slate-900">
-              🔁 Event Callbacks
-            </h1>
-          </header>
+				</article>
 
-          <div
-            class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900"
-          >
-            <h3>
-              <code>onSortComplete(e, sortColumns, sortedData, sortOrder)</code>
-            </h3>
-            <p>Triggered after sorting completes.</p>
-            <ul>
-              <li><code>e</code>: Event object</li>
-              <li><code>sortColumns</code>: Array of sorted column keys</li>
-              <li><code>sortedData</code>: The sorted data array</li>
-              <li>
-                <code>sortOrder</code>: <code>'asc'</code> or
-                <code>'desc'</code>
-              </li>
-            </ul>
-            <h3>
-              <code
-                >onSearchComplete(e, query, columns, result, matchCount)</code
-              >
-            </h3>
-            <p>Fired after search operation finishes.</p>
-            <ul>
-              <li><code>e</code>: Event object</li>
-              <li><code>query</code>: Search string</li>
-              <li><code>columns</code>: Columns searched</li>
-              <li><code>result</code>: Filtered rows</li>
-              <li><code>matchCount</code>: Number of matches</li>
-            </ul>
-            <h3>
-              <code
-                >onPageChange(e, currentPage, previousPage, currentPageRows,
-                currentPageFirstRow)</code
-              >
-            </h3>
-            <p>Fired when pagination changes.</p>
-            <ul>
-              <li><code>e</code>: Event object</li>
-              <li><code>currentPage</code>: Current active page number</li>
-              <li><code>previousPage</code>: Previous active page number</li>
-              <li>
-                <code>currentPageRows</code>: Number of rows on current page
-              </li>
-              <li>
-                <code>currentPageFirstRow</code>: Index of first row on current
-                page
-              </li>
-            </ul>
-            <h3><code>onDownloadComplete(e, filename, blob)</code></h3>
-            <p>
-              Triggered after CSV file download. Useful for logging or
-              triggering post-download workflows.
-            </p>
-            <ul>
-              <li><code>e</code>: Event object</li>
-              <li><code>filename</code>: Name of the downloaded file</li>
-              <li><code>blob</code>: Blob object of the file</li>
-            </ul>
-            <h3>
-              <code>onColumnResized(e, newWidth, columnName)</code> —
-              <em>Supported in <code>v1.1.0</code> and above</em>
-            </h3>
-            <p>
-              This event handler is called
-              <strong>after a column has been resized</strong>. This function
-              allows you to respond to column resize events, such as updating UI
-              elements or saving user preferences.
-            </p>
-            <ul>
-              <li>
-                <code>e</code> — The original event object from the resize
-                action.
-              </li>
-              <li>
-                <code>newWidth</code> — The new width of the column in pixels as
-                a string with <code>px</code> suffix (e.g.,
-                <code>&quot;150px&quot;</code>). If the new width is
-                <code>null</code> or invalid, it defaults to <code>0</code>.
-              </li>
-              <li>
-                <code>columnName</code> — The unique identifier (name) of the
-                resized column.
-              </li>
-              <li>
-                <code>gridID</code> — The unique identifier (id) for the
-                DataGrid component.
-              </li>
-            </ul>
-            <p><br /><br /></p>
-            <h2>Row-Level Action Events</h2>
-            <h3><code>editButtonEvent(e, row)</code></h3>
-            <p>
-              Triggered when the <strong>Edit</strong> button in a row is
-              clicked. Use this to open edit forms or modals tied to specific
-              row data.
-            </p>
-            <ul>
-              <li><code>e</code>: Click event object</li>
-              <li>
-                <code>row</code>: Data object representing the clicked row
-              </li>
-            </ul>
-            <h3><code>deleteButtonEvent(e, row)</code></h3>
-            <p>
-              Fired when the <strong>Delete</strong> button in a row is clicked.
-              Typically used to confirm and process row deletions.
-            </p>
-            <ul>
-              <li><code>e</code>: Click event</li>
-              <li><code>row</code>: The row data being deleted</li>
-            </ul>
-            <h3><code>onRowClick(e, row)</code></h3>
-            <p>
-              Called when any part of a row (not a specific button) is clicked.
-              Useful for row-level selection, navigation, or detailed views.
-            </p>
-            <ul>
-              <li><code>e</code>: Click event</li>
-              <li><code>row</code>: The full row data</li>
-            </ul>
-            <h3><code>onRowHover(e, row)</code></h3>
-            <p>
-              Triggered when the mouse hovers over a row. Ideal for showing
-              tooltips, highlights, or preview actions.
-            </p>
-            <ul>
-              <li><code>e</code>: Mouse event</li>
-              <li><code>row</code>: Row under the cursor</li>
-            </ul>
-            <h3><code>onRowOut(e, row)</code></h3>
-            <p>
-              Fired when the mouse leaves a row area. Often used to reset styles
-              or hide tooltips.
-            </p>
-            <ul>
-              <li><code>e</code>: Mouse event</li>
-              <li><code>row</code>: Row from which the cursor exited</li>
-            </ul>
-          </div>
+				
+  
+  
 
-          <h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
-            Have questions?
-          </h3>
+  
+    <dl class="flex pt-6 mt-6 border-t border-slate-200">
+      
+        <div class="mr-auto text-left">
+          <dt class="text-sm font-normal tracking-tight text-slate-600">
+            Previous
+          </dt>
 
-          <p class="text-slate-900">
-            Still have questions?
-            <a
-              href="https://github.com/ricky-sharma/react-data-grid-lite/discussions"
-              target="_blank"
-              rel="noopener"
-              class="underline hover:no-underline"
-              >Contact on GitHub</a
-            >.
-          </p>
-        </article>
+          <dd class="mt-1">
+            <a href="api.html" class="text-base font-semibold text-slate-900 hover:underline">
+              📦 API Reference
+            </a>
+          </dd>
+        </div>
+      
 
-        <dl class="flex pt-6 mt-6 border-t border-slate-200">
-          <div class="mr-auto text-left">
-            <dt class="text-sm font-normal tracking-tight text-slate-600">
-              Previous
-            </dt>
+      
+        <div class="ml-auto text-right">
+          <dt class="text-sm font-normal tracking-tight text-slate-600">
+            Next
+          </dt>
 
-            <dd class="mt-1">
-              <a
-                href="api.html"
-                class="text-base font-semibold text-slate-900 hover:underline"
-              >
-                📦 API Reference
-              </a>
-            </dd>
-          </div>
+          <dd class="mt-1">
+            <a href="format-guide.html" class="text-base font-semibold text-slate-900 hover:underline">
+              🔤 Format Guide
+            </a>
+          </dd>
+        </div>
+      
+    </dl>
+  
 
-          <div class="ml-auto text-right">
-            <dt class="text-sm font-normal tracking-tight text-slate-600">
-              Next
-            </dt>
 
-            <dd class="mt-1">
-              <a
-                href="example-1.html"
-                class="text-base font-semibold text-slate-900 hover:underline"
-              >
-                📡 Consuming Remote API
-              </a>
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </main>
-  </body>
+			</div>
+		</main>
+	</body>
 </html>

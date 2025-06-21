@@ -17,7 +17,7 @@
 		</script>
 		<!-- Google tag (gtag.js) -->
 		
-		<title>🖇️ Column Control</title>
+		<title>🔤 Format Guide</title>
 		<meta
 		  name="description"
 		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
@@ -263,11 +263,11 @@
 				<article class="">
 					<header class="">
 						<p class="text-base font-medium text-slate-500">
-							Examples
+							Documentation
 						</p>
 
 						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
-							🖇️ Column Control
+							🔤 Format Guide
 						</h1>
 					</header>
 
@@ -278,51 +278,167 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						<p>This example demonstrates advanced column configuration using the <code>react-data-grid-lite</code> component, with the <strong>first name and last name merged</strong> into a single <code>Name</code> field using <code>concatColumns</code>. It also includes fixed columns, selective visibility, and both action buttons.</p>
+						<p>This guide explains how to use the <code>formatting</code> option in column definitions to customize how values are displayed in the grid.</p>
 <hr>
-<h2>✅ Key Features</h2>
-<ul>
-<li><strong>Combined Columns</strong>: <code>firstname</code> and <code>lastname</code> are joined into a <code>Name</code> column.</li>
-<li><strong>Fixed Column</strong>: <code>ID</code> is pinned to the left.</li>
-<li><strong>Resizable Column</strong>: <code>UUID</code> column can be resized.</li>
-<li><strong>Selective Visibility</strong>: Most unused columns are hidden.</li>
-<li><strong>Action Buttons</strong>: Edit and Delete actions are enabled.</li>
-<li><strong>Custom Styling</strong>: Assigns a custom CSS class (<code>customColumn</code>) to the column for targeted styling via external stylesheets.</li>
-<li><strong>Theming</strong>: Uses <code>medi-glow</code> theme.</li>
-</ul>
-<hr>
-<h2>🧩 Grid Component Code</h2>
-<pre><code class="language-jsx">import React from 'react';
-import DataGrid from 'react-data-grid-lite';
-import { useFetch } from '../data';
-
-const options = {
-  actionColumnAlign: 'right',
-  editButton: { event: (e, row) =&gt; { alert('Edit Button clicked!'); console.log(row); }},
-  deleteButton: { event: (e, row) =&gt; { alert('Delete Button clicked!'); console.log(row); }}
-};
-
-export default function Grid() {
-  const users = useFetch(&quot;users&quot;);
-  const columns = users?.length &gt; 0 ? Object.keys(users[0])?.map((val) =&gt; {
-    if (val.toLowerCase() === 'id')
-      return { name: val, alias: 'ID', width: '100px', fixed: true };
-    else if (val.toLowerCase() === 'uuid')
-      return { name: val, alias: 'UUID', width: '400px', resizable: true };
-    else if (['email', 'website', 'image'].includes(val.toLowerCase()))
-      return { name: val, width: '200px', class:'customColumn' };
-    else if (val.toLowerCase() === 'firstname')
-      return { name: val, alias: 'Name', concatColumns: { columns: ['firstname', 'lastname'] }};
-    else return { name: val, hidden: true };
-  }) : [];
-
-  return (
-    &lt;DataGrid columns={columns} data={users} pageSize={10} options={options} width=&quot;70vw&quot;
-        height=&quot;35vh&quot; theme=&quot;medi-glow&quot; /&gt;
-  );
-}
+<h3>✅ How to Use</h3>
+<p>Use the <code>formatting</code> key inside each column to define how values should appear:</p>
+<pre><code class="language-js">const columns = [
+  {
+    name: 'Amount',
+    formatting: { type: 'number', format: '0,0.00' }, // → &quot;1,234.56&quot;
+  },
+  {
+    name: 'Salary',
+    formatting: { type: 'currency', format: 'USD' }, // → &quot;$5,000.00&quot;
+  },
+  {
+    name: 'Joining Date',
+    formatting: { type: 'date', format: 'MMMM dd, yyyy' }, // → &quot;January 01, 2024&quot;
+  },
+  {
+    name: 'Active',
+    formatting: { type: 'boolean' }, // → &quot;Yes&quot; / &quot;No&quot;
+  }
+];
 </code></pre>
+<p>The grid automatically formats values based on <code>type</code> and <code>format</code>.</p>
 <hr>
+<h3>✅ Supported Types</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Example Format</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>number</code></td>
+<td>Formats numeric values</td>
+<td><code>'0,0'</code>, <code>'0.00'</code></td>
+<td>Adds commas and/or decimals</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>Localized currency formatting</td>
+<td><code>'USD'</code>, <code>'INR'</code></td>
+<td>Requires valid ISO 4217 code</td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td>Formats date strings</td>
+<td><code>'MM/dd/yyyy'</code></td>
+<td>Delegates to internal <code>formatDate</code></td>
+</tr>
+<tr>
+<td><code>percent</code></td>
+<td>Formats decimals as percentages</td>
+<td>–</td>
+<td>Multiplies value by 100</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td>Formats true/false as Yes / No</td>
+<td>–</td>
+<td>Case-insensitive</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>📌 Common Format Tokens (for dates)</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>yyyy</code></td>
+<td>4-digit year</td>
+<td><code>2023</code></td>
+</tr>
+<tr>
+<td><code>MM</code></td>
+<td>2-digit month</td>
+<td><code>01</code></td>
+</tr>
+<tr>
+<td><code>MMM</code></td>
+<td>Abbreviated month</td>
+<td><code>Jan</code></td>
+</tr>
+<tr>
+<td><code>MMMM</code></td>
+<td>Full month name</td>
+<td><code>January</code></td>
+</tr>
+<tr>
+<td><code>dd</code></td>
+<td>2-digit day of month</td>
+<td><code>02</code></td>
+</tr>
+<tr>
+<td><code>do</code></td>
+<td>Ordinal day</td>
+<td><code>2nd</code></td>
+</tr>
+<tr>
+<td><code>HH</code></td>
+<td>24-hour format</td>
+<td><code>15</code></td>
+</tr>
+<tr>
+<td><code>hh</code></td>
+<td>12-hour format</td>
+<td><code>03</code></td>
+</tr>
+<tr>
+<td><code>mm</code></td>
+<td>Minutes</td>
+<td><code>04</code></td>
+</tr>
+<tr>
+<td><code>ss</code></td>
+<td>Seconds</td>
+<td><code>00</code></td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>Milliseconds</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>AM/PM</td>
+<td><code>PM</code></td>
+</tr>
+<tr>
+<td><code>EEE</code></td>
+<td>Abbreviated weekday</td>
+<td><code>Mon</code></td>
+</tr>
+<tr>
+<td><code>EEEE</code></td>
+<td>Full weekday name</td>
+<td><code>Monday</code></td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td>Timezone offset</td>
+<td><code>+0000</code></td>
+</tr>
+<tr>
+<td><code>ZZZZ</code></td>
+<td>Timezone full name</td>
+<td><code>Eastern Standard Time</code></td>
+</tr>
+</tbody>
+</table>
 
 					</div>
 
@@ -349,8 +465,8 @@ export default function Grid() {
           </dt>
 
           <dd class="mt-1">
-            <a href="example-3.html" class="text-base font-semibold text-slate-900 hover:underline">
-              ↔️ Pinned &amp; Resizable Columns
+            <a href="events.html" class="text-base font-semibold text-slate-900 hover:underline">
+              🔁 Event Callbacks
             </a>
           </dd>
         </div>
@@ -363,8 +479,8 @@ export default function Grid() {
           </dt>
 
           <dd class="mt-1">
-            <a href="changelog.html" class="text-base font-semibold text-slate-900 hover:underline">
-              📌 Changelog
+            <a href="styling.html" class="text-base font-semibold text-slate-900 hover:underline">
+              🪄 Styling &amp; Theming
             </a>
           </dd>
         </div>
