@@ -17,7 +17,7 @@
 		</script>
 		<!-- Google tag (gtag.js) -->
 		
-		<title>🖇️ Column Control</title>
+		<title>React Data Grid Lite - 🖇️ Column Control</title>
 		<meta
 		  name="description"
 		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
@@ -29,16 +29,17 @@
 		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
-		
-		<!-- Open Graph for social sharing -->
-		<meta property="og:title" content="React Data Grid Lite" />
+		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/example-4.html" />
+
+			<!-- Open Graph for social sharing -->
+		<meta property="og:title" content="React Data Grid Lite - 🖇️ Column Control" />
 		<meta
 		  property="og:description"
-		  content="A lightweight React data grid with full API and usage examples."
+		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
     />
 		<meta
 		  property="og:url"
-		  content="https://ricky-sharma.github.io/react-data-grid-lite/"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/example-4.html"
     />
 		<meta property="og:type" content="website" />
 		<meta
@@ -46,6 +47,12 @@
 		  content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png"
     />
 		<!-- Open Graph for social sharing -->
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content="React Data Grid Lite - 🖇️ Column Control" />
+		<meta name="twitter:description" content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides." />
+		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
 		<!-- goat counter -->
 		<script
@@ -61,7 +68,7 @@
 		  content="9a9IJ5QlmK9gKs722yE-UFI5U55yabZi2ryXpBMoJAs"
     />
 		<!-- google site verification -->
-		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 		<link href="index.css" rel="stylesheet" />
 	</head>
 
@@ -331,7 +338,7 @@ export default function Grid() {
 </h3>
 
 <p class="text-slate-900">
-	Still have questions? <a href="https://github.com/ricky-sharma/react-data-grid-lite/discussions" target="_blank" rel="noopener" class="underline hover:no-underline">Contact on GitHub</a>.
+	<a href="https://github.com/ricky-sharma/react-data-grid-lite/discussions" target="_blank" rel="noopener" class="underline hover:no-underline">Contact on GitHub</a>.
 </p>
 
 				</article>
@@ -374,6 +381,59 @@ export default function Grid() {
 
 
 			</div>
+			<!-- Floating Social Share Bar -->
+			<div class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col gap-3 z-50">
+				<!-- Twitter -->
+				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/example-4.html&text=React%20Data%20Grid%20Lite%20-%20%F0%9F%96%87%EF%B8%8F%20Column%20Control"
+				   target="_blank"
+				   rel="noopener"
+				   class="bg-white text-blue-500 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-600 text-lg"
+				   aria-label="Share on Twitter">
+					<i class="fab fa-twitter w-5 h-5"></i>
+				</a>
+
+				<!-- Facebook -->
+				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/example-4.html"
+				   target="_blank"
+				   rel="noopener"
+				   class="bg-white text-blue-700 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-800 text-lg"
+				   aria-label="Share on Facebook">
+					<i class="fab fa-facebook-f w-5 h-5"></i>
+				</a>
+
+				<!-- LinkedIn -->
+				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/example-4.html&title=React%20Data%20Grid%20Lite%20-%20%F0%9F%96%87%EF%B8%8F%20Column%20Control"
+				   target="_blank"
+				   rel="noopener"
+				   class="bg-white text-blue-600 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-700 text-lg"
+				   aria-label="Share on LinkedIn">
+					<i class="fab fa-linkedin-in w-5 h-5"></i>
+				</a>
+			</div>
 		</main>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+			document.querySelectorAll("pre").forEach((block) => {
+			const button = document.createElement("button");
+			button.innerText = "📋 Copy";
+			button.className = "absolute top-2 right-2 px-2 py-1 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-opacity opacity-0 group-hover:opacity-100 copy-button";
+			block.classList.add("relative", "group");
+			block.appendChild(button);
+
+			button.addEventListener("click", async () => {
+			const code = block.querySelector("code").innerText;
+			try {
+			await navigator.clipboard.writeText(code);
+			button.innerText = "✅ Copied!";
+			setTimeout(() => button.innerText = "📋 Copy", 2000);
+			} catch (err) {
+			console.error("Copy failed", err);
+			button.innerText = "❌ Error";
+			}
+			});
+			});
+			});
+		</script>
+
 	</body>
 </html>
