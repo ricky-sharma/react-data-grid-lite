@@ -1,5 +1,5 @@
 .r-d-g-lt-comp {
-    padding: 8px;
+    padding: 10px;
     background-color: #e0e0e0;
     border-radius: 6px;
     color: #667;
@@ -542,10 +542,9 @@
 }
 
 .r-d-g-lt-comp .globalSearchDiv {
-    display: block !important;
-    padding: 4px 4px 0 !important;
+    display: inline-block !important;
+    padding: 4px !important;
     margin: 0 !important;
-    height: 50px;
 }
 
 .r-d-g-lt-comp div.globalSearch {
@@ -708,7 +707,6 @@
 
     .r-d-g-lt-comp .globalSearchDiv {
         padding-top: 2px !important;
-        height: 42px;
     }
 
     .r-d-g-lt-comp .dropdown {
@@ -724,6 +722,7 @@
     .r-d-g-lt-comp .icon-div-mobile {
         width: 40px !important;
         height: 32px !important;
+        margin: 0 0 10px 10px !important;
     }
 }
 
@@ -792,8 +791,6 @@
 
     .r-d-g-lt-comp .icon-div-mobile {
         width: 32px !important;
-        margin: 0 !important;
-        transform: scale(0.84) !important;
     }
 
     .r-d-g-lt-comp .page-results,

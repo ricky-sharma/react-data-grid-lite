@@ -2,7 +2,7 @@
 .r-d-g-lt-comp.theme-1,
 .r-d-g-lt-comp .theme-1 {
     background-color: #E5E8EC !important;
-    padding: 16px !important;
+    padding: 14px !important;
     color: #1F3B4D !important;
 }
 
@@ -95,7 +95,7 @@
 .r-d-g-lt-comp.theme-2,
 .r-d-g-lt-comp .theme-2 {
     background-color: #F5F5F5 !important;
-    padding: 16px !important;
+    padding: 14px !important;
     color: #2D2D2D !important;
 }
 
@@ -186,7 +186,7 @@
 .r-d-g-lt-comp.theme-3,
 .r-d-g-lt-comp .theme-3 {
     background-color: #E8F5E9 !important;
-    padding: 16px !important;
+    padding: 14px !important;
     color: #256D4F !important;
 }
 
@@ -272,3 +272,24 @@
     .r-d-g-lt-comp .theme-3-r:hover {
         background-color: #E0F2F1 !important;
     }
+
+@media (max-width: 700px) {
+    .r-d-g-lt-comp.theme-1,
+    .r-d-g-lt-comp .theme-1,
+    .r-d-g-lt-comp.theme-2,
+    .r-d-g-lt-comp .theme-2,
+    .r-d-g-lt-comp.theme-3,
+    .r-d-g-lt-comp .theme-3 {
+        padding: 10px !important;
+    }
+}
+
+@media (max-width: 350px) {
+
+    .r-d-g-lt-comp.theme-1 .icon-div-mobile,
+    .r-d-g-lt-comp.theme-2 .icon-div-mobile,
+    .r-d-g-lt-comp.theme-3 .icon-div-mobile {
+        margin: 0 !important;
+        transform: scale(0.84) !important;
+    }
+}
