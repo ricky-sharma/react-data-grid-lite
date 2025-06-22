@@ -49,21 +49,13 @@ const GridGlobalSearchBar = ({
                     />
                 </div>
             )}
-            <div
-                className="p-0 m-0 icon-div alignCenter clear-icon-div"
-                title="Reset Filters"
-                onClick={handleResetSearch}
-                data-toggle="tooltip"
-            >
-                <EraseIcon />
-            </div>
             {enableDownload && (
                 <div
                     style={{
                         pointerEvents: (noData ? 'none' : ''),
                         opacity: (noData ? '0.5' : '')
                     }}
-                    className="p-0 m-0 alignCenter download-icon-div icon-div"
+                    className="p-0 m-0 alignCenter download-icon-div icon-div icon-div-mobile"
                     title="Export CSV"
                     onClick={(e) =>
                         eventExportToCSV(
@@ -86,6 +78,14 @@ const GridGlobalSearchBar = ({
                     </div>
                 </div>
             )}
+            <div
+                className="p-0 m-0 icon-div alignCenter clear-icon-div icon-div-mobile"
+                title="Reset Filters"
+                onClick={handleResetSearch}
+                data-toggle="tooltip"
+            >
+                <EraseIcon />
+            </div>
         </div>
     );
 };
