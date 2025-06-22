@@ -23,7 +23,7 @@ const GridGlobalSearchBar = ({
     columnFormatting
 }) => {
     const windowWidth = useWindowWidth();
-    const isSmallScreen = windowWidth < 700;
+    const isSmallScreen = windowWidth < 701;
     const noData = !Array.isArray(rowsData) || rowsData.length === 0 || isNull(columns)
     return (
         <div className="row col-12 globalSearchDiv">

@@ -18,7 +18,8 @@ const GridRows = ({
     computedColumnWidthsRef
 }) => {
     const loading = useLoadingIndicator();
-    useWindowWidth();
+    const windowWidth = useWindowWidth();
+    const isMobile = windowWidth < 701;
     const {
         rowsData,
         firstRow,
@@ -73,13 +74,13 @@ const GridRows = ({
                     width: colWidth,
                     maxWidth: colResizable ? undefined : colWidth,
                     minWidth: colResizable ? undefined : colWidth,
-                    left: (col?.fixed === true ?
+                    left: (col?.fixed === true && !isMobile ?
                         computedColumnWidthsRef?.current?.find(i =>
                             i?.name === col?.name)?.leftPosition ?? '' : ''),
-                    position: (col?.fixed === true ? 'sticky' : ''),
-                    zIndex: (col?.fixed === true ? 6 : ''),
+                    position: (col?.fixed === true && !isMobile ? 'sticky' : ''),
+                    zIndex: (col?.fixed === true && !isMobile ? 6 : ''),
                     backgroundColor: 'inherit',
-                    boxShadow: (lastFixedIndex === key ? '#e0e0e0 -0.5px 0px 1px 0px inset' : ''),
+                    boxShadow: (lastFixedIndex === key && !isMobile ? '#e0e0e0 -0.5px 0px 1px 0px inset' : ''),
                     contain: 'layout paint'
                 }}>
                     <div className="m-0 p-0 rowText" title={columnValue}>
@@ -98,14 +99,14 @@ const GridRows = ({
                         width: buttonColWidth,
                         maxWidth: buttonColWidth,
                         minWidth: buttonColWidth,
-                        left: (isActionColumnLeft ? 0 : ''),
-                        right: (isActionColumnRight ? 0 : ''),
-                        position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
-                        zIndex: (isActionColumnRight || isActionColumnLeft ? 6 : ''),
+                        left: (isActionColumnLeft && !isMobile ? 0 : ''),
+                        right: (isActionColumnRight && !isMobile ? 0 : ''),
+                        position: ((isActionColumnRight || isActionColumnLeft) && !isMobile ? 'sticky' : ''),
+                        zIndex: ((isActionColumnRight || isActionColumnLeft) && !isMobile ? 6 : ''),
                         backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
-                        boxShadow: (isActionColumnLeft ?
+                        boxShadow: (isActionColumnLeft && !isMobile ?
                             '#e0e0e0 -0.5px 0px 0px 0px inset' :
-                            (isActionColumnRight ? '#e0e0e0 0.5px 0px 0px 0px inset' : '')),
+                            (isActionColumnRight && !isMobile ? '#e0e0e0 0.5px 0px 0px 0px inset' : '')),
                         contain: 'layout paint'
                     }}>
                     <div className="m-0 p-0 button-column alignCenter" style={{ width: buttonColWidth }}>
