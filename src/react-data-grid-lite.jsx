@@ -26,7 +26,8 @@ const DataGrid = ({
     onSearchComplete,
     onPageChange,
     onColumnResized,
-    theme
+    theme,
+    currentPage
 }) => {
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
@@ -34,12 +35,12 @@ const DataGrid = ({
         height: height ?? '60vh',
         maxHeight: maxHeight ?? '100vh',
         gridID: id ?? `id-${Math.floor(Math.random() * 100000000)}`,
-        enablePaging: !isNull(pageSize),
+        enablePaging: !isNull(parseInt(pageSize, 10)),
         noOfPages: 0,
         pagerSelectOptions: [],
         firstRow: 0,
         lastPageRows: 10,
-        activePage: 1,
+        activePage: parseInt(currentPage, 10) ? parseInt(currentPage, 10) : 1,
         theme: theme,
         gridCssClass: options?.gridClass ?? applyTheme(theme ?? '')?.grid ?? '',
         headerCssClass: options?.headerClass ?? applyTheme(theme ?? '')?.header ?? '',
@@ -67,7 +68,6 @@ const DataGrid = ({
         toggleState: true,
         searchValues: {}
     });
-
     const dataReceivedRef = useRef(data);
     const searchColsRef = useRef([]);
     const gridHeaderRef = useRef(null);
@@ -143,12 +143,15 @@ const DataGrid = ({
     const setPagingVariables = () => {
         let noOfPages = Math.floor(state.totalRows / state.pageRows);
         let lastPageRows = state.totalRows % state.pageRows;
+        let activePage = !isNull(noOfPages) && state.activePage > noOfPages ? 1 : state.activePage;
         if (lastPageRows > 0) noOfPages++;
         else if (lastPageRows === 0) lastPageRows = state.pageRows;
         setState((prevState) => ({
             ...prevState,
             noOfPages,
+            activePage,
             lastPageRows,
+            firstRow: state.pageRows * (activePage - 1),
             pagerSelectOptions: noOfPages > 0 ? [...Array(noOfPages).keys()].map((i) => i + 1) : []
         }));
     };

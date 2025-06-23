@@ -50,7 +50,7 @@ describe('GridHeader Component', () => {
     });
 
     it('toggles search row visibility based on enableColumnSearch', () => {
-        let columns = [{ name: 'Name', alias: 'Full Name', searchEnable: true, resizable: true, fixed: true }];
+        let columns = [{ name: 'Name', alias: 'Full Name', enableSearch: true, resizable: true, fixed: true }];
         const TableComponent = () => {
             const [state] = useState({
                 columns: columns,
@@ -66,7 +66,7 @@ describe('GridHeader Component', () => {
         render(<TableComponent />);
         expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
         cleanup();
-        columns = [{ name: 'Name', searchEnable: false }, { name: 'Id', hidden: true }];
+        columns = [{ name: 'Name', enableSearch: false }, { name: 'Id', hidden: true }];
         const TableComponent2 = () => {
             const [state] = useState({
                 columns: columns,
@@ -86,7 +86,7 @@ describe('GridHeader Component', () => {
 
     it('calls onSearchClicked when search input changes', () => {
         const onSearchClicked = jest.fn();
-        const columns = [{ name: 'Name', searchEnable: true }];
+        const columns = [{ name: 'Name', enableSearch: true }];
         const TableComponent = () => {
             const ref = useRef(null);
             const [state, setState] = useState({

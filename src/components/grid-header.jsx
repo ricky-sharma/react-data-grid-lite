@@ -181,7 +181,7 @@ const GridHeader = ({
         const conCols = concatColumns?.[key]?.cols ?? null;
         const formatting = header?.formatting;
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
-        const columnSearchEnabled = header?.searchEnable ?? enableColumnSearch;
+        const columnSearchEnabled = header?.enableSearch ?? enableColumnSearch;
         if (columnSearchEnabled) {
             searchRowEnabled = true;
         };

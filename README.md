@@ -23,9 +23,9 @@ A lightweight and customizable React data grid component designed for high perfo
 ✏️ **Row actions** – Built-in edit/delete hooks  
 🧩 **Merged columns** – Combine multiple fields  
 📊 **Analytics events** – Track user interactions  
-🎨 Theming – Pre-built themes & easy customization  
-🧩 Actions align – Fix column left or right via prop  
-🧪 Fully tested – Robust unit coverage and fixes  
+🎨 **Theming** – Pre-built themes & easy customization  
+🧩 **Actions align** – Fix column left or right via prop  
+🧪 **Fully tested** – Robust unit coverage and fixes  
 
 <br><br>
 <p align="center">
