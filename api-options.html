@@ -17,7 +17,7 @@
 		</script>
 		<!-- Google tag (gtag.js) -->
 		
-		<title>React Data Grid Lite - 🖇️ Column Control</title>
+		<title>React Data Grid Lite - ⚙️ Options</title>
 		<meta
 		  name="description"
 		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
@@ -29,17 +29,17 @@
 		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
-		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/example-4.html" />
+		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/api-options.html" />
 
 			<!-- Open Graph for social sharing -->
-		<meta property="og:title" content="React Data Grid Lite - 🖇️ Column Control" />
+		<meta property="og:title" content="React Data Grid Lite - ⚙️ Options" />
 		<meta
 		  property="og:description"
 		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
     />
 		<meta
 		  property="og:url"
-		  content="https://ricky-sharma.github.io/react-data-grid-lite/example-4.html"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/api-options.html"
     />
 		<meta property="og:type" content="website" />
 		<meta
@@ -50,7 +50,7 @@
 
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:title" content="React Data Grid Lite - 🖇️ Column Control" />
+		<meta name="twitter:title" content="React Data Grid Lite - ⚙️ Options" />
 		<meta name="twitter:description" content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
@@ -303,11 +303,14 @@
 				<article class="">
 					<header class="">
 						<p class="text-base font-medium text-slate-500 mb-6 inline-flex items-center space-x-4">
-							<span>Examples</span>
+							<span>Documentation</span>
+							
+							<span class="text-slate-400">–</span>
+							<span>📦 API Reference</span>
 							
 						</p>
 						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
-							🖇️ Column Control
+							⚙️ Options
 						</h1>
 					</header>
 
@@ -318,49 +321,120 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						<p>This example demonstrates advanced column configuration using the <code>react-data-grid-lite</code> component, with the <strong>first name and last name merged</strong> into a single <code>Name</code> field using <code>concatColumns</code>. It also includes fixed columns, selective visibility, and both action buttons.</p>
-<hr>
-<h2>✅ Key Features</h2>
-<ul>
-<li><strong>Combined Columns</strong>: <code>firstname</code> and <code>lastname</code> are joined into a <code>Name</code> column.</li>
-<li><strong>Fixed Column</strong>: <code>ID</code> is pinned to the left.</li>
-<li><strong>Resizable Column</strong>: <code>UUID</code> column can be resized.</li>
-<li><strong>Selective Visibility</strong>: Most unused columns are hidden.</li>
-<li><strong>Action Buttons</strong>: Edit and Delete actions are enabled.</li>
-<li><strong>Custom Styling</strong>: Assigns a custom CSS class (<code>customColumn</code>) to the column for targeted styling via external stylesheets.</li>
-<li><strong>Theming</strong>: Uses <code>medi-glow</code> theme.</li>
-</ul>
-<hr>
-<h2>🧩 Grid Component Code</h2>
-<pre><code class="language-jsx">import React from 'react';
-import DataGrid from 'react-data-grid-lite';
-import { useFetch } from '../data';
-
-const options = {
-  actionColumnAlign: 'right',
-  editButton: { event: (e, row) =&gt; { alert('Edit Button clicked!'); console.log(row); }},
-  deleteButton: { event: (e, row) =&gt; { alert('Delete Button clicked!'); console.log(row); }}
+						<p>The <code>options</code> prop is an <strong>object</strong> that provides additional configuration settings to further customize the behavior of the <code>DataGrid</code> component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Default Value</strong></th>
+<th><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gridClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for the grid container.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>headerClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for the header row.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>rowClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for each row in the grid.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableColumnSearch</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to enable column-wise search functionality (search per individual column).</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableGlobalSearch</code></td>
+<td><code>Boolean</code></td>
+<td>Enables global search across all columns. Column-level search settings override this option.</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>editButton</code></td>
+<td><code>Object</code></td>
+<td>Configuration for enabling an edit button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>deleteButton</code></td>
+<td><code>Object</code></td>
+<td>Configuration for enabling a delete button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableDownload</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to enable the download functionality (export data as CSV).</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>downloadFilename</code></td>
+<td><code>String</code></td>
+<td>The filename used when downloading grid data in CSV format. The default value is <code>'export-{yyyy-MM-dd HH:mm:ss}'</code></td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onDownloadComplete</code></td>
+<td><code>Function</code></td>
+<td>Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableColumnResize</code></td>
+<td><code>Boolean</code></td>
+<td>Enables column resizing across all columns. Column-level <code>resizable settings</code> override this option. Supported in version <code>1.1.0</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>actionColumnAlign</code></td>
+<td><code>string</code> (<code>'left'</code> | <code>'right'</code> | <code>''</code>)</td>
+<td>Controls alignment of the Actions column. Set to <code>'left'</code> or <code>'right'</code> to fix its position. Leave empty to allow the column to scroll with the rest of the table. Supported in <strong>v1.1.1 and above</strong>.</td>
+<td><code>''</code> (empty string)</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4><strong>Example of <code>options</code> Object:</strong></h4>
+<pre><code class="language-jsx">const options = {
+  gridClass: 'custom-grid-class',
+  headerClass: 'custom-header-class',
+  rowClass: 'custom-row-class',
+  enableColumnSearch: true,
+  enableGlobalSearch: true,
+  editButton: {
+    event: (row) =&gt; { console.log('Edit row:', row); }
+  },
+  deleteButton: {
+    event: (row) =&gt; { console.log('Delete row:', row); }
+  },
+  enableDownload: true,
+  downloadFilename: 'data-grid-export.csv'
 };
-
-export default function Grid() {
-  const users = useFetch(&quot;users&quot;);
-  const columns = users?.length &gt; 0 ? Object.keys(users[0])?.map((val) =&gt; {
-    if (val.toLowerCase() === 'id')
-      return { name: val, alias: 'ID', width: '100px', fixed: true };
-    else if (val.toLowerCase() === 'uuid')
-      return { name: val, alias: 'UUID', width: '400px', resizable: true };
-    else if (['email', 'website', 'image'].includes(val.toLowerCase()))
-      return { name: val, width: '200px', class:'customColumn' };
-    else if (val.toLowerCase() === 'firstname')
-      return { name: val, alias: 'Name', concatColumns: { columns: ['firstname', 'lastname'] }};
-    else return { name: val, hidden: true };
-  }) : [];
-
-  return (
-    &lt;DataGrid columns={columns} data={users} pageSize={10} options={options} width=&quot;70vw&quot;
-        height=&quot;35vh&quot; theme=&quot;medi-glow&quot; /&gt;
-  );
-}
 </code></pre>
 <hr>
 
@@ -389,25 +463,13 @@ export default function Grid() {
           </dt>
 
           <dd class="mt-1">
-            <a href="example-3.html" class="text-base font-semibold text-slate-900 hover:underline">
-              ↔️ Pinned &amp; Resizable Columns
+            <a href="api-columns.html" class="text-base font-semibold text-slate-900 hover:underline">
+              📊 Columns
             </a>
           </dd>
         </div>
       
 
-      
-        <div class="ml-auto text-right">
-          <dt class="text-sm font-normal tracking-tight text-slate-600">
-            Next
-          </dt>
-
-          <dd class="mt-1">
-            <a href="changelog.html" class="text-base font-semibold text-slate-900 hover:underline">
-              📌 Changelog
-            </a>
-          </dd>
-        </div>
       
     </dl>
   
@@ -417,7 +479,7 @@ export default function Grid() {
 			<!-- Floating Social Share Bar -->
 			<div class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col gap-3 z-50">
 				<!-- Twitter -->
-				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/example-4.html&text=React%20Data%20Grid%20Lite%20-%20%F0%9F%96%87%EF%B8%8F%20Column%20Control"
+				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/api-options.html&text=React%20Data%20Grid%20Lite%20-%20%E2%9A%99%EF%B8%8F%20Options"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-500 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-600 text-lg"
@@ -426,7 +488,7 @@ export default function Grid() {
 				</a>
 
 				<!-- Facebook -->
-				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/example-4.html"
+				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/api-options.html"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-700 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-800 text-lg"
@@ -435,7 +497,7 @@ export default function Grid() {
 				</a>
 
 				<!-- LinkedIn -->
-				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/example-4.html&title=React%20Data%20Grid%20Lite%20-%20%F0%9F%96%87%EF%B8%8F%20Column%20Control"
+				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/api-options.html&title=React%20Data%20Grid%20Lite%20-%20%E2%9A%99%EF%B8%8F%20Options"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-600 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-700 text-lg"
