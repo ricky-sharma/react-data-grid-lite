@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css" rel="stylesheet" />
+		<link href="index.css?ver=1750687230293" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -321,7 +321,7 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						<p>A lightweight and customizable React data grid component designed for high performance and ease of use.</p>
+						<p>A <strong>lightweight</strong>, <strong>high-performance</strong>, and <strong>customizable</strong> data grid component for React, ideal for rendering large data sets with support for sorting, searching, pagination, theming, and responsive layouts.</p>
 <table>
 <thead>
 <tr>
@@ -461,6 +461,118 @@
 </tr>
 </tbody>
 </table>
+<p><br><br></p>
+<h2>🧱 Columns Configuration Example</h2>
+<pre><code class="language-jsx">const columns = [
+  {
+    name: 'username',
+    alias: 'User Name',
+    width: '200px',
+    enableSearch: true
+  },
+  {
+    name: 'status',
+    alias: 'Account Status',
+    hidden: false
+  }
+];
+</code></pre>
+<hr>
+<h2>🎛 Props in Action</h2>
+<h3><code>pageSize</code> + <code>onPageChange</code></h3>
+<pre><code class="language-jsx">&lt;DataGrid
+  columns={columns}
+  data={largeDataset}
+  pageSize={10}
+  onPageChange={(e, newPage) =&gt; console.log(`Page changed to: ${newPage}`)}
+/&gt;
+</code></pre>
+<hr>
+<h3>Row Interaction Events</h3>
+<pre><code class="language-jsx">&lt;DataGrid
+  columns={columns}
+  data={data}
+  onRowClick={(e, row) =&gt; alert(`You clicked on ${row.name}`)}
+  onRowHover={(e, row) =&gt; console.log('Hovered:', row.id)}
+  onRowOut={() =&gt; console.log('Mouse left row')}
+/&gt;
+</code></pre>
+<hr>
+<h3>Global Search &amp; Sort Events</h3>
+<pre><code class="language-jsx">&lt;DataGrid
+  columns={columns}
+  data={data}
+  options={ enableGlobalSearch: true }
+  onSearchComplete={(e, query, columns, result, matchCount) =&gt; console.log('Search Results:', result)}
+  onSortComplete={(e, sortColumns, sortedData, sortOrder) =&gt; console.log('Sorted Data:', sortedData)}
+/&gt;
+</code></pre>
+<hr>
+<h3>Custom Grid Dimensions</h3>
+<pre><code class="language-jsx">&lt;DataGrid
+  columns={columns}
+  data={data}
+  width=&quot;100%&quot;
+  height=&quot;400px&quot;
+  maxWidth=&quot;1200px&quot;
+  maxHeight=&quot;80vh&quot;
+/&gt;
+</code></pre>
+<hr>
+<h3>Resizable Columns (v1.1.0+)</h3>
+<pre><code class="language-jsx">&lt;DataGrid
+  columns={columns}
+  data={data}
+  onColumnResized={(e, newWidth, columnName) =&gt;
+    console.log(`${columnName} resized to ${newWidth}px`)
+  }
+/&gt;
+</code></pre>
+<hr>
+<h2>🎨 Themes</h2>
+<p>Available themes:</p>
+<ul>
+<li><code>'blue-core'</code></li>
+<li><code>'dark-stack'</code></li>
+<li><code>'medi-glow'</code></li>
+<li><code>''</code> (default/neutral)</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-jsx">&lt;DataGrid
+  columns={columns}
+  data={data}
+  theme=&quot;blue-core&quot;
+/&gt;
+</code></pre>
+<hr>
+<h2>📌 Version-Specific Features</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Available Since</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code> prop auto-gen</td>
+<td>v1.0.5</td>
+</tr>
+<tr>
+<td><code>onColumnResized</code></td>
+<td>v1.1.0</td>
+</tr>
+<tr>
+<td><code>theme</code> prop</td>
+<td>v1.1.1</td>
+</tr>
+<tr>
+<td><code>currentPage</code> prop</td>
+<td>v1.1.2</td>
+</tr>
+</tbody>
+</table>
+<hr>
 
 					</div>
 
