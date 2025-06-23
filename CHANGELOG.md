@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),  and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+<br><br>
+
+## 📦 v1.1.2 - 2025-06-23
+
+### ✨ Features
+
+* **DataGrid**: Added `currentPage` prop to allow initialization of grid with a specific page (supports query strings, bookmarking, etc.).
+* **DataGrid**: Renamed `searchEnable` to `enableSearch` for clearer naming (backward compatibility removed).
+* **Responsive UX**: Disabled fixed columns for screen widths under 701px to improve usability on smaller devices.
+
+### 🛠 Fixes
+
+* **UI**: Resolved layout issues with the “Clear Filter” button on mobile by applying responsive UI tweaks.
+* **Theme Compatibility**: Updated `box-shadow` from `0.3px` to `1px` to resolve border rendering issue on Mozilla Firefox.
+
+### 🎨 Styling
+
+* **Mobile Styling**: Adjusted padding for better visual consistency in the new responsive theme.
+
+
 <br><br>
 
 ## 📦 v1.1.1 - 2025-06-19

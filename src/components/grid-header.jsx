@@ -17,7 +17,8 @@ const GridHeader = ({
     computedColumnWidthsRef
 }) => {
     const windowWidth = useWindowWidth();
-    const isMobile = windowWidth < 700;
+    const isMobile = windowWidth < 701;
+    if (!state || isNull(state.columns) || isNull(state.columnWidths)) return null;
     const {
         columns,
         hiddenColIndex,
@@ -32,10 +33,10 @@ const GridHeader = ({
         rowsData,
         searchValues,
         actionColumnAlign
-    } = state || {};
-    if (isNull(columns) || isNull(columnWidths)) return null;
+    } = state;
+
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
-    let headers = [...columns];
+    const headers = [...columns];
     let computedColumnWidths = [];
     if (computedColumnWidthsRef) computedColumnWidthsRef.current = [];
     let searchRowEnabled = false;
@@ -56,8 +57,7 @@ const GridHeader = ({
     const isActionColumnRight = actionColumnAlign === 'right';
 
     if (buttonColEnabled && headers[headers.length - 1] !== '##Actions##') {
-        const insert = isActionColumnLeft ? 'unshift' : 'push';
-        headers[insert]('##Actions##');
+        headers[isActionColumnLeft ? 'unshift' : 'push']('##Actions##');
     }
 
     let leftPosition = 0;
@@ -67,6 +67,45 @@ const GridHeader = ({
             (!item?.hidden ? idx : lastIdx), -1)
         : -1
     ) - ((isActionColumnLeft && buttonColEnabled) ? 1 : 0);
+
+    const getActionColumnStyle = (withBoxShadow = false) => {
+        const baseStyle = {
+            width: buttonColWidth,
+            maxWidth: buttonColWidth,
+            minWidth: buttonColWidth,
+            left: isActionColumnLeft && !isMobile ? 0 : '',
+            right: isActionColumnRight && !isMobile ? 0 : '',
+            position: (isActionColumnRight || isActionColumnLeft) && !isMobile ? 'sticky' : '',
+            zIndex: (isActionColumnRight || isActionColumnLeft) && !isMobile ? 10 : '',
+            backgroundColor: isActionColumnRight || isActionColumnLeft ? 'inherit' : '',
+            contain: 'layout paint',
+        };
+
+        if (withBoxShadow && !isMobile) {
+            baseStyle.boxShadow = isActionColumnLeft
+                ? '#e0e0e0 -0.5px 0px 0px 0px inset'
+                : isActionColumnRight
+                    ? '#e0e0e0 0.5px 0px 0px 0px inset'
+                    : '';
+        }
+
+        return baseStyle;
+    };
+
+    const getHeaderCellStyles = (header, width) => {
+        const fixed = header?.fixed && !isMobile;
+        return {
+            width,
+            maxWidth: header?.resizable ?? enableColumnResize ? undefined : width,
+            minWidth: header?.resizable ?? enableColumnResize ? undefined : width,
+            left: fixed === true ? computedColumnWidths.find(i => i.name === header.name)?.leftPosition ?? '' : '',
+            position: fixed === true ? 'sticky' : '',
+            zIndex: fixed === true ? 10 : '',
+            backgroundColor: 'inherit',
+            contain: 'layout paint'
+        };
+    };
+
 
     const thColHeaders = headers.map((header, key) => {
         key -= (isActionColumnLeft && buttonColEnabled) ? 1 : 0;
@@ -91,21 +130,10 @@ const GridHeader = ({
         leftPosition += tryParseWidth((isActionColumnLeft && key === -1 ?
             buttonColWidth : colWidth), containerWidth);
 
-        const colResizable = header?.resizable ?? enableColumnResize;
         if (header === '##Actions##') {
             return (
                 <th
-                    style={{
-                        width: buttonColWidth,
-                        maxWidth: buttonColWidth,
-                        minWidth: buttonColWidth,
-                        left: (isActionColumnLeft ? 0 : ''),
-                        right: (isActionColumnRight ? 0 : ''),
-                        position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
-                        zIndex: (isActionColumnRight || isActionColumnLeft ? 10 : ''),
-                        backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
-                        contain: 'layout paint'
-                    }}
+                    style={getActionColumnStyle()}
                     title="Actions"
                     data-toggle="tooltip"
                     key={key}
@@ -131,17 +159,7 @@ const GridHeader = ({
         };
         return (
             <th
-                style={{
-                    width: colWidth,
-                    maxWidth: colResizable ? undefined : colWidth,
-                    minWidth: colResizable ? undefined : colWidth,
-                    left: (header?.fixed === true ?
-                        computedColumnWidths?.find(i => i?.name === header?.name)?.leftPosition ?? '' : ''),
-                    position: (header?.fixed === true ? 'sticky' : ''),
-                    zIndex: (header?.fixed === true ? 10 : ''),
-                    backgroundColor: 'inherit',
-                    contain: 'layout paint'
-                }}
+                style={getHeaderCellStyles(header, colWidth)}
                 key={key}
                 data-column-name={header?.name}
                 onClick={onClickHandler}
@@ -163,28 +181,14 @@ const GridHeader = ({
         const conCols = concatColumns?.[key]?.cols ?? null;
         const formatting = header?.formatting;
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
-        const colResizable = header?.resizable ?? enableColumnResize;
-        const columnSearchEnabled = header?.searchEnable ?? enableColumnSearch;
+        const columnSearchEnabled = header?.enableSearch ?? enableColumnSearch;
         if (columnSearchEnabled) {
             searchRowEnabled = true;
         };
         if (header === '##Actions##') {
             return (
                 <th
-                    style={{
-                        width: buttonColWidth,
-                        maxWidth: buttonColWidth,
-                        minWidth: buttonColWidth,
-                        left: (isActionColumnLeft ? 0 : ''),
-                        right: (isActionColumnRight ? 0 : ''),
-                        position: (isActionColumnRight || isActionColumnLeft ? 'sticky' : ''),
-                        zIndex: (isActionColumnRight || isActionColumnLeft ? 10 : ''),
-                        backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
-                        boxShadow: (isActionColumnLeft ?
-                            '#e0e0e0 -0.5px 0px 0px 0px inset' :
-                            (isActionColumnRight ? '#e0e0e0 0.5px 0px 0px 0px inset' : '')),
-                        contain: 'layout paint'
-                    }}
+                    style={getActionColumnStyle(true)}
                     key={key}
                 >
                     <div
@@ -200,18 +204,7 @@ const GridHeader = ({
         return (
             <th
                 className="alignCenter"
-                style={{
-                    width: colWidth,
-                    maxWidth: colResizable ? undefined : colWidth,
-                    minWidth: colResizable ? undefined : colWidth,
-                    left: (header?.fixed === true ?
-                        computedColumnWidths?.find(i => i?.name
-                            === header?.name)?.leftPosition ?? '' : ''),
-                    position: (header?.fixed === true ? 'sticky' : ''),
-                    zIndex: (header?.fixed === true ? 10 : ''),
-                    backgroundColor: 'inherit',
-                    contain: 'layout paint'
-                }}
+                style={getHeaderCellStyles(header, colWidth)}
                 key={key}
                 data-column-name={header?.name}
             >

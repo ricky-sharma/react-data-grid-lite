@@ -29,4 +29,5 @@ coverage
 coverage/
 .vite
 build
+build-backup
 .vite/

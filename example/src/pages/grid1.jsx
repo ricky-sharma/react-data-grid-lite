@@ -37,13 +37,15 @@ export default function Grid1() {
                     type: 'Date', format: 'dd-MMMM-yyyy'
                 }, width: '200px'
             }
-        else if (val.toLowerCase() === 'genre')
+        else if (val.toLowerCase() === 'title'
+            || val.toLowerCase() === 'image'
+            || val.toLowerCase() === 'publisher')
             return {
-                name: val, width: '150px'
+                name: val, width: '250px'
             }
         else
             return {
-                name: val, width: '200px'
+                name: val, width: '175px'
             }
     }) : [];
 
