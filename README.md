@@ -3,7 +3,6 @@
 ![License](https://img.shields.io/github/license/ricky-sharma/react-data-grid-lite)
 ![Last Commit](https://img.shields.io/github/last-commit/ricky-sharma/react-data-grid-lite)
 [![Download Badge](https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github)](https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip)
-![Forks](https://img.shields.io/github/forks/ricky-sharma/react-data-grid-lite?style=social)
 ![npm](https://img.shields.io/npm/dt/react-data-grid-lite)
 
 # React Data Grid Lite
@@ -42,9 +41,7 @@ A lightweight and customizable React data grid component designed for high perfo
 ```bash
 npm install react-data-grid-lite
 ```
-
 or
-
 ```bash
 yarn add react-data-grid-lite
 ```
@@ -65,19 +62,12 @@ const columns = [
 
 const rows = [
   { id: 1, name: 'John Doe', age: 28 },
-  { id: 2, name: 'Jane Smith', age: 34 },
-  { id: 3, name: 'Sam Johnson', age: 22 }
+  { id: 2, name: 'Jane Smith', age: 34 }
 ];
 
 function App() {
   return (
-    <div>
-      <h1>Data Grid Example</h1>
-      <DataGrid
-          columns={columns}
-          data={rows}
-      />
-    </div>
+      <DataGrid columns={columns} data={rows} />
   );
 }
 
