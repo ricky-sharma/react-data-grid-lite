@@ -84,7 +84,92 @@ const columns = [
   }
 ];
 ```
+
+<br>
+
+### 🔍 Render Function Signature
+
+```jsx
+render: (formattedRow: object, baseRow: object) => React.ReactNode
+```
+
+| Parameter    | Type     | Description                           |
+| ------------ | -------- | ------------------------------------- |
+| `formattedRow`    | `object` | the transformed row data after formatting and concatenation                |
+| `baseRow` | `object` | the original, unformatted row data |
+
+<br>
+
+#### 🧪 Use Case Examples for Render Function
+
+<br>
+
+##### ✅ Custom Cell Rendering
+
+```js
+const columns = [
+  {
+    name: 'name',
+    alias: 'Full Name',
+    render: (row) => <strong>{row.name}</strong>
+  },
+  {
+    name: 'email',
+    alias: 'Email',
+    render: (formattedRow) => (
+        {% raw %}<a href={`mailto:${formattedRow.email}`} style={{ color: blue }}>
+                {formattedRow.email}
+        </a>{% endraw %}
+    )
+  },
+  {
+    name: 'status',
+    alias: 'Active',
+	formatting: { type: 'boolean' },
+    render: (formattedRow, baseRow) => (
+      <span
+      {% raw %}style={{
+          padding: '4px 8px',
+          borderRadius: '12px',
+          backgroundColor: baseRow.status === 'true' ? `#d4edda` : `#f8d7da`,
+          color: baseRow.status === 'true' ? `#155724` : `#721c24`
+        }}        {% endraw %}
+      >
+        {formattedRow.status}
+      </span>
+    )
+  }
+];
+
+const data = [
+  { name: 'Alice Johnson', email: 'alice@example.com', status: 'true' },
+  { name: 'Bob Smith', email: 'bob@example.com', status: 'false' }
+];
+
+const App = () => (
+  <DataGrid
+    columns={columns}
+    data={data}
+    pageSize={10}
+  />
+);
+```
+
+##### ✅ Add Action Buttons in Column Cells
+
+```jsx
+{
+  name: 'actions',
+  alias: 'Actions',
+  render: (row) => (
+    <button onClick={() => alert(`Edit ${row.name}`)}>Edit</button>
+  )
+}
+```
+---
+
 <br><br>
+
 ## ⚙️ **`options` Prop Structure**
 
 The `options` prop is an **object** that provides additional configuration settings to further customize the behavior of the `DataGrid` component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality.
