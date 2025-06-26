@@ -100,9 +100,7 @@ render: (formattedRow: object, baseRow: object) => React.ReactNode
 
 <br>
 
-#### 🧪 Use Case Examples for Render Function
-
-<br>
+#### Use Case Examples for Render Function
 
 ##### ✅ Custom Cell Rendering
 
