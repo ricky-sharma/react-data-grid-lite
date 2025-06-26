@@ -102,7 +102,7 @@ export default function Grid3() {
             title="Custom Cell Rendering with Dynamic Images and Styled Links"
             theme="medi-glow"
             text="Actions Column right aligned, First Name and Last Name are combined into the Name field. This data grid features following custom cell rendering:"
-            htmlContent="<ul><li> Dynamic Images: Cells display images loaded from the <a href='https://picsum.photos/' rel='noopener noreferrer' target='_blank'>Picsum service</a></li><li> Styled Links: Email and website fields are rendered as styled anchor links, enhancing user interaction.</li></ul><p><a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid3.jsx'>Complete Source Code on GitHub</a></p>"
+            htmlContent="<ul><li> Dynamic Images: Cells display images loaded from the <a href='https://picsum.photos/' rel='noopener noreferrer' target='_blank'>Picsum service</a>. </li><li> Styled Links: Email and website fields are rendered as styled anchor links, enhancing user interaction.</li></ul><p>Note: Missing images may occur if the third-party Picsum service returns invalid or unreachable URLs.</p><p><a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid3.jsx'>Complete Source Code on GitHub</a></p>"
         >
             <DataGrid
                 columns={columns}
