@@ -1,22 +1,102 @@
+/* General Layout */
 .navbar {
-    background-color: #333;
+    background-color: #1f2937;
     padding: 10px 20px;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1000;
 }
 
-.navbar-links {
+/* Brand */
+.navbar-brand {
     display: flex;
-    gap: 20px;
-    list-style: none;
-    padding: 0;
-    margin: 1px !important;
+    justify-content: space-between;
+    align-items: center;
 }
 
-    .navbar-links a {
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
+.brand-logo {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    .brand-logo:hover {
+        color: #38bdf8;
     }
 
-        .navbar-links a:hover {
-            color: #1abc9c;
+/* Hamburger Button */
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.bar {
+    height: 3px;
+    width: 100%;
+    background-color: white;
+    border-radius: 4px;
+    transition: 0.3s ease;
+}
+
+/* Navigation Links */
+.navbar-links {
+    display: flex;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .navbar-links li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+
+        .navbar-links li a:hover {
+            background-color: #374151;
+            color: #38bdf8;
         }
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .navbar-toggle {
+        display: flex;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        background-color: #1f2937;
+        position: absolute;
+        top: 45px;
+        left: 0;
+        display: none;
+        transition: max-height 0.3s ease;
+        overflow: hidden;
+    }
+
+        .navbar-links.open {
+            display: flex;
+        }
+
+        .navbar-links li {
+            border-bottom: 2px solid #fff;
+            padding: 12px 20px;
+        }
+
+            .navbar-links li:last-child {
+                border-bottom: none;
+            }
+}
