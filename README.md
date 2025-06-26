@@ -11,20 +11,20 @@
 A lightweight and customizable React data grid component designed for high performance and ease of use. The DataGrid component is a highly customizable, feature-rich table component designed to display tabular data in a React application. It is intended for use cases where large datasets need to be presented with advanced features such as pagination, sorting, searching, row interactions, and more.
 
 ✅ **Key Features**  
-⚡ **Lightweight** – Small bundle size, fast loading
-📦 **API-ready** – Works with any JSON API
-🛠️ **Dynamic columns** – Auto-adapts to data schema
-🔍 **Search & aliases** – Fast filtering, custom labels
-📌 **Fixed columns** – Lock columns during scroll
-📏 **Resizable columns** – User can drag to resize
-📱 **Responsive layout** – Adapts to all screen sizes
-🧾 **CSV export** – Download full data grid
-✏️ **Row actions** – Built-in edit/delete hooks
-🧩 **Merged columns** – Combine multiple fields
-🎨 **Custom cell rendering** – Use `render` prop for tailored cell views
-📊 **Analytics events** – Track user interactions
-🎨 **Theming** – Pre-built themes & easy customization
-🧩 **Actions align** – Fix column left or right via prop
+⚡ **Lightweight** – Small bundle size, fast loading  
+📦 **API-ready** – Works with any JSON API  
+🛠️ **Dynamic columns** – Auto-adapts to data schema  
+🔍 **Search & aliases** – Fast filtering, custom labels  
+📌 **Fixed columns** – Lock columns during scroll  
+📏 **Resizable columns** – User can drag to resize  
+📱 **Responsive layout** – Adapts to all screen sizes  
+🧾 **CSV export** – Download full data grid  
+✏️ **Row actions** – Built-in edit/delete hooks  
+🧩 **Merged columns** – Combine multiple fields  
+🎨 **Custom cell rendering** – Use `render` prop for tailored cell views  
+📊 **Analytics events** – Track user interactions  
+🎨 **Theming** – Pre-built themes & easy customization  
+🧩 **Actions align** – Fix column left or right via prop  
 🧪 **Fully tested** – Robust unit coverage and fixes  
 
 <br><br>
