@@ -11,7 +11,7 @@ function App() {
     return (
         <Router>
             <Navbar style={{ display: 'flex', justifyContent: 'center' }} />
-            <div style={{ padding: '10px' }}>
+            <div style={{ padding: '8px' }}>
                 <Routes>
                     <Route path="/" element={<Grid1 />} />
                     <Route path="/Grid2" element={<Grid2 />} />
