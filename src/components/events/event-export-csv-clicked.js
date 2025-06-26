@@ -1,7 +1,7 @@
 import { CSV_File_Name_Prefix } from "../../constants";
 import { isNull } from "../../helpers/common";
 import { formatDate } from "../../helpers/date";
-import { getConcatValue, getFormattedValue } from "../../utils/component-utils";
+import { formatRowData } from "../../utils/component-utils";
 
 /**
  * Exports an array of data objects to a CSV file.
@@ -31,15 +31,9 @@ export const eventExportToCSV = (
         .filter(col => col?.hidden !== true && col?.name)
         .map(col => col?.alias ?? col.name);
     // Preprocess rows to create case-insensitive key maps
-    const processedData = data.map(row => {
-        const keyMap = {};
-        Object.keys(row).forEach((col, key) => {
-            const conValue = getConcatValue(row, key, concatColumns, columns);
-            const value = getFormattedValue(conValue || row[col], columnFormatting?.[key]);
-            keyMap[col.toLowerCase()] = value;
-        });
-        return keyMap;
-    });
+    const processedData = data.map(row =>
+        formatRowData(row, concatColumns, columns, columnFormatting)
+    );
     // Create rows using case-insensitive lookup
     const rows = processedData.map(row => {
         return columns

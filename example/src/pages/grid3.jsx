@@ -6,6 +6,7 @@ import './../App.css';
 
 const options = {
     actionColumnAlign: 'right',
+    enableColumnSearch: false,
     editButton: {
         event: (e, row) => {
             alert('Edit Button clicked!');
@@ -27,15 +28,63 @@ export default function Grid3() {
             return {
                 name: val, alias: 'ID', width: '100px', fixed: true
             }
-        else if (val.toLowerCase() === 'uuid')
+        else if (val.toLowerCase() === 'email')
             return {
-                name: val, alias: 'UUID', width: '400px', resizable: true
+                name: val, resizable: true,
+                render: (row) => (
+                    <div className="alignCenter"
+                        style={{
+                            height: '100%', width: "100%", padding: "40px"
+                        }}>
+                        <a rel='noopener noreferrer' href={`mailto:${row[val.toLowerCase()]}`}
+                            className="ellipsis">
+                            {row[val.toLowerCase()]}
+                        </a>
+                    </div>
+                )
             }
-        else if (val.toLowerCase() === 'email' || val.toLowerCase() === 'website'
-            || val.toLowerCase() === 'image')
+        else if (val.toLowerCase() === 'website')
             return {
-                name: val, width: '200px'
+                name: val,
+                render: (row) => (
+                    <div className="alignCenter" style={{
+                        height: '100%', width: "100%", padding: "40px"
+                    }}>
+                        <a href={`${row[val.toLowerCase()]}`}
+                            className="ellipsis" rel='noopener noreferrer' target='_blank'>
+                            {row[val.toLowerCase()]}
+                        </a>
+                    </div>
+                )
             }
+        else if (val.toLowerCase() === 'image') {
+            return {
+                name: val,
+                width: '300px',
+                render: () => {
+                    const random = Math.random();
+                    const largeImage = `https://picsum.photos/300/100?random=${random}`;
+                    return (
+                        <div className="image-container alignCenter">
+                            <div className="image-wrapper alignCenter">
+                                <img
+                                    src={largeImage}
+                                    alt="Thumb"
+                                    className="thumbnail"
+                                />
+                                <div className="overlay">
+                                    <img
+                                        src={largeImage}
+                                        alt="Large"
+                                        className="large-image"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    );
+                }
+            };
+        }
         else if (val.toLowerCase() === 'firstname')
             return {
                 name: val, alias: 'Name',
@@ -48,19 +97,19 @@ export default function Grid3() {
                 name: val, hidden: true
             }
     }) : [];
-
     return (
         <ExampleBlock
-            title="Example 3"
+            title="Custom Cell Rendering with Dynamic Images and Styled Links"
             theme="medi-glow"
-            text="First Name and Last Name are combined into the Name field."
+            text="Actions Column right aligned, First Name and Last Name are combined into the Name field. This data grid features following custom cell rendering:"
+            htmlContent="<ul><li> Dynamic Images: Cells display images loaded from the <a href='https://picsum.photos/' rel='noopener noreferrer' target='_blank'>Picsum service</a></li><li> Styled Links: Email and website fields are rendered as styled anchor links, enhancing user interaction.</li></ul><p><a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid3.jsx'>Complete Source Code on GitHub</a></p>"
         >
             <DataGrid
                 columns={columns}
                 data={users}
                 pageSize={10}
                 options={options}
-                width="70vw"
+                width="inherit"
                 height="35vh"
                 theme="medi-glow"
             />

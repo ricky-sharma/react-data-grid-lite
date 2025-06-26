@@ -33,15 +33,16 @@ export default function Grid4() {
 
     return (
         <ExampleBlock
-            title="Example 4"
+            title="The default visual presentation when no theme or external CSS is applied"
             theme="default"
-            text="The default visual presentation when no theme or external CSS is applied."
+            text=""
+            htmlContent="<a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid4.jsx'>Complete Source Code on GitHub</a>"
         >
             <DataGrid
                 columns={columns}
                 data={users}
                 pageSize={10}
-                width="70vw"
+                width="inherit"
                 height="35vh"
             />
         </ExampleBlock>

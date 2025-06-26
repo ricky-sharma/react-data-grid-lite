@@ -144,3 +144,15 @@ export const useFetch = (api = 'books') => {
 
     return data;
 }
+
+export const useFetch2 = () => {
+    const [data, setData] = useState([])
+    useEffect(() => {
+        const promise = fetch(`https://jsonplaceholder.typicode.com/todos/`)
+            .then(response => response.json())
+            .then(response => { setData(response) })
+        trackPromise(promise);
+    }, [])
+
+    return data;
+}

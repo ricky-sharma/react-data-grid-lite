@@ -5,6 +5,7 @@ import Grid1 from './pages/grid1';
 import Grid2 from './pages/grid2';
 import Grid3 from './pages/grid3';
 import Grid4 from './pages/grid4';
+import Grid5 from './pages/grid5';
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/Grid2" element={<Grid2 />} />
                     <Route path="/Grid3" element={<Grid3 />} />
                     <Route path="/Grid4" element={<Grid4 />} />
+                    <Route path="/Grid5" element={<Grid5 />} />
                 </Routes>
             </div>
         </Router>

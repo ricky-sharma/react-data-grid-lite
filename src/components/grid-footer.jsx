@@ -23,10 +23,10 @@ const GridFooter = ({
     return (
         <div className="row col-12 m-0 p-0 alignCenter grid-footer">
             {!isNull(totalRows) && totalRows !== 0 ? (
-            <div className="col-5 m-0 p-0 page-results">
-                    <b>{showingRange}</b> {" of "} <b>{totalRows}</b> {" results"}
+                <div className="col-5 m-0 p-0 page-results">
+                    {showingRange}{" of "}{totalRows}{" results"}
                 </div>)
-             : null
+                : null
             }
             <div className="col-2 m-0 p-0 pagerSelect alignCenter">
                 {pagerSelectOptions?.length ?? 0 > 0 ?

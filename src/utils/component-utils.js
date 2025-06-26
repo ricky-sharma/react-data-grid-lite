@@ -118,7 +118,17 @@ export const tryParseWidth = (val, totalWidth = 0) => {
     return 0;
 };
 
-export const getConcatValue = (row, key, concatColumns, columns) => {
+export function formatRowData(row, concatColumns, columns, columnFormatting) {
+    const keyMap = {};
+    Object.keys(row).forEach((col, key) => {
+        const conValue = getConcatValue(row, key, concatColumns, columns);
+        const value = getFormattedValue(conValue || row[col], columnFormatting?.[key]);
+        keyMap[col?.toLowerCase()] = value;
+    });
+    return keyMap;
+}
+
+const getConcatValue = (row, key, concatColumns, columns) => {
     const conCols = concatColumns?.[key]?.cols || [];
     const conSep = concatColumns?.[key]?.sep || '';
     return conCols
@@ -130,7 +140,7 @@ export const getConcatValue = (row, key, concatColumns, columns) => {
         .join(conSep);
 };
 
-export const getFormattedValue = (value, formatting) => {
+const getFormattedValue = (value, formatting) => {
     if (!isNull(value) && formatting?.type) {
         return format(value, formatting.type, formatting.format);
     }

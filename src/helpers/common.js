@@ -54,37 +54,50 @@ export function isEqual(a, b) {
  * @returns {number} - The width in pixels.
  */
 export function getContainerWidthInPixels(element, defaultWidth = 0) {
-    let el = typeof element === 'string' ? document.querySelector(element) : element;
-
-    // If element doesn't exist
-    if (isNull(el)) {
+    // Ensure the element is valid
+    if (!element) {
         return defaultWidth;
     }
 
-    // Try offsetWidth first
-    let width = el.offsetWidth;
+    // If the element is a string selector, attempt to find the DOM element
+    let el = typeof element === 'string' ? document.querySelector(element) : element;
 
-    // If offsetWidth is 0 (invisible, not rendered, etc.)
-    if (!width) {
+    // If the element doesn't exist in the DOM
+    if (!el || !(el instanceof HTMLElement)) {
+        return defaultWidth;
+    }
+
+    // Get computed styles
+    const cs = window.getComputedStyle(el);
+
+    // Calculate padding
+    const paddingLeft = parseFloat(cs.paddingLeft) || 0;
+    const paddingRight = parseFloat(cs.paddingRight) || 0;
+
+    // Get client width (includes padding)
+    let width = el.clientWidth;
+
+    // Subtract padding to get content width
+    width -= paddingLeft + paddingRight;
+
+    // If width is 0 (invisible, not rendered, etc.)
+    if (width <= 0) {
         try {
-            width = parseFloat(window.getComputedStyle(el).width);
-
-            // eslint-disable-next-line no-unused-vars
-        } catch (e) { /* empty */ }
+            width = parseFloat(cs.width) || defaultWidth;
+        } catch (e) {
+            width = defaultWidth;
+        }
     }
 
     // Fallback to parent element width if still invalid
-    if (!width && el.parentElement) {
-        width = el.parentElement.offsetWidth || parseFloat(window.getComputedStyle(el.parentElement).width);
+    if (width <= 0 && el.parentElement) {
+        width = el.parentElement.clientWidth || parseFloat(window.getComputedStyle(el.parentElement).width) || defaultWidth;
     }
 
     // Final fallback
-    if (!width) {
-        return defaultWidth;
-    }
-
-    return width;
+    return width > 0 ? width : defaultWidth;
 }
+
 
 /**
  * Converts a viewport width unit string like '90vw' to pixels.

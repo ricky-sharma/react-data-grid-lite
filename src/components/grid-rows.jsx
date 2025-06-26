@@ -10,7 +10,7 @@ import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useWindowWidth } from '../hooks/use-window-width';
 import DeleteIcon from '../icons/delete-icon';
 import EditIcon from '../icons/edit-icon';
-import { getConcatValue, getFormattedValue } from '../utils/component-utils';
+import { formatRowData } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
 
 const GridRows = ({
@@ -61,11 +61,11 @@ const GridRows = ({
         }
     }, null);
 
-    return rowsData.slice(firstRow, firstRow + currentPageRows).map((row, rowIndex) => {
+    return rowsData.slice(firstRow, firstRow + currentPageRows).map((baseRow, rowIndex) => {
+        const formattedRow = formatRowData(baseRow, concatColumns, columns, columnFormatting);
         const cols = Object.values(columns).map((col, key) => {
             if (hiddenColIndex?.includes(key)) return null;
-            const conValue = getConcatValue(row, key, concatColumns, columns);
-            const columnValue = getFormattedValue(conValue || row[col?.name], columnFormatting?.[key]);
+            const columnValue = formattedRow[col?.name?.toLowerCase()];
             const classNames = columnClass?.[key] || '';
             const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
             const colResizable = col?.resizable ?? enableColumnResize;
@@ -83,9 +83,11 @@ const GridRows = ({
                     boxShadow: (lastFixedIndex === key && !isMobile ? '#e0e0e0 -0.5px 0px 1px 0px inset' : ''),
                     contain: 'layout paint'
                 }}>
-                    <div className="m-0 p-0 rowText" title={columnValue}>
-                        {columnValue}
-                    </div>
+                    {!isNull(col?.render) && typeof col?.render === 'function' ?
+                        col.render(formattedRow, baseRow) :
+                        <div className="m-0 p-0 rowText" title={columnValue?.toString()}>
+                            {columnValue?.toString()}
+                        </div>}
                 </td>
             );
         });
@@ -100,7 +102,7 @@ const GridRows = ({
                         maxWidth: buttonColWidth,
                         minWidth: buttonColWidth,
                         left: (isActionColumnLeft && !isMobile ? 0 : ''),
-                        right: (isActionColumnRight && !isMobile ? 0 : ''),
+                        right: (isActionColumnRight && !isMobile ? "-0.1px" : ''),
                         position: ((isActionColumnRight || isActionColumnLeft) && !isMobile ? 'sticky' : ''),
                         zIndex: ((isActionColumnRight || isActionColumnLeft) && !isMobile ? 6 : ''),
                         backgroundColor: (isActionColumnRight || isActionColumnLeft ? 'inherit' : ''),
@@ -114,7 +116,7 @@ const GridRows = ({
                             <div
                                 className="p-0 m-0 icon-div alignCenter grid-icon-div"
                                 title="Edit"
-                                onClick={e => editButtonEvent(e, row)}
+                                onClick={e => editButtonEvent(e, baseRow)}
                                 data-toggle="tooltip"
                             >
                                 <EditIcon />
@@ -124,7 +126,7 @@ const GridRows = ({
                             <div
                                 className="p-0 m-0 icon-div alignCenter grid-icon-div"
                                 title="Delete"
-                                onClick={e => deleteButtonEvent(e, row)}
+                                onClick={e => deleteButtonEvent(e, baseRow)}
                                 data-toggle="tooltip"
                             >
                                 <DeleteIcon />
@@ -139,9 +141,9 @@ const GridRows = ({
                 key={rowIndex}
                 className={`${rowCssClass} gridRow`}
                 style={rowClickEnabled ? { cursor: 'pointer' } : {}}
-                onClick={e => onRowClick(e, row)}
-                onMouseOver={e => onRowHover(e, row)}
-                onMouseOut={e => onRowOut(e, row)}
+                onClick={e => onRowClick(e, baseRow)}
+                onMouseOver={e => onRowHover(e, baseRow)}
+                onMouseOut={e => onRowOut(e, baseRow)}
             >
                 {cols}
             </tr>
