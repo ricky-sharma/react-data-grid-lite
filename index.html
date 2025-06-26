@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-US">
+<html lang="en-US" class="scroll-hide">
 	<head>
 		<!-- Google tag (gtag.js) -->
 		<script
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1750738748518" rel="stylesheet" />
+		<link href="index.css?ver=1750917749450" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -145,7 +145,7 @@
 <div class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none">
   <div class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"></div>
 	<nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16">
-		<ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8">
+		<ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8 scroll-hide">
 			
 			<li>
 				<h3 class="font-semibold tracking-tight text-slate-900">Overview</h3>
@@ -156,6 +156,14 @@
 					<li>
 						<a href="index.html" class="text-slate-900 hover:text-slate-800">
 							📘 Introduction
+						</a>
+					</li>
+					
+					
+					
+					<li>
+						<a href="demo.html" class="text-slate-900 hover:text-slate-800">
+							🖥️ Demo Examples
 						</a>
 					</li>
 					
@@ -175,7 +183,7 @@
 							
 							<li>
 								<a href="api.html" class="text-slate-900 hover:text-slate-800">
-									🧮 Data Grid
+									🧮 DataGrid
 								</a>
 							</li>
 							
@@ -336,6 +344,21 @@
 <pre><code class="language-js">const columns = Object.keys(data[0]).map(key =&gt; ({ name: key }));
 </code></pre>
 <hr>
+<h3>🎨 <strong>Custom Cell Rendering</strong></h3>
+<p>To customize how a specific cell is displayed, the <code>columns</code> definition can include a <code>render</code> function per column. This function receives the <strong>formatted row data</strong>, and the <strong>orignal row data</strong>, allowing full control over the rendering logic.</p>
+<h4>✅ Add Icons or Badges</h4>
+<pre><code class="language-jsx">{
+  name: 'role',
+  alias: 'Role',
+  render: (row) =&gt; (
+    &lt;span&gt;
+      {row.role === 'Admin' &amp;&amp; '🛡️ '}
+      {row.role}
+    &lt;/span&gt;
+  )
+}
+</code></pre>
+<hr>
 <h3>🔍 <strong>Search &amp; Aliases</strong></h3>
 <p>Enable powerful <strong>global and column-level search</strong> with support for aliases and custom labels. Searchable columns can be marked with <code>enableSearch: true</code>, and you can use user-friendly names (<code>alias</code>) without affecting the actual data structure.</p>
 <pre><code class="language-js">{ name: 'emailAddress', alias: 'Email', enableSearch: true }
@@ -396,7 +419,7 @@ Callback props such as <code>onRowClick</code>, <code>onSearchComplete</code>, <
 <hr>
 <br>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/bf6ef7d8-1475-4554-8177-de1f794edb4b" alt="react-data-grid-lite 19 July -2" width="100%" />
+  <img src="https://github.com/user-attachments/assets/8f479f0e-d2e7-43c9-8d94-be8f706ddeaf" alt="React Data Grid Lite Image" width="100%" />
 </p>
 <br>
 <h2>📦 Installation</h2>

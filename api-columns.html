@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-US">
+<html lang="en-US" class="scroll-hide">
 	<head>
 		<!-- Google tag (gtag.js) -->
 		<script
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1750738748518" rel="stylesheet" />
+		<link href="index.css?ver=1750917749450" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -145,7 +145,7 @@
 <div class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none">
   <div class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"></div>
 	<nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16">
-		<ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8">
+		<ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-7 pl-0.5 space-y-8 scroll-hide">
 			
 			<li>
 				<h3 class="font-semibold tracking-tight text-slate-900">Overview</h3>
@@ -156,6 +156,14 @@
 					<li>
 						<a href="index.html" class="text-slate-900 hover:text-slate-800">
 							📘 Introduction
+						</a>
+					</li>
+					
+					
+					
+					<li>
+						<a href="demo.html" class="text-slate-900 hover:text-slate-800">
+							🖥️ Demo Examples
 						</a>
 					</li>
 					
@@ -175,7 +183,7 @@
 							
 							<li>
 								<a href="api.html" class="text-slate-900 hover:text-slate-800">
-									🧮 Data Grid
+									🧮 DataGrid
 								</a>
 							</li>
 							
@@ -403,6 +411,13 @@
 <td><code>undefined</code></td>
 <td>No</td>
 </tr>
+<tr>
+<td><code>render</code></td>
+<td><code>function(formattedRow, baseRow) =&gt; React.ReactNode</code></td>
+<td>Custom render function for the column. Receives <code>formattedRow</code> (the transformed row data after formatting and concatenation) and <code>baseRow</code> (the original, unformatted row data). Should return a React node to be rendered in the cell. Available in version <code>1.1.3</code> and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
 <h4><strong>Example of <code>columns</code> Array:</strong></h4>
@@ -423,12 +438,103 @@
     formatting: { type: 'Date', format: 'dd MMM yyyy'}
   },
   {
+    name: 'status',
+    alias: 'Status',
+    render: (formattedRow, baseRow) =&gt; 
+            &lt;span className={`status-${formattedRow.status}`}&gt;{formattedRow.status}&lt;/span&gt;
+  },
+  {
     name: 'row-identifier',
     hidden: true
-  },
-
+  }
 ];
 </code></pre>
+<hr>
+<h3>🔍 Render Function Signature</h3>
+<pre><code class="language-jsx">render: (formattedRow: object, baseRow: object) =&gt; React.ReactNode
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>formattedRow</code></td>
+<td><code>object</code></td>
+<td>the transformed row data after formatting and concatenation</td>
+</tr>
+<tr>
+<td><code>baseRow</code></td>
+<td><code>object</code></td>
+<td>the original, unformatted row data</td>
+</tr>
+</tbody>
+</table>
+<br>
+<h4>🧪 Use Case Examples for Render Function</h4>
+<br>
+<h5>✅ Custom Cell Rendering</h5>
+<pre><code class="language-js">const columns = [
+  {
+    name: 'name',
+    alias: 'Full Name',
+    render: (row) =&gt; &lt;strong&gt;{row.name}&lt;/strong&gt;
+  },
+  {
+    name: 'email',
+    alias: 'Email',
+    render: (formattedRow) =&gt; (
+        &lt;a href={`mailto:${formattedRow.email}`} style={{ color: blue }}&gt;
+                {formattedRow.email}
+        &lt;/a&gt;
+    )
+  },
+  {
+    name: 'status',
+    alias: 'Active',
+	formatting: { type: 'boolean' },
+    render: (formattedRow, baseRow) =&gt; (
+      &lt;span
+      style={{
+          padding: '4px 8px',
+          borderRadius: '12px',
+          backgroundColor: baseRow.status === 'true' ? `#d4edda` : `#f8d7da`,
+          color: baseRow.status === 'true' ? `#155724` : `#721c24`
+        }}        
+      &gt;
+        {formattedRow.status}
+      &lt;/span&gt;
+    )
+  }
+];
+
+const data = [
+  { name: 'Alice Johnson', email: 'alice@example.com', status: 'true' },
+  { name: 'Bob Smith', email: 'bob@example.com', status: 'false' }
+];
+
+const App = () =&gt; (
+  &lt;DataGrid
+    columns={columns}
+    data={data}
+    pageSize={10}
+  /&gt;
+);
+</code></pre>
+<h5>✅ Add Action Buttons in Column Cells</h5>
+<pre><code class="language-jsx">{
+  name: 'actions',
+  alias: 'Actions',
+  render: (row) =&gt; (
+    &lt;button onClick={() =&gt; alert(`Edit ${row.name}`)}&gt;Edit&lt;/button&gt;
+  )
+}
+</code></pre>
+<hr>
 
 					</div>
 

@@ -17,7 +17,7 @@
 		</script>
 		<!-- Google tag (gtag.js) -->
 		
-		<title>React Data Grid Lite - 🧮 DataGrid</title>
+		<title>React Data Grid Lite - 🖥️ Demo Examples</title>
 		<meta
 		  name="description"
 		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
@@ -29,17 +29,17 @@
 		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
-		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/api.html" />
+		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/demo.html" />
 
 			<!-- Open Graph for social sharing -->
-		<meta property="og:title" content="React Data Grid Lite - 🧮 DataGrid" />
+		<meta property="og:title" content="React Data Grid Lite - 🖥️ Demo Examples" />
 		<meta
 		  property="og:description"
 		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
     />
 		<meta
 		  property="og:url"
-		  content="https://ricky-sharma.github.io/react-data-grid-lite/api.html"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/demo.html"
     />
 		<meta property="og:type" content="website" />
 		<meta
@@ -50,7 +50,7 @@
 
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:title" content="React Data Grid Lite - 🧮 DataGrid" />
+		<meta name="twitter:title" content="React Data Grid Lite - 🖥️ Demo Examples" />
 		<meta name="twitter:description" content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
@@ -311,14 +311,11 @@
 				<article class="">
 					<header class="">
 						<p class="text-base font-medium text-slate-500 mb-6 inline-flex items-center space-x-4">
-							<span>Documentation</span>
-							
-							<span class="text-slate-400">–</span>
-							<span>📦 API Reference</span>
+							<span>Overview</span>
 							
 						</p>
 						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
-							🧮 DataGrid
+							🖥️ Demo Examples
 						</h1>
 					</header>
 
@@ -329,258 +326,17 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						<p>A <strong>lightweight</strong>, <strong>high-performance</strong>, and <strong>customizable</strong> data grid component for React, ideal for rendering large data sets with support for sorting, searching, pagination, theming, and responsive layouts.</p>
-<table>
-<thead>
-<tr>
-<th><strong>Prop</strong></th>
-<th><strong>Type</strong></th>
-<th><strong>Description</strong></th>
-<th><strong>Default Value</strong></th>
-<th><strong>Required</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td><code>string</code></td>
-<td>Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not provided. This feature is supported in version 1.0.5 and above.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>columns</code></td>
-<td><code>Array</code></td>
-<td>Array of column definitions. Each column can have properties like <code>name</code>, <code>width</code>, <code>alias</code>, <code>enableSearch</code>, <code>hidden</code>  etc.</td>
-<td>-</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>data</code></td>
-<td><code>Array</code></td>
-<td>Array of objects representing the rows of data to display.</td>
-<td>-</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>pageSize</code></td>
-<td><code>String</code> / <code>Number</code></td>
-<td>Number of rows per page for pagination. If <code>null</code> or not provided, pagination is disabled.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>currentPage</code></td>
-<td><code>String</code> / <code>Number</code></td>
-<td>Loads the data grid with the specified page number. Useful with query string params for deep linking or bookmarking. Supported in version <code>1.1.2</code> and above.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>options</code></td>
-<td><code>Object</code></td>
-<td>An object for additional customization. Contains options like <code>gridClass</code>, <code>enableGlobalSearch</code>, etc.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>width</code></td>
-<td><code>String</code> / <code>Number</code></td>
-<td>The width of the grid. Can be a pixel value (e.g., <code>'500px'</code>) or a percentage (e.g., <code>'100%'</code>). Recommended for optimal display of the column. The width can be set to <code>'inherit'</code> to match the width of the containing element.</td>
-<td><code>'90vw'</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>height</code></td>
-<td><code>String</code> / <code>Number</code></td>
-<td>The height of the grid. Can be a pixel value (e.g., <code>'300px'</code>) or a percentage (e.g., <code>'100%'</code>). Recommended for optimal display of the column.</td>
-<td><code>'60vh'</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>maxWidth</code></td>
-<td><code>String</code> / <code>Number</code></td>
-<td>The maximum width of the grid.</td>
-<td><code>'100vw'</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>maxHeight</code></td>
-<td><code>String</code> / <code>Number</code></td>
-<td>The maximum height of the grid.</td>
-<td><code>'100vh'</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>onRowClick</code></td>
-<td><code>Function</code></td>
-<td>Callback function triggered when a row is clicked. The clicked row data is passed as an argument.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>onRowHover</code></td>
-<td><code>Function</code></td>
-<td>Callback function triggered when a row is hovered over.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>onRowOut</code></td>
-<td><code>Function</code></td>
-<td>Callback function triggered when the mouse leaves a hovered row.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>onSortComplete</code></td>
-<td><code>Function</code></td>
-<td>Callback function triggered after sorting finishes.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>onSearchComplete</code></td>
-<td><code>Function</code></td>
-<td>Callback function triggered after a search operation.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>onPageChange</code></td>
-<td><code>Function</code></td>
-<td>Callback function triggered when the user navigates to a different page.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>onColumnResized</code></td>
-<td><code>Function</code></td>
-<td>Callback function triggered after a column is resized. Supported in <strong>v1.1.0 and above</strong>.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>theme</code></td>
-<td><code>string</code> (<code>'blue-core'</code> | <code>'dark-stack'</code> | <code>'medi-glow'</code> | <code>''</code>)</td>
-<td>Applies a predefined visual theme to the grid. Affects header background, grid body background, borders, and control colors. Use an empty string to apply the default neutral style. Supported in <strong>v1.1.1 and above</strong>.</td>
-<td><code>''</code> (empty string)</td>
-<td>No</td>
-</tr>
-</tbody>
-</table>
-<p><br><br></p>
-<h2>🧱 Columns Configuration Example</h2>
-<pre><code class="language-jsx">const columns = [
-  {
-    name: 'username',
-    alias: 'User Name',
-    width: '200px',
-    enableSearch: true
-  },
-  {
-    name: 'status',
-    alias: 'Account Status',
-    hidden: false
-  }
-];
-</code></pre>
-<hr>
-<h2>🎛 Props in Action</h2>
-<h3><code>pageSize</code> + <code>onPageChange</code></h3>
-<pre><code class="language-jsx">&lt;DataGrid
-  columns={columns}
-  data={largeDataset}
-  pageSize={10}
-  onPageChange={(e, newPage) =&gt; console.log(`Page changed to: ${newPage}`)}
-/&gt;
-</code></pre>
-<hr>
-<h3>Row Interaction Events</h3>
-<pre><code class="language-jsx">&lt;DataGrid
-  columns={columns}
-  data={data}
-  onRowClick={(e, row) =&gt; alert(`You clicked on ${row.name}`)}
-  onRowHover={(e, row) =&gt; console.log('Hovered:', row.id)}
-  onRowOut={() =&gt; console.log('Mouse left row')}
-/&gt;
-</code></pre>
-<hr>
-<h3>Global Search &amp; Sort Events</h3>
-<pre><code class="language-jsx">&lt;DataGrid
-  columns={columns}
-  data={data}
-  options={ enableGlobalSearch: true }
-  onSearchComplete={(e, query, columns, result, matchCount) =&gt; console.log('Search Results:', result)}
-  onSortComplete={(e, sortColumns, sortedData, sortOrder) =&gt; console.log('Sorted Data:', sortedData)}
-/&gt;
-</code></pre>
-<hr>
-<h3>Custom Grid Dimensions</h3>
-<pre><code class="language-jsx">&lt;DataGrid
-  columns={columns}
-  data={data}
-  width=&quot;100%&quot;
-  height=&quot;400px&quot;
-  maxWidth=&quot;1200px&quot;
-  maxHeight=&quot;80vh&quot;
-/&gt;
-</code></pre>
-<hr>
-<h3>Resizable Columns (v1.1.0+)</h3>
-<pre><code class="language-jsx">&lt;DataGrid
-  columns={columns}
-  data={data}
-  onColumnResized={(e, newWidth, columnName) =&gt;
-    console.log(`${columnName} resized to ${newWidth}px`)
-  }
-/&gt;
-</code></pre>
-<hr>
-<h2>🎨 Themes</h2>
-<p>Available themes:</p>
-<ul>
-<li><code>'blue-core'</code></li>
-<li><code>'dark-stack'</code></li>
-<li><code>'medi-glow'</code></li>
-<li><code>''</code> (default/neutral)</li>
-</ul>
-<p>Example:</p>
-<pre><code class="language-jsx">&lt;DataGrid
-  columns={columns}
-  data={data}
-  theme=&quot;blue-core&quot;
-/&gt;
-</code></pre>
-<hr>
-<h2>📌 Version-Specific Features</h2>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>Available Since</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code> prop auto-gen</td>
-<td>v1.0.5</td>
-</tr>
-<tr>
-<td><code>onColumnResized</code></td>
-<td>v1.1.0</td>
-</tr>
-<tr>
-<td><code>theme</code> prop</td>
-<td>v1.1.1</td>
-</tr>
-<tr>
-<td><code>currentPage</code> prop</td>
-<td>v1.1.2</td>
-</tr>
-</tbody>
-</table>
-<hr>
+						
+<!doctype html>
+<html lang="en">
+<head>
+    <script type="module" crossorigin src="demo.js?ver=1750917749450"></script>
+    <link rel="stylesheet" crossorigin href="demo.css?ver=1750917749450">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
 
 					</div>
 
@@ -607,25 +363,13 @@
           </dt>
 
           <dd class="mt-1">
-            <a href="advanced.html" class="text-base font-semibold text-slate-900 hover:underline">
-              🔍 Advanced Usage
+            <a href="api-options.html" class="text-base font-semibold text-slate-900 hover:underline">
+              ⚙️ Options
             </a>
           </dd>
         </div>
       
 
-      
-        <div class="ml-auto text-right">
-          <dt class="text-sm font-normal tracking-tight text-slate-600">
-            Next
-          </dt>
-
-          <dd class="mt-1">
-            <a href="events.html" class="text-base font-semibold text-slate-900 hover:underline">
-              🔁 Event Callbacks
-            </a>
-          </dd>
-        </div>
       
     </dl>
   
@@ -635,7 +379,7 @@
 			<!-- Floating Social Share Bar -->
 			<div class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col gap-3 z-50">
 				<!-- Twitter -->
-				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/api.html&text=React%20Data%20Grid%20Lite%20-%20%F0%9F%A7%AE%20DataGrid"
+				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/demo.html&text=React%20Data%20Grid%20Lite%20-%20%F0%9F%96%A5%EF%B8%8F%20Demo%20Examples"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-500 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-600 text-lg"
@@ -644,7 +388,7 @@
 				</a>
 
 				<!-- Facebook -->
-				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/api.html"
+				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/demo.html"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-700 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-800 text-lg"
@@ -653,7 +397,7 @@
 				</a>
 
 				<!-- LinkedIn -->
-				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/api.html&title=React%20Data%20Grid%20Lite%20-%20%F0%9F%A7%AE%20DataGrid"
+				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/demo.html&title=React%20Data%20Grid%20Lite%20-%20%F0%9F%96%A5%EF%B8%8F%20Demo%20Examples"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-600 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-700 text-lg"
