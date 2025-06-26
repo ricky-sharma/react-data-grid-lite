@@ -94,6 +94,7 @@
         .navbar-links li {
             border-bottom: 2px solid #fff;
             padding: 12px 20px;
+            margin: 0 !important;
         }
 
             .navbar-links li:last-child {
