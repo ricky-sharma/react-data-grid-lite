@@ -34,7 +34,7 @@ export default function Grid3() {
                 render: (row) => (
                     <div className="alignCenter"
                         style={{
-                            height: '100%', width: "100%", padding: "40px"
+                            height: '100%', width: "100%", padding: "38px"
                         }}>
                         <a rel='noopener noreferrer' href={`mailto:${row[val.toLowerCase()]}`}
                             className="ellipsis">
@@ -48,7 +48,7 @@ export default function Grid3() {
                 name: val,
                 render: (row) => (
                     <div className="alignCenter" style={{
-                        height: '100%', width: "100%", padding: "40px"
+                        height: '100%', width: "100%", padding: "38px"
                     }}>
                         <a href={`${row[val.toLowerCase()]}`}
                             className="ellipsis" rel='noopener noreferrer' target='_blank'>
