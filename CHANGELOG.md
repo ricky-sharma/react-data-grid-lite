@@ -6,6 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
+## 📦 v1.1.3 – Released 2025-06-26
+
+**Feature: Custom Cell Rendering + UI Improvements**
+
+### ✨ New
+
+* **`render` prop for columns** – Allows custom rendering of individual cells using a render function.
+  Example:
+
+  ```tsx
+  {
+    key: 'status',
+    header: 'Status',
+    render: (formattedRow, baseRow) => <strong>{formattedRow.status}</strong>
+  }
+  ```
+
+### ♻️ Refactor
+
+* Extracted reusable internal rendering logic to support the new `render` prop cleanly.
+* Refactored and reorganized CSS for improved structure and maintainability.
+
+### 📚 Examples
+
+* Updated existing examples and added new ones to demonstrate custom cell rendering using the `render` prop.
+
+### 💅 UI
+
+* Minor UI refinements for better visual alignment and responsiveness.
+
+<br><br>
+
 ## 📦 v1.1.2 - 2025-06-23
 
 ### ✨ Features
