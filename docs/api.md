@@ -50,6 +50,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `fixed`         | `Boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version `1.1.0` and above.|        false      |  No          |
 | `class`         | `String`            | Custom CSS class applied to each data cell in the column. Supported in version `1.1.0` and above.                                                         |         -          |  No          |
 | `resizable`     | `Boolean`           | Enables or disables resizing for a specific column. This setting overrides the `enableColumnResize` option. Supported in version `1.1.0` and above.       |     `undefined`    |  No          |
+| `render`        | `function(formattedRow, baseRow) => React.ReactNode`| Custom render function for the column. Receives `formattedRow` (the transformed row data after formatting and concatenation) and `baseRow` (the original, unformatted row data). Should return a React node to be rendered in the cell. Available in version `1.1.3` and above.|     -    |  No          |
 
 
 #### **Example of `columns` Array:**
@@ -72,10 +73,15 @@ const columns = [
     formatting: { type: 'Date', format: 'dd MMM yyyy'}
   },
   {
+    name: 'status',
+    alias: 'Status',
+    render: (formattedRow, baseRow) => 
+            <span className={`status-${formattedRow.status}`}>{formattedRow.status}</span>
+  },
+  {
     name: 'row-identifier',
     hidden: true
-  },
-
+  }
 ];
 ```
 <br><br>

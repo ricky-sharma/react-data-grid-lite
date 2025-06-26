@@ -1,5 +1,5 @@
 #root {
-    max-width: 1280px;
+    max-width: 100%;
     margin: 0;
     padding: 1rem;
 }
@@ -8,74 +8,51 @@
         margin: 5px 0 10px;
     }
 
-/*Custom Styles*/
-.my-custom-grid {
-    background-color: #c0cad3 !important;
-    border: 3px solid #c0cad3 !important;
-    box-shadow: 0 0 0 3px #c0cad3 !important;
+.image-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100px;
 }
 
-.my-custom-header {
-    background-color: #667 !important;
-    color: #ffffff !important;
+.image-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
 }
 
-.my-custom-row:nth-child(even) {
-    background-color: #e7e0e4 !important;
+.thumbnail {
+    width: 40px;
+    height: 40px;
 }
 
-.my-custom-row:nth-child(odd) {
-    background-color: #f3f4f9 !important;
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
 
-.my-custom-row:hover {
-    background-color: #c09b95 !important;
+.large-image {
+    width: auto;
+    height: auto;
 }
 
-/*Education Theme (Blue + Beige)*/
-.theme-education-grid {
-    background-color: #FDF6EC !important;
-    padding: 16px !important;
+tr:hover .overlay {
+    display: flex;
 }
 
-    .theme-education-grid div.globalSearchDiv {
-        padding: 4px 16px 0 16px !important;
-    }
-
-.theme-education-header {
-    background-color: #3B82F6 !important;
-    color: white !important;
-    padding: 12px 0 !important;
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    color: #4e8969;
+    text-align: left;
+    width: 100%;
 }
-
-.theme-education-row {
-    background-color: #FFFFFF !important;
-}
-
-    .theme-education-row:hover {
-        background-color: #EFF6FF !important;
-    }
-
-/*General Purpose Theme (Cool Gray)*/
-.theme-general-grid {
-    background-color: #EDF2F7 !important;
-    padding: 16px !important;
-}
-
-    .theme-general-grid div.globalSearchDiv {
-        padding: 4px 16px 0 16px !important;
-    }
-
-.theme-general-header {
-    background-color: #4A5568 !important;
-    color: white !important;
-    padding: 12px 0 !important;
-}
-
-.theme-general-row {
-    background-color: #FFFFFF !important;
-}
-
-    .theme-general-row:hover {
-        background-color: #F7FAFC !important;
-    }

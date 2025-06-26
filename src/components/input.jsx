@@ -8,7 +8,7 @@ function Input({ type, dataType, placeholder, className, value, onChange }) {
                 className={className ?? ""}
                 data-type={dataType ?? ""}
                 type={type}
-                placeholder={placeholder ?? "Search"}
+                placeholder={placeholder ?? ""}
                 value={value ?? ""}
                 onChange={onChange ?? (() => { })}
             />

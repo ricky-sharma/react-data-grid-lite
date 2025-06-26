@@ -56,7 +56,7 @@ const GridGlobalSearchBar = ({
                         opacity: (noData ? '0.5' : '')
                     }}
                     className="p-0 m-0 alignCenter download-icon-div icon-div icon-div-mobile"
-                    title="Export CSV"
+                    title={Export_To_CSV_Text}
                     onClick={(e) =>
                         eventExportToCSV(
                             e,

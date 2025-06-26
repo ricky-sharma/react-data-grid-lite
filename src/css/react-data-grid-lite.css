@@ -1,10 +1,10 @@
 .r-d-g-lt-comp {
-    padding: 10px;
+    padding: 8px;
     background-color: #e0e0e0;
-    border-radius: 6px;
+    border-radius: 10px;
     color: #667;
     position: relative;
-    font-size: 16px !important;
+    font-size: 16px;
     font-weight: 600;
 }
 
@@ -29,24 +29,27 @@
         box-shadow: 0 0 0 0 !important;
     }
 
-    .r-d-g-lt-comp input {
-        -moz-border-radius: 10px !important;
-        -webkit-border-radius: 10px !important;
+    .r-d-g-lt-comp input,
+    .r-d-g-lt-comp input[type="checkbox"] {
+        background-color: #fff;
+        font-size: 16px;
+        border: 0.5px solid #e0e0e0;
+        color: #212529;
+    }
+
+    .r-d-g-lt-comp div.globalSearch input,
+    .r-d-g-lt-comp div.searchDiv input {
+        -moz-border-radius: 4px !important;
+        -webkit-border-radius: 4px !important;
+        border-radius: 4px !important;
         -moz-box-sizing: border-box !important;
         -webkit-box-sizing: border-box !important;
         box-sizing: border-box !important;
-        width: 90% !important;
+        width: 100% !important;
         height: 100% !important;
         font-weight: 400 !important;
-        color: #212529;
-        padding-left: 10px !important;
-        padding-right: 14px !important;
-        border-radius: 4px !important;
-        box-shadow: inset 0 1px 4px #444455;
-        border: 0.5px solid #e0e0e0;
-        background-color: #fff;
         padding: 1px 5px !important;
-        font-size: 16px;
+        box-shadow: inset 0 1px 4px #444455;
     }
 
     .r-d-g-lt-comp .dropdown {
@@ -58,7 +61,7 @@
         background-color: #e0e0e0;
         cursor: pointer;
         border: 1px solid #667;
-        font-weight: 900 !important;
+        font-weight: 600 !important;
     }
 
     .r-d-g-lt-comp .dropdown-selected {
@@ -130,7 +133,8 @@
         align-items: center;
     }
 
-    .r-d-g-lt-comp input::placeholder {
+    .r-d-g-lt-comp div.globalSearch input::placeholder,
+    .r-d-g-lt-comp div.searchDiv input::placeholder {
         transform: scale(0.9);
         transition: transform 0.3s ease;
         top: 1px;
@@ -186,7 +190,7 @@
     transition: box-shadow 0.1s ease;
     cursor: pointer;
     width: 32px;
-    z-index: 100;
+    z-index: 10;
 }
 
     .r-d-g-lt-comp .icon-div:hover {
@@ -212,7 +216,7 @@
 
 .r-d-g-lt-comp .download-icon-div {
     float: right;
-    width: 160px !important;
+    width: 140px !important;
     position: relative;
     top: 0px;
     height: 40px;
@@ -335,6 +339,7 @@
     outline: none;
     position: relative;
     z-index: 1;
+    padding: 8px;
 }
 
     .r-d-g-lt-comp .react-data-grid-lite table {
@@ -350,9 +355,9 @@
     }
 
         .r-d-g-lt-comp .react-data-grid-lite table::-webkit-scrollbar {
-            height: 14px !important;
+            height: 12px !important;
             width: 0px !important;
-            border: 14px solid #d5d5d5;
+            border: 12px solid #d5d5d5;
             border-start-end-radius: 1px;
             z-index: 10;
         }
@@ -366,7 +371,7 @@
 
 .r-d-g-lt-comp .react-data-grid-lite table::-webkit-scrollbar-thumb,
 .r-d-g-lt-comp .dropdown-options::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: inset 0 0 10px #808080;
+    -webkit-box-shadow: inset 0 0 10px #000;
     border-radius: 1px;
     z-index: 10;
 }
@@ -407,7 +412,7 @@
 .r-d-g-lt-comp table thead tr th {
     position: relative;
     min-width: 100px !important;
-    max-width: 1200px !important;
+    max-width: 2400px !important;
     border: 0 !important;
     vertical-align: middle !important;
 }
@@ -426,6 +431,7 @@
         padding: 6px 0 !important;
         height: 60px !important;
         display: flex;
+        color:#fff;
     }
 
         .r-d-g-lt-comp table thead tr.gridHeader th div {
@@ -465,7 +471,7 @@
 
     .r-d-g-lt-comp table thead tr.searchHeader th {
         background-color: #fff;
-        padding: 7px 1px !important;
+        padding: 4px 1px !important;
         line-height: 0.5 !important;
         height: 40px !important;
     }
@@ -490,7 +496,7 @@
     padding: 0;
     text-align: center;
     min-width: 100px !important;
-    max-width: 1200px !important;
+    max-width: 2400px !important;
 }
 
     .r-d-g-lt-comp table tbody .gridRow td div {
@@ -523,7 +529,7 @@
 }
 
 .r-d-g-lt-comp .grid-footer {
-    height: 72px !important;
+    height: 60px !important;
     z-index: 2;
     position: relative;
 }
@@ -535,15 +541,9 @@
     width: 90% !important;
 }
 
-.r-d-g-lt-comp .searchInput {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 2px;
-}
-
 .r-d-g-lt-comp .globalSearchDiv {
     display: inline-block !important;
-    padding: 4px !important;
+    padding: 4px 10px !important;
     margin: 0 !important;
 }
 
@@ -556,7 +556,6 @@
 }
 
     .r-d-g-lt-comp div.globalSearch input {
-        border-radius: 4px;
         width: 100% !important;
     }
 
@@ -581,16 +580,16 @@
         border: 0;
         border-radius: 10px !important;
         color: #999 !important;
-        font-size: 95% !important;
-        height: 28px;
-        line-height: 28px;
-        margin: 0px 1px 0 0 !important;
+        font-size: 90% !important;
+        height: 24px;
+        line-height: 24px;
+        margin: 0 1px !important;
         padding: 0px;
         text-align: center;
         text-decoration: none !important;
         width: 34px;
         background-color: inherit;
-        font-weight: 900;
+        font-weight: 600;
     }
 
         .r-d-g-lt-comp .pagination li a:hover {
@@ -782,11 +781,6 @@
 
     .r-d-g-lt-comp i.icon-sort-down {
         border-top: 5px solid black;
-    }
-
-    .r-d-g-lt-comp .searchInput {
-        padding-left: 2px;
-        padding-right: 2px;
     }
 
     .r-d-g-lt-comp .icon-div-mobile {

@@ -74,7 +74,7 @@ const GridHeader = ({
             maxWidth: buttonColWidth,
             minWidth: buttonColWidth,
             left: isActionColumnLeft && !isMobile ? 0 : '',
-            right: isActionColumnRight && !isMobile ? 0 : '',
+            right: isActionColumnRight && !isMobile ? "-0.1px" : '',
             position: (isActionColumnRight || isActionColumnLeft) && !isMobile ? 'sticky' : '',
             zIndex: (isActionColumnRight || isActionColumnLeft) && !isMobile ? 10 : '',
             backgroundColor: isActionColumnRight || isActionColumnLeft ? 'inherit' : '',
@@ -215,7 +215,6 @@ const GridHeader = ({
                     className="searchDiv p-0 m-0">
                     {columnSearchEnabled ? (
                         <Input
-                            className="searchInput"
                             placeholder="Search"
                             type="text"
                             value={searchValues?.[header?.name] ?? ''}

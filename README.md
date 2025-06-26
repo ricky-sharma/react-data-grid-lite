@@ -21,6 +21,7 @@ A lightweight and customizable React data grid component designed for high perfo
 🧾 **CSV export** – Download full data grid  
 ✏️ **Row actions** – Built-in edit/delete hooks  
 🧩 **Merged columns** – Combine multiple fields  
+🎨 **Custom cell rendering** – Use `render` prop for tailored cell views  
 📊 **Analytics events** – Track user interactions  
 🎨 **Theming** – Pre-built themes & easy customization  
 🧩 **Actions align** – Fix column left or right via prop  
@@ -28,7 +29,7 @@ A lightweight and customizable React data grid component designed for high perfo
 
 <br><br>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/bf6ef7d8-1475-4554-8177-de1f794edb4b" alt="react-data-grid-lite 19 July -2" width="95%" />
+  <img src="https://github.com/user-attachments/assets/8f479f0e-d2e7-43c9-8d94-be8f706ddeaf" alt="React Data Grid Lite Image" width="100%" />
 </p>
 
 
