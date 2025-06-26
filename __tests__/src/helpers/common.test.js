@@ -36,9 +36,9 @@ describe('getContainerWidthInPixels', () => {
         jest.restoreAllMocks();
     });
 
-    it('returns width using offsetWidth', () => {
+    it('returns width using clientWidth', () => {
         const div = document.createElement('div');
-        Object.defineProperty(div, 'offsetWidth', { value: 300 });
+        Object.defineProperty(div, 'clientWidth', { value: 300 });
         document.body.appendChild(div);
         expect(getContainerWidthInPixels(div)).toBe(300);
     });

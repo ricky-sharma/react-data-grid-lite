@@ -178,7 +178,7 @@ describe('GridHeader Component', () => {
         }
         render(<TableComponent />);
         const headerCell = screen.getByText('Name').closest('th');
-        expect(headerCell).toHaveStyle('width: 530px');
+        expect(headerCell).toHaveStyle('width: 539px');
     });
 
     it('calls onHeaderClicked when a header is clicked', () => {

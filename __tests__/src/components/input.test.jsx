@@ -23,9 +23,10 @@ describe('Input component', () => {
         expect(input.value).toBe('John');
     });
 
-    it('uses default placeholder if none provided', () => {
+    it('uses blank placeholder if none provided', () => {
         render(<Input type="text" />);
-        expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
+        const input = screen.getByRole('textbox');
+        expect(input).toHaveAttribute('placeholder', '');
     });
 
     it('updates input value when typing (fully controlled)', () => {

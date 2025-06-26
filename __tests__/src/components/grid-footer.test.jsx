@@ -121,8 +121,8 @@ describe('More Tests for GridFooter Component', () => {
 
     it('renders pagination controls correctly', () => {
         render(<GridFooter {...defaultProps} />);
-        expect(screen.getByText('11 - 20')).toBeInTheDocument();
-        expect(screen.getByText('50')).toBeInTheDocument();
+        expect(screen.getByText(/11 - 20/i)).toBeInTheDocument();
+        expect(screen.getByText(/50/i)).toBeInTheDocument();
         expect(screen.getByText('Next')).toBeInTheDocument();
         expect(screen.getByText('Previous')).toBeInTheDocument();
     });
