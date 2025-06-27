@@ -83,14 +83,45 @@ const DataGrid = ({
             setState((prevState) => ({
                 ...prevState,
                 columnsReceived: columns,
-                columns: !isNull(columns) && Array.isArray(columns) &&
-                    columns.every(obj => typeof obj === 'object')
-                    ? columns.filter(obj => typeof obj === 'object' && obj !== null
-                        && typeof obj.name === 'string' && obj.name.trim() !== '').sort((a, b) => {
-                            const aFlag = !!a.fixed;
-                            const bFlag = !!b.fixed;
-                            return (bFlag - aFlag);
-                        }) : []
+                columns: Array.isArray(columns) && columns.every(obj => typeof obj === 'object')
+                    ? (() => {
+                        const validColumns = columns.filter(
+                            obj =>
+                                obj &&
+                                typeof obj.name === 'string' &&
+                                obj.name.trim() !== ''
+                        );
+                        const fixedCols = validColumns.filter(col => col.fixed);
+                        const nonFixedCols = validColumns.filter(col => !col.fixed);
+                        const applyGlobalOrder = (group, globalStartIndex = 0) => {
+                            const result = [];
+                            const used = new Set();
+                            const withOrder = group.filter(c => typeof c.order === 'number');
+                            const withoutOrder = group.filter(c => typeof c.order !== 'number');
+                            for (const col of withOrder) {
+                                const globalIdx = col.order - 1;
+                                const localIdx = Math.max(0, globalIdx - globalStartIndex);
+                                let i = localIdx;
+                                while (i < group.length && result[i]) i++;
+                                result[i] = col;
+                                used.add(col.name);
+                            }
+                            let i = 0;
+                            for (const col of withoutOrder) {
+                                while (result[i]) i++;
+                                result[i] = col;
+                            }
+                            return result;
+                        };
+                        const orderedFixed = applyGlobalOrder(fixedCols, 0);
+                        const orderedNonFixed = applyGlobalOrder(nonFixedCols, orderedFixed.length);
+                        const finalList = [...orderedFixed, ...orderedNonFixed];
+                        return finalList.map((col, index) => ({
+                            ...col,
+                            displayIndex: index + 1
+                        }));
+                    })()
+                    : []
             }));
     }, [columns]);
 

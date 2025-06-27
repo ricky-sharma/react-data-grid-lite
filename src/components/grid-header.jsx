@@ -2,11 +2,12 @@
 import React from 'react';
 import { Button_Column_Key, Container_Identifier, Default_Grid_Width_VW } from '../constants';
 import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from '../helpers/common';
+import { useDraggableColumns } from '../hooks/use-draggable-columns';
 import { useWindowWidth } from '../hooks/use-window-width';
+import ActionIcon from '../icons/action-icon';
 import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
 import ColumnSortIcon from './column-sort-icon';
 import Input from './input';
-import ActionIcon from '../icons/action-icon';
 
 const GridHeader = ({
     state,
@@ -17,6 +18,7 @@ const GridHeader = ({
     computedColumnWidthsRef
 }) => {
     const windowWidth = useWindowWidth();
+    const { getColumnProps } = useDraggableColumns(state?.columns, setState);
     const isMobile = windowWidth < 701;
     if (!state || isNull(state.columns) || isNull(state.columnWidths)) return null;
     const {
@@ -158,7 +160,7 @@ const GridHeader = ({
             if (typeof onHeaderClicked === 'function') onHeaderClicked(e, colNames, header?.name);
         };
         return (
-            <th
+            <th {...getColumnProps(header.displayIndex)}
                 style={getHeaderCellStyles(header, colWidth)}
                 key={key}
                 data-column-name={header?.name}

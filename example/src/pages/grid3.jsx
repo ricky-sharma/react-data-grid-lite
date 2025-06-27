@@ -61,6 +61,7 @@ export default function Grid3() {
             return {
                 name: val,
                 width: '300px',
+                order:4,
                 render: () => {
                     const random = Math.random();
                     const largeImage = `https://picsum.photos/300/100?random=${random}`;
