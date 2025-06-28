@@ -24,10 +24,6 @@ const GridRows = ({
         rowsData,
         firstRow,
         currentPageRows,
-        hiddenColIndex,
-        concatColumns,
-        columnFormatting,
-        columnClass,
         columns,
         rowCssClass,
         rowClickEnabled,
@@ -60,13 +56,12 @@ const GridRows = ({
             lastFixedIndex = index;
         }
     }, null);
-
     return rowsData.slice(firstRow, firstRow + currentPageRows).map((baseRow, rowIndex) => {
-        const formattedRow = formatRowData(baseRow, concatColumns, columns, columnFormatting);
+        const formattedRow = formatRowData(baseRow, columns);
         const cols = Object.values(columns).map((col, key) => {
-            if (hiddenColIndex?.includes(key)) return null;
+            if (col?.hidden === true) return null;
             const columnValue = formattedRow[col?.name?.toLowerCase()];
-            const classNames = columnClass?.[key] || '';
+            const classNames = col?.class || '';
             const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
             const colResizable = col?.resizable ?? enableColumnResize;
             return (

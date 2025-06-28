@@ -11,9 +11,7 @@ export const eventExportToCSV = (
     data,
     columns,
     filename,
-    onDownloadComplete = () => { },
-    concatColumns,
-    columnFormatting
+    onDownloadComplete = () => { }
 ) => {
     if (!data || data.length === 0 || !columns) {
         return;
@@ -32,7 +30,7 @@ export const eventExportToCSV = (
         .map(col => col?.alias ?? col.name);
     // Preprocess rows to create case-insensitive key maps
     const processedData = data.map(row =>
-        formatRowData(row, concatColumns, columns, columnFormatting)
+        formatRowData(row, columns)
     );
     // Create rows using case-insensitive lookup
     const rows = processedData.map(row => {

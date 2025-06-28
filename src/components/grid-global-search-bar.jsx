@@ -18,9 +18,7 @@ const GridGlobalSearchBar = ({
     enableDownload,
     rowsData,
     downloadFilename,
-    onDownloadComplete,
-    concatColumns,
-    columnFormatting
+    onDownloadComplete
 }) => {
     const windowWidth = useWindowWidth();
     const isSmallScreen = windowWidth < 701;
@@ -63,9 +61,7 @@ const GridGlobalSearchBar = ({
                             rowsData,
                             columns,
                             downloadFilename,
-                            onDownloadComplete,
-                            concatColumns,
-                            columnFormatting
+                            onDownloadComplete
                         )
                     }
                     data-toggle="tooltip"

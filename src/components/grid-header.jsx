@@ -25,7 +25,6 @@ const GridHeader = ({
         columns,
         hiddenColIndex,
         enableColumnSearch,
-        concatColumns,
         editButtonEnabled,
         deleteButtonEnabled,
         headerCssClass,
@@ -34,7 +33,8 @@ const GridHeader = ({
         enableColumnResize,
         rowsData,
         searchValues,
-        actionColumnAlign
+        actionColumnAlign,
+        enableColumnDrag
     } = state;
 
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
@@ -112,7 +112,7 @@ const GridHeader = ({
     const thColHeaders = headers.map((header, key) => {
         key -= (isActionColumnLeft && buttonColEnabled) ? 1 : 0;
 
-        if (hiddenColIndex?.includes(key)) return null;
+        if (header?.hidden === true) return null;
 
         const thInnerHtml = lastVisibleIndex !== key ?
             <span style={{
@@ -156,11 +156,15 @@ const GridHeader = ({
             ? header?.name
             : header?.alias;
         const onClickHandler = (e) => {
-            const colNames = !isNull(concatColumns?.[key]?.cols) ? concatColumns[key].cols : [header?.name];
+            const colNames = !isNull(header?.concatColumns?.columns) ? header?.concatColumns?.columns : [header?.name];
             if (typeof onHeaderClicked === 'function') onHeaderClicked(e, colNames, header?.name);
         };
+        const draggableProps =
+            (header?.draggable ?? enableColumnDrag)
+                ? getColumnProps(header.displayIndex)
+                : {};
         return (
-            <th {...getColumnProps(header.displayIndex)}
+            <th {...draggableProps}
                 style={getHeaderCellStyles(header, colWidth)}
                 key={key}
                 data-column-name={header?.name}
@@ -168,9 +172,9 @@ const GridHeader = ({
                 className="pointer"
             >
                 <div
-                    className="p-0 m-0 alignCenter"
+                    className="p-0 m-0 alignCenter" data-column-name={header?.name}
                 >
-                    <div className="headerText">{displayName}</div>
+                    <div className="headerText" data-column-name={header?.name}>{displayName}</div>
                     <ColumnSortIcon columns={columns} header={header} />
                 </div>
                 {thInnerHtml}
@@ -179,8 +183,8 @@ const GridHeader = ({
     });
     const thSearchHeaders = headers.map((header, key) => {
         key -= actionColumnAlign === 'left' ? 1 : 0;
-        if (hiddenColIndex?.includes(key)) return null;
-        const conCols = concatColumns?.[key]?.cols ?? null;
+        if (header?.hidden === true) return null;
+        const conCols = header?.concatColumns?.columns ?? null;
         const formatting = header?.formatting;
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
         const columnSearchEnabled = header?.enableSearch ?? enableColumnSearch;

@@ -47,6 +47,7 @@ const DataGrid = ({
         rowCssClass: options?.rowClass ?? applyTheme(theme ?? '')?.row ?? '',
         enableColumnSearch: options?.enableColumnSearch ?? true,
         enableColumnResize: options?.enableColumnResize ?? false,
+        enableColumnDrag: options?.enableColumnDrag ?? false,
         enableGlobalSearch: options?.enableGlobalSearch ?? true,
         rowClickEnabled: !isNull(onRowClick),
         onRowClick: onRowClick ?? (() => { }),
@@ -143,20 +144,6 @@ const DataGrid = ({
                 ...prevState,
                 hiddenColIndex: !isNull(state?.columns) ? state?.columns.map((col, key) =>
                     !isNull(col?.hidden) && col?.hidden === true ? key : null) : [],
-                concatColumns: !isNull(state?.columns) ? state?.columns.map((col) => {
-                    let separator = ' '
-                    if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
-                        if (!isNull(col.concatColumns.separator))
-                            separator = col.concatColumns.separator
-                        return { cols: col.concatColumns.columns, sep: separator };
-                    }
-                    return null
-                }) : [],
-                columnFormatting: !isNull(state?.columns) ? state?.columns.map((col) =>
-                    !isNull(col.formatting) && !isNull(col.formatting.type) ?
-                        { type: col?.formatting?.type, format: col?.formatting?.format ?? '' } : null) : [],
-                columnClass: !isNull(state?.columns) ? state?.columns.map((col) =>
-                    !isNull(col.class) ? col?.class : null) : [],
                 columnWidths: !isNull(state?.columns)
                     ? state?.columns.map(col =>
                         typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
@@ -327,8 +314,6 @@ const DataGrid = ({
                 rowsData={state.rowsData}
                 downloadFilename={state.downloadFilename}
                 onDownloadComplete={state.onDownloadComplete}
-                concatColumns={state.concatColumns}
-                columnFormatting={state.columnFormatting}
             />
             <div
                 className={

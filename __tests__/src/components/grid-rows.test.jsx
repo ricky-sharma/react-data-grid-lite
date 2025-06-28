@@ -170,12 +170,10 @@ describe('GridRows', () => {
             const [state] = useState({
                 rowsData: [{ name: 'Alice' }],
                 columns: [{ name: 'name' }],
-                columnFormatting: [{ type: 'text', format: '' }],
                 firstRow: 0,
                 currentPageRows: 1,
                 hiddenColIndex: [],
                 columnWidths: [null],
-                columnClass: [],
             });
             const ref = useRef(null);
             ref.current = [{ name: 'name', width: '150px', leftPosition: '0px' }]

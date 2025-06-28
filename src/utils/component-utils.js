@@ -118,19 +118,22 @@ export const tryParseWidth = (val, totalWidth = 0) => {
     return 0;
 };
 
-export function formatRowData(row, concatColumns, columns, columnFormatting) {
+export function formatRowData(row, columns) {
     const keyMap = {};
-    Object.keys(row).forEach((col, key) => {
-        const conValue = getConcatValue(row, key, concatColumns, columns);
-        const value = getFormattedValue(conValue || row[col], columnFormatting?.[key]);
+    Object.keys(row).forEach((col) => {
+        var column = columns?.find(c => c?.name?.toUpperCase() === col?.toUpperCase());
+        var concatColumns = column?.concatColumns;
+        var formatting = column?.formatting;
+        const conValue = getConcatValue(row, columns, concatColumns);
+        const value = getFormattedValue(conValue || row[col], formatting);
         keyMap[col?.toLowerCase()] = value;
     });
     return keyMap;
 }
 
-const getConcatValue = (row, key, concatColumns, columns) => {
-    const conCols = concatColumns?.[key]?.cols || [];
-    const conSep = concatColumns?.[key]?.sep || '';
+const getConcatValue = (row, columns, concatColumns) => {
+    const conCols = concatColumns?.columns || [];
+    const conSep = concatColumns?.separator || ' ';
     return conCols
         .map(conName => {
             const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());

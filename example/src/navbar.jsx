@@ -24,6 +24,7 @@ function Navbar() {
                 <li><Link to="/Grid3" onClick={() => setIsOpen(false)}>Grid3</Link></li>
                 <li><Link to="/Grid4" onClick={() => setIsOpen(false)}>Grid4</Link></li>
                 <li><Link to="/Grid5" onClick={() => setIsOpen(false)}>Grid5</Link></li>
+                <li><Link to="/Grid6" onClick={() => setIsOpen(false)}>Grid6</Link></li>
             </ul>
         </nav>
     );
