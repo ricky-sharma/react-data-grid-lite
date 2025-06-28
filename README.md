@@ -47,12 +47,18 @@ or
 yarn add react-data-grid-lite
 ```
 
-This component has the following peer dependencies that you need to install as well.
-```bash
-"peerDependencies": {
-  "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
-  "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
-},
+<br><br>
+
+This component has the following peer dependencies that need to be installed as well:
+
+```json
+{
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+  }
+}
+
 ```
 
 <br><br>
