@@ -27,7 +27,8 @@ const DataGrid = ({
     onPageChange,
     onColumnResized,
     theme,
-    currentPage
+    currentPage,
+    onColumnDragEnd
 }) => {
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
@@ -45,10 +46,14 @@ const DataGrid = ({
         gridCssClass: options?.gridClass ?? applyTheme(theme ?? '')?.grid ?? '',
         headerCssClass: options?.headerClass ?? applyTheme(theme ?? '')?.header ?? '',
         rowCssClass: options?.rowClass ?? applyTheme(theme ?? '')?.row ?? '',
-        enableColumnSearch: options?.enableColumnSearch ?? true,
-        enableColumnResize: options?.enableColumnResize ?? false,
-        enableColumnDrag: options?.enableColumnDrag ?? false,
-        enableGlobalSearch: options?.enableGlobalSearch ?? true,
+        enableColumnSearch: typeof options?.enableColumnSearch === 'boolean'
+            ? options?.enableColumnSearch : true,
+        enableColumnResize: typeof options?.enableColumnResize === 'boolean' ?
+            options?.enableColumnResize : false,
+        enableColumnDrag: typeof options?.enableColumnDrag === 'boolean' ?
+            options?.enableColumnDrag : false,
+        enableGlobalSearch: typeof options?.enableGlobalSearch === 'boolean' ?
+            options?.enableGlobalSearch : true,
         rowClickEnabled: !isNull(onRowClick),
         onRowClick: onRowClick ?? (() => { }),
         onRowHover: onRowHover ?? (() => { }),
@@ -57,12 +62,14 @@ const DataGrid = ({
         onSearchComplete: onSearchComplete ?? (() => { }),
         onPageChange: onPageChange ?? (() => { }),
         onColumnResized: onColumnResized ?? (() => { }),
+        onColumnDragEnd: onColumnDragEnd ?? (() => { }),
         editButtonEnabled: options?.editButton ?? false,
         editButtonEvent: options?.editButton?.event ?? (() => { }),
         deleteButtonEnabled: options?.deleteButton ?? false,
         deleteButtonEvent: options?.deleteButton?.event ?? (() => { }),
         actionColumnAlign: options?.actionColumnAlign ?? '',
-        enableDownload: options?.enableDownload ?? true,
+        enableDownload: typeof options?.enableDownload === 'boolean' ?
+            options?.enableDownload : true,
         downloadFilename: options?.downloadFilename ?? null,
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
         globalSearchInput: '',
@@ -87,13 +94,14 @@ const DataGrid = ({
                 columns: Array.isArray(columns) && columns.every(obj => typeof obj === 'object')
                     ? (() => {
                         const validColumns = columns.filter(
-                            obj =>
-                                obj &&
-                                typeof obj.name === 'string' &&
-                                obj.name.trim() !== ''
-                        );
-                        const fixedCols = validColumns.filter(col => col.fixed);
-                        const nonFixedCols = validColumns.filter(col => !col.fixed);
+                            obj => obj && typeof obj.name === 'string' && obj.name.trim() !== ''
+                        ).map(col => ({
+                            ...col,
+                            fixed: typeof col?.fixed === 'boolean' ? col?.fixed : false,
+                            hidden: typeof col?.hidden === 'boolean' ? col?.hidden : false
+                        }));
+                        const fixedCols = validColumns.filter(col => col.fixed === true);
+                        const nonFixedCols = validColumns.filter(col => col.fixed === false);
                         const applyGlobalOrder = (group, globalStartIndex = 0) => {
                             const result = [];
                             const used = new Set();
@@ -114,9 +122,11 @@ const DataGrid = ({
                             }
                             return result;
                         };
+
                         const orderedFixed = applyGlobalOrder(fixedCols, 0);
                         const orderedNonFixed = applyGlobalOrder(nonFixedCols, orderedFixed.length);
                         const finalList = [...orderedFixed, ...orderedNonFixed];
+
                         return finalList.map((col, index) => ({
                             ...col,
                             displayIndex: index + 1

@@ -1,9 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { Container_Identifier } from '../constants';
+import { Container_Identifier, Movement_Threshold } from '../constants';
 
-const MOVEMENT_THRESHOLD = 10;
-
-export function useDraggableColumns(columns, setState) {
+export function useDraggableColumns(columns, setState, onColumnDragEnd) {
     const dragIndexRef = useRef(null);
     const dragFixedRef = useRef(null);
     const touchStartRef = useRef(null);
@@ -21,7 +19,7 @@ export function useDraggableColumns(columns, setState) {
             const dy = touch.clientY - touchStartRef.current.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance > MOVEMENT_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+            if (distance > Movement_Threshold && Math.abs(dx) > Math.abs(dy)) {
                 if (e.cancelable) e.preventDefault();
                 dragActiveRef.current = true;
                 onTouchMoveInternal?.(touch.clientX, touch.clientY);
@@ -43,17 +41,23 @@ export function useDraggableColumns(columns, setState) {
         columns.findIndex(col => col.displayIndex === displayIndex);
 
     const handleDrop = (fromIndex, toIndex) => {
-        if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return;
+        if (
+            fromIndex === -1 ||
+            toIndex === -1 ||
+            fromIndex === toIndex ||
+            !columns[fromIndex] ||
+            !columns[toIndex]
+        ) return;
 
         const sourceCol = columns[fromIndex];
         const targetCol = columns[toIndex];
-        if (!sourceCol || !targetCol) return;
 
+        // Prevent reordering between fixed and non-fixed columns
         if (!!sourceCol.fixed !== !!targetCol.fixed) return;
 
         const reordered = [...columns];
-        const [moved] = reordered.splice(fromIndex, 1);
-        reordered.splice(toIndex, 0, moved);
+        const [movedCol] = reordered.splice(fromIndex, 1);
+        reordered.splice(toIndex, 0, movedCol);
 
         const updatedColumns = reordered.map((col, index) => ({
             ...col,
@@ -64,6 +68,20 @@ export function useDraggableColumns(columns, setState) {
             ...prev,
             columns: updatedColumns,
         }));
+
+        const newColumnOrder = reordered.reduce((acc, col) => {
+            if (col?.hidden) return acc;
+            acc.push({
+                name: col.name,
+                order: acc.length + 1,
+                ...(col.alias && { alias: col.alias })
+            });
+            return acc;
+        }, []);
+
+        if (typeof onColumnDragEnd === 'function') {
+            onColumnDragEnd(sourceCol.name, newColumnOrder);
+        }
     };
 
     const onDragStart = (displayIndex) => {
@@ -102,7 +120,7 @@ export function useDraggableColumns(columns, setState) {
         const targetName = el.getAttribute('data-column-name');
         const target = columns.find(col => col.name === targetName);
         if (!target) return;
-
+        // Prevent reordering between fixed and non-fixed columns
         if (!!target.fixed !== dragFixedRef.current) return;
 
         const toIndex = columns.findIndex(col => col.name === target.name);
@@ -116,7 +134,7 @@ export function useDraggableColumns(columns, setState) {
         const dy = touch.clientY - touchStartRef.current.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance > MOVEMENT_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+        if (distance > Movement_Threshold && Math.abs(dx) > Math.abs(dy)) {
             dragActiveRef.current = true;
             onTouchMoveInternal?.(touch.clientX, touch.clientY);
         }

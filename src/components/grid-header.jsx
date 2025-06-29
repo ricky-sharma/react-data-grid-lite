@@ -18,7 +18,8 @@ const GridHeader = ({
     computedColumnWidthsRef
 }) => {
     const windowWidth = useWindowWidth();
-    const { getColumnProps } = useDraggableColumns(state?.columns, setState);
+    const { getColumnProps } = useDraggableColumns(state?.columns,
+        setState, state?.onColumnDragEnd);
     const isMobile = windowWidth < 701;
     if (!state || isNull(state.columns) || isNull(state.columnWidths)) return null;
     const {
@@ -95,20 +96,21 @@ const GridHeader = ({
     };
 
     const getHeaderCellStyles = (header, width) => {
+        const colResizable = typeof header?.resizable === "boolean"
+            ? header?.resizable : enableColumnResize;
         const fixed = header?.fixed && !isMobile;
         return {
             width,
-            maxWidth: header?.resizable ?? enableColumnResize ? undefined : width,
-            minWidth: header?.resizable ?? enableColumnResize ? undefined : width,
-            left: fixed === true ? computedColumnWidths.find(i => i.name === header.name)?.leftPosition ?? '' : '',
+            maxWidth: colResizable ? undefined : width,
+            minWidth: colResizable ? undefined : width,
+            left: fixed === true ? computedColumnWidths
+                .find(i => i.name === header.name)?.leftPosition ?? '' : '',
             position: fixed === true ? 'sticky' : '',
             zIndex: fixed === true ? 10 : '',
             backgroundColor: 'inherit',
             contain: 'layout paint'
         };
     };
-
-
     const thColHeaders = headers.map((header, key) => {
         key -= (isActionColumnLeft && buttonColEnabled) ? 1 : 0;
 
@@ -159,10 +161,12 @@ const GridHeader = ({
             const colNames = !isNull(header?.concatColumns?.columns) ? header?.concatColumns?.columns : [header?.name];
             if (typeof onHeaderClicked === 'function') onHeaderClicked(e, colNames, header?.name);
         };
-        const draggableProps =
-            (header?.draggable ?? enableColumnDrag)
-                ? getColumnProps(header.displayIndex)
-                : {};
+
+        const draggableProps = (typeof header?.draggable === 'boolean' ?
+            header.draggable : enableColumnDrag)
+            ? getColumnProps(header.displayIndex)
+            : {};
+
         return (
             <th {...draggableProps}
                 style={getHeaderCellStyles(header, colWidth)}
@@ -187,7 +191,8 @@ const GridHeader = ({
         const conCols = header?.concatColumns?.columns ?? null;
         const formatting = header?.formatting;
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
-        const columnSearchEnabled = header?.enableSearch ?? enableColumnSearch;
+        const columnSearchEnabled = typeof header?.enableSearch === "boolean"
+            ? header?.enableSearch : enableColumnSearch;
         if (columnSearchEnabled) {
             searchRowEnabled = true;
         };

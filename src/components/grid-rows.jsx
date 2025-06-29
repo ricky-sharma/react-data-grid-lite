@@ -63,7 +63,8 @@ const GridRows = ({
             const columnValue = formattedRow[col?.name?.toLowerCase()];
             const classNames = col?.class || '';
             const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
-            const colResizable = col?.resizable ?? enableColumnResize;
+            const colResizable = typeof col?.resizable === "boolean"
+                ? col?.resizable : enableColumnResize;
             return (
                 <td key={key} className={classNames} style={{
                     width: colWidth,

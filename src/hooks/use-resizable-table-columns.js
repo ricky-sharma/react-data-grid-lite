@@ -25,7 +25,8 @@ export function useResizableTableColumns(tableRef, state, setState,
             const columnName = th.dataset.columnName || th.textContent.trim();
             if (!columnName) return;
             const columnConfig = state?.columns?.find(i => i?.name === columnName);
-            const colResizable = columnConfig?.resizable ?? enableColumnResize;
+            const colResizable = typeof columnConfig?.resizable === "boolean"
+                ? columnConfig?.resizable : enableColumnResize;
             if (!colResizable) return;
 
             const colFixed = columnConfig?.fixed;
