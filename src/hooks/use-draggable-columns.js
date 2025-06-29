@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Container_Identifier, Movement_Threshold } from '../constants';
 
 export function useDraggableColumns(columns, setState, onColumnDragEnd) {
@@ -7,6 +7,7 @@ export function useDraggableColumns(columns, setState, onColumnDragEnd) {
     const touchStartRef = useRef(null);
     const lastTouchedIndexRef = useRef(null);
     const dragActiveRef = useRef(false);
+    const [, forceUpdate] = useState(0);
 
     useEffect(() => {
         const container = document.querySelector(Container_Identifier);
@@ -22,6 +23,7 @@ export function useDraggableColumns(columns, setState, onColumnDragEnd) {
             if (distance > Movement_Threshold && Math.abs(dx) > Math.abs(dy)) {
                 if (e.cancelable) e.preventDefault();
                 dragActiveRef.current = true;
+                forceUpdate(n => n + 1); // Force re-render to update styles
                 onTouchMoveInternal?.(touch.clientX, touch.clientY);
             }
         };
@@ -111,6 +113,7 @@ export function useDraggableColumns(columns, setState, onColumnDragEnd) {
         const dragCol = columns[index];
         dragFixedRef.current = !!dragCol?.fixed;
         dragActiveRef.current = false;
+        forceUpdate(n => n + 1);
     };
 
     const onTouchMoveInternal = (touchX, touchY) => {
@@ -136,6 +139,7 @@ export function useDraggableColumns(columns, setState, onColumnDragEnd) {
 
         if (distance > Movement_Threshold && Math.abs(dx) > Math.abs(dy)) {
             dragActiveRef.current = true;
+            forceUpdate(n => n + 1);
             onTouchMoveInternal?.(touch.clientX, touch.clientY);
         }
     };
@@ -149,6 +153,7 @@ export function useDraggableColumns(columns, setState, onColumnDragEnd) {
         lastTouchedIndexRef.current = null;
         dragFixedRef.current = null;
         dragActiveRef.current = false;
+        forceUpdate(n => n + 1);
     };
 
     const getColumnProps = (displayIndex) => ({
