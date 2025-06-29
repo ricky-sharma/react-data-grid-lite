@@ -14,8 +14,15 @@ jest.mock('./../../../src/helpers/common', () => {
     };
 });
 
+
+jest.mock('../../../src/helpers/format', () => ({
+    ...jest.requireActual('../../../src/helpers/format'),
+    format: jest.fn(),
+}));
+
+import * as helpers from '../../../src/helpers/format';
 import * as common from './../../../src/helpers/common';
-import { calculateColumnWidth } from './../../../src/utils/component-utils';
+import { calculateColumnWidth, formatRowData } from './../../../src/utils/component-utils';
 
 describe('calculateColumnWidth', () => {
     beforeEach(() => {
@@ -87,3 +94,106 @@ describe('calculateColumnWidth', () => {
         expect(result).toBe('400px');
     });
 });
+
+describe('formatRowData', () => {
+    beforeEach(() => {
+        helpers.format.mockReset();
+    });
+
+    it('should format simple row without concat or formatting', () => {
+        const row = { name: 'Alice', age: 30 };
+        const columns = [
+            { name: 'name' },
+            { name: 'age' }
+        ];
+
+        const result = formatRowData(row, columns);
+        expect(result).toEqual({ name: 'Alice', age: 30 });
+    });
+
+    it('should concatenate columns if concatColumns is defined', () => {
+        const row = { first: 'John', last: 'Doe' };
+        const columns = [
+            { name: 'fullName', concatColumns: { columns: ['first', 'last'], separator: ' ' } },
+            { name: 'first' },
+            { name: 'last' }
+        ];
+
+        const result = formatRowData(row, columns);
+        expect(result.fullname).toBe('John Doe');
+    });
+
+    it('should use default separator if not defined', () => {
+        const row = { first: 'Jane', last: 'Doe' };
+        const columns = [
+            { name: 'fullName', concatColumns: { columns: ['first', 'last'] } },
+            { name: 'first' },
+            { name: 'last' }
+        ];
+
+        const result = formatRowData(row, columns);
+        expect(result.fullname).toBe('Jane Doe');
+    });
+
+    it('should format value if formatting is provided', () => {
+        helpers.format.mockImplementation((val, type, format) => `formatted(${val})`);
+
+        const row = { dob: '1990-01-01' };
+        const columns = [
+            {
+                name: 'dob',
+                formatting: {
+                    type: 'date',
+                    format: 'MM/DD/YYYY'
+                }
+            }
+        ];
+
+        const result = formatRowData(row, columns);
+        expect(result.dob).toBe('formatted(1990-01-01)');
+    });
+
+    it('should be case-insensitive for concat column names', () => {
+        helpers.format.mockImplementation(val => val);
+
+        const row = { First: 'Alice', LAST: 'Smith' };
+        const columns = [
+            {
+                name: 'fullName',
+                concatColumns: { columns: ['first', 'last'], separator: ' ' }
+            },
+            { name: 'first' },
+            { name: 'last' }
+        ];
+
+        const result = formatRowData(row, columns);
+        expect(result.fullname).toBe('Alice Smith');
+    });
+
+    it('should skip missing concat column values gracefully', () => {
+        const row = { first: 'Jane' };
+        const columns = [
+            { name: 'fullName', concatColumns: { columns: ['first', 'last'], separator: '-' } },
+            { name: 'first' },
+            { name: 'last' }
+        ];
+
+        const result = formatRowData(row, columns);
+        expect(result.fullname).toBe('Jane');
+    });
+
+    it('should skip formatting if isNull returns true', () => {
+        const row = { salary: null };
+        const columns = [
+            {
+                name: 'salary',
+                formatting: { type: 'currency', format: '$0,0.00' }
+            }
+        ];
+
+        const result = formatRowData(row, columns);
+        expect(result.salary).toBe(null);
+        expect(helpers.format).not.toHaveBeenCalled();
+    });
+});
+

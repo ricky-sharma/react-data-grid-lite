@@ -126,3 +126,8 @@ export function convertViewportUnitToPixels(viewportValue, fallbackVwValue = '90
     // Fallback for the fallback (just in case both fail)
     return result ?? (window.innerWidth * 0.9); // 80vw hard fallback
 }
+
+export const capitalize = (str) => {
+    if (typeof str !== 'string' || !str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};

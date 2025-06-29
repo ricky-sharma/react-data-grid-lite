@@ -20,8 +20,8 @@ const GridPagination = ({
     };
 
     const createItem = (key, content, onClick, extraClass = '', atagClass = '', style = {}, optionalProps = {}) => (
-        <li key={key} className={`m-0 p-0 page-item ${extraClass}`} style={style} {...optionalProps}>
-            <a {...commonLinkProps} className={`${commonLinkProps.className} ${atagClass}`} onClick={onClick}>{content}</a>
+        <li key={key} className={`m-0 p-0 page-item ${extraClass}`} style={style} >
+            <a {...commonLinkProps} {...optionalProps} className={`${commonLinkProps.className} ${atagClass}`} onClick={onClick}>{content}</a>
         </li>
     );
 

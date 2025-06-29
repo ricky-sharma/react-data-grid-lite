@@ -8,8 +8,6 @@ import * as eventHandlers from './../../src/components/events/event-grid-header-
 import * as searchHandlers from './../../src/components/events/event-grid-search-clicked';
 import DataGrid from './../../src/react-data-grid-lite';
 
-jest.mock('./../../src/components/grid-footer', () => () => <div data-testid="grid-footer">Footer</div>);
-
 jest.mock('./../../src/components/grid-global-search-bar', () => {
     const React = require('react');
     const { useState } = React;
@@ -40,15 +38,6 @@ jest.mock('./../../src/components/grid-global-search-bar', () => {
     };
 });
 
-
-jest.mock('./../../src/components/grid-header', () => () => (
-    <thead>
-        <tr>
-            <th>Header</th>
-        </tr>
-    </thead>
-));
-
 jest.mock('./../../src/components/grid-rows', () => (props) => {
     const pageRows = props?.state?.pageSize ??
         props?.state?.currentPageRows ?? props?.state?.rowsData?.length ?? 0;
@@ -71,8 +60,8 @@ jest.mock('./../../src/components/grid-rows', () => (props) => {
 });
 
 const columns = [
-    { id: 'name', label: 'Name' },
-    { id: 'age', label: 'Age' }
+    { name: 'name', alias: 'Name' },
+    { name: 'age', alias: 'Age' }
 ];
 
 const data = [
@@ -85,8 +74,6 @@ const defaultProps = {
     columns,
     data,
     pageSize: 1,
-    count: 1,
-    globalSearchInput: '',
     onRowClick: jest.fn(),
     onPageChange: jest.fn(),
     onSortComplete: jest.fn(),
@@ -101,9 +88,9 @@ describe('DataGrid Component', () => {
     });
 
     it('renders DataGrid with required elements', () => {
-        render(<DataGrid {...defaultProps} />);
+        const { container } = render(<DataGrid {...defaultProps} />);
         expect(screen.getByTestId('global-search-bar')).toBeInTheDocument();
-        expect(screen.getByTestId('grid-footer')).toBeInTheDocument();
+        expect(container.querySelector('.grid-footer')).toBeInTheDocument();
         expect(screen.getByText('Row 1')).toBeInTheDocument();
     });
 
@@ -125,16 +112,16 @@ describe('DataGrid Component', () => {
     });
 
     it('renders footer and handles navigation logic', () => {
-        render(<DataGrid {...defaultProps} />);
-        const footer = screen.getByTestId('grid-footer');
+        const { container } = render(<DataGrid {...defaultProps} />);
+        const footer = container.querySelector('.grid-footer');
         expect(footer).toBeInTheDocument();
     });
 
-    it('does not call eventGridHeaderClicked by default', () => {
+    it('Call eventGridHeaderClicked by default', () => {
         const spy = jest.spyOn(eventHandlers, 'eventGridHeaderClicked').mockImplementation(() => { });
         render(<DataGrid {...defaultProps} />);
-        fireEvent.click(screen.getByText('Header'));
-        expect(spy).not.toHaveBeenCalled();
+        fireEvent.click(screen.getByLabelText('Name'));
+        expect(spy).toHaveBeenCalled();
     });
 
     it('calls onRowClick when a row is clicked', () => {
@@ -186,15 +173,10 @@ describe('DataGrid renders with more data', () => {
 
 describe('DataGrid Advanced Features (aligned with mocks)', () => {
     const columns = [
-        { id: 'firstName', label: 'First Name' },
-        { id: 'lastName', label: 'Last Name' },
-        {
-            id: 'fullName',
-            label: 'Full Name',
-            render: (row) => `${row.firstName} ${row.lastName}`,
-        },
-        { id: 'age', label: 'Age', sortable: true },
-        { id: 'secret', label: 'Secret', hidden: true }
+        { name: 'firstName', alias: 'First Name' },
+        { name: 'lastName', alias: 'Last Name' },
+        { name: 'age', alias: 'Age'},
+        { name: 'secret', alias: 'Secret', hidden: true }
     ];
 
     const data = [
@@ -214,7 +196,6 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
         columns,
         data,
         pageSize: 2,
-        count: 2,
         onRowClick: jest.fn(),
         onPageChange: jest.fn(),
         onSortComplete: jest.fn(),
@@ -231,11 +212,6 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
         render(<DataGrid {...defaultProps} />);
         const rows = screen.getAllByTestId(/^data-grid-row-/);
         expect(rows.length).toBe(2);
-    });
-
-    it('renders footer component', () => {
-        render(<DataGrid {...defaultProps} />);
-        expect(screen.getByTestId('grid-footer')).toBeInTheDocument();
     });
 
     it('renders global search bar and triggers onSearchClicked', () => {
@@ -270,7 +246,7 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
     it('simulates sort column click but does not render dynamic content', () => {
         const onSortComplete = jest.fn();
         render(<DataGrid {...defaultProps} onSortComplete={onSortComplete} />);
-        fireEvent.click(screen.getByText('Header'));
+        fireEvent.click(screen.getByLabelText('Age'));
         expect(onSortComplete).not.toHaveBeenCalled();
     });
 
@@ -309,7 +285,7 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
     it('handles undefined onSortComplete safely', () => {
         render(<DataGrid {...defaultProps} onSortComplete={undefined} />);
 
-        const header = screen.getByText('Header');
+        const header = screen.getByLabelText('Age');
         expect(() => fireEvent.click(header)).not.toThrow();
     });
 
@@ -328,6 +304,24 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
 
     it('renders DataGrid without crashing', () => {
         expect(() => render(<DataGrid onRowHover={null} gridClass={"test"} />)).not.toThrow();
+    });
+
+    it('columns are ordered based on "order" property', () => {
+        const columns = [
+            { name: 'B', alias: 'Column B', order: 2 },
+            { name: 'A', alias: 'Column A', order: 1 },
+            { name: 'C', alias: 'Column C' }
+        ];
+
+        const data = [
+            { A: 'a1', B: 'b1', C: 'c1' },
+            { A: 'a2', B: 'b2', C: 'c2' }
+        ];
+        render(<DataGrid data={data} columns={columns} pageSize={10} currentPage={1} />);
+        const headerCells = screen.getAllByRole('columnheader');
+        const headerText = headerCells
+            .map(cell => cell.textContent?.trim()).filter(Boolean);
+        expect(headerText).toEqual(['Column A', 'Column B', 'Column C']);
     });
 });
 
@@ -372,5 +366,81 @@ describe('DataGrid Null Check Tests', () => {
     it('handles missing event handlers without errors', () => {
         render(<DataGrid id="grid-null-handlers" columns={[]} data={[]} />);
         expect(screen.getByRole('table')).toBeInTheDocument();
+    });
+});
+
+describe('handleForwardPage and handleBackwardPage', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        jest.resetAllMocks();
+        cleanup();
+    });
+
+    it('increments activePage when clicking Next button if not on last page', () => {
+        const columns = [{ name: 'id' }];
+        const data = [{ id: 1 }, { id: 2 }];
+
+        const onPageChange = jest.fn();
+
+        render(
+            <DataGrid
+                columns={columns}
+                data={data}
+                pageSize={1}
+                currentPage={1}
+                onPageChange={onPageChange}
+            />
+        );
+
+        const nextButton = screen.getByLabelText('Next Page');
+        fireEvent.click(nextButton);
+        expect(onPageChange).toHaveBeenCalled();
+        const callArgs = onPageChange.mock.calls[0];
+        expect(callArgs[1]).toBe(2);
+    });
+
+    it('does not increment activePage when clicking Next button on last page', () => {
+        const columns = [{ name: 'id' }];
+        const data = [{ id: 1 }];
+
+        const onPageChange = jest.fn();
+
+        render(
+            <DataGrid
+                columns={columns}
+                data={data}
+                pageSize={1}
+                currentPage={1}
+                onPageChange={onPageChange}
+            />
+        );
+
+        const nextButton = screen.getByLabelText('Next Page');
+
+        fireEvent.click(nextButton);
+        expect(onPageChange).not.toHaveBeenCalled();
+    });
+
+    it('increments activePage when clicking Previous button if not on first page', () => {
+        const columns = [{ name: 'id' }];
+        const data = [{ id: 1 }, { id: 2 }];
+
+        const onPageChange = jest.fn();
+
+        render(
+            <DataGrid
+                columns={columns}
+                data={data}
+                pageSize={1}
+                currentPage={2}
+                onPageChange={onPageChange}
+            />
+        );
+
+        const previousButton = screen.getByLabelText('Previous Page');
+        fireEvent.click(previousButton);
+        expect(onPageChange).toHaveBeenCalled();
+        const callArgs = onPageChange.mock.calls[0];
+        expect(callArgs[1]).toBe(1);
     });
 });

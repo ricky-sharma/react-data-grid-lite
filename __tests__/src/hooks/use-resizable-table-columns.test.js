@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import React, { act, useRef, useState } from 'react';
+import { Button_Column_Key } from '../../../src/constants';
 import { useResizableTableColumns } from './../../../src/hooks/use-resizable-table-columns';
 
 beforeAll(() => {
@@ -25,6 +26,7 @@ afterAll(() => {
     jest.resetAllMocks();
     jest.clearAllMocks();
     cleanup();
+    jest.useRealTimers();
 });
 
 describe('useResizableTableColumns', () => {
@@ -36,7 +38,7 @@ describe('useResizableTableColumns', () => {
         const [state, setState] = useState({
             columns: [{ name: 'Name', resizable: true }],
             onColumnResized,
-            gridID:'test-grid-id'
+            gridID: 'test-grid-id'
         });
         const computedRef = useRef(initialWidths);
 
@@ -416,7 +418,7 @@ describe('useResizableTableColumns null/crash safety', () => {
         expect(container.querySelector('div')).toBeNull();
     });
 
-    test('returns early if first <tr> has no <th>', () => {
+    it('returns early if first <tr> has no <th>', () => {
         const tableRef = React.createRef();
 
         function NoHeaderCellsComponent() {
@@ -442,7 +444,7 @@ describe('useResizableTableColumns null/crash safety', () => {
         expect(container.querySelector('div')).toBeNull();
     });
 
-    test('skips processing if <th> already in WeakSet', () => {
+    it('skips processing if <th> already in WeakSet', () => {
         const tableRef = React.createRef();
 
         function AlreadyProcessedThComponent() {
@@ -456,7 +458,7 @@ describe('useResizableTableColumns null/crash safety', () => {
                 <table ref={tableRef}>
                     <thead>
                         <tr>
-                            <th style={{ position: 'static'}} data-column-name="test">Test</th>
+                            <th style={{ position: 'static' }} data-column-name="test">Test</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -471,4 +473,252 @@ describe('useResizableTableColumns null/crash safety', () => {
         expect(resizers.length).toBeLessThanOrEqual(1); // only one resizer, not duplicated
     });
 
+});
+
+describe('Additional tests for useResizableTableColumns', () => {
+    const DummyTable = ({ state, setState, compColWidthsRef, isResizingRef, enableColumnResize }) => {
+        const tableRef = useRef();
+
+        useResizableTableColumns(tableRef, state, setState, compColWidthsRef, enableColumnResize, isResizingRef);
+
+        return (
+            <table ref={tableRef} id={state.gridID}>
+                <thead>
+                    <tr>
+                        <th data-column-name="Name">Name</th>
+                        <th data-column-name="Age">Age</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Alice</td>
+                        <td>30</td>
+                        <td>
+                            <button>Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Bob</td>
+                        <td>25</td>
+                        <td>
+                            <button>Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        );
+    };
+
+    it('adds resizer elements to each resizable column', () => {
+        const state = {
+            gridID: 'test-grid',
+            columns: [
+                { name: 'Name', resizable: true },
+                { name: 'Age', resizable: true }
+            ]
+        };
+
+        const setState = jest.fn();
+        const compColWidthsRef = { current: [] };
+        const isResizingRef = { current: false };
+
+        const { container } = render(
+            <DummyTable
+                state={state}
+                setState={setState}
+                compColWidthsRef={compColWidthsRef}
+                isResizingRef={isResizingRef}
+                enableColumnResize={true}
+            />
+        );
+
+        const resizers = container.querySelectorAll('th > div[style*="col-resize"]');
+        expect(resizers.length).toBe(2); // One per column
+    });
+
+    it('mouse drag resizes column and updates state', async () => {
+        jest.useFakeTimers();
+
+        const initialColumns = [
+            { name: 'Name', width: '100px', resizable: true },
+            { name: 'Age', width: '100px', resizable: true }
+        ];
+
+        const onColumnResized = jest.fn();
+        const setState = jest.fn();
+
+        const state = {
+            gridID: 'test-grid',
+            columns: initialColumns,
+            onColumnResized
+        };
+
+        const compColWidthsRef = {
+            current: [...initialColumns]
+        };
+
+        const isResizingRef = { current: false };
+
+        const { container } = render(
+            <DummyTable
+                state={state}
+                setState={setState}
+                compColWidthsRef={compColWidthsRef}
+                isResizingRef={isResizingRef}
+                enableColumnResize={true}
+            />
+        );
+
+        const resizer = container.querySelector('th > div[style*="col-resize"]');
+        const th = resizer?.parentElement;
+
+        Object.defineProperty(th, 'offsetWidth', {
+            configurable: true,
+            value: 100
+        });
+
+        jest.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
+            position: 'relative'
+        }));
+
+        await act(async () => {
+            fireEvent.mouseDown(resizer, { pageX: 100 });
+            fireEvent.mouseMove(document, { pageX: 150 });
+            fireEvent.mouseUp(document, { pageX: 150 });
+            jest.advanceTimersByTime(100);
+        });
+
+        expect(setState).toHaveBeenCalled();
+        expect(isResizingRef.current).toBe(false);
+        expect(onColumnResized).toHaveBeenCalled();
+        jest.useRealTimers();
+    });
+
+    it('touch drag resizes column and updates state', async () => {
+        jest.useFakeTimers();
+        const state = {
+            gridID: 'test-grid',
+            columns: [
+                { name: 'Name', width: '100px', resizable: true }
+            ],
+            onColumnResized: jest.fn()
+        };
+
+        const setState = jest.fn();
+        const compColWidthsRef = { current: [{ name: 'Name', width: '100px' }] };
+        const isResizingRef = { current: false };
+
+        const { container } = render(
+            <DummyTable
+                state={state}
+                setState={setState}
+                compColWidthsRef={compColWidthsRef}
+                isResizingRef={isResizingRef}
+                enableColumnResize={true}
+            />
+        );
+
+        const resizer = container.querySelector('th > div[style*="col-resize"]');
+        const th = resizer?.parentElement;
+        Object.defineProperty(th, 'offsetWidth', {
+            configurable: true,
+            value: 100
+        });
+
+        jest.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
+            position: 'relative'
+        }));
+
+        await act(async () => {
+            fireEvent.touchStart(resizer, {
+                touches: [{ pageX: 100 }]
+            });
+
+            fireEvent.touchMove(document, {
+                touches: [{ pageX: 160 }]
+            });
+
+            fireEvent.touchEnd(document, {
+                changedTouches: [{ pageX: 160 }]
+            });
+
+            jest.advanceTimersByTime(100);
+        });
+
+        expect(setState).toHaveBeenCalled();
+        expect(isResizingRef.current).toBe(false);
+        expect(state.onColumnResized).toHaveBeenCalled();
+
+        jest.useRealTimers();
+    });
+
+    it('does not resize button column with name === Button_Column_Key', async () => {
+        jest.useFakeTimers();
+        const initialColumns = [
+            { name: 'Name', width: '100px', resizable: true },
+            { name: 'Age', width: '100px', resizable: true },
+            { name: Button_Column_Key, width: '120px' }
+        ];
+
+        const onColumnResized = jest.fn();
+        const setState = jest.fn();
+        const compColWidthsRef = { current: [...initialColumns] };
+        const isResizingRef = { current: false };
+
+        const state = {
+            gridID: 'test-grid',
+            columns: initialColumns,
+            onColumnResized
+        };
+
+        const { container } = render(
+            <DummyTable
+                state={state}
+                setState={setState}
+                compColWidthsRef={compColWidthsRef}
+                isResizingRef={isResizingRef}
+                enableColumnResize={true}
+            />
+        );
+
+        const resizers = container.querySelectorAll('th > div[style*="col-resize"]');
+
+        const actionResizer = resizers[1];
+        const th = actionResizer.parentElement;
+
+        Object.defineProperty(th, 'offsetWidth', {
+            configurable: true,
+            value: 120
+        });
+
+        jest.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
+            position: 'relative'
+        }));
+
+        await act(async () => {
+            fireEvent.mouseDown(actionResizer, { pageX: 120 });
+            fireEvent.mouseMove(document, { pageX: 160 });
+            fireEvent.mouseUp(document, { pageX: 160 });
+            jest.advanceTimersByTime(100);
+        });
+
+        const updated = setState.mock.calls.flat();
+
+        const touchedActionColumn = updated.some(call =>
+            call?.columns?.some(col =>
+                col.name === Button_Column_Key && col.width !== '120px'
+            )
+        );
+
+        expect(touchedActionColumn).toBe(false);
+        expect(onColumnResized).not.toHaveBeenCalledWith(
+            expect.any(Object),
+            expect.any(String),
+            Button_Column_Key,
+            'test-grid'
+        );
+
+        jest.useRealTimers();
+    });
 });

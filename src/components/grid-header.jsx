@@ -141,6 +141,8 @@ const GridHeader = ({
                     title="Actions"
                     data-toggle="tooltip"
                     key={key}
+                    role="columnheader"
+                    aria-label="Actions"
                 >
                     <div
                         style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
@@ -174,6 +176,8 @@ const GridHeader = ({
                 data-column-name={header?.name}
                 onClick={onClickHandler}
                 className="pointer"
+                role="columnheader"
+                aria-label={displayName}
             >
                 <div
                     className="p-0 m-0 alignCenter" data-column-name={header?.name}

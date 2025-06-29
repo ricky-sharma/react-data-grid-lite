@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { convertViewportUnitToPixels, getContainerWidthInPixels, hideLoader, isEqual, isNull, showLoader } from './../../../src/helpers/common';
+import { capitalize, convertViewportUnitToPixels, getContainerWidthInPixels, isEqual, isNull } from './../../../src/helpers/common';
 
 describe('isNull', () => {
     it('returns true for null, undefined, NaN', () => {
@@ -121,5 +121,49 @@ describe('isEqual', () => {
 
     it('returns false if keys mismatch', () => {
         expect(isEqual({ a: 1, b: 2 }, { a: 1, c: 2 })).toBe(false);
+    });
+});
+
+describe('capitalize', () => {
+    it('should capitalize the first letter of a lowercase word', () => {
+        expect(capitalize('hello')).toBe('Hello');
+    });
+
+    it('should return the same string if the first letter is already capitalized', () => {
+        expect(capitalize('Hello')).toBe('Hello');
+    });
+
+    it('should capitalize a single character string', () => {
+        expect(capitalize('a')).toBe('A');
+    });
+
+    it('should return an empty string if input is an empty string', () => {
+        expect(capitalize('')).toBe('');
+    });
+
+    it('should return an empty string if input is null', () => {
+        expect(capitalize(null)).toBe('');
+    });
+
+    it('should return an empty string if input is undefined', () => {
+        expect(capitalize(undefined)).toBe('');
+    });
+
+    it('should return an empty string if input is a number', () => {
+        expect(capitalize(123)).toBe('');
+    });
+
+    it('should not modify strings starting with a number', () => {
+        expect(capitalize('123abc')).toBe('123abc');
+    });
+
+    it('should preserve the rest of the string', () => {
+        expect(capitalize('testCase')).toBe('TestCase');
+    });
+
+    it('should return an empty string for non-string objects', () => {
+        expect(capitalize({})).toBe('');
+        expect(capitalize([])).toBe('');
+        expect(capitalize(() => { })).toBe('');
     });
 });

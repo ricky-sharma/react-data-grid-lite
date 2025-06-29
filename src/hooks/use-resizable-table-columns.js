@@ -22,7 +22,7 @@ export function useResizableTableColumns(tableRef, state, setState,
         ths.forEach((th) => {
             if (!th || processed.has(th)) return;
             processed.add(th);
-            const columnName = th.dataset.columnName || th.textContent.trim();
+            const columnName = th.dataset.columnName;
             if (!columnName) return;
             const columnConfig = state?.columns?.find(i => i?.name === columnName);
             const colResizable = typeof columnConfig?.resizable === "boolean"
