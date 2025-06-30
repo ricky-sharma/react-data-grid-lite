@@ -146,7 +146,7 @@ const GridHeader = ({
                 >
                     <div
                         style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
-                        className={"p-0 emptyHeader alignCenter"}
+                        className={"pd--0 emptyHeader alignCenter"}
                     >
                         <ActionIcon />
                     </div>
@@ -180,7 +180,7 @@ const GridHeader = ({
                 aria-label={displayName}
             >
                 <div
-                    className="p-0 m-0 alignCenter" data-column-name={header?.name}
+                    className="pd--0 mg--0 alignCenter" data-column-name={header?.name}
                 >
                     <div className="headerText" data-column-name={header?.name}>{displayName}</div>
                     <ColumnSortIcon columns={columns} header={header} />
@@ -211,7 +211,7 @@ const GridHeader = ({
                             width: buttonColWidth,
                             maxWidth: buttonColWidth
                         }}
-                        className="p-0 alignCenter"
+                        className="pd--0 alignCenter"
                     ></div>
                 </th>
             );
@@ -227,7 +227,7 @@ const GridHeader = ({
                     style={{
                         opacity: (noData ? '0.8' : '')
                     }}
-                    className="searchDiv p-0 m-0">
+                    className="searchDiv pd--0 mg--0">
                     {columnSearchEnabled ? (
                         <Input
                             placeholder="Search"

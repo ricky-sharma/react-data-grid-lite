@@ -81,7 +81,7 @@ const GridRows = ({
                 }}>
                     {!isNull(col?.render) && typeof col?.render === 'function' ?
                         col.render(formattedRow, baseRow) :
-                        <div className="m-0 p-0 rowText" title={columnValue?.toString()}>
+                        <div className="mg--0 pd--0 rowText" title={columnValue?.toString()}>
                             {columnValue?.toString()}
                         </div>}
                 </td>
@@ -107,10 +107,10 @@ const GridRows = ({
                             (isActionColumnRight && !isMobile ? '#e0e0e0 0.5px 0px 0px 0px inset' : '')),
                         contain: 'layout paint'
                     }}>
-                    <div className="m-0 p-0 button-column alignCenter" style={{ width: buttonColWidth }}>
+                    <div className="mg--0 pd--0 button-column alignCenter" style={{ width: buttonColWidth }}>
                         {editButtonEnabled && (
                             <div
-                                className="p-0 m-0 icon-div alignCenter grid-icon-div"
+                                className="pd--0 mg--0 icon-div alignCenter grid-icon-div"
                                 title="Edit"
                                 onClick={e => editButtonEvent(e, baseRow)}
                                 data-toggle="tooltip"
@@ -120,7 +120,7 @@ const GridRows = ({
                         )}
                         {deleteButtonEnabled && (
                             <div
-                                className="p-0 m-0 icon-div alignCenter grid-icon-div"
+                                className="pd--0 mg--0 icon-div alignCenter grid-icon-div"
                                 title="Delete"
                                 onClick={e => deleteButtonEvent(e, baseRow)}
                                 data-toggle="tooltip"

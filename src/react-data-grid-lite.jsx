@@ -328,8 +328,8 @@ const DataGrid = ({
             <div
                 className={
                     !isNull(state.gridCssClass)
-                        ? `${state.gridCssClass} col-12 m-0 p-0 react-data-grid-lite`
-                        : 'col-12 m-0 p-0 react-data-grid-lite'
+                        ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`
+                        : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
                 }
             >
                 <GridTable
