@@ -20,7 +20,7 @@
 		<title>React Data Grid Lite - 📊 Columns</title>
 		<meta
 		  name="description"
-		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,7 +35,7 @@
 		<meta property="og:title" content="React Data Grid Lite - 📊 Columns" />
 		<meta
 		  property="og:description"
-		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta
 		  property="og:url"
@@ -51,7 +51,7 @@
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content="React Data Grid Lite - 📊 Columns" />
-		<meta name="twitter:description" content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides." />
+		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
 		<!-- goat counter -->
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1750944854908" rel="stylesheet" />
+		<link href="index.css?ver=1751276864287" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -342,59 +342,10 @@
 </thead>
 <tbody>
 <tr>
-<td><code>name</code></td>
-<td><code>String</code></td>
-<td>The display name of the column header. It also serves as the key or identifier for accessing the corresponding data in each row. This value must be unique.</td>
-<td>-</td>
-<td>Yes</td>
-</tr>
-<tr>
 <td><code>alias</code></td>
 <td><code>String</code></td>
 <td>Provides an alternative name or alias for the column key. This alias can be used in column headers and other UI elements to make the grid more intuitive.</td>
 <td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>width</code></td>
-<td><code>Number</code> / <code>String</code></td>
-<td>The width of the column. Can be a fixed pixel value (e.g., <code>100px</code>) or a percentage (e.g., <code>'20%'</code>). Default value is calculated dynamically.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>formatting</code></td>
-<td><code>Object</code></td>
-<td>Formatting settings for the column. Includes the <code>type</code> (e.g., <code>currency</code>, <code>date</code>) and <code>format</code> (the format string, such as <code>$0,0.00</code>).</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>enableSearch</code></td>
-<td><code>Boolean</code></td>
-<td>Enables or disables the search textbox for a specific column. Overrides the <code>enableGlobalSearch</code> setting. Renamed from <code>searchEnable</code> in v1.1.2 and above.</td>
-<td><code>undefined</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>hidden</code></td>
-<td><code>Boolean</code></td>
-<td>Whether the column should be hidden.</td>
-<td>false</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>concatColumns</code></td>
-<td><code>Object</code></td>
-<td>Specifies columns to concatenate into this column. It includes: <code>columns</code> (array of column keys to concatenate) and <code>separator</code> (the separator string).</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>fixed</code></td>
-<td><code>Boolean</code></td>
-<td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version <code>1.1.0</code> and above.</td>
-<td>false</td>
 <td>No</td>
 </tr>
 <tr>
@@ -405,16 +356,79 @@
 <td>No</td>
 </tr>
 <tr>
-<td><code>resizable</code></td>
+<td><code>concatColumns</code></td>
+<td><code>Object</code></td>
+<td>Specifies columns to concatenate into this column. It includes: <code>columns</code> (array of column keys to concatenate) and <code>separator</code> (the separator string).</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>draggable</code></td>
 <td><code>Boolean</code></td>
-<td>Enables or disables resizing for a specific column. This setting overrides the <code>enableColumnResize</code> option. Supported in version <code>1.1.0</code> and above.</td>
-<td><code>undefined</code></td>
+<td>Enables or disables dragging for an individual column. Overrides the global <code>enableColumnDrag</code> setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in version <code>1.1.4</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableSearch</code></td>
+<td><code>Boolean</code></td>
+<td>Enables or disables the search textbox for a specific column. Overrides the <code>enableGlobalSearch</code> setting. Renamed from <code>searchEnable</code> in v1.1.2 and above.</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>fixed</code></td>
+<td><code>Boolean</code></td>
+<td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version <code>1.1.0</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>formatting</code></td>
+<td><code>Object</code></td>
+<td>Formatting settings for the column. Includes the <code>type</code> (e.g., <code>currency</code>, <code>date</code>) and <code>format</code> (the format string, such as <code>$0,0.00</code>).</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>hidden</code></td>
+<td><code>Boolean</code></td>
+<td>Whether the column should be hidden.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>String</code></td>
+<td>The display name of the column header. It also serves as the key or identifier for accessing the corresponding data in each row. This value must be unique.</td>
+<td>-</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>order</code></td>
+<td><code>Number</code></td>
+<td>Specifies the display order of the column (integer value), starting from 1. Supported in version <code>1.1.4</code> and above.</td>
+<td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>render</code></td>
 <td><code>function(formattedRow, baseRow) =&gt; React.ReactNode</code></td>
 <td>Custom render function for the column. Receives <code>formattedRow</code> (the transformed row data after formatting and concatenation) and <code>baseRow</code> (the original, unformatted row data). Should return a React node to be rendered in the cell. Available in version <code>1.1.3</code> and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>resizable</code></td>
+<td><code>Boolean</code></td>
+<td>Enables or disables resizing for a specific column. This setting overrides the <code>enableColumnResize</code> option. Supported in version <code>1.1.0</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td><code>Number</code> / <code>String</code></td>
+<td>The width of the column. Can be a fixed pixel value (e.g., <code>100px</code>) or a percentage (e.g., <code>'20%'</code>). Default value is calculated dynamically.</td>
 <td>-</td>
 <td>No</td>
 </tr>

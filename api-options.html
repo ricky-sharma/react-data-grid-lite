@@ -20,7 +20,7 @@
 		<title>React Data Grid Lite - ⚙️ Options</title>
 		<meta
 		  name="description"
-		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,7 +35,7 @@
 		<meta property="og:title" content="React Data Grid Lite - ⚙️ Options" />
 		<meta
 		  property="og:description"
-		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta
 		  property="og:url"
@@ -51,7 +51,7 @@
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content="React Data Grid Lite - ⚙️ Options" />
-		<meta name="twitter:description" content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides." />
+		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
 		<!-- goat counter -->
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1750944854908" rel="stylesheet" />
+		<link href="index.css?ver=1751276864287" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -342,6 +342,69 @@
 </thead>
 <tbody>
 <tr>
+<td><code>actionColumnAlign</code></td>
+<td><code>string</code> (<code>'left'</code> | <code>'right'</code> | <code>''</code>)</td>
+<td>Controls alignment of the Actions column. Set to <code>'left'</code> or <code>'right'</code> to fix its position. Leave empty to allow the column to scroll with the rest of the table. Supported in <strong>v1.1.1 and above</strong>.</td>
+<td><code>''</code> (empty string)</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>deleteButton</code></td>
+<td><code>Object</code></td>
+<td>Configuration for enabling a delete button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>downloadFilename</code></td>
+<td><code>String</code></td>
+<td>The filename used when downloading grid data in CSV format. The default value is <code>'export-{yyyy-MM-dd HH:mm:ss}'</code></td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>editButton</code></td>
+<td><code>Object</code></td>
+<td>Configuration for enabling an edit button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableColumnDrag</code></td>
+<td><code>Boolean</code></td>
+<td>Enables column dragging for all columns. Column-level <code>draggable</code> settings override this option. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in version <code>1.1.4</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableColumnResize</code></td>
+<td><code>Boolean</code></td>
+<td>Enables column resizing across all columns. Column-level <code>resizable settings</code> override this option. Supported in version <code>1.1.0</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableColumnSearch</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to enable column-wise search functionality (search per individual column). Column-level search settings override this option.</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableDownload</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to enable the download functionality (export data as CSV).</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>enableGlobalSearch</code></td>
+<td><code>Boolean</code></td>
+<td>Enables global search across all columns.</td>
+<td>true</td>
+<td>No</td>
+</tr>
+<tr>
 <td><code>gridClass</code></td>
 <td><code>String</code></td>
 <td>Custom CSS class for the grid container.</td>
@@ -356,55 +419,6 @@
 <td>No</td>
 </tr>
 <tr>
-<td><code>rowClass</code></td>
-<td><code>String</code></td>
-<td>Custom CSS class for each row in the grid.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>enableColumnSearch</code></td>
-<td><code>Boolean</code></td>
-<td>Whether to enable column-wise search functionality (search per individual column).</td>
-<td>true</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>enableGlobalSearch</code></td>
-<td><code>Boolean</code></td>
-<td>Enables global search across all columns. Column-level search settings override this option.</td>
-<td>true</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>editButton</code></td>
-<td><code>Object</code></td>
-<td>Configuration for enabling an edit button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>deleteButton</code></td>
-<td><code>Object</code></td>
-<td>Configuration for enabling a delete button on each row. Includes an <code>event</code> field which is the function triggered when the button is clicked.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>enableDownload</code></td>
-<td><code>Boolean</code></td>
-<td>Whether to enable the download functionality (export data as CSV).</td>
-<td>true</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>downloadFilename</code></td>
-<td><code>String</code></td>
-<td>The filename used when downloading grid data in CSV format. The default value is <code>'export-{yyyy-MM-dd HH:mm:ss}'</code></td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
 <td><code>onDownloadComplete</code></td>
 <td><code>Function</code></td>
 <td>Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.</td>
@@ -412,17 +426,10 @@
 <td>No</td>
 </tr>
 <tr>
-<td><code>enableColumnResize</code></td>
-<td><code>Boolean</code></td>
-<td>Enables column resizing across all columns. Column-level <code>resizable settings</code> override this option. Supported in version <code>1.1.0</code> and above.</td>
-<td>false</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>actionColumnAlign</code></td>
-<td><code>string</code> (<code>'left'</code> | <code>'right'</code> | <code>''</code>)</td>
-<td>Controls alignment of the Actions column. Set to <code>'left'</code> or <code>'right'</code> to fix its position. Leave empty to allow the column to scroll with the rest of the table. Supported in <strong>v1.1.1 and above</strong>.</td>
-<td><code>''</code> (empty string)</td>
+<td><code>rowClass</code></td>
+<td><code>String</code></td>
+<td>Custom CSS class for each row in the grid.</td>
+<td>-</td>
 <td>No</td>
 </tr>
 </tbody>

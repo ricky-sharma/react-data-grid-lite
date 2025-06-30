@@ -20,7 +20,7 @@
 		<title>React Data Grid Lite - 🧮 DataGrid</title>
 		<meta
 		  name="description"
-		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,7 +35,7 @@
 		<meta property="og:title" content="React Data Grid Lite - 🧮 DataGrid" />
 		<meta
 		  property="og:description"
-		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta
 		  property="og:url"
@@ -51,7 +51,7 @@
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content="React Data Grid Lite - 🧮 DataGrid" />
-		<meta name="twitter:description" content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides." />
+		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
 		<!-- goat counter -->
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1750944854908" rel="stylesheet" />
+		<link href="index.css?ver=1751276864287" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -342,32 +342,11 @@
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
-<td><code>string</code></td>
-<td>Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not provided. This feature is supported in version 1.0.5 and above.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
 <td><code>columns</code></td>
 <td><code>Array</code></td>
-<td>Array of column definitions. Each column can have properties like <code>name</code>, <code>width</code>, <code>alias</code>, <code>enableSearch</code>, <code>hidden</code>  etc.</td>
+<td>Array of column definitions. Each column can have properties like <code>name</code>, <code>width</code>, 'alias', 'enableSearch', 'hidden'  etc.</td>
 <td>-</td>
 <td>Yes</td>
-</tr>
-<tr>
-<td><code>data</code></td>
-<td><code>Array</code></td>
-<td>Array of objects representing the rows of data to display.</td>
-<td>-</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>pageSize</code></td>
-<td><code>String</code> / <code>Number</code></td>
-<td>Number of rows per page for pagination. If <code>null</code> or not provided, pagination is disabled.</td>
-<td>-</td>
-<td>No</td>
 </tr>
 <tr>
 <td><code>currentPage</code></td>
@@ -377,24 +356,31 @@
 <td>No</td>
 </tr>
 <tr>
-<td><code>options</code></td>
-<td><code>Object</code></td>
-<td>An object for additional customization. Contains options like <code>gridClass</code>, <code>enableGlobalSearch</code>, etc.</td>
+<td><code>data</code></td>
+<td><code>Array</code></td>
+<td>Array of objects representing the rows of data to display.</td>
 <td>-</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>width</code></td>
-<td><code>String</code> / <code>Number</code></td>
-<td>The width of the grid. Can be a pixel value (e.g., <code>'500px'</code>) or a percentage (e.g., <code>'100%'</code>). Recommended for optimal display of the column. The width can be set to <code>'inherit'</code> to match the width of the containing element.</td>
-<td><code>'90vw'</code></td>
-<td>No</td>
+<td>Yes</td>
 </tr>
 <tr>
 <td><code>height</code></td>
 <td><code>String</code> / <code>Number</code></td>
 <td>The height of the grid. Can be a pixel value (e.g., <code>'300px'</code>) or a percentage (e.g., <code>'100%'</code>). Recommended for optimal display of the column.</td>
 <td><code>'60vh'</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not provided. This feature is supported in version 1.0.5 and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>maxHeight</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The maximum height of the grid.</td>
+<td><code>'100vh'</code></td>
 <td>No</td>
 </tr>
 <tr>
@@ -405,10 +391,24 @@
 <td>No</td>
 </tr>
 <tr>
-<td><code>maxHeight</code></td>
-<td><code>String</code> / <code>Number</code></td>
-<td>The maximum height of the grid.</td>
-<td><code>'100vh'</code></td>
+<td><code>onColumnDragEnd</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered after a column is dragged and dropped. Supported in <strong>v1.1.4</strong> and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onColumnResized</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered after a column is resized. Supported in <strong>v1.1.0 and above</strong>.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onPageChange</code></td>
+<td><code>Function</code></td>
+<td>Callback function triggered when the user navigates to a different page.</td>
+<td>-</td>
 <td>No</td>
 </tr>
 <tr>
@@ -433,13 +433,6 @@
 <td>No</td>
 </tr>
 <tr>
-<td><code>onSortComplete</code></td>
-<td><code>Function</code></td>
-<td>Callback function triggered after sorting finishes.</td>
-<td>-</td>
-<td>No</td>
-</tr>
-<tr>
 <td><code>onSearchComplete</code></td>
 <td><code>Function</code></td>
 <td>Callback function triggered after a search operation.</td>
@@ -447,16 +440,23 @@
 <td>No</td>
 </tr>
 <tr>
-<td><code>onPageChange</code></td>
+<td><code>onSortComplete</code></td>
 <td><code>Function</code></td>
-<td>Callback function triggered when the user navigates to a different page.</td>
+<td>Callback function triggered after sorting finishes.</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
-<td><code>onColumnResized</code></td>
-<td><code>Function</code></td>
-<td>Callback function triggered after a column is resized. Supported in <strong>v1.1.0 and above</strong>.</td>
+<td><code>options</code></td>
+<td><code>Object</code></td>
+<td>An object for additional customization. Contains options like <code>gridClass</code>, <code>enableGlobalSearch</code>, etc.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>pageSize</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>Number of rows per page for pagination. If <code>null</code> or not provided, pagination is disabled.</td>
 <td>-</td>
 <td>No</td>
 </tr>
@@ -465,6 +465,13 @@
 <td><code>string</code> (<code>'blue-core'</code> | <code>'dark-stack'</code> | <code>'medi-glow'</code> | <code>''</code>)</td>
 <td>Applies a predefined visual theme to the grid. Affects header background, grid body background, borders, and control colors. Use an empty string to apply the default neutral style. Supported in <strong>v1.1.1 and above</strong>.</td>
 <td><code>''</code> (empty string)</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>The width of the grid. Can be a pixel value (e.g., <code>'500px'</code>) or a percentage (e.g., <code>'100%'</code>). Recommended for optimal display of the column. The width can be set to <code>'inherit'</code> to match the width of the containing element.</td>
+<td><code>'90vw'</code></td>
 <td>No</td>
 </tr>
 </tbody>

@@ -20,7 +20,7 @@
 		<title>React Data Grid Lite - 📘 Introduction</title>
 		<meta
 		  name="description"
-		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,7 +35,7 @@
 		<meta property="og:title" content="React Data Grid Lite - 📘 Introduction" />
 		<meta
 		  property="og:description"
-		  content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta
 		  property="og:url"
@@ -51,7 +51,7 @@
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content="React Data Grid Lite - 📘 Introduction" />
-		<meta name="twitter:description" content="A lightweight, high-performance, and customizable React data grid component with examples, API documentation, and advanced usage guides." />
+		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
 		<!-- goat counter -->
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1750944854908" rel="stylesheet" />
+		<link href="index.css?ver=1751276864287" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -330,19 +330,40 @@
 <hr>
 <h2>🎯 Key Features</h2>
 <h3>⚡ <strong>Lightweight</strong></h3>
-<p>A small bundle footprint ensures your application loads fast, even on slower connections. The grid is optimized to avoid unnecessary re-renders, includes zero dependencies, and only loads what it needs. Ideal for SPAs and mobile-first experiences.</p>
+<p>A small bundle footprint ensures your application loads fast, even on slower connections. The grid is optimized to avoid unnecessary re-renders, includes zero dependencies, and only loads what it needs. Ideal for SPAs and mobile-first experiences. By not including external dependencies, the grid remains lightweight and performs well across different use cases. Whether you're building small apps or large enterprise dashboards, this grid won't slow down your performance with unnecessary bloat.</p>
 <hr>
 <h3>📦 <strong>API-ready</strong></h3>
-<p>The grid works seamlessly with any <strong>REST</strong> or <strong>GraphQL</strong> JSON API. Simply fetch data and pass it to the <code>data</code> prop — no additional formatting required. This makes integration with existing backend systems quick and painless.</p>
-<pre><code class="language-ts">fetch('/api/users')
-  .then(res =&gt; res.json())
-  .then(data =&gt; setGridData(data));
+<p><code>react-data-grid-lite</code> is designed to work seamlessly with any JSON-based API. Whether your data is coming from a REST API, GraphQL endpoint, or any other JSON API, the grid can easily ingest and display the data without needing any heavy lifting on your part.</p>
+<p><strong>Why it matters</strong>: With the rise of APIs in modern web applications, being able to plug in data sources without complex transformations is a huge time-saver for developers.</p>
+<pre><code class="language-javascript">import React, { useEffect, useState } from 'react';
+import DataGrid from 'react-data-grid-lite';
+
+const MyGrid = () =&gt; {
+    const [rows, setRows] = useState([]);
+    const [columns, setColumns] = useState([]);
+
+    useEffect(() =&gt; {
+        fetch('/api/data') // Example API endpoint
+            .then(res =&gt; res.json())
+            .then(data =&gt; {
+                setColumns(data.columns);
+                setRows(data.rows);
+            });
+    }, []);
+
+    return &lt;DataGrid data={rows} columns={columns} /&gt;;
+};
 </code></pre>
 <hr>
 <h3>🛠️ <strong>Dynamic Columns</strong></h3>
 <p>Support for <strong>schema-flexible data</strong> means you can generate column definitions on the fly. This is especially useful for dashboards or CMS systems where data models can vary.</p>
-<pre><code class="language-js">const columns = Object.keys(data[0]).map(key =&gt; ({ name: key }));
+<pre><code class="language-javascript">const columns = Object.keys(data[0]).map(key =&gt; ({
+    name: key
+}));
+
+&lt;DataGrid data={data} columns={columns} /&gt;;
 </code></pre>
+<p>Here, <code>columns</code> are dynamically created based on the keys of the data object.</p>
 <hr>
 <h3>🎨 <strong>Custom Cell Rendering</strong></h3>
 <p>To customize how a specific cell is displayed, the <code>columns</code> definition can include a <code>render</code> function per column. This function receives the <strong>formatted row data</strong>, and the <strong>orignal row data</strong>, allowing full control over the rendering logic.</p>
@@ -366,10 +387,23 @@
 <hr>
 <h3>📌 <strong>Fixed Columns</strong></h3>
 <p>Pin columns to the left side of the grid using a prop like <code>fixed: true</code>. This is great for keeping key identifiers (like names or IDs) visible while horizontally scrolling through wide datasets.</p>
+<pre><code class="language-javascript">const columns = [
+    { name: 'ID', fixed: true },
+    { name: 'Name' },
+    { name: 'Email' },
+];
+
+&lt;DataGrid data={rows} columns={columns} /&gt;;
+</code></pre>
 <hr>
 <h3>📏 <strong>Resizable Columns</strong></h3>
 <p>Users can drag column borders to adjust widths, making it easier to view large or wrapped content. This is enabled via built-in support in v1.1.0+ and fires an <code>onColumnResized</code> callback.</p>
-<pre><code class="language-js">&lt;DataGrid onColumnResized={(e, newWidth, columnName) =&gt; console.log(columnName, newWidth)} /&gt;
+<pre><code class="language-js">const columns = [
+    { name: 'Name', resizable: true },
+    { name: 'Email', resizable: true },
+];
+
+&lt;DataGrid data={rows} columns={columns} onColumnResized={(e, newWidth, columnName) =&gt; console.log(columnName, newWidth)} /&gt;
 </code></pre>
 <hr>
 <h3>📱 <strong>Responsive Layout</strong></h3>
@@ -382,6 +416,47 @@
 <hr>
 <h3>✏️ <strong>Row Actions</strong></h3>
 <p>Built-in hooks for common actions like <strong>edit</strong>, <strong>delete</strong> allow you to bind behavior directly to row-level operations.</p>
+<hr>
+<h4>🔄 <strong>Drag-and-drop – Reorder columns with drag</strong></h4>
+<p><strong><code>react-data-grid-lite</code></strong> supports column reordering via drag-and-drop. This feature allows users to rearrange columns dynamically for a more personalized data grid experience.</p>
+<p><strong>Why it matters</strong>: Allowing users to reorder columns helps them tailor the grid to their needs, improving usability and efficiency.</p>
+<pre><code class="language-javascript">import DataGrid from 'react-data-grid-lite';
+
+const columns = [
+    { name: 'Name', draggable: true },
+    { name: 'Email', draggable: true },
+];
+
+const MyGrid = () =&gt; {
+
+    const handleDragEnd = (columnName, newColumnOrder) =&gt; {    
+        // Save the new column order to the database as a user preference
+        saveColumnOrderToDB(newColumnOrder)
+           .then(() =&gt; {
+              console.log('Column order saved successfully');
+        })
+    };
+    return (
+        &lt;DataGrid
+            data={rows}
+            columns={columns}
+            onColumnDragEnd={handleDragEnd}
+        /&gt;
+    );
+};
+</code></pre>
+<p>The grid provides the <code>onColumnDragEnd</code> callback function to save the new column order to the database as a user preference.</p>
+<hr>
+<h4>🔢 <strong>Column order – User-defined via order prop</strong></h4>
+<p>Set the order of columns using the <code>order</code> property on the column configuration.</p>
+<pre><code class="language-javascript">const columns = [
+    { name: 'Name', order: 2 },
+    { name: 'Email', order: 1 },
+];
+
+&lt;DataGrid data={rows} columns={columns} /&gt;;
+</code></pre>
+<p>The <code>order</code> property allows you to set the initial order of columns.</p>
 <hr>
 <h3>🧩 <strong>Merged Columns</strong></h3>
 <p>Display composite values by merging multiple fields into a single cell. For example, show <code>firstName + lastName</code> in one column.</p>
@@ -419,7 +494,7 @@ Callback props such as <code>onRowClick</code>, <code>onSearchComplete</code>, <
 <hr>
 <br>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8f479f0e-d2e7-43c9-8d94-be8f706ddeaf" alt="React Data Grid Lite Image" width="100%" />
+  <img src="https://github.com/user-attachments/assets/1514ec40-91ba-45a3-b897-6c6caa617959" alt="React Data Grid Lite Image" width="100%" />
 </p>
 <br>
 <h2>📦 Installation</h2>
