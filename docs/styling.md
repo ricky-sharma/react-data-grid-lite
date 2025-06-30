@@ -63,11 +63,12 @@ These props are especially useful if you want to:
 
 The `react-data-grid-lite` component allows you to apply custom CSS classes to various parts of the grid, such as the entire grid container, the header row, and each individual row. You can use the following props to add custom styles:
 
-| **Prop Name** | **Type** | **Description**                            | **Required** |
-| ------------- | -------- | ------------------------------------------ | ------------ |
-| `gridClass`   | `String` | Custom CSS class for the grid container.   | No           |
-| `headerClass` | `String` | Custom CSS class for the header row.       | No           |
-| `rowClass`    | `String` | Custom CSS class for each row in the grid. | No           |
+| **Prop Name** | **Type** | **Description**                                    | **Required** |
+| ------------- | -------- | -------------------------------------------------- | ------------ |
+| `gridClass`   | `String` | Custom CSS class for the grid container.           | No           |
+| `headerClass` | `String` | Custom CSS class for the header row.               | No           |
+| `rowClass`    | `String` | Custom CSS class for each row in the grid.         | No           |
+| `class`       | `String` | Custom CSS class for each data cell in the column. | No           |
 
 
 #### 📝 Example:

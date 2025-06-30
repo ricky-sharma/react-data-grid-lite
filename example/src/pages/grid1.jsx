@@ -22,7 +22,7 @@ export default function Grid1() {
     const columns = [
         {
             name: 'id',
-            width: '100px',
+            width: '150px',
             fixed: true,
             render: (row) => (
                 <div
@@ -55,7 +55,6 @@ export default function Grid1() {
                 </div>
             }
         },
-        { name: 'title', alias: 'Description' },
         {
             name: 'completed',
             width: '180px',
