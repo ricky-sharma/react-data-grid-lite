@@ -29,11 +29,10 @@ A lightweight and customizable React data grid component designed for high perfo
 🧪 **Fully tested** – Robust unit tests 
 
 <br><br>
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8f479f0e-d2e7-43c9-8d94-be8f706ddeaf" alt="React Data Grid Lite Image" width="100%" />
+  <img src="https://github.com/user-attachments/assets/1514ec40-91ba-45a3-b897-6c6caa617959" alt="React Data Grid Lite Image" width="100%" />
 </p>
-
-
 
 <br><br>
 
