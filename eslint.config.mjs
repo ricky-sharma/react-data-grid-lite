@@ -4,32 +4,43 @@ import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    // Base config for all JS/JSX files
     {
         files: ["**/*.{js,mjs,cjs,jsx}"],
         plugins: { js },
         extends: ["js/recommended"],
         languageOptions: {
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true,
+                },
+            },
             globals: {
                 ...globals.browser,
             },
         },
         rules: {
-            'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+            "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
         },
     },
-    // Jest-specific config for test files
     {
-        files: ["**/*.test.js", "**/__tests__/**/*.js", "**/*.test.jsx", "**/__tests__/**/*.jsx"],
+        files: ["**/*.test.{js,jsx}", "**/__tests__/**/*.{js,jsx}"],
         languageOptions: {
             globals: {
                 ...globals.jest,
             },
         },
         rules: {
-            'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+            "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
         },
     },
-    // React recommended config
-    pluginReact.configs.flat.recommended,
+    {
+        files: ["**/*.{jsx,tsx}"],
+        plugins: { react: pluginReact },
+        ...pluginReact.configs.flat.recommended,
+        settings: {
+            react: {
+                version: "detect",
+            },
+        },
+    },
 ]);

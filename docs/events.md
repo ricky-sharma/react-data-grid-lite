@@ -34,10 +34,20 @@ Triggered after CSV file download. Useful for logging or triggering post-downloa
 This event handler is called **after a column has been resized**. This function allows you to respond to column resize events, such as updating UI elements or saving user preferences.
 * `e` — The original event object from the resize action.
 * `newWidth` — The new width of the column in pixels as a string with `px` suffix (e.g., `"150px"`). If the new width is `null` or invalid, it defaults to `0`.
-* `columnName` — The unique identifier (name) of the resized column.
-* `gridID` — The unique identifier (id) for the DataGrid component.
+* `columnName` — The unique identifier (`name`) of the resized column.
+* `gridID` — The unique identifier (`id`) for the DataGrid component.
+
+### `onColumnDragEnd(columnName, newColumnOrder)` — *Supported in `v1.1.4` and above*
+
+This callback is triggered when a column is dropped after a drag. It provides:
+* `columnName`: The unique identifier (`name`) of the column that was dragged.
+* `newColumnOrder`: an array of **rendered column objects**, each containing:
+  * `name`: unique identifier for the column
+  * `order`: the new position (starting from 1)
+  * `alias` (optional): user-friendly name or alternative label
 
 <br><br>
+
 ## Row-Level Action Events
 
 ### `editButtonEvent(e, row)`

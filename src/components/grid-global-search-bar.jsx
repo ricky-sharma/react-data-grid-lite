@@ -18,21 +18,19 @@ const GridGlobalSearchBar = ({
     enableDownload,
     rowsData,
     downloadFilename,
-    onDownloadComplete,
-    concatColumns,
-    columnFormatting
+    onDownloadComplete
 }) => {
     const windowWidth = useWindowWidth();
     const isSmallScreen = windowWidth < 701;
     const noData = !Array.isArray(rowsData) || rowsData.length === 0 || isNull(columns)
     return (
-        <div className="row col-12 globalSearchDiv">
+        <div className="row--flex col-flex-12 globalSearchDiv">
             {enableGlobalSearch && (
                 <div
                     style={{
                         opacity: (noData ? '0.8' : '')
                     }}
-                    className="p-0 m-0 globalSearch">
+                    className="pd--0 mg--0 globalSearch">
                     <Input
                         placeholder="Global Search"
                         type="text"
@@ -55,7 +53,7 @@ const GridGlobalSearchBar = ({
                         pointerEvents: (noData ? 'none' : ''),
                         opacity: (noData ? '0.5' : '')
                     }}
-                    className="p-0 m-0 alignCenter download-icon-div icon-div icon-div-mobile"
+                    className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile"
                     title={Export_To_CSV_Text}
                     onClick={(e) =>
                         eventExportToCSV(
@@ -63,14 +61,12 @@ const GridGlobalSearchBar = ({
                             rowsData,
                             columns,
                             downloadFilename,
-                            onDownloadComplete,
-                            concatColumns,
-                            columnFormatting
+                            onDownloadComplete
                         )
                     }
                     data-toggle="tooltip"
                 >
-                    <div className="p-0 m-0 icon-content">
+                    <div className="pd--0 mg--0 icon-content">
                         <DownloadIcon />
                         <span>
                             {isSmallScreen ? '' : Export_To_CSV_Text}
@@ -79,7 +75,7 @@ const GridGlobalSearchBar = ({
                 </div>
             )}
             <div
-                className="p-0 m-0 icon-div alignCenter clear-icon-div icon-div-mobile"
+                className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
                 title="Reset Filters"
                 onClick={handleResetSearch}
                 data-toggle="tooltip"

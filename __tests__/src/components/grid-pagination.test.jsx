@@ -132,13 +132,17 @@ describe('GridPagination Functional Tests', () => {
     it('disables prev button on first page', () => {
         render(<GridPagination {...baseProps} activePage={1} />);
         const prev = screen.getByLabelText('Previous Page');
-        expect(prev).toHaveClass('disabled');
+        expect(prev).toBeInTheDocument();
+        const parent = prev.parentElement;
+        expect(parent).toHaveClass('disabled');
     });
 
     it('disables next button on last page', () => {
         render(<GridPagination {...baseProps} activePage={5} />);
         const next = screen.getByLabelText('Next Page');
-        expect(next).toHaveClass('disabled');
+        expect(next).toBeInTheDocument();
+        const parent = next.parentElement;
+        expect(parent).toHaveClass('disabled');
     });
 
     it('calls onPrevButtonClick when prev is clicked and not disabled', () => {

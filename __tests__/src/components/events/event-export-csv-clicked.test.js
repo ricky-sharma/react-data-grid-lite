@@ -134,7 +134,7 @@ describe('eventExportToCSV', () => {
         expect(mockBlobConstructor).toHaveBeenCalledTimes(1);
 
         const expectedCsvLines = [
-            'col1,COL2,col3,col4',
+            'Col1,COL2,Col3,Col4',
             '"value1","value, with, commas","value ""with quotes""",""'
         ];
         const expectedCsvContent = expectedCsvLines.join('\n');

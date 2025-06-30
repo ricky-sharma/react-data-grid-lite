@@ -12,3 +12,4 @@ export const Button_Column_Key = 'ButtonColumnKey';
 export const Export_To_CSV_Text = 'Export CSV';
 export const Border_Padding_Margin_Width = "1";
 export const Loader_Identifier = "table-loader-overlay";
+export const Movement_Threshold = 10; // in pixels

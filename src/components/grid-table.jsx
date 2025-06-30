@@ -17,7 +17,7 @@ const GridTable = ({
     useResizableTableColumns(tableRef, state, setState,
         computedColumnWidthsRef, state.enableColumnResize, isResizingRef);
     return (
-        <table ref={tableRef} className="m-0 p-0">
+        <table ref={tableRef} className="mg--0 pd--0 gd-tbl">
             <GridHeader
                 state={state}
                 setState={setState}

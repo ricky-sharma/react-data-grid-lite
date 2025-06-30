@@ -24,10 +24,6 @@ const GridRows = ({
         rowsData,
         firstRow,
         currentPageRows,
-        hiddenColIndex,
-        concatColumns,
-        columnFormatting,
-        columnClass,
         columns,
         rowCssClass,
         rowClickEnabled,
@@ -60,15 +56,15 @@ const GridRows = ({
             lastFixedIndex = index;
         }
     }, null);
-
     return rowsData.slice(firstRow, firstRow + currentPageRows).map((baseRow, rowIndex) => {
-        const formattedRow = formatRowData(baseRow, concatColumns, columns, columnFormatting);
+        const formattedRow = formatRowData(baseRow, columns);
         const cols = Object.values(columns).map((col, key) => {
-            if (hiddenColIndex?.includes(key)) return null;
+            if (col?.hidden === true) return null;
             const columnValue = formattedRow[col?.name?.toLowerCase()];
-            const classNames = columnClass?.[key] || '';
+            const classNames = col?.class || '';
             const colWidth = computedColumnWidthsRef?.current?.find(i => i?.name === col?.name)?.width ?? 0;
-            const colResizable = col?.resizable ?? enableColumnResize;
+            const colResizable = typeof col?.resizable === "boolean"
+                ? col?.resizable : enableColumnResize;
             return (
                 <td key={key} className={classNames} style={{
                     width: colWidth,
@@ -85,7 +81,7 @@ const GridRows = ({
                 }}>
                     {!isNull(col?.render) && typeof col?.render === 'function' ?
                         col.render(formattedRow, baseRow) :
-                        <div className="m-0 p-0 rowText" title={columnValue?.toString()}>
+                        <div className="mg--0 pd--0 rowText" title={columnValue?.toString()}>
                             {columnValue?.toString()}
                         </div>}
                 </td>
@@ -111,10 +107,10 @@ const GridRows = ({
                             (isActionColumnRight && !isMobile ? '#e0e0e0 0.5px 0px 0px 0px inset' : '')),
                         contain: 'layout paint'
                     }}>
-                    <div className="m-0 p-0 button-column alignCenter" style={{ width: buttonColWidth }}>
+                    <div className="mg--0 pd--0 button-column alignCenter" style={{ width: buttonColWidth }}>
                         {editButtonEnabled && (
                             <div
-                                className="p-0 m-0 icon-div alignCenter grid-icon-div"
+                                className="pd--0 mg--0 icon-div alignCenter grid-icon-div"
                                 title="Edit"
                                 onClick={e => editButtonEvent(e, baseRow)}
                                 data-toggle="tooltip"
@@ -124,7 +120,7 @@ const GridRows = ({
                         )}
                         {deleteButtonEnabled && (
                             <div
-                                className="p-0 m-0 icon-div alignCenter grid-icon-div"
+                                className="pd--0 mg--0 icon-div alignCenter grid-icon-div"
                                 title="Delete"
                                 onClick={e => deleteButtonEvent(e, baseRow)}
                                 data-toggle="tooltip"

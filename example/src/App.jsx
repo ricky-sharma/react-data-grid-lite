@@ -6,18 +6,20 @@ import Grid2 from './pages/grid2';
 import Grid3 from './pages/grid3';
 import Grid4 from './pages/grid4';
 import Grid5 from './pages/grid5';
+import Grid6 from './pages/grid6';
 
 function App() {
     return (
         <Router>
             <Navbar style={{ display: 'flex', justifyContent: 'center' }} />
-            <div style={{ padding: '10px' }}>
+            <div style={{ padding: '8px' }}>
                 <Routes>
                     <Route path="/" element={<Grid1 />} />
                     <Route path="/Grid2" element={<Grid2 />} />
                     <Route path="/Grid3" element={<Grid3 />} />
                     <Route path="/Grid4" element={<Grid4 />} />
                     <Route path="/Grid5" element={<Grid5 />} />
+                    <Route path="/Grid6" element={<Grid6 />} />
                 </Routes>
             </div>
         </Router>

@@ -27,7 +27,8 @@ const DataGrid = ({
     onPageChange,
     onColumnResized,
     theme,
-    currentPage
+    currentPage,
+    onColumnDragEnd
 }) => {
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
@@ -45,9 +46,14 @@ const DataGrid = ({
         gridCssClass: options?.gridClass ?? applyTheme(theme ?? '')?.grid ?? '',
         headerCssClass: options?.headerClass ?? applyTheme(theme ?? '')?.header ?? '',
         rowCssClass: options?.rowClass ?? applyTheme(theme ?? '')?.row ?? '',
-        enableColumnSearch: options?.enableColumnSearch ?? true,
-        enableColumnResize: options?.enableColumnResize ?? false,
-        enableGlobalSearch: options?.enableGlobalSearch ?? true,
+        enableColumnSearch: typeof options?.enableColumnSearch === 'boolean'
+            ? options?.enableColumnSearch : true,
+        enableColumnResize: typeof options?.enableColumnResize === 'boolean' ?
+            options?.enableColumnResize : false,
+        enableColumnDrag: typeof options?.enableColumnDrag === 'boolean' ?
+            options?.enableColumnDrag : false,
+        enableGlobalSearch: typeof options?.enableGlobalSearch === 'boolean' ?
+            options?.enableGlobalSearch : true,
         rowClickEnabled: !isNull(onRowClick),
         onRowClick: onRowClick ?? (() => { }),
         onRowHover: onRowHover ?? (() => { }),
@@ -56,12 +62,14 @@ const DataGrid = ({
         onSearchComplete: onSearchComplete ?? (() => { }),
         onPageChange: onPageChange ?? (() => { }),
         onColumnResized: onColumnResized ?? (() => { }),
+        onColumnDragEnd: onColumnDragEnd ?? (() => { }),
         editButtonEnabled: options?.editButton ?? false,
         editButtonEvent: options?.editButton?.event ?? (() => { }),
         deleteButtonEnabled: options?.deleteButton ?? false,
         deleteButtonEvent: options?.deleteButton?.event ?? (() => { }),
         actionColumnAlign: options?.actionColumnAlign ?? '',
-        enableDownload: options?.enableDownload ?? true,
+        enableDownload: typeof options?.enableDownload === 'boolean' ?
+            options?.enableDownload : true,
         downloadFilename: options?.downloadFilename ?? null,
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
         globalSearchInput: '',
@@ -83,14 +91,48 @@ const DataGrid = ({
             setState((prevState) => ({
                 ...prevState,
                 columnsReceived: columns,
-                columns: !isNull(columns) && Array.isArray(columns) &&
-                    columns.every(obj => typeof obj === 'object')
-                    ? columns.filter(obj => typeof obj === 'object' && obj !== null
-                        && typeof obj.name === 'string' && obj.name.trim() !== '').sort((a, b) => {
-                            const aFlag = !!a.fixed;
-                            const bFlag = !!b.fixed;
-                            return (bFlag - aFlag);
-                        }) : []
+                columns: Array.isArray(columns) && columns.every(obj => typeof obj === 'object')
+                    ? (() => {
+                        const validColumns = columns.filter(
+                            obj => obj && typeof obj.name === 'string' && obj.name.trim() !== ''
+                        ).map(col => ({
+                            ...col,
+                            fixed: typeof col?.fixed === 'boolean' ? col?.fixed : false,
+                            hidden: typeof col?.hidden === 'boolean' ? col?.hidden : false
+                        }));
+                        const fixedCols = validColumns.filter(col => col.fixed === true);
+                        const nonFixedCols = validColumns.filter(col => col.fixed === false);
+                        const applyGlobalOrder = (group, globalStartIndex = 0) => {
+                            const result = [];
+                            const used = new Set();
+                            const withOrder = group.filter(c => typeof c.order === 'number');
+                            const withoutOrder = group.filter(c => typeof c.order !== 'number');
+                            for (const col of withOrder) {
+                                const globalIdx = col.order - 1;
+                                const localIdx = Math.max(0, globalIdx - globalStartIndex);
+                                let i = localIdx;
+                                while (i < group.length && result[i]) i++;
+                                result[i] = col;
+                                used.add(col.name);
+                            }
+                            let i = 0;
+                            for (const col of withoutOrder) {
+                                while (result[i]) i++;
+                                result[i] = col;
+                            }
+                            return result;
+                        };
+
+                        const orderedFixed = applyGlobalOrder(fixedCols, 0);
+                        const orderedNonFixed = applyGlobalOrder(nonFixedCols, orderedFixed.length);
+                        const finalList = [...orderedFixed, ...orderedNonFixed];
+
+                        return finalList.map((col, index) => ({
+                            ...col,
+                            displayIndex: index + 1
+                        }));
+                    })()
+                    : []
             }));
     }, [columns]);
 
@@ -112,20 +154,6 @@ const DataGrid = ({
                 ...prevState,
                 hiddenColIndex: !isNull(state?.columns) ? state?.columns.map((col, key) =>
                     !isNull(col?.hidden) && col?.hidden === true ? key : null) : [],
-                concatColumns: !isNull(state?.columns) ? state?.columns.map((col) => {
-                    let separator = ' '
-                    if (!isNull(col.concatColumns) && !isNull(col.concatColumns.columns)) {
-                        if (!isNull(col.concatColumns.separator))
-                            separator = col.concatColumns.separator
-                        return { cols: col.concatColumns.columns, sep: separator };
-                    }
-                    return null
-                }) : [],
-                columnFormatting: !isNull(state?.columns) ? state?.columns.map((col) =>
-                    !isNull(col.formatting) && !isNull(col.formatting.type) ?
-                        { type: col?.formatting?.type, format: col?.formatting?.format ?? '' } : null) : [],
-                columnClass: !isNull(state?.columns) ? state?.columns.map((col) =>
-                    !isNull(col.class) ? col?.class : null) : [],
                 columnWidths: !isNull(state?.columns)
                     ? state?.columns.map(col =>
                         typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
@@ -296,14 +324,12 @@ const DataGrid = ({
                 rowsData={state.rowsData}
                 downloadFilename={state.downloadFilename}
                 onDownloadComplete={state.onDownloadComplete}
-                concatColumns={state.concatColumns}
-                columnFormatting={state.columnFormatting}
             />
             <div
                 className={
                     !isNull(state.gridCssClass)
-                        ? `${state.gridCssClass} col-12 m-0 p-0 react-data-grid-lite`
-                        : 'col-12 m-0 p-0 react-data-grid-lite'
+                        ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`
+                        : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
                 }
             >
                 <GridTable

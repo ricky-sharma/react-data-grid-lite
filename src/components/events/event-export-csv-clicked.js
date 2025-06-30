@@ -1,5 +1,5 @@
 import { CSV_File_Name_Prefix } from "../../constants";
-import { isNull } from "../../helpers/common";
+import { capitalize, isNull } from "../../helpers/common";
 import { formatDate } from "../../helpers/date";
 import { formatRowData } from "../../utils/component-utils";
 
@@ -11,9 +11,7 @@ export const eventExportToCSV = (
     data,
     columns,
     filename,
-    onDownloadComplete = () => { },
-    concatColumns,
-    columnFormatting
+    onDownloadComplete = () => { }
 ) => {
     if (!data || data.length === 0 || !columns) {
         return;
@@ -32,7 +30,7 @@ export const eventExportToCSV = (
         .map(col => col?.alias ?? col.name);
     // Preprocess rows to create case-insensitive key maps
     const processedData = data.map(row =>
-        formatRowData(row, concatColumns, columns, columnFormatting)
+        formatRowData(row, columns)
     );
     // Create rows using case-insensitive lookup
     const rows = processedData.map(row => {
@@ -46,7 +44,7 @@ export const eventExportToCSV = (
             .join(',');
     });
 
-    const csvContent = [headers.join(','), ...rows].join('\n');
+    const csvContent = [headers.map(capitalize).join(','), ...rows].join('\n');
     // Create Blob and download
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);

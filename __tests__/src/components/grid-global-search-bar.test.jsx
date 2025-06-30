@@ -24,8 +24,6 @@ describe('GridGlobalSearchBar', () => {
         rowsData: [{ col1: 'value1' }],
         downloadFilename: 'my-data',
         onDownloadComplete: jest.fn(),
-        concatColumns: [null],
-        columnFormatting: [null],
         setState: jest.fn()
     };
 
@@ -87,9 +85,7 @@ describe('GridGlobalSearchBar', () => {
             defaultProps.rowsData,
             defaultProps.columns,
             defaultProps.downloadFilename,
-            defaultProps.onDownloadComplete,
-            defaultProps.concatColumns,
-            defaultProps.columnFormatting
+            defaultProps.onDownloadComplete
         );
     });
 

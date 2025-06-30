@@ -22,14 +22,18 @@ export function useResizableTableColumns(tableRef, state, setState,
         ths.forEach((th) => {
             if (!th || processed.has(th)) return;
             processed.add(th);
-            const columnName = th.dataset.columnName || th.textContent.trim();
+            const columnName = th.dataset.columnName;
             if (!columnName) return;
             const columnConfig = state?.columns?.find(i => i?.name === columnName);
-            const colResizable = columnConfig?.resizable ?? enableColumnResize;
+            const colResizable = typeof columnConfig?.resizable === "boolean"
+                ? columnConfig?.resizable : enableColumnResize;
             if (!colResizable) return;
 
             const colFixed = columnConfig?.fixed;
+            if (th.querySelector('.r-d-g-lt-column-resizer')) return;
+
             const resizer = document.createElement('div');
+            resizer.classList.add('r-d-g-lt-column-resizer');
             resizer.style.position = 'absolute';
             resizer.style.top = '0';
             resizer.style.right = '0';

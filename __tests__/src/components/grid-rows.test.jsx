@@ -145,7 +145,15 @@ describe('GridRows', () => {
         function TableComponent() {
             const [state] = useState({
                 ...defaultProps,
-                hiddenColIndex: [0]
+                columns: [
+                    {
+                        name: 'name',
+                        fixed: true,
+                        concatColumns: ["name", "age"],
+                        hidden: true
+                    },
+                    { name: 'age', resizable: true }
+                ],
             });
             const ref = useRef(null);
             ref.current = [
@@ -169,13 +177,13 @@ describe('GridRows', () => {
         function TableComponent() {
             const [state] = useState({
                 rowsData: [{ name: 'Alice' }],
-                columns: [{ name: 'name' }],
-                columnFormatting: [{ type: 'text', format: '' }],
+                columns: [{
+                    name: 'name',
+                    formatting: { type: 'text', format: '' }
+                }],
                 firstRow: 0,
                 currentPageRows: 1,
-                hiddenColIndex: [],
                 columnWidths: [null],
-                columnClass: [],
             });
             const ref = useRef(null);
             ref.current = [{ name: 'name', width: '150px', leftPosition: '0px' }]
