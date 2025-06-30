@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1751276864287" rel="stylesheet" />
+		<link href="index.css?ver=1751279439497" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -327,14 +327,13 @@
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
 						<p>The <strong>React Data Grid Lite</strong> is a high-performance, customizable UI component designed to display large sets of structured data in a tabular format. Built for modern applications, this grid focuses on <strong>speed</strong>, <strong>flexibility</strong>, and <strong>ease of integration</strong>, making it ideal for both simple lists and complex enterprise-grade data views.</p>
-<hr>
 <h2>🎯 Key Features</h2>
+<div style="margin-bottom: 40px;"></div>
 <h3>⚡ <strong>Lightweight</strong></h3>
 <p>A small bundle footprint ensures your application loads fast, even on slower connections. The grid is optimized to avoid unnecessary re-renders, includes zero dependencies, and only loads what it needs. Ideal for SPAs and mobile-first experiences. By not including external dependencies, the grid remains lightweight and performs well across different use cases. Whether you're building small apps or large enterprise dashboards, this grid won't slow down your performance with unnecessary bloat.</p>
-<hr>
+<br>
 <h3>📦 <strong>API-ready</strong></h3>
 <p><code>react-data-grid-lite</code> is designed to work seamlessly with any JSON-based API. Whether your data is coming from a REST API, GraphQL endpoint, or any other JSON API, the grid can easily ingest and display the data without needing any heavy lifting on your part.</p>
-<p><strong>Why it matters</strong>: With the rise of APIs in modern web applications, being able to plug in data sources without complex transformations is a huge time-saver for developers.</p>
 <pre><code class="language-javascript">import React, { useEffect, useState } from 'react';
 import DataGrid from 'react-data-grid-lite';
 
@@ -354,7 +353,8 @@ const MyGrid = () =&gt; {
     return &lt;DataGrid data={rows} columns={columns} /&gt;;
 };
 </code></pre>
-<hr>
+<p><strong>Why it matters</strong>: With the rise of APIs in modern web applications, being able to plug in data sources without complex transformations is a huge time-saver for developers.</p>
+<br>
 <h3>🛠️ <strong>Dynamic Columns</strong></h3>
 <p>Support for <strong>schema-flexible data</strong> means you can generate column definitions on the fly. This is especially useful for dashboards or CMS systems where data models can vary.</p>
 <pre><code class="language-javascript">const columns = Object.keys(data[0]).map(key =&gt; ({
@@ -364,7 +364,7 @@ const MyGrid = () =&gt; {
 &lt;DataGrid data={data} columns={columns} /&gt;;
 </code></pre>
 <p>Here, <code>columns</code> are dynamically created based on the keys of the data object.</p>
-<hr>
+<br>
 <h3>🎨 <strong>Custom Cell Rendering</strong></h3>
 <p>To customize how a specific cell is displayed, the <code>columns</code> definition can include a <code>render</code> function per column. This function receives the <strong>formatted row data</strong>, and the <strong>orignal row data</strong>, allowing full control over the rendering logic.</p>
 <h4>✅ Add Icons or Badges</h4>
@@ -379,12 +379,12 @@ const MyGrid = () =&gt; {
   )
 }
 </code></pre>
-<hr>
+<br>
 <h3>🔍 <strong>Search &amp; Aliases</strong></h3>
 <p>Enable powerful <strong>global and column-level search</strong> with support for aliases and custom labels. Searchable columns can be marked with <code>enableSearch: true</code>, and you can use user-friendly names (<code>alias</code>) without affecting the actual data structure.</p>
 <pre><code class="language-js">{ name: 'emailAddress', alias: 'Email', enableSearch: true }
 </code></pre>
-<hr>
+<br>
 <h3>📌 <strong>Fixed Columns</strong></h3>
 <p>Pin columns to the left side of the grid using a prop like <code>fixed: true</code>. This is great for keeping key identifiers (like names or IDs) visible while horizontally scrolling through wide datasets.</p>
 <pre><code class="language-javascript">const columns = [
@@ -395,7 +395,7 @@ const MyGrid = () =&gt; {
 
 &lt;DataGrid data={rows} columns={columns} /&gt;;
 </code></pre>
-<hr>
+<br>
 <h3>📏 <strong>Resizable Columns</strong></h3>
 <p>Users can drag column borders to adjust widths, making it easier to view large or wrapped content. This is enabled via built-in support in v1.1.0+ and fires an <code>onColumnResized</code> callback.</p>
 <pre><code class="language-js">const columns = [
@@ -405,21 +405,14 @@ const MyGrid = () =&gt; {
 
 &lt;DataGrid data={rows} columns={columns} onColumnResized={(e, newWidth, columnName) =&gt; console.log(columnName, newWidth)} /&gt;
 </code></pre>
-<hr>
+<br>
 <h3>📱 <strong>Responsive Layout</strong></h3>
 <p>The grid layout adjusts to different screen sizes using <code>width</code>, <code>maxWidth</code>, <code>height</code>, and <code>inherit</code> props. It plays nicely with flexbox or grid-based layouts, ensuring content looks good on mobile, tablet, or desktop.</p>
 <pre><code class="language-js">&lt;DataGrid width=&quot;100%&quot; height=&quot;60vh&quot; /&gt;
 </code></pre>
-<hr>
-<h3>🧾 <strong>CSV Export</strong></h3>
-<p>Allow users to download the currently viewed data as a <code>.csv</code> file. Ideal for admin panels, reporting dashboards, or finance tools. Supports exporting filtered or paginated data.</p>
-<hr>
-<h3>✏️ <strong>Row Actions</strong></h3>
-<p>Built-in hooks for common actions like <strong>edit</strong>, <strong>delete</strong> allow you to bind behavior directly to row-level operations.</p>
-<hr>
-<h4>🔄 <strong>Drag-and-drop – Reorder columns with drag</strong></h4>
-<p><strong><code>react-data-grid-lite</code></strong> supports column reordering via drag-and-drop. This feature allows users to rearrange columns dynamically for a more personalized data grid experience.</p>
-<p><strong>Why it matters</strong>: Allowing users to reorder columns helps them tailor the grid to their needs, improving usability and efficiency.</p>
+<br>
+<h3>🔄 <strong>Drag-and-drop</strong></h3>
+<p><strong><code>react-data-grid-lite</code></strong> supports column reordering via drag-and-drop. This feature allows users to rearrange columns dynamically for a more personalized data grid experience. The grid provides the <code>onColumnDragEnd</code> callback function to save the new column order to the database as a user preference.</p>
 <pre><code class="language-javascript">import DataGrid from 'react-data-grid-lite';
 
 const columns = [
@@ -445,9 +438,9 @@ const MyGrid = () =&gt; {
     );
 };
 </code></pre>
-<p>The grid provides the <code>onColumnDragEnd</code> callback function to save the new column order to the database as a user preference.</p>
-<hr>
-<h4>🔢 <strong>Column order – User-defined via order prop</strong></h4>
+<p><strong>Why it matters</strong>: Allowing users to reorder columns helps them tailor the grid to their needs, improving usability and efficiency.</p>
+<br>
+<h3>🔢 <strong>Column order</strong></h3>
 <p>Set the order of columns using the <code>order</code> property on the column configuration.</p>
 <pre><code class="language-javascript">const columns = [
     { name: 'Name', order: 2 },
@@ -457,7 +450,7 @@ const MyGrid = () =&gt; {
 &lt;DataGrid data={rows} columns={columns} /&gt;;
 </code></pre>
 <p>The <code>order</code> property allows you to set the initial order of columns.</p>
-<hr>
+<br>
 <h3>🧩 <strong>Merged Columns</strong></h3>
 <p>Display composite values by merging multiple fields into a single cell. For example, show <code>firstName + lastName</code> in one column.</p>
 <pre><code class="language-js">{ 
@@ -468,30 +461,34 @@ const MyGrid = () =&gt; {
     }
 }
 </code></pre>
-<hr>
+<br>
 <h3>📊 <strong>Analytics Events</strong></h3>
 <p>Track interactions such as <strong>row clicks</strong>, <strong>sort changes</strong>, and <strong>searches</strong> using event callbacks. Useful for product analytics (e.g., Mixpanel, GA) or auditing user behavior.</p>
 <pre><code class="language-js">onRowClick={(e, row) =&gt; logEvent('row_clicked', row)}
 </code></pre>
-<hr>
+<br>
 <h3>🎨 <strong>Theming</strong></h3>
 <p>Apply visual consistency with <strong>predefined themes</strong> like <code>blue-core</code>, <code>dark-stack</code>, and <code>medi-glow</code>. You can also pass in custom CSS classes or override default styles for headers, rows, hover states, etc.</p>
 <pre><code class="language-js">&lt;DataGrid theme=&quot;dark-stack&quot; /&gt;
 </code></pre>
-<hr>
+<h3>🧾 <strong>CSV Export</strong></h3>
+<p>Allow users to download the currently viewed data as a <code>.csv</code> file. Ideal for admin panels, reporting dashboards, or finance tools. Supports exporting filtered or paginated data.</p>
+<br>
+<h3>✏️ <strong>Row Actions</strong></h3>
+<p>Built-in hooks for common actions like <strong>edit</strong>, <strong>delete</strong> allow you to bind behavior directly to row-level operations.</p>
+<br>
 <h3>🧩 <strong>Actions Align</strong></h3>
 <p>Use props like <code>actionColumnAlign: 'right'</code> or <code>actionColumnAlign: 'left'</code> to pin action column to one side, keeping UI controls consistent regardless of scroll position.</p>
-<hr>
+<br>
 <h3>🧪 <strong>Fully Tested</strong></h3>
 <p>The component comes with strong <strong>unit and integration test coverage</strong>, ensuring high reliability. Common scenarios — like rendering, sorting, searching, and resizing — are validated against regressions using tools like Jest and React Testing Library.</p>
-<hr>
+<br>
 <p>✅ <strong>Pagination</strong>
 Built-in page handling with control over <code>pageSize</code>, <code>currentPage</code>, and callbacks like <code>onPageChange</code>.</p>
 <p>✅ <strong>Search &amp; Filtering</strong>
 Global or per-column search capabilities for fast data filtering.</p>
 <p>✅ <strong>Event Hooks</strong>
 Callback props such as <code>onRowClick</code>, <code>onSearchComplete</code>, <code>onSortComplete</code>, and <code>onColumnResized</code> provide full lifecycle control.</p>
-<hr>
 <br>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/1514ec40-91ba-45a3-b897-6c6caa617959" alt="React Data Grid Lite Image" width="100%" />
@@ -564,7 +561,7 @@ export default App;
 
 					</div>
 
-					<h3 class="mt-8 text-base font-bold tracking-tight text-slate-900">
+					<h3 class="mt-14 text-base font-bold tracking-tight text-slate-900">
 	Have questions?
 </h3>
 
