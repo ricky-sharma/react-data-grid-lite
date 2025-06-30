@@ -6,6 +6,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
+## 📦 v1.1.4 - Released 2025-06-30
+
+### ✨ Features
+
+* **Draggable Columns & Custom Order Support**
+
+  * Added drag-and-drop functionality for column reordering.
+  * Added `order` property to column config for per-column order control.
+  * Introduced `enableColumnDrag` prop at the grid level to toggle the drag-and-drop feature.
+  * Added `draggable` flag in column config for individual column control.
+  * Enhanced `useDraggableColumns` hook with:
+
+    * Mobile touch support
+    * Cross-platform improvements
+
+* **Drag-and-Drop Callback & Prop Improvements**
+
+  * Introduced `onColumnDragEnd` callback for handling column drag completion.
+  * Updated documentation with usage guides for:
+
+    * Drag-and-drop setup
+    * Relevant props and configurations
+
+* Refactored code for clarity, maintainability, and improved performance.
+
+* Updated ESLint configuration to enhance code quality.
+
+* Added tests for the `useDraggableColumns` hook.
+
+* Added `typeof` checks for boolean props to ensure type safety.
+
+### 🎨 UI Improvements
+
+* Updated CSS to improve layout consistency and visual clarity.
+* Avoided style conflicts by not overriding existing styles, ensuring stability across components.
+
+<br><br>
+
 ## 📦 v1.1.3 – Released 2025-06-26
 
 **Feature: Custom Cell Rendering + UI Improvements**
