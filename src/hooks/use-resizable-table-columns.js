@@ -30,7 +30,10 @@ export function useResizableTableColumns(tableRef, state, setState,
             if (!colResizable) return;
 
             const colFixed = columnConfig?.fixed;
+            if (th.querySelector('.r-d-g-lt-column-resizer')) return;
+
             const resizer = document.createElement('div');
+            resizer.classList.add('r-d-g-lt-column-resizer');
             resizer.style.position = 'absolute';
             resizer.style.top = '0';
             resizer.style.right = '0';
