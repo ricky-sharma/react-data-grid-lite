@@ -3,6 +3,7 @@
 ![Last Commit](https://img.shields.io/github/last-commit/ricky-sharma/react-data-grid-lite)
 [![Download Badge](https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github)](https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip)
 ![npm](https://img.shields.io/npm/dt/react-data-grid-lite)
+![Visitors Badge](https://visitor-badge.glitch.me/badge?page_id=ricky-sharma.react-data-grid-lite&color=brightgreen&style=flat-square)
 
 # React Data Grid Lite
 [![🚀 Live Demo & Docs](https://img.shields.io/badge/🚀%20Live%20Demo%20%26%20Docs-Click%20Here-blueviolet?style=for-the-badge)](https://ricky-sharma.github.io/react-data-grid-lite/)
