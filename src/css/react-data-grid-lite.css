@@ -429,7 +429,7 @@
 
     .r-d-g-lt-comp table thead tr.gridHeader th {
         padding: 6px 0 !important;
-        height: 60px !important;
+        height: 60px;
         display: flex;
         color:#fff;
     }
@@ -730,11 +730,11 @@
         max-height: 345px;
         height: 345px;
     }
-
-    .r-d-g-lt-comp .gridHeader th {
-        padding: 8px 0 2px 0 !important;
+    .r-d-g-lt-comp table thead tr.gridHeader th {
+        padding: 2px 0 !important;
         border-top: none !important;
         border-bottom: none !important;
+        height: 50px;
     }
 
     .r-d-g-lt-comp .searchHeader th {
@@ -798,7 +798,7 @@
         font-size: 12.5px !important;
     }
 
-        .r-d-g-lt-comp table thead tr th div.headerText {
+        .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
             font-size: 15px !important;
         }
 }
@@ -808,7 +808,7 @@
         font-size: 14px !important;
     }
 
-        .r-d-g-lt-comp table thead tr th div.headerText {
+        .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
             font-size: 16px !important;
         }
 }
@@ -818,7 +818,7 @@
         font-size: 15px !important;
     }
 
-        .r-d-g-lt-comp table thead tr th div.headerText {
+        .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
             font-size: 17px !important;
         }
 }
@@ -828,7 +828,7 @@
         font-size: 16px !important;
     }
 
-        .r-d-g-lt-comp table thead tr th div.headerText {
+        .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
             font-size: 18px !important;
         }
 }
