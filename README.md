@@ -1,4 +1,3 @@
-
 [![npm](https://img.shields.io/npm/v/react-data-grid-lite.svg)](https://www.npmjs.com/package/react-data-grid-lite)
 ![License](https://img.shields.io/github/license/ricky-sharma/react-data-grid-lite)
 ![Last Commit](https://img.shields.io/github/last-commit/ricky-sharma/react-data-grid-lite)
@@ -11,21 +10,23 @@
 A lightweight and customizable React data grid component designed for high performance and ease of use. The DataGrid component is a highly customizable, feature-rich table component designed to display tabular data in a React application. It is intended for use cases where large datasets need to be presented with advanced features such as pagination, sorting, searching, row interactions, and more.
 
 ✅ **Key Features**  
-⚡ **Lightweight** – Small bundle size, fast loading  
+⚡ **Lightweight** – Small bundle, fast loading  
 📦 **API-ready** – Works with any JSON API  
-🛠️ **Dynamic columns** – Auto-adapts to data schema  
+🛠️ **Dynamic columns** – Auto-adapts to schema  
 🔍 **Search & aliases** – Fast filtering, custom labels  
 📌 **Fixed columns** – Lock columns during scroll  
-📏 **Resizable columns** – User can drag to resize  
-📱 **Responsive layout** – Adapts to all screen sizes  
+📏 **Resizable columns** – User can resize  
+📱 **Responsive** – Adapts to all screen sizes  
 🧾 **CSV export** – Download full data grid  
-✏️ **Row actions** – Built-in edit/delete hooks  
+✏️ **Row actions** – Edit/delete hooks  
 🧩 **Merged columns** – Combine multiple fields  
-🎨 **Custom cell rendering** – Use `render` prop for tailored cell views  
-📊 **Analytics events** – Track user interactions  
-🎨 **Theming** – Pre-built themes & easy customization  
-🧩 **Actions align** – Fix column left or right via prop  
-🧪 **Fully tested** – Robust unit coverage and fixes  
+🎨 **Custom rendering** – Tailored cell views with `render` prop  
+📊 **Analytics** – Track user interactions  
+🎨 **Theming** – Pre-built themes, easy customization  
+🧩 **Align actions** – Fix columns left/right  
+🔄 **Drag-and-drop** – Reorder columns with drag  
+🔢 **Column order** – User-defined via `order` prop  
+🧪 **Fully tested** – Robust unit tests 
 
 <br><br>
 <p align="center">
