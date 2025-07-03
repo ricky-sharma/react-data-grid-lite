@@ -28,7 +28,8 @@ const DataGrid = ({
     onColumnResized,
     theme,
     currentPage,
-    onColumnDragEnd
+    onColumnDragEnd,
+    onCellUpdate
 }) => {
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
@@ -54,10 +55,13 @@ const DataGrid = ({
             options?.enableColumnDrag : false,
         enableGlobalSearch: typeof options?.enableGlobalSearch === 'boolean' ?
             options?.enableGlobalSearch : true,
+        enableCellEdit: typeof options?.enableCellEdit === 'boolean' ?
+            options?.enableCellEdit : false,
         rowClickEnabled: !isNull(onRowClick),
         onRowClick: onRowClick ?? (() => { }),
         onRowHover: onRowHover ?? (() => { }),
         onRowOut: onRowOut ?? (() => { }),
+        onCellUpdate: onCellUpdate ?? (() => { }),
         onSortComplete: onSortComplete ?? (() => { }),
         onSearchComplete: onSearchComplete ?? (() => { }),
         onPageChange: onPageChange ?? (() => { }),
@@ -74,7 +78,8 @@ const DataGrid = ({
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
         globalSearchInput: '',
         toggleState: true,
-        searchValues: {}
+        searchValues: {},
+        editingCell: null
     });
     const dataReceivedRef = useRef(data);
     const searchColsRef = useRef([]);

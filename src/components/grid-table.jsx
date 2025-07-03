@@ -30,6 +30,7 @@ const GridTable = ({
             <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
                 <GridRows
                     state={state}
+                    setState={setState}
                     computedColumnWidthsRef={computedColumnWidthsRef}
                 />
             </tbody>
