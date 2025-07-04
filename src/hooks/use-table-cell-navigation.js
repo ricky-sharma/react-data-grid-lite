@@ -1,12 +1,12 @@
 export function useTableCellNavigation() {
     return function onKeyDown(e,
-        { editable, editingCell, rowIndex, col, columns, onCellDoubleClick }) {
+        { editable, editingCell, rowIndex, col, columns, onCellEdit }) {
         if (!editable) return;
 
         const isEditing =
             editingCell?.rowIndex === rowIndex &&
             editingCell?.columnName === col?.name;
-        if (isEditing) return;
+        if (isEditing === true) return;
 
         const currentRow = Number(rowIndex);
         const currentColName = col?.name;
@@ -15,7 +15,7 @@ export function useTableCellNavigation() {
         switch (e.key) {
             case 'Enter':
                 e.preventDefault();
-                onCellDoubleClick(currentColName, currentRow);
+                onCellEdit(currentColName, currentRow);
                 break;
 
             case 'ArrowDown':
@@ -63,7 +63,7 @@ export function useTableCellNavigation() {
 
         if (nextSelector) {
             const nextCell = document.querySelector(nextSelector);
-            if (nextCell) nextCell.focus();
+            if (nextCell && typeof nextCell.focus === 'function') nextCell.focus();
         }
     };
 }

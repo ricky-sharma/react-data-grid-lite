@@ -1,20 +1,20 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     Button_Column_Key,
     No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
 import { isNull } from '../helpers/common';
+import { useDoubleTap } from '../hooks/use-double-tap';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
+import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
 import { useWindowWidth } from '../hooks/use-window-width';
 import DeleteIcon from '../icons/delete-icon';
 import EditIcon from '../icons/edit-icon';
 import { formatRowData } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
-import Input from './input';
-import { useDoubleTap } from '../hooks/use-double-tap';
-import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
+import EditableCellFields from './editable-cell-fields';
 
 const GridRows = ({
     state,
@@ -25,6 +25,23 @@ const GridRows = ({
     const { onTouchStart } = useDoubleTap();
     const onKeyDown = useTableCellNavigation();
     const windowWidth = useWindowWidth();
+    const cellChangedRef = useRef(false);
+    const cellChangedFocusRef = useRef(null);
+
+    useEffect(() => {
+        if (cellChangedFocusRef?.current != null) {
+            const { rowIndex, columnName } = cellChangedFocusRef.current;
+            const currentRow = Number(rowIndex);
+            let nextSelector =
+                `[data-row-index="${currentRow}"][data-col-name="${columnName}"]`;
+            if (nextSelector) {
+                const nextCell = document.querySelector(nextSelector);
+                if (nextCell && typeof nextCell.focus === 'function') nextCell.focus();
+            }
+            cellChangedFocusRef.current = null
+        }
+    }, [state?.editingCell])
+
     const isMobile = windowWidth < 701;
     const {
         rowsData,
@@ -59,50 +76,80 @@ const GridRows = ({
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = computedColumnWidthsRef?.current?.find(i =>
         i?.name === Button_Column_Key)?.width ?? 0;
-
     let lastFixedIndex = -1;
     columns.reduceRight((_, col, index) => {
         if (lastFixedIndex === -1 && col?.fixed === true && !col?.hidden) {
             lastFixedIndex = index;
         }
     }, null);
-    const onCellDoubleClick = (columnName, rowIndex) => {
+    const onCellEdit = (columnName, rowIndex) => {
         setState(prev => ({
             ...prev,
             editingCell: { rowIndex, columnName }
         }));
     };
-
-    const onCellChange = (e) => {
+    const onCellChange = (colName, e) => {
         const updatedData = [...rowsData];
-        updatedData[editingCell.rowIndex] = {
-            ...updatedData[editingCell.rowIndex],
-            [editingCell.columnName]: e.target.value
+        const rowIndex = editingCell.rowIndex;
+        const newValue = e.target.value;
+        const prevEditingData = editingCellData || {};
+        const alreadySaved = Object.prototype
+            .hasOwnProperty.call(prevEditingData, colName);
+        const originalValue = rowsData[rowIndex][colName];
+
+        updatedData[rowIndex] = {
+            ...updatedData[rowIndex],
+            [colName]: newValue
         };
         setState(prev => ({
             ...prev,
-            editingCellData: prev.editingCellData ??
-                prev.rowsData[editingCell.rowIndex][editingCell.columnName],
             rowsData: updatedData,
+            editingCellData: alreadySaved
+                ? prev.editingCellData
+                : {
+                    ...prev.editingCellData,
+                    [colName]: originalValue
+                }
         }));
+        cellChangedRef.current = true;
     };
-    const commitChanges = (rowIndex, columnName, newValue, updatedRow) => {
+    const commitChanges = (
+        rowIndex,
+        editedColumns,
+        updatedRow,
+        isExiting
+    ) => {
+        const exiting = isExiting === true;
+        cellChangedFocusRef.current = exiting ? editingCell : null;
         setState(prev => ({
             ...prev,
-            editingCell: null,
-            editingCellData: null
+            editingCell: exiting ? null : prev.editingCell,
+            editingCellData: exiting ? null : prev.editingCellData,
         }));
-        if (typeof onCellUpdate === 'function') {
-            onCellUpdate({ rowIndex, columnName, newValue, updatedRow })
+        const shouldFireCellUpdate = exiting && cellChangedRef.current;
+        if (shouldFireCellUpdate && typeof onCellUpdate === 'function') {
+            onCellUpdate({
+                rowIndex,
+                editedColumns: editedColumns.map(col => ({
+                    ...col,
+                    newValue: updatedRow[col.colName],
+                })),
+                updatedRow
+            });
+            cellChangedRef.current = false;
         }
     };
-
-    const revertChanges = () => {
+    const revertChanges = (editableColumns) => {
         const updatedData = [...rowsData];
-        updatedData[editingCell.rowIndex] = {
-            ...updatedData[editingCell.rowIndex],
-            [editingCell.columnName]: editingCellData
-        };
+        const rowIndex = editingCell.rowIndex;
+        const updatedRow = { ...updatedData[rowIndex] };
+        cellChangedFocusRef.current = editingCell;
+        editableColumns.forEach(({ colName }) => {
+            if (editingCellData?.hasOwnProperty(colName)) {
+                updatedRow[colName] = editingCellData[colName];
+            }
+        });
+        updatedData[rowIndex] = updatedRow;
         setState(prev => ({
             ...prev,
             editingCell: null,
@@ -123,6 +170,14 @@ const GridRows = ({
                     ? col?.resizable : enableColumnResize;
                 const editable = typeof col?.editable === "boolean"
                     ? col?.editable : enableCellEdit;
+                const editableColumns = (col.concatColumns?.columns ?? [col?.name])
+                    .map((colName) => {
+                        const columnDef = columns.find(c => c.name === colName);
+                        return {
+                            colName,
+                            type: columnDef?.type || 'text'
+                        };
+                    });
                 return (
                     <td
                         key={key}
@@ -146,7 +201,7 @@ const GridRows = ({
                         }}
                         onDoubleClick={() =>
                             editable === true ?
-                                onCellDoubleClick(col.name, rowIndex) : {}
+                                onCellEdit(col.name, rowIndex) : {}
                         }
                         onMouseDown={(e) => {
                             e.preventDefault();
@@ -157,10 +212,10 @@ const GridRows = ({
                             rowIndex,
                             col,
                             columns,
-                            onCellDoubleClick
+                            onCellEdit
                         })}
                         onTouchStart={onTouchStart(() => {
-                            if (editable) onCellDoubleClick(col.name, rowIndex);
+                            if (editable === true) onCellEdit(col.name, rowIndex);
                         })}
                         data-row-index={rowIndex}
                         data-col-name={col?.name}
@@ -168,41 +223,18 @@ const GridRows = ({
                         {editable === true &&
                             editingCell?.rowIndex === rowIndex &&
                             editingCell?.columnName === col?.name ? (
-                            <div
-                                style={{
-                                    height: "100%",
-                                    textAlign: "left",
-                                    padding: "5px 18px"
-                                }}
-                                className="mg--0 pd--0 editField"
-                                title={columnValue?.toString()}
-                            >
-                                <Input
-                                    type={col?.type || 'text'}
-                                    value={baseRow[col?.name]}
-                                    onChange={onCellChange}
-                                    onBlur={
-                                        () => commitChanges(rowIndex, col?.name, baseRow[col?.name], baseRow)
-                                    }
-                                    autoFocus={true}
-                                    ref={(input) => {
-                                        if (input) {
-                                            input.focus();
-                                        }
-                                    }}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            e.preventDefault();
-                                            commitChanges(rowIndex, col?.name, baseRow[col?.name], baseRow);
-                                        } else if (e.key === 'Escape') {
-                                            e.preventDefault();
-                                            revertChanges();
-                                        }
-                                    }}
-                                />
-                            </div>
+                            <EditableCellFields
+                                baseRow={baseRow}
+                                columnValue={columnValue}
+                                commitChanges={commitChanges}
+                                editableColumns={editableColumns}
+                                onCellChange={onCellChange}
+                                revertChanges={revertChanges}
+                                rowIndex={rowIndex}
+                            />
                         ) : (
-                            !isNull(col?.render) && typeof col?.render === 'function' ? (
+                            !isNull(col?.render)
+                                && typeof col?.render === 'function' ? (
                                 col.render(formattedRow, baseRow)
                             ) : (
                                 <div

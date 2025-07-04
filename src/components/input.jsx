@@ -13,6 +13,7 @@ function Input({
     height,
     ref,
     onKeyDown,
+    onClick,
     autoFocus }) {
     return (
         <div className="alignCenter"
@@ -22,6 +23,7 @@ function Input({
                 height: height ?? '100%'
             }}>
             <input
+                onClick={onClick}
                 ref={ref}
                 className={className ?? ""}
                 data-type={dataType ?? ""}

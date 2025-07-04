@@ -232,6 +232,8 @@ const DataGrid = ({
                 firstRow: state.pageRows * (newPage - 1),
                 currentPageRows: (newPage === state.noOfPages) ? state.lastPageRows : state.pageRows,
                 activePage: newPage,
+                editingCell: null,
+                editingCellData: null
             })
         );
     };
