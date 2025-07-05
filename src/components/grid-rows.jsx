@@ -14,7 +14,7 @@ import DeleteIcon from '../icons/delete-icon';
 import EditIcon from '../icons/edit-icon';
 import { formatRowData } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
-import EditableCellFields from './editable-cell-fields';
+import EditableCellFields from './grid-edit/editable-cell-fields';
 
 const GridRows = ({
     state,

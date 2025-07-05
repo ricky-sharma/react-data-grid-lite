@@ -1,5 +1,5 @@
 import React, { memo, useRef } from 'react';
-import Input from './input';
+import Input from '../input';
 
 const EditableCellFields = memo(function EditableCellFields({
     baseRow,
