@@ -29,19 +29,21 @@ const GridRows = ({
     const cellChangedFocusRef = useRef(null);
     const clickTimerRef = useRef(null);
     const didDoubleClickRef = useRef(false);
+
     useEffect(() => {
-        if (cellChangedFocusRef?.current != null) {
-            const { rowIndex, columnName } = cellChangedFocusRef.current;
-            const currentRow = Number(rowIndex);
-            let nextSelector =
-                `[data-row-index="${currentRow}"][data-col-name="${columnName}"]`;
-            if (nextSelector) {
-                const nextCell = document.querySelector(nextSelector);
-                if (nextCell && typeof nextCell.focus === 'function') nextCell.focus();
+        setTimeout(() => {
+            const active = document.activeElement;
+            if (active === document.body && cellChangedFocusRef?.current) {
+                const { rowIndex, columnName } = cellChangedFocusRef.current;
+                const selector = `[data-row-index="${rowIndex}"][data-col-name="${columnName}"]`;
+                const nextCell = document.querySelector(selector);
+                if (nextCell?.focus) {
+                    nextCell.focus();
+                }
             }
-            cellChangedFocusRef.current = null
-        }
-    }, [state?.editingCell])
+            cellChangedFocusRef.current = null;
+        }, 0);
+    }, [state?.editingCell]);
 
     useEffect(() => {
         return () => {
@@ -166,7 +168,6 @@ const GridRows = ({
             rowsData: updatedData
         }));
     };
-    let clickTimer;
     return rowsData.slice(firstRow, firstRow + currentPageRows)
         .map((baseRow, rowIndex) => {
             const formattedRow = formatRowData(baseRow, columns);
