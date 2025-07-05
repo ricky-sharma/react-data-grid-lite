@@ -14,6 +14,8 @@ function Input({
     ref,
     onKeyDown,
     onClick,
+    onMouseDown,
+    preventBlurRef,
     autoFocus }) {
     return (
         <div className="alignCenter"
@@ -23,21 +25,32 @@ function Input({
                 height: height ?? '100%'
             }}>
             <input
-                onClick={onClick}
-                ref={ref}
+                onClick={onClick ?? (() => { })}
+                ref={ref ?? null}
                 className={className ?? ""}
                 data-type={dataType ?? ""}
-                type={type}
+                type={type ?? "text"}
                 placeholder={placeholder ?? ""}
                 value={value ?? ""}
                 onChange={onChange ?? (() => { })}
-                onBlur={onBlur}
-                onKeyDown={onKeyDown}
+                onBlur={onBlur ?? (() => { })}
+                onKeyDown={onKeyDown ?? (() => { })}
                 autoFocus={autoFocus ?? false}
+                onMouseDown={onMouseDown ?? (() => { })}
             />
             {value && (
                 <span
                     className="clear-input"
+                    onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (preventBlurRef) {
+                            preventBlurRef.current = true;
+                            setTimeout(() => {
+                                preventBlurRef.current = false;
+                            }, 0);
+                        }
+                    }}
                     onClick={() =>
                         onChange(
                             {

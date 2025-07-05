@@ -10,9 +10,10 @@ const EditableCellFields = memo(function EditableCellFields({
     revertChanges,
     rowIndex
 }) {
-    if (!editableColumns || editableColumns.length === 0) return null;
     const inputRefs = useRef([]);
     const isNavigatingRef = useRef(false);
+    const preventBlurRef = useRef(false);
+    if (!editableColumns || editableColumns.length === 0) return null;
     const focusInput = (index) => {
         if (inputRefs.current[index]) {
             inputRefs.current[index].focus();
@@ -42,14 +43,13 @@ const EditableCellFields = memo(function EditableCellFields({
                         autoFocus={isFirstField}
                         ref={(el) => (inputRefs.current[i] = el)}
                         onBlur={() => {
-                            if (isNavigatingRef.current) {
+                            if (isNavigatingRef.current || preventBlurRef.current) {
                                 isNavigatingRef.current = false;
+                                preventBlurRef.current = false;
                                 return;
                             }
-                            const isExiting =
-                                i === editableColumns.length - 1 || i === 0;
-                            commitChanges(rowIndex, editableColumns,
-                                baseRow, isExiting);
+                            const isExiting = i === editableColumns.length - 1 || i === 0;
+                            commitChanges(rowIndex, editableColumns, baseRow, isExiting);
                         }}
                         onKeyDown={(e) => {
                             const { key, shiftKey } = e;
@@ -80,6 +80,8 @@ const EditableCellFields = memo(function EditableCellFields({
                             isNavigatingRef.current = true;
                             focusInput(i);
                         }}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        preventBlurRef={preventBlurRef}
                     />
                 );
             })}
