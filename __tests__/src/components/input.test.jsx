@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import Input from './../../../src/components/input';
+import Input from './../../../src/components/custom-fields/input';
 
 describe('Input component', () => {
     it('renders with provided props', () => {

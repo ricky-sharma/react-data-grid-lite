@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFieldNavigation } from '../../hooks/use-field-navigation';
-import Input from '../input';
+import Input from '../custom-fields/input';
 
 const EditableTextField = ({
     colName,
@@ -30,7 +30,7 @@ const EditableTextField = ({
         isNavigatingRef,
         preventBlurRef,
         editContainerRef
-    });    
+    });
     return (
         <Input
             placeholder={colName}

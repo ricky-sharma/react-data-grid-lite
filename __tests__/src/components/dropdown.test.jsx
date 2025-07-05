@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
-import Dropdown from './../../../src/components/dropdown';
+import Dropdown from './../../../src/components/custom-fields/dropdown';
 
 describe('Dropdown component', () => {
     const options = ['Option 1', 'Option 2', 'Option 3'];

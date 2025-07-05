@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { isNull } from '../helpers/common';
+import Dropdown from './custom-fields/dropdown';
 import GridPagination from './grid-pagination';
-import Dropdown from './dropdown';
 
 const GridFooter = ({
     totalRows,

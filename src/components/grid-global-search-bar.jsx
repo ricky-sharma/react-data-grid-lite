@@ -5,8 +5,8 @@ import { useWindowWidth } from '../hooks/use-window-width';
 import DownloadIcon from '../icons/download-icon';
 import EraseIcon from '../icons/erase-icon';
 import { Export_To_CSV_Text } from './../constants';
+import Input from './custom-fields/input';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
-import Input from './input';
 
 const GridGlobalSearchBar = ({
     setState,
