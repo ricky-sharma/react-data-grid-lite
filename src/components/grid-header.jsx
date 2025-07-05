@@ -175,7 +175,6 @@ const GridHeader = ({
                 key={key}
                 data-column-name={header?.name}
                 onClick={onClickHandler}
-                onMouseDown={(e) => e.preventDefault()}
                 onKeyDown={
                     (e) => {
                         if (e.key === 'Enter' || e.key === ' ')

@@ -307,6 +307,13 @@ const GridRows = ({
                                     title="Edit"
                                     onClick={e => editButtonEvent(e, baseRow)}
                                     data-toggle="tooltip"
+                                    role="button"
+                                    tabIndex="0"
+                                    onKeyDown={
+                                        (e) => {
+                                            if (e.key === 'Enter' || e.key === ' ')
+                                                editButtonEvent(e, baseRow)
+                                        }}
                                 >
                                     <EditIcon />
                                 </div>
@@ -318,6 +325,13 @@ const GridRows = ({
                                     title="Delete"
                                     onClick={e => deleteButtonEvent(e, baseRow)}
                                     data-toggle="tooltip"
+                                    role="button"
+                                    tabIndex="0"
+                                    onKeyDown={
+                                        (e) => {
+                                            if (e.key === 'Enter' || e.key === ' ')
+                                                deleteButtonEvent(e, baseRow)
+                                        }}
                                 >
                                     <DeleteIcon />
                                 </div>

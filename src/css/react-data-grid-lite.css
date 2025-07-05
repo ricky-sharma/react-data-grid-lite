@@ -18,8 +18,12 @@
         -ms-user-select: none;
     }
 
+    .r-d-g-lt-comp :focus {
+        outline: none !important;
+    }
+
     .r-d-g-lt-comp :focus-visible {
-        outline: 0 !important;
+        outline: none !important;
     }
 
     .r-d-g-lt-comp a:hover,
@@ -502,12 +506,12 @@
 }
 
     .r-d-g-lt-comp table tbody .gridRow td.editable-cell:focus,
-    .r-d-g-lt-comp .pagination li.page-item a.page-link:focus,
-    .r-d-g-lt-comp .dropdown .dropdown-selected:focus,
-    .r-d-g-lt-comp .dropdown .dropdown-option:focus,
-    .r-d-g-lt-comp .icon-div:focus,
-    .r-d-g-lt-comp table thead tr.gridHeader th:focus,
-    .r-d-g-lt-comp table tbody .gridRow td a:focus {
+    .r-d-g-lt-comp .pagination li.page-item a.page-link:focus-visible,
+    .r-d-g-lt-comp .dropdown .dropdown-selected:focus-visible,
+    .r-d-g-lt-comp .dropdown .dropdown-option:focus-visible,
+    .r-d-g-lt-comp .icon-div:focus-visible,
+    .r-d-g-lt-comp table thead tr.gridHeader th:focus-visible,
+    .r-d-g-lt-comp table tbody .gridRow td a:focus-visible {
         outline: currentColor 2px dotted !important;
         box-sizing: border-box !important;
         outline-offset: -5px;
@@ -520,11 +524,11 @@
         align-content: center;
     }
 
-.r-d-g-lt-comp .pagination li.page-item a.page-link:focus {
+.r-d-g-lt-comp .pagination li.page-item a.page-link:focus-visible {
     outline-offset: -2px !important;
 }
 
-.r-d-g-lt-comp table thead tr.gridHeader th:focus {
+.r-d-g-lt-comp table thead tr.gridHeader th:focus-visible {
     outline-offset: -7px !important;
 }
 

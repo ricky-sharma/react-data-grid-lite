@@ -55,7 +55,6 @@ const GridGlobalSearchBar = ({
                     data-toggle="tooltip"
                     role="button"
                     tabIndex="0"
-                    onMouseDown={(e) => e.preventDefault()}
                     onKeyDown={
                         (e) => {
                             if (e.key === 'Enter' || e.key === ' ')
@@ -83,7 +82,6 @@ const GridGlobalSearchBar = ({
                         }
                         role="button"
                         tabIndex="0"
-                        onMouseDown={(e) => e.preventDefault()}
                         onKeyDown={
                             (e) => {
                                 if (e.key === 'Enter' || e.key === ' ')

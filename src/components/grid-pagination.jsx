@@ -26,9 +26,6 @@ const GridPagination = ({
                 className={`${commonLinkProps.className}
                 ${atagClass}`}
                 onClick={onClick}
-                onMouseDown={(e) => {
-                    e.preventDefault();
-                }}
             >
                 {content}
             </a>

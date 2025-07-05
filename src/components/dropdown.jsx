@@ -99,7 +99,6 @@ const Dropdown = ({ options = [], value, onChange }) => {
                 onKeyDown={handleKeyDown}
                 onClick={toggleDropdown}
                 tabIndex={0}
-                onMouseDown={(e) => e.preventDefault()}
                 role="button"
                 aria-haspopup="listbox"
                 aria-expanded={open}
@@ -113,9 +112,8 @@ const Dropdown = ({ options = [], value, onChange }) => {
                 <div
                     className="dropdown-options"
                     role="listbox"
-                    tabIndex={-1}                    
+                    tabIndex={-1}
                     onKeyDown={handleKeyDown}
-                    onMouseDown={(e) => e.preventDefault()}
                     aria-activedescendant={
                         focusedIndex >= 0 ? `dropdown-option-${focusedIndex}` : undefined
                     }
