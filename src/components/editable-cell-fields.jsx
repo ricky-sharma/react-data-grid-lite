@@ -46,9 +46,10 @@ const EditableCellFields = memo(function EditableCellFields({
                                 isNavigatingRef.current = false;
                                 return;
                             }
-
-                            const isExiting = i === editableColumns.length - 1 || i === 0;
-                            commitChanges(rowIndex, editableColumns, baseRow, isExiting);             
+                            const isExiting =
+                                i === editableColumns.length - 1 || i === 0;
+                            commitChanges(rowIndex, editableColumns,
+                                baseRow, isExiting);
                         }}
                         onKeyDown={(e) => {
                             const { key, shiftKey } = e;
@@ -57,7 +58,8 @@ const EditableCellFields = memo(function EditableCellFields({
                                 isNavigatingRef.current = true;
 
                                 const nextIndex = shiftKey ? i - 1 : i + 1;
-                                const isValid = nextIndex >= 0 && nextIndex < editableColumns.length;
+                                const isValid = nextIndex >= 0
+                                    && nextIndex < editableColumns.length;
 
                                 if (isValid) {
                                     focusInput(nextIndex);
@@ -66,7 +68,8 @@ const EditableCellFields = memo(function EditableCellFields({
                                     (!shiftKey && i === editableColumns.length - 1) ||
                                     (shiftKey && i === 0);
 
-                                commitChanges(rowIndex, editableColumns, baseRow, isExiting);
+                                commitChanges(rowIndex, editableColumns,
+                                    baseRow, isExiting);
                             } else if (key === 'Escape') {
                                 e.preventDefault();
                                 revertChanges(editableColumns);

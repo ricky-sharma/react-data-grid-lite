@@ -27,7 +27,8 @@ const GridRows = ({
     const windowWidth = useWindowWidth();
     const cellChangedRef = useRef(false);
     const cellChangedFocusRef = useRef(null);
-
+    const clickTimerRef = useRef(null);
+    const didDoubleClickRef = useRef(false);
     useEffect(() => {
         if (cellChangedFocusRef?.current != null) {
             const { rowIndex, columnName } = cellChangedFocusRef.current;
@@ -41,6 +42,14 @@ const GridRows = ({
             cellChangedFocusRef.current = null
         }
     }, [state?.editingCell])
+
+    useEffect(() => {
+        return () => {
+            if (clickTimerRef.current) {
+                clearTimeout(clickTimerRef.current);
+            }
+        };
+    }, []);
 
     const isMobile = windowWidth < 701;
     const {
@@ -157,6 +166,7 @@ const GridRows = ({
             rowsData: updatedData
         }));
     };
+    let clickTimer;
     return rowsData.slice(firstRow, firstRow + currentPageRows)
         .map((baseRow, rowIndex) => {
             const formattedRow = formatRowData(baseRow, columns);
@@ -199,12 +209,22 @@ const GridRows = ({
                             contain: 'layout paint',
                             cursor: editable === true ? 'pointer' : 'default',
                         }}
-                        onDoubleClick={() =>
-                            editable === true ?
-                                onCellEdit(col.name, rowIndex) : {}
-                        }
+                        onBlur={() => cellChangedFocusRef.current = null}
+                        onDoubleClick={() => {
+                            if (clickTimerRef.current) {
+                                clearTimeout(clickTimerRef.current);
+                            }
+                            didDoubleClickRef.current = true;
+                            if (editable) {
+                                onCellEdit(col.name, rowIndex);
+                            }
+                        }}
                         onMouseDown={(e) => {
-                            e.preventDefault();
+                            if (e.target instanceof HTMLElement
+                                && e.target.tagName === 'A') {
+                                e.preventDefault();
+                            }
+                            if (!editable) e.preventDefault()
                         }}
                         onKeyDown={(e) => onKeyDown(e, {
                             editable,
@@ -311,7 +331,14 @@ const GridRows = ({
                     key={rowIndex}
                     className={`${rowCssClass} gridRow`}
                     style={rowClickEnabled ? { cursor: 'pointer' } : {}}
-                    onClick={e => onRowClick(e, baseRow)}
+                    onClick={(e) => {
+                        clickTimerRef.current = setTimeout(() => {
+                            if (!didDoubleClickRef.current) {
+                                onRowClick(e, baseRow);
+                            }
+                            didDoubleClickRef.current = false;
+                        }, 250);
+                    }}
                     onMouseOver={e => onRowHover(e, baseRow)}
                     onMouseOut={e => onRowOut(e, baseRow)}
                 >

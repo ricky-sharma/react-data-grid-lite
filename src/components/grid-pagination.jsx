@@ -48,7 +48,15 @@ const GridPagination = ({
 
     // Left Dots
     pageItems.push(
-        createItem('leftDots', <b>..</b>, e => onPageChange(e, page - 2), '', 'dot', { visibility: page > 2 && total > 3 ? "visible" : "collapse" })
+        createItem(
+            'leftDots',
+            <b>..</b>,
+            e => onPageChange(e, page - 2),
+            '',
+            'dot',
+            { visibility: page > 2 && total > 3 ? "visible" : "collapse" },
+            { 'tabIndex': '-1' }
+        )
     );
 
     // Extra left number (when on last page)
@@ -72,7 +80,15 @@ const GridPagination = ({
 
     // Right Dots
     pageItems.push(
-        createItem('rightDots', <b>..</b>, e => onPageChange(e, page + 2), '', 'dot', { visibility: total - 1 > page && total > 3 ? "visible" : "collapse" })
+        createItem(
+            'rightDots',
+            <b>..</b>,
+            e => onPageChange(e, page + 2),
+            '',
+            'dot',
+            { visibility: total - 1 > page && total > 3 ? "visible" : "collapse" },
+            { 'tabIndex': '-1' }
+        )
     );
 
     // Next

@@ -175,9 +175,16 @@ const GridHeader = ({
                 key={key}
                 data-column-name={header?.name}
                 onClick={onClickHandler}
+                onMouseDown={(e) => e.preventDefault()}
+                onKeyDown={
+                    (e) => {
+                        if (e.key === 'Enter' || e.key === ' ')
+                            onClickHandler(e)
+                    }}
                 className="pointer"
                 role="columnheader"
                 aria-label={displayName}
+                tabIndex="0"
             >
                 <div
                     className="pd--0 mg--0 alignCenter" data-column-name={header?.name}

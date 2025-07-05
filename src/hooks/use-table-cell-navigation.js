@@ -14,6 +14,11 @@ export function useTableCellNavigation() {
 
         switch (e.key) {
             case 'Enter':
+                const interactiveTags = ['A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT'];
+                const activeEl = document.activeElement;
+                if (activeEl && interactiveTags.includes(activeEl.tagName)) {
+                    return;
+                }
                 e.preventDefault();
                 onCellEdit(currentColName, currentRow);
                 break;

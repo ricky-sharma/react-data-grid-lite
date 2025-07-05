@@ -47,40 +47,64 @@ const GridGlobalSearchBar = ({
                     />
                 </div>
             )}
-            {enableDownload && (
+            <div className="button-container">
                 <div
-                    style={{
-                        pointerEvents: (noData ? 'none' : ''),
-                        opacity: (noData ? '0.5' : '')
-                    }}
-                    className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile"
-                    title={Export_To_CSV_Text}
-                    onClick={(e) =>
-                        eventExportToCSV(
-                            e,
-                            rowsData,
-                            columns,
-                            downloadFilename,
-                            onDownloadComplete
-                        )
-                    }
+                    className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
+                    title="Reset Filters"
+                    onClick={handleResetSearch}
                     data-toggle="tooltip"
+                    role="button"
+                    tabIndex="0"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onKeyDown={
+                        (e) => {
+                            if (e.key === 'Enter' || e.key === ' ')
+                                handleResetSearch(e)
+                        }}
                 >
-                    <div className="pd--0 mg--0 icon-content">
-                        <DownloadIcon />
-                        <span>
-                            {isSmallScreen ? '' : Export_To_CSV_Text}
-                        </span>
-                    </div>
+                    <EraseIcon />
                 </div>
-            )}
-            <div
-                className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
-                title="Reset Filters"
-                onClick={handleResetSearch}
-                data-toggle="tooltip"
-            >
-                <EraseIcon />
+                {enableDownload && (
+                    <div
+                        style={{
+                            pointerEvents: (noData ? 'none' : ''),
+                            opacity: (noData ? '0.5' : '')
+                        }}
+                        className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile"
+                        title={Export_To_CSV_Text}
+                        onClick={(e) =>
+                            eventExportToCSV(
+                                e,
+                                rowsData,
+                                columns,
+                                downloadFilename,
+                                onDownloadComplete
+                            )
+                        }
+                        role="button"
+                        tabIndex="0"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onKeyDown={
+                            (e) => {
+                                if (e.key === 'Enter' || e.key === ' ')
+                                    eventExportToCSV(
+                                        e,
+                                        rowsData,
+                                        columns,
+                                        downloadFilename,
+                                        onDownloadComplete
+                                    )
+                            }}
+                        data-toggle="tooltip"
+                    >
+                        <div className="pd--0 mg--0 icon-content">
+                            <DownloadIcon />
+                            <span>
+                                {isSmallScreen ? '' : Export_To_CSV_Text}
+                            </span>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

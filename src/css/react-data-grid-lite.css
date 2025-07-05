@@ -73,6 +73,8 @@
         transition: border-color 0.2s;
         height: 100% !important;
         width: 100% !important;
+        border: 1px solid #667;
+        border-radius: 6px;
     }
 
     .r-d-g-lt-comp .dropdown-arrow {
@@ -184,7 +186,7 @@
 
 .r-d-g-lt-comp .icon-div {
     border-radius: 4px;
-    box-shadow: 0 0 0 1px #667;
+    box-shadow: 0 0 0 1.5px #667;
     height: 32px;
     letter-spacing: .001em;
     line-height: 1.43;
@@ -213,7 +215,7 @@
     width: 50px;
     position: relative;
     top: 0px;
-    height: 40px;
+    height: 38.5px;
 }
 
 .r-d-g-lt-comp .download-icon-div {
@@ -221,7 +223,7 @@
     width: 140px !important;
     position: relative;
     top: 0px;
-    height: 40px;
+    height: 38.5px;
 }
 
     .r-d-g-lt-comp .download-icon-div div.icon-content {
@@ -355,7 +357,7 @@
     }
 
         .r-d-g-lt-comp .react-data-grid-lite table.gd-tbl::-webkit-scrollbar {
-            height: 12px !important;
+            height: 10px !important;
             width: 0px !important;
             border: 12px solid #d5d5d5;
             border-start-end-radius: 1px;
@@ -501,10 +503,14 @@
 
     .r-d-g-lt-comp table tbody .gridRow td.editable-cell:focus,
     .r-d-g-lt-comp .pagination li.page-item a.page-link:focus,
-    .r-d-g-lt-comp .pagerSelect .dropdown:focus {
-        outline: none !important;
-        border: 2px dotted #667 !important;
+    .r-d-g-lt-comp .dropdown .dropdown-selected:focus,
+    .r-d-g-lt-comp .dropdown .dropdown-option:focus,
+    .r-d-g-lt-comp .icon-div:focus,
+    .r-d-g-lt-comp table thead tr.gridHeader th:focus,
+    .r-d-g-lt-comp table tbody .gridRow td a:focus {
+        outline: currentColor 2px dotted !important;
         box-sizing: border-box !important;
+        outline-offset: -5px;
     }
 
     .r-d-g-lt-comp table tbody .gridRow td div {
@@ -513,6 +519,14 @@
         text-overflow: ellipsis;
         align-content: center;
     }
+
+.r-d-g-lt-comp .pagination li.page-item a.page-link:focus {
+    outline-offset: -2px !important;
+}
+
+.r-d-g-lt-comp table thead tr.gridHeader th:focus {
+    outline-offset: -7px !important;
+}
 
 .r-d-g-lt-comp table tbody tr:nth-of-type(even) {
     background-color: #f8f8f8;
@@ -548,6 +562,13 @@
     padding: 4px 10px !important;
     margin: 0 !important;
 }
+
+    .r-d-g-lt-comp .globalSearchDiv .button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
 
 .r-d-g-lt-comp div.globalSearch {
     width: 50% !important;
@@ -700,6 +721,11 @@
     .r-d-g-lt-comp .globalSearchDiv {
         padding-top: 2px !important;
     }
+
+        .r-d-g-lt-comp .globalSearchDiv .button-container {
+            display: inline-flex !important;
+            float: right !important;
+        }
 
     .r-d-g-lt-comp .dropdown {
         width: 50px !important;

@@ -26,7 +26,7 @@
     }
 
     .r-d-g-lt-comp.theme-1 div.icon-div {
-        box-shadow: 0 0 0 1px #1F3B4D !important;
+        box-shadow: 0 0 0 1.5px #1F3B4D !important;
     }
 
         .r-d-g-lt-comp.theme-1 div.icon-div:hover {
@@ -37,7 +37,8 @@
             box-shadow: inset 0 1px 4px #11242F !important;
         }
 
-    .r-d-g-lt-comp.theme-1 .grid-footer .dropdown {
+    .r-d-g-lt-comp.theme-1 .grid-footer .dropdown,
+    .r-d-g-lt-comp.theme-1 .grid-footer.dropdown-selected {
         border: 1px solid #1F3B4D !important;
         background-color: #E5E8EC !important;
     }
@@ -120,7 +121,7 @@
     }
 
     .r-d-g-lt-comp.theme-2 div.icon-div {
-        box-shadow: 0 0 0 1px #2D2D2D !important;
+        box-shadow: 0 0 0 1.5px #2D2D2D !important;
     }
 
         .r-d-g-lt-comp.theme-2 div.icon-div:hover {
@@ -131,7 +132,8 @@
             box-shadow: inset 0 1px 4px #141414 !important;
         }
 
-    .r-d-g-lt-comp.theme-2 .grid-footer .dropdown {
+    .r-d-g-lt-comp.theme-2 .grid-footer .dropdown,
+    .r-d-g-lt-comp.theme-2 .grid-footer.dropdown-selected {
         border: 1px solid #2D2D2D !important;
         background-color: #F5F5F5 !important;
     }
@@ -212,7 +214,7 @@
     }
 
     .r-d-g-lt-comp.theme-3 div.icon-div {
-        box-shadow: 0 0 0 1px #256D4F !important;
+        box-shadow: 0 0 0 1.5px #256D4F !important;
     }
 
         .r-d-g-lt-comp.theme-3 div.icon-div:hover {
@@ -223,7 +225,8 @@
             box-shadow: inset 0 1px 4px #174736 !important;
         }
 
-    .r-d-g-lt-comp.theme-3 .grid-footer .dropdown {
+    .r-d-g-lt-comp.theme-3 .grid-footer .dropdown,
+    .r-d-g-lt-comp.theme-3 .grid-footer.dropdown-selected {
         border: 1px solid #256D4F !important;
         background-color: #E8F5E9 !important;
     }
