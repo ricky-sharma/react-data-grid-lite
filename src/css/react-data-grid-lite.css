@@ -57,20 +57,21 @@
         box-shadow: inset 0 1px 4px #444455;
     }
 
-    .r-d-g-lt-comp .dropdown {
+    .r-d-g-lt-comp .drop--down {
         position: relative;
-        width: 60px !important;
+        width: 60px;
         border-radius: 6px !important;
-        height: 32px !important;
+        height: 32px;
         padding: 0;
         background-color: #e0e0e0;
         cursor: pointer;
         border: 1px solid #667;
         font-weight: 600 !important;
+        margin: 2px;
     }
 
     .r-d-g-lt-comp .dropdown-selected {
-        padding: 4px 4px 4px 8px;
+        padding: 4px 4px 4px 4px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -96,13 +97,16 @@
         background: white;
         border: 1px solid #667;
         border-radius: 6px;
-        margin-top: 4px;
         z-index: 1000;
     }
 
     .r-d-g-lt-comp .dropdown-option {
         padding: 6px 10px;
         font-size: 14px;
+        background: white;
+        text-align: center;
+        border-radius: 2px;
+        box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, .1)
     }
 
         .r-d-g-lt-comp .dropdown-option:hover {
@@ -507,8 +511,8 @@
 
     .r-d-g-lt-comp table tbody .gridRow td.editable-cell:focus,
     .r-d-g-lt-comp .pagination li.page-item a.page-link:focus-visible,
-    .r-d-g-lt-comp .dropdown .dropdown-selected:focus-visible,
-    .r-d-g-lt-comp .dropdown .dropdown-option:focus-visible,
+    .r-d-g-lt-comp .dropdown-selected:focus-visible,
+    .r-d-g-lt-comp .dropdown-option:focus-visible,
     .r-d-g-lt-comp .icon-div:focus-visible,
     .r-d-g-lt-comp table thead tr.gridHeader th:focus-visible,
     .r-d-g-lt-comp table tbody .gridRow td a:focus-visible {
@@ -731,9 +735,9 @@
             float: right !important;
         }
 
-    .r-d-g-lt-comp .dropdown {
-        width: 50px !important;
-        height: 32px !important;
+    .r-d-g-lt-comp .drop--down {
+        width: 50px;
+        height: 32px;
     }
 
     .r-d-g-lt-comp .clear-icon-div {

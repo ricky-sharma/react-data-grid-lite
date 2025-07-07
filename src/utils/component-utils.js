@@ -152,3 +152,21 @@ const getFormattedValue = (value, formatting) => {
     }
     return value;
 };
+
+export const resolveColumnType = (concatType, baseType) => {
+    return (
+        typeof concatType === "string" ? concatType :
+            typeof concatType?.type === "string" ? concatType.type :
+                typeof baseType === "string" ? baseType :
+                    typeof baseType?.type === "string" ? baseType.type :
+                        'text'
+    );
+}
+
+export const resolveColumnItems = (concatType, baseType) => {
+    return (
+        Array.isArray(concatType?.values) ? concatType.values :
+            Array.isArray(baseType?.values) ? baseType.values :
+                []
+    );
+}

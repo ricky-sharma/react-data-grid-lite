@@ -1,20 +1,88 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
+import { Container_Identifier } from '../../constants';
+import { isNull } from '../../helpers/common';
 
-const Dropdown = ({ options = [], value, onChange }) => {
-    const [open, setOpen] = useState(false);
+const Dropdown = ({
+    options = [],
+    value,
+    onChange,
+    autoFocus,
+    dropDownRef,
+    onBlur,
+    preventBlurRef,
+    onMouseDown,
+    usePortal = false,
+    width,
+    height,
+    colName,
+    onKeyDown,
+    onClick,
+    fieldIndex,
+    focusInput,
+    isOpen,
+    setOpenExternally
+}) => {
     const [focusedIndex, setFocusedIndex] = useState(-1);
-    const wrapperRef = useRef(null);
+    const triggerRef = useRef(null);
     const optionRefs = useRef([]);
+    const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
+    const wrapperRef = useRef(null);
+    const listboxRef = useRef(null);
+    const focusBeforeOpenRef = useRef(null);
+    const isControlled = typeof isOpen === 'boolean' && typeof setOpenExternally === 'function';
+    const [internalOpen, setInternalOpen] = useState(false);
+    const open = isControlled ? isOpen : internalOpen;
+
+    if (isNull(options)) options.push('Select');
+
+    const setOpen = (next) => {
+        if (isControlled) {
+            setOpenExternally(next ? fieldIndex : null);
+        } else {
+            setInternalOpen(next);
+        }
+    };
+
+    useEffect(() => {
+        if (open) {
+            focusBeforeOpenRef.current = document.activeElement;
+        } else {
+            focusBeforeOpenRef.current?.focus();
+        }
+    }, [open]);
+
+    useEffect(() => {
+        if (!dropDownRef) return;
+
+        if (typeof dropDownRef === 'function') {
+            dropDownRef(triggerRef.current);
+        } else if ('current' in dropDownRef) {
+            dropDownRef.current = triggerRef.current;
+        }
+        if (typeof focusInput === 'function' && autoFocus) focusInput(fieldIndex);
+    }, [dropDownRef]);
+
+    const getDropdownContainer = () => {
+        return document.querySelector(Container_Identifier) || document.body;
+    };
 
     const handleOptionClick = (e, option) => {
-        onChange?.(e, option);
+        if (value !== option)
+            onChange?.(e, option, colName);
         setOpen(false);
     };
 
     const toggleDropdown = () => {
-        setOpen((prev) => !prev);
+        if (isControlled) {
+            setOpenExternally(isOpen ? null : fieldIndex);
+        } else {
+            setInternalOpen(prev => !prev);
+        }
     };
+
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -27,6 +95,25 @@ const Dropdown = ({ options = [], value, onChange }) => {
     }, []);
 
     useEffect(() => {
+        if (!open) return;
+        const container = triggerRef.current?.closest('table');
+        const handleScroll = (event) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+        container?.addEventListener('scroll', handleScroll, true);
+        window.addEventListener('scroll', handleScroll, true);
+        window.addEventListener('resize', () => setOpen(false));
+
+        return () => {
+            container?.removeEventListener('scroll', handleScroll, true);
+            window.removeEventListener('scroll', handleScroll, true);
+            window.removeEventListener('resize', () => setOpen(false));
+        };
+    }, [open]);
+
+    useEffect(() => {
         if (open) {
             const index = options.indexOf(value);
             if (index >= 0) {
@@ -35,8 +122,24 @@ const Dropdown = ({ options = [], value, onChange }) => {
             } else {
                 setFocusedIndex(-1);
             }
+
+            if (open && usePortal && triggerRef.current) {
+                const triggerRect = triggerRef.current.getBoundingClientRect();
+                const container = document.querySelector(Container_Identifier) || document.body;
+                const containerRect = container.getBoundingClientRect();
+
+                setPosition({
+                    top: triggerRect.bottom - containerRect.top,
+                    left: triggerRect.left - containerRect.left,
+                    width: triggerRect.width
+                });
+            }
+
+            setTimeout(() => {
+                listboxRef.current?.focus();
+            }, 0);
         }
-    }, [open, value, options]);
+    }, [open, value, options, usePortal]);
 
     useEffect(() => {
         if (open && focusedIndex >= 0 && optionRefs.current[focusedIndex]) {
@@ -44,98 +147,122 @@ const Dropdown = ({ options = [], value, onChange }) => {
         }
     }, [focusedIndex, open]);
 
-    useEffect(() => {
-        const handleFocusOut = (e) => {
-            setTimeout(() => {
-                if (wrapperRef.current
-                    && !wrapperRef.current.contains(document.activeElement)) {
-                    setOpen(false);
-                }
-            }, 0);
-        };
-        document.addEventListener('focusin', handleFocusOut);
-        return () => {
-            document.removeEventListener('focusin', handleFocusOut);
-        };
-    }, []);
-
     const handleKeyDown = (e) => {
         const { key } = e;
+
         if (key === 'Enter' || key === ' ') {
             e.preventDefault();
             if (!open) {
                 setOpen(true);
                 setFocusedIndex(0);
             } else if (focusedIndex >= 0) {
-                onChange?.(e, options[focusedIndex]);
+                if (value !== options[focusedIndex])
+                    onChange?.(e, options[focusedIndex], colName);
                 setOpen(false);
             }
         } else if (key === 'ArrowDown') {
             e.preventDefault();
-            if (!open) {
-                setOpen(true);
-                setFocusedIndex(0);
-            } else {
-                setFocusedIndex((prev) => (prev + 1) % options.length);
-            }
+            setOpen(true);
+            setFocusedIndex((prev) => (prev + 1) % options.length);
         } else if (key === 'ArrowUp') {
             e.preventDefault();
-            if (!open) {
-                setOpen(true);
-                setFocusedIndex(options.length - 1);
-            } else {
-                setFocusedIndex((prev) => (prev - 1 + options.length) % options.length);
-            }
-        } else if (key === 'Escape') {
+            setOpen(true);
+            setFocusedIndex((prev) => (prev - 1 + options.length) % options.length);
+        } else if (key === 'Escape' || key === 'Tab') {
             e.preventDefault();
             setOpen(false);
-        } 
+        }
     };
 
+    const renderOptions = () => (
+        <div
+            className="dropdown-options"
+            style={
+                usePortal
+                    ? {
+                        position: 'absolute',
+                        top: `${position.top}px`,
+                        left: `${position.left}px`,
+                        width: `${position.width}px`,
+                        zIndex: 9999,
+                        overflowY: 'visible',
+                        backgroundColor: '#fff'
+                    }
+                    : {}
+            }
+            role="listbox"
+            tabIndex={0}
+            ref={listboxRef}
+            onKeyDown={handleKeyDown}
+            onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (preventBlurRef) {
+                    preventBlurRef.current = true;
+                    setTimeout(() => {
+                        preventBlurRef.current = false;
+                    }, 0);
+                }
+            }}
+            aria-activedescendant={
+                focusedIndex >= 0 ? `dropdown-option-${focusedIndex}` : undefined
+            }
+        >
+            {options.map((option, index) => (
+                <div
+                    key={option}
+                    id={`dropdown-option-${index}`}
+                    ref={(el) => (optionRefs.current[index] = el)}
+                    className={`dropdown-option ${option === value ? 'selected' : ''} ${index === focusedIndex ? 'focused' : ''}`}
+                    onClick={(e) => handleOptionClick(e, option)}
+                    tabIndex={index === focusedIndex ? 0 : -1}
+                    role="option"
+                    aria-selected={option === value}
+                >
+                    {option}
+                </div>
+            ))}
+        </div>
+    );
+
     return (
-        <div className="dropdown" ref={wrapperRef}>
+        <div
+            style={{ width: width ?? undefined, height: height ?? undefined }}
+            className="drop--down"
+            ref={wrapperRef}
+            onBlur={onBlur ?? (() => { })}
+            onClick={onClick ?? (() => { })}
+        >
             <div
+                ref={triggerRef}
                 className="dropdown-selected"
-                onKeyDown={handleKeyDown}
-                onClick={toggleDropdown}
+                onKeyDown={(e) => {
+                    handleKeyDown(e);
+                    onKeyDown?.(e);
+                }}
+                onClick={(e) => {
+                    toggleDropdown();
+                    onClick?.(e);
+                }}
                 tabIndex={0}
                 role="button"
                 aria-haspopup="listbox"
                 aria-expanded={open}
-                aria-labelledby="dropdown-label"
+                onBlur={onBlur ?? (() => { })}
+                onMouseDown={onMouseDown ?? (() => { })}
             >
-                {value || 'Select an option'}
+                <div style={{
+                    display: "block",
+                    width: '100%',
+                    textAlign: 'center'
+                }}>{value || 'Select'}</div>
                 <span className="dropdown-arrow">{open ? '▲' : '▼'}</span>
             </div>
 
-            {open && (
-                <div
-                    className="dropdown-options"
-                    role="listbox"
-                    tabIndex={-1}
-                    onKeyDown={handleKeyDown}
-                    aria-activedescendant={
-                        focusedIndex >= 0 ? `dropdown-option-${focusedIndex}` : undefined
-                    }
-                >
-                    {options.map((option, index) => (
-                        <div
-                            key={option}
-                            id={`dropdown-option-${index}`}
-                            ref={(el) => (optionRefs.current[index] = el)}
-                            className={`dropdown-option ${option === value ? 'selected' : ''}
-                                ${index === focusedIndex ? 'focused' : ''}`}
-                            onClick={(e) => handleOptionClick(e, option)}
-                            tabIndex={index === focusedIndex ? 0 : -1}
-                            role="option"
-                            aria-selected={option === value}
-                        >
-                            {option}
-                        </div>
-
-                    ))}
-                </div>
-            )}
+            {open &&
+                (usePortal
+                    ? ReactDOM.createPortal(renderOptions(), getDropdownContainer())
+                    : renderOptions())}
         </div>
     );
 };

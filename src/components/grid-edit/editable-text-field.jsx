@@ -17,7 +17,8 @@ const EditableTextField = ({
     preventBlurRef,
     isNavigatingRef,
     fieldIndex,
-    editContainerRef
+    editContainerRef,
+    type
 }) => {
     const { handleBlur, handleKeyDown, handleClick } = useFieldNavigation({
         fieldIndex,
@@ -34,9 +35,9 @@ const EditableTextField = ({
     return (
         <Input
             placeholder={colName}
-            type="text"
+            type={type}
             value={value}
-            onChange={(e) => onChange(colName, e)}
+            onChange={(e) => onChange(e, e?.target?.value, colName)}
             autoFocus={autoFocus}
             ref={inputRef}
             onBlur={handleBlur}

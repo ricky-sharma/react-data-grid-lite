@@ -12,7 +12,7 @@ import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
 import { useWindowWidth } from '../hooks/use-window-width';
 import DeleteIcon from '../icons/delete-icon';
 import EditIcon from '../icons/edit-icon';
-import { formatRowData } from '../utils/component-utils';
+import { formatRowData, resolveColumnItems, resolveColumnType } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
 import EditableCellFields from './grid-edit/editable-cell-fields';
 
@@ -99,10 +99,10 @@ const GridRows = ({
             editingCell: { rowIndex, columnName }
         }));
     };
-    const onCellChange = (colName, e) => {
+    const onCellChange = (e, value, colName) => {
         const updatedData = [...rowsData];
         const rowIndex = editingCell.rowIndex;
-        const newValue = e.target.value;
+        const newValue = e?.target?.value ?? value;
         const prevEditingData = editingCellData || {};
         const alreadySaved = Object.prototype
             .hasOwnProperty.call(prevEditingData, colName);
@@ -141,9 +141,9 @@ const GridRows = ({
         if (shouldFireCellUpdate && typeof onCellUpdate === 'function') {
             onCellUpdate({
                 rowIndex,
-                editedColumns: editedColumns.map(col => ({
-                    ...col,
-                    newValue: updatedRow[col.colName],
+                editedColumns: editedColumns.map(({ colName }) => ({
+                    colName,
+                    value: updatedRow[colName],
                 })),
                 updatedRow
             });
@@ -182,11 +182,15 @@ const GridRows = ({
                 const editable = typeof col?.editable === "boolean"
                     ? col?.editable : enableCellEdit;
                 const editableColumns = (col.concatColumns?.columns ?? [col?.name])
-                    .map((colName) => {
+                    .map((colName, index) => {
                         const columnDef = columns.find(c => c.name === colName);
+                        const concatType = col.concatColumns?.editor?.[index];
+                        const baseType = columnDef?.editor;
+
                         return {
                             colName,
-                            type: columnDef?.type || 'text'
+                            type: resolveColumnType(concatType, baseType),
+                            values: resolveColumnItems(concatType, baseType)
                         };
                     });
                 return (

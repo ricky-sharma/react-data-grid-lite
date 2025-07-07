@@ -1,4 +1,5 @@
-import React, { memo, useRef } from 'react';
+import React, { memo, useRef, useState } from 'react';
+import EditableDropdownField from './editable-dropdown-field';
 import EditableTextField from './editable-text-field';
 
 const EditableCellFields = memo(function EditableCellFields({
@@ -14,6 +15,7 @@ const EditableCellFields = memo(function EditableCellFields({
     const isNavigatingRef = useRef(false);
     const preventBlurRef = useRef(false);
     const editContainerRef = useRef(null);
+    const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
 
     if (!editableColumns || editableColumns.length === 0) return null;
 
@@ -23,7 +25,7 @@ const EditableCellFields = memo(function EditableCellFields({
         }
     };
 
-    const renderField = ({ colName, type }, i) => {
+    const renderField = ({ colName, type, values }, i) => {
         const isFirstField = i === 0;
 
         const sharedProps = {
@@ -42,14 +44,19 @@ const EditableCellFields = memo(function EditableCellFields({
             preventBlurRef,
             isNavigatingRef,
             fieldIndex: i,
-            editContainerRef
+            editContainerRef,
+            values,
+            type
         };
-
         switch (type) {
             case 'text':
+            case 'number':
                 return <EditableTextField {...sharedProps} />;
-            // case 'select':
-            //   return <EditableDropdownField {...sharedProps} />;
+            case 'select':
+                return <EditableDropdownField
+                    openDropdownIndex={openDropdownIndex}
+                    setOpenDropdownIndex={setOpenDropdownIndex}
+                    {...sharedProps} />;
             default:
                 return null;
         }
@@ -65,7 +72,7 @@ const EditableCellFields = memo(function EditableCellFields({
                 display: 'flex',
                 width: '100%',
             }}
-            className="mg--0 pd--0 editField"
+            className="mg--0 pd--0 editField alignCenter"
             title={columnValue?.toString()}
         >
             {editableColumns.map(renderField)}
