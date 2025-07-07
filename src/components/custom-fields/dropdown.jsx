@@ -13,12 +13,12 @@ const Dropdown = ({
     onBlur,
     preventBlurRef,
     onMouseDown,
+    onClick,
     usePortal = false,
     width,
     height,
     colName,
     onKeyDown,
-    onClick,
     fieldIndex,
     focusInput,
     isOpen,
@@ -55,7 +55,6 @@ const Dropdown = ({
 
     useEffect(() => {
         if (!dropDownRef) return;
-
         if (typeof dropDownRef === 'function') {
             dropDownRef(triggerRef.current);
         } else if ('current' in dropDownRef) {
@@ -68,30 +67,35 @@ const Dropdown = ({
         return document.querySelector(Container_Identifier) || document.body;
     };
 
+    const toggleDropdown = () => {
+        setOpen(!open);
+    };
+
+    const getOptionValue = (opt) => (typeof opt === 'object' ? opt.value : opt);
+    const getOptionLabel = (opt) => (typeof opt === 'object' ? opt.label : opt);
+
     const handleOptionClick = (e, option) => {
-        if (value !== option)
-            onChange?.(e, option, colName);
+        const optionValue = getOptionValue(option);
+        if (optionValue !== value) {
+            onChange?.(e, optionValue, colName);
+        }
         setOpen(false);
     };
 
-    const toggleDropdown = () => {
-        if (isControlled) {
-            setOpenExternally(isOpen ? null : fieldIndex);
-        } else {
-            setInternalOpen(prev => !prev);
-        }
-    };
-
-
-
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+            const isClickInsideDropdown =
+                wrapperRef.current?.contains(event.target);
+
+            if (!isClickInsideDropdown) {
                 setOpen(false);
             }
         };
+
         document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
 
     useEffect(() => {
@@ -115,7 +119,7 @@ const Dropdown = ({
 
     useEffect(() => {
         if (open) {
-            const index = options.indexOf(value);
+            const index = options.findIndex((option) => getOptionValue(option) === value);
             if (index >= 0) {
                 setFocusedIndex(index);
                 optionRefs.current[index]?.scrollIntoView({ block: 'nearest' });
@@ -123,7 +127,7 @@ const Dropdown = ({
                 setFocusedIndex(-1);
             }
 
-            if (open && usePortal && triggerRef.current) {
+            if (usePortal && triggerRef.current) {
                 const triggerRect = triggerRef.current.getBoundingClientRect();
                 const container = document.querySelector(Container_Identifier) || document.body;
                 const containerRect = container.getBoundingClientRect();
@@ -156,9 +160,7 @@ const Dropdown = ({
                 setOpen(true);
                 setFocusedIndex(0);
             } else if (focusedIndex >= 0) {
-                if (value !== options[focusedIndex])
-                    onChange?.(e, options[focusedIndex], colName);
-                setOpen(false);
+                handleOptionClick(e, options[focusedIndex]);
             }
         } else if (key === 'ArrowDown') {
             e.preventDefault();
@@ -208,20 +210,26 @@ const Dropdown = ({
                 focusedIndex >= 0 ? `dropdown-option-${focusedIndex}` : undefined
             }
         >
-            {options.map((option, index) => (
-                <div
-                    key={option}
-                    id={`dropdown-option-${index}`}
-                    ref={(el) => (optionRefs.current[index] = el)}
-                    className={`dropdown-option ${option === value ? 'selected' : ''} ${index === focusedIndex ? 'focused' : ''}`}
-                    onClick={(e) => handleOptionClick(e, option)}
-                    tabIndex={index === focusedIndex ? 0 : -1}
-                    role="option"
-                    aria-selected={option === value}
-                >
-                    {option}
-                </div>
-            ))}
+            {options.map((option, index) => {
+                const optionLabel = getOptionLabel(option);
+                const optionValue = getOptionValue(option);
+
+                return (
+                    <div
+                        key={optionValue}
+                        id={`dropdown-option-${index}`}
+                        ref={(el) => (optionRefs.current[index] = el)}
+                        className={`dropdown-option ${optionValue === value ? 'selected' : ''
+                            } ${index === focusedIndex ? 'focused' : ''}`}
+                        onClick={(e) => handleOptionClick(e, option)}
+                        tabIndex={index === focusedIndex ? 0 : -1}
+                        role="option"
+                        aria-selected={optionValue === value}
+                    >
+                        {optionLabel}
+                    </div>
+                );
+            })}
         </div>
     );
 
@@ -251,11 +259,22 @@ const Dropdown = ({
                 onBlur={onBlur ?? (() => { })}
                 onMouseDown={onMouseDown ?? (() => { })}
             >
-                <div style={{
-                    display: "block",
-                    width: '100%',
-                    textAlign: 'center'
-                }}>{value || 'Select'}</div>
+                <div
+                    style={{
+                        display: 'block',
+                        width: '100%',
+                        textAlign: 'center'
+                    }}
+                >
+                    {(() => {
+                        const selectedOption = options.find(
+                            (option) => (typeof option === 'object' ? option.value : option) === value
+                        );
+                        return selectedOption
+                            ? selectedOption.label || selectedOption
+                            : 'Select';
+                    })()}
+                </div>
                 <span className="dropdown-arrow">{open ? '▲' : '▼'}</span>
             </div>
 

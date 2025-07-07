@@ -51,7 +51,11 @@ const EditableCellFields = memo(function EditableCellFields({
         switch (type) {
             case 'text':
             case 'number':
-                return <EditableTextField {...sharedProps} />;
+                return <EditableTextField
+                    onClick={() => {
+                        setOpenDropdownIndex(null);
+                    }}
+                    {...sharedProps} />;
             case 'select':
                 return <EditableDropdownField
                     openDropdownIndex={openDropdownIndex}

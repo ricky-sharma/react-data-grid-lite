@@ -18,9 +18,14 @@ const EditableTextField = ({
     isNavigatingRef,
     fieldIndex,
     editContainerRef,
-    type
+    type,
+    onClick
 }) => {
-    const { handleBlur, handleKeyDown, handleClick } = useFieldNavigation({
+    const {
+        handleBlur,
+        handleKeyDown,
+        handleClick
+    } = useFieldNavigation({
         fieldIndex,
         editableColumns,
         rowIndex,
@@ -32,17 +37,27 @@ const EditableTextField = ({
         preventBlurRef,
         editContainerRef
     });
+
+    const handleInputChange = (e) => {
+        onChange(e, e?.target?.value, colName);
+    };
+
+    const handleInputClick = (e) => {
+        handleClick(e);
+        onClick?.(e);
+    };
+
     return (
         <Input
             placeholder={colName}
             type={type}
             value={value}
-            onChange={(e) => onChange(e, e?.target?.value, colName)}
+            onChange={handleInputChange}
             autoFocus={autoFocus}
             ref={inputRef}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
-            onClick={handleClick}
+            onClick={handleInputClick}
             onMouseDown={(e) => e.stopPropagation()}
             preventBlurRef={preventBlurRef}
         />
