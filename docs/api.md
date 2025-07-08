@@ -47,7 +47,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `concatColumns` | `Object`            | Specifies columns to concatenate into this column. It includes: `columns` (array of column keys to concatenate) and `separator` (the separator string).   |        -          |  No          |
 | `draggable`     | `Boolean`           | Enables or disables dragging for an individual column. Overrides the global `enableColumnDrag` setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in version `1.1.4` and above.|       false       |  No          |
 | `editable`      | `Boolean`           | Enables or disables cell editing for a specific column. Overrides the enableCellEdit setting. Cell editing is fully accessible via keyboard, touch, and mouse. Press Enter to save changes or Esc to cancel. When a change is saved, the onCellUpdate callback is fired. Supported in version 1.1.5 and above.|       false        |  No          |
-| `editor`        | `String` / `Object` / `Array` | Enables inline editing for the column. Can be a shorthand string (`'text'`, `'number'`) or an object (`'select'`) with detailed configuration. When used with `concatColumns`, this can be an array matching the column parts.<br><br>💡 **Default behavior:** If `editor` is not provided but `editable: true` is set (or `enableCellEdit` is enabled globally), the field defaults to a `'text'` input editor. | `'text'` (if `editable` is `true`) | No       |
+| `editor`        | `String` / `Object` / `Array` | Enables inline editing for the column. Can be a shorthand string (`'text'`, `'number'`) or an object (`'select'`) with detailed configuration. When used with `concatColumns`, this can be an array matching the column parts.<br><br>💡 **Default behavior:** If `editor` is not provided but `editable: true` is set (or `enableCellEdit` is enabled globally), the field defaults to a `'text'` input editor. Supported in version 1.1.5 and above.| `'text'` (if `editable` is `true`) | No       |
 | `enableSearch`  | `Boolean`           | Enables or disables the search textbox for a specific column. Overrides the `enableColumnSearch` setting. Renamed from `searchEnable` in v1.1.2 and above.|       true        |  No          |
 | `fixed`         | `Boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version `1.1.0` and above.|        false      |  No          |
 | `formatting`    | `Object`            | Formatting settings for the column. Includes the `type` (e.g., `currency`, `date`) and `format` (the format string, such as `$0,0.00`).                   |        -          |  No          |
@@ -178,7 +178,6 @@ const App = () => (
 | ------------ | ----------------------------------- |
 | `'text'`     | Basic text input (default)          |
 | `'number'`   | Numeric input                       |
-| `'select'`   | Select dropdown (requires `values`) |
 
 
 ### Full Editor Object Format
@@ -194,6 +193,7 @@ const App = () => (
 ```jsx
 {
   name: 'Role',
+  editable: true,
   editor: {
     type: 'select',
     values: [
@@ -210,6 +210,7 @@ const App = () => (
 ```jsx
 {
   name: 'firstName',
+  editable: true,
   editor: 'text'
 }
 ```
@@ -226,6 +227,7 @@ const App = () => (
 {
   alias: 'Department-Title',
   name: 'Department',
+  editable: true,
   concatColumns: {
     columns: ['Department', 'Title'],
     separator: ' - ',
