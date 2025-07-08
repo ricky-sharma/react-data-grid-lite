@@ -85,3 +85,65 @@ Fired when the mouse leaves a row area. Often used to reset styles or hide toolt
 * `e`: Mouse event
 * `row`: Row from which the cursor exited
 
+### `onCellUpdate(cellUpdate)` — *Supported in `v1.1.5` and above*
+
+Fired when cell editing is saved (e.g., by pressing `Enter`). Useful for persisting changes, triggering validations, or syncing with a backend.
+
+* `cellUpdate`: An object containing details about the updated row and columns.
+
+#### `cellUpdate` structure:
+
+* `rowIndex`: *(number)* — Index of the updated row
+* `editedColumns`: *(Array<{ colName: string, value: any }>)* —
+  A list of updated columns and their new values.
+
+  > 💡 Normally contains a single column update, but for concatenated columns, it may include **multiple fields** with their respective values.
+* `updatedRow`: *(object)* — The full row data after changes
+
+
+#### Example usage:
+
+```jsx
+onCellUpdate={(cellUpdate) => {
+  console.log('Row index:', cellUpdate.rowIndex);
+  console.log('Edited columns:', cellUpdate.editedColumns);
+  console.log('Updated row:', cellUpdate.updatedRow);
+}}
+```
+
+#### Example: `cellUpdate` object
+
+**Normal (single column) update:**
+
+```js
+{
+  rowIndex: 2,
+  editedColumns: [
+    { colName: 'lastName', value: 'Doe' }
+  ],
+  updatedRow: {
+    id: 3,
+    firstName: 'John',
+    lastName: 'Doe',
+    age: 30
+  }
+}
+```
+
+**Concatenated column update:**
+
+```js
+{
+  rowIndex: 4,
+  editedColumns: [
+    { colName: 'firstName', value: 'Jane' },
+    { colName: 'lastName', value: 'Smith' }
+  ],
+  updatedRow: {
+    id: 5,
+    firstName: 'Jane',
+    lastName: 'Smith',
+    age: 27
+  }
+}
+```

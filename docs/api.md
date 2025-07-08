@@ -35,6 +35,7 @@
 |    `width`            | `String` / `Number` | The width of the grid. Can be a pixel value (e.g., `'500px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. The width can be set to `'inherit'` to match the width of the containing element.|    `'90vw'`       | No           |
 
 <br><br>
+
 ## 📊 **`columns` Prop Structure**
 
 The `columns` prop defines the layout and behavior of each column in the `DataGrid`. It is an **array** of column objects, where each object represents a column's configuration.
@@ -45,7 +46,9 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `class`         | `String`            | Custom CSS class applied to each data cell in the column. Supported in version `1.1.0` and above.                                                         |         -         |  No          |
 | `concatColumns` | `Object`            | Specifies columns to concatenate into this column. It includes: `columns` (array of column keys to concatenate) and `separator` (the separator string).   |        -          |  No          |
 | `draggable`     | `Boolean`           | Enables or disables dragging for an individual column. Overrides the global `enableColumnDrag` setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in version `1.1.4` and above.|       false       |  No          |
-| `enableSearch`  | `Boolean`           | Enables or disables the search textbox for a specific column. Overrides the `enableGlobalSearch` setting. Renamed from `searchEnable` in v1.1.2 and above.|       true        |  No          |
+| `editable`      | `Boolean`           | Enables or disables cell editing for a specific column. Overrides the enableCellEdit setting. Cell editing is fully accessible via keyboard, touch, and mouse. Press Enter to save changes or Esc to cancel. When a change is saved, the onCellUpdate callback is fired. Supported in version 1.1.5 and above.|       false        |  No          |
+| `editor`        | `String` / `Object` / `Array` | Enables inline editing for the column. Can be a shorthand string (`'text'`, `'number'`) or an object (`'select'`) with detailed configuration. When used with `concatColumns`, this can be an array matching the column parts.<br><br>💡 **Default behavior:** If `editor` is not provided but `editable: true` is set (or `enableCellEdit` is enabled globally), the field defaults to a `'text'` input editor. | `'text'` (if `editable` is `true`) | No       |
+| `enableSearch`  | `Boolean`           | Enables or disables the search textbox for a specific column. Overrides the `enableColumnSearch` setting. Renamed from `searchEnable` in v1.1.2 and above.|       true        |  No          |
 | `fixed`         | `Boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version `1.1.0` and above.|        false      |  No          |
 | `formatting`    | `Object`            | Formatting settings for the column. Includes the `type` (e.g., `currency`, `date`) and `format` (the format string, such as `$0,0.00`).                   |        -          |  No          |
 | `hidden`        | `Boolean`           | Whether the column should be hidden.                                                                                                                      |       false       |  No          |
@@ -169,6 +172,85 @@ const App = () => (
 ```
 ---
 
+### Editor Shorthand Values
+
+| Value        | Description                         |
+| ------------ | ----------------------------------- |
+| `'text'`     | Basic text input (default)          |
+| `'number'`   | Numeric input                       |
+| `'select'`   | Select dropdown (requires `values`) |
+
+
+### Full Editor Object Format
+
+| Property    | Type                                                               | Description                                            |
+| ----------- | ------------------------------------------------------------------ | ------------------------------------------------------ |
+| `type`      | `'text'` \| `'number'` \| `'select'`                               | Input type                                             |
+| `values`    | `Array<string>` \| `Array<{ label: string, value: any }>`          | Required for `'select'` type                           |
+
+
+#### ✅ Example: Simple Column with a Select Editor
+
+```jsx
+{
+  name: 'Role',
+  editor: {
+    type: 'select',
+    values: [
+      { label: 'Admin', value: 'admin' },
+      { label: 'Editor', value: 'editor' },
+      { label: 'Viewer', value: 'viewer' }
+    ]
+  }
+}
+```
+
+#### 📝 Alternate (shorthand) version
+
+```jsx
+{
+  name: 'firstName',
+  editor: 'text'
+}
+```
+
+### Usage with `concatColumns`
+
+| Field    | Type                      | Description                                                                                                                               |
+| -------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `editor` | `Array<string \| object>` | Should match the order and count of fields in the `columns` array of `concatColumns`. Each item can be a string shorthand or full config. |
+
+#### Example:
+
+```jsx
+{
+  alias: 'Department-Title',
+  name: 'Department',
+  concatColumns: {
+    columns: ['Department', 'Title'],
+    separator: ' - ',
+    editor: [
+      {
+        type: 'select',
+        values: [
+          { label: 'Engineering', value: 'engineering' },
+          { label: 'Marketing', value: 'marketing' },
+          { label: 'HR', value: 'hr' }
+        ]
+      },
+      {
+        type: 'select',
+        values: [
+          { label: 'Manager', value: 'manager' },
+          { label: 'Lead', value: 'lead' },
+          { label: 'Intern', value: 'intern' }
+        ]
+      }
+    ]
+  }
+}
+```
+
 <br><br>
 
 ## ⚙️ **`options` Prop Structure**
@@ -181,8 +263,9 @@ The `options` prop is an **object** that provides additional configuration setti
 | `deleteButton`       | `Object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked.|       -      | No           |
 | `downloadFilename`   | `String`  | The filename used when downloading grid data in CSV format. The default value is `'export-{yyyy-MM-dd HH:mm:ss}'`         |       -           | No           |
 | `editButton`         | `Object`  | Configuration for enabling an edit button on each row. Includes an `event` field which is the function triggered when the button is clicked.|        -     | No           |
+| `enableCellEdit`     | `Boolean` | Enables cell editing for all columns. Column-level `editable` settings override this option. Cell editing is fully accessible via keyboard, touch, and mouse. Press `Enter` to save changes or `Esc` to cancel. When a change is saved, the onCellUpdate callback is fired. Supported in version `1.1.5` and above.|      false         | No           |
 | `enableColumnDrag`   | `Boolean` | Enables column dragging for all columns. Column-level `draggable` settings override this option. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in version `1.1.4` and above.|      false         | No           |
-| `enableColumnResize` | `Boolean` | Enables column resizing across all columns. Column-level `resizable settings` override this option. Supported in version `1.1.0` and above.|      false        | No           |
+| `enableColumnResize` | `Boolean` | Enables column resizing across all columns. Column-level `resizable` settings override this option. Supported in version `1.1.0` and above.|      false        | No           |
 | `enableColumnSearch` | `Boolean` | Whether to enable column-wise search functionality (search per individual column). Column-level search settings override this option.|      true         | No           |
 | `enableDownload`     | `Boolean` | Whether to enable the download functionality (export data as CSV).                                                        |      true         | No           |
 | `enableGlobalSearch` | `Boolean` | Enables global search across all columns.                                                                                 |      true         | No           |
