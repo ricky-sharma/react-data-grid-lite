@@ -38,7 +38,7 @@ const GridGlobalSearchBar = ({
                         onChange={(e) => {
                             setState(prev => ({
                                 ...prev,
-                                globalSearchInput: e?.target?.value ?? ''
+                                globalSearchInput: e?.target?.value
                             }));
                             if (typeof onSearchClicked === 'function') {
                                 onSearchClicked(e, '##globalSearch##', columns);

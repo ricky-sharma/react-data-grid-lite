@@ -46,12 +46,14 @@ const Dropdown = ({
     };
 
     useEffect(() => {
-        if (open) {
-            focusBeforeOpenRef.current = document.activeElement;
-        } else {
+        if (!open) {
             focusBeforeOpenRef.current?.focus();
         }
     }, [open]);
+
+    const handleFocusCapture = (e) => {
+        focusBeforeOpenRef.current = e.target;
+    };
 
     useEffect(() => {
         if (!dropDownRef) return;
@@ -77,7 +79,7 @@ const Dropdown = ({
     const handleOptionClick = (e, option) => {
         const optionValue = getOptionValue(option);
         if (optionValue !== value) {
-            onChange?.(e, optionValue, colName);
+            onChange?.(e, optionValue, colName ?? '');
         }
         setOpen(false);
     };
@@ -122,7 +124,9 @@ const Dropdown = ({
             const index = options.findIndex((option) => getOptionValue(option) === value);
             if (index >= 0) {
                 setFocusedIndex(index);
-                optionRefs.current[index]?.scrollIntoView({ block: 'nearest' });
+                if (optionRefs?.current?.[value]?.scrollIntoView) {
+                    optionRefs.current[index].scrollIntoView({ block: 'nearest' });
+                }
             } else {
                 setFocusedIndex(-1);
             }
@@ -146,7 +150,7 @@ const Dropdown = ({
     }, [open, value, options, usePortal]);
 
     useEffect(() => {
-        if (open && focusedIndex >= 0 && optionRefs.current[focusedIndex]) {
+        if (open && focusedIndex >= 0 && optionRefs?.current?.[focusedIndex]) {
             optionRefs.current[focusedIndex].focus();
         }
     }, [focusedIndex, open]);
@@ -258,6 +262,7 @@ const Dropdown = ({
                 aria-expanded={open}
                 onBlur={onBlur ?? (() => { })}
                 onMouseDown={onMouseDown ?? (() => { })}
+                onFocusCapture={handleFocusCapture}
             >
                 <div
                     style={{

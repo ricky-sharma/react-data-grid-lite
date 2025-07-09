@@ -156,6 +156,7 @@ const GridRows = ({
         const updatedRow = { ...updatedData[rowIndex] };
         cellChangedFocusRef.current = editingCell;
         editableColumns.forEach(({ colName }) => {
+            // eslint-disable-next-line no-prototype-builtins
             if (editingCellData?.hasOwnProperty(colName)) {
                 updatedRow[colName] = editingCellData[colName];
             }
@@ -356,7 +357,7 @@ const GridRows = ({
                                 onRowClick(e, baseRow);
                             }
                             didDoubleClickRef.current = false;
-                        }, 250);
+                        }, 400);
                     }}
                     onMouseOver={e => onRowHover(e, baseRow)}
                     onMouseOut={e => onRowOut(e, baseRow)}

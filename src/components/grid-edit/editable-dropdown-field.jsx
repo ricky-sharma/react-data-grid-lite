@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { useFieldNavigation } from '../../hooks/use-field-navigation';
 import Dropdown from '../custom-fields/dropdown';
 
@@ -62,7 +63,7 @@ const EditableDropdownField = ({
 
     return (
         <Dropdown
-            options={values ?? []}
+            options={values}
             value={value}
             onChange={onChange}
             autoFocus={autoFocus}
@@ -75,7 +76,7 @@ const EditableDropdownField = ({
             usePortal={true}
             width={"100%"}
             height={"100%"}
-            colName={colName ?? ""}
+            colName={colName}
             fieldIndex={fieldIndex}
             focusInput={focusInput}
             isOpen={openDropdownIndex === fieldIndex}

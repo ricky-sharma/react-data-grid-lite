@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { memo, useRef, useState } from 'react';
 import EditableDropdownField from './editable-dropdown-field';
 import EditableTextField from './editable-text-field';
@@ -20,9 +21,7 @@ const EditableCellFields = memo(function EditableCellFields({
     if (!editableColumns || editableColumns.length === 0) return null;
 
     const focusInput = (index) => {
-        if (inputRefs.current[index]) {
-            inputRefs.current[index].focus();
-        }
+        inputRefs?.current?.[index]?.focus();
     };
 
     const renderField = ({ colName, type, values }, i) => {

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { useFieldNavigation } from '../../hooks/use-field-navigation';
 import Input from '../custom-fields/input';

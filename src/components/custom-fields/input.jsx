@@ -25,6 +25,7 @@ function Input({
                 height: height ?? '100%'
             }}>
             <input
+                name={placeholder ?? "textbox"}
                 onClick={onClick ?? (() => { })}
                 ref={ref ?? null}
                 className={className ?? ""}
@@ -37,6 +38,9 @@ function Input({
                 onKeyDown={onKeyDown ?? (() => { })}
                 autoFocus={autoFocus ?? false}
                 onMouseDown={onMouseDown ?? (() => { })}
+                role="textbox"
+                aria-label={placeholder ?? "textbox"}
+                aria-placeholder={placeholder ?? "textbox"}
             />
             {value && (
                 <span

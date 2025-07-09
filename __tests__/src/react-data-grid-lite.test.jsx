@@ -22,16 +22,16 @@ jest.mock('./../../src/components/grid-global-search-bar', () => {
                     value={value}
                     onChange={(e) => {
                         setValue(e.target.value);
-                        props?.onSearchClicked?.(e);
+                        props?.onSearchClicked(e);
                     }}
                 />
                 <button onClick={(e) => {
                     setValue('');
-                    props?.handleResetSearch?.(e);
+                    props?.handleResetSearch(e);
                 }}>Reset</button>
                 <button
                     data-testid="download-btn"
-                    onClick={(e) => props?.onDownloadComplete?.(e)}
+                    onClick={(e) => props?.onDownloadComplete(e)}
                 >Export CSV</button>
             </div>
         );
@@ -49,6 +49,8 @@ jest.mock('./../../src/components/grid-rows', () => (props) => {
                     key={index}
                     data-testid={`data-grid-row-${index}`}
                     onClick={() => props?.state?.onRowClick({ rowData: visibleRows?.[index] })}
+                    onMouseOver={() => props?.state?.onRowHover({ rowData: visibleRows?.[index] })}
+                    onMouseOut={() => props?.state?.onRowOut({ rowData: visibleRows?.[index] })}
                 >
                     <td>
                         <div>Row {index + 1}</div>
@@ -96,7 +98,7 @@ describe('DataGrid Component', () => {
 
     it('calls eventGridSearchClicked when global search input is changed', () => {
         const spy = jest.spyOn(searchHandlers, 'eventGridSearchClicked').mockImplementation(() => { });
-        render(<DataGrid {...defaultProps} id={null} />);
+        render(<DataGrid {...defaultProps} id={null} onSearchComplete={null} />);
         const input = screen.getByTestId('global-search-input');
         fireEvent.change(input, { target: { value: 'test' } });
         expect(spy).toHaveBeenCalled();
@@ -175,7 +177,7 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
     const columns = [
         { name: 'firstName', alias: 'First Name' },
         { name: 'lastName', alias: 'Last Name' },
-        { name: 'age', alias: 'Age'},
+        { name: 'age', alias: 'Age', fixed: true },
         { name: 'secret', alias: 'Secret', hidden: true }
     ];
 
@@ -188,7 +190,13 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
     const options = {
         gridClass: "test",
         editButton: {},
-        deleteButton: {}
+        deleteButton: {},
+        enableColumnSearch: true,
+        enableGlobalSearch: true,
+        enableColumnResize: false,
+        enableColumnDrag: false,
+        enableCellEdit: false,
+        enableDownload: true
     }
 
     const defaultProps = {
