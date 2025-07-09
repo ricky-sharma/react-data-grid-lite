@@ -6,6 +6,42 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
+## 📝 v1.1.5 - Released 2025-07-09
+
+### 🚀 Features
+
+* **Cell Editing Enhancements**
+
+  * Added **cell editing functionality** with dynamic input rendering.
+  * Introduced `onCellUpdate` callback to handle cell value updates.
+  * Added `enableCellEdit` prop to **globally enable/disable editing**.
+  * Implemented **keyboard-based navigation** across cells using a custom hook.
+  * Enabled **double-tap edit support** on mobile via `useDoubleTap` hook.
+  * Added `editable` column-level prop to control which columns are editable.
+
+* **Dropdown Field Support**
+
+  * Added **dropdown support** in cell editing mode.
+  * Dropdown supports objects with `label` and `value` keys.
+
+* **Accessibility & UI Improvements**
+
+  * Improved keyboard accessibility for **dropdowns** (arrow keys, Enter, Escape).
+  * Made **Reset Filters** and **Export CSV** buttons accessible via keyboard and screen readers.
+  * Added accessibility support for **row edit and delete buttons**.
+
+---
+
+### 🔧 Refactors
+
+* Extracted **editable cell logic** into `editable-cell-fields.jsx` for modularity.
+* Restructured editable cell components for better **separation of concerns**.
+* Moved `input.jsx` and `dropdown.jsx` to a new `custom-fields` folder.
+* Relocated `editable-cell-fields.jsx` to a new `grid-edit` folder for clarity.
+* Improved **focus handling** and **commit/revert behavior** during editing.
+
+<br><br>
+
 ## 📦 v1.1.4 - Released 2025-06-30
 
 ### ✨ Features
