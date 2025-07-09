@@ -5,8 +5,8 @@ import { useWindowWidth } from '../hooks/use-window-width';
 import DownloadIcon from '../icons/download-icon';
 import EraseIcon from '../icons/erase-icon';
 import { Export_To_CSV_Text } from './../constants';
+import Input from './custom-fields/input';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
-import Input from './input';
 
 const GridGlobalSearchBar = ({
     setState,
@@ -38,7 +38,7 @@ const GridGlobalSearchBar = ({
                         onChange={(e) => {
                             setState(prev => ({
                                 ...prev,
-                                globalSearchInput: e?.target?.value ?? ''
+                                globalSearchInput: e?.target?.value
                             }));
                             if (typeof onSearchClicked === 'function') {
                                 onSearchClicked(e, '##globalSearch##', columns);
@@ -47,40 +47,62 @@ const GridGlobalSearchBar = ({
                     />
                 </div>
             )}
-            {enableDownload && (
+            <div className="button-container">
                 <div
-                    style={{
-                        pointerEvents: (noData ? 'none' : ''),
-                        opacity: (noData ? '0.5' : '')
-                    }}
-                    className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile"
-                    title={Export_To_CSV_Text}
-                    onClick={(e) =>
-                        eventExportToCSV(
-                            e,
-                            rowsData,
-                            columns,
-                            downloadFilename,
-                            onDownloadComplete
-                        )
-                    }
+                    className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
+                    title="Reset Filters"
+                    onClick={handleResetSearch}
                     data-toggle="tooltip"
+                    role="button"
+                    tabIndex="0"
+                    onKeyDown={
+                        (e) => {
+                            if (e.key === 'Enter' || e.key === ' ')
+                                handleResetSearch(e)
+                        }}
                 >
-                    <div className="pd--0 mg--0 icon-content">
-                        <DownloadIcon />
-                        <span>
-                            {isSmallScreen ? '' : Export_To_CSV_Text}
-                        </span>
-                    </div>
+                    <EraseIcon />
                 </div>
-            )}
-            <div
-                className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
-                title="Reset Filters"
-                onClick={handleResetSearch}
-                data-toggle="tooltip"
-            >
-                <EraseIcon />
+                {enableDownload && (
+                    <div
+                        style={{
+                            pointerEvents: (noData ? 'none' : ''),
+                            opacity: (noData ? '0.5' : '')
+                        }}
+                        className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile"
+                        title={Export_To_CSV_Text}
+                        onClick={(e) =>
+                            eventExportToCSV(
+                                e,
+                                rowsData,
+                                columns,
+                                downloadFilename,
+                                onDownloadComplete
+                            )
+                        }
+                        role="button"
+                        tabIndex="0"
+                        onKeyDown={
+                            (e) => {
+                                if (e.key === 'Enter' || e.key === ' ')
+                                    eventExportToCSV(
+                                        e,
+                                        rowsData,
+                                        columns,
+                                        downloadFilename,
+                                        onDownloadComplete
+                                    )
+                            }}
+                        data-toggle="tooltip"
+                    >
+                        <div className="pd--0 mg--0 icon-content">
+                            <DownloadIcon />
+                            <span>
+                                {isSmallScreen ? '' : Export_To_CSV_Text}
+                            </span>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

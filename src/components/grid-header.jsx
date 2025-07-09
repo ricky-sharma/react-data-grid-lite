@@ -7,7 +7,7 @@ import { useWindowWidth } from '../hooks/use-window-width';
 import ActionIcon from '../icons/action-icon';
 import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
 import ColumnSortIcon from './column-sort-icon';
-import Input from './input';
+import Input from './custom-fields/input';
 
 const GridHeader = ({
     state,
@@ -175,9 +175,15 @@ const GridHeader = ({
                 key={key}
                 data-column-name={header?.name}
                 onClick={onClickHandler}
+                onKeyDown={
+                    (e) => {
+                        if (e.key === 'Enter' || e.key === ' ')
+                            onClickHandler(e)
+                    }}
                 className="pointer"
                 role="columnheader"
                 aria-label={displayName}
+                tabIndex="0"
             >
                 <div
                     className="pd--0 mg--0 alignCenter" data-column-name={header?.name}

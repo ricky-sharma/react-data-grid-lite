@@ -3,73 +3,112 @@
 
 ## 📑 Concatenating Columns
 
-In some scenarios, you may want to combine data from multiple columns into a single column for display in your data grid. The `react-data-grid-lite` component supports this functionality by allowing you to concatenate columns.
+In some scenarios, you may want to combine data from multiple columns into a single column for display and editing within your data grid. The `react-data-grid-lite` component supports this via the `concatColumns` property.
 
-This feature is useful when you want to show a combined value, such as **Department and Title**, as a single field (e.g., "HR-Manager") instead of displaying them separately. The `concatColumns` property helps you achieve this by specifying which columns to concatenate and what separator to use between their values.
+This feature is useful when you want to show a combined value, such as **Department and Title**, as a single field (e.g., `"HR - Manager"`) instead of displaying them separately. The `concatColumns` property lets you specify which columns to concatenate, the separator between values, and how each field is edited.
 
-#### ⚙️ Configuration
 
-To concatenate columns, you can use the `concatColumns` property within the column definition using one of the column as concatenated column. Here's how you can define a concatenated column in the grid:
+### ⚙️ Configuration
+
+You define a concatenated column by specifying the base column (which will show the combined value) and the `concatColumns` config describing:
+
+* Which columns to combine
+* The separator between values
+* Editor configurations for each concatenated field (optional)
 
 ```javascript
 export const columns = [
-    { name: 'ID', width: '80px'},
-    { name: 'Name', alias: 'Full Name' },
-    {
-        alias: 'Department-Title', name: 'Department',
-        concatColumns: {
-            columns: ['Department', 'Title'],  // Columns to concatenate
-            separator: '-'                     // Separator to use between values
+  { name: 'ID', width: '80px' },
+  { name: 'Name', alias: 'Full Name' },
+  {
+    alias: 'Department - Title',
+    name: 'Department',
+    concatColumns: {
+      columns: ['Department', 'Title'],        // Columns to concatenate
+      separator: ' - ',                        // Separator string
+      editor: [                               // Editor config for each field (optional)
+        {
+          type: 'select',
+          values: [
+            { label: 'HR', value: 'HR' },
+            { label: 'Engineering', value: 'Engineering' },
+            { label: 'Marketing', value: 'Marketing' }
+          ]
+        },
+        {
+          type: 'select',
+          values: [
+            { label: 'Manager', value: 'Manager' },
+            { label: 'Lead', value: 'Lead' },
+            { label: 'Intern', value: 'Intern' }
+          ]
         }
-    },
-    { name: 'Title' },
-    { name: 'Email' },
-    { name: 'Salary', formatting: { type: 'currency' }}
+      ]
+    }
+  },
+  { name: 'Title' },
+  { name: 'Email' },
+  { name: 'Salary', formatting: { type: 'currency' } }
 ];
 ```
 
-#### 📝 Explanation:
+### 📝 Explanation:
 
-* **`name: 'Department'`**: The primary column name, which will be used to access the data for concatenation.
-* **`alias: 'Department-Title'`**: This alias defines the name that will appear in the header of the concatenated column.
-* **`concatColumns`**: This property is used to specify which columns you want to concatenate.
+* **`name: 'Department'`**
+  The main column to display the concatenated value.
 
-  * **`columns: ['Department', 'Title']`**: Lists the columns to concatenate. In this case, it concatenates values from the **Department** and **Title** columns.
-  * **`separator: '-'`**: Defines the separator to use between the concatenated values. Here, it’s a hyphen (`-`), so the combined value will be displayed as `Department-Title` (e.g., `HR-Manager`).
+* **`alias: 'Department - Title'`**
+  The header label for the concatenated column.
 
-#### 📊 Example:
+* **`concatColumns.columns`**
+  An array of the column names whose values will be combined.
 
-Given the following data:
+* **`concatColumns.separator`**
+  The string that separates the concatenated values in the display.
 
-| ID | Name       | Department | Title     | Email                                                   | Salary |
-| -- | ---------- | ---------- | --------- | ------------------------------------------------------- | ------ |
-| 1  | John Doe   | HR         | Manager   | [john.doe@example.com](mailto:john.doe@example.com)     | \$5000 |
-| 2  | Jane Smith | IT         | Developer | [jane.smith@example.com](mailto:jane.smith@example.com) | \$5500 |
+* **`concatColumns.editor`**
+  An array specifying editors for each concatenated field. Editors can be shorthand strings (e.g., `'text'`, `'select'`) or detailed objects with dropdown values.
 
-With the configuration above, the **Department-Title** column will display:
+### 📊 Example Dataset
 
-| **Department-Title** |
-| -------------------- |
-| HR-Manager           |
-| IT-Developer         |
+| ID | Name       | Department  | Title   | Email                                                   | Salary |
+| -- | ---------- | ----------- | ------- | ------------------------------------------------------- | ------ |
+| 1  | John Doe   | HR          | Manager | [john.doe@example.com](mailto:john.doe@example.com)     | \$5000 |
+| 2  | Jane Smith | Engineering | Lead    | [jane.smith@example.com](mailto:jane.smith@example.com) | \$5500 |
 
-The values of **Department** and **Title** are concatenated with the hyphen (`-`) separator.
+### Resulting Display
 
-##### 🔄 Use Cases:
+| Department - Title |
+| ------------------ |
+| HR - Manager       |
+| Engineering - Lead |
 
-* **Combining First Name and Last Name**: You could concatenate a **FirstName** and **LastName** column into a **Full Name** column.
-* **Combining Address Fields**: If your dataset has separate columns for street, city, and country, you can concatenate them into a single **Full Address** column.
-* **Concatenating Department and Role**: Combining values like **Department** and **Title** into a more descriptive field, like **Department-Title**.
+When you edit the **Department - Title** column, it shows two select dropdowns side-by-side (or in sequence), letting users update **Department** and **Title** individually.
 
-This feature simplifies the grid by consolidating data into a single column while preserving the original columns for internal use or further customization.
+#### 🔄 Use Cases
 
-##### 🔄 Additional Notes:
+* **Full Name**: Combine `FirstName` and `LastName` columns for display and editing as one field.
+* **Full Address**: Concatenate street, city, and country columns.
+* **Product Details**: Combine product name and variant (e.g., color or size).
+* **Department and Role**: As shown, combine department and job title for concise display.
 
-* **Custom Separator**: You can adjust the separator based on your preference. For example, use a space (`' '`) or comma (`','`) depending on how you want the concatenated data to appear.
 
-#### 📌 **Important**:
+#### 🔄 Additional Notes
 
-> **Concatenating columns does not create a new column in the dataset**. Instead, the concatenated value will be displayed in the column you specify. This means that one of the columns in the dataset will be used to store the concatenated result, rather than introducing a completely new column in the dataset.
+* **Custom Separators**
+  You can change the separator string to anything: spaces, commas, slashes, etc.
+
+* **Editor Defaults**
+  If you don’t provide `concatColumns.editor`, each field defaults to a text input when editable.
+
+* **Data Integrity**
+  The concatenated column does not create a new column in your dataset. Instead, it displays combined values from existing columns and updates them individually when edited.
+
+
+#### 📌 Important
+
+> Concatenation is purely a display and editing convenience. Your underlying data structure remains unchanged. When a concatenated cell is edited, each part updates its respective original column.
+---
 
 <br><br>
 ## 📐 How Column Width is Computed (for Version 1.1.0 and Above)
@@ -122,6 +161,7 @@ The grid intelligently calculates column widths based on a mix of fixed, flexibl
 * Widths like `"abc"`, `"-100px"`, `null`, or `undefined` are treated as invalid and **fall back to the default value specified by** `Fallback_Column_Width`.
   
 <br><br>
+---
 
 ## 📏 **Column Width Calculation – Explained Simply (for Version 1.0.5 and Below)**
 

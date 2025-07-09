@@ -39,7 +39,7 @@ export const eventGridSearchClicked = (
         if (col.colName === '##globalSearch##') {
             col.colObj.forEach(c => {
                 let colObjSearchData = [];
-                const hidden = c?.hidden || false, f = c?.formatting?.format ?? '',
+                const hidden = c?.hidden === true, f = c?.formatting?.format ?? '',
                     t = (c?.formatting?.type || '')?.toLowerCase(), cc = c?.concatColumns?.columns;
                 colObjSearchData = data.filter(o => formattingType?.includes(t) ?
                     (cc ? Object.keys(o).some(k => cc.some(x => x?.toLowerCase() === k?.toLowerCase()) &&
