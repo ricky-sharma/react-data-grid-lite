@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1751279439497" rel="stylesheet" />
+		<link href="index.css?ver=1752157646172" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -328,6 +328,46 @@
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<p><br><br></p>
+<h2>📝 v1.1.5 - Released 2025-07-09</h2>
+<h3>🚀 Features</h3>
+<ul>
+<li>
+<p><strong>Cell Editing Enhancements</strong></p>
+<ul>
+<li>Added <strong>cell editing functionality</strong> with dynamic input rendering.</li>
+<li>Introduced <code>onCellUpdate</code> callback to handle cell value updates.</li>
+<li>Added <code>enableCellEdit</code> prop to <strong>globally enable/disable editing</strong>.</li>
+<li>Implemented <strong>keyboard-based navigation</strong> across cells using a custom hook.</li>
+<li>Enabled <strong>double-tap edit support</strong> on mobile via <code>useDoubleTap</code> hook.</li>
+<li>Added <code>editable</code> column-level prop to control which columns are editable.</li>
+</ul>
+</li>
+<li>
+<p><strong>Dropdown Field Support</strong></p>
+<ul>
+<li>Added <strong>dropdown support</strong> in cell editing mode.</li>
+<li>Dropdown supports objects with <code>label</code> and <code>value</code> keys.</li>
+</ul>
+</li>
+<li>
+<p><strong>Accessibility &amp; UI Improvements</strong></p>
+<ul>
+<li>Improved keyboard accessibility for <strong>dropdowns</strong> (arrow keys, Enter, Escape).</li>
+<li>Made <strong>Reset Filters</strong> and <strong>Export CSV</strong> buttons accessible via keyboard and screen readers.</li>
+<li>Added accessibility support for <strong>row edit and delete buttons</strong>.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>🔧 Refactors</h3>
+<ul>
+<li>Extracted <strong>editable cell logic</strong> into <code>editable-cell-fields.jsx</code> for modularity.</li>
+<li>Restructured editable cell components for better <strong>separation of concerns</strong>.</li>
+<li>Moved <code>input.jsx</code> and <code>dropdown.jsx</code> to a new <code>custom-fields</code> folder.</li>
+<li>Relocated <code>editable-cell-fields.jsx</code> to a new <code>grid-edit</code> folder for clarity.</li>
+<li>Improved <strong>focus handling</strong> and <strong>commit/revert behavior</strong> during editing.</li>
+</ul>
 <p><br><br></p>
 <h2>📦 v1.1.4 - Released 2025-06-30</h2>
 <h3>✨ Features</h3>

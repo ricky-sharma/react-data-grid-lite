@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1751279439497" rel="stylesheet" />
+		<link href="index.css?ver=1752157646172" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -351,7 +351,7 @@
 <tr>
 <td><code>class</code></td>
 <td><code>String</code></td>
-<td>Custom CSS class applied to each data cell in the column. Supported in version <code>1.1.0</code> and above.</td>
+<td>Custom CSS class applied to each data cell in the column. Supported in <code>version 1.1.0</code> and above.</td>
 <td>-</td>
 <td>No</td>
 </tr>
@@ -365,21 +365,35 @@
 <tr>
 <td><code>draggable</code></td>
 <td><code>Boolean</code></td>
-<td>Enables or disables dragging for an individual column. Overrides the global <code>enableColumnDrag</code> setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in version <code>1.1.4</code> and above.</td>
+<td>Enables or disables dragging for an individual column. Overrides the global <code>enableColumnDrag</code> setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in <code>version 1.1.4</code> and above.</td>
 <td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>editable</code></td>
+<td><code>Boolean</code></td>
+<td>Enables or disables cell editing for a specific column. Overrides the enableCellEdit setting. Cell editing is fully accessible via keyboard, touch, and mouse. Press Enter to save changes or Esc to cancel. When a change is saved, the <code>onCellUpdate</code> callback is fired. Supported in <code>version 1.1.5</code> and above.</td>
+<td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>editor</code></td>
+<td><code>String</code> / <code>Object</code> / <code>Array</code></td>
+<td>Enables inline editing for the column. Can be a shorthand string (<code>'text'</code>, <code>'number'</code>) or an object (<code>'select'</code>) with detailed configuration. When used with <code>concatColumns</code>, this can be an array matching the column parts.<br><br>💡 <strong>Default behavior:</strong> If <code>editor</code> is not provided but <code>editable: true</code> is set (or <code>enableCellEdit</code> is enabled globally), the field defaults to a <code>'text'</code> input editor. Supported in <code>version 1.1.5</code> and above.</td>
+<td><code>'text'</code> (if <code>editable</code> is <code>true</code>)</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>enableSearch</code></td>
 <td><code>Boolean</code></td>
-<td>Enables or disables the search textbox for a specific column. Overrides the <code>enableGlobalSearch</code> setting. Renamed from <code>searchEnable</code> in v1.1.2 and above.</td>
+<td>Enables or disables the search textbox for a specific column. Overrides the <code>enableColumnSearch</code> setting. Renamed from <code>searchEnable</code> in <code>v1.1.2</code> and above.</td>
 <td>true</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>fixed</code></td>
 <td><code>Boolean</code></td>
-<td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in version <code>1.1.0</code> and above.</td>
+<td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in <code>version 1.1.0</code> and above.</td>
 <td>false</td>
 <td>No</td>
 </tr>
@@ -548,6 +562,114 @@ const App = () =&gt; (
 }
 </code></pre>
 <hr>
+<h3>Editor Shorthand Values</h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>'text'</code></td>
+<td>Basic text input (default)</td>
+</tr>
+<tr>
+<td><code>'number'</code></td>
+<td>Numeric input</td>
+</tr>
+</tbody>
+</table>
+<h3>Full Editor Object Format</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td><code>'text'</code> | <code>'number'</code> | <code>'select'</code></td>
+<td>Input type</td>
+</tr>
+<tr>
+<td><code>values</code></td>
+<td><code>Array&lt;string&gt;</code> | <code>Array&lt;{ label: string, value: any }&gt;</code></td>
+<td>Required for <code>'select'</code> type</td>
+</tr>
+</tbody>
+</table>
+<h4>✅ Example: Simple Column with a Select Editor</h4>
+<pre><code class="language-jsx">{
+  name: 'Role',
+  editable: true,
+  editor: {
+    type: 'select',
+    values: [
+      { label: 'Admin', value: 'admin' },
+      { label: 'Editor', value: 'editor' },
+      { label: 'Viewer', value: 'viewer' }
+    ]
+  }
+}
+</code></pre>
+<h4>📝 Alternate (shorthand) version</h4>
+<pre><code class="language-jsx">{
+  name: 'firstName',
+  editable: true,
+  editor: 'text'
+}
+</code></pre>
+<h3>Usage with <code>concatColumns</code></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>editor</code></td>
+<td><code>Array&lt;string | object&gt;</code></td>
+<td>Should match the order and count of fields in the <code>columns</code> array of <code>concatColumns</code>. Each item can be a string shorthand or full config.</td>
+</tr>
+</tbody>
+</table>
+<h4>Example:</h4>
+<pre><code class="language-jsx">{
+  alias: 'Department-Title',
+  name: 'Department',
+  editable: true,
+  concatColumns: {
+    columns: ['Department', 'Title'],
+    separator: ' - ',
+    editor: [
+      {
+        type: 'select',
+        values: [
+          { label: 'Engineering', value: 'engineering' },
+          { label: 'Marketing', value: 'marketing' },
+          { label: 'HR', value: 'hr' }
+        ]
+      },
+      {
+        type: 'select',
+        values: [
+          { label: 'Manager', value: 'manager' },
+          { label: 'Lead', value: 'lead' },
+          { label: 'Intern', value: 'intern' }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
 
 					</div>
 

@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1751279439497" rel="stylesheet" />
+		<link href="index.css?ver=1752157646172" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -327,43 +327,73 @@
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
 						<h2>📑 Concatenating Columns</h2>
-<p>In some scenarios, you may want to combine data from multiple columns into a single column for display in your data grid. The <code>react-data-grid-lite</code> component supports this functionality by allowing you to concatenate columns.</p>
-<p>This feature is useful when you want to show a combined value, such as <strong>Department and Title</strong>, as a single field (e.g., &quot;HR-Manager&quot;) instead of displaying them separately. The <code>concatColumns</code> property helps you achieve this by specifying which columns to concatenate and what separator to use between their values.</p>
-<h4>⚙️ Configuration</h4>
-<p>To concatenate columns, you can use the <code>concatColumns</code> property within the column definition using one of the column as concatenated column. Here's how you can define a concatenated column in the grid:</p>
+<p>In some scenarios, you may want to combine data from multiple columns into a single column for display and editing within your data grid. The <code>react-data-grid-lite</code> component supports this via the <code>concatColumns</code> property.</p>
+<p>This feature is useful when you want to show a combined value, such as <strong>Department and Title</strong>, as a single field (e.g., <code>&quot;HR - Manager&quot;</code>) instead of displaying them separately. The <code>concatColumns</code> property lets you specify which columns to concatenate, the separator between values, and how each field is edited.</p>
+<h3>⚙️ Configuration</h3>
+<p>You define a concatenated column by specifying the base column (which will show the combined value) and the <code>concatColumns</code> config describing:</p>
+<ul>
+<li>Which columns to combine</li>
+<li>The separator between values</li>
+<li>Editor configurations for each concatenated field (optional)</li>
+</ul>
 <pre><code class="language-javascript">export const columns = [
-    { name: 'ID', width: '80px'},
-    { name: 'Name', alias: 'Full Name' },
-    {
-        alias: 'Department-Title', name: 'Department',
-        concatColumns: {
-            columns: ['Department', 'Title'],  // Columns to concatenate
-            separator: '-'                     // Separator to use between values
+  { name: 'ID', width: '80px' },
+  { name: 'Name', alias: 'Full Name' },
+  {
+    alias: 'Department - Title',
+    name: 'Department',
+    concatColumns: {
+      columns: ['Department', 'Title'],        // Columns to concatenate
+      separator: ' - ',                        // Separator string
+      editor: [                               // Editor config for each field (optional)
+        {
+          type: 'select',
+          values: [
+            { label: 'HR', value: 'HR' },
+            { label: 'Engineering', value: 'Engineering' },
+            { label: 'Marketing', value: 'Marketing' }
+          ]
+        },
+        {
+          type: 'select',
+          values: [
+            { label: 'Manager', value: 'Manager' },
+            { label: 'Lead', value: 'Lead' },
+            { label: 'Intern', value: 'Intern' }
+          ]
         }
-    },
-    { name: 'Title' },
-    { name: 'Email' },
-    { name: 'Salary', formatting: { type: 'currency' }}
+      ]
+    }
+  },
+  { name: 'Title' },
+  { name: 'Email' },
+  { name: 'Salary', formatting: { type: 'currency' } }
 ];
 </code></pre>
-<h4>📝 Explanation:</h4>
+<h3>📝 Explanation:</h3>
 <ul>
 <li>
-<p><strong><code>name: 'Department'</code></strong>: The primary column name, which will be used to access the data for concatenation.</p>
+<p><strong><code>name: 'Department'</code></strong>
+The main column to display the concatenated value.</p>
 </li>
 <li>
-<p><strong><code>alias: 'Department-Title'</code></strong>: This alias defines the name that will appear in the header of the concatenated column.</p>
+<p><strong><code>alias: 'Department - Title'</code></strong>
+The header label for the concatenated column.</p>
 </li>
 <li>
-<p><strong><code>concatColumns</code></strong>: This property is used to specify which columns you want to concatenate.</p>
-<ul>
-<li><strong><code>columns: ['Department', 'Title']</code></strong>: Lists the columns to concatenate. In this case, it concatenates values from the <strong>Department</strong> and <strong>Title</strong> columns.</li>
-<li><strong><code>separator: '-'</code></strong>: Defines the separator to use between the concatenated values. Here, it’s a hyphen (<code>-</code>), so the combined value will be displayed as <code>Department-Title</code> (e.g., <code>HR-Manager</code>).</li>
-</ul>
+<p><strong><code>concatColumns.columns</code></strong>
+An array of the column names whose values will be combined.</p>
+</li>
+<li>
+<p><strong><code>concatColumns.separator</code></strong>
+The string that separates the concatenated values in the display.</p>
+</li>
+<li>
+<p><strong><code>concatColumns.editor</code></strong>
+An array specifying editors for each concatenated field. Editors can be shorthand strings (e.g., <code>'text'</code>, <code>'select'</code>) or detailed objects with dropdown values.</p>
 </li>
 </ul>
-<h4>📊 Example:</h4>
-<p>Given the following data:</p>
+<h3>📊 Example Dataset</h3>
 <table>
 <thead>
 <tr>
@@ -387,45 +417,57 @@
 <tr>
 <td>2</td>
 <td>Jane Smith</td>
-<td>IT</td>
-<td>Developer</td>
+<td>Engineering</td>
+<td>Lead</td>
 <td><a href="mailto:jane.smith@example.com">jane.smith@example.com</a></td>
 <td>$5500</td>
 </tr>
 </tbody>
 </table>
-<p>With the configuration above, the <strong>Department-Title</strong> column will display:</p>
+<h3>Resulting Display</h3>
 <table>
 <thead>
 <tr>
-<th><strong>Department-Title</strong></th>
+<th>Department - Title</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>HR-Manager</td>
+<td>HR - Manager</td>
 </tr>
 <tr>
-<td>IT-Developer</td>
+<td>Engineering - Lead</td>
 </tr>
 </tbody>
 </table>
-<p>The values of <strong>Department</strong> and <strong>Title</strong> are concatenated with the hyphen (<code>-</code>) separator.</p>
-<h5>🔄 Use Cases:</h5>
+<p>When you edit the <strong>Department - Title</strong> column, it shows two select dropdowns side-by-side (or in sequence), letting users update <strong>Department</strong> and <strong>Title</strong> individually.</p>
+<h4>🔄 Use Cases</h4>
 <ul>
-<li><strong>Combining First Name and Last Name</strong>: You could concatenate a <strong>FirstName</strong> and <strong>LastName</strong> column into a <strong>Full Name</strong> column.</li>
-<li><strong>Combining Address Fields</strong>: If your dataset has separate columns for street, city, and country, you can concatenate them into a single <strong>Full Address</strong> column.</li>
-<li><strong>Concatenating Department and Role</strong>: Combining values like <strong>Department</strong> and <strong>Title</strong> into a more descriptive field, like <strong>Department-Title</strong>.</li>
+<li><strong>Full Name</strong>: Combine <code>FirstName</code> and <code>LastName</code> columns for display and editing as one field.</li>
+<li><strong>Full Address</strong>: Concatenate street, city, and country columns.</li>
+<li><strong>Product Details</strong>: Combine product name and variant (e.g., color or size).</li>
+<li><strong>Department and Role</strong>: As shown, combine department and job title for concise display.</li>
 </ul>
-<p>This feature simplifies the grid by consolidating data into a single column while preserving the original columns for internal use or further customization.</p>
-<h5>🔄 Additional Notes:</h5>
+<h4>🔄 Additional Notes</h4>
 <ul>
-<li><strong>Custom Separator</strong>: You can adjust the separator based on your preference. For example, use a space (<code>' '</code>) or comma (<code>','</code>) depending on how you want the concatenated data to appear.</li>
+<li>
+<p><strong>Custom Separators</strong>
+You can change the separator string to anything: spaces, commas, slashes, etc.</p>
+</li>
+<li>
+<p><strong>Editor Defaults</strong>
+If you don’t provide <code>concatColumns.editor</code>, each field defaults to a text input when editable.</p>
+</li>
+<li>
+<p><strong>Data Integrity</strong>
+The concatenated column does not create a new column in your dataset. Instead, it displays combined values from existing columns and updates them individually when edited.</p>
+</li>
 </ul>
-<h4>📌 <strong>Important</strong>:</h4>
+<h4>📌 Important</h4>
 <blockquote>
-<p><strong>Concatenating columns does not create a new column in the dataset</strong>. Instead, the concatenated value will be displayed in the column you specify. This means that one of the columns in the dataset will be used to store the concatenated result, rather than introducing a completely new column in the dataset.</p>
+<p>Concatenation is purely a display and editing convenience. Your underlying data structure remains unchanged. When a concatenated cell is edited, each part updates its respective original column.</p>
 </blockquote>
+<hr>
 <p><br><br></p>
 <h2>📐 How Column Width is Computed (for Version 1.1.0 and Above)</h2>
 <p>The grid intelligently calculates column widths based on a mix of fixed, flexible, and fallback strategies. Here's how it works:</p>
@@ -480,7 +522,7 @@
 <li>If a column has a <code>%</code> width like <code>&quot;20%&quot;</code>, it's converted to pixels based on the container size.</li>
 <li>Widths like <code>&quot;abc&quot;</code>, <code>&quot;-100px&quot;</code>, <code>null</code>, or <code>undefined</code> are treated as invalid and <strong>fall back to the default value specified by</strong> <code>Fallback_Column_Width</code>.</li>
 </ul>
-<p><br><br></p>
+<h2><br><br></h2>
 <h2>📏 <strong>Column Width Calculation – Explained Simply (for Version 1.0.5 and Below)</strong></h2>
 <p>This logic automatically adjusts column widths based on how the grid is set up:</p>
 <ol>

@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1751279439497" rel="stylesheet" />
+		<link href="index.css?ver=1752157646172" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -411,6 +411,64 @@
 <li><code>e</code>: Mouse event</li>
 <li><code>row</code>: Row from which the cursor exited</li>
 </ul>
+<h3><code>onCellUpdate(cellUpdate)</code> — <em>Supported in <code>v1.1.5</code> and above</em></h3>
+<p>Fired when cell editing is saved (e.g., by pressing <code>Enter</code>). Useful for persisting changes, triggering validations, or syncing with a backend.</p>
+<ul>
+<li><code>cellUpdate</code>: An object containing details about the updated row and columns.</li>
+</ul>
+<h4><code>cellUpdate</code> structure:</h4>
+<ul>
+<li>
+<p><code>rowIndex</code>: <em>(number)</em> — Index of the updated row</p>
+</li>
+<li>
+<p><code>editedColumns</code>: <em>(Array&lt;{ colName: string, value: any }&gt;)</em> —
+A list of updated columns and their new values.</p>
+<blockquote>
+<p>💡 Normally contains a single column update, but for concatenated columns, it may include <strong>multiple fields</strong> with their respective values.</p>
+</blockquote>
+</li>
+<li>
+<p><code>updatedRow</code>: <em>(object)</em> — The full row data after changes</p>
+</li>
+</ul>
+<h4>Example usage:</h4>
+<pre><code class="language-jsx">onCellUpdate={(cellUpdate) =&gt; {
+  console.log('Row index:' + cellUpdate.rowIndex);
+  console.log(cellUpdate.editedColumns);
+  console.log(cellUpdate.updatedRow);
+}}
+</code></pre>
+<h4>Example: <code>cellUpdate</code> object</h4>
+<p><strong>Normal (single column) update:</strong></p>
+<pre><code class="language-js">{
+  rowIndex: 2,
+  editedColumns: [
+    { colName: 'lastName', value: 'Doe' }
+  ],
+  updatedRow: {
+    id: 3,
+    firstName: 'John',
+    lastName: 'Doe',
+    age: 30
+  }
+}
+</code></pre>
+<p><strong>Concatenated column update:</strong></p>
+<pre><code class="language-js">{
+  rowIndex: 4,
+  editedColumns: [
+    { colName: 'firstName', value: 'Jane' },
+    { colName: 'lastName', value: 'Smith' }
+  ],
+  updatedRow: {
+    id: 5,
+    firstName: 'Jane',
+    lastName: 'Smith',
+    age: 27
+  }
+}
+</code></pre>
 
 					</div>
 

@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1751279439497" rel="stylesheet" />
+		<link href="index.css?ver=1752157646172" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -378,6 +378,20 @@ const MyGrid = () =&gt; {
     &lt;/span&gt;
   )
 }
+</code></pre>
+<br>
+<h3>✏️ <strong>Cell &amp; Row Editing</strong></h3>
+<p>The grid supports inline cell editing with keyboard and touch support. It also provides callbacks and hooks for save, edit, and delete actions, allowing for customized editing workflows.</p>
+<pre><code class="language-jsx">const options = {enableCellEdit: true}
+
+&lt;DataGrid
+  data={rows}
+  columns={columns}
+  options={options}
+  onCellUpdate={(cellUpdate) =&gt; {
+    console.log(`Updated ${cellUpdate.editedColumns[0].colName} to ${cellUpdate.editedColumns[0].value}`);
+  }}
+/&gt;
 </code></pre>
 <br>
 <h3>🔍 <strong>Search &amp; Aliases</strong></h3>
