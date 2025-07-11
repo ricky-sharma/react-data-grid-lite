@@ -211,7 +211,7 @@ const GridRows = ({
                             zIndex: (col?.fixed === true && !isMobile ? 6 : ''),
                             backgroundColor: 'inherit',
                             boxShadow: (lastFixedIndex === key && !isMobile
-                                ? '#e0e0e0 -0.5px 0px 1px 0px inset' : ''),
+                                ? '#e0e0e0 -0.5px 0 0 0 inset' : ''),
                             contain: 'layout paint',
                             cursor: editable === true ? 'pointer' : 'default',
                         }}
@@ -267,7 +267,7 @@ const GridRows = ({
                                     style={{
                                         height: "100%",
                                         textAlign: "left",
-                                        padding: "10px 18px"
+                                        padding: "10px 25px"
                                     }}
                                     className="mg--0 pd--0"
                                     title={columnValue?.toString()}
@@ -299,9 +299,9 @@ const GridRows = ({
                             backgroundColor: (isActionColumnRight || isActionColumnLeft
                                 ? 'inherit' : ''),
                             boxShadow: (isActionColumnLeft && !isMobile ?
-                                '#e0e0e0 -0.5px 0px 0px 0px inset' :
+                                '#e0e0e0 -0.5px 0 0 0 inset' :
                                 (isActionColumnRight && !isMobile
-                                    ? '#e0e0e0 0.5px 0px 0px 0px inset' : '')),
+                                    ? '#e0e0e0 0.5px 0 0 0 inset' : '')),
                             contain: 'layout paint'
                         }}>
                         <div className="mg--0 pd--0 button-column alignCenter"
