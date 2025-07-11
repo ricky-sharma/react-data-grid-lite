@@ -105,9 +105,9 @@ Fired when cell editing is saved (e.g., by pressing `Enter`). Useful for persist
 
 ```jsx
 onCellUpdate={(cellUpdate) => {
-  console.log('Row index:', cellUpdate.rowIndex);
-  console.log('Edited columns:', cellUpdate.editedColumns);
-  console.log('Updated row:', cellUpdate.updatedRow);
+  console.log('Row index:' + cellUpdate.rowIndex);
+  console.log(cellUpdate.editedColumns);
+  console.log(cellUpdate.updatedRow);
 }}
 ```
 
