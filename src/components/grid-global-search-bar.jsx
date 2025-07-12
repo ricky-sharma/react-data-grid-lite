@@ -28,7 +28,7 @@ const GridGlobalSearchBar = ({
     const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns
     return (
         <div className="row--flex col-flex-12 globalSearchDiv">
-            {enableGlobalSearch && (
+            {enableGlobalSearch === true && (
                 <div
                     style={{
                         opacity: (noData ? '0.8' : '')
