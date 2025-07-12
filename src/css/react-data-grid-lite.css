@@ -6,6 +6,7 @@
     position: relative;
     font-size: 16px;
     font-weight: 600;
+    min-width: 250px !important;
 }
 
     .r-d-g-lt-comp * {
@@ -40,7 +41,7 @@
         -webkit-box-sizing: border-box !important;
         background-color: #fff;
         font-size: 16px;
-        border: 0.5px solid #e0e0e0;
+        border: none;
         color: #212529;
     }
 
@@ -54,7 +55,7 @@
         height: 100% !important;
         font-weight: 400 !important;
         padding: 1px 20px 1px 5px !important;
-        box-shadow: inset 0 1px 4px #444455;
+        box-shadow: inset 0 0 2px #444455;
     }
 
     .r-d-g-lt-comp .drop--down {
@@ -65,7 +66,7 @@
         padding: 0;
         background-color: #e0e0e0;
         cursor: pointer;
-        border: 1px solid #667;
+        border: 1.5px solid #667;
         font-weight: 600 !important;
         margin: 2px;
     }
@@ -78,8 +79,6 @@
         transition: border-color 0.2s;
         height: 100% !important;
         width: 100% !important;
-        border: 1px solid #667;
-        border-radius: 6px;
     }
 
     .r-d-g-lt-comp .dropdown-arrow {
@@ -147,7 +146,7 @@
 
     .r-d-g-lt-comp div.globalSearch input::placeholder,
     .r-d-g-lt-comp div.searchDiv input::placeholder {
-        transform: scale(0.9);
+        transform: scale(0.8);
         transition: transform 0.3s ease;
         top: 1px;
         position: relative;
@@ -194,14 +193,14 @@
 
 .r-d-g-lt-comp .icon-div {
     border-radius: 4px;
-    box-shadow: 0 0 0 1.5px #667;
-    height: 32px;
+    box-shadow: 0 0 0 1.6px #667;
+    height: 28px;
     letter-spacing: .001em;
     line-height: 1.43;
     margin: 0;
     transition: box-shadow 0.1s ease;
     cursor: pointer;
-    width: 32px;
+    width: 28px;
     z-index: 10;
 }
 
@@ -223,7 +222,7 @@
     width: 50px;
     position: relative;
     top: 0px;
-    height: 38.5px;
+    height: 40px;
 }
 
 .r-d-g-lt-comp .download-icon-div {
@@ -231,7 +230,7 @@
     width: 140px !important;
     position: relative;
     top: 0px;
-    height: 38.5px;
+    height: 40px;
 }
 
     .r-d-g-lt-comp .download-icon-div div.icon-content {
@@ -255,18 +254,17 @@
     position: relative;
     width: 0;
     height: 8px;
-    transform: scale(0.8);
     opacity: 0.8;
 }
 
     .r-d-g-lt-comp i.icon-sort::before {
-        bottom: 7px;
-        border-bottom: 6px solid #fff;
+        bottom: 6px;
+        border-bottom: 6px solid currentColor;
     }
 
     .r-d-g-lt-comp i.icon-sort::after {
-        top: 7px;
-        border-top: 6px solid #fff;
+        top: 6px;
+        border-top: 6px solid currentColor;
     }
 
     .r-d-g-lt-comp i.icon-sort::before,
@@ -274,13 +272,12 @@
         content: "";
         position: absolute;
         left: -5px;
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
     }
 
 .r-d-g-lt-comp .updown-icon {
-    text-shadow: 1px 1px 1px #ccc;
-    font-size: 15px !important;
+    text-shadow: 1px 1px 1px currentColor;
     margin: 0 !important;
     padding: 0 !important;
 }
@@ -289,24 +286,21 @@
         color: #ccc !important;
     }
 
-.r-d-g-lt-comp i.icon-sort-up {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    transform: scale(0.8);
-    border-bottom: 6px solid #fff;
-}
-
+.r-d-g-lt-comp i.icon-sort-up,
 .r-d-g-lt-comp i.icon-sort-down {
     display: inline-block;
     width: 0;
     height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    transform: scale(0.8);
-    border-top: 6px solid #fff;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+}
+
+.r-d-g-lt-comp i.icon-sort-up {
+    border-bottom: 8px solid currentColor;
+}
+
+.r-d-g-lt-comp i.icon-sort-down {
+    border-top: 8px solid currentColor;
 }
 
 .r-d-g-lt-comp .pd--0 {
@@ -421,9 +415,9 @@
 
 .r-d-g-lt-comp table thead tr th {
     position: relative;
-    min-width: 100px !important;
+    min-width: 75px !important;
     max-width: 2400px !important;
-    border: 0 !important;
+    border: none !important;
     vertical-align: middle !important;
 }
 
@@ -455,12 +449,12 @@
 
             .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
                 padding: 0 0 0 5px !important;
-                white-space: nowrap;
+                white-space: normal;
                 text-align: center;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 text-transform: capitalize;
-                font-size: 20px !important;
+                font-size: 18px;
                 display: block;
             }
 
@@ -491,42 +485,36 @@
             height: 100%;
         }
 
-.r-d-g-lt-comp table tbody .gridRow:first-child,
-.r-d-g-lt-comp .gridRow:first-child td {
-    border-top: 0px solid rgb(224, 224, 224) !important;
+.r-d-g-lt-comp table tbody tr.gridRow {
+    border: none !important;
+    border-bottom: 2px solid #e0e0e0 !important;
 }
 
-.r-d-g-lt-comp table tbody .gridRow:last-child {
-    border-bottom: 1px solid rgb(224, 224, 224) !important;
-}
-
-.r-d-g-lt-comp table tbody .gridRow td {
-    border: solid #e0e0e0 !important;
-    border-width: 1px 0 0 !important;
-    padding: 0;
-    text-align: center;
-    min-width: 100px !important;
-    max-width: 2400px !important;
-}
-
-    .r-d-g-lt-comp table tbody .gridRow td.editable-cell:focus,
-    .r-d-g-lt-comp .pagination li.page-item a.page-link:focus-visible,
-    .r-d-g-lt-comp .dropdown-selected:focus-visible,
-    .r-d-g-lt-comp .dropdown-option:focus-visible,
-    .r-d-g-lt-comp .icon-div:focus-visible,
-    .r-d-g-lt-comp table thead tr.gridHeader th:focus-visible,
-    .r-d-g-lt-comp table tbody .gridRow td a:focus-visible {
-        outline: currentColor 2px dotted !important;
-        box-sizing: border-box !important;
-        outline-offset: -5px;
+    .r-d-g-lt-comp table tbody tr.gridRow td {
+        border: none !important;
+        padding: 0;
+        min-width: 75px !important;
+        max-width: 2400px !important;
     }
 
-    .r-d-g-lt-comp table tbody .gridRow td div {
-        overflow: hidden;
-        white-space: normal;
-        text-overflow: ellipsis;
-        align-content: center;
-    }
+        .r-d-g-lt-comp table tbody tr.gridRow td.editable-cell:focus,
+        .r-d-g-lt-comp .pagination li.page-item a.page-link:focus-visible,
+        .r-d-g-lt-comp .dropdown-selected:focus-visible,
+        .r-d-g-lt-comp .dropdown-option:focus-visible,
+        .r-d-g-lt-comp .icon-div:focus-visible,
+        .r-d-g-lt-comp table thead tr.gridHeader th:focus-visible,
+        .r-d-g-lt-comp table tbody tr.gridRow td a:focus-visible {
+            outline: currentColor 2px dotted !important;
+            box-sizing: border-box !important;
+            outline-offset: -5px;
+        }
+
+        .r-d-g-lt-comp table tbody tr.gridRow td div {
+            overflow: hidden;
+            white-space: normal;
+            text-overflow: ellipsis;
+            align-content: center;
+        }
 
 .r-d-g-lt-comp .pagination li.page-item a.page-link:focus-visible {
     outline-offset: -2px !important;
@@ -573,16 +561,17 @@
 
     .r-d-g-lt-comp .globalSearchDiv .button-container {
         display: flex;
-        justify-content: space-between;
+        justify-content: right;
         align-items: center;
         position: relative;
+        gap: 12px;
+        top: 1px;
     }
 
 .r-d-g-lt-comp div.globalSearch {
-    width: 50% !important;
-    height: 41px !important;
+    width: 60% !important;
+    height: 42px !important;
     float: left !important;
-    margin-right: 12px;
     position: relative;
 }
 
@@ -653,12 +642,6 @@
             background: inherit !important;
         }
 
-    .r-d-g-lt-comp .pagination i.page-item.arrow {
-        font-size: 28px !important;
-        top: 2px;
-        position: relative;
-    }
-
     .r-d-g-lt-comp .pagination li.page-item i.arrow:hover,
     .r-d-g-lt-comp .pagination li.page-item.arrow:hover,
     .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
@@ -721,19 +704,13 @@
     }
 
     .r-d-g-lt-comp div.globalSearch {
-        width: 100% !important;
-        margin: 0 0 10px;
-        height: 32.5px !important;
+        margin: 0;
+        height: 34px !important;
     }
 
     .r-d-g-lt-comp .globalSearchDiv {
         padding-top: 2px !important;
     }
-
-        .r-d-g-lt-comp .globalSearchDiv .button-container {
-            display: inline-flex !important;
-            float: right !important;
-        }
 
     .r-d-g-lt-comp .drop--down {
         width: 50px;
@@ -742,13 +719,11 @@
 
     .r-d-g-lt-comp .clear-icon-div {
         float: right !important;
-        margin: 0 10px 0 !important;
     }
 
     .r-d-g-lt-comp .icon-div-mobile {
         width: 40px !important;
         height: 32px !important;
-        margin: 0 0 10px 10px !important;
     }
 }
 
@@ -777,78 +752,54 @@
         padding: 4px 0 5px 0;
     }
 
-    .r-d-g-lt-comp .updown-icon {
-        font-size: 10px !important;
-    }
-
-    .r-d-g-lt-comp i.icon-sort::before,
-    .r-d-g-lt-comp i.icon-sort::after {
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-    }
-
-    .r-d-g-lt-comp i.icon-sort::before {
-        border-bottom: 4px solid #fff;
-        bottom: 6px;
-    }
-
-    .r-d-g-lt-comp i.icon-sort::after {
-        border-top: 4px solid #fff;
-        top: 6px;
-    }
-
-    .r-d-g-lt-comp i.icon-sort-down,
-    .r-d-g-lt-comp i.icon-sort-up {
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-    }
-
-    .r-d-g-lt-comp .icon-div-mobile {
-        width: 32px !important;
-    }
-
     .r-d-g-lt-comp .page-results,
     .r-d-g-lt-comp .pagerSelect {
         transform: scale(0.9) !important;
     }
 }
 
+@media (max-width: 350px) {
+    .r-d-g-lt-comp div.globalSearch {
+        width: 50% !important;
+    }
+}
+
 @media (max-width: 575.98px) {
     .r-d-g-lt-comp {
-        font-size: 12.5px !important;
+        font-size: 12.5px;
     }
 
         .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
-            font-size: 15px !important;
+            font-size: 14px;
         }
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
     .r-d-g-lt-comp {
-        font-size: 14px !important;
+        font-size: 14px;
     }
 
         .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
-            font-size: 16px !important;
+            font-size: 15px;
         }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
     .r-d-g-lt-comp {
-        font-size: 15px !important;
+        font-size: 15px;
     }
 
         .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
-            font-size: 17px !important;
+            font-size: 16px;
         }
 }
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
     .r-d-g-lt-comp {
-        font-size: 16px !important;
+        font-size: 16px;
     }
 
         .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
-            font-size: 18px !important;
+            font-size: 17px;
         }
 }

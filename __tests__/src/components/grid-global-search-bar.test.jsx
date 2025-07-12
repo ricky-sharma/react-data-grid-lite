@@ -24,7 +24,8 @@ describe('GridGlobalSearchBar', () => {
         rowsData: [{ col1: 'value1' }],
         downloadFilename: 'my-data',
         onDownloadComplete: jest.fn(),
-        setState: jest.fn()
+        setState: jest.fn(),
+        showResetButton: true
     };
 
     afterEach(() => {
@@ -48,19 +49,19 @@ describe('GridGlobalSearchBar', () => {
 
     it('renders global search input when enabled', () => {
         render(<GridGlobalSearchBar {...defaultProps} />);
-        const input = screen.getByPlaceholderText(/Global Search/i);
+        const input = screen.getByPlaceholderText(/Search all columns…/i);
         expect(input).toBeInTheDocument();
         expect(input).toHaveValue('test');
     });
 
     it('does not render global search input when disabled', () => {
         render(<GridGlobalSearchBar {...defaultProps} enableGlobalSearch={false} />);
-        expect(screen.queryByPlaceholderText(/Global Search/i)).not.toBeInTheDocument();
+        expect(screen.queryByPlaceholderText(/Search all columns…/i)).not.toBeInTheDocument();
     });
 
     it('calls onSearchClicked when input changes', () => {
         render(<GridGlobalSearchBar {...defaultProps} />);
-        const input = screen.getByPlaceholderText(/Global Search/i);
+        const input = screen.getByPlaceholderText(/Search all columns…/i);
         fireEvent.change(input, { target: { value: 'new' } });
         expect(defaultProps.onSearchClicked).toHaveBeenCalledWith(
             expect.any(Object),
@@ -126,7 +127,8 @@ describe('More Tests for GridGlobalSearchBar', () => {
         enableDownload: true,
         rowsData: [{ id: 1, name: 'A' }],
         downloadFilename: 'file.csv',
-        onDownloadComplete
+        onDownloadComplete,
+        showResetButton: true
     };
 
     beforeEach(() => {
@@ -135,17 +137,17 @@ describe('More Tests for GridGlobalSearchBar', () => {
 
     it('renders global search input when enabled', () => {
         render(<GridGlobalSearchBar {...defaultProps} />);
-        expect(screen.getByPlaceholderText('Global Search')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Search all columns…')).toBeInTheDocument();
     });
 
     it('does not render global search input when disabled', () => {
         render(<GridGlobalSearchBar {...defaultProps} enableGlobalSearch={false} />);
-        expect(screen.queryByPlaceholderText('Global Search')).toBeNull();
+        expect(screen.queryByPlaceholderText('Search all columns…')).toBeNull();
     });
 
     it('calls setState and onSearchClicked on input change', () => {
         render(<GridGlobalSearchBar {...defaultProps} />);
-        const input = screen.getByPlaceholderText('Global Search');
+        const input = screen.getByPlaceholderText('Search all columns…');
 
         fireEvent.change(input, { target: { value: 'hello' } });
 
@@ -220,7 +222,7 @@ describe('More Tests for GridGlobalSearchBar', () => {
         fireEvent.keyDown(downloadBtn, { key: 'Escape' });
         fireEvent.keyDown(downloadBtn, { key: 'Tab' });
         fireEvent.keyDown(downloadBtn, { key: 'a' });
-    });   
+    });
 });
 
 describe('GridGlobalSearchBar else path for onSearchClicked', () => {
@@ -242,7 +244,7 @@ describe('GridGlobalSearchBar else path for onSearchClicked', () => {
             />
         );
 
-        const input = screen.getByPlaceholderText('Global Search');
+        const input = screen.getByPlaceholderText('Search all columns…');
         fireEvent.change(input, { target: { value: 'test' } });
         expect(setState).toHaveBeenCalled();
     });
@@ -267,7 +269,7 @@ describe('GridGlobalSearchBar setState coverage', () => {
             />
         );
 
-        const input = screen.getByPlaceholderText('Global Search');
+        const input = screen.getByPlaceholderText('Search all columns…');
         fireEvent.change(input, { target: { value: 'hello' } });
         expect(setState).toHaveBeenCalled();
         const updater = setState.mock.calls[0][0];

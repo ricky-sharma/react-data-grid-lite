@@ -57,6 +57,13 @@ const DataGrid = ({
             options?.enableGlobalSearch : true,
         enableCellEdit: typeof options?.enableCellEdit === 'boolean' ?
             options?.enableCellEdit : false,
+        showToolbar: typeof options?.showToolbar === 'boolean' ?
+            options?.showToolbar : true,
+        showResetButton: typeof options?.showResetButton === 'boolean' ?
+            options?.showResetButton : true,
+        showFooter: typeof options?.showFooter === 'boolean' ?
+            options?.showFooter : true,
+        rowHeight: parseInt(options?.rowHeight, 10) ? options?.rowHeight : undefined,
         rowClickEnabled: !isNull(onRowClick),
         onRowClick: onRowClick ?? (() => { }),
         onRowHover: onRowHover ?? (() => { }),
@@ -76,6 +83,7 @@ const DataGrid = ({
             options?.enableDownload : true,
         downloadFilename: options?.downloadFilename ?? null,
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
+        globalSearchPlaceholder: options?.globalSearchPlaceholder,
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
@@ -320,18 +328,21 @@ const DataGrid = ({
             }
             style={{ maxWidth: state.maxWidth, width: state.width }}
         >
-            <GridGlobalSearchBar
-                setState={setState}
-                enableGlobalSearch={state.enableGlobalSearch}
-                globalSearchInput={state.globalSearchInput}
-                columns={state.columns}
-                onSearchClicked={onSearchClicked}
-                handleResetSearch={handleResetSearch}
-                enableDownload={state.enableDownload}
-                rowsData={state.rowsData}
-                downloadFilename={state.downloadFilename}
-                onDownloadComplete={state.onDownloadComplete}
-            />
+            {state?.showToolbar === true &&
+                (<GridGlobalSearchBar
+                    setState={setState}
+                    enableGlobalSearch={state.enableGlobalSearch}
+                    globalSearchInput={state.globalSearchInput}
+                    columns={state.columns}
+                    onSearchClicked={onSearchClicked}
+                    handleResetSearch={handleResetSearch}
+                    enableDownload={state.enableDownload}
+                    rowsData={state.rowsData}
+                    downloadFilename={state.downloadFilename}
+                    onDownloadComplete={state.onDownloadComplete}
+                    showResetButton={state.showResetButton}
+                    globalSearchPlaceholder={state.globalSearchPlaceholder}
+                />)}
             <div
                 className={
                     !isNull(state.gridCssClass)
@@ -349,18 +360,19 @@ const DataGrid = ({
                     isResizingRef={isResizingRef}
                 />
             </div>
-            <GridFooter
-                totalRows={state.totalRows}
-                currentPageRows={state.currentPageRows}
-                activePage={state.activePage}
-                pageRows={state.pageRows}
-                pagerSelectOptions={state.pagerSelectOptions}
-                enablePaging={state.enablePaging}
-                noOfPages={state.noOfPages}
-                onPageChange={handleChangePage}
-                onPrev={handleBackwardPage}
-                onNext={handleForwardPage}
-            />
+            {state.showFooter === true && (
+                <GridFooter
+                    totalRows={state.totalRows}
+                    currentPageRows={state.currentPageRows}
+                    activePage={state.activePage}
+                    pageRows={state.pageRows}
+                    pagerSelectOptions={state.pagerSelectOptions}
+                    enablePaging={state.enablePaging}
+                    noOfPages={state.noOfPages}
+                    onPageChange={handleChangePage}
+                    onPrev={handleBackwardPage}
+                    onNext={handleForwardPage}
+                />)}
         </div>
     );
 }
