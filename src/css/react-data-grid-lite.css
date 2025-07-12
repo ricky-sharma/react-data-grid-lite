@@ -296,11 +296,11 @@
 }
 
 .r-d-g-lt-comp i.icon-sort-up {
-    border-bottom: 6px solid currentColor;
+    border-bottom: 8px solid currentColor;
 }
 
 .r-d-g-lt-comp i.icon-sort-down {
-    border-top: 6px solid currentColor;
+    border-top: 8px solid currentColor;
 }
 
 .r-d-g-lt-comp .pd--0 {
