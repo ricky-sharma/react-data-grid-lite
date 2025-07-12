@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
+## 🔖 v1.1.6 - Released 2025-07-12
+
+### 🆕 New Features
+
+* **Added grid configuration props:**
+
+  * `rowHeight`: Define row height using pixel or percentage values
+  * `showResetButton`: Toggle a reset button in the toolbar
+  * `showToolbar`: Show or hide the toolbar section
+  * `showFooter`: Show or hide the table footer
+* **Search customization:**
+
+  * `globalSearchPlaceholder`: Customize the placeholder for global search input
+  * `searchPlaceholder`: Customize search input placeholders for individual columns
+
+### 🎨 UI & Style Improvements
+
+* Updated global search placeholder from `"Global Search"` to `"Search all columns…"`
+* Updated sort icon styles; removed unnecessary `transform`
+* Reduced minimum column width to `75px`, and mobile column width to `125px`
+* Removed `td` borders and added `2px` bottom border to `tr` for better visual separation
+* Reduced table header font size to `18px` for screens wider than `1200px`; removed `!important` from font-size rule
+* Set minimum grid frame width to `250px`
+* Refactored CSS for improved consistency and maintainability
+
+<br><br>
+
 ## 📝 v1.1.5 - Released 2025-07-09
 
 ### 🚀 Features
@@ -29,8 +56,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   * Improved keyboard accessibility for **dropdowns** (arrow keys, Enter, Escape).
   * Made **Reset Filters** and **Export CSV** buttons accessible via keyboard and screen readers.
   * Added accessibility support for **row edit and delete buttons**.
-
----
 
 ### 🔧 Refactors
 
