@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1752200544420" rel="stylesheet" />
+		<link href="index.css?ver=1752302710774" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -329,7 +329,8 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						<p>The <code>options</code> prop is an <strong>object</strong> that provides additional configuration settings to further customize the behavior of the <code>DataGrid</code> component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality.</p>
+						<p>The <code>options</code> prop is an object that provides additional configuration settings to further customize the behavior of the <code>DataGrid</code> component. These settings control various aspects of the grid, such as styling, button visibility, search options, and download functionality. The <code>options</code> object can also be defined as a global configuration object and reused across multiple grids with little or no modification. This approach helps keep the code clean and uncluttered, promotes consistency, and supports better separation of concerns by centralizing grid-related settings.</p>
+<br>
 <table>
 <thead>
 <tr>
@@ -372,7 +373,7 @@
 <tr>
 <td><code>enableCellEdit</code></td>
 <td><code>Boolean</code></td>
-<td>Enables cell editing for all columns. Column-level <code>editable</code> settings override this option. Cell editing is fully accessible via keyboard, touch, and mouse. Press <code>Enter</code> to save changes or <code>Esc</code> to cancel. When a change is saved, the <code>onCellUpdate</code> callback is fired. Supported in version <code>1.1.5</code> and above.</td>
+<td>Enables cell editing for all columns. Column-level <code>editable</code> settings override this option. Cell editing is fully accessible via keyboard, touch, and mouse. A <code>&lt;td&gt;</code> cell enters edit mode when double-clicked with a mouse, by pressing <strong>Enter</strong> on the keyboard, or with a firm tap on mobile devices. To save changes, press <strong>Enter</strong> on the keyboard, click outside the cell (mouse), or tap outside (touch). Press <strong>Esc</strong> to cancel. When a change is saved, the <code>onCellUpdate</code> callback is fired. Supported in version <code>1.1.5</code> and above.</td>
 <td>false</td>
 <td>No</td>
 </tr>
@@ -412,6 +413,13 @@
 <td>No</td>
 </tr>
 <tr>
+<td><code>globalSearchPlaceholder</code></td>
+<td><code>String</code></td>
+<td>Sets the placeholder text for the global search input field in the toolbar. Useful for localization or customization. Supported in version <code>1.1.6</code> and above.</td>
+<td><code>&quot;Search all columns…&quot;</code></td>
+<td>No</td>
+</tr>
+<tr>
 <td><code>gridClass</code></td>
 <td><code>String</code></td>
 <td>Custom CSS class for the grid container.</td>
@@ -439,15 +447,51 @@
 <td>-</td>
 <td>No</td>
 </tr>
+<tr>
+<td><code>rowHeight</code></td>
+<td><code>String</code> / <code>Number</code></td>
+<td>Sets the height of each data row. Accepts a pixel value (e.g., <code>'200px'</code>) or a percentage of the table body height (e.g., <code>'25%'</code>). Supported in version <code>1.1.6</code> and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>showFooter</code></td>
+<td><code>Boolean</code></td>
+<td>Controls the visibility of the grid footer, which includes summary rows and pagination. Supported in version <code>1.1.6</code> and above.</td>
+<td><code>true</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>showResetButton</code></td>
+<td><code>Boolean</code></td>
+<td>Controls the visibility of a reset button in the toolbar, allowing users to clear all filters and search. Supported in version <code>1.1.6</code> and above.</td>
+<td><code>true</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>showToolbar</code></td>
+<td><code>Boolean</code></td>
+<td>Controls the visibility of the react data grid lite toolbar, which includes actions like search and reset. Supported in version <code>1.1.6</code> and above.</td>
+<td><code>true</code></td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
+<p><br><br></p>
 <h4><strong>Example of <code>options</code> Object:</strong></h4>
 <pre><code class="language-jsx">const options = {
   gridClass: 'custom-grid-class',
   headerClass: 'custom-header-class',
   rowClass: 'custom-row-class',
-  enableColumnSearch: true,
+  enableColumnSearch: false,
   enableGlobalSearch: true,
+  globalSearchPlaceholder:'try search...',
+  showResetButton: false,
+  enableCellEdit: true,
+  rowHeight: '100px',
+  enableColumnDrag: true,
+  enableColumnResize: true,
+  actionColumnAlign:'right',
   editButton: {
     event: (e, row) =&gt; { console.log('Edit row:', row); }
   },

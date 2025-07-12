@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1752200544420" rel="stylesheet" />
+		<link href="index.css?ver=1752302710774" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -372,7 +372,7 @@
 <tr>
 <td><code>editable</code></td>
 <td><code>Boolean</code></td>
-<td>Enables or disables cell editing for a specific column. Overrides the enableCellEdit setting. Cell editing is fully accessible via keyboard, touch, and mouse. Press Enter to save changes or Esc to cancel. When a change is saved, the <code>onCellUpdate</code> callback is fired. Supported in <code>version 1.1.5</code> and above.</td>
+<td>Enables or disables cell editing for a specific column. Overrides the <code>enableCellEdit</code> setting. Cell editing is fully accessible via keyboard, touch, and mouse. A <code>&lt;td&gt;</code> cell enters edit mode when double-clicked with a mouse, by pressing <strong>Enter</strong> on the keyboard, or with a firm tap on mobile devices. To save changes, press <strong>Enter</strong> on the keyboard, click outside the cell (mouse), or tap outside (touch). Press <strong>Esc</strong> to cancel. When a change is saved, the <code>onCellUpdate</code> callback is fired. Supported in version 1.1.5 and above.</td>
 <td>false</td>
 <td>No</td>
 </tr>
@@ -437,6 +437,13 @@
 <td><code>Boolean</code></td>
 <td>Enables or disables resizing for a specific column. This setting overrides the <code>enableColumnResize</code> option. Supported in version <code>1.1.0</code> and above.</td>
 <td>false</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>searchPlaceholder</code></td>
+<td><code>String</code></td>
+<td>Sets the placeholder text for individual column search input fields. Useful for customization or localization. Supported in version <code>1.1.6</code> and above.</td>
+<td><code>&quot;Search column…&quot;</code></td>
 <td>No</td>
 </tr>
 <tr>

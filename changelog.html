@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1752200544420" rel="stylesheet" />
+		<link href="index.css?ver=1752302710774" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -329,6 +329,37 @@
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <p><br><br></p>
+<h2>🔖 v1.1.6 - Released 2025-07-12</h2>
+<h3>🆕 New Features</h3>
+<ul>
+<li>
+<p><strong>Added grid configuration props:</strong></p>
+<ul>
+<li><code>rowHeight</code>: Define row height using pixel or percentage values</li>
+<li><code>showResetButton</code>: Toggle a reset button in the toolbar</li>
+<li><code>showToolbar</code>: Show or hide the toolbar section</li>
+<li><code>showFooter</code>: Show or hide the table footer</li>
+</ul>
+</li>
+<li>
+<p><strong>Search customization:</strong></p>
+<ul>
+<li><code>globalSearchPlaceholder</code>: Customize the placeholder for global search input</li>
+<li><code>searchPlaceholder</code>: Customize search input placeholders for individual columns</li>
+</ul>
+</li>
+</ul>
+<h3>🎨 UI &amp; Style Improvements</h3>
+<ul>
+<li>Updated global search placeholder from <code>&quot;Global Search&quot;</code> to <code>&quot;Search all columns…&quot;</code></li>
+<li>Updated sort icon styles; removed unnecessary <code>transform</code></li>
+<li>Reduced minimum column width to <code>75px</code>, and mobile column width to <code>125px</code></li>
+<li>Removed <code>td</code> borders and added <code>2px</code> bottom border to <code>tr</code> for better visual separation</li>
+<li>Reduced table header font size to <code>18px</code> for screens wider than <code>1200px</code>; removed <code>!important</code> from font-size rule</li>
+<li>Set minimum grid frame width to <code>250px</code></li>
+<li>Refactored CSS for improved consistency and maintainability</li>
+</ul>
+<p><br><br></p>
 <h2>📝 v1.1.5 - Released 2025-07-09</h2>
 <h3>🚀 Features</h3>
 <ul>
@@ -359,7 +390,6 @@
 </ul>
 </li>
 </ul>
-<hr>
 <h3>🔧 Refactors</h3>
 <ul>
 <li>Extracted <strong>editable cell logic</strong> into <code>editable-cell-fields.jsx</code> for modularity.</li>
