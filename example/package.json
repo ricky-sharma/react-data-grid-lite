@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "react": "^19.0.0",
-    "react-data-grid-lite": "1.1.5",
+    "react-data-grid-lite": "1.1.6",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.6.2"
   },
