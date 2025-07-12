@@ -57,6 +57,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `order`         | `Number`            | Specifies the display order of the column (integer value), starting from 1. Supported in version `1.1.4` and above.                                       |        -          |  No          | 
 | `render`        | `function(formattedRow, baseRow) => React.ReactNode`| Custom render function for the column. Receives `formattedRow` (the transformed row data after formatting and concatenation) and `baseRow` (the original, unformatted row data). Should return a React node to be rendered in the cell. Available in version `1.1.3` and above.|     -    |  No          |
 | `resizable`     | `Boolean`           | Enables or disables resizing for a specific column. This setting overrides the `enableColumnResize` option. Supported in version `1.1.0` and above.       |       false       |  No          |
+| `searchPlaceholder` | `String`        | Sets the placeholder text for individual column search input fields. Useful for customization or localization. Supported in version `1.1.6` and above.| `"Search column…"` | No       |
 | `width`         | `Number` / `String` | The width of the column. Can be a fixed pixel value (e.g., `100px`) or a percentage (e.g., `'20%'`). Default value is calculated dynamically.             |        -          |  No          | 
 
 
@@ -272,11 +273,15 @@ The `options` prop is an **object** that provides additional configuration setti
 | `enableColumnSearch` | `Boolean` | Whether to enable column-wise search functionality (search per individual column). Column-level search settings override this option.|      true         | No           |
 | `enableDownload`     | `Boolean` | Whether to enable the download functionality (export data as CSV).                                                        |      true         | No           |
 | `enableGlobalSearch` | `Boolean` | Enables global search across all columns.                                                                                 |      true         | No           |
+| `globalSearchPlaceholder`| `String` | Sets the placeholder text for the global search input field in the toolbar. Useful for localization or customization. Supported in version `1.1.6` and above. | `"Search all columns…"` | No       |
 | `gridClass`          | `String`  | Custom CSS class for the grid container.                                                                                  |       -           | No           |
 | `headerClass`        | `String`  | Custom CSS class for the header row.                                                                                      |       -           | No           |
 | `onDownloadComplete` | `Function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.       |       -           | No           |
 | `rowClass`           | `String`  | Custom CSS class for each row in the grid.                                                                                |       -           | No           |
-
+| `rowHeight`          | `String` / `Number`  | Sets the height of each data row. Accepts a pixel value (e.g., `'200px'`) or a percentage of the table body height (e.g., `'25%'`). Supported in version `1.1.6` and above.|       -           | No           |
+| `showFooter`         | `Boolean` | Controls the visibility of the grid footer, which includes summary rows and pagination. Supported in version `1.1.6` and above.| `true` | No       |
+| `showResetButton`    | `Boolean` | Controls the visibility of a reset button in the toolbar, allowing users to clear all filters and search. Supported in version `1.1.6` and above.| `true` | No       |
+| `showToolbar`        | `Boolean` | Controls the visibility of the react data grid lite toolbar, which includes actions like search and reset. Supported in version `1.1.6` and above.| `true` | No       |
 
 #### **Example of `options` Object:**
 

@@ -236,7 +236,7 @@ const GridHeader = ({
                     className="searchDiv pd--0 mg--0">
                     {columnSearchEnabled ? (
                         <Input
-                            placeholder="Search"
+                            placeholder={header?.searchPlaceholder ?? "Search"}
                             type="text"
                             value={searchValues?.[header?.name] ?? ''}
                             onChange={(e) => {

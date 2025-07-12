@@ -19,7 +19,8 @@ const GridGlobalSearchBar = ({
     rowsData,
     downloadFilename,
     onDownloadComplete,
-    showResetButton
+    showResetButton,
+    globalSearchPlaceholder
 }) => {
     const windowWidth = useWindowWidth();
     const isSmallScreen = windowWidth < 701;
@@ -34,7 +35,7 @@ const GridGlobalSearchBar = ({
                     }}
                     className="pd--0 mg--0 globalSearch">
                     <Input
-                        placeholder="Search all columns…"
+                        placeholder={globalSearchPlaceholder ?? "Search all columns…"}
                         type="text"
                         value={globalSearchInput}
                         onChange={(e) => {

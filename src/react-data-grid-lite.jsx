@@ -83,6 +83,7 @@ const DataGrid = ({
             options?.enableDownload : true,
         downloadFilename: options?.downloadFilename ?? null,
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
+        globalSearchPlaceholder: options?.globalSearchPlaceholder,
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
@@ -340,6 +341,7 @@ const DataGrid = ({
                     downloadFilename={state.downloadFilename}
                     onDownloadComplete={state.onDownloadComplete}
                     showResetButton={state.showResetButton}
+                    globalSearchPlaceholder={state.globalSearchPlaceholder}
                 />)}
             <div
                 className={
