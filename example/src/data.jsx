@@ -136,7 +136,7 @@ export const columns = [
 export const useFetch = (api = 'books') => {
     const [data, setData] = useState([])
     useEffect(() => {
-        const promise = fetch(`/api/api/v2/${api}?_quantity=100`)
+        const promise = fetch(`https://fakerapi.it/api/v2/${api}?_quantity=100`)
             .then(response => response.json())
             .then(response => { setData(response.data) })
         trackPromise(promise);
