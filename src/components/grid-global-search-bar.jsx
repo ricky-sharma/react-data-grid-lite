@@ -18,11 +18,13 @@ const GridGlobalSearchBar = ({
     enableDownload,
     rowsData,
     downloadFilename,
-    onDownloadComplete
+    onDownloadComplete,
+    showResetButton
 }) => {
     const windowWidth = useWindowWidth();
     const isSmallScreen = windowWidth < 701;
-    const noData = !Array.isArray(rowsData) || rowsData.length === 0 || isNull(columns)
+    const noColumns = isNull(columns);
+    const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns
     return (
         <div className="row--flex col-flex-12 globalSearchDiv">
             {enableGlobalSearch && (
@@ -32,7 +34,7 @@ const GridGlobalSearchBar = ({
                     }}
                     className="pd--0 mg--0 globalSearch">
                     <Input
-                        placeholder="Global Search"
+                        placeholder="Search all columns…"
                         type="text"
                         value={globalSearchInput}
                         onChange={(e) => {
@@ -48,22 +50,27 @@ const GridGlobalSearchBar = ({
                 </div>
             )}
             <div className="button-container">
-                <div
-                    className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
-                    title="Reset Filters"
-                    onClick={handleResetSearch}
-                    data-toggle="tooltip"
-                    role="button"
-                    tabIndex="0"
-                    onKeyDown={
-                        (e) => {
-                            if (e.key === 'Enter' || e.key === ' ')
-                                handleResetSearch(e)
+                {showResetButton === true && (
+                    <div
+                        style={{
+                            pointerEvents: (noColumns ? 'none' : ''),
+                            opacity: (noColumns ? '0.5' : '')
                         }}
-                >
-                    <EraseIcon />
-                </div>
-                {enableDownload && (
+                        className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
+                        title="Reset Filters"
+                        onClick={handleResetSearch}
+                        data-toggle="tooltip"
+                        role="button"
+                        tabIndex="0"
+                        onKeyDown={
+                            (e) => {
+                                if (e.key === 'Enter' || e.key === ' ')
+                                    handleResetSearch(e)
+                            }}
+                    >
+                        <EraseIcon />
+                    </div>)}
+                {enableDownload === true && (
                     <div
                         style={{
                             pointerEvents: (noData ? 'none' : ''),

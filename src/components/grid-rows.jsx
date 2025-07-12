@@ -74,7 +74,8 @@ const GridRows = ({
         enableCellEdit,
         editingCell,
         onCellUpdate,
-        editingCellData
+        editingCellData,
+        rowHeight
     } = state || {};
     if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)) {
         hideLoader(gridID);
@@ -350,7 +351,10 @@ const GridRows = ({
                 <tr
                     key={rowIndex}
                     className={`${rowCssClass} gridRow`}
-                    style={rowClickEnabled ? { cursor: 'pointer' } : {}}
+                    style={{
+                        cursor: rowClickEnabled ? 'pointer' : undefined,
+                        height: rowHeight
+                    }}
                     onClick={(e) => {
                         clickTimerRef.current = setTimeout(() => {
                             if (!didDoubleClickRef.current) {

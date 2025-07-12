@@ -41,7 +41,7 @@
         -webkit-box-sizing: border-box !important;
         background-color: #fff;
         font-size: 16px;
-        border: 0.5px solid #e0e0e0;
+        border: none;
         color: #212529;
     }
 
@@ -55,7 +55,7 @@
         height: 100% !important;
         font-weight: 400 !important;
         padding: 1px 20px 1px 5px !important;
-        box-shadow: inset 0 1px 4px #444455;
+        box-shadow: inset 0 0 2px #444455;
     }
 
     .r-d-g-lt-comp .drop--down {
@@ -66,7 +66,7 @@
         padding: 0;
         background-color: #e0e0e0;
         cursor: pointer;
-        border: 1px solid #667;
+        border: 1.5px solid #667;
         font-weight: 600 !important;
         margin: 2px;
     }
@@ -79,8 +79,6 @@
         transition: border-color 0.2s;
         height: 100% !important;
         width: 100% !important;
-        border: 1px solid #667;
-        border-radius: 6px;
     }
 
     .r-d-g-lt-comp .dropdown-arrow {
@@ -148,7 +146,7 @@
 
     .r-d-g-lt-comp div.globalSearch input::placeholder,
     .r-d-g-lt-comp div.searchDiv input::placeholder {
-        transform: scale(0.9);
+        transform: scale(0.8);
         transition: transform 0.3s ease;
         top: 1px;
         position: relative;
@@ -195,14 +193,14 @@
 
 .r-d-g-lt-comp .icon-div {
     border-radius: 4px;
-    box-shadow: 0 0 0 1.5px #667;
-    height: 32px;
+    box-shadow: 0 0 0 1.6px #667;
+    height: 28px;
     letter-spacing: .001em;
     line-height: 1.43;
     margin: 0;
     transition: box-shadow 0.1s ease;
     cursor: pointer;
-    width: 32px;
+    width: 28px;
     z-index: 10;
 }
 
@@ -224,7 +222,7 @@
     width: 50px;
     position: relative;
     top: 0px;
-    height: 38.5px;
+    height: 40px;
 }
 
 .r-d-g-lt-comp .download-icon-div {
@@ -232,7 +230,7 @@
     width: 140px !important;
     position: relative;
     top: 0px;
-    height: 38.5px;
+    height: 40px;
 }
 
     .r-d-g-lt-comp .download-icon-div div.icon-content {
@@ -489,7 +487,7 @@
 
 .r-d-g-lt-comp table tbody tr.gridRow {
     border: none !important;
-    border-bottom: 0.5px solid #e0e0e0 !important;
+    border-bottom: 2px solid #e0e0e0 !important;
 }
 
     .r-d-g-lt-comp table tbody tr.gridRow td {
@@ -563,16 +561,17 @@
 
     .r-d-g-lt-comp .globalSearchDiv .button-container {
         display: flex;
-        justify-content: space-between;
+        justify-content: right;
         align-items: center;
         position: relative;
+        gap: 12px;
+        top: 1px;
     }
 
 .r-d-g-lt-comp div.globalSearch {
-    width: 50% !important;
-    height: 41px !important;
+    width: 60% !important;
+    height: 42px !important;
     float: left !important;
-    margin-right: 12px;
     position: relative;
 }
 
@@ -705,19 +704,13 @@
     }
 
     .r-d-g-lt-comp div.globalSearch {
-        width: 100% !important;
-        margin: 0 0 10px;
-        height: 32.5px !important;
+        margin: 0;
+        height: 34px !important;
     }
 
     .r-d-g-lt-comp .globalSearchDiv {
         padding-top: 2px !important;
     }
-
-        .r-d-g-lt-comp .globalSearchDiv .button-container {
-            display: inline-flex !important;
-            float: right !important;
-        }
 
     .r-d-g-lt-comp .drop--down {
         width: 50px;
@@ -726,13 +719,11 @@
 
     .r-d-g-lt-comp .clear-icon-div {
         float: right !important;
-        margin: 0 10px 0 !important;
     }
 
     .r-d-g-lt-comp .icon-div-mobile {
         width: 40px !important;
         height: 32px !important;
-        margin: 0 0 10px 10px !important;
     }
 }
 
@@ -761,13 +752,15 @@
         padding: 4px 0 5px 0;
     }
 
-    .r-d-g-lt-comp .icon-div-mobile {
-        width: 32px !important;
-    }
-
     .r-d-g-lt-comp .page-results,
     .r-d-g-lt-comp .pagerSelect {
         transform: scale(0.9) !important;
+    }
+}
+
+@media (max-width: 350px) {
+    .r-d-g-lt-comp div.globalSearch {
+        width: 50% !important;
     }
 }
 
