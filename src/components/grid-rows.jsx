@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from 'react';
 import {
@@ -19,7 +20,8 @@ import EditableCellFields from './grid-edit/editable-cell-fields';
 const GridRows = ({
     state,
     setState,
-    computedColumnWidthsRef
+    computedColumnWidthsRef,
+    dataReceivedRef
 }) => {
     const loading = useLoadingIndicator();
     const { onTouchStart } = useDoubleTap();
@@ -94,25 +96,34 @@ const GridRows = ({
             lastFixedIndex = index;
         }
     }, null);
-    const onCellEdit = (columnName, rowIndex) => {
+    const onCellEdit = (columnName, rowIndex, baseRowIndex) => {
         setState(prev => ({
             ...prev,
-            editingCell: { rowIndex, columnName }
+            editingCell: { rowIndex, columnName, baseRowIndex }
         }));
     };
     const onCellChange = (e, value, colName) => {
         const updatedData = [...rowsData];
-        const rowIndex = editingCell.rowIndex;
+        const baseRowIndex = editingCell.baseRowIndex;
         const newValue = e?.target?.value ?? value;
+        const rowIndexInPartial = updatedData.findIndex(row => row.__$index__ === baseRowIndex);
+        if (rowIndexInPartial === -1) {
+            return;
+        }
+        const originalRow = updatedData[rowIndexInPartial];
+        const originalValue = originalRow[colName];
         const prevEditingData = editingCellData || {};
-        const alreadySaved = Object.prototype
-            .hasOwnProperty.call(prevEditingData, colName);
-        const originalValue = rowsData[rowIndex][colName];
-
-        updatedData[rowIndex] = {
-            ...updatedData[rowIndex],
+        const alreadySaved = Object.prototype.hasOwnProperty.call(prevEditingData, colName);
+        updatedData[rowIndexInPartial] = {
+            ...originalRow,
             [colName]: newValue
         };
+        if (Array.isArray(dataReceivedRef.current)) {
+            const fullDataRow = dataReceivedRef.current[baseRowIndex];
+            if (fullDataRow) {
+                fullDataRow[colName] = newValue;
+            }
+        }
         setState(prev => ({
             ...prev,
             rowsData: updatedData,
@@ -123,14 +134,15 @@ const GridRows = ({
                     [colName]: originalValue
                 }
         }));
+
         cellChangedRef.current = true;
     };
     const commitChanges = (
-        rowIndex,
         editedColumns,
         updatedRow,
         isExiting
     ) => {
+        const rowIndex = updatedRow?.__$index__;
         const exiting = isExiting === true;
         cellChangedFocusRef.current = exiting ? editingCell : null;
         setState(prev => ({
@@ -153,16 +165,26 @@ const GridRows = ({
     };
     const revertChanges = (editableColumns) => {
         const updatedData = [...rowsData];
-        const rowIndex = editingCell.rowIndex;
-        const updatedRow = { ...updatedData[rowIndex] };
+        const baseRowIndex = editingCell.baseRowIndex;
+        const rowIndexInPartial = updatedData.findIndex(row => row.__$index__ === baseRowIndex);
+        if (rowIndexInPartial === -1) {
+            return;
+        }
+        const updatedRow = { ...updatedData[rowIndexInPartial] };
         cellChangedFocusRef.current = editingCell;
         editableColumns.forEach(({ colName }) => {
-            // eslint-disable-next-line no-prototype-builtins
             if (editingCellData?.hasOwnProperty(colName)) {
-                updatedRow[colName] = editingCellData[colName];
+                const originalValue = editingCellData[colName];
+                updatedRow[colName] = originalValue;
+                if (Array.isArray(dataReceivedRef.current)) {
+                    const fullDataRow = dataReceivedRef.current[baseRowIndex];
+                    if (fullDataRow) {
+                        fullDataRow[colName] = originalValue;
+                    }
+                }
             }
         });
-        updatedData[rowIndex] = updatedRow;
+        updatedData[rowIndexInPartial] = updatedRow;
         setState(prev => ({
             ...prev,
             editingCell: null,
@@ -170,8 +192,11 @@ const GridRows = ({
             rowsData: updatedData
         }));
     };
+
     return rowsData.slice(firstRow, firstRow + currentPageRows)
-        .map((baseRow, rowIndex) => {
+        .map((baseRow, sliceIndex) => {
+            const rowIndex = sliceIndex + firstRow;
+            const baseRowIndex = baseRow?.__$index__;
             const formattedRow = formatRowData(baseRow, columns);
             const cols = Object.values(columns).map((col, key) => {
                 if (col?.hidden === true) return null;
@@ -223,7 +248,7 @@ const GridRows = ({
                             }
                             didDoubleClickRef.current = true;
                             if (editable) {
-                                onCellEdit(col.name, rowIndex);
+                                onCellEdit(col.name, rowIndex, baseRowIndex);
                             }
                         }}
                         onMouseDown={(e) => {
@@ -239,10 +264,11 @@ const GridRows = ({
                             rowIndex,
                             col,
                             columns,
-                            onCellEdit
+                            onCellEdit,
+                            baseRowIndex
                         })}
                         onTouchStart={onTouchStart(() => {
-                            if (editable === true) onCellEdit(col.name, rowIndex);
+                            if (editable === true) onCellEdit(col.name, rowIndex, baseRowIndex);
                         })}
                         data-row-index={rowIndex}
                         data-col-name={col?.name}
@@ -257,7 +283,6 @@ const GridRows = ({
                                 editableColumns={editableColumns}
                                 onCellChange={onCellChange}
                                 revertChanges={revertChanges}
-                                rowIndex={rowIndex}
                             />
                         ) : (
                             !isNull(col?.render)

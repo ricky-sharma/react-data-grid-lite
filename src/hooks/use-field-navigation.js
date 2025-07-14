@@ -1,7 +1,6 @@
 export function useFieldNavigation({
     fieldIndex,
     editableColumns,
-    rowIndex,
     baseRow,
     commitChanges,
     revertChanges,
@@ -22,7 +21,7 @@ export function useFieldNavigation({
             if (!isStillInsideCell) {
                 const isExiting =
                     fieldIndex === editableColumns.length - 1 || fieldIndex === 0;
-                commitChanges(rowIndex, editableColumns, baseRow, isExiting);
+                commitChanges(editableColumns, baseRow, isExiting);
                 if (isNavigatingRef)
                     isNavigatingRef.current = false;
                 if (preventBlurRef)
@@ -52,7 +51,7 @@ export function useFieldNavigation({
                 (!shiftKey && fieldIndex === editableColumns.length - 1) ||
                 (shiftKey && fieldIndex === 0);
 
-            commitChanges(rowIndex, editableColumns, baseRow, isExiting);
+            commitChanges(editableColumns, baseRow, isExiting);
         } else if (key === 'Escape') {
             e.preventDefault();
             revertChanges(editableColumns);

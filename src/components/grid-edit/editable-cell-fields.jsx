@@ -9,8 +9,7 @@ const EditableCellFields = memo(function EditableCellFields({
     commitChanges,
     editableColumns,
     onCellChange,
-    revertChanges,
-    rowIndex
+    revertChanges
 }) {
     const inputRefs = useRef([]);
     const isNavigatingRef = useRef(false);
@@ -34,7 +33,6 @@ const EditableCellFields = memo(function EditableCellFields({
             onChange: onCellChange,
             autoFocus: isFirstField,
             inputRef: (el) => (inputRefs.current[i] = el),
-            rowIndex,
             editableColumns,
             baseRow,
             focusInput,
