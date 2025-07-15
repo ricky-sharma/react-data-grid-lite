@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1752304961910" rel="stylesheet" />
+		<link href="index.css?ver=1752559892290" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -328,6 +328,57 @@
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<p><br><br></p>
+<h2>🔖 v1.1.7 - Released 2025-07-15</h2>
+<h3>🛠 Fixes</h3>
+<ul>
+<li>
+<p><strong>Synchronized cell updates</strong> between grid state and full dataset:</p>
+<ul>
+<li>Injected <code>__$index__</code> into each row of <code>dataReceivedRef</code> to track and update rows accurately.</li>
+<li>Modified <code>onCellChange</code> and <code>revertChanges</code> to reflect updates in both paginated/filtered view and the original dataset.</li>
+</ul>
+</li>
+</ul>
+<h3>🔍 Search Enhancements</h3>
+<ul>
+<li>
+<p>Improved grid search to support:</p>
+<ul>
+<li>Multi-word queries</li>
+<li>Diacritic-insensitive matching (e.g. <code>café</code> → <code>cafe</code>)</li>
+<li>Special character handling</li>
+<li>Concatenated column search with customizable separators</li>
+</ul>
+</li>
+<li>
+<p>Extracted formatting and normalization into helper utilities for reusability.</p>
+</li>
+</ul>
+<h3>🧱 Refactors</h3>
+<ul>
+<li>
+<p>Extracted core cell editing logic into reusable hooks:</p>
+<ul>
+<li><code>useCellRevert</code></li>
+<li><code>useCellCommit</code></li>
+<li><code>useCellChange</code></li>
+</ul>
+</li>
+<li>
+<p>Benefits:</p>
+<ul>
+<li>Cleaner separation of concerns</li>
+<li>Better testability and modularity</li>
+<li>Hooks include <code>configure</code> method to inject state context</li>
+<li>Extensive unit tests added for edge cases and update flows</li>
+</ul>
+</li>
+</ul>
+<h3>🎨 UI</h3>
+<ul>
+<li>Updated default theme background color from <code>#e0e0e0</code> to <code>#f5f1f1</code> for a softer look.</li>
+</ul>
 <p><br><br></p>
 <h2>🔖 v1.1.6 - Released 2025-07-12</h2>
 <h3>🆕 New Features</h3>
