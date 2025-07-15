@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef } from 'react';
 import {
@@ -15,11 +16,15 @@ import EditIcon from '../icons/edit-icon';
 import { formatRowData, resolveColumnItems, resolveColumnType } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
 import EditableCellFields from './grid-edit/editable-cell-fields';
+import { useCellChange } from '../hooks/use-cell-change';
+import { useCellCommit } from '../hooks/use-cell-commit';
+import { useCellRevert } from '../hooks/use-cell-revert';
 
 const GridRows = ({
     state,
     setState,
-    computedColumnWidthsRef
+    computedColumnWidthsRef,
+    dataReceivedRef
 }) => {
     const loading = useLoadingIndicator();
     const { onTouchStart } = useDoubleTap();
@@ -29,6 +34,25 @@ const GridRows = ({
     const cellChangedFocusRef = useRef(null);
     const clickTimerRef = useRef(null);
     const didDoubleClickRef = useRef(false);
+    const {
+        onCellChange,
+        configure: configureCellChange
+    } = useCellChange({
+        cellChangedRef
+    });
+    const {
+        commitChanges,
+        configure: configureCellCommit
+    } = useCellCommit({
+        cellChangedRef,
+        cellChangedFocusRef
+    });
+    const {
+        revertChanges,
+        configure: configureCellRevert
+    } = useCellRevert({
+        cellChangedFocusRef
+    });
 
     useEffect(() => {
         setTimeout(() => {
@@ -94,84 +118,38 @@ const GridRows = ({
             lastFixedIndex = index;
         }
     }, null);
-    const onCellEdit = (columnName, rowIndex) => {
+    const onCellEdit = (columnName, rowIndex, baseRowIndex) => {
         setState(prev => ({
             ...prev,
-            editingCell: { rowIndex, columnName }
+            editingCell: { rowIndex, columnName, baseRowIndex }
         }));
     };
-    const onCellChange = (e, value, colName) => {
-        const updatedData = [...rowsData];
-        const rowIndex = editingCell.rowIndex;
-        const newValue = e?.target?.value ?? value;
-        const prevEditingData = editingCellData || {};
-        const alreadySaved = Object.prototype
-            .hasOwnProperty.call(prevEditingData, colName);
-        const originalValue = rowsData[rowIndex][colName];
+    configureCellChange({
+        editingCell,
+        editingCellData,
+        rowsData,
+        dataReceivedRef,
+        setState
+    });
 
-        updatedData[rowIndex] = {
-            ...updatedData[rowIndex],
-            [colName]: newValue
-        };
-        setState(prev => ({
-            ...prev,
-            rowsData: updatedData,
-            editingCellData: alreadySaved
-                ? prev.editingCellData
-                : {
-                    ...prev.editingCellData,
-                    [colName]: originalValue
-                }
-        }));
-        cellChangedRef.current = true;
-    };
-    const commitChanges = (
-        rowIndex,
-        editedColumns,
-        updatedRow,
-        isExiting
-    ) => {
-        const exiting = isExiting === true;
-        cellChangedFocusRef.current = exiting ? editingCell : null;
-        setState(prev => ({
-            ...prev,
-            editingCell: exiting ? null : prev.editingCell,
-            editingCellData: exiting ? null : prev.editingCellData,
-        }));
-        const shouldFireCellUpdate = exiting && cellChangedRef.current;
-        if (shouldFireCellUpdate && typeof onCellUpdate === 'function') {
-            onCellUpdate({
-                rowIndex,
-                editedColumns: editedColumns.map(({ colName }) => ({
-                    colName,
-                    value: updatedRow[colName],
-                })),
-                updatedRow
-            });
-            cellChangedRef.current = false;
-        }
-    };
-    const revertChanges = (editableColumns) => {
-        const updatedData = [...rowsData];
-        const rowIndex = editingCell.rowIndex;
-        const updatedRow = { ...updatedData[rowIndex] };
-        cellChangedFocusRef.current = editingCell;
-        editableColumns.forEach(({ colName }) => {
-            // eslint-disable-next-line no-prototype-builtins
-            if (editingCellData?.hasOwnProperty(colName)) {
-                updatedRow[colName] = editingCellData[colName];
-            }
-        });
-        updatedData[rowIndex] = updatedRow;
-        setState(prev => ({
-            ...prev,
-            editingCell: null,
-            editingCellData: null,
-            rowsData: updatedData
-        }));
-    };
+    configureCellCommit({
+        editingCell,
+        onCellUpdate,
+        setState
+    });
+
+    configureCellRevert({
+        editingCell,
+        editingCellData,
+        rowsData,
+        setState,
+        dataReceivedRef
+    });
+
     return rowsData.slice(firstRow, firstRow + currentPageRows)
-        .map((baseRow, rowIndex) => {
+        .map((baseRow, sliceIndex) => {
+            const rowIndex = sliceIndex + firstRow;
+            const baseRowIndex = baseRow?.__$index__;
             const formattedRow = formatRowData(baseRow, columns);
             const cols = Object.values(columns).map((col, key) => {
                 if (col?.hidden === true) return null;
@@ -223,7 +201,7 @@ const GridRows = ({
                             }
                             didDoubleClickRef.current = true;
                             if (editable) {
-                                onCellEdit(col.name, rowIndex);
+                                onCellEdit(col.name, rowIndex, baseRowIndex);
                             }
                         }}
                         onMouseDown={(e) => {
@@ -239,10 +217,11 @@ const GridRows = ({
                             rowIndex,
                             col,
                             columns,
-                            onCellEdit
+                            onCellEdit,
+                            baseRowIndex
                         })}
                         onTouchStart={onTouchStart(() => {
-                            if (editable === true) onCellEdit(col.name, rowIndex);
+                            if (editable === true) onCellEdit(col.name, rowIndex, baseRowIndex);
                         })}
                         data-row-index={rowIndex}
                         data-col-name={col?.name}
@@ -257,7 +236,6 @@ const GridRows = ({
                                 editableColumns={editableColumns}
                                 onCellChange={onCellChange}
                                 revertChanges={revertChanges}
-                                rowIndex={rowIndex}
                             />
                         ) : (
                             !isNull(col?.render)

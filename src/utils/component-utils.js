@@ -10,9 +10,10 @@ import {
 import {
     convertViewportUnitToPixels,
     getContainerWidthInPixels,
-    isNull
+    isNull,
+    normalize
 } from "../helpers/common";
-import { format } from "../helpers/format";
+import { format as formatVal } from "../helpers/format";
 
 export function calculateColumnWidth(
     colWidthArray,
@@ -148,9 +149,22 @@ const getConcatValue = (row, columns, concatColumns) => {
 
 const getFormattedValue = (value, formatting) => {
     if (!isNull(value) && formatting?.type) {
-        return format(value, formatting.type, formatting.format);
+        return formatVal(value, formatting.type, formatting.format);
     }
     return value;
+};
+
+export const getNormalizedCombinedValue = (obj, keys, formatType, type, format, separator = ' ') => {
+    return keys
+        .map(k => {
+            const val = obj[k];
+            return formatType.includes(type?.toLowerCase())
+                ? formatVal(val, type?.toLowerCase(), format)
+                : val;
+        })
+        .filter(v => !isNull(v))
+        .map(normalize)
+        .join(separator);
 };
 
 export const resolveColumnType = (concatType, baseType) => {

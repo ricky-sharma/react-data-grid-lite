@@ -131,3 +131,10 @@ export const capitalize = (str) => {
     if (typeof str !== 'string' || !str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const normalize = (str) =>
+    str
+        ?.toString()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();

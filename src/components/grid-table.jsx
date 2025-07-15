@@ -11,7 +11,8 @@ const GridTable = ({
     onSearchClicked,
     gridHeaderRef,
     computedColumnWidthsRef,
-    isResizingRef
+    isResizingRef,
+    dataReceivedRef
 }) => {
     const tableRef = useRef(null);
     useResizableTableColumns(tableRef, state, setState,
@@ -32,6 +33,7 @@ const GridTable = ({
                     state={state}
                     setState={setState}
                     computedColumnWidthsRef={computedColumnWidthsRef}
+                    dataReceivedRef={dataReceivedRef}
                 />
             </tbody>
         </table>

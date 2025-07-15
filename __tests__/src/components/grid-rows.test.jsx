@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/display-name */
@@ -20,7 +21,7 @@ jest.mock('./../../../src/components/grid-edit/editable-cell-fields', () => (pro
             data-testid="editable-input"
             value={props.columnValue}
             onChange={e => props.onCellChange(e, undefined, props.editableColumns?.[0]?.colName)}
-            onBlur={() => props.commitChanges(props.rowIndex, props.editableColumns, {}, true)}
+            onBlur={() => props.commitChanges(props.editableColumns, {}, true)}
         />
     );
 });
@@ -91,7 +92,7 @@ describe('GridRows', () => {
         }
         const { container } = render(<TableComponent />);
         expect(container.querySelector('tbody')?.childElementCount).toBe(0);
-    });    
+    });
 
     it('calls onRowClick when a row is clicked', () => {
         jest.useFakeTimers();
@@ -344,7 +345,7 @@ describe('More tests for GridRows Component', () => {
             </tbody></table>);
         const tbody = container.querySelector('tbody');
         expect(tbody.children.length).toBe(0);
-    });    
+    });
 });
 
 describe('GridRows component editing', () => {
@@ -432,7 +433,7 @@ describe('GridRows component editing', () => {
     });
 
     it('commitChanges clears editingCell and calls onCellUpdate', () => {
-        state.editingCell = { rowIndex: 0, columnName: 'name' };
+        state.editingCell = { rowIndex: 0, columnName: 'name', baseRowIndex: 0 };
         state.editingCellData = { name: 'Alice' };
         setState.mockClear();
 
@@ -443,6 +444,7 @@ describe('GridRows component editing', () => {
                         state={{ ...state, onCellUpdate }}
                         setState={setState}
                         computedColumnWidthsRef={{ current: columns }}
+                        dataReceivedRef={{ current: null }}
                     />
                 </tbody>
             </table>
@@ -455,7 +457,7 @@ describe('GridRows component editing', () => {
         const newState = setStateCall[0](state);
         expect(newState).toEqual(expect.objectContaining({
             editingCell: null,
-            editingCellData: null,
+            editingCellData: null
         }));
     });
 

@@ -9,7 +9,6 @@ const EditableTextField = ({
     onChange,
     autoFocus,
     inputRef,
-    rowIndex,
     editableColumns,
     baseRow,
     focusInput,
@@ -29,7 +28,6 @@ const EditableTextField = ({
     } = useFieldNavigation({
         fieldIndex,
         editableColumns,
-        rowIndex,
         baseRow,
         commitChanges,
         revertChanges,

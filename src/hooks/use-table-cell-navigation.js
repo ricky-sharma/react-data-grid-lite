@@ -1,6 +1,6 @@
 export function useTableCellNavigation() {
     return function onKeyDown(e,
-        { editable, editingCell, rowIndex, col, columns, onCellEdit }) {
+        { editable, editingCell, rowIndex, col, columns, onCellEdit, baseRowIndex }) {
         if (!editable) return;
 
         const isEditing =
@@ -14,14 +14,16 @@ export function useTableCellNavigation() {
 
         switch (e.key) {
             case 'Enter':
-                const interactiveTags = ['A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT'];
-                const activeEl = document.activeElement;
-                if (activeEl && interactiveTags.includes(activeEl.tagName)) {
-                    return;
+                {
+                    const interactiveTags = ['A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT'];
+                    const activeEl = document.activeElement;
+                    if (activeEl && interactiveTags.includes(activeEl.tagName)) {
+                        return;
+                    }
+                    e.preventDefault();
+                    onCellEdit(currentColName, currentRow, baseRowIndex);
+                    break;
                 }
-                e.preventDefault();
-                onCellEdit(currentColName, currentRow);
-                break;
 
             case 'ArrowDown':
                 e.preventDefault();

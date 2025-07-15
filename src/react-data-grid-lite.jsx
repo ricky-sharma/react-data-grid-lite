@@ -89,7 +89,7 @@ const DataGrid = ({
         searchValues: {},
         editingCell: null
     });
-    const dataReceivedRef = useRef(data);
+    const dataReceivedRef = useRef(null);
     const searchColsRef = useRef([]);
     const gridHeaderRef = useRef(null);
     const prevPageRef = useRef(null);
@@ -150,15 +150,20 @@ const DataGrid = ({
     }, [columns]);
 
     useEffect(() => {
-        dataReceivedRef.current = data ?? [];
-        if (!isNull(data))
+        if (!isNull(data)) {
+            const processedRows = data?.map((row, index) => ({
+                ...row,
+                __$index__: index
+            }));
+            dataReceivedRef.current = processedRows;
             setState((prevState) => ({
                 ...prevState,
-                rowsData: !isNull(data) ? data : [],
-                totalRows: data?.length,
-                pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length,
-                currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : data?.length
+                rowsData: processedRows,
+                totalRows: processedRows?.length,
+                pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : processedRows?.length,
+                currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : processedRows?.length
             }));
+        }
     }, [data]);
 
     useEffect(() => {
@@ -358,6 +363,7 @@ const DataGrid = ({
                     gridHeaderRef={gridHeaderRef}
                     computedColumnWidthsRef={computedColumnWidthsRef}
                     isResizingRef={isResizingRef}
+                    dataReceivedRef={dataReceivedRef}
                 />
             </div>
             {state.showFooter === true && (

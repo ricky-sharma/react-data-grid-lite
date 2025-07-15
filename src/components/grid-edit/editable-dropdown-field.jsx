@@ -9,7 +9,6 @@ const EditableDropdownField = ({
     onChange,
     autoFocus,
     inputRef,
-    rowIndex,
     editableColumns,
     baseRow,
     focusInput,
@@ -26,7 +25,6 @@ const EditableDropdownField = ({
     const { handleBlur, handleKeyDown: fieldKeyDown, handleClick } = useFieldNavigation({
         fieldIndex,
         editableColumns,
-        rowIndex,
         baseRow,
         commitChanges,
         revertChanges,
@@ -57,7 +55,7 @@ const EditableDropdownField = ({
             const isExiting =
                 (!shiftKey && fieldIndex === editableColumns.length - 1) ||
                 (shiftKey && fieldIndex === 0);
-            commitChanges(rowIndex, editableColumns, baseRow, isExiting);
+            commitChanges(editableColumns, baseRow, isExiting);
         }
     };
 
