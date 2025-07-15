@@ -16,6 +16,9 @@ import EditIcon from '../icons/edit-icon';
 import { formatRowData, resolveColumnItems, resolveColumnType } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
 import EditableCellFields from './grid-edit/editable-cell-fields';
+import { useCellChange } from '../hooks/use-cell-change';
+import { useCellCommit } from '../hooks/use-cell-commit';
+import { useCellRevert } from '../hooks/use-cell-revert';
 
 const GridRows = ({
     state,
@@ -31,6 +34,25 @@ const GridRows = ({
     const cellChangedFocusRef = useRef(null);
     const clickTimerRef = useRef(null);
     const didDoubleClickRef = useRef(false);
+    const {
+        onCellChange,
+        configure: configureCellChange
+    } = useCellChange({
+        cellChangedRef
+    });
+    const {
+        commitChanges,
+        configure: configureCellCommit
+    } = useCellCommit({
+        cellChangedRef,
+        cellChangedFocusRef
+    });
+    const {
+        revertChanges,
+        configure: configureCellRevert
+    } = useCellRevert({
+        cellChangedFocusRef
+    });
 
     useEffect(() => {
         setTimeout(() => {
@@ -102,96 +124,27 @@ const GridRows = ({
             editingCell: { rowIndex, columnName, baseRowIndex }
         }));
     };
-    const onCellChange = (e, value, colName) => {
-        const updatedData = [...rowsData];
-        const baseRowIndex = editingCell.baseRowIndex;
-        const newValue = e?.target?.value ?? value;
-        const rowIndexInPartial = updatedData.findIndex(row => row.__$index__ === baseRowIndex);
-        if (rowIndexInPartial === -1) {
-            return;
-        }
-        const originalRow = updatedData[rowIndexInPartial];
-        const originalValue = originalRow[colName];
-        const prevEditingData = editingCellData || {};
-        const alreadySaved = Object.prototype.hasOwnProperty.call(prevEditingData, colName);
-        updatedData[rowIndexInPartial] = {
-            ...originalRow,
-            [colName]: newValue
-        };
-        if (Array.isArray(dataReceivedRef?.current)) {
-            const fullDataRow = dataReceivedRef.current[baseRowIndex];
-            if (fullDataRow) {
-                fullDataRow[colName] = newValue;
-            }
-        }
-        setState(prev => ({
-            ...prev,
-            rowsData: updatedData,
-            editingCellData: alreadySaved
-                ? prev.editingCellData
-                : {
-                    ...prev.editingCellData,
-                    [colName]: originalValue
-                }
-        }));
+    configureCellChange({
+        editingCell,
+        editingCellData,
+        rowsData,
+        dataReceivedRef,
+        setState
+    });
 
-        cellChangedRef.current = true;
-    };
-    const commitChanges = (
-        editedColumns,
-        updatedRow,
-        isExiting
-    ) => {
-        const rowIndex = updatedRow?.__$index__;
-        const exiting = isExiting === true;
-        cellChangedFocusRef.current = exiting ? editingCell : null;
-        setState(prev => ({
-            ...prev,
-            editingCell: exiting ? null : prev.editingCell,
-            editingCellData: exiting ? null : prev.editingCellData,
-        }));
-        const shouldFireCellUpdate = exiting && cellChangedRef.current;
-        if (shouldFireCellUpdate && typeof onCellUpdate === 'function') {
-            onCellUpdate({
-                rowIndex,
-                editedColumns: editedColumns.map(({ colName }) => ({
-                    colName,
-                    value: updatedRow[colName],
-                })),
-                updatedRow
-            });
-            cellChangedRef.current = false;
-        }
-    };
-    const revertChanges = (editableColumns) => {
-        const updatedData = [...rowsData];
-        const baseRowIndex = editingCell.baseRowIndex;
-        const rowIndexInPartial = updatedData.findIndex(row => row.__$index__ === baseRowIndex);
-        if (rowIndexInPartial === -1) {
-            return;
-        }
-        const updatedRow = { ...updatedData[rowIndexInPartial] };
-        cellChangedFocusRef.current = editingCell;
-        editableColumns.forEach(({ colName }) => {
-            if (editingCellData?.hasOwnProperty(colName)) {
-                const originalValue = editingCellData[colName];
-                updatedRow[colName] = originalValue;
-                if (Array.isArray(dataReceivedRef?.current)) {
-                    const fullDataRow = dataReceivedRef.current[baseRowIndex];
-                    if (fullDataRow) {
-                        fullDataRow[colName] = originalValue;
-                    }
-                }
-            }
-        });
-        updatedData[rowIndexInPartial] = updatedRow;
-        setState(prev => ({
-            ...prev,
-            editingCell: null,
-            editingCellData: null,
-            rowsData: updatedData
-        }));
-    };
+    configureCellCommit({
+        editingCell,
+        onCellUpdate,
+        setState
+    });
+
+    configureCellRevert({
+        editingCell,
+        editingCellData,
+        rowsData,
+        setState,
+        dataReceivedRef
+    });
 
     return rowsData.slice(firstRow, firstRow + currentPageRows)
         .map((baseRow, sliceIndex) => {
