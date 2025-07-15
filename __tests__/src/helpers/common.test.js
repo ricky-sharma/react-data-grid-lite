@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { capitalize, convertViewportUnitToPixels, getContainerWidthInPixels, isEqual, isNull } from './../../../src/helpers/common';
+import { capitalize, convertViewportUnitToPixels, getContainerWidthInPixels, isEqual, isNull, normalize } from './../../../src/helpers/common';
 
 describe('isNull', () => {
     it('returns true for null, undefined, NaN', () => {
@@ -165,5 +165,51 @@ describe('capitalize', () => {
         expect(capitalize({})).toBe('');
         expect(capitalize([])).toBe('');
         expect(capitalize(() => { })).toBe('');
+    });
+});
+
+describe('normalize', () => {
+    it('should normalize accented characters', () => {
+        const result = normalize('Café');
+        expect(result).toBe('cafe');
+    });
+
+    it('should convert to lowercase', () => {
+        const result = normalize('HELLO');
+        expect(result).toBe('hello');
+    });
+
+    it('should normalize a string with multiple accents', () => {
+        const result = normalize('àéîõü');
+        expect(result).toBe('aeiou');
+    });
+
+    it('should handle a mix of normal and accented characters', () => {
+        const result = normalize('JoSé ÁlVàRéz');
+        expect(result).toBe('jose alvarez');
+    });
+
+    it('should return empty string for empty input', () => {
+        expect(normalize('')).toBe('');
+    });
+
+    it('should handle numbers and symbols', () => {
+        const result = normalize('1234-+=!@#');
+        expect(result).toBe('1234-+=!@#');
+    });
+
+    it('should return undefined for undefined input', () => {
+        expect(normalize(undefined)).toBeUndefined();
+    });
+
+    it('should convert non-string input to string before processing', () => {
+        expect(normalize(123)).toBe('123');
+        expect(normalize(null)).toBe(undefined);
+        expect(normalize(true)).toBe('true');
+    });
+
+    it('should strip diacritics and normalize combined characters', () => {
+        const result = normalize('e\u0301');
+        expect(result).toBe('e');
     });
 });

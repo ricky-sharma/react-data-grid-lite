@@ -22,7 +22,7 @@ jest.mock('../../../src/helpers/format', () => ({
 
 import * as helpers from '../../../src/helpers/format';
 import * as common from './../../../src/helpers/common';
-import { calculateColumnWidth, formatRowData } from './../../../src/utils/component-utils';
+import { calculateColumnWidth, formatRowData, getNormalizedCombinedValue } from './../../../src/utils/component-utils';
 
 describe('calculateColumnWidth', () => {
     beforeEach(() => {
@@ -197,3 +197,59 @@ describe('formatRowData', () => {
     });
 });
 
+describe('getNormalizedCombinedValue', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    const obj = {
+        a: '  valueA ',
+        b: 'valueB',
+        c: null,
+        d: 'valueD',
+    };
+
+    it('formats values if type matches formatType', () => {
+        const keys = ['a', 'b', 'd'];
+        const formatType = [];
+        const type = 'TEXT';
+        const format = 'someFormat';
+
+        const result = getNormalizedCombinedValue(obj, keys, formatType, type, format);
+        expect(result).toBe('  valuea  valueb valued');
+    });
+
+    it('does not format values if type not in formatType', () => {
+        const keys = ['a', 'b', 'd'];
+        const formatType = ['number'];
+        const type = 'text';
+        const format = 'someFormat';
+
+        const result = getNormalizedCombinedValue(obj, keys, formatType, type, format);
+        expect(result).toBe('  valuea  valueb valued');
+    });
+
+    it('filters out null or undefined values', () => {
+        const keys = ['a', 'c', 'd'];
+        const formatType = [];
+        const type = '';
+        const format = '';
+
+        const result = getNormalizedCombinedValue(obj, keys, formatType, type, format);
+
+        expect(result).toContain('valuea');
+        expect(result).toContain('valued');
+        expect(result).not.toContain('null');
+    });
+
+    it('uses custom separator if provided', () => {
+        const keys = ['a', 'b'];
+        const formatType = [];
+        const type = '';
+        const format = '';
+        const separator = ', ';
+
+        const result = getNormalizedCombinedValue(obj, keys, formatType, type, format, separator);
+        expect(result).toBe('  valuea , valueb');
+    });
+});
