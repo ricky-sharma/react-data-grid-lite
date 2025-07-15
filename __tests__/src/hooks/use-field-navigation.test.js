@@ -39,7 +39,6 @@ describe('useFieldNavigation', () => {
             });
 
             expect(baseParams.commitChanges).toHaveBeenCalledWith(
-                baseParams.rowIndex,
                 baseParams.editableColumns,
                 baseParams.baseRow,
                 false
@@ -64,7 +63,6 @@ describe('useFieldNavigation', () => {
             });
 
             expect(baseParams.commitChanges).toHaveBeenCalledWith(
-                baseParams.rowIndex,
                 baseParams.editableColumns,
                 baseParams.baseRow,
                 false
@@ -104,7 +102,6 @@ describe('useFieldNavigation', () => {
                 jest.runAllTimers();
             });
             expect(paramsFirst.commitChanges).toHaveBeenCalledWith(
-                paramsFirst.rowIndex,
                 paramsFirst.editableColumns,
                 paramsFirst.baseRow,
                 true
@@ -117,7 +114,6 @@ describe('useFieldNavigation', () => {
                 jest.runAllTimers();
             });
             expect(paramsLast.commitChanges).toHaveBeenCalledWith(
-                paramsLast.rowIndex,
                 paramsLast.editableColumns,
                 paramsLast.baseRow,
                 true
@@ -144,7 +140,6 @@ describe('useFieldNavigation', () => {
             expect(baseParams.isNavigatingRef.current).toBe(true);
             expect(baseParams.focusInput).toHaveBeenCalledWith(2);
             expect(baseParams.commitChanges).toHaveBeenCalledWith(
-                baseParams.rowIndex,
                 baseParams.editableColumns,
                 baseParams.baseRow,
                 false
@@ -173,7 +168,6 @@ describe('useFieldNavigation', () => {
             expect(baseParams.isNavigatingRef.current).toBe(true);
             expect(baseParams.focusInput).toHaveBeenCalled();
             expect(baseParams.commitChanges).toHaveBeenCalledWith(
-                baseParams.rowIndex,
                 baseParams.editableColumns,
                 baseParams.baseRow,
                 false

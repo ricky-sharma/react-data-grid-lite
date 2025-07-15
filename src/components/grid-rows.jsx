@@ -118,7 +118,7 @@ const GridRows = ({
             ...originalRow,
             [colName]: newValue
         };
-        if (Array.isArray(dataReceivedRef.current)) {
+        if (Array.isArray(dataReceivedRef?.current)) {
             const fullDataRow = dataReceivedRef.current[baseRowIndex];
             if (fullDataRow) {
                 fullDataRow[colName] = newValue;
@@ -176,7 +176,7 @@ const GridRows = ({
             if (editingCellData?.hasOwnProperty(colName)) {
                 const originalValue = editingCellData[colName];
                 updatedRow[colName] = originalValue;
-                if (Array.isArray(dataReceivedRef.current)) {
+                if (Array.isArray(dataReceivedRef?.current)) {
                     const fullDataRow = dataReceivedRef.current[baseRowIndex];
                     if (fullDataRow) {
                         fullDataRow[colName] = originalValue;

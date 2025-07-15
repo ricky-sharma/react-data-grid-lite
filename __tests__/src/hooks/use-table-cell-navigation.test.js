@@ -84,10 +84,11 @@ describe('useTableCellNavigation', () => {
                 rowIndex: 0,
                 col: { name: 'col1' },
                 onCellEdit: mockOnCellEdit,
+                baseRowIndex:0
             });
 
             expect(e.preventDefault).toHaveBeenCalled();
-            expect(mockOnCellEdit).toHaveBeenCalledWith('col1', 0);
+            expect(mockOnCellEdit).toHaveBeenCalledWith('col1', 0, 0);
         });
     });
 

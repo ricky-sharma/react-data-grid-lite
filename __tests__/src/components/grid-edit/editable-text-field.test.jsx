@@ -121,7 +121,6 @@ describe('EditableTextField integration', () => {
         expect(isNavigatingRef.current).toBe(true);
         expect(focusInput).not.toHaveBeenCalled();
         expect(commitChanges).toHaveBeenCalledWith(
-            lastIndexProps.rowIndex,
             lastIndexProps.editableColumns,
             lastIndexProps.baseRow,
             true

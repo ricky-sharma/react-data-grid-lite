@@ -70,7 +70,7 @@ export const eventGridSearchClicked = (
                             : val?.toString()?.toLowerCase();
                     }
 
-                    return terms.every(term => combinedValue.includes(term));
+                    return terms.every(term => combinedValue?.includes(term));
                 });
                 globalSearchData = [...globalSearchData, ...colObjSearchData];
             });

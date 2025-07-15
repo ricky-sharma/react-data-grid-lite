@@ -56,7 +56,6 @@ describe('EditableDropdownField', () => {
 
         expect(props.focusInput).toHaveBeenCalledWith(2);
         expect(props.commitChanges).toHaveBeenCalledWith(
-            props.rowIndex,
             props.editableColumns,
             props.baseRow,
             false
@@ -69,7 +68,6 @@ describe('EditableDropdownField', () => {
         fireEvent.keyDown(dropdownButton, { key: 'Tab', shiftKey: true });
         expect(baseProps.focusInput).toHaveBeenCalledWith(0);
         expect(baseProps.commitChanges).toHaveBeenCalledWith(
-            baseProps.rowIndex,
             baseProps.editableColumns,
             baseProps.baseRow,
             false
