@@ -1,6 +1,6 @@
 .r-d-g-lt-comp {
     padding: 8px;
-    background-color: #e0e0e0;
+    background-color: #f5f1f1;
     border-radius: 10px;
     color: #667;
     position: relative;
@@ -64,7 +64,6 @@
         border-radius: 6px !important;
         height: 32px;
         padding: 0;
-        background-color: #e0e0e0;
         cursor: pointer;
         border: 1.5px solid #667;
         font-weight: 600 !important;
@@ -109,7 +108,7 @@
     }
 
         .r-d-g-lt-comp .dropdown-option:hover {
-            background-color: #e0e0e0;
+            background-color: #f5f1f1;
         }
 
         .r-d-g-lt-comp .dropdown-option.selected {
@@ -213,7 +212,7 @@
     }
 
 .r-d-g-lt-comp .grid-icon-div {
-    background: linear-gradient(180deg, #fff, #e0e0e0) !important;
+    background: linear-gradient(180deg, #fff, #f5f1f1) !important;
     margin: auto !important;
 }
 
@@ -382,7 +381,7 @@
 
     .r-d-g-lt-comp .react-data-grid-lite table.gd-tbl::-webkit-scrollbar-thumb:hover,
     .r-d-g-lt-comp .dropdown-options::-webkit-scrollbar-thumb:hover {
-        background-color: #e0e0e0;
+        background-color: #f5f1f1;
     }
 
 .r-d-g-lt-comp .react-data-grid-lite thead {
@@ -489,6 +488,10 @@
     border: none !important;
     border-bottom: 2px solid #e0e0e0 !important;
 }
+
+    .r-d-g-lt-comp table tbody tr.gridRow:first-child {
+        border-top: 2px solid #e0e0e0 !important;
+    }
 
     .r-d-g-lt-comp table tbody tr.gridRow td {
         border: none !important;
@@ -609,7 +612,7 @@
     }
 
         .r-d-g-lt-comp .pagination li.page-item a:hover {
-            background: #e0e0e0 !important;
+            background: #f5f1f1 !important;
             color: #fff !important;
         }
 
