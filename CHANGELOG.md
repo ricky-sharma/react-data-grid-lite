@@ -6,6 +6,45 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
+## 🔖 v1.1.7 - Released 2025-07-15
+
+### 🛠 Fixes
+
+* **Synchronized cell updates** between grid state and full dataset:
+
+  * Injected `__$index__` into each row of `dataReceivedRef` to track and update rows accurately.
+  * Modified `onCellChange` and `revertChanges` to reflect updates in both paginated/filtered view and the original dataset.
+
+### 🔍 Search Enhancements
+
+* Improved grid search to support:
+
+  * Multi-word queries
+  * Diacritic-insensitive matching (e.g. `café` → `cafe`)
+  * Special character handling
+  * Concatenated column search with customizable separators
+* Extracted formatting and normalization into helper utilities for reusability.
+
+### 🧱 Refactors
+
+* Extracted core cell editing logic into reusable hooks:
+
+  * `useCellRevert`
+  * `useCellCommit`
+  * `useCellChange`
+* Benefits:
+
+  * Cleaner separation of concerns
+  * Better testability and modularity
+  * Hooks include `configure` method to inject state context
+  * Extensive unit tests added for edge cases and update flows
+
+### 🎨 UI
+
+* Updated default theme background color from `#e0e0e0` to `#f5f1f1` for a softer look.
+
+<br><br>
+
 ## 🔖 v1.1.6 - Released 2025-07-12
 
 ### 🆕 New Features
