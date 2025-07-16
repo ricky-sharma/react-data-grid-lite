@@ -7,6 +7,7 @@ import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
+import useContainerWidth from './hooks/use-container-width';
 import { applyTheme } from './utils/themes-utils';
 
 const DataGrid = ({
@@ -97,6 +98,7 @@ const DataGrid = ({
     const searchRef = useRef(null);
     const computedColumnWidthsRef = useRef(null);
     const isResizingRef = useRef(false);
+    const containerWidth = useContainerWidth();
 
     useEffect(() => {
         computedColumnWidthsRef.current = [];
@@ -180,7 +182,7 @@ const DataGrid = ({
                     )
                     : []
             }));
-    }, [state?.columns]);
+    }, [state?.columns, containerWidth]);
 
     useEffect(() => {
         setPagingVariables();

@@ -34,25 +34,9 @@ const GridRows = ({
     const cellChangedFocusRef = useRef(null);
     const clickTimerRef = useRef(null);
     const didDoubleClickRef = useRef(false);
-    const {
-        onCellChange,
-        configure: configureCellChange
-    } = useCellChange({
-        cellChangedRef
-    });
-    const {
-        commitChanges,
-        configure: configureCellCommit
-    } = useCellCommit({
-        cellChangedRef,
-        cellChangedFocusRef
-    });
-    const {
-        revertChanges,
-        configure: configureCellRevert
-    } = useCellRevert({
-        cellChangedFocusRef
-    });
+    const { onCellChange, configure: configureCellChange } = useCellChange({ cellChangedRef });
+    const { commitChanges, configure: configureCellCommit } = useCellCommit({ cellChangedRef, cellChangedFocusRef });
+    const { revertChanges, configure: configureCellRevert } = useCellRevert({ cellChangedFocusRef });
 
     useEffect(() => {
         setTimeout(() => {
@@ -124,27 +108,9 @@ const GridRows = ({
             editingCell: { rowIndex, columnName, baseRowIndex }
         }));
     };
-    configureCellChange({
-        editingCell,
-        editingCellData,
-        rowsData,
-        dataReceivedRef,
-        setState
-    });
-
-    configureCellCommit({
-        editingCell,
-        onCellUpdate,
-        setState
-    });
-
-    configureCellRevert({
-        editingCell,
-        editingCellData,
-        rowsData,
-        setState,
-        dataReceivedRef
-    });
+    configureCellChange({ editingCell, editingCellData, rowsData, dataReceivedRef, setState });
+    configureCellCommit({ editingCell, onCellUpdate, setState });
+    configureCellRevert({ editingCell, editingCellData, rowsData, setState, dataReceivedRef });
 
     return rowsData.slice(firstRow, firstRow + currentPageRows)
         .map((baseRow, sliceIndex) => {
@@ -166,7 +132,6 @@ const GridRows = ({
                         const columnDef = columns.find(c => c.name === colName);
                         const concatType = col.concatColumns?.editor?.[index];
                         const baseType = columnDef?.editor;
-
                         return {
                             colName,
                             type: resolveColumnType(concatType, baseType),
