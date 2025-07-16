@@ -20,10 +20,11 @@ export function calculateColumnWidth(
     hiddenCols,
     currentColKey,
     buttonColEnabled = false,
-    isMobile = false
+    isMobile = false,
+    gridID
 ) {
     if (!Array.isArray(colWidthArray)) return '100%';
-    const containerWidth = getContainerWidthInPixels(Container_Identifier,
+    const containerWidth = getContainerWidthInPixels(`#${gridID} ${Container_Identifier}`,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     const buttonColumnWidth = parseFloat(Button_Column_Width?.replace?.('px', '') || '0');
     const mobileColumnWidth = parseFloat(Mobile_Column_Width?.replace?.('px', '') || '0');

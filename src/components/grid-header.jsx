@@ -43,11 +43,11 @@ const GridHeader = ({
     let computedColumnWidths = [];
     if (computedColumnWidthsRef) computedColumnWidthsRef.current = [];
     let searchRowEnabled = false;
-    const containerWidth = getContainerWidthInPixels(Container_Identifier,
+    const containerWidth = getContainerWidthInPixels(`#${gridID} ${Container_Identifier}`,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
-        Button_Column_Key, buttonColEnabled, isMobile);
+        Button_Column_Key, buttonColEnabled, isMobile, gridID);
 
     if (Button_Column_Key) {
         computedColumnWidths = [
@@ -122,7 +122,7 @@ const GridHeader = ({
             }} /> : null;
 
         const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
-            key, buttonColEnabled, isMobile);
+            key, buttonColEnabled, isMobile, gridID);
 
         if (header?.name) {
             computedColumnWidths = [

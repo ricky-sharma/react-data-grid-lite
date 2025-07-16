@@ -7,6 +7,7 @@ import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
+import { GridConfigContext } from './context/grid-config-context';
 import useContainerWidth from './hooks/use-container-width';
 import { applyTheme } from './utils/themes-utils';
 
@@ -98,7 +99,7 @@ const DataGrid = ({
     const searchRef = useRef(null);
     const computedColumnWidthsRef = useRef(null);
     const isResizingRef = useRef(false);
-    const containerWidth = useContainerWidth();
+    const containerWidth = useContainerWidth(state.gridID);
 
     useEffect(() => {
         computedColumnWidthsRef.current = [];
@@ -326,62 +327,64 @@ const DataGrid = ({
         }));
     };
     return (
-        <div
-            id={state.gridID}
-            className={
-                !isNull(state.gridCssClass)
-                    ? `${state.gridCssClass} r-d-g-lt-comp`
-                    : 'r-d-g-lt-comp'
-            }
-            style={{ maxWidth: state.maxWidth, width: state.width }}
-        >
-            {state?.showToolbar === true &&
-                (<GridGlobalSearchBar
-                    setState={setState}
-                    enableGlobalSearch={state.enableGlobalSearch}
-                    globalSearchInput={state.globalSearchInput}
-                    columns={state.columns}
-                    onSearchClicked={onSearchClicked}
-                    handleResetSearch={handleResetSearch}
-                    enableDownload={state.enableDownload}
-                    rowsData={state.rowsData}
-                    downloadFilename={state.downloadFilename}
-                    onDownloadComplete={state.onDownloadComplete}
-                    showResetButton={state.showResetButton}
-                    globalSearchPlaceholder={state.globalSearchPlaceholder}
-                />)}
+        <GridConfigContext.Provider value={{ state, setState }}>
             <div
+                id={state.gridID}
                 className={
                     !isNull(state.gridCssClass)
-                        ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`
-                        : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
+                        ? `${state.gridCssClass} r-d-g-lt-comp`
+                        : 'r-d-g-lt-comp'
                 }
+                style={{ maxWidth: state.maxWidth, width: state.width }}
             >
-                <GridTable
-                    state={state}
-                    setState={setState}
-                    onHeaderClicked={onHeaderClicked}
-                    onSearchClicked={onSearchClicked}
-                    gridHeaderRef={gridHeaderRef}
-                    computedColumnWidthsRef={computedColumnWidthsRef}
-                    isResizingRef={isResizingRef}
-                    dataReceivedRef={dataReceivedRef}
-                />
+                {state?.showToolbar === true &&
+                    (<GridGlobalSearchBar
+                        setState={setState}
+                        enableGlobalSearch={state.enableGlobalSearch}
+                        globalSearchInput={state.globalSearchInput}
+                        columns={state.columns}
+                        onSearchClicked={onSearchClicked}
+                        handleResetSearch={handleResetSearch}
+                        enableDownload={state.enableDownload}
+                        rowsData={state.rowsData}
+                        downloadFilename={state.downloadFilename}
+                        onDownloadComplete={state.onDownloadComplete}
+                        showResetButton={state.showResetButton}
+                        globalSearchPlaceholder={state.globalSearchPlaceholder}
+                    />)}
+                <div
+                    className={
+                        !isNull(state.gridCssClass)
+                            ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`
+                            : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
+                    }
+                >
+                    <GridTable
+                        state={state}
+                        setState={setState}
+                        onHeaderClicked={onHeaderClicked}
+                        onSearchClicked={onSearchClicked}
+                        gridHeaderRef={gridHeaderRef}
+                        computedColumnWidthsRef={computedColumnWidthsRef}
+                        isResizingRef={isResizingRef}
+                        dataReceivedRef={dataReceivedRef}
+                    />
+                </div>
+                {state.showFooter === true && (
+                    <GridFooter
+                        totalRows={state.totalRows}
+                        currentPageRows={state.currentPageRows}
+                        activePage={state.activePage}
+                        pageRows={state.pageRows}
+                        pagerSelectOptions={state.pagerSelectOptions}
+                        enablePaging={state.enablePaging}
+                        noOfPages={state.noOfPages}
+                        onPageChange={handleChangePage}
+                        onPrev={handleBackwardPage}
+                        onNext={handleForwardPage}
+                    />)}
             </div>
-            {state.showFooter === true && (
-                <GridFooter
-                    totalRows={state.totalRows}
-                    currentPageRows={state.currentPageRows}
-                    activePage={state.activePage}
-                    pageRows={state.pageRows}
-                    pagerSelectOptions={state.pagerSelectOptions}
-                    enablePaging={state.enablePaging}
-                    noOfPages={state.noOfPages}
-                    onPageChange={handleChangePage}
-                    onPrev={handleBackwardPage}
-                    onNext={handleForwardPage}
-                />)}
-        </div>
+        </GridConfigContext.Provider>
     );
 }
 
