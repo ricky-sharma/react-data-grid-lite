@@ -16,7 +16,7 @@ const ColumnSortIcon = ({ columns = [], header }) => {
         return 'inactive icon-sort';
     };
     return (
-        <div className="sort-icon-wrapper">
+        <div className="sort-icon-wrapper alignCenter">
             <i className={`updown-icon ${getIconClass()}`} />
         </div>
     );

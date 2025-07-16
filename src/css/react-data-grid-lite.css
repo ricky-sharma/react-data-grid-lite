@@ -48,9 +48,7 @@
     .r-d-g-lt-comp div.globalSearch input,
     .r-d-g-lt-comp div.searchDiv input,
     .r-d-g-lt-comp div.editField input {
-        -moz-border-radius: 4px !important;
-        -webkit-border-radius: 4px !important;
-        border-radius: 4px !important;
+        border-radius: 8px !important;
         width: 100% !important;
         height: 100% !important;
         font-weight: 400 !important;
@@ -61,7 +59,7 @@
     .r-d-g-lt-comp .drop--down {
         position: relative;
         width: 60px;
-        border-radius: 6px !important;
+        border-radius: 8px !important;
         height: 32px;
         padding: 0;
         cursor: pointer;
@@ -191,7 +189,7 @@
 }
 
 .r-d-g-lt-comp .icon-div {
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 0 0 1.6px #667;
     height: 28px;
     letter-spacing: .001em;
@@ -218,24 +216,24 @@
 
 .r-d-g-lt-comp .clear-icon-div {
     float: left;
-    width: 44px;
+    width: 40px;
     position: relative;
     top: 0px;
-    height: 40px;
+    height: 38px;
 }
 
 .r-d-g-lt-comp .download-icon-div {
     float: right;
-    width: 140px !important;
+    width: 136px !important;
     position: relative;
     top: 0px;
-    height: 40px;
+    height: 38px;
 }
 
     .r-d-g-lt-comp .download-icon-div div.icon-content {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 3px;
     }
 
         .r-d-g-lt-comp .download-icon-div div.icon-content svg {
@@ -568,7 +566,7 @@
         align-items: center;
         position: relative;
         gap: 12px;
-        top: 1px;
+        top: 2px;
     }
 
 .r-d-g-lt-comp div.globalSearch {
@@ -725,8 +723,8 @@
     }
 
     .r-d-g-lt-comp .icon-div-mobile {
-        width: 40px !important;
-        height: 32px !important;
+        width: 36px !important;
+        height: 30px !important;
     }
 }
 
