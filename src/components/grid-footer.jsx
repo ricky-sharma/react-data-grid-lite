@@ -1,21 +1,24 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { memo } from 'react';
 import { isNull } from '../helpers/common';
+import { useGridConfig } from '../hooks/use-grid-config';
 import Dropdown from './custom-fields/dropdown';
 import GridPagination from './grid-pagination';
 
-const GridFooter = ({
-    totalRows,
-    currentPageRows,
-    activePage,
-    pageRows,
-    pagerSelectOptions,
-    enablePaging,
-    noOfPages,
+const GridFooter = memo(({
     onPageChange,
     onPrev,
     onNext
 }) => {
+    const { state = {} } = useGridConfig() ?? {};
+    const {
+        totalRows,
+        currentPageRows,
+        activePage,
+        pageRows,
+        pagerSelectOptions
+    } = state;
     const start = (activePage - 1) * pageRows + 1;
     const end = start + currentPageRows - 1;
     const showingRange = totalRows > currentPageRows ? `${start} - ${end}` : totalRows;
@@ -42,9 +45,6 @@ const GridFooter = ({
                 <div className="col-flex-12 mg--0 pd--0">
                     {pagerSelectOptions?.length ?? 0 > 0 ?
                         <GridPagination
-                            enablePaging={enablePaging}
-                            activePage={activePage}
-                            noOfPages={noOfPages}
                             onPageChange={onPageChange}
                             onPrevButtonClick={onPrev}
                             onNextButtonClick={onNext}
@@ -53,6 +53,6 @@ const GridFooter = ({
             </div>
         </div>
     );
-};
+});
 
 export default GridFooter;

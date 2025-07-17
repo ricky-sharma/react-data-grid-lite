@@ -360,13 +360,6 @@ const DataGrid = ({
                 </div>
                 {state.showFooter === true && (
                     <GridFooter
-                        totalRows={state.totalRows}
-                        currentPageRows={state.currentPageRows}
-                        activePage={state.activePage}
-                        pageRows={state.pageRows}
-                        pagerSelectOptions={state.pagerSelectOptions}
-                        enablePaging={state.enablePaging}
-                        noOfPages={state.noOfPages}
                         onPageChange={handleChangePage}
                         onPrev={handleBackwardPage}
                         onNext={handleForwardPage}
