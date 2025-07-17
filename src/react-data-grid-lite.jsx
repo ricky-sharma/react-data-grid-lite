@@ -337,18 +337,8 @@ const DataGrid = ({
             >
                 {state?.showToolbar === true &&
                     (<GridGlobalSearchBar
-                        setState={setState}
-                        enableGlobalSearch={state.enableGlobalSearch}
-                        globalSearchInput={state.globalSearchInput}
-                        columns={state.columns}
                         onSearchClicked={onSearchClicked}
                         handleResetSearch={handleResetSearch}
-                        enableDownload={state.enableDownload}
-                        rowsData={state.rowsData}
-                        downloadFilename={state.downloadFilename}
-                        onDownloadComplete={state.onDownloadComplete}
-                        showResetButton={state.showResetButton}
-                        globalSearchPlaceholder={state.globalSearchPlaceholder}
                     />)}
                 <div
                     className={

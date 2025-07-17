@@ -80,9 +80,10 @@ describe('GridPagination', () => {
     });
 
     it('hides dots when not needed', () => {
-        render(<GridPagination enablePaging={true} activePage={2} noOfPages={2} />);
-        const dotElements = screen.getAllByRole('link').filter(el => el.classList.contains('dot'));
-        expect(dotElements[0].closest('li')).toHaveStyle('visibility: collapse');
+        const { container } = render(<GridPagination enablePaging={true} activePage={2} noOfPages={2} />);
+        const dotElements = container.querySelectorAll('a.dot');
+        expect(dotElements.length).toBeGreaterThan(0);
+        expect(dotElements[0].closest('li')).toHaveStyle('visibility: hidden');
     });
 });
 
