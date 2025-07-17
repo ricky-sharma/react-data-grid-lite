@@ -1,12 +1,15 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import {
     Button_Column_Key,
     No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
 import { isNull } from '../helpers/common';
+import { useCellChange } from '../hooks/use-cell-change';
+import { useCellCommit } from '../hooks/use-cell-commit';
+import { useCellRevert } from '../hooks/use-cell-revert';
 import { useDoubleTap } from '../hooks/use-double-tap';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
@@ -16,9 +19,6 @@ import EditIcon from '../icons/edit-icon';
 import { formatRowData, resolveColumnItems, resolveColumnType } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
 import EditableCellFields from './grid-edit/editable-cell-fields';
-import { useCellChange } from '../hooks/use-cell-change';
-import { useCellCommit } from '../hooks/use-cell-commit';
-import { useCellRevert } from '../hooks/use-cell-revert';
 
 const GridRows = ({
     state,
@@ -61,6 +61,13 @@ const GridRows = ({
         };
     }, []);
 
+    const onCellEdit = useCallback((columnName, rowIndex, baseRowIndex) => {
+        setState(prev => ({
+            ...prev,
+            editingCell: { rowIndex, columnName, baseRowIndex }
+        }));
+    });
+
     const isMobile = windowWidth < 701;
     const {
         rowsData,
@@ -102,12 +109,6 @@ const GridRows = ({
             lastFixedIndex = index;
         }
     }, null);
-    const onCellEdit = (columnName, rowIndex, baseRowIndex) => {
-        setState(prev => ({
-            ...prev,
-            editingCell: { rowIndex, columnName, baseRowIndex }
-        }));
-    };
     configureCellChange({ editingCell, editingCellData, rowsData, dataReceivedRef, setState });
     configureCellCommit({ editingCell, onCellUpdate, setState });
     configureCellRevert({ editingCell, editingCellData, rowsData, setState, dataReceivedRef });

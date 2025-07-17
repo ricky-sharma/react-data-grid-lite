@@ -190,7 +190,7 @@
 
 .r-d-g-lt-comp .icon-div {
     border-radius: 10px;
-    box-shadow: 0 0 0 1.6px #667;
+    box-shadow: 0.2px 1px 4px 0px #667;
     height: 28px;
     letter-spacing: .001em;
     line-height: 1.43;
@@ -202,7 +202,7 @@
 }
 
     .r-d-g-lt-comp .icon-div:hover {
-        box-shadow: 0 0 0 2px #555566;
+        box-shadow: 0.5px 1px 4px 1px #555566;
     }
 
     .r-d-g-lt-comp .icon-div:active {

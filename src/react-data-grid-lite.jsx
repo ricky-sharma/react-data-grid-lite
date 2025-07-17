@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
 import { eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
 import { eventGridSearchClicked } from './components/events/event-grid-search-clicked';
@@ -99,7 +99,7 @@ const DataGrid = ({
     const searchRef = useRef(null);
     const computedColumnWidthsRef = useRef(null);
     const isResizingRef = useRef(false);
-    const containerWidth = useContainerWidth(state.gridID);
+    const containerWidth = useContainerWidth(state?.gridID);
 
     useEffect(() => {
         computedColumnWidthsRef.current = [];
@@ -138,11 +138,9 @@ const DataGrid = ({
                             }
                             return result;
                         };
-
                         const orderedFixed = applyGlobalOrder(fixedCols, 0);
                         const orderedNonFixed = applyGlobalOrder(nonFixedCols, orderedFixed.length);
                         const finalList = [...orderedFixed, ...orderedNonFixed];
-
                         return finalList.map((col, index) => ({
                             ...col,
                             displayIndex: index + 1
@@ -205,7 +203,7 @@ const DataGrid = ({
         }));
     };
 
-    const handleForwardPage = (e) => {
+    const handleForwardPage = useCallback((e) => {
         e.preventDefault();
         prevPageRef.current = { changeEvent: e, pageNo: state.activePage };
         if (state.activePage !== state.noOfPages) {
@@ -214,9 +212,9 @@ const DataGrid = ({
                 activePage: prevState.activePage + 1
             }));
         }
-    };
+    });
 
-    const handleBackwardPage = (e) => {
+    const handleBackwardPage = useCallback((e) => {
         e.preventDefault();
         prevPageRef.current = { changeEvent: e, pageNo: state.activePage };
         if (state.activePage !== 1) {
@@ -225,7 +223,7 @@ const DataGrid = ({
                 activePage: prevState.activePage - 1
             }));
         }
-    };
+    });
 
     useEffect(() => {
         if (prevPageRef?.current?.changeEvent)
@@ -236,7 +234,7 @@ const DataGrid = ({
             );
     }, [state?.activePage]);
 
-    const handleChangePage = (e, newPage, previousPage = -1) => {
+    const handleChangePage = useCallback((e, newPage, previousPage = -1) => {
         e.preventDefault();
         prevPageRef.current = {
             changeEvent: e,
@@ -252,7 +250,7 @@ const DataGrid = ({
                 editingCellData: null
             })
         );
-    };
+    });
 
     useEffect(() => {
         if (prevPageRef?.current?.changeEvent) {
@@ -267,10 +265,10 @@ const DataGrid = ({
         }
     }, [state?.firstRow, state?.currentPageRows]);
 
-    const onHeaderClicked = (e, colObject, colKey) => {
+    const onHeaderClicked = useCallback((e, colObject, colKey) => {
         sortRef.current = { changeEvent: e, colObject: colObject, colKey: colKey }
         eventGridHeaderClicked(colObject, state, setState, colKey, isResizingRef);
-    };
+    });
 
     useEffect(() => {
         if (typeof state.onSortComplete === 'function' && sortRef?.current?.changeEvent) {
@@ -295,7 +293,7 @@ const DataGrid = ({
         }
     }, [state.toggleState])
 
-    const onSearchClicked = (e, colName, colObject, formatting) => {
+    const onSearchClicked = useCallback((e, colName, colObject, formatting) => {
         if (e?.target?.value) e.target.value = e?.target?.value.trimStart();
         searchRef.current = {
             changeEvent: e,
@@ -303,9 +301,9 @@ const DataGrid = ({
         };
         eventGridSearchClicked(e, colName, colObject, formatting,
             dataReceivedRef, searchColsRef, state, setState);
-    };
+    });
 
-    const handleResetSearch = (e) => {
+    const handleResetSearch = useCallback((e) => {
         e.preventDefault();
         searchColsRef.current = [];
         setState(prev => ({
@@ -325,7 +323,7 @@ const DataGrid = ({
                 sortOrder: '',
             })),
         }));
-    };
+    });
     return (
         <GridConfigContext.Provider value={{ state, setState }}>
             <div

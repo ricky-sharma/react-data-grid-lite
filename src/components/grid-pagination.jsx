@@ -51,7 +51,7 @@ const GridPagination = ({
             e => onPageChange(e, page - 2),
             '',
             'dot',
-            { visibility: page > 2 && total > 3 ? "visible" : "collapse" },
+            { visibility: page > 2 && total > 3 ? "visible" : "hidden" },
             { 'tabIndex': '-1' }
         )
     );
@@ -83,7 +83,7 @@ const GridPagination = ({
             e => onPageChange(e, page + 2),
             '',
             'dot',
-            { visibility: total - 1 > page && total > 3 ? "visible" : "collapse" },
+            { visibility: total - 1 > page && total > 3 ? "visible" : "hidden" },
             { 'tabIndex': '-1' }
         )
     );

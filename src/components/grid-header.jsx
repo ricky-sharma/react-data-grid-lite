@@ -203,6 +203,9 @@ const GridHeader = ({
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
         const columnSearchEnabled = typeof header?.enableSearch === "boolean"
             ? header?.enableSearch : enableColumnSearch;
+        const displayName = isNull(header?.alias) || header?.name === header?.alias
+            ? header?.name
+            : header?.alias;
         if (columnSearchEnabled) {
             searchRowEnabled = true;
         };
@@ -236,7 +239,7 @@ const GridHeader = ({
                     className="searchDiv pd--0 mg--0">
                     {columnSearchEnabled ? (
                         <Input
-                            placeholder={header?.searchPlaceholder ?? "Search"}
+                            placeholder={header?.searchPlaceholder ?? `Search ${displayName?.toLowerCase() }`}
                             type="text"
                             value={searchValues?.[header?.name] ?? ''}
                             onChange={(e) => {

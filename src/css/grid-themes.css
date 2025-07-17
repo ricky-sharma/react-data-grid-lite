@@ -25,11 +25,11 @@
     }
 
     .r-d-g-lt-comp.theme-1 div.icon-div {
-        box-shadow: 0 0 0 1.5px #1F3B4D !important;
+        box-shadow: 0.2px 1px 4px 0px #1F3B4D !important;
     }
 
         .r-d-g-lt-comp.theme-1 div.icon-div:hover {
-            box-shadow: 0 0 0 2px #18303F !important;
+            box-shadow: 0.5px 1px 4px 1px #18303F !important;
         }
 
         .r-d-g-lt-comp.theme-1 div.icon-div:active {
@@ -118,11 +118,11 @@
     }
 
     .r-d-g-lt-comp.theme-2 div.icon-div {
-        box-shadow: 0 0 0 1.5px #2D2D2D !important;
+        box-shadow: 0.2px 1px 4px 0px #2D2D2D !important;
     }
 
         .r-d-g-lt-comp.theme-2 div.icon-div:hover {
-            box-shadow: 0 0 0 2px #1F1F1F !important;
+            box-shadow: 0.5px 1px 4px 1px #1F1F1F !important;
         }
 
         .r-d-g-lt-comp.theme-2 div.icon-div:active {
@@ -209,11 +209,11 @@
     }
 
     .r-d-g-lt-comp.theme-3 div.icon-div {
-        box-shadow: 0 0 0 1.5px #256D4F !important;
+        box-shadow: 0.2px 1px 4px 0px #256D4F !important;
     }
 
         .r-d-g-lt-comp.theme-3 div.icon-div:hover {
-            box-shadow: 0 0 0 2px #1F5C44 !important;
+            box-shadow: 0.5px 1px 4px 1px #1F5C44 !important;
         }
 
         .r-d-g-lt-comp.theme-3 div.icon-div:active {
