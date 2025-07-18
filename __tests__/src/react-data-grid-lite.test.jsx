@@ -31,7 +31,7 @@ jest.mock('./../../src/components/grid-global-search-bar', () => {
                 }}>Reset</button>
                 <button
                     data-testid="download-btn"
-                    onClick={(e) => props?.onDownloadComplete(e)}
+                    onClick={() => jest.fn()}
                 >Export CSV</button>
             </div>
         );

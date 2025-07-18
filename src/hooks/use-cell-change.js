@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 export function useCellChange({ cellChangedRef }) {
     const contextRef = useRef({
@@ -9,11 +9,11 @@ export function useCellChange({ cellChangedRef }) {
         setState: () => { }
     });
 
-    const configure = (ctx) => {
+    const configure = useCallback((ctx) => {
         contextRef.current = { ...contextRef.current, ...ctx };
-    };
+    });
 
-    const onCellChange = (e, value, colName) => {
+    const onCellChange = useCallback((e, value, colName) => {
         const {
             editingCell,
             editingCellData,
@@ -58,7 +58,7 @@ export function useCellChange({ cellChangedRef }) {
         }));
 
         cellChangedRef.current = true;
-    };
+    });
 
     return {
         onCellChange,

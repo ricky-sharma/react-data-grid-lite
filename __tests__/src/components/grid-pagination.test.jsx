@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
+import { GridConfigContext } from '../../../src/context/grid-config-context';
 import GridPagination from './../../../src/components/grid-pagination';
 
 beforeEach(() => {
@@ -8,13 +9,26 @@ beforeEach(() => {
 });
 
 describe('GridPagination', () => {
+    const mockState = {
+        enablePaging: true,
+        activePage: 2,
+        noOfPages: 5
+    };
+
+    const renderWithProvider = (ui, stateOverrides = {}) =>
+        render(
+            <GridConfigContext.Provider value={{ state: { ...mockState, ...stateOverrides } }}>
+                {ui}
+            </GridConfigContext.Provider>
+        );
+
     it('renders nothing if enablePaging is false', () => {
-        const { container } = render(<GridPagination enablePaging={false} />);
+        const { container } = renderWithProvider(<GridPagination />, { enablePaging: false });
         expect(container.firstChild).toBeNull();
     });
 
     it('renders pagination with correct buttons', () => {
-        render(<GridPagination enablePaging={true} activePage={2} noOfPages={5} />);
+        renderWithProvider(<GridPagination />);
         expect(screen.getByText('1')).toBeInTheDocument();
         expect(screen.getByText('2')).toBeInTheDocument();
         expect(screen.getByText('3')).toBeInTheDocument();
@@ -22,26 +36,13 @@ describe('GridPagination', () => {
     });
 
     it('disables previous button on first page', () => {
-        render(<GridPagination enablePaging={true} activePage={1} noOfPages={5} />);
+        renderWithProvider(<GridPagination />, { activePage: 1 });
         const prevButton = screen.getAllByRole('link')[0];
         expect(prevButton.parentElement).toHaveClass('disabled');
     });
 
     it('disables next button on last page', () => {
-        render(<GridPagination enablePaging={true} activePage={5} noOfPages={5} />);
-        const links = screen.getAllByRole('link');
-        const nextButton = links[links.length - 1];
-        expect(nextButton.parentElement).toHaveClass('disabled');
-    });
-
-    it('disables previous button on first page', () => {
-        render(<GridPagination enablePaging={true} activePage={1} noOfPages={5} />);
-        const prevButton = screen.getAllByRole('link')[0];
-        expect(prevButton.parentElement).toHaveClass('disabled');
-    });
-
-    it('disables next button on last page', () => {
-        render(<GridPagination enablePaging={true} activePage={5} noOfPages={5} />);
+        renderWithProvider(<GridPagination />, { activePage: 5 });
         const links = screen.getAllByRole('link');
         const nextButton = links[links.length - 1];
         expect(nextButton.parentElement).toHaveClass('disabled');
@@ -49,7 +50,7 @@ describe('GridPagination', () => {
 
     it('calls onPrevButtonClick when prev is clicked', () => {
         const onPrev = jest.fn();
-        render(<GridPagination enablePaging={true} activePage={2} noOfPages={5} onPrevButtonClick={onPrev} />);
+        renderWithProvider(<GridPagination onPrevButtonClick={onPrev} />);
         const prevButton = screen.getAllByRole('link')[0];
         fireEvent.click(prevButton);
         expect(onPrev).toHaveBeenCalled();
@@ -57,7 +58,7 @@ describe('GridPagination', () => {
 
     it('calls onNextButtonClick when next is clicked', () => {
         const onNext = jest.fn();
-        render(<GridPagination enablePaging={true} activePage={2} noOfPages={5} onNextButtonClick={onNext} />);
+        renderWithProvider(<GridPagination onNextButtonClick={onNext} />);
         const links = screen.getAllByRole('link');
         const nextButton = links[links.length - 1];
         fireEvent.click(nextButton);
@@ -66,35 +67,46 @@ describe('GridPagination', () => {
 
     it('calls onPageChange when a page number is clicked', () => {
         const onPageChange = jest.fn();
-        render(<GridPagination enablePaging={true} activePage={2} noOfPages={5} onPageChange={onPageChange} />);
+        renderWithProvider(<GridPagination onPageChange={onPageChange} />);
         fireEvent.click(screen.getByText('1'));
         expect(onPageChange).toHaveBeenCalledWith(expect.anything(), 1);
     });
 
     it('shows extra left and right numbers when applicable', () => {
-        render(<GridPagination enablePaging={true} activePage={1} noOfPages={5} />);
+        renderWithProvider(<GridPagination />, { activePage: 1 });
         expect(screen.getByText('3')).toBeInTheDocument();
 
-        render(<GridPagination enablePaging={true} activePage={5} noOfPages={5} />);
+        renderWithProvider(<GridPagination />, { activePage: 5 });
         expect(screen.getByText('4')).toBeInTheDocument();
     });
 
     it('hides dots when not needed', () => {
-        render(<GridPagination enablePaging={true} activePage={2} noOfPages={2} />);
-        const dotElements = screen.getAllByRole('link').filter(el => el.classList.contains('dot'));
-        expect(dotElements[0].closest('li')).toHaveStyle('visibility: collapse');
+        const { container } = renderWithProvider(<GridPagination />, { activePage: 2, noOfPages: 2 });
+        const dotElements = container.querySelectorAll('a.dot');
+        expect(dotElements.length).toBeGreaterThan(0);
+        expect(dotElements[0].closest('li')).toHaveStyle('visibility: hidden');
     });
 });
 
 describe('GridPagination Functional Tests', () => {
     const baseProps = {
-        enablePaging: true,
-        noOfPages: 5,
-        activePage: 3,
         onPageChange: jest.fn(),
         onPrevButtonClick: jest.fn(),
-        onNextButtonClick: jest.fn(),
+        onNextButtonClick: jest.fn()
     };
+
+    const mockState = {
+        enablePaging: true,
+        noOfPages: 5,
+        activePage: 3
+    };
+
+    const renderWithProvider = (ui, stateOverrides = {}) =>
+        render(
+            <GridConfigContext.Provider value={{ state: { ...mockState, ...stateOverrides } }}>
+                {ui}
+            </GridConfigContext.Provider>
+        );
 
     beforeEach(() => {
         cleanup();
@@ -102,35 +114,35 @@ describe('GridPagination Functional Tests', () => {
     });
 
     it('triggers onPageChange with page - 2 on left dots click', () => {
-        render(<GridPagination {...baseProps} />);
+        renderWithProvider(<GridPagination {...baseProps} />);
         const leftDots = screen.getAllByText('..')[0];
         fireEvent.click(leftDots);
-        expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 1); // 3 - 2
+        expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 1);
     });
 
     it('triggers onPageChange with 3 on thirdPage item (when page is 1)', () => {
-        render(<GridPagination {...baseProps} activePage={1} />);
+        renderWithProvider(<GridPagination {...baseProps} />, { activePage: 1 });
         const thirdPage = screen.getByText('3');
         fireEvent.click(thirdPage);
         expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3);
     });
 
     it('triggers onPageChange with total - 2 on thirdLast (when page is last)', () => {
-        render(<GridPagination {...baseProps} activePage={5} />);
-        const thirdLast = screen.getByText('3'); // total 5, total - 2 = 3
+        renderWithProvider(<GridPagination {...baseProps} />, { activePage: 5 });
+        const thirdLast = screen.getByText('3');
         fireEvent.click(thirdLast);
         expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3);
     });
 
     it('triggers onPageChange with page + 2 on right dots click', () => {
-        render(<GridPagination {...baseProps} />);
+        renderWithProvider(<GridPagination {...baseProps} />);
         const rightDots = screen.getAllByText('..')[1];
         fireEvent.click(rightDots);
-        expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 5); // 3 + 2
+        expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 5);
     });
 
     it('disables prev button on first page', () => {
-        render(<GridPagination {...baseProps} activePage={1} />);
+        renderWithProvider(<GridPagination {...baseProps} />, { activePage: 1 });
         const prev = screen.getByLabelText('Previous Page');
         expect(prev).toBeInTheDocument();
         const parent = prev.parentElement;
@@ -138,7 +150,7 @@ describe('GridPagination Functional Tests', () => {
     });
 
     it('disables next button on last page', () => {
-        render(<GridPagination {...baseProps} activePage={5} />);
+        renderWithProvider(<GridPagination {...baseProps} />, { activePage: 5 });
         const next = screen.getByLabelText('Next Page');
         expect(next).toBeInTheDocument();
         const parent = next.parentElement;
@@ -146,14 +158,14 @@ describe('GridPagination Functional Tests', () => {
     });
 
     it('calls onPrevButtonClick when prev is clicked and not disabled', () => {
-        render(<GridPagination {...baseProps} activePage={3} />);
+        renderWithProvider(<GridPagination {...baseProps} />, { activePage: 3 });
         const prev = screen.getByLabelText('Previous Page');
         fireEvent.click(prev.firstChild);
         expect(baseProps.onPrevButtonClick).toHaveBeenCalled();
     });
 
     it('calls onNextButtonClick when next is clicked and not disabled', () => {
-        render(<GridPagination {...baseProps} activePage={3} />);
+        renderWithProvider(<GridPagination {...baseProps} />, { activePage: 3 });
         const next = screen.getByLabelText('Next Page');
         fireEvent.click(next.firstChild);
         expect(baseProps.onNextButtonClick).toHaveBeenCalled();

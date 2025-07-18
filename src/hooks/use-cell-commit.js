@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 export function useCellCommit({ cellChangedRef, cellChangedFocusRef }) {
     const contextRef = useRef({
@@ -7,11 +7,11 @@ export function useCellCommit({ cellChangedRef, cellChangedFocusRef }) {
         setState: () => { }
     });
 
-    const configure = (ctx) => {
+    const configure = useCallback((ctx) => {
         contextRef.current = { ...contextRef.current, ...ctx };
-    };
+    });
 
-    const commitChanges = (editedColumns, updatedRow, isExiting) => {
+    const commitChanges = useCallback((editedColumns, updatedRow, isExiting) => {
         const {
             editingCell,
             onCellUpdate,
@@ -42,7 +42,7 @@ export function useCellCommit({ cellChangedRef, cellChangedFocusRef }) {
             });
             cellChangedRef.current = false;
         }
-    };
+    });
 
     return {
         commitChanges,

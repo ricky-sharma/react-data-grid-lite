@@ -1,14 +1,19 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { memo } from 'react';
+import { useGridConfig } from '../hooks/use-grid-config';
 
-const GridPagination = ({
-    enablePaging,
-    activePage = 1,
-    noOfPages = 1,
+const GridPagination = memo(({
     onPageChange,
     onPrevButtonClick,
     onNextButtonClick
 }) => {
+    const { state = {} } = useGridConfig() ?? {};
+    const {
+        enablePaging,
+        activePage = 1,
+        noOfPages = 1
+    } = state;
     if (!enablePaging) return null;
 
     const page = parseInt(activePage), total = parseInt(noOfPages);
@@ -51,7 +56,7 @@ const GridPagination = ({
             e => onPageChange(e, page - 2),
             '',
             'dot',
-            { visibility: page > 2 && total > 3 ? "visible" : "collapse" },
+            { visibility: page > 2 && total > 3 ? "visible" : "hidden" },
             { 'tabIndex': '-1' }
         )
     );
@@ -83,7 +88,7 @@ const GridPagination = ({
             e => onPageChange(e, page + 2),
             '',
             'dot',
-            { visibility: total - 1 > page && total > 3 ? "visible" : "collapse" },
+            { visibility: total - 1 > page && total > 3 ? "visible" : "hidden" },
             { 'tabIndex': '-1' }
         )
     );
@@ -100,6 +105,6 @@ const GridPagination = ({
     );
 
     return <ul className="pagination alignCenter">{pageItems}</ul>;
-};
+});
 
 export default GridPagination;

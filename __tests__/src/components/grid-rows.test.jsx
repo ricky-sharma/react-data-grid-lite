@@ -28,6 +28,7 @@ jest.mock('./../../../src/components/grid-edit/editable-cell-fields', () => (pro
 
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React, { useRef, useState } from 'react';
+import { GridConfigContext } from '../../../src/context/grid-config-context';
 import GridRows from './../../../src/components/grid-rows';
 
 beforeEach(() => {
@@ -407,15 +408,17 @@ describe('GridRows component editing', () => {
         state.editingCell = { rowIndex: 0, columnName: 'name' };
 
         render(
-            <table>
-                <tbody>
-                    <GridRows
-                        state={{ ...state, onCellUpdate }}
-                        setState={setState}
-                        computedColumnWidthsRef={{ current: columns }}
-                    />
-                </tbody>
-            </table>
+            <GridConfigContext.Provider value={{ state: state, setState: setState }}>
+                <table>
+                    <tbody>
+                        <GridRows
+                            state={{ ...state, onCellUpdate }}
+                            setState={setState}
+                            computedColumnWidthsRef={{ current: columns }}
+                        />
+                    </tbody>
+                </table>
+            </GridConfigContext.Provider>
         );
         const input = await screen.findByTestId('editable-input');
         expect(input).toBeInTheDocument();
@@ -438,16 +441,18 @@ describe('GridRows component editing', () => {
         setState.mockClear();
 
         render(
-            <table>
-                <tbody>
-                    <GridRows
-                        state={{ ...state, onCellUpdate }}
-                        setState={setState}
-                        computedColumnWidthsRef={{ current: columns }}
-                        dataReceivedRef={{ current: null }}
-                    />
-                </tbody>
-            </table>
+            <GridConfigContext.Provider value={{ state: state, setState: setState }}>
+                <table>
+                    <tbody>
+                        <GridRows
+                            state={{ ...state, onCellUpdate }}
+                            setState={setState}
+                            computedColumnWidthsRef={{ current: columns }}
+                            dataReceivedRef={{ current: null }}
+                        />
+                    </tbody>
+                </table>
+            </GridConfigContext.Provider>
         );
 
         const input = screen.getByTestId('editable-input');
@@ -523,38 +528,39 @@ describe('More Test cases for Grid Rows Edit function', () => {
         ]);
 
         return (
-            <table>
-                <tbody>
-                    <GridRows
-                        state={state}
-                        setState={setState}
-                        computedColumnWidthsRef={computedColumnWidthsRef}
-                    />
-                    <tr>
-                        <td>
-                            <button onClick={() => {
-                                const editableCol = [{ colName: 'name' }];
-                                const rowsData = [...state.rowsData];
-                                const rowIndex = state.editingCell.rowIndex;
-                                const updatedRow = { ...rowsData[rowIndex] };
-                                if (state.editingCellData?.hasOwnProperty('name')) {
-                                    updatedRow.name = state.editingCellData['name'];
-                                }
-                                rowsData[rowIndex] = updatedRow;
-                                setState(prev => ({
-                                    ...prev,
-                                    editingCell: null,
-                                    editingCellData: null,
-                                    rowsData
-                                }));
-                            }}>
-                                Revert
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
+            <GridConfigContext.Provider value={{ state: state, setState: setState }}>
+                <table>
+                    <tbody>
+                        <GridRows
+                            state={state}
+                            setState={setState}
+                            computedColumnWidthsRef={computedColumnWidthsRef}
+                        />
+                        <tr>
+                            <td>
+                                <button onClick={() => {
+                                    const editableCol = [{ colName: 'name' }];
+                                    const rowsData = [...state.rowsData];
+                                    const rowIndex = state.editingCell.rowIndex;
+                                    const updatedRow = { ...rowsData[rowIndex] };
+                                    if (state.editingCellData?.hasOwnProperty('name')) {
+                                        updatedRow.name = state.editingCellData['name'];
+                                    }
+                                    rowsData[rowIndex] = updatedRow;
+                                    setState(prev => ({
+                                        ...prev,
+                                        editingCell: null,
+                                        editingCellData: null,
+                                        rowsData
+                                    }));
+                                }}>
+                                    Revert
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </GridConfigContext.Provider>
         );
     };
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-prototype-builtins */
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 export function useCellRevert({ cellChangedFocusRef }) {
     const contextRef = useRef({
@@ -10,11 +10,11 @@ export function useCellRevert({ cellChangedFocusRef }) {
         dataReceivedRef: null
     });
 
-    const configure = (ctx) => {
+    const configure = useCallback((ctx) => {
         contextRef.current = { ...contextRef.current, ...ctx };
-    };
+    });
 
-    const revertChanges = (editableColumns) => {
+    const revertChanges = useCallback((editableColumns) => {
         const {
             editingCell,
             editingCellData,
@@ -55,7 +55,7 @@ export function useCellRevert({ cellChangedFocusRef }) {
             editingCellData: null,
             rowsData: updatedData
         }));
-    };
+    });
 
     return { revertChanges, configure };
 }

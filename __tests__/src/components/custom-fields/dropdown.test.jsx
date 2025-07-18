@@ -114,7 +114,7 @@ describe('Dropdown component', () => {
         expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
 
-    it('renders dropdown options in a portal when usePortal is true', () => {
+    it('renders dropdown options in a portal when usePortal is true', async () => {
         const portalContainer = document.createElement('div');
         portalContainer.setAttribute('id', 'app-container');
         document.body.appendChild(portalContainer);
@@ -123,8 +123,8 @@ describe('Dropdown component', () => {
         render(<Dropdown options={options} usePortal={true} />);
 
         fireEvent.click(screen.getByRole('button'));
-
-        expect(screen.getByRole('listbox')).toBeInTheDocument();
+        const listbox = await screen.findByRole('listbox');
+        expect(listbox).toBeInTheDocument();
         expect(screen.getByText('Alpha')).toBeInTheDocument();
         expect(screen.getByText('Beta')).toBeInTheDocument();
     });

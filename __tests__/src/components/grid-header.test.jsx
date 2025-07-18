@@ -64,7 +64,7 @@ describe('GridHeader Component', () => {
             </table>);
         }
         render(<TableComponent />);
-        expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Search full name')).toBeInTheDocument();
         cleanup();
         columns = [{ name: 'Name', enableSearch: false }, { name: 'Id', hidden: true }];
         const TableComponent2 = () => {
@@ -103,7 +103,7 @@ describe('GridHeader Component', () => {
             </table>);
         }
         render(<TableComponent />);
-        const input = screen.getByPlaceholderText('Search');
+        const input = screen.getByPlaceholderText('Search name');
         fireEvent.change(input, { target: { value: 'John' } });
         expect(onSearchClicked).toHaveBeenCalled();
     });

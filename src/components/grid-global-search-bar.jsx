@@ -1,5 +1,6 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { memo } from 'react';
 import { isNull } from '../helpers/common';
 import { useWindowWidth } from '../hooks/use-window-width';
 import DownloadIcon from '../icons/download-icon';
@@ -7,22 +8,26 @@ import EraseIcon from '../icons/erase-icon';
 import { Export_To_CSV_Text } from './../constants';
 import Input from './custom-fields/input';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
+import { useGridConfig } from '../hooks/use-grid-config';
 
-const GridGlobalSearchBar = ({
-    setState,
-    enableGlobalSearch,
-    globalSearchInput,
-    columns,
+const GridGlobalSearchBar = memo(({
     onSearchClicked,
     handleResetSearch,
-    enableDownload,
-    rowsData,
-    downloadFilename,
-    onDownloadComplete,
-    showResetButton,
-    globalSearchPlaceholder
 }) => {
     const windowWidth = useWindowWidth();
+    const { state = {}, setState = () => { } } = useGridConfig() ?? {};
+    const {
+        enableGlobalSearch,
+        globalSearchInput,
+        columns,
+        enableDownload,
+        rowsData,
+        downloadFilename,
+        onDownloadComplete,
+        showResetButton,
+        globalSearchPlaceholder
+    } = state;
+
     const isSmallScreen = windowWidth < 701;
     const noColumns = isNull(columns);
     const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns
@@ -114,6 +119,6 @@ const GridGlobalSearchBar = ({
             </div>
         </div>
     );
-};
+});
 
 export default GridGlobalSearchBar;

@@ -1,70 +1,61 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable react/display-name */
 /* eslint-disable no-unused-vars */
-
-jest.mock('./../../../src/components/grid-pagination', () => (props) => (
-    <div data-testid="mock-pagination">
-        <button
-            data-testid="prev-button"
-            disabled={props.activePage === 1}
-            onClick={() => props.onPrevButtonClick()}
-        >
-            Previous
-        </button>
-        <span data-testid="page-indicator">
-            Page {props.activePage} of {props.noOfPages}
-        </span>
-        <button
-            data-testid="next-button"
-            disabled={props.activePage === props.noOfPages}
-            onClick={() => props.onNextButtonClick()}
-        >
-            Next
-        </button>
-    </div>
-));
 
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
+import { GridConfigContext } from '../../../src/context/grid-config-context';
 import GridFooter from './../../../src/components/grid-footer';
 
 describe('GridFooter Component', () => {
     const defaultProps = {
+        onPageChange: jest.fn(),
+        onPrev: jest.fn(),
+        onNext: jest.fn()
+    };
+
+    const mockState = {
         totalRows: 25,
         currentPageRows: 10,
         activePage: 2,
         pageRows: 10,
         pagerSelectOptions: [1, 2, 3],
         enablePaging: true,
-        noOfPages: 3,
-        onPageChange: jest.fn(),
-        onPrev: jest.fn(),
-        onNext: jest.fn()
+        noOfPages: 3
     };
+
+    const mockSetState = jest.fn();
+
+    const renderWithProvider = (ui, stateOverrides = {}) =>
+        render(
+            <GridConfigContext.Provider value={{ state: { ...mockState, ...stateOverrides }, setState: mockSetState }}>
+                {ui}
+            </GridConfigContext.Provider>
+        );
 
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     it('renders GridFooter with pagination', () => {
-        render(<GridFooter {...defaultProps} />);
+        renderWithProvider(<GridFooter {...defaultProps} />);
         expect(screen.getByText((content) => content.includes('25'))).toBeInTheDocument();
-        expect(screen.getByTestId('mock-pagination')).toBeInTheDocument();
+        const paginationEl = screen.getByRole('list');
+        expect(paginationEl).toHaveClass('pagination');
     });
 
     it('displays the correct range based on active page', () => {
-        render(<GridFooter {...defaultProps} />);
+        renderWithProvider(<GridFooter {...defaultProps} />);
         expect(screen.getByText((content) => content.includes('11 - 20'))).toBeInTheDocument();
     });
 
     it('shows only totalRows if all results are on one page', () => {
-        const { container } = render(<GridFooter {...defaultProps} totalRows={8} currentPageRows={8} />);
+        const { container } = renderWithProvider(<GridFooter {...defaultProps} />, { totalRows: 8, currentPageRows: 8 });
         const pageResults = container.querySelector('.page-results');
         expect(pageResults).toHaveTextContent('8 results');
     });
 
     it('renders pager select with correct values', () => {
-        const { container } = render(<GridFooter {...defaultProps} />);
+        const { container } = renderWithProvider(<GridFooter {...defaultProps} />);
 
         const dropdownTrigger = screen.getByRole('button', { name: /2/i });
         expect(dropdownTrigger).toBeInTheDocument();
@@ -79,40 +70,52 @@ describe('GridFooter Component', () => {
 
 
     it('triggers onPageChange when a new page is selected from dropdown', () => {
-        render(<GridFooter {...defaultProps} />);
+        renderWithProvider(<GridFooter {...defaultProps} />);
         const dropdownTrigger = screen.getByRole('button', { name: /2/i });
         fireEvent.click(dropdownTrigger);
-        const option = screen.getByText('3');
+        const option = screen.getByRole('option', { name: '3' });
         fireEvent.click(option);
         expect(defaultProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3);
     });
 
     it('calls onPrev when prev button is clicked', () => {
-        render(<GridFooter {...defaultProps} />);
-        fireEvent.click(screen.getByTestId('prev-button'));
+        renderWithProvider(<GridFooter {...defaultProps} />);
+        fireEvent.click(screen.getByLabelText('Previous Page'));
         expect(defaultProps.onPrev).toHaveBeenCalled();
     });
 
     it('calls onNext when next button is clicked', () => {
-        render(<GridFooter {...defaultProps} />);
-        fireEvent.click(screen.getByTestId('next-button'));
+        renderWithProvider(<GridFooter {...defaultProps} />);
+        fireEvent.click(screen.getByLabelText('Next Page'));
         expect(defaultProps.onNext).toHaveBeenCalled();
     });
 });
 
 describe('More Tests for GridFooter Component', () => {
     const defaultProps = {
+        onPageChange: jest.fn(),
+        onPrev: jest.fn(),
+        onNext: jest.fn()
+    };
+
+    const mockState = {
         totalRows: 50,
         currentPageRows: 10,
         activePage: 2,
         pageRows: 10,
         pagerSelectOptions: [1, 2, 3, 4, 5],
         enablePaging: true,
-        noOfPages: 5,
-        onPageChange: jest.fn(),
-        onPrev: jest.fn(),
-        onNext: jest.fn(),
+        noOfPages: 5
     };
+
+    const mockSetState = jest.fn();
+
+    const renderWithProvider = (ui, stateOverrides = {}) =>
+        render(
+            <GridConfigContext.Provider value={{ state: { ...mockState, ...stateOverrides }, setState: mockSetState }}>
+                {ui}
+            </GridConfigContext.Provider>
+        );
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -120,29 +123,29 @@ describe('More Tests for GridFooter Component', () => {
     });
 
     it('renders pagination controls correctly', () => {
-        render(<GridFooter {...defaultProps} />);
+        renderWithProvider(<GridFooter {...defaultProps} />);
         expect(screen.getByText(/11 - 20/i)).toBeInTheDocument();
         expect(screen.getByText(/50/i)).toBeInTheDocument();
-        expect(screen.getByText('Next')).toBeInTheDocument();
-        expect(screen.getByText('Previous')).toBeInTheDocument();
+        expect(screen.getByLabelText('Next Page')).toBeInTheDocument();
+        expect(screen.getByLabelText('Previous Page')).toBeInTheDocument();
     });
 
     it('calls onPrev when Previous is clicked', () => {
-        render(<GridFooter {...defaultProps} />);
-        const prevButton = screen.getByText('Previous');
+        renderWithProvider(<GridFooter {...defaultProps} />);
+        const prevButton = screen.getByLabelText('Previous Page');
         fireEvent.click(prevButton);
         expect(defaultProps.onPrev).toHaveBeenCalledTimes(1);
     });
 
     it('calls onNext when Next is clicked', () => {
-        render(<GridFooter {...defaultProps} />);
-        const nextButton = screen.getByText('Next');
+        renderWithProvider(<GridFooter {...defaultProps} />);
+        const nextButton = screen.getByLabelText('Next Page');
         fireEvent.click(nextButton);
         expect(defaultProps.onNext).toHaveBeenCalledTimes(1);
     });
 
     it('calls onPageChange when a page is selected from the dropdown', () => {
-        render(<GridFooter {...defaultProps} />);
+        renderWithProvider(<GridFooter {...defaultProps} />);
         const dropdownTrigger = screen.getByRole('button', { name: /2/i });
         fireEvent.click(dropdownTrigger);
         const option = screen.getByText('5');
@@ -151,24 +154,27 @@ describe('More Tests for GridFooter Component', () => {
     });
 
     it('disables Previous button on the first page', () => {
-        render(<GridFooter {...defaultProps} activePage={1} />);
-        const prevButton = screen.getByText('Previous');
-        expect(prevButton).toBeDisabled();
+        renderWithProvider(<GridFooter {...defaultProps} />, { activePage: 1 });
+        const prevButton = screen.getByLabelText('Previous Page');
+        const listItem = prevButton.closest('li');
+        expect(listItem).toHaveClass('disabled');
     });
 
     it('disables Next button on the last page', () => {
-        render(<GridFooter {...defaultProps} activePage={5} />);
-        const nextButton = screen.getByText('Next');
-        expect(nextButton).toBeDisabled();
+        renderWithProvider(<GridFooter {...defaultProps} />, { activePage: 5 });
+        const nextButton = screen.getByLabelText('Next Page');
+        const listItem = nextButton.closest('li');
+        expect(listItem).toHaveClass('disabled');
     });
 
     it('enables Next button on a non-final page', () => {
-        render(<GridFooter {...defaultProps} activePage={2} />);
-        const nextButton = screen.getByTestId('next-button');
-        expect(nextButton).not.toBeDisabled();
+        renderWithProvider(<GridFooter {...defaultProps} />, { activePage: 2 });
+        const nextButton = screen.getByLabelText('Next Page');
+        const listItem = nextButton.closest('li');
+        expect(listItem).not.toHaveClass('disabled');
     });
 
     it('renders GridFooter without crashing', () => {
-        expect(() => render(<GridFooter pagerSelectOptions={[]} totalRows={0} />)).not.toThrow();
+        expect(() => renderWithProvider(<GridFooter />, { pagerSelectOptions: [], totalRows: 0 })).not.toThrow();
     });
 });

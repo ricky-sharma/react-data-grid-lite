@@ -1,24 +1,24 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import {
     Button_Column_Key,
     No_Column_Visible_Message,
     No_Data_Message
 } from '../constants';
 import { isNull } from '../helpers/common';
+import { useCellChange } from '../hooks/use-cell-change';
+import { useCellCommit } from '../hooks/use-cell-commit';
+import { useCellRevert } from '../hooks/use-cell-revert';
 import { useDoubleTap } from '../hooks/use-double-tap';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
 import { useWindowWidth } from '../hooks/use-window-width';
 import DeleteIcon from '../icons/delete-icon';
 import EditIcon from '../icons/edit-icon';
-import { formatRowData, resolveColumnItems, resolveColumnType } from '../utils/component-utils';
+import { formatRowData } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
-import EditableCellFields from './grid-edit/editable-cell-fields';
-import { useCellChange } from '../hooks/use-cell-change';
-import { useCellCommit } from '../hooks/use-cell-commit';
-import { useCellRevert } from '../hooks/use-cell-revert';
+import GridCell from './grid-cell';
 
 const GridRows = ({
     state,
@@ -34,25 +34,9 @@ const GridRows = ({
     const cellChangedFocusRef = useRef(null);
     const clickTimerRef = useRef(null);
     const didDoubleClickRef = useRef(false);
-    const {
-        onCellChange,
-        configure: configureCellChange
-    } = useCellChange({
-        cellChangedRef
-    });
-    const {
-        commitChanges,
-        configure: configureCellCommit
-    } = useCellCommit({
-        cellChangedRef,
-        cellChangedFocusRef
-    });
-    const {
-        revertChanges,
-        configure: configureCellRevert
-    } = useCellRevert({
-        cellChangedFocusRef
-    });
+    const { onCellChange, configure: configureCellChange } = useCellChange({ cellChangedRef });
+    const { commitChanges, configure: configureCellCommit } = useCellCommit({ cellChangedRef, cellChangedFocusRef });
+    const { revertChanges, configure: configureCellRevert } = useCellRevert({ cellChangedFocusRef });
 
     useEffect(() => {
         setTimeout(() => {
@@ -77,6 +61,13 @@ const GridRows = ({
         };
     }, []);
 
+    const onCellEdit = useCallback((columnName, rowIndex, baseRowIndex) => {
+        setState(prev => ({
+            ...prev,
+            editingCell: { rowIndex, columnName, baseRowIndex }
+        }));
+    });
+
     const isMobile = windowWidth < 701;
     const {
         rowsData,
@@ -92,10 +83,8 @@ const GridRows = ({
         deleteButtonEnabled,
         editButtonEvent,
         deleteButtonEvent,
-        enableColumnResize,
         gridID,
         actionColumnAlign,
-        enableCellEdit,
         editingCell,
         onCellUpdate,
         editingCellData,
@@ -118,33 +107,9 @@ const GridRows = ({
             lastFixedIndex = index;
         }
     }, null);
-    const onCellEdit = (columnName, rowIndex, baseRowIndex) => {
-        setState(prev => ({
-            ...prev,
-            editingCell: { rowIndex, columnName, baseRowIndex }
-        }));
-    };
-    configureCellChange({
-        editingCell,
-        editingCellData,
-        rowsData,
-        dataReceivedRef,
-        setState
-    });
-
-    configureCellCommit({
-        editingCell,
-        onCellUpdate,
-        setState
-    });
-
-    configureCellRevert({
-        editingCell,
-        editingCellData,
-        rowsData,
-        setState,
-        dataReceivedRef
-    });
+    configureCellChange({ editingCell, editingCellData, rowsData, dataReceivedRef, setState });
+    configureCellCommit({ editingCell, onCellUpdate, setState });
+    configureCellRevert({ editingCell, editingCellData, rowsData, setState, dataReceivedRef });
 
     return rowsData.slice(firstRow, firstRow + currentPageRows)
         .map((baseRow, sliceIndex) => {
@@ -153,109 +118,28 @@ const GridRows = ({
             const formattedRow = formatRowData(baseRow, columns);
             const cols = Object.values(columns).map((col, key) => {
                 if (col?.hidden === true) return null;
-                const columnValue = formattedRow[col?.name?.toLowerCase()];
-                const classNames = col?.class || '';
-                const colWidth = computedColumnWidthsRef?.current?.find(i =>
-                    i?.name === col?.name)?.width ?? 0;
-                const colResizable = typeof col?.resizable === "boolean"
-                    ? col?.resizable : enableColumnResize;
-                const editable = typeof col?.editable === "boolean"
-                    ? col?.editable : enableCellEdit;
-                const editableColumns = (col.concatColumns?.columns ?? [col?.name])
-                    .map((colName, index) => {
-                        const columnDef = columns.find(c => c.name === colName);
-                        const concatType = col.concatColumns?.editor?.[index];
-                        const baseType = columnDef?.editor;
-
-                        return {
-                            colName,
-                            type: resolveColumnType(concatType, baseType),
-                            values: resolveColumnItems(concatType, baseType)
-                        };
-                    });
                 return (
-                    <td
+                    <GridCell
                         key={key}
-                        className={classNames + (editable === true
-                            ? " editable-cell" : "")}
-                        tabIndex={editable === true ? 0 : undefined}
-                        style={{
-                            width: colWidth,
-                            maxWidth: colResizable ? undefined : colWidth,
-                            minWidth: colResizable ? undefined : colWidth,
-                            left: (col?.fixed === true && !isMobile
-                                ? computedColumnWidthsRef?.current?.find(i =>
-                                    i?.name === col?.name)?.leftPosition ?? '' : ''),
-                            position: (col?.fixed === true && !isMobile ? 'sticky' : ''),
-                            zIndex: (col?.fixed === true && !isMobile ? 6 : ''),
-                            backgroundColor: 'inherit',
-                            boxShadow: (lastFixedIndex === key && !isMobile
-                                ? '#e0e0e0 -0.5px 0 0 0 inset' : ''),
-                            contain: 'layout paint',
-                            cursor: editable === true ? 'pointer' : 'default',
-                        }}
-                        onBlur={() => cellChangedFocusRef.current = null}
-                        onDoubleClick={() => {
-                            if (clickTimerRef.current) {
-                                clearTimeout(clickTimerRef.current);
-                            }
-                            didDoubleClickRef.current = true;
-                            if (editable) {
-                                onCellEdit(col.name, rowIndex, baseRowIndex);
-                            }
-                        }}
-                        onMouseDown={(e) => {
-                            if (e.target instanceof HTMLElement
-                                && e.target.tagName === 'A') {
-                                e.preventDefault();
-                            }
-                            if (!editable) e.preventDefault()
-                        }}
-                        onKeyDown={(e) => onKeyDown(e, {
-                            editable,
-                            editingCell,
-                            rowIndex,
-                            col,
-                            columns,
-                            onCellEdit,
-                            baseRowIndex
-                        })}
-                        onTouchStart={onTouchStart(() => {
-                            if (editable === true) onCellEdit(col.name, rowIndex, baseRowIndex);
-                        })}
-                        data-row-index={rowIndex}
-                        data-col-name={col?.name}
-                    >
-                        {editable === true &&
-                            editingCell?.rowIndex === rowIndex &&
-                            editingCell?.columnName === col?.name ? (
-                            <EditableCellFields
-                                baseRow={baseRow}
-                                columnValue={columnValue}
-                                commitChanges={commitChanges}
-                                editableColumns={editableColumns}
-                                onCellChange={onCellChange}
-                                revertChanges={revertChanges}
-                            />
-                        ) : (
-                            !isNull(col?.render)
-                                && typeof col?.render === 'function' ? (
-                                col.render(formattedRow, baseRow)
-                            ) : (
-                                <div
-                                    style={{
-                                        height: "100%",
-                                        textAlign: "left",
-                                        padding: "10px 25px"
-                                    }}
-                                    className="mg--0 pd--0"
-                                    title={columnValue?.toString()}
-                                >
-                                    {columnValue?.toString()}
-                                </div>
-                            )
-                        )}
-                    </td>
+                        keyProp={key}
+                        col={col}
+                        isMobile={isMobile}
+                        computedColumnWidthsRef={computedColumnWidthsRef}
+                        lastFixedIndex={lastFixedIndex}
+                        rowIndex={rowIndex}
+                        baseRowIndex={baseRowIndex}
+                        baseRow={baseRow}
+                        formattedRow={formattedRow}
+                        onCellEdit={onCellEdit}
+                        onKeyDown={onKeyDown}
+                        onTouchStart={onTouchStart}
+                        commitChanges={commitChanges}
+                        onCellChange={onCellChange}
+                        revertChanges={revertChanges}
+                        cellChangedFocusRef={cellChangedFocusRef}
+                        clickTimerRef={clickTimerRef}
+                        didDoubleClickRef={didDoubleClickRef}
+                    />
                 );
             });
             const isActionColumnLeft = actionColumnAlign === 'left';

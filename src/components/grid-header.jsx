@@ -43,11 +43,11 @@ const GridHeader = ({
     let computedColumnWidths = [];
     if (computedColumnWidthsRef) computedColumnWidthsRef.current = [];
     let searchRowEnabled = false;
-    const containerWidth = getContainerWidthInPixels(Container_Identifier,
+    const containerWidth = getContainerWidthInPixels(`#${gridID} ${Container_Identifier}`,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
-        Button_Column_Key, buttonColEnabled, isMobile);
+        Button_Column_Key, buttonColEnabled, isMobile, gridID);
 
     if (Button_Column_Key) {
         computedColumnWidths = [
@@ -122,7 +122,7 @@ const GridHeader = ({
             }} /> : null;
 
         const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
-            key, buttonColEnabled, isMobile);
+            key, buttonColEnabled, isMobile, gridID);
 
         if (header?.name) {
             computedColumnWidths = [
@@ -203,6 +203,9 @@ const GridHeader = ({
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
         const columnSearchEnabled = typeof header?.enableSearch === "boolean"
             ? header?.enableSearch : enableColumnSearch;
+        const displayName = isNull(header?.alias) || header?.name === header?.alias
+            ? header?.name
+            : header?.alias;
         if (columnSearchEnabled) {
             searchRowEnabled = true;
         };
@@ -236,7 +239,7 @@ const GridHeader = ({
                     className="searchDiv pd--0 mg--0">
                     {columnSearchEnabled ? (
                         <Input
-                            placeholder={header?.searchPlaceholder ?? "Search"}
+                            placeholder={header?.searchPlaceholder ?? `Search ${displayName?.toLowerCase() }`}
                             type="text"
                             value={searchValues?.[header?.name] ?? ''}
                             onChange={(e) => {

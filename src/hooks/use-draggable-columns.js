@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Container_Identifier, Movement_Threshold } from '../constants';
+import { useGridConfig } from './use-grid-config';
 
 export function useDraggableColumns(columns, setState, onColumnDragEnd) {
     const dragIndexRef = useRef(null);
@@ -8,9 +9,10 @@ export function useDraggableColumns(columns, setState, onColumnDragEnd) {
     const lastTouchedIndexRef = useRef(null);
     const dragActiveRef = useRef(false);
     const [, forceUpdate] = useState(0);
+    const config = useGridConfig();
 
     useEffect(() => {
-        const container = document.querySelector(Container_Identifier);
+        const container = document.querySelector(`#${config?.state?.gridID} ${Container_Identifier}`);
         if (!container) return;
 
         const nativeHandler = (e) => {

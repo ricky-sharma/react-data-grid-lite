@@ -1,10 +1,12 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Container_Identifier } from '../../constants';
 import { isNull } from '../../helpers/common';
+import { useGridConfig } from '../../hooks/use-grid-config';
 
-const Dropdown = ({
+const Dropdown = memo(({
     options = [],
     value,
     onChange,
@@ -24,6 +26,7 @@ const Dropdown = ({
     isOpen,
     setOpenExternally
 }) => {
+    const config = useGridConfig();
     const [focusedIndex, setFocusedIndex] = useState(-1);
     const triggerRef = useRef(null);
     const optionRefs = useRef([]);
@@ -33,6 +36,7 @@ const Dropdown = ({
     const focusBeforeOpenRef = useRef(null);
     const isControlled = typeof isOpen === 'boolean' && typeof setOpenExternally === 'function';
     const [internalOpen, setInternalOpen] = useState(false);
+    const [readyToPosition, setReadyToPosition] = useState(false);
     const open = isControlled ? isOpen : internalOpen;
 
     if (isNull(options)) options.push('Select');
@@ -51,6 +55,17 @@ const Dropdown = ({
         }
     }, [open]);
 
+    useEffect(() => {
+        if (!open) {
+            setReadyToPosition(false);
+            return;
+        }
+        const raf = requestAnimationFrame(() => {
+            setReadyToPosition(true);
+        });
+        return () => cancelAnimationFrame(raf);
+    }, [open]);
+
     const handleFocusCapture = (e) => {
         focusBeforeOpenRef.current = e.target;
     };
@@ -66,7 +81,7 @@ const Dropdown = ({
     }, [dropDownRef]);
 
     const getDropdownContainer = () => {
-        return document.querySelector(Container_Identifier) || document.body;
+        return document.querySelector(`#${config?.state?.gridID} ${Container_Identifier}`) || document.body;
     };
 
     const toggleDropdown = () => {
@@ -133,7 +148,7 @@ const Dropdown = ({
 
             if (usePortal && triggerRef.current) {
                 const triggerRect = triggerRef.current.getBoundingClientRect();
-                const container = document.querySelector(Container_Identifier) || document.body;
+                const container = getDropdownContainer();
                 const containerRect = container.getBoundingClientRect();
 
                 setPosition({
@@ -185,7 +200,7 @@ const Dropdown = ({
             className="dropdown-options"
             style={
                 usePortal
-                    ? {
+                    ? readyToPosition ? {
                         position: 'absolute',
                         top: `${position.top}px`,
                         left: `${position.left}px`,
@@ -194,7 +209,7 @@ const Dropdown = ({
                         overflowY: 'visible',
                         backgroundColor: '#fff'
                     }
-                    : {}
+                        : { visibility: 'hidden' } : {}
             }
             role="listbox"
             tabIndex={0}
@@ -289,6 +304,6 @@ const Dropdown = ({
                     : renderOptions())}
         </div>
     );
-};
+});
 
 export default Dropdown;
