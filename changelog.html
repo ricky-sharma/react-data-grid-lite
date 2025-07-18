@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1752560626467" rel="stylesheet" />
+		<link href="index.css?ver=1752817136806" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -328,6 +328,56 @@
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<p><br><br></p>
+<h2>📝 v1.1.8 – Released 2025-07-18</h2>
+<h3>Enhancements, Fixes &amp; Refactors</h3>
+<h4>🛠️ Bug Fixes</h4>
+<ul>
+<li><strong>Sort Icon Alignment</strong>: Fixed an issue where the sort icon would shift to the right after clicking the sort button.</li>
+<li><strong>Grid Container Width</strong>: Resolved an issue causing the grid container to initially load with incorrect width, pushing the last column beyond the frame.</li>
+<li><strong>Dropdown Positioning</strong>: Fixed a brief mispositioning of the options menu on initial render in editable cells.</li>
+<li><strong>Icon UI Issues</strong>: Addressed visual inconsistencies across various UI icons.</li>
+</ul>
+<h4>🎨 UI Improvements</h4>
+<ul>
+<li>Updated border-radius for buttons, text boxes, and dropdowns for a cleaner, more consistent appearance.</li>
+<li>Improved general UI styling and layout.</li>
+<li>Added column name to the default placeholder in the column search field.</li>
+</ul>
+<h4>⚙️ Features &amp; Enhancements</h4>
+<ul>
+<li><strong>GridContext Added</strong>: Introduced <code>GridContext</code> for sharing state and <code>setState</code> with child components.</li>
+<li><strong>Scoped Container Identifiers</strong>: <code>Container_Identifier</code> is now scoped using <code>gridID</code>, allowing support for multiple grid instances.</li>
+</ul>
+<h4>🔧 Performance &amp; Refactoring</h4>
+<ul>
+<li>
+<p>Wrapped multiple functions with <code>useCallback</code> for better rendering performance.</p>
+</li>
+<li>
+<p><strong>GridGlobalSearchBar</strong>:</p>
+<ul>
+<li>Now uses <code>GridConfigContext</code> instead of direct props.</li>
+<li>Wrapped in <code>React.memo</code> to reduce unnecessary re-renders.</li>
+<li>Updated related test cases.</li>
+</ul>
+</li>
+<li>
+<p><strong>GridPagination &amp; GridFooter</strong>:</p>
+<ul>
+<li>Migrated to use <code>GridConfigContext</code> with memoization.</li>
+<li>Wrapped both in <code>React.memo</code>.</li>
+<li>Updated tests accordingly.</li>
+</ul>
+</li>
+<li>
+<p><strong>GridCell Refactor</strong>:</p>
+<ul>
+<li>Moved <code>&lt;td&gt;</code> rendering logic to <code>grid-cell.jsx</code>.</li>
+<li>Updated associated test coverage.</li>
+</ul>
+</li>
+</ul>
 <p><br><br></p>
 <h2>🔖 v1.1.7 - Released 2025-07-15</h2>
 <h3>🛠 Fixes</h3>
