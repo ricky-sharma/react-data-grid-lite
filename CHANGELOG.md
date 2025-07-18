@@ -6,6 +6,50 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
+## 📝 v1.1.8 – Released 2025-07-18
+
+### Enhancements, Fixes & Refactors
+
+#### 🛠️ Bug Fixes
+
+* **Sort Icon Alignment**: Fixed an issue where the sort icon would shift to the right after clicking the sort button.
+* **Grid Container Width**: Resolved an issue causing the grid container to initially load with incorrect width, pushing the last column beyond the frame.
+* **Dropdown Positioning**: Fixed a brief mispositioning of the options menu on initial render in editable cells.
+* **Icon UI Issues**: Addressed visual inconsistencies across various UI icons.
+
+#### 🎨 UI Improvements
+
+* Updated border-radius for buttons, text boxes, and dropdowns for a cleaner, more consistent appearance.
+* Improved general UI styling and layout.
+* Added column name to the default placeholder in the column search field.
+
+#### ⚙️ Features & Enhancements
+
+* **GridContext Added**: Introduced `GridContext` for sharing state and `setState` with child components.
+* **Scoped Container Identifiers**: `Container_Identifier` is now scoped using `gridID`, allowing support for multiple grid instances.
+
+#### 🔧 Performance & Refactoring
+
+* Wrapped multiple functions with `useCallback` for better rendering performance.
+* **GridGlobalSearchBar**:
+
+  * Now uses `GridConfigContext` instead of direct props.
+  * Wrapped in `React.memo` to reduce unnecessary re-renders.
+  * Updated related test cases.
+* **GridPagination & GridFooter**:
+
+  * Migrated to use `GridConfigContext` with memoization.
+  * Wrapped both in `React.memo`.
+  * Updated tests accordingly.
+* **GridCell Refactor**:
+
+  * Moved `<td>` rendering logic to `grid-cell.jsx`.
+  * Updated associated test coverage.
+
+
+
+<br><br>
+
 ## 🔖 v1.1.7 - Released 2025-07-15
 
 ### 🛠 Fixes
