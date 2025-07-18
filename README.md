@@ -10,7 +10,7 @@
 
 A lightweight and customizable React data grid component designed for high performance and ease of use. The DataGrid component is a highly customizable, feature-rich table component designed to display tabular data in a React application. It is intended for use cases where large datasets need to be presented with advanced features such as pagination, sorting, searching, row interactions, and more.
 
-✅ **Key Features**
+✅ **Key Features**  
 ⚡ **Lightweight** – Small bundle, fast loading  
 📦 **API-ready** – Works with any JSON API  
 🛠️ **Dynamic columns** – Auto-adapts to schema  
