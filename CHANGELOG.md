@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
+### 🔖 v1.1.9 – Released 2025-07-26
+
+### UI Enhancements
+
+#### 🛠 Paging Improvements
+
+* Fixed an issue where the paging drop-down retained keyboard focus, blocking navigation. Focus now shifts correctly after interaction.
+* Updated CSS styling for both the paging drop-down and paging numbers for improved consistency.
+
+#### 🎨 UI Improvements
+
+* Decreased horizontal scrollbar height from **10px** to **8px** for a sleeker look.
+* Added a **4px gap** between elements in editable cells to improve spacing and readability.
+
+#### 📚 Code Example Updates
+
+* Refreshed and expanded code examples to reflect recent UI changes.
+
+
+<br><br>
+
 ## 📝 v1.1.8 – Released 2025-07-18
 
 ### Enhancements, Fixes & Refactors
