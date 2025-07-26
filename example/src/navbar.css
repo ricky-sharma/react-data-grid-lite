@@ -33,7 +33,7 @@
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    width: 36px;
+    width: 32px;
     height: 22px;
     background: none;
     border: none;
@@ -63,7 +63,8 @@
         position: relative;
         text-align: center;
         min-width: 120px;
-        padding: 10px 12px;
+        padding: 0 12px;
+        margin: 0;
     }
 
         .navbar-links li a {
@@ -79,12 +80,13 @@
             text-transform: capitalize;
             width: 100%;
             word-break: break-word;
+            padding: 0 10px;
         }
 
-        .navbar-links li a:hover {
-            background-color: #374151;
-            color: #38bdf8;
-        }
+            .navbar-links li a:hover {
+                background-color: #2a5daf;
+                color: #38bdf8;
+            }
 
         .navbar-links li > span {
             background-color: #e0e0e0;
@@ -129,7 +131,7 @@
             }
 
             .navbar-links li a {
-                padding: 8px 2px !important;  
+                padding: 8px 2px !important;
             }
 
             .navbar-links li > span {
