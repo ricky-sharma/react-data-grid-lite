@@ -63,9 +63,9 @@
         height: 32px;
         padding: 0;
         cursor: pointer;
-        border: 1.5px solid #667;
         font-weight: 600 !important;
         margin: 2px;
+        box-shadow: .2px 1px 4px 0 #667 !important;
     }
 
     .r-d-g-lt-comp .dropdown-selected {
@@ -356,9 +356,9 @@
     }
 
         .r-d-g-lt-comp .react-data-grid-lite table.gd-tbl::-webkit-scrollbar {
-            height: 10px !important;
+            height: 8px !important;
             width: 0px !important;
-            border: 12px solid #d5d5d5;
+            border: 8px solid #d5d5d5;
             border-start-end-radius: 1px;
             z-index: 10;
         }
@@ -593,7 +593,7 @@
     background: inherit !important;
 }
 
-    .r-d-g-lt-comp .pagination li.page-item a {
+    .r-d-g-lt-comp .pagination li.page-item a.page-link {
         border: 0;
         border-radius: 10px !important;
         color: #999 !important;
@@ -609,12 +609,12 @@
         font-weight: 600;
     }
 
-        .r-d-g-lt-comp .pagination li.page-item a:hover {
-            background: #f5f1f1 !important;
-            color: #fff !important;
-        }
+    .r-d-g-lt-comp .pagination > li.page-item > a.page-link:hover {
+        background-color: #c0cad3 !important;
+        color: #fff !important;
+    }
 
-    .r-d-g-lt-comp .pagination li.page-item.active a {
+    .r-d-g-lt-comp .pagination li.page-item.active a.page-link {
         background: #667 !important;
         pointer-events: none !important;
         color: #fff !important;
@@ -639,35 +639,33 @@
         pointer-events: none;
     }
 
-        .r-d-g-lt-comp .pagination li.page-item.disabled i {
+        .r-d-g-lt-comp .pagination li.page-item.disabled i.arrow {
             background: inherit !important;
+            color: #999 !important;
         }
 
-    .r-d-g-lt-comp .pagination li.page-item i.arrow:hover,
-    .r-d-g-lt-comp .pagination li.page-item.arrow:hover,
-    .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
-        color: #212529 !important;
+    .r-d-g-lt-comp .pagination li.page-item a i.arrow {
+        font-size: 19px;
+        top: -1.5px;
+        font-style: normal;
+        font-weight: 900;
+        position: relative;
     }
+
+        .r-d-g-lt-comp .pagination li.page-item a i.arrow:hover,
+        .r-d-g-lt-comp .pagination li.page-item.arrow:hover,
+        .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
+            color: #212529 !important;
+        }
 
     .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
         background: inherit !important;
     }
 
-    .r-d-g-lt-comp .pagination li.page-item.arrow a:active {
+
+    .r-d-g-lt-comp .pagination li.page-item.arrow a.page-link:active {
         background: inherit !important;
         color: inherit !important;
-    }
-
-    .r-d-g-lt-comp .pagination li.page-item i {
-        font-size: 19px;
-        line-height: 14px;
-        padding-top: 6px;
-        font-style: normal;
-    }
-
-    .r-d-g-lt-comp .pagination > li.page-item > .page-link:hover {
-        background-color: #c0cad3 !important;
-        box-shadow: 0 0 0 0rem rgb(0 123 255 / 25%);
     }
 
 .r-d-g-lt-comp .emptyHeader {

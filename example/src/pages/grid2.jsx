@@ -105,7 +105,7 @@ export default function Grid2() {
     return (
         <ExampleBlock
             title="Row Actions and Global Search Enabled, and Actions Column left aligned"
-            theme="blue-core"
+            theme="dark-stack"
             text="Styled Text Fields: The ID and Author fields are presented with custom styling to enhance the visual display and user experience."
             htmlContent="<a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid2.jsx'>Complete Source Code on GitHub</a>"
 
@@ -117,7 +117,7 @@ export default function Grid2() {
                 options={options}
                 width="inherit"
                 height="35vh"
-                theme="blue-core"
+                theme="dark-stack"
             />
         </ExampleBlock>
     )

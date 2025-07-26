@@ -121,11 +121,15 @@ export const columns = [
     { name: 'ID', width: '80px' },
     { name: 'Name', alias: 'Full Name'},
     {
-        alias: 'Department-Title',
+        alias: 'Department - Title',
         name: 'Department',
         concatColumns: {
             columns: ['Department', 'Title'],
-            separator: '-'
+            separator: ' - ',
+            editor: [
+                { type: 'select', values: ["Engineering", "HR", "Marketing", "Sales"] },
+                { type: 'text' }
+            ],
         }
     },
     { name: 'Title', hidden: true },

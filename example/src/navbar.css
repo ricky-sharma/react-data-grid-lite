@@ -1,7 +1,7 @@
 /* General Layout */
 .navbar {
     background-color: #1f2937;
-    padding: 10px 20px;
+    padding: 10px 0;
     color: white;
     font-family: 'Segoe UI', sans-serif;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -14,6 +14,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 5px;
 }
 
 .brand-logo {
@@ -32,7 +33,7 @@
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    width: 28px;
+    width: 36px;
     height: 22px;
     background: none;
     border: none;
@@ -50,28 +51,54 @@
 /* Navigation Links */
 .navbar-links {
     display: flex;
+    flex-wrap: wrap;
     gap: 2px;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-    .navbar-links li a {
-        color: white;
-        text-decoration: none;
-        font-weight: 500;
-        padding: 8px 12px;
-        border-radius: 4px;
-        transition: background-color 0.2s ease;
+    .navbar-links li {
+        box-sizing: border-box;
+        position: relative;
+        text-align: center;
+        min-width: 120px;
+        padding: 10px 12px;
     }
+
+        .navbar-links li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+            text-overflow: ellipsis;
+            white-space: normal;
+            overflow: hidden;
+            text-transform: capitalize;
+            width: 100%;
+            word-break: break-word;
+        }
 
         .navbar-links li a:hover {
             background-color: #374151;
             color: #38bdf8;
         }
 
+        .navbar-links li > span {
+            background-color: #e0e0e0;
+            bottom: 8px;
+            padding: 0 !important;
+            position: absolute;
+            top: 8px;
+            width: 2px;
+            z-index: 5;
+            right: 0;
+        }
+
 /* Mobile Styles */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .navbar-toggle {
         display: flex;
     }
@@ -93,11 +120,19 @@
 
         .navbar-links li {
             border-bottom: 2px solid #fff;
-            padding: 12px 20px;
+            padding: 10px;
             margin: 0 !important;
         }
 
             .navbar-links li:last-child {
                 border-bottom: none;
+            }
+
+            .navbar-links li a {
+                padding: 8px 2px !important;  
+            }
+
+            .navbar-links li > span {
+                width: 0;
             }
 }

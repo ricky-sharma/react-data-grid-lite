@@ -72,6 +72,7 @@ const EditableCellFields = memo(function EditableCellFields({
                 padding: '5px 18px',
                 display: 'flex',
                 width: '100%',
+                gap: '4px'
             }}
             className="mg--0 pd--0 editField alignCenter"
             title={columnValue?.toString()}
