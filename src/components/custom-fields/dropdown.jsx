@@ -190,7 +190,8 @@ const Dropdown = memo(({
             setOpen(true);
             setFocusedIndex((prev) => (prev - 1 + options.length) % options.length);
         } else if (key === 'Escape' || key === 'Tab') {
-            e.preventDefault();
+            if (isControlled)
+                e.preventDefault();
             setOpen(false);
         }
     };
@@ -264,8 +265,8 @@ const Dropdown = memo(({
                 ref={triggerRef}
                 className="dropdown-selected"
                 onKeyDown={(e) => {
-                    handleKeyDown(e);
                     onKeyDown?.(e);
+                    handleKeyDown(e);
                 }}
                 onClick={(e) => {
                     toggleDropdown();

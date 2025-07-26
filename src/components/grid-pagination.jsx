@@ -41,7 +41,7 @@ const GridPagination = memo(({
     pageItems.push(
         createItem(
             'prevButton',
-            <b><i className="arrow" aria-hidden="true">&laquo;</i></b>,
+            <i className="arrow" aria-hidden="true">&laquo;</i>,
             onPrevButtonClick,
             page === 1 || total === 0 ? 'arrow disabled' : 'arrow',
             '', {}, { 'aria-label': 'Previous Page' }
@@ -97,7 +97,7 @@ const GridPagination = memo(({
     pageItems.push(
         createItem(
             'nextButton',
-            <b><i className="arrow" aria-hidden="true">&raquo;</i></b>,
+            <i className="arrow" aria-hidden="true">&raquo;</i>,
             onNextButtonClick,
             page === total || total === 0 ? 'arrow disabled' : 'arrow',
             '', {}, { 'aria-label': 'Next Page' }
