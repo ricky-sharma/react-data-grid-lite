@@ -356,9 +356,9 @@
     }
 
         .r-d-g-lt-comp .react-data-grid-lite table.gd-tbl::-webkit-scrollbar {
-            height: 10px !important;
+            height: 8px !important;
             width: 0px !important;
-            border: 12px solid #d5d5d5;
+            border: 8px solid #d5d5d5;
             border-start-end-radius: 1px;
             z-index: 10;
         }

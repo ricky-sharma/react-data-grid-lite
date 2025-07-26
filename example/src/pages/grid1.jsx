@@ -91,7 +91,7 @@ export default function Grid1() {
                 data={data}
                 pageSize={10}
                 width="inherit"
-                height="35vh"
+                height="30vh"
                 theme="blue-core"
                 options={options}
             />

@@ -1,7 +1,7 @@
 /* General Layout */
 .navbar {
     background-color: #1f2937;
-    padding: 10px 20px;
+    padding: 10px;
     color: white;
     font-family: 'Segoe UI', sans-serif;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -60,7 +60,7 @@
         color: white;
         text-decoration: none;
         font-weight: 500;
-        padding: 8px 12px;
+        padding: 8px 20px;
         border-radius: 4px;
         transition: background-color 0.2s ease;
     }
@@ -69,6 +69,16 @@
             background-color: #374151;
             color: #38bdf8;
         }
+
+    .navbar-links li > span {
+        background-color: #e0e0e0;
+        bottom: 8px;
+        padding: 0 !important;
+        position: absolute;
+        top: 8px;
+        width: 2px;
+        z-index: 5;
+    }
 
 /* Mobile Styles */
 @media (max-width: 768px) {
@@ -93,11 +103,19 @@
 
         .navbar-links li {
             border-bottom: 2px solid #fff;
-            padding: 12px 20px;
+            padding: 10px 5px;
             margin: 0 !important;
         }
 
             .navbar-links li:last-child {
                 border-bottom: none;
+            }
+
+            .navbar-links li a {
+                padding: 8px 12px !important;  
+            }
+
+            .navbar-links li > span {
+                width: 0;
             }
 }
