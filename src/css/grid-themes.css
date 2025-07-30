@@ -1,10 +1,18 @@
 /*Professional / Corporate Theme (Dark Blue)*/
+.r-d-g-lt-comp.theme-1 {
+    box-shadow: .2px 1px 4px 0 #1F3B4D !important;
+}
+
 .r-d-g-lt-comp.theme-1,
 .r-d-g-lt-comp .theme-1 {
     background-color: #E5E8EC !important;
     padding: 12px !important;
     color: #1F3B4D !important;
 }
+
+    .r-d-g-lt-comp.theme-1 .react-data-grid-lite table.gd-tbl {
+        box-shadow: 0px 0 1px 0 #1F3B4D !important;
+    }
 
     .r-d-g-lt-comp.theme-1 div.globalSearch input,
     .r-d-g-lt-comp.theme-1 div.searchDiv input {
@@ -92,12 +100,20 @@
 
 
 /*IT / Tech Theme (Dark Gray + Cyan)*/
+.r-d-g-lt-comp.theme-2 {
+    box-shadow: .2px 1px 4px 0 #2D2D2D !important;
+}
+
 .r-d-g-lt-comp.theme-2,
 .r-d-g-lt-comp .theme-2 {
     background-color: #F5F5F5 !important;
     padding: 12px !important;
     color: #2D2D2D !important;
 }
+
+    .r-d-g-lt-comp.theme-2 .react-data-grid-lite table.gd-tbl {
+        box-shadow: 0px 0 1px 0 #2D2D2D !important;
+    }
 
     .r-d-g-lt-comp.theme-2 div.globalSearch input,
     .r-d-g-lt-comp.theme-2 div.searchDiv input {
@@ -183,12 +199,20 @@
     }
 
 /*Green Health Dashboard Theme*/
+.r-d-g-lt-comp.theme-3 {
+    box-shadow: .2px 1px 4px 0 #256D4F !important;
+}
+
 .r-d-g-lt-comp.theme-3,
 .r-d-g-lt-comp .theme-3 {
     background-color: #E8F5E9 !important;
     padding: 12px !important;
     color: #256D4F !important;
 }
+
+    .r-d-g-lt-comp.theme-3 .react-data-grid-lite table.gd-tbl {
+        box-shadow: 0px 0 1px 0 #256D4F !important;
+    }
 
     .r-d-g-lt-comp.theme-3 div.globalSearch input,
     .r-d-g-lt-comp.theme-3 div.searchDiv input {

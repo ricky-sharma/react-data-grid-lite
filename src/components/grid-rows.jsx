@@ -1,5 +1,3 @@
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable react/prop-types */
 import React, { useCallback, useEffect, useRef } from 'react';
 import {
     Button_Column_Key,

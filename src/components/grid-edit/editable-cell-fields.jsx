@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { memo, useRef, useState } from 'react';
 import EditableDropdownField from './editable-dropdown-field';
 import EditableTextField from './editable-text-field';

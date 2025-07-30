@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-/* eslint-disable react/prop-types */
 import React, { memo } from 'react';
 import { isNull } from '../helpers/common';
 import { useGridConfig } from '../hooks/use-grid-config';
@@ -72,6 +70,7 @@ const GridCell = memo(({
                     : ''),
                 contain: 'layout paint',
                 cursor: editable === true ? 'pointer' : 'default',
+                ...(typeof col?.cellStyle === 'object' && !Array.isArray(col?.cellStyle) ? col.cellStyle : {})
             }}
             onBlur={() => (cellChangedFocusRef.current = null)}
             onDoubleClick={() => {
@@ -119,7 +118,6 @@ const GridCell = memo(({
                 <div
                     style={{
                         height: '100%',
-                        textAlign: 'left',
                         padding: '10px 25px'
                     }}
                     className="mg--0 pd--0"

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useRef } from 'react';
 import { useResizableTableColumns } from '../hooks/use-resizable-table-columns';
 import GridHeader from './grid-header';

@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-/* eslint-disable react/prop-types */
 import React, { memo, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Container_Identifier } from '../../constants';
@@ -140,7 +138,10 @@ const Dropdown = memo(({
             if (index >= 0) {
                 setFocusedIndex(index);
                 if (optionRefs?.current?.[value]?.scrollIntoView) {
-                    optionRefs.current[index].scrollIntoView({ block: 'nearest' });
+                    optionRefs.current[index].scrollIntoView({
+                        block: 'nearest',
+                        behavior: 'smooth'
+                    });
                 }
             } else {
                 setFocusedIndex(-1);

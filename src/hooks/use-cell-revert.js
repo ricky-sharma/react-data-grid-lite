@@ -1,4 +1,3 @@
-/* eslint-disable no-prototype-builtins */
 import { useCallback, useRef } from 'react';
 
 export function useCellRevert({ cellChangedFocusRef }) {

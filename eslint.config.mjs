@@ -19,7 +19,10 @@ export default defineConfig([
             },
         },
         rules: {
-            "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+            "no-unused-vars": "off",
+            "react/prop-types": "off",
+            "react/display-name": "off",
+            "no-prototype-builtins": "off"
         },
     },
     {
@@ -30,7 +33,10 @@ export default defineConfig([
             },
         },
         rules: {
-            "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+            "no-unused-vars": "off",
+            "react/prop-types": "off",
+            "react/display-name": "off",
+            "no-prototype-builtins": "off"
         },
     },
     {
@@ -41,6 +47,12 @@ export default defineConfig([
             react: {
                 version: "detect",
             },
+        },
+        rules: {
+            "no-unused-vars": "off",
+            "react/prop-types": "off",
+            "react/display-name": "off",
+            "no-prototype-builtins": "off"
         },
     },
 ]);

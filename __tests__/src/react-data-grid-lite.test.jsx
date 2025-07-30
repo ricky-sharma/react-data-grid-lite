@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import * as eventHandlers from './../../src/components/events/event-grid-header-clicked';
 import * as searchHandlers from './../../src/components/events/event-grid-search-clicked';
@@ -96,12 +96,15 @@ describe('DataGrid Component', () => {
         expect(screen.getByText('Row 1')).toBeInTheDocument();
     });
 
-    it('calls eventGridSearchClicked when global search input is changed', () => {
+    it('calls eventGridSearchClicked when global search input is changed', async () => {
         const spy = jest.spyOn(searchHandlers, 'eventGridSearchClicked').mockImplementation(() => { });
         render(<DataGrid {...defaultProps} id={null} onSearchComplete={null} />);
         const input = screen.getByTestId('global-search-input');
         fireEvent.change(input, { target: { value: 'test' } });
-        expect(spy).toHaveBeenCalled();
+        await waitFor(() => {
+            expect(spy).toHaveBeenCalled();
+        });
+        
     });
 
     it('resets global search when reset button is clicked', () => {

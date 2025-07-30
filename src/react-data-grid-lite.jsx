@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
 import { eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
@@ -100,6 +99,15 @@ const DataGrid = ({
     const computedColumnWidthsRef = useRef(null);
     const isResizingRef = useRef(false);
     const containerWidth = useContainerWidth(state?.gridID);
+    const searchTimeoutRef = useRef(null);
+
+    useEffect(() => {
+        return () => {
+            if (searchTimeoutRef.current) {
+                clearTimeout(searchTimeoutRef.current);
+            }
+        };
+    }, []);
 
     useEffect(() => {
         computedColumnWidthsRef.current = [];
@@ -120,17 +128,27 @@ const DataGrid = ({
                         const nonFixedCols = validColumns.filter(col => col.fixed === false);
                         const applyGlobalOrder = (group, globalStartIndex = 0) => {
                             const result = [];
-                            const used = new Set();
                             const withOrder = group.filter(c => typeof c.order === 'number');
                             const withoutOrder = group.filter(c => typeof c.order !== 'number');
+                            const orderGroups = new Map();
                             for (const col of withOrder) {
-                                const globalIdx = col.order - 1;
-                                const localIdx = Math.max(0, globalIdx - globalStartIndex);
-                                let i = localIdx;
-                                while (i < group.length && result[i]) i++;
-                                result[i] = col;
-                                used.add(col.name);
+                                const order = col.order;
+                                if (!orderGroups.has(order)) orderGroups.set(order, []);
+                                orderGroups.get(order).push(col);
                             }
+                            const sortedOrderValues = Array.from(orderGroups.keys()).sort((a, b) => a - b);
+                            for (const order of sortedOrderValues) {
+                                const cols = orderGroups.get(order).sort((a, b) => a.name.localeCompare(b.name));
+                                for (const col of cols) {
+                                    const maxIndex = group.length - 1;
+                                    const globalIdx = Math.min(Math.max(0, col.order - 1), maxIndex + globalStartIndex);
+                                    const localIdx = Math.max(0, globalIdx - globalStartIndex);
+                                    let i = localIdx;
+                                    while (result[i]) i++;
+                                    result[i] = col;
+                                }
+                            }
+
                             let i = 0;
                             for (const col of withoutOrder) {
                                 while (result[i]) i++;
@@ -141,10 +159,10 @@ const DataGrid = ({
                         const orderedFixed = applyGlobalOrder(fixedCols, 0);
                         const orderedNonFixed = applyGlobalOrder(nonFixedCols, orderedFixed.length);
                         const finalList = [...orderedFixed, ...orderedNonFixed];
-                        return finalList.map((col, index) => ({
-                            ...col,
-                            displayIndex: index + 1
-                        }));
+                        return finalList.filter(Boolean).map((col, index) => ({
+                                ...col,
+                                displayIndex: index + 1
+                            }));
                     })()
                     : []
             }));
@@ -294,14 +312,34 @@ const DataGrid = ({
     }, [state.toggleState])
 
     const onSearchClicked = useCallback((e, colName, colObject, formatting) => {
-        if (e?.target?.value) e.target.value = e?.target?.value.trimStart();
-        searchRef.current = {
-            changeEvent: e,
-            searchQuery: e?.target?.value ?? ''
-        };
-        eventGridSearchClicked(e, colName, colObject, formatting,
-            dataReceivedRef, searchColsRef, state, setState);
-    });
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+
+        const eventCopy = e?.nativeEvent ? { ...e } : e;
+
+        searchTimeoutRef.current = setTimeout(() => {
+            if (eventCopy?.target?.value) {
+                eventCopy.target.value = eventCopy.target.value.trimStart();
+            }
+
+            searchRef.current = {
+                changeEvent: eventCopy,
+                searchQuery: eventCopy?.target?.value ?? ''
+            };
+
+            eventGridSearchClicked(
+                eventCopy,
+                colName,
+                colObject,
+                formatting,
+                dataReceivedRef,
+                searchColsRef,
+                state,
+                setState
+            );
+        }, 300);
+    }, [state, setState]);
 
     const handleResetSearch = useCallback((e) => {
         e.preventDefault();
