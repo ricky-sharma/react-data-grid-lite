@@ -6,6 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
+## ✨ v1.1.10 – Released 2025-07-31
+
+### Features & Enhancements
+
+* ✅ **Debounced search input** to improve performance during rapid typing on large datasets.
+* ✅ **Improved column ordering logic**:
+
+  * Columns with the same `order` value are now grouped and sorted alphabetically.
+  * Columns with high `order` values (e.g. `99`) are now placed correctly at the end.
+* 🎨 **New styling props**:
+
+  * `cellStyle`: Apply custom styles directly to `<td>` cells.
+  * `headerStyle`: Apply custom styles to `<th>` (header) cells.
+* 💅 **UI enhancements**:
+
+  * Added `box-shadow` to the grid table and outer container for improved visual styling.
+  * General CSS styling refinements.
+
+**Code Quality**
+
+* 🧹 **ESLint config cleaned**:
+
+  * Suppressions (`no-unused-vars`, `react/prop-types`, `react/display-name`, `no-prototype-builtins`) moved to `eslint.config.mjs`.
+  * Removed inline eslint-disable comments from source files.
+
+**Tests**
+
+* 🧪 Test cases updated and aligned with recent changes.
+
+<br><br>
+
 ### 🔖 v1.1.9 – Released 2025-07-26
 
 ### UI Enhancements
