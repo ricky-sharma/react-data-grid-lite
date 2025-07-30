@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1753534292653" rel="stylesheet" />
+		<link href="index.css?ver=1753891766744" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -349,6 +349,13 @@
 <td>No</td>
 </tr>
 <tr>
+<td><code>cellStyle</code></td>
+<td><code>Object</code></td>
+<td>Applies custom styles to the <code>&lt;td&gt;</code> cell. Useful for matching <code>headerStyle</code>-defined widths or aligning text consistently. Use with caution: this affects only row cells. Setting layout-affecting properties (e.g. <code>width</code>) differently from headers may cause misalignment. Supported in <code>version 1.1.10</code> and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
 <td><code>class</code></td>
 <td><code>String</code></td>
 <td>Custom CSS class applied to each data cell in the column. Supported in <code>version 1.1.0</code> and above.</td>
@@ -401,6 +408,13 @@
 <td><code>formatting</code></td>
 <td><code>Object</code></td>
 <td>Formatting settings for the column. Includes the <code>type</code> (e.g., <code>currency</code>, <code>date</code>) and <code>format</code> (the format string, such as <code>$0,0.00</code>).</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>headerStyle</code></td>
+<td><code>Object</code></td>
+<td>Applies custom styles to the <code>&lt;th&gt;</code> (header) cell. Useful for matching <code>cellStyle</code>-defined widths or aligning text consistently. Supported in <code>version 1.1.10</code> and above.</td>
 <td>-</td>
 <td>No</td>
 </tr>
@@ -459,8 +473,9 @@
 <pre><code class="language-jsx">const columns = [
   {
     name: 'ID',
-    width: 50,
     formatting: { type: 'number', format: '0,0' },
+    cellStyle: { textAlign: 'center', width: '70px' },
+    headerStyle: { width: '70px' }
   },
   {
     name: 'Name',

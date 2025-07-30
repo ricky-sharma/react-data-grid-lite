@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1753534292653" rel="stylesheet" />
+		<link href="index.css?ver=1753891766744" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -328,6 +328,49 @@
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<p><br><br></p>
+<h2>✨ v1.1.10 – Released 2025-07-31</h2>
+<h3>Features &amp; Enhancements</h3>
+<ul>
+<li>
+<p>✅ <strong>Debounced search input</strong> to improve performance during rapid typing on large datasets.</p>
+</li>
+<li>
+<p>✅ <strong>Improved column ordering logic</strong>:</p>
+<ul>
+<li>Columns with the same <code>order</code> value are now grouped and sorted alphabetically.</li>
+<li>Columns with high <code>order</code> values (e.g. <code>99</code>) are now placed correctly at the end.</li>
+</ul>
+</li>
+<li>
+<p>🎨 <strong>New styling props</strong>:</p>
+<ul>
+<li><code>cellStyle</code>: Apply custom styles directly to <code>&lt;td&gt;</code> cells.</li>
+<li><code>headerStyle</code>: Apply custom styles to <code>&lt;th&gt;</code> (header) cells.</li>
+</ul>
+</li>
+<li>
+<p>💅 <strong>UI enhancements</strong>:</p>
+<ul>
+<li>Added <code>box-shadow</code> to the grid table and outer container for improved visual styling.</li>
+<li>General CSS styling refinements.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Code Quality</strong></p>
+<ul>
+<li>
+<p>🧹 <strong>ESLint config cleaned</strong>:</p>
+<ul>
+<li>Suppressions (<code>no-unused-vars</code>, <code>react/prop-types</code>, <code>react/display-name</code>, <code>no-prototype-builtins</code>) moved to <code>eslint.config.mjs</code>.</li>
+<li>Removed inline eslint-disable comments from source files.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Tests</strong></p>
+<ul>
+<li>🧪 Test cases updated and aligned with recent changes.</li>
+</ul>
 <p><br><br></p>
 <h3>🔖 v1.1.9 – Released 2025-07-26</h3>
 <h3>UI Enhancements</h3>
