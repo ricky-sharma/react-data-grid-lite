@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
 import { eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
@@ -100,6 +99,15 @@ const DataGrid = ({
     const computedColumnWidthsRef = useRef(null);
     const isResizingRef = useRef(false);
     const containerWidth = useContainerWidth(state?.gridID);
+    const searchTimeoutRef = useRef(null);
+
+    useEffect(() => {
+        return () => {
+            if (searchTimeoutRef.current) {
+                clearTimeout(searchTimeoutRef.current);
+            }
+        };
+    }, []);
 
     useEffect(() => {
         computedColumnWidthsRef.current = [];
@@ -294,14 +302,34 @@ const DataGrid = ({
     }, [state.toggleState])
 
     const onSearchClicked = useCallback((e, colName, colObject, formatting) => {
-        if (e?.target?.value) e.target.value = e?.target?.value.trimStart();
-        searchRef.current = {
-            changeEvent: e,
-            searchQuery: e?.target?.value ?? ''
-        };
-        eventGridSearchClicked(e, colName, colObject, formatting,
-            dataReceivedRef, searchColsRef, state, setState);
-    });
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+
+        const eventCopy = e?.nativeEvent ? { ...e } : e;
+
+        searchTimeoutRef.current = setTimeout(() => {
+            if (eventCopy?.target?.value) {
+                eventCopy.target.value = eventCopy.target.value.trimStart();
+            }
+
+            searchRef.current = {
+                changeEvent: eventCopy,
+                searchQuery: eventCopy?.target?.value ?? ''
+            };
+
+            eventGridSearchClicked(
+                eventCopy,
+                colName,
+                colObject,
+                formatting,
+                dataReceivedRef,
+                searchColsRef,
+                state,
+                setState
+            );
+        }, 300);
+    }, [state, setState]);
 
     const handleResetSearch = useCallback((e) => {
         e.preventDefault();

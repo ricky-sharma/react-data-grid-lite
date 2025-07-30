@@ -19,7 +19,8 @@ export default defineConfig([
             },
         },
         rules: {
-            "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+            "no-unused-vars": "off",
+            "react/prop-types": "off"
         },
     },
     {
@@ -30,7 +31,8 @@ export default defineConfig([
             },
         },
         rules: {
-            "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+            "no-unused-vars": "off",
+            "react/prop-types": "off"
         },
     },
     {

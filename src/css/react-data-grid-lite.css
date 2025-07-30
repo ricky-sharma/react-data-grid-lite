@@ -220,7 +220,7 @@
     width: 40px;
     position: relative;
     top: 0px;
-    height: 38px;
+    height: 36px;
 }
 
 .r-d-g-lt-comp .download-icon-div {
@@ -228,7 +228,7 @@
     width: 136px !important;
     position: relative;
     top: 0px;
-    height: 38px;
+    height: 36px;
 }
 
     .r-d-g-lt-comp .download-icon-div div.icon-content {
@@ -359,7 +359,7 @@
 
         .r-d-g-lt-comp .react-data-grid-lite table.gd-tbl::-webkit-scrollbar {
             height: 6px !important;
-            width: 0px !important;
+            width: 0;
             border: 6px solid #d5d5d5;
             border-end-end-radius: 10px;
             border-end-start-radius: 10px;
@@ -404,8 +404,8 @@
 }
 
     .r-d-g-lt-comp .react-data-grid-lite table tbody::-webkit-scrollbar {
-        height: 0px !important;
-        width: 0px !important;
+        height: 0 !important;
+        width: 0 !important;
     }
 
 .r-d-g-lt-comp .react-data-grid-lite table tr {
