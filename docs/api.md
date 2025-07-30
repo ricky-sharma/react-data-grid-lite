@@ -58,6 +58,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `render`        | `function(formattedRow, baseRow) => React.ReactNode`| Custom render function for the column. Receives `formattedRow` (the transformed row data after formatting and concatenation) and `baseRow` (the original, unformatted row data). Should return a React node to be rendered in the cell. Available in version `1.1.3` and above.|     -    |  No          |
 | `resizable`     | `Boolean`           | Enables or disables resizing for a specific column. This setting overrides the `enableColumnResize` option. Supported in version `1.1.0` and above.       |       false       |  No          |
 | `searchPlaceholder` | `String`        | Sets the placeholder text for individual column search input fields. Useful for customization or localization. Supported in version `1.1.6` and above.| `"Search column…"` | No       |
+| `style`         | `Object`            | Applies custom styles directly to the `<td>` cell. Supported in version `1.1.10` and above.                                                               |        -          |  No          |
 | `width`         | `Number` / `String` | The width of the column. Can be a fixed pixel value (e.g., `100px`) or a percentage (e.g., `'20%'`). Default value is calculated dynamically.             |        -          |  No          | 
 
 
@@ -69,6 +70,7 @@ const columns = [
     name: 'ID',
     width: 50,
     formatting: { type: 'number', format: '0,0' },
+    style: { textAlign: 'center' }
   },
   {
     name: 'Name',
