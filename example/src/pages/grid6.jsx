@@ -5,7 +5,8 @@ import { ExampleBlock } from '../example-block';
 import './../App.css';
 
 const options = {
-    enableColumnDrag: true
+    enableColumnDrag: true,
+    rowHeight: '50px'
 }
 
 export default function Grid6() {

@@ -83,9 +83,15 @@
             padding: 0 10px;
         }
 
+            .navbar-links li a.active {
+                background-color: #3b82f6;
+                color: #e0f2fe;
+                font-weight: 600;
+            }
+
             .navbar-links li a:hover {
-                background-color: #2a5daf;
-                color: #38bdf8;
+                background-color: #2563eb;
+                color: #e0f2fe;
             }
 
         .navbar-links li > span {

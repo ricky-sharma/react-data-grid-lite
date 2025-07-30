@@ -13,7 +13,8 @@ const options = {
             alert('Edit Button clicked!');
             console.log(row);
         }
-    }
+    },
+    rowHeight: '60px'
 }
 
 export default function Grid5() {

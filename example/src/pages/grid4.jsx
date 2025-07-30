@@ -4,6 +4,10 @@ import { useFetch } from '../data';
 import { ExampleBlock } from '../example-block';
 import './../App.css';
 
+const options = {
+    rowHeight: '60px'
+};
+
 export default function Grid4() {
     const users = useFetch("users");
     const columns = users?.length > 0 ? Object.keys(users[0])?.map((val) => {
@@ -44,6 +48,7 @@ export default function Grid4() {
                 pageSize={10}
                 width="inherit"
                 height="35vh"
+                options={options}
             />
         </ExampleBlock>
     )

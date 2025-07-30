@@ -7,7 +7,8 @@ import './../App.css';
 const options = {
     enableColumnDrag: true,
     enableCellEdit: true,
-    enableColumnSearch: false
+    enableColumnSearch: false,
+    rowHeight: '70px'
 }
 
 export default function Grid7() {

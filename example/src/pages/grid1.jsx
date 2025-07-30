@@ -6,7 +6,8 @@ import './../App.css';
 
 const options = {
     enableColumnSearch: false,
-    enableColumnResize: true
+    enableColumnResize: true,
+    rowHeight: '70px'
 };
 
 export default function Grid1() {
@@ -91,7 +92,7 @@ export default function Grid1() {
                 data={data}
                 pageSize={10}
                 width="inherit"
-                height="30vh"
+                height="35vh"
                 theme="blue-core"
                 options={options}
             />

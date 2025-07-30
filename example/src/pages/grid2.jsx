@@ -18,7 +18,8 @@ const options = {
             alert('Delete Button clicked!');
             console.log(row);
         }
-    }
+    },
+    rowHeight: '70px'
 }
 
 export default function Grid2() {
