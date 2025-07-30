@@ -123,14 +123,14 @@ export const tryParseWidth = (val, totalWidth = 0) => {
 export function formatRowData(row, columns) {
     const keyMap = {};
     const normalizedRow = Object.fromEntries(
-        Object.entries(row).map(([k, v]) => [k.toLowerCase(), v])
+        Object.entries(row).map(([k, v]) => [k?.toLowerCase(), v])
     );
     columns?.forEach((column) => {
         const colName = column.name;
-        const valueFromRow = normalizedRow[colName.toLowerCase()];
+        const valueFromRow = normalizedRow[colName?.toLowerCase()];
         const conValue = getConcatValue(normalizedRow, columns, column.concatColumns);
         const value = getFormattedValue(conValue || valueFromRow, column.formatting);
-        keyMap[colName.toLowerCase()] = value;
+        keyMap[colName?.toLowerCase()] = value;
     });
 
     return keyMap;
@@ -142,7 +142,7 @@ const getConcatValue = (row, columns, concatColumns) => {
     return conCols
         .map(conName => {
             const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());
-            return colDef ? row[colDef.name.toLowerCase()] : '';
+            return colDef ? row[colDef?.name?.toLowerCase()] : '';
         })
         .filter(Boolean)
         .join(conSep);

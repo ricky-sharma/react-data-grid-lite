@@ -131,14 +131,26 @@ const DataGrid = ({
                             const used = new Set();
                             const withOrder = group.filter(c => typeof c.order === 'number');
                             const withoutOrder = group.filter(c => typeof c.order !== 'number');
+                            const orderGroups = new Map();
                             for (const col of withOrder) {
-                                const globalIdx = col.order - 1;
-                                const localIdx = Math.max(0, globalIdx - globalStartIndex);
-                                let i = localIdx;
-                                while (i < group.length && result[i]) i++;
-                                result[i] = col;
-                                used.add(col.name);
+                                const order = col.order;
+                                if (!orderGroups.has(order)) orderGroups.set(order, []);
+                                orderGroups.get(order).push(col);
                             }
+                            const sortedOrderValues = Array.from(orderGroups.keys()).sort((a, b) => a - b);
+                            for (const order of sortedOrderValues) {
+                                const cols = orderGroups.get(order).sort((a, b) => a.name.localeCompare(b.name));
+                                for (const col of cols) {
+                                    const maxIndex = group.length - 1;
+                                    const globalIdx = Math.min(Math.max(0, col.order - 1), maxIndex + globalStartIndex);
+                                    const localIdx = Math.max(0, globalIdx - globalStartIndex);
+                                    let i = localIdx;
+                                    while (result[i]) i++;
+                                    result[i] = col;
+                                    used.add(col.name);
+                                }
+                            }
+
                             let i = 0;
                             for (const col of withoutOrder) {
                                 while (result[i]) i++;
@@ -149,10 +161,10 @@ const DataGrid = ({
                         const orderedFixed = applyGlobalOrder(fixedCols, 0);
                         const orderedNonFixed = applyGlobalOrder(nonFixedCols, orderedFixed.length);
                         const finalList = [...orderedFixed, ...orderedNonFixed];
-                        return finalList.map((col, index) => ({
-                            ...col,
-                            displayIndex: index + 1
-                        }));
+                        return finalList.filter(Boolean).map((col, index) => ({
+                                ...col,
+                                displayIndex: index + 1
+                            }));
                     })()
                     : []
             }));
