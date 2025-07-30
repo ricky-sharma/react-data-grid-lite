@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-/* eslint-disable react/prop-types */
 import React, { memo } from 'react';
 import { isNull } from '../helpers/common';
 import { useGridConfig } from '../hooks/use-grid-config';

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { Button_Column_Key, Container_Identifier, Default_Grid_Width_VW } from '../constants';
 import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from '../helpers/common';

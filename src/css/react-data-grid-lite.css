@@ -102,14 +102,10 @@
         font-size: 14px;
         background: white;
         text-align: center;
-        border-radius: 2px;
         box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, .1);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: normal;
-        border-right: 1px solid rgba(0, 0, 0, .1);
-        border-left: 1px solid rgba(0, 0, 0, .1);
-        border-bottom: 1px solid rgba(0, 0, 0, .1);
     }
 
         .r-d-g-lt-comp .dropdown-option:hover {
