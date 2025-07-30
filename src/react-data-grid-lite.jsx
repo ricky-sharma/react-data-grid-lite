@@ -128,7 +128,6 @@ const DataGrid = ({
                         const nonFixedCols = validColumns.filter(col => col.fixed === false);
                         const applyGlobalOrder = (group, globalStartIndex = 0) => {
                             const result = [];
-                            const used = new Set();
                             const withOrder = group.filter(c => typeof c.order === 'number');
                             const withoutOrder = group.filter(c => typeof c.order !== 'number');
                             const orderGroups = new Map();
@@ -147,7 +146,6 @@ const DataGrid = ({
                                     let i = localIdx;
                                     while (result[i]) i++;
                                     result[i] = col;
-                                    used.add(col.name);
                                 }
                             }
 

@@ -72,6 +72,7 @@ const GridCell = memo(({
                     : ''),
                 contain: 'layout paint',
                 cursor: editable === true ? 'pointer' : 'default',
+                ...(typeof col?.style === 'object' && !Array.isArray(col?.style) ? col.style : {})
             }}
             onBlur={() => (cellChangedFocusRef.current = null)}
             onDoubleClick={() => {
@@ -119,7 +120,6 @@ const GridCell = memo(({
                 <div
                     style={{
                         height: '100%',
-                        textAlign: 'left',
                         padding: '10px 25px'
                     }}
                     className="mg--0 pd--0"
