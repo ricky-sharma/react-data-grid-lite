@@ -44,7 +44,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | **Field**       | **Type**            | **Description**                                                                                                                                           | **Default Value** | **Required** |
 | --------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------ |
 | `alias`         | `String`            | Provides an alternative name or alias for the column key. This alias can be used in column headers and other UI elements to make the grid more intuitive. |        -          |  No          |
-| `cellStyle`     | `Object`            | Applies custom styles to the `<td>` cell. Use with caution: affects only row cells. Setting layout-affecting properties (e.g. `width`) may cause misalignment with headers. Supported in `version 1.1.10` and above.|        -          |  No          |
+| `cellStyle`     | `Object`            | Applies custom styles to the `<td>` cell. Useful for matching `headerStyle`-defined widths or aligning text consistently. Use with caution: this affects only row cells. Setting layout-affecting properties (e.g. `width`) differently from headers may cause misalignment. Supported in `version 1.1.10` and above.|        -          |  No          |
 | `class`         | `String`            | Custom CSS class applied to each data cell in the column. Supported in `version 1.1.0` and above.                                                         |         -         |  No          |
 | `concatColumns` | `Object`            | Specifies columns to concatenate into this column. It includes: `columns` (array of column keys to concatenate) and `separator` (the separator string).   |        -          |  No          |
 | `draggable`     | `Boolean`           | Enables or disables dragging for an individual column. Overrides the global `enableColumnDrag` setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in `version 1.1.4` and above.|       false       |  No          |
@@ -69,9 +69,9 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 const columns = [
   {
     name: 'ID',
-    width: 50,
     formatting: { type: 'number', format: '0,0' },
-    cellStyle: { textAlign: 'center' }
+    cellStyle: { textAlign: 'center', width: '70px' },
+    headerStyle: { width: '70px' }
   },
   {
     name: 'Name',
