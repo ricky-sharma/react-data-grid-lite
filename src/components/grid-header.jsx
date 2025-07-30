@@ -108,7 +108,9 @@ const GridHeader = ({
             position: fixed === true ? 'sticky' : '',
             zIndex: fixed === true ? 10 : '',
             backgroundColor: 'inherit',
-            contain: 'layout paint'
+            contain: 'layout paint',
+            ...(typeof header?.headerStyle === 'object'
+                && !Array.isArray(header?.headerStyle) ? header.headerStyle : {})
         };
     };
     const thColHeaders = headers.map((header, key) => {

@@ -44,6 +44,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | **Field**       | **Type**            | **Description**                                                                                                                                           | **Default Value** | **Required** |
 | --------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------ |
 | `alias`         | `String`            | Provides an alternative name or alias for the column key. This alias can be used in column headers and other UI elements to make the grid more intuitive. |        -          |  No          |
+| `cellStyle`     | `Object`            | Applies custom styles to the `<td>` cell. Use with caution: affects only row cells. Setting layout-affecting properties (e.g. `width`) may cause misalignment with headers. Supported in `version 1.1.10` and above.|        -          |  No          |
 | `class`         | `String`            | Custom CSS class applied to each data cell in the column. Supported in `version 1.1.0` and above.                                                         |         -         |  No          |
 | `concatColumns` | `Object`            | Specifies columns to concatenate into this column. It includes: `columns` (array of column keys to concatenate) and `separator` (the separator string).   |        -          |  No          |
 | `draggable`     | `Boolean`           | Enables or disables dragging for an individual column. Overrides the global `enableColumnDrag` setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in `version 1.1.4` and above.|       false       |  No          |
@@ -52,13 +53,13 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `enableSearch`  | `Boolean`           | Enables or disables the search textbox for a specific column. Overrides the `enableColumnSearch` setting. Renamed from `searchEnable` in `v1.1.2` and above.|       true        |  No          |
 | `fixed`         | `Boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in `version 1.1.0` and above.|        false      |  No          |
 | `formatting`    | `Object`            | Formatting settings for the column. Includes the `type` (e.g., `currency`, `date`) and `format` (the format string, such as `$0,0.00`).                   |        -          |  No          |
+| `headerStyle`   | `Object`            |  Applies custom styles to the `<th>` (header) cell. Useful for matching `cellStyle`-defined widths or aligning text consistently. Supported in `version 1.1.10` and above.|        -          |  No          |
 | `hidden`        | `Boolean`           | Whether the column should be hidden.                                                                                                                      |       false       |  No          |
 | `name`          | `String`            | The display name of the column header. It also serves as the key or identifier for accessing the corresponding data in each row. This value must be unique.|        -         |  Yes         |
 | `order`         | `Number`            | Specifies the display order of the column (integer value), starting from 1. Supported in version `1.1.4` and above.                                       |        -          |  No          | 
 | `render`        | `function(formattedRow, baseRow) => React.ReactNode`| Custom render function for the column. Receives `formattedRow` (the transformed row data after formatting and concatenation) and `baseRow` (the original, unformatted row data). Should return a React node to be rendered in the cell. Available in version `1.1.3` and above.|     -    |  No          |
 | `resizable`     | `Boolean`           | Enables or disables resizing for a specific column. This setting overrides the `enableColumnResize` option. Supported in version `1.1.0` and above.       |       false       |  No          |
 | `searchPlaceholder` | `String`        | Sets the placeholder text for individual column search input fields. Useful for customization or localization. Supported in version `1.1.6` and above.| `"Search column…"` | No       |
-| `style`         | `Object`            | Applies custom styles directly to the `<td>` cell. Supported in version `1.1.10` and above.                                                               |        -          |  No          |
 | `width`         | `Number` / `String` | The width of the column. Can be a fixed pixel value (e.g., `100px`) or a percentage (e.g., `'20%'`). Default value is calculated dynamically.             |        -          |  No          | 
 
 
@@ -70,7 +71,7 @@ const columns = [
     name: 'ID',
     width: 50,
     formatting: { type: 'number', format: '0,0' },
-    style: { textAlign: 'center' }
+    cellStyle: { textAlign: 'center' }
   },
   {
     name: 'Name',

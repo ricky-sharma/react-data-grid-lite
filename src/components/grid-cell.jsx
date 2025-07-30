@@ -72,7 +72,7 @@ const GridCell = memo(({
                     : ''),
                 contain: 'layout paint',
                 cursor: editable === true ? 'pointer' : 'default',
-                ...(typeof col?.style === 'object' && !Array.isArray(col?.style) ? col.style : {})
+                ...(typeof col?.cellStyle === 'object' && !Array.isArray(col?.cellStyle) ? col.cellStyle : {})
             }}
             onBlur={() => (cellChangedFocusRef.current = null)}
             onDoubleClick={() => {
