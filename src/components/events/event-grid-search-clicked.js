@@ -23,7 +23,7 @@ export const eventGridSearchClicked = (
         return;
     }
 
-    const searchQuery = e.target.value.trim().toLowerCase();
+    const searchQuery = e?.target?.value?.trim().toLowerCase();
     const format = !isNull(formatting?.format) ? formatting.format : '';
     const type = !isNull(formatting?.type) ? formatting.type : '';
     const colObj = !isNull(colObject) ? colObject : [colName];
@@ -104,13 +104,23 @@ export const eventGridSearchClicked = (
     });
 
     const dataLength = data.length;
-
-    setState(prev => ({
-        ...prev,
-        rowsData: data,
-        activePage: 1,
-        totalRows: dataLength,
-        firstRow: 0,
-        toggleState: !state.toggleState
-    }));
+    setState(prev => {
+        let noOfPages = Math.floor(dataLength / prev.pageRows);
+        let lastPageRows = dataLength % prev.pageRows;
+        if (lastPageRows > 0) noOfPages++;
+        else if (lastPageRows === 0) lastPageRows = prev.pageRows;
+        const resetPage = prev.activePage > noOfPages;
+        const activePage = resetPage ? 1 : prev.activePage;
+        return {
+            ...prev,
+            rowsData: data,
+            noOfPages,
+            lastPageRows,
+            activePage,
+            currentPageRows: (activePage === noOfPages) ? lastPageRows : prev.pageRows,
+            totalRows: dataLength,
+            firstRow: prev.pageRows * (resetPage ? 0 : activePage - 1),
+            toggleState: !prev.toggleState
+        };
+    });
 };

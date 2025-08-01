@@ -182,6 +182,17 @@ const DataGrid = ({
                 pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : processedRows?.length,
                 currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : processedRows?.length
             }));
+
+            eventGridSearchClicked(
+                { target: { value: '' } },
+                '',
+                null,
+                null,
+                dataReceivedRef,
+                searchColsRef,
+                state,
+                setState
+            );
         }
     }, [data]);
 
@@ -208,9 +219,9 @@ const DataGrid = ({
     const setPagingVariables = () => {
         let noOfPages = Math.floor(state.totalRows / state.pageRows);
         let lastPageRows = state.totalRows % state.pageRows;
-        let activePage = !isNull(noOfPages) && state.activePage > noOfPages ? 1 : state.activePage;
         if (lastPageRows > 0) noOfPages++;
         else if (lastPageRows === 0) lastPageRows = state.pageRows;
+        let activePage = !isNull(noOfPages) && state.activePage > noOfPages ? 1 : state.activePage;
         setState((prevState) => ({
             ...prevState,
             noOfPages,
@@ -268,7 +279,7 @@ const DataGrid = ({
                 editingCellData: null
             })
         );
-    });
+    }, [state, setState]);
 
     useEffect(() => {
         if (prevPageRef?.current?.changeEvent) {
@@ -286,7 +297,7 @@ const DataGrid = ({
     const onHeaderClicked = useCallback((e, colObject, colKey) => {
         sortRef.current = { changeEvent: e, colObject: colObject, colKey: colKey }
         eventGridHeaderClicked(colObject, state, setState, colKey, isResizingRef);
-    });
+    }, [state, setState]);
 
     useEffect(() => {
         if (typeof state.onSortComplete === 'function' && sortRef?.current?.changeEvent) {
@@ -297,7 +308,6 @@ const DataGrid = ({
                 state.columns.find(col => col?.name
                     === sortRef.current.colKey)?.sortOrder ?? ''
             );
-            sortRef.current = null;
         }
         if (typeof state?.onSearchComplete === 'function' && searchRef?.current?.changeEvent) {
             state.onSearchComplete(
@@ -307,8 +317,9 @@ const DataGrid = ({
                 state?.rowsData ?? [],
                 state?.rowsData?.length || 0
             );
-            searchRef.current = null;
         }
+        sortRef.current = null;
+        searchRef.current = null;
     }, [state.toggleState])
 
     const onSearchClicked = useCallback((e, colName, colObject, formatting) => {
@@ -361,7 +372,7 @@ const DataGrid = ({
                 sortOrder: '',
             })),
         }));
-    });
+    }, [state, setState]);
     return (
         <GridConfigContext.Provider value={{ state, setState }}>
             <div

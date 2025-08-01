@@ -221,7 +221,7 @@ const GridRows = ({
                                 onRowClick(e, baseRow);
                             }
                             didDoubleClickRef.current = false;
-                        }, 400);
+                        }, 200);
                     }}
                     onMouseOver={e => onRowHover(e, baseRow)}
                     onMouseOut={e => onRowOut(e, baseRow)}
