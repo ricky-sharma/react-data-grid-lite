@@ -2,11 +2,12 @@ import { Formatting_Types } from '../../constants';
 import { isEqual, isNull, normalize } from '../../helpers/common';
 import { format as formatVal } from '../../helpers/format';
 import { getNormalizedCombinedValue } from '../../utils/component-utils';
+import { SortData } from './event-grid-header-clicked';
 
 /*
  * Handles column or global search logic in a grid.
  */
-export const eventGridSearchClicked = (
+export const eventGridSearchClicked = async (
     e,
     colName,
     colObject = [],
@@ -17,7 +18,8 @@ export const eventGridSearchClicked = (
     dataReceivedRef,
     searchColsRef,
     state,
-    setState
+    setState,
+    sortRef
 ) => {
     if (!e || typeof colName !== 'string') {
         return;
@@ -39,6 +41,40 @@ export const eventGridSearchClicked = (
         searchColsRef.current.push({ colName, searchQuery, colObj, formatting: { format, type }, colSep });
     }
 
+    data = FilterData(searchColsRef, data);
+
+    const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
+    data = shouldSort
+        ? await SortData(
+            sortRef.current.colObject,
+            sortRef.current.sortOrder,
+            data
+        )
+        : data;
+
+    const dataLength = data.length;
+    setState(prev => {
+        let noOfPages = Math.floor(dataLength / prev?.pageRows);
+        let lastPageRows = dataLength % prev?.pageRows;
+        if (lastPageRows > 0) noOfPages++;
+        else if (lastPageRows === 0) lastPageRows = prev?.pageRows;
+        const resetPage = prev?.activePage > noOfPages;
+        const activePage = resetPage ? 1 : prev?.activePage ?? 1;
+        return {
+            ...prev,
+            rowsData: data,
+            noOfPages,
+            lastPageRows,
+            activePage,
+            currentPageRows: (activePage === noOfPages) ? lastPageRows : prev?.pageRows,
+            totalRows: dataLength,
+            firstRow: prev?.pageRows * (resetPage ? 0 : activePage - 1),
+            toggleState: !prev?.toggleState
+        };
+    });
+};
+
+export function FilterData(searchColsRef, data) {
     let globalSearchData = [];
     searchColsRef?.current?.forEach(col => {
         const q = col?.searchQuery?.toLowerCase();
@@ -75,8 +111,7 @@ export const eventGridSearchClicked = (
                 globalSearchData = [...globalSearchData, ...colObjSearchData];
             });
 
-            data = globalSearchData.filter((item, index, self) =>
-                index === self.findIndex(other => isEqual(item, other))
+            data = globalSearchData.filter((item, index, self) => index === self.findIndex(other => isEqual(item, other))
             );
         } else {
             const t = (col?.formatting?.type || '').toLowerCase();
@@ -90,8 +125,7 @@ export const eventGridSearchClicked = (
                     return terms.every(term => combinedValue.includes(term));
                 } else {
                     // Single field
-                    return Object.keys(o).some(k =>
-                        col.colObj.some(x => x?.toLowerCase() === k?.toLowerCase()) &&
+                    return Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k?.toLowerCase()) &&
                         (
                             Formatting_Types.includes(t)
                                 ? (!isNull(o[k]) && colMatchesSearch(formatVal(o[k], t, f)))
@@ -102,25 +136,5 @@ export const eventGridSearchClicked = (
             });
         }
     });
-
-    const dataLength = data.length;
-    setState(prev => {
-        let noOfPages = Math.floor(dataLength / prev.pageRows);
-        let lastPageRows = dataLength % prev.pageRows;
-        if (lastPageRows > 0) noOfPages++;
-        else if (lastPageRows === 0) lastPageRows = prev.pageRows;
-        const resetPage = prev.activePage > noOfPages;
-        const activePage = resetPage ? 1 : prev.activePage;
-        return {
-            ...prev,
-            rowsData: data,
-            noOfPages,
-            lastPageRows,
-            activePage,
-            currentPageRows: (activePage === noOfPages) ? lastPageRows : prev.pageRows,
-            totalRows: dataLength,
-            firstRow: prev.pageRows * (resetPage ? 0 : activePage - 1),
-            toggleState: !prev.toggleState
-        };
-    });
-};
+    return data;
+}

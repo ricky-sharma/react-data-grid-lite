@@ -57,7 +57,7 @@ export default function Grid5() {
                 pageSize={10}
                 options={options}
                 width="inherit"
-                height="35vh"
+                height="75vh"
                 theme="dark-stack"
             />
         </ExampleBlock>

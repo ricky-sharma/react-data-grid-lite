@@ -24,7 +24,7 @@ export default function Grid7() {
                 data={sampleData}
                 pageSize={10}
                 width="inherit"
-                height="30vh"
+                height="80vh"
                 theme="blue-core"
                 options={options}
                 onCellUpdate={(cellUpdate) => {

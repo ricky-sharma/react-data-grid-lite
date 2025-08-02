@@ -117,7 +117,7 @@ export default function Grid2() {
                 pageSize={10}
                 options={options}
                 width="inherit"
-                height="35vh"
+                height="88vh"
                 theme="dark-stack"
             />
         </ExampleBlock>
