@@ -266,7 +266,7 @@ The `options` prop is an **object** that provides additional configuration setti
 
 | **Field**            | **Type**  | **Description**                                                                                                           | **Default Value** | **Required** |
 | -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------|------------------ | ------------ |
-| `actionColumnAlign`  | `string` (`'left'` \| `'right'` \| `''`)  | Controls alignment of the Actions column. Set to `'left'` or `'right'` to fix its position. Leave empty to allow the column to scroll with the rest of the table. Supported in **v1.1.1 and above**.|      `''` (empty string)        | No           |
+| `actionColumnAlign`  | `String` (`'left'` \| `'right'` \| `''`)  | Controls alignment of the Actions column. Set to `'left'` or `'right'` to fix its position. Leave empty to allow the column to scroll with the rest of the table. Supported in **v1.1.1 and above**.|      `''` (empty string)        | No           |
 | `deleteButton`       | `Object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked.|       -      | No           |
 | `downloadFilename`   | `String`  | The filename used when downloading grid data in CSV format. The default value is `'export-{yyyy-MM-dd HH:mm:ss}'`         |       -           | No           |
 | `editButton`         | `Object`  | Configuration for enabling an edit button on each row. Includes an `event` field which is the function triggered when the button is clicked.|        -     | No           |
@@ -277,7 +277,9 @@ The `options` prop is an **object** that provides additional configuration setti
 | `enableDownload`     | `Boolean` | Whether to enable the download functionality (export data as CSV).                                                        |      true         | No           |
 | `enableGlobalSearch` | `Boolean` | Enables global search across all columns.                                                                                 |      true         | No           |
 | `globalSearchPlaceholder`| `String` | Sets the placeholder text for the global search input field in the toolbar. Useful for localization or customization. Supported in version `1.1.6` and above. | `"Search all columns…"` | No       |
+| `gridBgColor`        | `String`  | Sets a custom background color for the grid container. Supported in version `1.1.11` and above.                           |       -           | No           |
 | `gridClass`          | `String`  | Custom CSS class for the grid container.                                                                                  |       -           | No           |
+| `headerBgColor`      | `String`  | Sets a custom background color for the header row. Supported in version `1.1.11` and above.                               |       -           | No           |
 | `headerClass`        | `String`  | Custom CSS class for the header row.                                                                                      |       -           | No           |
 | `onDownloadComplete` | `Function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.       |       -           | No           |
 | `rowClass`           | `String`  | Custom CSS class for each row in the grid.                                                                                |       -           | No           |
