@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1753891766744" rel="stylesheet" />
+		<link href="index.css?ver=1754219478121" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -328,6 +328,33 @@
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<p><br><br></p>
+<h2>📝 v1.1.11 – Released 2025-08-03</h2>
+<p>🐛 Bug Fixes</p>
+<ul>
+<li>Fixed issue where sorting was reset when clicking on interactive custom fields</li>
+<li>Fixed issue where the search result was reset when interacting with custom field elements (e.g., checkboxes)</li>
+<li>Corrected cursor style when <code>onRowClick</code> is enabled</li>
+<li>Decreased row click delay from 400ms to 200ms for snappier interaction</li>
+</ul>
+<p>🎨 UI &amp; Theme Updates</p>
+<ul>
+<li>Changed default grid background color from <code>#f5f1f1</code> to <code>#ffffff</code></li>
+<li>Updated default header background and font color from <code>#667</code> to <code>#0c0c0c</code></li>
+<li>Improved visual consistency across the grid layout</li>
+</ul>
+<p>✨ Features</p>
+<ul>
+<li>Added background color customization for grid layout
+<ul>
+<li>New props: <code>gridBgColor</code>, <code>headerBgColor</code></li>
+</ul>
+</li>
+</ul>
+<p>🧪 Tests</p>
+<ul>
+<li>Updated test cases and performed related code cleanup</li>
+</ul>
 <p><br><br></p>
 <h2>✨ v1.1.10 – Released 2025-07-31</h2>
 <h3>Features &amp; Enhancements</h3>
