@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
+## 📝 v1.1.11 – Released 2025-08-03
+
+🐛 Bug Fixes
+- Fixed issue where sorting was reset when clicking on interactive custom fields
+- Fixed issue where the search result was reset when interacting with custom field elements (e.g., checkboxes)
+- Corrected cursor style when `onRowClick` is enabled
+- Decreased row click delay from 400ms to 200ms for snappier interaction
+
+🎨 UI & Theme Updates
+- Changed default grid background color from `#f5f1f1` to `#ffffff`
+- Updated default header background and font color from `#667` to `#0c0c0c`
+- Improved visual consistency across the grid layout
+
+✨ Features
+- Added background color customization for grid layout
+  - New props: `gridBgColor`, `headerBgColor`
+
+🧪 Tests
+- Updated test cases and performed related code cleanup
+  
+<br><br>
+
 ## ✨ v1.1.10 – Released 2025-07-31
 
 ### Features & Enhancements
