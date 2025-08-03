@@ -187,20 +187,23 @@ const DataGrid = ({
                     : filteredData;
                 const pageRowCount = !isNull(parseInt(pageSize, 10))
                     ? parseInt(pageSize, 10)
-                    : filteredData?.length;
-                setState(prevState => ({
-                    ...prevState,
-                    rowsData: sortedRows,
-                    totalRows: filteredData?.length,
-                    pageRows: pageRowCount,
-                    currentPageRows: pageRowCount,
-                    columns: prevState?.columns?.map(col => ({
-                        ...col,
-                        sortOrder: col?.name === sortRef?.current?.colKey
-                            ? sortRef?.current?.sortOrder : ''
-                    }))
-                }));
-            };
+                    : sortedRows?.length;
+                const timeout = setTimeout(() => {
+                    setState(prevState => ({
+                        ...prevState,
+                        rowsData: sortedRows,
+                        totalRows: sortedRows?.length,
+                        pageRows: pageRowCount,
+                        currentPageRows: pageRowCount,
+                        columns: prevState?.columns?.map(col => ({
+                            ...col,
+                            sortOrder: col?.name === sortRef?.current?.colKey
+                                ? sortRef?.current?.sortOrder : ''
+                        }))
+                    }));
+                })
+                return () => clearTimeout(timeout);
+            }
             processData();
         }
     }, [data]);

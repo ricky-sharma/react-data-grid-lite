@@ -1,13 +1,13 @@
 .r-d-g-lt-comp {
     padding: 8px;
-    background-color: #f5f1f1;
+    background-color: #fff;
     border-radius: 10px;
-    color: #667;
+    color: #0c0c0c;
     position: relative;
     font-size: 16px;
     font-weight: 600;
     min-width: 250px !important;
-    box-shadow: .2px 1px 4px 0 #667;
+    box-shadow: .2px 1px 4px 0 #0c0c0c;
 }
 
     .r-d-g-lt-comp * {
@@ -66,7 +66,7 @@
         cursor: pointer;
         font-weight: 600 !important;
         margin: 2px;
-        box-shadow: .2px 1px 4px 0 #667 !important;
+        box-shadow: .2px 1px 4px 0 #0c0c0c !important;
     }
 
     .r-d-g-lt-comp .dropdown-selected {
@@ -92,7 +92,7 @@
         max-height: 140px;
         overflow-y: auto;
         background: white;
-        border: 1px solid #667;
+        border: 1px solid #0c0c0c;
         border-radius: 6px;
         z-index: 1000;
     }
@@ -113,7 +113,7 @@
         }
 
         .r-d-g-lt-comp .dropdown-option.selected {
-            background-color: #667;
+            background-color: #0c0c0c;
             color: #fff;
             font-weight: 500;
         }
@@ -193,7 +193,7 @@
 
 .r-d-g-lt-comp .icon-div {
     border-radius: 10px;
-    box-shadow: 0.2px 1px 4px 0px #667;
+    box-shadow: 0.2px 1px 4px 0px #0c0c0c;
     height: 28px;
     letter-spacing: .001em;
     line-height: 1.43;
@@ -356,7 +356,7 @@
         overflow: auto !important;
         border-spacing: 0;
         z-index: 1;
-        box-shadow: 0px 0 1px 0 #667;
+        box-shadow: 0px 0 1px 0 #0c0c0c;
     }
 
         .r-d-g-lt-comp .react-data-grid-lite table.gd-tbl::-webkit-scrollbar {
@@ -429,7 +429,7 @@
 }
 
 .r-d-g-lt-comp table thead tr.gridHeader {
-    background-color: #667;
+    background-color: #0c0c0c;
     color: #fff;
 }
 
@@ -624,7 +624,7 @@
     }
 
     .r-d-g-lt-comp .pagination li.page-item.active a.page-link {
-        background: #667 !important;
+        background: #0c0c0c !important;
         pointer-events: none !important;
         color: #fff !important;
     }
