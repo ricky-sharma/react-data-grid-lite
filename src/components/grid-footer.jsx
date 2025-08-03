@@ -15,14 +15,17 @@ const GridFooter = memo(({
         currentPageRows,
         activePage,
         pageRows,
-        pagerSelectOptions
+        pagerSelectOptions,
+        gridBackgroundColor
     } = state;
     const start = (activePage - 1) * pageRows + 1;
     const end = start + currentPageRows - 1;
     const showingRange = totalRows > currentPageRows ? `${start} - ${end}` : totalRows;
 
     return (
-        <div className="row--flex col-flex-12 mg--0 pd--0 alignCenter grid-footer">
+        <div style={{
+            backgroundColor: gridBackgroundColor
+        }} className="row--flex col-flex-12 mg--0 pd--0 alignCenter grid-footer">
             {!isNull(totalRows) && totalRows !== 0 ? (
                 <div className="col-flex-5 mg--0 pd--0 page-results">
                     {showingRange}{" of "}{totalRows}{" results"}
