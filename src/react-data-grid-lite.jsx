@@ -85,6 +85,8 @@ const DataGrid = ({
         downloadFilename: options?.downloadFilename ?? null,
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
         globalSearchPlaceholder: options?.globalSearchPlaceholder,
+        gridBackgroundColor: options?.gridBackgroundColor,
+        gridHeaderBackgroundColor: options?.gridHeaderBackgroundColor,
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
@@ -170,6 +172,7 @@ const DataGrid = ({
 
     useEffect(() => {
         if (!isNull(data)) {
+            let timeout;
             const processData = async () => {
                 let processedRows = data?.map((row, index) => ({
                     ...row,
@@ -188,7 +191,7 @@ const DataGrid = ({
                 const pageRowCount = !isNull(parseInt(pageSize, 10))
                     ? parseInt(pageSize, 10)
                     : sortedRows?.length;
-                const timeout = setTimeout(() => {
+                timeout = setTimeout(() => {
                     setState(prevState => ({
                         ...prevState,
                         rowsData: sortedRows,
@@ -201,10 +204,10 @@ const DataGrid = ({
                                 ? sortRef?.current?.sortOrder : ''
                         }))
                     }));
-                })
-                return () => clearTimeout(timeout);
-            }
+                });
+            };
             processData();
+            return () => clearTimeout(timeout);
         }
     }, [data]);
 
@@ -409,7 +412,11 @@ const DataGrid = ({
                         ? `${state.gridCssClass} r-d-g-lt-comp`
                         : 'r-d-g-lt-comp'
                 }
-                style={{ maxWidth: state.maxWidth, width: state.width }}
+                style={{
+                    maxWidth: state.maxWidth,
+                    width: state.width,
+                    backgroundColor: state.gridBackgroundColor
+                }}
             >
                 {state?.showToolbar === true &&
                     (<GridGlobalSearchBar
@@ -417,6 +424,9 @@ const DataGrid = ({
                         handleResetSearch={handleResetSearch}
                     />)}
                 <div
+                    style={{
+                        backgroundColor: state.gridBackgroundColor
+                    }}
                     className={
                         !isNull(state.gridCssClass)
                             ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`

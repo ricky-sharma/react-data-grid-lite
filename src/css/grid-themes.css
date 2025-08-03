@@ -5,7 +5,7 @@
 
 .r-d-g-lt-comp.theme-1,
 .r-d-g-lt-comp .theme-1 {
-    background-color: #E5E8EC !important;
+    background-color: #E5E8EC;
     padding: 12px !important;
     color: #1F3B4D !important;
 }
@@ -75,18 +75,18 @@
     }
 
 
-.r-d-g-lt-comp .theme-1-h {
-    background-color: #1F3B4D !important;
-    color: white !important;
-    padding: 10px 0 !important;
+.r-d-g-lt-comp table thead tr.theme-1-h {
+    background-color: #1F3B4D;
+    color: #FFF;
+    padding: 10px 0;
 }
 
 .r-d-g-lt-comp .theme-1-r {
-    background-color: white !important;
+    background-color: #FFF !important;
 }
 
 .theme-1-r:nth-child(even) {
-    background-color: #FFFFFF !important;
+    background-color: #FFF !important;
 }
 
 .theme-1-r:nth-child(odd) {
@@ -105,7 +105,7 @@
 
 .r-d-g-lt-comp.theme-2,
 .r-d-g-lt-comp .theme-2 {
-    background-color: #F5F5F5 !important;
+    background-color: #F5F5F5;
     padding: 12px !important;
     color: #2D2D2D !important;
 }
@@ -167,25 +167,25 @@
 
     .r-d-g-lt-comp.theme-2 .grid-footer .pagination li.active a {
         background-color: #2D2D2D !important;
-        color: white !important;
+        color: #FFF !important;
     }
 
     .r-d-g-lt-comp .theme-2 .dot-loader span {
         background: #2D2D2D !important;
     }
 
-.r-d-g-lt-comp .theme-2-h {
-    background-color: #2D2D2D !important;
-    color: white !important;
-    padding: 10px 0 !important;
+.r-d-g-lt-comp table thead tr.theme-2-h {
+    background-color: #2D2D2D;
+    color: #FFF;
+    padding: 10px 0;
 }
 
 .r-d-g-lt-comp .theme-2-r {
-    background-color: #FFFFFF !important;
+    background-color: #FFF !important;
 }
 
     .r-d-g-lt-comp .theme-2-r:nth-child(even) {
-        background-color: #FFFFFF !important;
+        background-color: #FFF !important;
     }
 
     .r-d-g-lt-comp .theme-2-r:nth-child(odd) {
@@ -203,7 +203,7 @@
 
 .r-d-g-lt-comp.theme-3,
 .r-d-g-lt-comp .theme-3 {
-    background-color: #E8F5E9 !important;
+    background-color: #E8F5E9;
     padding: 12px !important;
     color: #256D4F !important;
 }
@@ -265,25 +265,25 @@
 
     .r-d-g-lt-comp.theme-3 .grid-footer .pagination li.active a {
         background-color: #256D4F !important;
-        color: white !important;
+        color: #FFF !important;
     }
 
     .r-d-g-lt-comp .theme-3 .dot-loader span {
         background: #256D4F !important;
     }
 
-.r-d-g-lt-comp .theme-3-h {
-    background-color: #256D4F !important;
-    color: white !important;
-    padding: 10px 0 !important;
+.r-d-g-lt-comp table thead tr.theme-3-h {
+    background-color: #256D4F;
+    color: #FFF;
+    padding: 10px 0;
 }
 
 .r-d-g-lt-comp .theme-3-r {
-    background-color: #FFFFFF !important;
+    background-color: #FFF !important;
 }
 
     .r-d-g-lt-comp .theme-3-r:nth-child(even) {
-        background-color: #FFFFFF !important;
+        background-color: #FFF !important;
     }
 
     .r-d-g-lt-comp .theme-3-r:nth-child(odd) {
