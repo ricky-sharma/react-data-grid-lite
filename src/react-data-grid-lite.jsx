@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
-import { eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
-import { eventGridSearchClicked } from './components/events/event-grid-search-clicked';
+import { SortData, eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
+import { FilterData, eventGridSearchClicked } from './components/events/event-grid-search-clicked';
 import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
@@ -85,6 +85,8 @@ const DataGrid = ({
         downloadFilename: options?.downloadFilename ?? null,
         onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
         globalSearchPlaceholder: options?.globalSearchPlaceholder,
+        gridBackgroundColor: options?.gridBgColor,
+        gridHeaderBackgroundColor: options?.headerBgColor,
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
@@ -160,9 +162,9 @@ const DataGrid = ({
                         const orderedNonFixed = applyGlobalOrder(nonFixedCols, orderedFixed.length);
                         const finalList = [...orderedFixed, ...orderedNonFixed];
                         return finalList.filter(Boolean).map((col, index) => ({
-                                ...col,
-                                displayIndex: index + 1
-                            }));
+                            ...col,
+                            displayIndex: index + 1
+                        }));
                     })()
                     : []
             }));
@@ -170,18 +172,42 @@ const DataGrid = ({
 
     useEffect(() => {
         if (!isNull(data)) {
-            const processedRows = data?.map((row, index) => ({
-                ...row,
-                __$index__: index
-            }));
-            dataReceivedRef.current = processedRows;
-            setState((prevState) => ({
-                ...prevState,
-                rowsData: processedRows,
-                totalRows: processedRows?.length,
-                pageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : processedRows?.length,
-                currentPageRows: !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : processedRows?.length
-            }));
+            let timeout;
+            const processData = async () => {
+                let processedRows = data?.map((row, index) => ({
+                    ...row,
+                    __$index__: index
+                }));
+                dataReceivedRef.current = processedRows;
+                const filteredData = await FilterData(searchColsRef, processedRows);
+                const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
+                const sortedRows = shouldSort
+                    ? await SortData(
+                        sortRef.current.colObject,
+                        sortRef.current.sortOrder,
+                        filteredData
+                    )
+                    : filteredData;
+                const pageRowCount = !isNull(parseInt(pageSize, 10))
+                    ? parseInt(pageSize, 10)
+                    : sortedRows?.length;
+                timeout = setTimeout(() => {
+                    setState(prevState => ({
+                        ...prevState,
+                        rowsData: sortedRows,
+                        totalRows: sortedRows?.length,
+                        pageRows: pageRowCount,
+                        currentPageRows: pageRowCount,
+                        columns: prevState?.columns?.map(col => ({
+                            ...col,
+                            sortOrder: col?.name === sortRef?.current?.colKey
+                                ? sortRef?.current?.sortOrder : ''
+                        }))
+                    }));
+                });
+            };
+            processData();
+            return () => clearTimeout(timeout);
         }
     }, [data]);
 
@@ -208,9 +234,9 @@ const DataGrid = ({
     const setPagingVariables = () => {
         let noOfPages = Math.floor(state.totalRows / state.pageRows);
         let lastPageRows = state.totalRows % state.pageRows;
-        let activePage = !isNull(noOfPages) && state.activePage > noOfPages ? 1 : state.activePage;
         if (lastPageRows > 0) noOfPages++;
         else if (lastPageRows === 0) lastPageRows = state.pageRows;
+        let activePage = !isNull(noOfPages) && state.activePage > noOfPages ? 1 : state.activePage;
         setState((prevState) => ({
             ...prevState,
             noOfPages,
@@ -268,7 +294,7 @@ const DataGrid = ({
                 editingCellData: null
             })
         );
-    });
+    }, [state, setState]);
 
     useEffect(() => {
         if (prevPageRef?.current?.changeEvent) {
@@ -286,18 +312,20 @@ const DataGrid = ({
     const onHeaderClicked = useCallback((e, colObject, colKey) => {
         sortRef.current = { changeEvent: e, colObject: colObject, colKey: colKey }
         eventGridHeaderClicked(colObject, state, setState, colKey, isResizingRef);
-    });
+    }, [state, setState]);
 
     useEffect(() => {
+        const sortOrder = state?.columns?.find(col => col?.name
+            === sortRef?.current?.colKey)?.sortOrder ?? ''
+        if (sortRef?.current) sortRef.current.sortOrder = sortOrder;
         if (typeof state.onSortComplete === 'function' && sortRef?.current?.changeEvent) {
             state.onSortComplete(
                 sortRef.current.changeEvent,
                 sortRef.current.colObject,
                 state.rowsData,
-                state.columns.find(col => col?.name
-                    === sortRef.current.colKey)?.sortOrder ?? ''
+                sortOrder
             );
-            sortRef.current = null;
+            sortRef.current.changeEvent = null;
         }
         if (typeof state?.onSearchComplete === 'function' && searchRef?.current?.changeEvent) {
             state.onSearchComplete(
@@ -307,8 +335,8 @@ const DataGrid = ({
                 state?.rowsData ?? [],
                 state?.rowsData?.length || 0
             );
-            searchRef.current = null;
         }
+        searchRef.current = null;
     }, [state.toggleState])
 
     const onSearchClicked = useCallback((e, colName, colObject, formatting) => {
@@ -336,7 +364,8 @@ const DataGrid = ({
                 dataReceivedRef,
                 searchColsRef,
                 state,
-                setState
+                setState,
+                sortRef
             );
         }, 300);
     }, [state, setState]);
@@ -344,24 +373,36 @@ const DataGrid = ({
     const handleResetSearch = useCallback((e) => {
         e.preventDefault();
         searchColsRef.current = [];
-        setState(prev => ({
-            ...prev,
-            searchValues: Object.fromEntries(
-                (Array.isArray(prev.columns) ? prev.columns : [])
-                    .filter(col => col && col.name)
-                    .map(col => [col.name, ''])
-            ),
-            globalSearchInput: '',
-            rowsData: dataReceivedRef?.current ?? [],
-            activePage: 1,
-            totalRows: dataReceivedRef?.current?.length ?? 0,
-            firstRow: 0,
-            columns: prev.columns.map(col => ({
-                ...col,
-                sortOrder: '',
-            })),
-        }));
-    });
+        sortRef.current = null;
+        setState(prev => {
+            const dataLength = dataReceivedRef?.current?.length ?? 0
+            let noOfPages = Math.floor(dataLength / prev?.pageRows);
+            let lastPageRows = dataLength % prev?.pageRows;
+            if (lastPageRows > 0) noOfPages++;
+            else if (lastPageRows === 0) lastPageRows = prev?.pageRows;
+
+            return {
+                ...prev,
+                searchValues: Object.fromEntries(
+                    (Array.isArray(prev.columns) ? prev.columns : [])
+                        .filter(col => col && col.name)
+                        .map(col => [col.name, ''])
+                ),
+                globalSearchInput: '',
+                rowsData: dataReceivedRef?.current ?? [],
+                noOfPages,
+                lastPageRows,
+                currentPageRows: prev?.pageRows,
+                activePage: 1,
+                totalRows: dataLength,
+                firstRow: 0,
+                columns: prev.columns.map(col => ({
+                    ...col,
+                    sortOrder: '',
+                })),
+            }
+        });
+    }, [state, setState]);
     return (
         <GridConfigContext.Provider value={{ state, setState }}>
             <div
@@ -371,7 +412,11 @@ const DataGrid = ({
                         ? `${state.gridCssClass} r-d-g-lt-comp`
                         : 'r-d-g-lt-comp'
                 }
-                style={{ maxWidth: state.maxWidth, width: state.width }}
+                style={{
+                    maxWidth: state.maxWidth,
+                    width: state.width,
+                    backgroundColor: state.gridBackgroundColor
+                }}
             >
                 {state?.showToolbar === true &&
                     (<GridGlobalSearchBar
@@ -379,6 +424,9 @@ const DataGrid = ({
                         handleResetSearch={handleResetSearch}
                     />)}
                 <div
+                    style={{
+                        backgroundColor: state.gridBackgroundColor
+                    }}
                     className={
                         !isNull(state.gridCssClass)
                             ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`

@@ -112,7 +112,7 @@ export default function Grid3() {
                 pageSize={10}
                 options={options}
                 width="inherit"
-                height="35vh"
+                height="60vh"
                 theme="medi-glow"
             />
         </ExampleBlock>

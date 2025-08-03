@@ -34,7 +34,8 @@ const GridHeader = ({
         rowsData,
         searchValues,
         actionColumnAlign,
-        enableColumnDrag
+        enableColumnDrag,
+        gridHeaderBackgroundColor
     } = state;
 
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
@@ -240,7 +241,7 @@ const GridHeader = ({
                     className="searchDiv pd--0 mg--0">
                     {columnSearchEnabled ? (
                         <Input
-                            placeholder={header?.searchPlaceholder ?? `Search ${displayName?.toLowerCase() }`}
+                            placeholder={header?.searchPlaceholder ?? `Search ${displayName?.toLowerCase()}`}
                             type="text"
                             value={searchValues?.[header?.name] ?? ''}
                             onChange={(e) => {
@@ -270,7 +271,7 @@ const GridHeader = ({
 
     return (
         <thead ref={gridHeaderRef}>
-            <tr className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>
+            <tr style={{ backgroundColor: state.gridHeaderBackgroundColor }} className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>
                 {thColHeaders}
             </tr>
             {searchRowEnabled && <tr className={`${headerCssClass} searchHeader`}>{thSearchHeaders}</tr>}

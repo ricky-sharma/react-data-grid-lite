@@ -1,4 +1,4 @@
-export const Mobile_Column_Width = "125px";
+export const Mobile_Column_Width = "110px";
 export const Button_Column_Width = "110px";
 export const Fallback_Column_Width = "150px";
 export const Maximum_Column_Width = 2400; // in pixels, also configured in CSS for td and th
