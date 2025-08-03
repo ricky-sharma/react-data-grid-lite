@@ -69,7 +69,7 @@ const GridCell = memo(({
                     ? '#e0e0e0 -0.5px 0 0 0 inset'
                     : ''),
                 contain: 'layout paint',
-                cursor: editable === true ? 'pointer' : 'default',
+                cursor: editable === true ? 'pointer' : undefined,
                 ...(typeof col?.cellStyle === 'object' && !Array.isArray(col?.cellStyle) ? col.cellStyle : {})
             }}
             onBlur={() => (cellChangedFocusRef.current = null)}
