@@ -5,6 +5,15 @@
 ![npm](https://img.shields.io/npm/dt/react-data-grid-lite)
 ![](https://komarev.com/ghpvc/?username=ricky-sharma&color=dc143c)
 
+<a href="https://codesandbox.io/s/github/ricky-sharma/react-data-grid-lite/tree/master/example" target="_blank" rel="noopener noreferrer">
+  <img 
+    src="https://codesandbox.io/static/img/play-codesandbox.svg" 
+    alt="Open in CodeSandbox" 
+    height="28" 
+    style="vertical-align: middle;"
+  />
+</a>
+
 # React Data Grid Lite
 [![🚀 Live Demo & Docs](https://img.shields.io/badge/🚀%20Live%20Demo%20%26%20Docs-Click%20Here-blueviolet?style=for-the-badge)](https://ricky-sharma.github.io/react-data-grid-lite/)
 
@@ -118,3 +127,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <br><br>
 ## 🙋‍♂️ Available for freelance work!
 Reach out via [LinkedIn](https://www.linkedin.com/in/vinay-sharma-2022354) or check out my projects on [GitHub](https://github.com/ricky-sharma).
+
