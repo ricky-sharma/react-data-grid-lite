@@ -116,7 +116,7 @@ export function FilterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabl
                 data = globalSearchData.filter((item, index, self) => index === self.findIndex(other => isEqual(item, other))
                 );
             } else {
-                const t = (col?.formatting?.type || '').toLowerCase();
+                const t = (col?.formatting?.type || '')?.toLowerCase();
                 const f = col?.formatting?.format ?? '';
                 const ccs = col?.colSep || ' ';
 

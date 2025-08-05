@@ -221,19 +221,20 @@ const DataGrid = ({
                     ? parseInt(pageSize, 10)
                     : sortedRows?.length;
                 timeout = setTimeout(() => {
-                    setState(prevState => ({
+                    setState(prevState => {
+                        return {
                         ...prevState,
                         rowsData: sortedRows,
                         totalRows: sortedRows?.length,
                         pageRows: pageRowCount,
-                        currentPageRows: (prevState.activePage === prevState.noOfPages)
-                            ? prevState.lastPageRows : prevState?.pageRows,
+                        currentPageRows: (prevState?.activePage === prevState?.noOfPages)
+                            ? prevState?.lastPageRows : pageRowCount,
                         columns: prevState?.columns?.map(col => ({
                             ...col,
                             sortOrder: col?.name === sortRef?.current?.colKey
                                 ? sortRef?.current?.sortOrder : ''
                         }))
-                    }));
+                    }});
                 });
             };
             processData();

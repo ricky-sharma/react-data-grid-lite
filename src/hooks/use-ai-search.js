@@ -79,14 +79,19 @@ export function useAISearch({
                 throw new Error('No response content from AI');
             }
 
+            let result;
             try {
-                const result = JSON.parse(content);
-                if (!Array.isArray(result)) throw new Error('AI response is not an array');
-                return result;
+                result = JSON.parse(content);
             } catch (err) {
                 console.error('Failed to parse AI result as JSON:', content);
                 throw err;
             }
+
+            if (!Array.isArray(result)) {
+                console.error('AI result is not an array:', result);
+                throw new Error('AI response is not an array');
+            }
+            return result;
         },
         [apiKey, endpoint, model, systemPrompt]
     );
