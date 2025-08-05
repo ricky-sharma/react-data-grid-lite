@@ -7,6 +7,7 @@ import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
 import { GridConfigContext } from './context/grid-config-context';
+import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
 import { applyTheme } from './utils/themes-utils';
 
@@ -87,6 +88,7 @@ const DataGrid = ({
         globalSearchPlaceholder: options?.globalSearchPlaceholder,
         gridBackgroundColor: options?.gridBgColor,
         gridHeaderBackgroundColor: options?.headerBgColor,
+        aiSearchOptions: options?.aiSearch ?? {},
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
@@ -102,6 +104,14 @@ const DataGrid = ({
     const isResizingRef = useRef(false);
     const containerWidth = useContainerWidth(state?.gridID);
     const searchTimeoutRef = useRef(null);
+    const { runAISearch } = useAISearch({
+        apiKey: state?.aiSearchOptions?.apiKey,
+        model: state?.aiSearchOptions?.model,
+        endpoint: state?.aiSearchOptions?.endpoint,
+        systemPrompt: state?.aiSearchOptions?.systemPrompt,
+        customRunAISearch: state?.aiSearchOptions?.runAISearch,
+        customHeaders: state?.aiSearchOptions?.headers
+    });
 
     useEffect(() => {
         return () => {
@@ -339,36 +349,68 @@ const DataGrid = ({
         searchRef.current = null;
     }, [state.toggleState])
 
-    const onSearchClicked = useCallback((e, colName, colObject, formatting) => {
-        if (searchTimeoutRef.current) {
+    const onSearchClicked = useCallback((
+        e,
+        colName,
+        colObject,
+        formatting,
+        onChange = true
+    ) => {
+        if (searchTimeoutRef?.current) {
             clearTimeout(searchTimeoutRef.current);
         }
-
         const eventCopy = e?.nativeEvent ? { ...e } : e;
+        const isGlobal = colName === '##globalSearch##';
+
+        const query = state?.aiSearchOptions?.enabled && isGlobal && !onChange ?
+            state.globalSearchInput?.trimStart() ?? '' :
+            eventCopy?.target?.value?.trimStart() ?? '';
+        const aiThreshold = state?.aiSearchOptions?.minRowCount ?? 1;
 
         searchTimeoutRef.current = setTimeout(() => {
-            if (eventCopy?.target?.value) {
-                eventCopy.target.value = eventCopy.target.value.trimStart();
-            }
-
             searchRef.current = {
                 changeEvent: eventCopy,
-                searchQuery: eventCopy?.target?.value ?? ''
+                searchQuery: query
             };
 
-            eventGridSearchClicked(
-                eventCopy,
-                colName,
-                colObject,
-                formatting,
-                dataReceivedRef,
-                searchColsRef,
-                state,
-                setState,
-                sortRef
-            );
+            (async () => {
+                const rowCount = dataReceivedRef.current?.length ?? 0;
+                if (state?.aiSearchOptions?.enabled && isGlobal && rowCount >= aiThreshold && query?.trim() !== '') {
+                    try {
+                        const aiResult = await runAISearch({
+                            data: dataReceivedRef?.current,
+                            query
+                        });
+
+                        setState(prev => ({
+                            ...prev,
+                            rowsData: aiResult,
+                            totalRows: aiResult?.length,
+                            currentPageRows: aiResult?.length,
+                            activePage: 1,
+                            firstRow: 0
+                        }));
+
+                        return;
+                    } catch (err) {
+                        console.error('AI search failed. Falling back to default local search.', err);
+                    }
+                }
+
+                eventGridSearchClicked(
+                    query,
+                    colName,
+                    colObject,
+                    formatting,
+                    dataReceivedRef,
+                    searchColsRef,
+                    state,
+                    setState,
+                    sortRef
+                );
+            })();
         }, 300);
-    }, [state, setState]);
+    }, [state, setState, runAISearch, state?.aiSearchOptions]);
 
     const handleResetSearch = useCallback((e) => {
         e.preventDefault();
@@ -403,6 +445,7 @@ const DataGrid = ({
             }
         });
     }, [state, setState]);
+
     return (
         <GridConfigContext.Provider value={{ state, setState }}>
             <div

@@ -8,7 +8,7 @@ import { SortData } from './event-grid-header-clicked';
  * Handles column or global search logic in a grid.
  */
 export const eventGridSearchClicked = async (
-    e,
+    searchQuery,
     colName,
     colObject = [],
     formatting = {
@@ -21,11 +21,10 @@ export const eventGridSearchClicked = async (
     setState,
     sortRef
 ) => {
-    if (!e || typeof colName !== 'string') {
+    if (typeof colName !== 'string') {
         return;
     }
 
-    const searchQuery = e?.target?.value?.trim().toLowerCase();
     const format = !isNull(formatting?.format) ? formatting.format : '';
     const type = !isNull(formatting?.type) ? formatting.type : '';
     const colObj = !isNull(colObject) ? colObject : [colName];
@@ -34,13 +33,11 @@ export const eventGridSearchClicked = async (
         concatColumns?.separator || ' ';
 
     let data = dataReceivedRef?.current ?? [];
-
     // Update searchColsRef list
     searchColsRef.current = searchColsRef?.current?.filter(x => x.colName !== colName) ?? [];
     if (searchQuery !== '') {
         searchColsRef.current.push({ colName, searchQuery, colObj, formatting: { format, type }, colSep });
     }
-
     data = FilterData(searchColsRef, data);
 
     const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
@@ -79,7 +76,7 @@ export function FilterData(searchColsRef, data) {
         let globalSearchData = [];
         searchColsRef?.current?.forEach(col => {
             const q = col?.searchQuery?.toLowerCase();
-            const terms = normalize(q).match(/\S+/g) || [];
+            const terms = normalize(q)?.match(/\S+/g) || [];
             const colMatchesSearch = (val) => {
                 if (isNull(val)) return false;
                 const normalizedValue = normalize(val);

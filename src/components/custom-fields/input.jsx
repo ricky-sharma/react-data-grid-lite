@@ -43,7 +43,7 @@ function Input({
             />
             {value && (
                 <span
-                    className="clear-input"
+                    className="clear-input alignCenter"
                     onMouseDown={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
