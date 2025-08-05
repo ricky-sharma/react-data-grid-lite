@@ -104,6 +104,8 @@ const DataGrid = ({
     const isResizingRef = useRef(false);
     const containerWidth = useContainerWidth(state?.gridID);
     const searchTimeoutRef = useRef(null);
+    const aiSearchFailedRef = useRef(false);
+    const globalSearchQueryRef = useRef('');
     const { runAISearch } = useAISearch({
         apiKey: state?.aiSearchOptions?.apiKey,
         model: state?.aiSearchOptions?.model,
@@ -189,7 +191,24 @@ const DataGrid = ({
                     __$index__: index
                 }));
                 dataReceivedRef.current = processedRows;
-                const filteredData = await FilterData(searchColsRef, processedRows);
+                const aiQuery = globalSearchQueryRef?.current?.trim();
+                const aiEnabled = state?.aiSearchOptions?.enabled;
+                const aiThreshold = state?.aiSearchOptions?.minRowCount ?? 1;
+
+                if (aiEnabled && aiQuery && processedRows.length >= aiThreshold) {
+                    try {
+                        aiSearchFailedRef.current = false;
+                        processedRows = await runAISearch({
+                            data: dataReceivedRef.current,
+                            query: aiQuery
+                        });
+                    } catch (err) {
+                        aiSearchFailedRef.current = true;
+                        console.warn('AI search failed, falling back to full data', err);
+                    }
+                }
+                const filteredData = await FilterData(searchColsRef, processedRows, aiSearchFailedRef,
+                    aiEnabled);
                 const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
                 const sortedRows = shouldSort
                     ? await SortData(
@@ -207,7 +226,8 @@ const DataGrid = ({
                         rowsData: sortedRows,
                         totalRows: sortedRows?.length,
                         pageRows: pageRowCount,
-                        currentPageRows: pageRowCount,
+                        currentPageRows: (prevState.activePage === prevState.noOfPages)
+                            ? prevState.lastPageRows : prevState?.pageRows,
                         columns: prevState?.columns?.map(col => ({
                             ...col,
                             sortOrder: col?.name === sortRef?.current?.colKey
@@ -359,13 +379,14 @@ const DataGrid = ({
         if (searchTimeoutRef?.current) {
             clearTimeout(searchTimeoutRef.current);
         }
+        let searchableData = dataReceivedRef?.current ?? [];
         const eventCopy = e?.nativeEvent ? { ...e } : e;
         const isGlobal = colName === '##globalSearch##';
-
-        const query = state?.aiSearchOptions?.enabled && isGlobal && !onChange ?
-            state.globalSearchInput?.trimStart() ?? '' :
-            eventCopy?.target?.value?.trimStart() ?? '';
+        const aiEnabled = state?.aiSearchOptions?.enabled;
         const aiThreshold = state?.aiSearchOptions?.minRowCount ?? 1;
+        const query = isGlobal && aiEnabled && !onChange
+            ? state.globalSearchInput?.trimStart() ?? ''
+            : eventCopy?.target?.value?.trimStart() ?? '';
 
         searchTimeoutRef.current = setTimeout(() => {
             searchRef.current = {
@@ -373,26 +394,34 @@ const DataGrid = ({
                 searchQuery: query
             };
 
+            if (isGlobal) {
+                const existingGlobalCol = searchColsRef.current.find(col => col.colName === '##globalSearch##');
+                if (existingGlobalCol) {
+                    existingGlobalCol.searchQuery = query;
+                } else {
+                    searchColsRef.current.push({
+                        colName,
+                        searchQuery: query,
+                        colObj: colObject
+                    });
+                }
+                globalSearchQueryRef.current = query;
+            }
+
+            const rowCount = searchableData?.length ?? 0;
+            const globalSearchCol = searchColsRef.current.find(col => col.colName === '##globalSearch##');
+            const aiQuery = query !== '' ? query : globalSearchCol?.searchQuery ?? '';
+
             (async () => {
-                const rowCount = dataReceivedRef.current?.length ?? 0;
-                if (state?.aiSearchOptions?.enabled && isGlobal && rowCount >= aiThreshold && query?.trim() !== '') {
+                if (aiEnabled && rowCount >= aiThreshold && aiQuery) {
                     try {
-                        const aiResult = await runAISearch({
-                            data: dataReceivedRef?.current,
-                            query
+                        aiSearchFailedRef.current = false;
+                        searchableData = await runAISearch({
+                            data: searchableData,
+                            query: aiQuery
                         });
-
-                        setState(prev => ({
-                            ...prev,
-                            rowsData: aiResult,
-                            totalRows: aiResult?.length,
-                            currentPageRows: aiResult?.length,
-                            activePage: 1,
-                            firstRow: 0
-                        }));
-
-                        return;
                     } catch (err) {
+                        aiSearchFailedRef.current = true;
                         console.error('AI search failed. Falling back to default local search.', err);
                     }
                 }
@@ -402,11 +431,13 @@ const DataGrid = ({
                     colName,
                     colObject,
                     formatting,
-                    dataReceivedRef,
+                    searchableData,
                     searchColsRef,
                     state,
                     setState,
-                    sortRef
+                    sortRef,
+                    aiSearchFailedRef,
+                    aiEnabled
                 );
             })();
         }, 300);
@@ -415,6 +446,7 @@ const DataGrid = ({
     const handleResetSearch = useCallback((e) => {
         e.preventDefault();
         searchColsRef.current = [];
+        globalSearchQueryRef.current = '';
         sortRef.current = null;
         setState(prev => {
             const dataLength = dataReceivedRef?.current?.length ?? 0

@@ -15,11 +15,13 @@ export const eventGridSearchClicked = async (
         format: '',
         type: ''
     },
-    dataReceivedRef,
+    searchableData,
     searchColsRef,
     state,
     setState,
-    sortRef
+    sortRef,
+    aiSearchFailedRef,
+    aiSearchEnabled
 ) => {
     if (typeof colName !== 'string') {
         return;
@@ -32,13 +34,13 @@ export const eventGridSearchClicked = async (
         find(c => c?.name?.toLowerCase() === colName?.toLowerCase())?.
         concatColumns?.separator || ' ';
 
-    let data = dataReceivedRef?.current ?? [];
+    let data = searchableData ?? [];
     // Update searchColsRef list
     searchColsRef.current = searchColsRef?.current?.filter(x => x.colName !== colName) ?? [];
     if (searchQuery !== '') {
         searchColsRef.current.push({ colName, searchQuery, colObj, formatting: { format, type }, colSep });
     }
-    data = FilterData(searchColsRef, data);
+    data = FilterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled);
 
     const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
     data = shouldSort
@@ -71,7 +73,7 @@ export const eventGridSearchClicked = async (
     });
 };
 
-export function FilterData(searchColsRef, data) {
+export function FilterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled) {
     if (searchColsRef?.current?.length > 0) {
         let globalSearchData = [];
         searchColsRef?.current?.forEach(col => {
@@ -84,6 +86,8 @@ export function FilterData(searchColsRef, data) {
             };
 
             if (col.colName === '##globalSearch##') {
+                if (aiSearchEnabled === true && aiSearchFailedRef?.current === false)
+                    return;
                 col.colObj.forEach(c => {
                     if (c?.hidden === true) return;
                     let colObjSearchData = [];
