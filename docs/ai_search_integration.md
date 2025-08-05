@@ -61,6 +61,8 @@ When **global search** is used:
 * If `aiSearch.enabled` is `true`, and:
 
   * the search is global,
+    
+    <img width="600" height="60" alt="image" src="https://github.com/user-attachments/assets/1ac0831c-ab3a-4605-974f-5464a9233f73" />
   * the dataset exceeds `minRowCount`,
   * and a query is entered,
 
@@ -81,6 +83,11 @@ There are **3 different modes** you can configure based on your needs:
 #### Use when:
 
 * You have an API key from [OpenAI](https://platform.openai.com/) or [OpenRouter](https://openrouter.ai).
+* This integration method requires passing your API key directly to the frontend.
+For security reasons, it is **strongly recommended** to use this approach **only in internal, private, or trusted network environments** where API keys cannot be exposed publicly.
+
+For public or production applications, consider setting up a backend proxy or serverless function to securely handle API calls.
+
 
 #### Example:
 
@@ -167,13 +174,13 @@ aiSearch: {
 
 ## 🔍 Local vs AI Search in React DataGrid Lite
 
-| Feature                 | Local Search | AI Search                 |
-| ----------------------- | ------------ | ------------------------- |
-| Column search input field| ✅            | ❌ (Global search input field only, in grid Toolbar)           |
-| Global natural language | ❌            | ✅                         |
-| Fuzzy matching          | ❌            | ✅ (via AI model)          |
-| Multi-column filtering  | ✅            | ✅ (if described in query) |
-| Custom search logic     | ❌            | ✅ (`runAISearch`)         |
+| **Feature**                   | **Local Search** | **AI Search**                              |
+| ----------------------------- | ---------------- | ------------------------------------------ |
+| Column-specific search input  | ✅                | ❌ *(Only global search in toolbar)*        |
+| Global natural language query | ❌                | ✅                                          |
+| Fuzzy matching                | ❌                | ✅ *(Handled by AI model)*                  |
+| Multi-column filtering        | ✅                | ✅ *(If described clearly in the query)*    |
+| Custom search logic           | ❌                | ✅ *(via `runAISearch` or custom function)* |
 
 ---
 
