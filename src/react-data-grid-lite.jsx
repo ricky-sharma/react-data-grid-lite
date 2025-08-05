@@ -7,6 +7,7 @@ import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
 import { GridConfigContext } from './context/grid-config-context';
+import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
 import { applyTheme } from './utils/themes-utils';
 
@@ -87,6 +88,7 @@ const DataGrid = ({
         globalSearchPlaceholder: options?.globalSearchPlaceholder,
         gridBackgroundColor: options?.gridBgColor,
         gridHeaderBackgroundColor: options?.headerBgColor,
+        aiSearchOptions: options?.aiSearch ?? {},
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
@@ -102,6 +104,16 @@ const DataGrid = ({
     const isResizingRef = useRef(false);
     const containerWidth = useContainerWidth(state?.gridID);
     const searchTimeoutRef = useRef(null);
+    const aiSearchFailedRef = useRef(false);
+    const globalSearchQueryRef = useRef('');
+    const { runAISearch } = useAISearch({
+        apiKey: state?.aiSearchOptions?.apiKey,
+        model: state?.aiSearchOptions?.model,
+        endpoint: state?.aiSearchOptions?.endpoint,
+        systemPrompt: state?.aiSearchOptions?.systemPrompt,
+        customRunAISearch: state?.aiSearchOptions?.runAISearch,
+        customHeaders: state?.aiSearchOptions?.headers
+    });
 
     useEffect(() => {
         return () => {
@@ -179,7 +191,24 @@ const DataGrid = ({
                     __$index__: index
                 }));
                 dataReceivedRef.current = processedRows;
-                const filteredData = await FilterData(searchColsRef, processedRows);
+                const aiQuery = globalSearchQueryRef?.current?.trim();
+                const aiEnabled = state?.aiSearchOptions?.enabled;
+                const aiThreshold = state?.aiSearchOptions?.minRowCount ?? 1;
+
+                if (aiEnabled && aiQuery && processedRows.length >= aiThreshold) {
+                    try {
+                        aiSearchFailedRef.current = false;
+                        processedRows = await runAISearch({
+                            data: dataReceivedRef.current,
+                            query: aiQuery
+                        });
+                    } catch (err) {
+                        aiSearchFailedRef.current = true;
+                        console.warn('AI search failed, falling back to full data', err);
+                    }
+                }
+                const filteredData = await FilterData(searchColsRef, processedRows, aiSearchFailedRef,
+                    aiEnabled);
                 const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
                 const sortedRows = shouldSort
                     ? await SortData(
@@ -192,18 +221,20 @@ const DataGrid = ({
                     ? parseInt(pageSize, 10)
                     : sortedRows?.length;
                 timeout = setTimeout(() => {
-                    setState(prevState => ({
+                    setState(prevState => {
+                        return {
                         ...prevState,
                         rowsData: sortedRows,
                         totalRows: sortedRows?.length,
                         pageRows: pageRowCount,
-                        currentPageRows: pageRowCount,
+                        currentPageRows: (prevState?.activePage === prevState?.noOfPages)
+                            ? prevState?.lastPageRows : pageRowCount,
                         columns: prevState?.columns?.map(col => ({
                             ...col,
                             sortOrder: col?.name === sortRef?.current?.colKey
                                 ? sortRef?.current?.sortOrder : ''
                         }))
-                    }));
+                    }});
                 });
             };
             processData();
@@ -339,40 +370,84 @@ const DataGrid = ({
         searchRef.current = null;
     }, [state.toggleState])
 
-    const onSearchClicked = useCallback((e, colName, colObject, formatting) => {
-        if (searchTimeoutRef.current) {
+    const onSearchClicked = useCallback((
+        e,
+        colName,
+        colObject,
+        formatting,
+        onChange = true
+    ) => {
+        if (searchTimeoutRef?.current) {
             clearTimeout(searchTimeoutRef.current);
         }
-
+        let searchableData = dataReceivedRef?.current ?? [];
         const eventCopy = e?.nativeEvent ? { ...e } : e;
+        const isGlobal = colName === '##globalSearch##';
+        const aiEnabled = state?.aiSearchOptions?.enabled;
+        const aiThreshold = state?.aiSearchOptions?.minRowCount ?? 1;
+        const query = isGlobal && aiEnabled && !onChange
+            ? state.globalSearchInput?.trimStart() ?? ''
+            : eventCopy?.target?.value?.trimStart() ?? '';
 
         searchTimeoutRef.current = setTimeout(() => {
-            if (eventCopy?.target?.value) {
-                eventCopy.target.value = eventCopy.target.value.trimStart();
-            }
-
             searchRef.current = {
                 changeEvent: eventCopy,
-                searchQuery: eventCopy?.target?.value ?? ''
+                searchQuery: query
             };
 
-            eventGridSearchClicked(
-                eventCopy,
-                colName,
-                colObject,
-                formatting,
-                dataReceivedRef,
-                searchColsRef,
-                state,
-                setState,
-                sortRef
-            );
+            if (isGlobal) {
+                const existingGlobalCol = searchColsRef.current.find(col => col.colName === '##globalSearch##');
+                if (existingGlobalCol) {
+                    existingGlobalCol.searchQuery = query;
+                } else {
+                    searchColsRef.current.push({
+                        colName,
+                        searchQuery: query,
+                        colObj: colObject
+                    });
+                }
+                globalSearchQueryRef.current = query;
+            }
+
+            const rowCount = searchableData?.length ?? 0;
+            const globalSearchCol = searchColsRef.current.find(col => col.colName === '##globalSearch##');
+            const aiQuery = query !== '' ? query : globalSearchCol?.searchQuery ?? '';
+
+            (async () => {
+                if (aiEnabled && rowCount >= aiThreshold && aiQuery) {
+                    try {
+                        aiSearchFailedRef.current = false;
+                        searchableData = await runAISearch({
+                            data: searchableData,
+                            query: aiQuery
+                        });
+                    } catch (err) {
+                        aiSearchFailedRef.current = true;
+                        console.error('AI search failed. Falling back to default local search.', err);
+                    }
+                }
+
+                eventGridSearchClicked(
+                    query,
+                    colName,
+                    colObject,
+                    formatting,
+                    searchableData,
+                    searchColsRef,
+                    state,
+                    setState,
+                    sortRef,
+                    aiSearchFailedRef,
+                    aiEnabled
+                );
+            })();
         }, 300);
-    }, [state, setState]);
+    }, [state, setState, runAISearch, state?.aiSearchOptions]);
 
     const handleResetSearch = useCallback((e) => {
         e.preventDefault();
         searchColsRef.current = [];
+        globalSearchQueryRef.current = '';
         sortRef.current = null;
         setState(prev => {
             const dataLength = dataReceivedRef?.current?.length ?? 0
@@ -403,6 +478,7 @@ const DataGrid = ({
             }
         });
     }, [state, setState]);
+
     return (
         <GridConfigContext.Provider value={{ state, setState }}>
             <div

@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),  and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+<br>
+
+### 🔖 v1.2.0 – Released 2025-08-06
+
+### ✨ Added
+
+* **AI-powered search support** integrated into the DataGrid using the OpenAI API.
+* Configurable options for AI integration: API key, model, endpoint URL, system prompt, and custom headers.
+* Full JSON data filtering via AI, interpreting natural language queries for intelligent results.
+* Seamless integration of AI search with existing search and pagination logic.
+* Hooks and configuration options to allow users to customize or override AI search behavior.
+* Fallback to local (non-AI) search if AI fails, is disabled, or returns an error.
+* Comprehensive documentation added for setting up and using AI search.
+
+### 🔧 Improved
+
+* Global search integration refined to support AI search without interfering with local search behavior.
+* Handled edge cases where data is modified during partial input in global search.
+* Debounced input and improved search logic to prevent stale state or race conditions.
+
+### ✅ Updated
+
+* Unit tests expanded to cover AI search scenarios.
+* Core logic refactored for cleaner integration between global and AI-powered search paths.
+
 <br><br>
 
 ## 📝 v1.1.11 – Released 2025-08-03

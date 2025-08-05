@@ -8,24 +8,25 @@ import { SortData } from './event-grid-header-clicked';
  * Handles column or global search logic in a grid.
  */
 export const eventGridSearchClicked = async (
-    e,
+    searchQuery,
     colName,
     colObject = [],
     formatting = {
         format: '',
         type: ''
     },
-    dataReceivedRef,
+    searchableData,
     searchColsRef,
     state,
     setState,
-    sortRef
+    sortRef,
+    aiSearchFailedRef,
+    aiSearchEnabled
 ) => {
-    if (!e || typeof colName !== 'string') {
+    if (typeof colName !== 'string') {
         return;
     }
 
-    const searchQuery = e?.target?.value?.trim().toLowerCase();
     const format = !isNull(formatting?.format) ? formatting.format : '';
     const type = !isNull(formatting?.type) ? formatting.type : '';
     const colObj = !isNull(colObject) ? colObject : [colName];
@@ -33,15 +34,13 @@ export const eventGridSearchClicked = async (
         find(c => c?.name?.toLowerCase() === colName?.toLowerCase())?.
         concatColumns?.separator || ' ';
 
-    let data = dataReceivedRef?.current ?? [];
-
+    let data = searchableData ?? [];
     // Update searchColsRef list
     searchColsRef.current = searchColsRef?.current?.filter(x => x.colName !== colName) ?? [];
     if (searchQuery !== '') {
         searchColsRef.current.push({ colName, searchQuery, colObj, formatting: { format, type }, colSep });
     }
-
-    data = FilterData(searchColsRef, data);
+    data = FilterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled);
 
     const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
     data = shouldSort
@@ -74,12 +73,12 @@ export const eventGridSearchClicked = async (
     });
 };
 
-export function FilterData(searchColsRef, data) {
+export function FilterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled) {
     if (searchColsRef?.current?.length > 0) {
         let globalSearchData = [];
         searchColsRef?.current?.forEach(col => {
             const q = col?.searchQuery?.toLowerCase();
-            const terms = normalize(q).match(/\S+/g) || [];
+            const terms = normalize(q)?.match(/\S+/g) || [];
             const colMatchesSearch = (val) => {
                 if (isNull(val)) return false;
                 const normalizedValue = normalize(val);
@@ -87,6 +86,8 @@ export function FilterData(searchColsRef, data) {
             };
 
             if (col.colName === '##globalSearch##') {
+                if (aiSearchEnabled === true && aiSearchFailedRef?.current === false)
+                    return;
                 col.colObj.forEach(c => {
                     if (c?.hidden === true) return;
                     let colObjSearchData = [];
@@ -115,7 +116,7 @@ export function FilterData(searchColsRef, data) {
                 data = globalSearchData.filter((item, index, self) => index === self.findIndex(other => isEqual(item, other))
                 );
             } else {
-                const t = (col?.formatting?.type || '').toLowerCase();
+                const t = (col?.formatting?.type || '')?.toLowerCase();
                 const f = col?.formatting?.format ?? '';
                 const ccs = col?.colSep || ' ';
 

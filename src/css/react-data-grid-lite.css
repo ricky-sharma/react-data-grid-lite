@@ -53,8 +53,14 @@
         width: 100% !important;
         height: 100% !important;
         font-weight: 400 !important;
-        padding: 1px 20px 1px 5px !important;
+        padding: 1px 20px 2px 5px !important;
         box-shadow: inset 0 0 2px #444455;
+        padding-block: 0;
+        padding-inline: 0;
+    }
+
+    .r-d-g-lt-comp div.globalSearch input {
+        padding: 1px 42px 2px 5px !important;
     }
 
     .r-d-g-lt-comp .drop--down {
@@ -121,11 +127,9 @@
     .r-d-g-lt-comp .clear-input {
         position: absolute;
         right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
         cursor: pointer;
         color: #888;
-        font-size: 12px;
+        font-size: 14px;
         user-select: none;
         font-weight: 900;
     }
@@ -146,9 +150,7 @@
 
     .r-d-g-lt-comp div.globalSearch input::placeholder,
     .r-d-g-lt-comp div.searchDiv input::placeholder {
-        transform: scale(0.8);
-        transition: transform 0.3s ease;
-        top: 1px;
+        font-size: 14px;
         position: relative;
         text-align: center;
     }
@@ -302,6 +304,32 @@
 .r-d-g-lt-comp i.icon-sort-down {
     border-top: 8px solid currentColor;
 }
+
+.r-d-g-lt-comp .ai-search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+    .r-d-g-lt-comp .ai-search-input-wrapper input {
+        width: 100%;
+        padding-right: 40px;
+    }
+
+.r-d-g-lt-comp .inline-search-btn {
+    position: absolute;
+    right: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #555;
+}
+
+    .r-d-g-lt-comp .inline-search-btn:hover {
+        color: #000;
+    }
 
 .r-d-g-lt-comp .pd--0 {
     padding: 0;

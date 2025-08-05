@@ -7,6 +7,7 @@ import { Export_To_CSV_Text } from './../constants';
 import Input from './custom-fields/input';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
 import { useGridConfig } from '../hooks/use-grid-config';
+import SearchIcon from '../icons/search-icon';
 
 const GridGlobalSearchBar = memo(({
     onSearchClicked,
@@ -37,20 +38,31 @@ const GridGlobalSearchBar = memo(({
                         opacity: (noData ? '0.8' : '')
                     }}
                     className="pd--0 mg--0 globalSearch">
-                    <Input
-                        placeholder={globalSearchPlaceholder ?? "Search all columns…"}
-                        type="text"
-                        value={globalSearchInput}
-                        onChange={(e) => {
-                            setState(prev => ({
-                                ...prev,
-                                globalSearchInput: e?.target?.value
-                            }));
-                            if (typeof onSearchClicked === 'function') {
-                                onSearchClicked(e, '##globalSearch##', columns);
-                            }
-                        }}
-                    />
+                    <div className="ai-search-input-wrapper">
+                        <Input
+                            placeholder={globalSearchPlaceholder ?? "Search all columns…"}
+                            type="text"
+                            value={globalSearchInput}
+                            onChange={(e) => {
+                                setState(prev => ({
+                                    ...prev,
+                                    globalSearchInput: e?.target?.value
+                                }));
+                                if ((!state?.aiSearchOptions?.enabled || e?.target?.value === '') && typeof onSearchClicked === 'function') {
+                                    onSearchClicked(e, '##globalSearch##', columns);
+                                }
+                            }}
+                        />
+                        {state?.aiSearchOptions?.enabled && (
+                            <button
+                                className="inline-search-btn alignCenter"
+                                onClick={(e) => onSearchClicked(e, '##globalSearch##', columns, null, false)}
+                                title="Run AI Search"
+                            >
+                                <SearchIcon />
+                            </button>
+                        )}
+                    </div>
                 </div>
             )}
             <div className="button-container">

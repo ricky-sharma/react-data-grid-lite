@@ -14,3 +14,6 @@ export const Border_Padding_Margin_Width = "1";
 export const Loader_Identifier = "table-loader-overlay";
 export const Movement_Threshold = 10; // in pixels
 export const Formatting_Types = ['date', 'number', 'currency', 'percent', 'boolean'];
+export const OpenAI_API_EndPoint = 'https://api.openai.com/v1/chat/completions';
+export const OpenAI_API_Model = 'gpt-4';
+export const OpenAI_Default_System_Prompt = `You are a filtering assistant. Given a list of JSON rows, return only the rows matching the query. Only return a JSON array of matched rows.`;

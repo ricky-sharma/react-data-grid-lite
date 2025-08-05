@@ -1,6 +1,7 @@
 # API Reference
 
 ### 🗂️ Documentation
+- [AI Search Integration](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/ai_search_integration.md)
 - [Events](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/events.md)
 - [Styling](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/styling.md)
 - [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/advanced.md)
@@ -267,6 +268,7 @@ The `options` prop is an **object** that provides additional configuration setti
 | **Field**            | **Type**  | **Description**                                                                                                           | **Default Value** | **Required** |
 | -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------|------------------ | ------------ |
 | `actionColumnAlign`  | `String` (`'left'` \| `'right'` \| `''`)  | Controls alignment of the Actions column. Set to `'left'` or `'right'` to fix its position. Leave empty to allow the column to scroll with the rest of the table. Supported in **v1.1.1 and above**.|      `''` (empty string)        | No           |
+| `aiSearch`           | `Object`  | Configuration object to enable AI search functionality in the data grid. Supported in version `1.2.0` and above. For more details, refer to the [`AI Search Integration`](./ai_search_integration.md) document.|       -      | No           |
 | `deleteButton`       | `Object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked.|       -      | No           |
 | `downloadFilename`   | `String`  | The filename used when downloading grid data in CSV format. The default value is `'export-{yyyy-MM-dd HH:mm:ss}'`         |       -           | No           |
 | `editButton`         | `Object`  | Configuration for enabling an edit button on each row. Includes an `event` field which is the function triggered when the button is clicked.|        -     | No           |

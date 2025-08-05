@@ -307,3 +307,60 @@ describe('GridGlobalSearchBar setState coverage', () => {
         expect(updated.globalSearchInput).toBe('');
     });
 });
+
+describe('GridGlobalSearchBar (AI Search Button)', () => {
+    const setup = (aiEnabled = true) => {
+        const setState = jest.fn();
+        const mockState = {
+            enableGlobalSearch: true,
+            globalSearchInput: '',
+            columns: [{ name: 'name' }],
+            rowsData: [{ name: 'Alice' }],
+            downloadFilename: 'file.csv',
+            aiSearchOptions: {
+                enabled: aiEnabled,
+                minRowCount: 1
+            },
+            showResetButton: false
+        };
+
+        const onSearchClicked = jest.fn();
+        const handleResetSearch = jest.fn();
+
+        const utils = render(
+            <GridConfigContext.Provider value={{ state: { ...mockState }, setState: setState }}>
+                <GridGlobalSearchBar
+                    onSearchClicked={onSearchClicked}
+                    handleResetSearch={handleResetSearch}
+                />
+            </GridConfigContext.Provider>
+        );
+
+        return {
+            ...utils,
+            onSearchClicked
+        };
+    };
+
+    it('renders AI search button and triggers onSearchClicked on click', () => {
+        const { getByTitle, onSearchClicked } = setup(true);
+
+        const aiButton = getByTitle('Run AI Search');
+        expect(aiButton).toBeInTheDocument();
+
+        fireEvent.click(aiButton);
+
+        expect(onSearchClicked).toHaveBeenCalledWith(
+            expect.any(Object),
+            '##globalSearch##',
+            [{ name: 'name' }],
+            null,
+            false
+        );
+    });
+
+    it('does not render AI search button if AI search is disabled', () => {
+        const { queryByTitle } = setup(false);
+        expect(queryByTitle('Run AI Search')).not.toBeInTheDocument();
+    });
+});
