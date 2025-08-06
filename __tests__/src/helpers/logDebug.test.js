@@ -1,4 +1,3 @@
-// logDebug.test.js
 import { logDebug } from '../../../src/helpers/logDebug';
 
 describe('logDebug', () => {

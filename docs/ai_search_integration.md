@@ -232,9 +232,11 @@ aiSearch: {
 
 ## 🛠 Troubleshooting
 
-| Issue                      | Solution                                                        |
-| -------------------------- | --------------------------------------------------------------- |
-| No API key provided        | Use `endpoint` or `runAISearch`, or supply a valid `apiKey`.    |
-| AI response not valid JSON | Ensure your prompt tells the AI to return *only a JSON array*.  |
-| 403 from OpenRouter        | Add `HTTP-Referer` and `X-Title` headers in `headers`.          |
-| Empty results from AI      | Test prompt and input manually; possibly refine `systemPrompt`. |
+| Issue                      | Solution                                                                                                                                            |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| No API key provided        | Use `endpoint` or `runAISearch`, or supply a valid `apiKey`.                                                                                        |
+| AI response not valid JSON | Ensure your prompt tells the AI to return *only a JSON array*.                                                                                      |
+| 403 from OpenRouter        | Add `HTTP-Referer` and `X-Title` headers in `headers`.                                                                                              |
+| Empty results from AI      | Test prompt and input manually; possibly refine `systemPrompt`.                                                                                     |
+| Not seeing AI logs         | Set the `debug` prop to `true` to enable console logs for AI-related errors, warnings, and parsing issues. Useful for debugging during development. |
+
