@@ -20,13 +20,13 @@
 		<title>React Data Grid Lite - 📘 Introduction</title>
 		<meta
 		  name="description"
-		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="https://ricky-sharma.github.io/react-data-grid-lite/favicon.png" />
 		<meta name="keywords"
-		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		  content="react, data grid, react table, api, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
 		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/" />
@@ -35,7 +35,7 @@
 		<meta property="og:title" content="React Data Grid Lite - 📘 Introduction" />
 		<meta
 		  property="og:description"
-		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta
 		  property="og:url"
@@ -51,7 +51,7 @@
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content="React Data Grid Lite - 📘 Introduction" />
-		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
+		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
 		<!-- goat counter -->
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754227078782" rel="stylesheet" />
+		<link href="index.css?ver=1754441191418" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -214,6 +214,12 @@
 								</a>
 							</li>
 							
+							<li>
+								<a href="ai-search.html" class="text-slate-900 hover:text-slate-800">
+									AI Search
+								</a>
+							</li>
+							
 						</ul>
 					</li>
 					
@@ -349,6 +355,37 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/4516b8d8-130e-45ff-a76c-1b5d013f5bf1" alt="React Data Grid Lite Image" width="100%" />
 </p>
+<h3>🤖 <strong>AI-Powered Semantic Search</strong></h3>
+<p>Take your data grid to the next level with <strong>AI-powered semantic search</strong> using the OpenAI API—or any custom LLM endpoint. This feature interprets natural language queries and matches them intelligently to your grid data, opening up smarter filtering experiences.</p>
+<h4>✅ Benefits</h4>
+<ul>
+<li>Enables intuitive search: Users can search using phrases like <em>“users aged above 30 and with role admin”</em> instead of relying on exact keyword matches.</li>
+<li>Smooth integration with built-in search and pagination.</li>
+<li>Automatic fallback to local filtering if AI search errors or is disabled.</li>
+</ul>
+<h4>🧪 Example Usage</h4>
+<pre><code class="language-jsx">&lt;DataGrid
+  id=&quot;react-data-grid-lite&quot;
+  data={myData}
+  columns={myColumns}
+  options={{
+    aiSearch: {
+      enabled: true,
+      apiKey: 'your-openai-api-key', // Optional if using custom endpoint or logic
+      model: 'gpt-4',
+      endpoint: 'https://api.openai.com/v1/chat/completions',
+      headers: {
+        'Custom-Header': 'value'
+      },
+      systemPrompt: 'You are a helpful assistant for searching table data.'
+    }
+  }}
+/&gt;
+
+</code></pre>
+<h4>📖 Where to Learn More</h4>
+<p>Visit the <a href="ai-search.html" class="no-underline font-semibold">AI Search</a> documentation to explore configuration details—including custom headers, system prompt options, and behavior overrides.</p>
+<br>
 <h3>📦 <strong>API-ready</strong></h3>
 <p><code>react-data-grid-lite</code> is designed to work seamlessly with any JSON-based API. Whether your data is coming from a REST API, GraphQL endpoint, or any other JSON API, the grid can easily ingest and display the data without needing any heavy lifting on your part.</p>
 <pre><code class="language-javascript">import React, { useEffect, useState } from 'react';
@@ -623,25 +660,9 @@ export default App;
       
         
       
-    
-  
-    
+        
       
     
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-
   
     
       
@@ -669,12 +690,32 @@ export default App;
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
 
   
     
+  
+
   
 
   

@@ -20,13 +20,13 @@
 		<title>React Data Grid Lite - 📌 Changelog</title>
 		<meta
 		  name="description"
-		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="https://ricky-sharma.github.io/react-data-grid-lite/favicon.png" />
 		<meta name="keywords"
-		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		  content="react, data grid, react table, api, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
 		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/changelog.html" />
@@ -35,7 +35,7 @@
 		<meta property="og:title" content="React Data Grid Lite - 📌 Changelog" />
 		<meta
 		  property="og:description"
-		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta
 		  property="og:url"
@@ -51,7 +51,7 @@
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content="React Data Grid Lite - 📌 Changelog" />
-		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
+		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
 		<!-- goat counter -->
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754227078782" rel="stylesheet" />
+		<link href="index.css?ver=1754441191418" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -214,6 +214,12 @@
 								</a>
 							</li>
 							
+							<li>
+								<a href="ai-search.html" class="text-slate-900 hover:text-slate-800">
+									AI Search
+								</a>
+							</li>
+							
 						</ul>
 					</li>
 					
@@ -343,6 +349,29 @@
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<br>
+<h3>🔖 v1.2.0 – Released 2025-08-06</h3>
+<h3>✨ Added</h3>
+<ul>
+<li><strong>AI-powered search support</strong> integrated into the DataGrid using the OpenAI API.</li>
+<li>Configurable options for AI integration: API key, model, endpoint URL, system prompt, and custom headers.</li>
+<li>Full JSON data filtering via AI, interpreting natural language queries for intelligent results.</li>
+<li>Seamless integration of AI search with existing search and pagination logic.</li>
+<li>Hooks and configuration options to allow users to customize or override AI search behavior.</li>
+<li>Fallback to local (non-AI) search if AI fails, is disabled, or returns an error.</li>
+<li>Comprehensive documentation added for setting up and using AI search.</li>
+</ul>
+<h3>🔧 Improved</h3>
+<ul>
+<li>Global search integration refined to support AI search without interfering with local search behavior.</li>
+<li>Handled edge cases where data is modified during partial input in global search.</li>
+<li>Debounced input and improved search logic to prevent stale state or race conditions.</li>
+</ul>
+<h3>✅ Updated</h3>
+<ul>
+<li>Unit tests expanded to cover AI search scenarios.</li>
+<li>Core logic refactored for cleaner integration between global and AI-powered search paths.</li>
+</ul>
 <p><br><br></p>
 <h2>📝 v1.1.11 – Released 2025-08-03</h2>
 <p>🐛 Bug Fixes</p>
@@ -1038,25 +1067,9 @@ Resolved issue where global search omitted valid matches due to incorrect column
       
         
       
-    
-  
-    
+        
       
     
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-
   
     
       
@@ -1084,9 +1097,29 @@ Resolved issue where global search omitted valid matches due to incorrect column
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
+
+  
 
   
 

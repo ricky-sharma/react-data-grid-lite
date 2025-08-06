@@ -17,7 +17,7 @@
 		</script>
 		<!-- Google tag (gtag.js) -->
 		
-		<title>React Data Grid Lite - 🖥️ Live Demo</title>
+		<title>React Data Grid Lite - 🤖 AI Search Integration</title>
 		<meta
 		  name="description"
 		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
@@ -29,17 +29,17 @@
 		  content="react, data grid, react table, api, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
-		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/demo.html" />
+		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/ai-search.html" />
 
 		<!-- Open Graph for social sharing -->
-		<meta property="og:title" content="React Data Grid Lite - 🖥️ Live Demo" />
+		<meta property="og:title" content="React Data Grid Lite - 🤖 AI Search Integration" />
 		<meta
 		  property="og:description"
 		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta
 		  property="og:url"
-		  content="https://ricky-sharma.github.io/react-data-grid-lite/demo.html"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/ai-search.html"
     />
 		<meta property="og:type" content="website" />
 		<meta
@@ -50,7 +50,7 @@
 
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:title" content="React Data Grid Lite - 🖥️ Live Demo" />
+		<meta name="twitter:title" content="React Data Grid Lite - 🤖 AI Search Integration" />
 		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
@@ -332,11 +332,14 @@
 				<article class="">
 					<header class="">
 						<p class="text-base font-medium text-slate-500 mb-6 inline-flex items-center space-x-4">
-							<span>Overview</span>
+							<span>Documentation</span>
+							
+							<span class="text-slate-400">–</span>
+							<span>API Reference</span>
 							
 						</p>
 						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
-							🖥️ Live Demo
+							🤖 AI Search Integration
 						</h1>
 					</header>
 
@@ -347,17 +350,280 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						
-<!doctype html>
-<html lang="en">
-<head>
-    <script type="module" crossorigin src="demo.js?ver=1754441191418"></script>
-    <link rel="stylesheet" crossorigin href="demo.css?ver=1754441191418">
-</head>
-<body>
-    <div id="root"></div>
-</body>
-</html>
+						<p>The <code>DataGrid</code> component supports <strong>AI-powered search</strong> using OpenAI, OpenRouter, or your custom backend/logic.</p>
+<p>You can enable this by configuring the <code>options.aiSearch</code> object passed into the <code>DataGrid</code> as props.</p>
+<h2>🔧 Enabling AI Search</h2>
+<pre><code class="language-jsx">&lt;DataGrid
+  id=&quot;my-grid&quot;
+  data={myData}
+  columns={myColumns}
+  options={{
+    aiSearch: {
+      enabled: true,
+      apiKey: 'your-api-key', // Optional if using custom endpoint or logic
+      model: 'openai/gpt-4' // or 'openai/gpt-3.5-turbo' — default is 'gpt-4'
+      endpoint: 'https://openrouter.ai/api/v1/chat/completions', // Optional, only needed if not using OpenAI
+      headers: {
+        'HTTP-Referer': 'https://yourdomain.com', // Required for OpenRouter
+        'X-Title': 'My AI Grid'
+      },
+      systemPrompt: 'You are a helpful assistant.',
+      minRowCount: 50, // Minimum number of rows to trigger AI search
+    }
+  }}
+/&gt;
+</code></pre>
+<hr>
+<h2>🧠 Default AI Behavior</h2>
+<p>The <code>DataGrid</code> uses the following <strong>default system prompt</strong> for AI queries:</p>
+<pre><code class="language-text">You are a filtering assistant. Given a list of JSON rows, return only the rows matching the query. Only return a JSON array of matched rows.
+</code></pre>
+<h3>🛠 Customizing the Prompt</h3>
+<p>You can override it using:</p>
+<pre><code class="language-js">aiSearch: {
+  systemPrompt: 'You are a helpful assistant that...'
+}
+</code></pre>
+<p>⚠️ You must still ensure the AI output is a <strong>pure JSON array</strong> of rows, otherwise it will be rejected.</p>
+<hr>
+<h2>🚀 How It Works</h2>
+<p>When <strong>global search</strong> is used:</p>
+<ul>
+<li>
+<p>If <code>aiSearch.enabled</code> is <code>true</code>, and:</p>
+<ul>
+<li>
+<p>the search is global,</p>
+<img width="600" height="60" alt="image" src="https://github.com/user-attachments/assets/1ac0831c-ab3a-4605-974f-5464a9233f73" />
+</li>
+<li>
+<p>the dataset exceeds <code>minRowCount</code>,</p>
+</li>
+<li>
+<p>and a query is entered,</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>→ The <code>DataGrid</code> will attempt to use the configured AI service to find matching rows from your data.</p>
+<p>If AI search fails (e.g., invalid key, timeout), the DataGrid <strong>automatically falls back</strong> to local search.</p>
+<hr>
+<h2>✅ AI Search Modes</h2>
+<p>There are <strong>3 different modes</strong> you can configure based on your needs:</p>
+<hr>
+<h3>1. <strong>OpenAI / OpenRouter (Standard API Key)</strong></h3>
+<h4>Use when:</h4>
+<ul>
+<li>You have an API key from <a href="https://platform.openai.com/">OpenAI</a> or <a href="https://openrouter.ai">OpenRouter</a>.</li>
+<li>This integration method requires passing your API key directly to the frontend.
+For security reasons, it is <strong>strongly recommended</strong> to use this approach <strong>only in internal, private, or trusted network environments</strong> where API keys cannot be exposed publicly.</li>
+</ul>
+<p>For public or production applications, consider setting up a backend proxy or serverless function to securely handle API calls.</p>
+<h4>Example:</h4>
+<pre><code class="language-js">aiSearch: {
+  enabled: true,
+  apiKey: 'sk-xxxxxx',
+  model: 'gpt-4',
+  endpoint: 'https://openrouter.ai/api/v1/chat/completions',
+  headers: {
+    'HTTP-Referer': 'https://yourdomain.com',
+    'X-Title': 'Grid AI Search'
+  },
+  systemPrompt: 'You are an AI assistant that filters data.',
+  minRowCount: 100
+}
+</code></pre>
+<blockquote>
+<p>🔒 <strong>Note for OpenRouter</strong>: <code>HTTP-Referer</code> header is required for browser-based clients.</p>
+</blockquote>
+<hr>
+<h3>2. <strong>Custom Backend Endpoint (No API Key)</strong></h3>
+<h4>Use when:</h4>
+<ul>
+<li>You want to process the AI logic server-side (e.g., with rate-limiting, prompt tuning, caching, etc.).</li>
+<li>No API key is provided.</li>
+</ul>
+<h4>Example:</h4>
+<pre><code class="language-js">aiSearch: {
+  enabled: true,
+  endpoint: 'https://my-backend.com/api/ai-search',
+  headers: {
+    Authorization: 'Bearer my-secret-token'
+  },
+  minRowCount: 100
+}
+</code></pre>
+<h4>Expected API Contract:</h4>
+<p>Your endpoint must accept:</p>
+<pre><code class="language-json">{
+  &quot;query&quot;: &quot;Search string&quot;,
+  &quot;data&quot;: [ ...your full grid data... ]
+}
+</code></pre>
+<p>And return:</p>
+<pre><code class="language-json">[ { /* matching row 1 */ }, { /* matching row 2 */ } ]
+</code></pre>
+<hr>
+<h3>3. <strong>Custom AI Search Function</strong></h3>
+<h4>Use when:</h4>
+<ul>
+<li>You want <strong>full control</strong> over AI logic (e.g., vector search, chaining, RAG).</li>
+</ul>
+<h4>Example:</h4>
+<pre><code class="language-js">aiSearch: {
+  enabled: true,
+  runAISearch: async ({ query, data }) =&gt; {
+    const results = await myCustomAISearch(query, data);
+    return results; // Must return a JSON array of matching rows
+  },
+  minRowCount: 100
+}
+</code></pre>
+<blockquote>
+<p>This bypasses the built-in <code>useAISearch</code> logic entirely and uses your own function.</p>
+</blockquote>
+<hr>
+<h2>🔍 Local vs AI Search in React DataGrid Lite</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Feature</strong></th>
+<th><strong>Local Search</strong></th>
+<th><strong>AI Search</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Column-specific search input</td>
+<td>✅</td>
+<td>❌ <em>(Only global search in toolbar)</em></td>
+</tr>
+<tr>
+<td>Global natural language query</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Fuzzy matching</td>
+<td>❌</td>
+<td>✅ <em>(Handled by AI model)</em></td>
+</tr>
+<tr>
+<td>Multi-column filtering</td>
+<td>✅</td>
+<td>✅ <em>(If described clearly in the query)</em></td>
+</tr>
+<tr>
+<td>Custom search logic</td>
+<td>❌</td>
+<td>✅ <em>(via <code>runAISearch</code> or custom function)</em></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>🛠 Available <code>aiSearch</code> Options</h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enabled</code></td>
+<td><code>boolean</code></td>
+<td>Enable/disable AI search</td>
+</tr>
+<tr>
+<td><code>apiKey</code></td>
+<td><code>string</code></td>
+<td>API key for OpenAI/OpenRouter</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td><code>string</code></td>
+<td>Model ID (e.g., <code>gpt-4</code>)</td>
+</tr>
+<tr>
+<td><code>endpoint</code></td>
+<td><code>string</code></td>
+<td>API endpoint (optional)</td>
+</tr>
+<tr>
+<td><code>headers</code></td>
+<td><code>object</code></td>
+<td>Custom headers (e.g., OpenRouter headers)</td>
+</tr>
+<tr>
+<td><code>systemPrompt</code></td>
+<td><code>string</code></td>
+<td>(Optional) Custom AI system prompt</td>
+</tr>
+<tr>
+<td><code>minRowCount</code></td>
+<td><code>number</code></td>
+<td>Min rows before using AI (default: <code>1</code>)</td>
+</tr>
+<tr>
+<td><code>runAISearch</code></td>
+<td><code>function</code></td>
+<td>Custom AI search function (overrides built-in logic)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>🧪 Example Use Case</h2>
+<p><strong>You want to enable AI search only when there are 100+ rows</strong> and fallback to local otherwise:</p>
+<pre><code class="language-js">aiSearch: {
+  enabled: true,
+  apiKey: 'sk-...',
+  model: 'gpt-3.5-turbo',
+  minRowCount: 100
+}
+</code></pre>
+<h2>🧪 Example with OpenRouter</h2>
+<pre><code class="language-js">aiSearch: {
+  enabled: true,
+  apiKey: 'your-openrouter-api-key',
+  endpoint: 'https://openrouter.ai/api/v1/chat/completions',
+  model: 'mistral/mixtral-8x7b',
+  headers: {
+    'HTTP-Referer': 'https://mygrid.com',
+    'X-Title': 'My Grid AI'
+  },
+  minRowCount: 50
+}
+</code></pre>
+<hr>
+<h2>🛠 Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No API key provided</td>
+<td>Use <code>endpoint</code> or <code>runAISearch</code>, or supply a valid <code>apiKey</code>.</td>
+</tr>
+<tr>
+<td>AI response not valid JSON</td>
+<td>Ensure your prompt tells the AI to return <em>only a JSON array</em>.</td>
+</tr>
+<tr>
+<td>403 from OpenRouter</td>
+<td>Add <code>HTTP-Referer</code> and <code>X-Title</code> headers in <code>headers</code>.</td>
+</tr>
+<tr>
+<td>Empty results from AI</td>
+<td>Test prompt and input manually; possibly refine <code>systemPrompt</code>.</td>
+</tr>
+</tbody>
+</table>
 
 					</div>
 
@@ -447,15 +713,15 @@
   
 
   
+
+  
+
+  
+
+  
+
+  
     
-  
-
-  
-
-  
-
-  
-
   
 
   
@@ -490,8 +756,8 @@
           Previous
         </dt>
         <dd class="mt-1">
-          <a href="index.html" class="text-base font-semibold text-slate-900 hover:underline">
-            📘 Introduction
+          <a href="api-options.html" class="text-base font-semibold text-slate-900 hover:underline">
+            ⚙️ Options
           </a>
         </dd>
       </div>
@@ -503,8 +769,8 @@
           Next
         </dt>
         <dd class="mt-1">
-          <a href="api.html" class="text-base font-semibold text-slate-900 hover:underline">
-            🧮 DataGrid
+          <a href="events.html" class="text-base font-semibold text-slate-900 hover:underline">
+            🔁 Event Callbacks
           </a>
         </dd>
       </div>
@@ -516,7 +782,7 @@
 			<!-- Floating Social Share Bar -->
 			<div class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col gap-3 z-10001">
 				<!-- Twitter -->
-				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/demo.html&text=React%20Data%20Grid%20Lite%20-%20%F0%9F%96%A5%EF%B8%8F%20Live%20Demo"
+				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/ai-search.html&text=React%20Data%20Grid%20Lite%20-%20%F0%9F%A4%96%20AI%20Search%20Integration"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-500 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-600 text-lg"
@@ -525,7 +791,7 @@
 				</a>
 
 				<!-- Facebook -->
-				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/demo.html"
+				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/ai-search.html"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-700 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-800 text-lg"
@@ -534,7 +800,7 @@
 				</a>
 
 				<!-- LinkedIn -->
-				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/demo.html&title=React%20Data%20Grid%20Lite%20-%20%F0%9F%96%A5%EF%B8%8F%20Live%20Demo"
+				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/ai-search.html&title=React%20Data%20Grid%20Lite%20-%20%F0%9F%A4%96%20AI%20Search%20Integration"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-600 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-700 text-lg"

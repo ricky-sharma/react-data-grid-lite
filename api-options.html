@@ -20,13 +20,13 @@
 		<title>React Data Grid Lite - ⚙️ Options</title>
 		<meta
 		  name="description"
-		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="https://ricky-sharma.github.io/react-data-grid-lite/favicon.png" />
 		<meta name="keywords"
-		  content="react, data grid, react table, api, examples, react component,react, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		  content="react, data grid, react table, api, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
 		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/api-options.html" />
@@ -35,7 +35,7 @@
 		<meta property="og:title" content="React Data Grid Lite - ⚙️ Options" />
 		<meta
 		  property="og:description"
-		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
+		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta
 		  property="og:url"
@@ -51,7 +51,7 @@
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content="React Data Grid Lite - ⚙️ Options" />
-		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like column resizing, drag-and-drop, CSV export, and theming. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
+		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
 		<!-- goat counter -->
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754227078782" rel="stylesheet" />
+		<link href="index.css?ver=1754441191418" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -211,6 +211,12 @@
 							<li>
 								<a href="api-options.html" class="text-slate-900 hover:text-slate-800">
 									Options
+								</a>
+							</li>
+							
+							<li>
+								<a href="ai-search.html" class="text-slate-900 hover:text-slate-800">
+									AI Search
 								</a>
 							</li>
 							
@@ -362,6 +368,13 @@
 <td><code>String</code> (<code>'left'</code> | <code>'right'</code> | <code>''</code>)</td>
 <td>Controls alignment of the Actions column. Set to <code>'left'</code> or <code>'right'</code> to fix its position. Leave empty to allow the column to scroll with the rest of the table. Supported in <strong>v1.1.1 and above</strong>.</td>
 <td><code>''</code> (empty string)</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>aiSearch</code></td>
+<td><code>Object</code></td>
+<td>Configuration object to enable AI search functionality in the data grid. Supported in version <code>1.2.0</code> and above. For more details, refer to the <a href="ai-search.html" class="no-underline font-semibold">AI Search</a> document.</td>
+<td>-</td>
 <td>No</td>
 </tr>
 <tr>
@@ -566,25 +579,9 @@
       
         
       
-    
-  
-    
+        
       
     
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
-
   
     
       
@@ -612,6 +609,24 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -626,6 +641,8 @@
 
   
     
+  
+
   
 
   
@@ -673,8 +690,8 @@
           Next
         </dt>
         <dd class="mt-1">
-          <a href="events.html" class="text-base font-semibold text-slate-900 hover:underline">
-            🔁 Event Callbacks
+          <a href="ai-search.html" class="text-base font-semibold text-slate-900 hover:underline">
+            🤖 AI Search Integration
           </a>
         </dd>
       </div>
