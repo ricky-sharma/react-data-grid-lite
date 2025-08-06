@@ -53,6 +53,7 @@ export default {
         }),
         strip({
             include: '**/*.(js|jsx)',
+            exclude: ['**/logDebug.js'],
             functions: ['console.*', 'assert.*', 'debug', 'alert']
         })
     ]

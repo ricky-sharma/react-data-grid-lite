@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
-import ErrorBoundary from './error-boundary';
 import { SortData, eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
 import { FilterData, eventGridSearchClicked } from './components/events/event-grid-search-clicked';
 import GridFooter from './components/grid-footer';
@@ -8,6 +7,8 @@ import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
 import { GridConfigContext } from './context/grid-config-context';
+import ErrorBoundary from './error-boundary';
+import { logDebug } from './helpers/logDebug';
 import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
 import { applyTheme } from './utils/themes-utils';
@@ -90,6 +91,7 @@ const DataGrid = ({
         gridBackgroundColor: options?.gridBgColor,
         gridHeaderBackgroundColor: options?.headerBgColor,
         aiSearchOptions: options?.aiSearch ?? {},
+        debug: typeof options?.debug === 'boolean' ? options?.debug : false,
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
@@ -205,7 +207,7 @@ const DataGrid = ({
                         });
                     } catch (err) {
                         aiSearchFailedRef.current = true;
-                        console.warn('AI search failed, falling back to full data', err);
+                        logDebug(state?.debug, 'error', 'AI search failed, falling back to default local search.', err);
                     }
                 }
                 const filteredData = await FilterData(searchColsRef, processedRows, aiSearchFailedRef,
@@ -425,7 +427,7 @@ const DataGrid = ({
                         });
                     } catch (err) {
                         aiSearchFailedRef.current = true;
-                        console.error('AI search failed. Falling back to default local search.', err);
+                        logDebug(state?.debug, 'error', 'AI search failed, falling back to default local search.', err);
                     }
                 }
 
@@ -482,7 +484,7 @@ const DataGrid = ({
     }, [state, setState]);
 
     return (
-        <ErrorBoundary>
+        <ErrorBoundary debug={state?.debug}>
             <GridConfigContext.Provider value={{ state, setState }}>
                 <div
                     id={state.gridID}

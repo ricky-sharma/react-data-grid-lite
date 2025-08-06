@@ -1,4 +1,5 @@
 import React from 'react';
+import { logDebug } from '../src/helpers/logDebug';
 
 class ErrorBoundary extends React.Component {
 	constructor(props) {
@@ -11,7 +12,7 @@ class ErrorBoundary extends React.Component {
 	}
 
 	componentDidCatch(error, info) {
-		console.error('react-data-grid-lite error:', error, info);
+		logDebug(this?.props?.debug, 'error', 'error:', error, info);
 	}
 
 	render() {
