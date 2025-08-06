@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
+import ErrorBoundary from './error-boundary';
 import { SortData, eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
 import { FilterData, eventGridSearchClicked } from './components/events/event-grid-search-clicked';
 import GridFooter from './components/grid-footer';
@@ -223,18 +224,19 @@ const DataGrid = ({
                 timeout = setTimeout(() => {
                     setState(prevState => {
                         return {
-                        ...prevState,
-                        rowsData: sortedRows,
-                        totalRows: sortedRows?.length,
-                        pageRows: pageRowCount,
-                        currentPageRows: (prevState?.activePage === prevState?.noOfPages)
-                            ? prevState?.lastPageRows : pageRowCount,
-                        columns: prevState?.columns?.map(col => ({
-                            ...col,
-                            sortOrder: col?.name === sortRef?.current?.colKey
-                                ? sortRef?.current?.sortOrder : ''
-                        }))
-                    }});
+                            ...prevState,
+                            rowsData: sortedRows,
+                            totalRows: sortedRows?.length,
+                            pageRows: pageRowCount,
+                            currentPageRows: (prevState?.activePage === prevState?.noOfPages)
+                                ? prevState?.lastPageRows : pageRowCount,
+                            columns: prevState?.columns?.map(col => ({
+                                ...col,
+                                sortOrder: col?.name === sortRef?.current?.colKey
+                                    ? sortRef?.current?.sortOrder : ''
+                            }))
+                        }
+                    });
                 });
             };
             processData();
@@ -480,54 +482,56 @@ const DataGrid = ({
     }, [state, setState]);
 
     return (
-        <GridConfigContext.Provider value={{ state, setState }}>
-            <div
-                id={state.gridID}
-                className={
-                    !isNull(state.gridCssClass)
-                        ? `${state.gridCssClass} r-d-g-lt-comp`
-                        : 'r-d-g-lt-comp'
-                }
-                style={{
-                    maxWidth: state.maxWidth,
-                    width: state.width,
-                    backgroundColor: state.gridBackgroundColor
-                }}
-            >
-                {state?.showToolbar === true &&
-                    (<GridGlobalSearchBar
-                        onSearchClicked={onSearchClicked}
-                        handleResetSearch={handleResetSearch}
-                    />)}
+        <ErrorBoundary>
+            <GridConfigContext.Provider value={{ state, setState }}>
                 <div
-                    style={{
-                        backgroundColor: state.gridBackgroundColor
-                    }}
+                    id={state.gridID}
                     className={
                         !isNull(state.gridCssClass)
-                            ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`
-                            : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
+                            ? `${state.gridCssClass} r-d-g-lt-comp`
+                            : 'r-d-g-lt-comp'
                     }
+                    style={{
+                        maxWidth: state.maxWidth,
+                        width: state.width,
+                        backgroundColor: state.gridBackgroundColor
+                    }}
                 >
-                    <GridTable
-                        state={state}
-                        setState={setState}
-                        onHeaderClicked={onHeaderClicked}
-                        onSearchClicked={onSearchClicked}
-                        gridHeaderRef={gridHeaderRef}
-                        computedColumnWidthsRef={computedColumnWidthsRef}
-                        isResizingRef={isResizingRef}
-                        dataReceivedRef={dataReceivedRef}
-                    />
+                    {state?.showToolbar === true &&
+                        (<GridGlobalSearchBar
+                            onSearchClicked={onSearchClicked}
+                            handleResetSearch={handleResetSearch}
+                        />)}
+                    <div
+                        style={{
+                            backgroundColor: state.gridBackgroundColor
+                        }}
+                        className={
+                            !isNull(state.gridCssClass)
+                                ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`
+                                : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
+                        }
+                    >
+                        <GridTable
+                            state={state}
+                            setState={setState}
+                            onHeaderClicked={onHeaderClicked}
+                            onSearchClicked={onSearchClicked}
+                            gridHeaderRef={gridHeaderRef}
+                            computedColumnWidthsRef={computedColumnWidthsRef}
+                            isResizingRef={isResizingRef}
+                            dataReceivedRef={dataReceivedRef}
+                        />
+                    </div>
+                    {state.showFooter === true && (
+                        <GridFooter
+                            onPageChange={handleChangePage}
+                            onPrev={handleBackwardPage}
+                            onNext={handleForwardPage}
+                        />)}
                 </div>
-                {state.showFooter === true && (
-                    <GridFooter
-                        onPageChange={handleChangePage}
-                        onPrev={handleBackwardPage}
-                        onNext={handleForwardPage}
-                    />)}
-            </div>
-        </GridConfigContext.Provider>
+            </GridConfigContext.Provider>
+        </ErrorBoundary>
     );
 }
 
