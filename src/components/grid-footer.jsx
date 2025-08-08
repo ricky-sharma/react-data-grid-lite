@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Page_Size_Selector_Options } from '../constants';
-import { isNull } from '../helpers/common';
 import { useGridConfig } from '../hooks/use-grid-config';
+import { useWindowWidth } from '../hooks/use-window-width';
 import Dropdown from './custom-fields/dropdown';
 import GridPagination from './grid-pagination';
 
@@ -10,6 +10,7 @@ const GridFooter = memo(({
     onPrev,
     onNext
 }) => {
+    const windowWidth = useWindowWidth();
     const { state = {}, setState = () => { } } = useGridConfig() ?? {};
     const {
         totalRows,
@@ -17,14 +18,18 @@ const GridFooter = memo(({
         activePage,
         pageRows,
         pagerSelectOptions,
-        gridBackgroundColor
+        gridBackgroundColor,
+        showNumberPagination,
+        showSelectPagination,
+        showPageSizeSelector,
+        showPageInfo
     } = state;
+    const isMobile = windowWidth < 701;
     const start = (activePage - 1) * pageRows + 1;
     const end = start + currentPageRows - 1;
     const showingRange = totalRows > currentPageRows ? `${start} - ${end}` : totalRows;
 
     const onPageSelectorChange = (value) => {
-        console.log(value)
         setState(prev => {
             let noOfPages = Math.floor(prev.rowsData / value);
             let lastPageRows = prev.rowsData % value;
@@ -48,14 +53,11 @@ const GridFooter = memo(({
         <div style={{
             backgroundColor: gridBackgroundColor
         }} className="row--flex col-flex-12 mg--0 pd--0 alignCenter grid-footer">
-            {!isNull(totalRows) && totalRows !== 0 ? (
-                <div className="col-flex-5 mg--0 pd--0 page-results">
-                    {showingRange}{" of "}{totalRows}
-                </div>)
-                : null
-            }
+            <div className="col-flex-5 mg--0 pd--0 page-results">
+                {showPageInfo === true && totalRows > 0 ? `${showingRange} of ${totalRows}` : null}
+            </div>
             <div className="col-flex-2 mg--0 pd--0 pager-select alignCenter">
-                {pagerSelectOptions?.length ?? 0 > 0 ?
+                {showSelectPagination === true && pagerSelectOptions?.length > 0 ?
                     <Dropdown
                         options={pagerSelectOptions}
                         value={activePage}
@@ -65,7 +67,7 @@ const GridFooter = memo(({
                 }
             </div>
             <div className="col-flex-3 mg--0 pd--0 page-size-selector alignCenter">
-                {(state?.pageRows ?? 0) > 0 ?
+                {showPageSizeSelector === true && state?.pageRows > 0 ?
                     <div className="rows--selector" >
                         <div>Rows per page:</div>
                         <Dropdown
@@ -78,12 +80,16 @@ const GridFooter = memo(({
                     : null}
             </div>
             <div className="float-lt col-flex-2 mg--0 pd--0 page-list">
-                {(pagerSelectOptions?.length ?? 0) > 0 ?
-                    <GridPagination
-                        onPageChange={onPageChange}
-                        onPrevButtonClick={onPrev}
-                        onNextButtonClick={onNext}
-                    /> : null}
+                {showNumberPagination === true &&
+                    pagerSelectOptions?.length > 0 &&
+                    (!isMobile || !showSelectPagination) && (
+                        <GridPagination
+                            onPageChange={onPageChange}
+                            onPrevButtonClick={onPrev}
+                            onNextButtonClick={onNext}
+                        />
+                    )}
+
             </div>
         </div>
     );

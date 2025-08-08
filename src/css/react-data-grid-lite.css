@@ -341,6 +341,7 @@
     align-items: center;
     gap: 1px;
     position: relative;
+    padding: 0 0 0 5px;
 }
 
     .r-d-g-lt-comp .rows--selector .ps-dropdown {
@@ -814,7 +815,8 @@
     }
 
     .r-d-g-lt-comp .page-list {
-        display: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     .r-d-g-lt-comp div.globalSearch {

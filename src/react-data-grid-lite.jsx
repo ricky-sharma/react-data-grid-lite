@@ -67,6 +67,14 @@ const DataGrid = ({
             options?.showResetButton : true,
         showFooter: typeof options?.showFooter === 'boolean' ?
             options?.showFooter : true,
+        showNumberPagination: typeof options?.showNumberPagination === 'boolean' ?
+            options?.showNumberPagination : true,
+        showSelectPagination: typeof options?.showSelectPagination === 'boolean' ?
+            options?.showSelectPagination : true,
+        showPageSizeSelector: typeof options?.showPageSizeSelector === 'boolean' ?
+            options?.showPageSizeSelector : true,
+        showPageInfo: typeof options?.showPageInfo === 'boolean' ?
+            options?.showPageInfo : true,
         rowHeight: parseInt(options?.rowHeight, 10) ? options?.rowHeight : undefined,
         rowClickEnabled: !isNull(onRowClick),
         onRowClick: onRowClick ?? (() => { }),
