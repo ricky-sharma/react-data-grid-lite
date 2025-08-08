@@ -3,13 +3,14 @@ import { isNull } from '../helpers/common';
 import { useGridConfig } from '../hooks/use-grid-config';
 import Dropdown from './custom-fields/dropdown';
 import GridPagination from './grid-pagination';
+import PageSizeSelector from './page-size-selector';
 
 const GridFooter = memo(({
     onPageChange,
     onPrev,
     onNext
 }) => {
-    const { state = {} } = useGridConfig() ?? {};
+    const { state = {}, setState = () => { } } = useGridConfig() ?? {};
     const {
         totalRows,
         currentPageRows,
@@ -28,11 +29,11 @@ const GridFooter = memo(({
         }} className="row--flex col-flex-12 mg--0 pd--0 alignCenter grid-footer">
             {!isNull(totalRows) && totalRows !== 0 ? (
                 <div className="col-flex-5 mg--0 pd--0 page-results">
-                    {showingRange}{" of "}{totalRows}{" results"}
+                    {showingRange}{" of "}{totalRows}
                 </div>)
                 : null
             }
-            <div className="col-flex-2 mg--0 pd--0 pagerSelect alignCenter">
+            <div className="col-flex-2 mg--0 pd--0 pager-select alignCenter">
                 {pagerSelectOptions?.length ?? 0 > 0 ?
                     <Dropdown
                         options={pagerSelectOptions}
@@ -42,15 +43,35 @@ const GridFooter = memo(({
                     : null
                 }
             </div>
-            <div className="float-lt col-flex-5 mg--0 pd--0 page-list">
-                <div className="col-flex-12 mg--0 pd--0">
-                    {pagerSelectOptions?.length ?? 0 > 0 ?
-                        <GridPagination
-                            onPageChange={onPageChange}
-                            onPrevButtonClick={onPrev}
-                            onNextButtonClick={onNext}
-                        /> : null}
-                </div>
+            <div className="col-flex-3 mg--0 pd--0 page-size-selector alignCenter">
+                {(state?.pageRows ?? 0) > 0 ?
+                    <PageSizeSelector defaultValue={state?.pageRows} onChange={(value) => {
+                    setState(prev => {
+                        let noOfPages = Math.floor(prev.rowsData / value);
+                        let lastPageRows = prev.rowsData % value;
+                        if (lastPageRows > 0) noOfPages++;
+                        else if (lastPageRows === 0) lastPageRows = value;
+                        const resetPage = prev?.activePage > noOfPages;
+                        const activePage = resetPage ? 1 : prev?.activePage ?? 1;
+                        return {
+                            ...prev,
+                            noOfPages,
+                            lastPageRows,
+                            activePage,
+                            currentPageRows: (activePage === noOfPages) ? lastPageRows : value,
+                            firstRow: value * (resetPage ? 0 : activePage - 1),
+                            pageRows: value
+                        }
+                    });
+                    }} /> : null}
+            </div>
+            <div className="float-lt col-flex-2 mg--0 pd--0 page-list">
+                {(pagerSelectOptions?.length ?? 0) > 0 ?
+                    <GridPagination
+                        onPageChange={onPageChange}
+                        onPrevButtonClick={onPrev}
+                        onNextButtonClick={onNext}
+                    /> : null}
             </div>
         </div>
     );

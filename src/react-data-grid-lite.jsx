@@ -220,9 +220,9 @@ const DataGrid = ({
                         filteredData
                     )
                     : filteredData;
-                const pageRowCount = !isNull(parseInt(pageSize, 10))
+                const pageRowCount = state?.pageRows ?? (!isNull(parseInt(pageSize, 10))
                     ? parseInt(pageSize, 10)
-                    : sortedRows?.length;
+                    : sortedRows?.length);
                 timeout = setTimeout(() => {
                     setState(prevState => {
                         return {
