@@ -22,7 +22,8 @@ const Dropdown = memo(({
     fieldIndex,
     focusInput,
     isOpen,
-    setOpenExternally
+    setOpenExternally,
+    cssClass
 }) => {
     const config = useGridConfig();
     const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -257,7 +258,7 @@ const Dropdown = memo(({
     return (
         <div
             style={{ width: width ?? undefined, height: height ?? undefined }}
-            className="drop--down"
+            className={cssClass ?? 'drop--down'}
             ref={wrapperRef}
             onBlur={onBlur ?? (() => { })}
             onClick={onClick ?? (() => { })}

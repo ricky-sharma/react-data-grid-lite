@@ -76,7 +76,7 @@
     }
 
     .r-d-g-lt-comp .dropdown-selected {
-        padding: 4px 4px 4px 4px;
+        padding: 4px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -105,7 +105,6 @@
 
     .r-d-g-lt-comp .dropdown-option {
         padding: 6px 10px;
-        font-size: 14px;
         background: white;
         text-align: center;
         box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, .1);
@@ -337,14 +336,14 @@
     padding-right: 60px !important;
 }
 
-.r-d-g-lt-comp .rows-per-page-selector {
+.r-d-g-lt-comp .rows--selector {
     display: inline-flex;
     align-items: center;
     gap: 1px;
     position: relative;
 }
 
-    .r-d-g-lt-comp .rows-per-page-selector .ps-dropdown {
+    .r-d-g-lt-comp .rows--selector .ps-dropdown {
         padding: 6px 4px;
         cursor: pointer;
         user-select: none;
@@ -352,28 +351,33 @@
         min-width: 60px;
     }
 
-    .r-d-g-lt-comp .rows-per-page-selector .ps-dropdown-options {
-        position: absolute;
-        bottom: -60%;
-        left: 0;
-        background: white;
-        border: 1px solid #ccc;
-        z-index: 999;
-        width: 100%;
-        min-width: 70px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .r-d-g-lt-comp .rows-per-page-selector .ps-dropdown-option {
-        padding: 8px 20px;
-        cursor: pointer;
-    }
-
-        .r-d-g-lt-comp .rows-per-page-selector .ps-dropdown-option:hover,
-        .r-d-g-lt-comp .rows-per-page-selector .ps-dropdown-option.ps-selected {
-            background-color: #f0f0f0;
+        .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-options {
+            position: absolute;
+            bottom: -60%;
+            left: 0;
+            background: white;
+            border: 1px solid #ccc;
+            z-index: 999;
+            width: 100%;
+            min-width: 70px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-height: 280px;
+            overflow-y: hidden;
         }
 
+        .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-option {
+            cursor: pointer;
+            padding: 8px 20px;
+            text-align: left;
+            box-shadow: none;
+        }
+
+            .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-option:hover,
+            .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-option.selected {
+                background-color: #f0f0f0;
+                color: inherit;
+                font-weight: inherit;
+            }
 
 .r-d-g-lt-comp .pd--0 {
     padding: 0;
@@ -587,7 +591,6 @@
         .r-d-g-lt-comp .pagination li.page-item a.page-link:focus-visible,
         .r-d-g-lt-comp .dropdown-selected:focus-visible,
         .r-d-g-lt-comp .dropdown-option:focus-visible,
-        .r-d-g-lt-comp .ps-dropdown-option:focus-visible,
         .r-d-g-lt-comp .icon-div:focus-visible,
         .r-d-g-lt-comp table thead tr.gridHeader th:focus-visible,
         .r-d-g-lt-comp table tbody tr.gridRow td a:focus-visible {
@@ -697,7 +700,7 @@
         font-weight: 600;
         font-size: 14px;
         padding: 0 3px;
-        margin:0 1px;
+        margin: 0 1px;
     }
 
     .r-d-g-lt-comp .pagination > li.page-item > a.page-link:hover {
@@ -765,6 +768,12 @@
     display: block !important;
 }
 
+@media (max-width: 1200px) {
+    .r-d-g-lt-comp .page-size-selector {
+        padding-right: 40px !important;
+    }
+}
+
 @media (max-width: 1024px) {
     .r-d-g-lt-comp .page-list {
         width: 8.333% !important;
@@ -799,7 +808,7 @@
         max-width: 20% !important;
     }
 
-    .r-d-g-lt-comp .rows-per-page-selector .ps-dropdown {
+    .r-d-g-lt-comp .rows--selector .ps-dropdown {
         padding: 6px 2px;
         min-width: 40px;
     }

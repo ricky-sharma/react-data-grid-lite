@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
+import { Page_Size_Selector_Options } from '../constants';
 import { isNull } from '../helpers/common';
 import { useGridConfig } from '../hooks/use-grid-config';
 import Dropdown from './custom-fields/dropdown';
 import GridPagination from './grid-pagination';
-import PageSizeSelector from './page-size-selector';
 
 const GridFooter = memo(({
     onPageChange,
@@ -22,6 +22,27 @@ const GridFooter = memo(({
     const start = (activePage - 1) * pageRows + 1;
     const end = start + currentPageRows - 1;
     const showingRange = totalRows > currentPageRows ? `${start} - ${end}` : totalRows;
+
+    const onPageSelectorChange = (value) => {
+        console.log(value)
+        setState(prev => {
+            let noOfPages = Math.floor(prev.rowsData / value);
+            let lastPageRows = prev.rowsData % value;
+            if (lastPageRows > 0) noOfPages++;
+            else if (lastPageRows === 0) lastPageRows = value;
+            const resetPage = prev?.activePage > noOfPages;
+            const activePage = resetPage ? 1 : prev?.activePage ?? 1;
+            return {
+                ...prev,
+                noOfPages,
+                lastPageRows,
+                activePage,
+                currentPageRows: (activePage === noOfPages) ? lastPageRows : value,
+                firstRow: value * (resetPage ? 0 : activePage - 1),
+                pageRows: value
+            }
+        });
+    }
 
     return (
         <div style={{
@@ -45,25 +66,16 @@ const GridFooter = memo(({
             </div>
             <div className="col-flex-3 mg--0 pd--0 page-size-selector alignCenter">
                 {(state?.pageRows ?? 0) > 0 ?
-                    <PageSizeSelector defaultValue={state?.pageRows} onChange={(value) => {
-                    setState(prev => {
-                        let noOfPages = Math.floor(prev.rowsData / value);
-                        let lastPageRows = prev.rowsData % value;
-                        if (lastPageRows > 0) noOfPages++;
-                        else if (lastPageRows === 0) lastPageRows = value;
-                        const resetPage = prev?.activePage > noOfPages;
-                        const activePage = resetPage ? 1 : prev?.activePage ?? 1;
-                        return {
-                            ...prev,
-                            noOfPages,
-                            lastPageRows,
-                            activePage,
-                            currentPageRows: (activePage === noOfPages) ? lastPageRows : value,
-                            firstRow: value * (resetPage ? 0 : activePage - 1),
-                            pageRows: value
-                        }
-                    });
-                    }} /> : null}
+                    <div className="rows--selector" >
+                        <div>Rows per page:</div>
+                        <Dropdown
+                            options={Page_Size_Selector_Options}
+                            value={state?.pageRows}
+                            onChange={(_, value) => onPageSelectorChange(value)}
+                            cssClass="ps-dropdown"
+                        />
+                    </div>
+                    : null}
             </div>
             <div className="float-lt col-flex-2 mg--0 pd--0 page-list">
                 {(pagerSelectOptions?.length ?? 0) > 0 ?
