@@ -56,7 +56,7 @@ export const eventGridSearchClicked = async (
         let noOfPages = Math.floor(dataLength / prev?.pageRows);
         let lastPageRows = dataLength % prev?.pageRows;
         if (lastPageRows > 0) noOfPages++;
-        else if (lastPageRows === 0) lastPageRows = prev?.pageRows;
+        if (lastPageRows === 0) lastPageRows = prev?.pageRows;
         const resetPage = prev?.activePage > noOfPages;
         const activePage = resetPage ? 1 : prev?.activePage ?? 1;
         return {

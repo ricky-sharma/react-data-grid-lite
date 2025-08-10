@@ -6,6 +6,53 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br>
 
+## ✨ v1.2.1 – Released 2025-08-10
+
+### ✨ Features
+
+* **Add ErrorBoundary to DataGrid**
+
+  * Prevents the entire app from crashing due to unhandled errors inside the grid.
+  * Provides a fallback UI and improved resilience.
+
+* **Logging Enhancements**
+
+  * Introduced `logDebug(debug, type, ...args)` utility for level-based, prefixed logging.
+  * Supports log levels: `'log'`, `'warn'`, `'error'`, `'info'`; gracefully falls back to `console.log`.
+  * Logging is automatically disabled when `debug` is false.
+  * Exposed a new `debug` prop for grid users to enable debug logging (e.g., in production troubleshooting).
+  * Integrated debug control through grid config and internal hooks.
+  * Full Jest test coverage for `logDebug`, including edge cases and fallback scenarios.
+
+* **Pagination Improvements**
+
+  * Added a **"Rows per page" selector** to the DataGrid.
+
+    * Allows users to select from predefined options (5, 10, 25, 50, 100, 250, 500).
+    * Pagination updates dynamically based on the selected value.
+    * Enhances performance and UX on large datasets.
+
+* **Grid Footer Customization**
+
+  * Introduced new props for fine-grained control over the footer:
+
+    * `showPageInfo`
+    * `showPageSizeSelector`
+    * `showNumberPagination`
+    * `showSelectPagination`
+
+### ♻️ Refactor
+
+* Improved UI alignment and layout for a cleaner experience.
+* Removed redundant code and improved overall readability and maintainability.
+
+### ✅ Tests
+
+* Extended and updated unit tests for all new features and configuration options.
+* Verified pagination behavior and logging functionality under various conditions.
+
+<br><br>
+
 ### 🔖 v1.2.0 – Released 2025-08-06
 
 ### ✨ Added

@@ -1,7 +1,12 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { GridConfigContext } from '../../../src/context/grid-config-context';
+import { useWindowWidth } from '../../../src/hooks/use-window-width';
 import GridPagination from './../../../src/components/grid-pagination';
+
+jest.mock('../../../src/hooks/use-window-width', () => ({
+    useWindowWidth: jest.fn(),
+}));
 
 beforeEach(() => {
     cleanup();
@@ -9,6 +14,8 @@ beforeEach(() => {
 });
 
 describe('GridPagination', () => {
+    useWindowWidth.mockReturnValue(1400);
+
     const mockState = {
         enablePaging: true,
         activePage: 2,
@@ -83,8 +90,10 @@ describe('GridPagination', () => {
     it('hides dots when not needed', () => {
         const { container } = renderWithProvider(<GridPagination />, { activePage: 2, noOfPages: 2 });
         const dotElements = container.querySelectorAll('a.dot');
-        expect(dotElements.length).toBeGreaterThan(0);
-        expect(dotElements[0].closest('li')).toHaveStyle('visibility: hidden');
+        expect(dotElements.length).toBe(0);
+        const pageLinkElements = container.querySelectorAll('a.page-link');
+        const liElement = pageLinkElements[1].closest('li');
+        expect(liElement.style.visibility).toBe('');
     });
 });
 

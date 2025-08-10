@@ -7,6 +7,8 @@ import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
 import { GridConfigContext } from './context/grid-config-context';
+import ErrorBoundary from './error-boundary';
+import { logDebug } from './helpers/logDebug';
 import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
 import { applyTheme } from './utils/themes-utils';
@@ -33,6 +35,7 @@ const DataGrid = ({
     onColumnDragEnd,
     onCellUpdate
 }) => {
+    const fallbackfn = () => { };
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
         maxWidth: maxWidth ?? '100vw',
@@ -65,30 +68,39 @@ const DataGrid = ({
             options?.showResetButton : true,
         showFooter: typeof options?.showFooter === 'boolean' ?
             options?.showFooter : true,
+        showNumberPagination: typeof options?.showNumberPagination === 'boolean' ?
+            options?.showNumberPagination : true,
+        showSelectPagination: typeof options?.showSelectPagination === 'boolean' ?
+            options?.showSelectPagination : true,
+        showPageSizeSelector: typeof options?.showPageSizeSelector === 'boolean' ?
+            options?.showPageSizeSelector : true,
+        showPageInfo: typeof options?.showPageInfo === 'boolean' ?
+            options?.showPageInfo : true,
         rowHeight: parseInt(options?.rowHeight, 10) ? options?.rowHeight : undefined,
         rowClickEnabled: !isNull(onRowClick),
-        onRowClick: onRowClick ?? (() => { }),
-        onRowHover: onRowHover ?? (() => { }),
-        onRowOut: onRowOut ?? (() => { }),
-        onCellUpdate: onCellUpdate ?? (() => { }),
-        onSortComplete: onSortComplete ?? (() => { }),
-        onSearchComplete: onSearchComplete ?? (() => { }),
-        onPageChange: onPageChange ?? (() => { }),
-        onColumnResized: onColumnResized ?? (() => { }),
-        onColumnDragEnd: onColumnDragEnd ?? (() => { }),
+        onRowClick: onRowClick ?? fallbackfn,
+        onRowHover: onRowHover ?? fallbackfn,
+        onRowOut: onRowOut ?? fallbackfn,
+        onCellUpdate: onCellUpdate ?? fallbackfn,
+        onSortComplete: onSortComplete ?? fallbackfn,
+        onSearchComplete: onSearchComplete ?? fallbackfn,
+        onPageChange: onPageChange ?? fallbackfn,
+        onColumnResized: onColumnResized ?? fallbackfn,
+        onColumnDragEnd: onColumnDragEnd ?? fallbackfn,
         editButtonEnabled: options?.editButton ?? false,
-        editButtonEvent: options?.editButton?.event ?? (() => { }),
+        editButtonEvent: options?.editButton?.event ?? fallbackfn,
         deleteButtonEnabled: options?.deleteButton ?? false,
-        deleteButtonEvent: options?.deleteButton?.event ?? (() => { }),
+        deleteButtonEvent: options?.deleteButton?.event ?? fallbackfn,
         actionColumnAlign: options?.actionColumnAlign ?? '',
         enableDownload: typeof options?.enableDownload === 'boolean' ?
             options?.enableDownload : true,
         downloadFilename: options?.downloadFilename ?? null,
-        onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
+        onDownloadComplete: options?.onDownloadComplete ?? fallbackfn,
         globalSearchPlaceholder: options?.globalSearchPlaceholder,
         gridBackgroundColor: options?.gridBgColor,
         gridHeaderBackgroundColor: options?.headerBgColor,
         aiSearchOptions: options?.aiSearch ?? {},
+        debug: typeof options?.debug === 'boolean' ? options?.debug : false,
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
@@ -204,7 +216,7 @@ const DataGrid = ({
                         });
                     } catch (err) {
                         aiSearchFailedRef.current = true;
-                        console.warn('AI search failed, falling back to full data', err);
+                        logDebug(state?.debug, 'error', 'AI search failed, falling back to default local search.', err);
                     }
                 }
                 const filteredData = await FilterData(searchColsRef, processedRows, aiSearchFailedRef,
@@ -217,24 +229,25 @@ const DataGrid = ({
                         filteredData
                     )
                     : filteredData;
-                const pageRowCount = !isNull(parseInt(pageSize, 10))
+                const pageRowCount = state?.pageRows ?? (!isNull(parseInt(pageSize, 10))
                     ? parseInt(pageSize, 10)
-                    : sortedRows?.length;
+                    : sortedRows?.length);
                 timeout = setTimeout(() => {
                     setState(prevState => {
                         return {
-                        ...prevState,
-                        rowsData: sortedRows,
-                        totalRows: sortedRows?.length,
-                        pageRows: pageRowCount,
-                        currentPageRows: (prevState?.activePage === prevState?.noOfPages)
-                            ? prevState?.lastPageRows : pageRowCount,
-                        columns: prevState?.columns?.map(col => ({
-                            ...col,
-                            sortOrder: col?.name === sortRef?.current?.colKey
-                                ? sortRef?.current?.sortOrder : ''
-                        }))
-                    }});
+                            ...prevState,
+                            rowsData: sortedRows,
+                            totalRows: sortedRows?.length,
+                            pageRows: pageRowCount,
+                            currentPageRows: (prevState?.activePage === prevState?.noOfPages)
+                                ? prevState?.lastPageRows : pageRowCount,
+                            columns: prevState?.columns?.map(col => ({
+                                ...col,
+                                sortOrder: col?.name === sortRef?.current?.colKey
+                                    ? sortRef?.current?.sortOrder : ''
+                            }))
+                        }
+                    });
                 });
             };
             processData();
@@ -266,7 +279,7 @@ const DataGrid = ({
         let noOfPages = Math.floor(state.totalRows / state.pageRows);
         let lastPageRows = state.totalRows % state.pageRows;
         if (lastPageRows > 0) noOfPages++;
-        else if (lastPageRows === 0) lastPageRows = state.pageRows;
+        if (lastPageRows === 0) lastPageRows = state.pageRows;
         let activePage = !isNull(noOfPages) && state.activePage > noOfPages ? 1 : state.activePage;
         setState((prevState) => ({
             ...prevState,
@@ -423,7 +436,7 @@ const DataGrid = ({
                         });
                     } catch (err) {
                         aiSearchFailedRef.current = true;
-                        console.error('AI search failed. Falling back to default local search.', err);
+                        logDebug(state?.debug, 'error', 'AI search failed, falling back to default local search.', err);
                     }
                 }
 
@@ -454,7 +467,7 @@ const DataGrid = ({
             let noOfPages = Math.floor(dataLength / prev?.pageRows);
             let lastPageRows = dataLength % prev?.pageRows;
             if (lastPageRows > 0) noOfPages++;
-            else if (lastPageRows === 0) lastPageRows = prev?.pageRows;
+            if (lastPageRows === 0) lastPageRows = prev?.pageRows;
 
             return {
                 ...prev,
@@ -480,54 +493,56 @@ const DataGrid = ({
     }, [state, setState]);
 
     return (
-        <GridConfigContext.Provider value={{ state, setState }}>
-            <div
-                id={state.gridID}
-                className={
-                    !isNull(state.gridCssClass)
-                        ? `${state.gridCssClass} r-d-g-lt-comp`
-                        : 'r-d-g-lt-comp'
-                }
-                style={{
-                    maxWidth: state.maxWidth,
-                    width: state.width,
-                    backgroundColor: state.gridBackgroundColor
-                }}
-            >
-                {state?.showToolbar === true &&
-                    (<GridGlobalSearchBar
-                        onSearchClicked={onSearchClicked}
-                        handleResetSearch={handleResetSearch}
-                    />)}
+        <ErrorBoundary debug={state?.debug}>
+            <GridConfigContext.Provider value={{ state, setState }}>
                 <div
-                    style={{
-                        backgroundColor: state.gridBackgroundColor
-                    }}
+                    id={state.gridID}
                     className={
                         !isNull(state.gridCssClass)
-                            ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`
-                            : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
+                            ? `${state.gridCssClass} r-d-g-lt-comp`
+                            : 'r-d-g-lt-comp'
                     }
+                    style={{
+                        maxWidth: state.maxWidth,
+                        width: state.width,
+                        backgroundColor: state.gridBackgroundColor
+                    }}
                 >
-                    <GridTable
-                        state={state}
-                        setState={setState}
-                        onHeaderClicked={onHeaderClicked}
-                        onSearchClicked={onSearchClicked}
-                        gridHeaderRef={gridHeaderRef}
-                        computedColumnWidthsRef={computedColumnWidthsRef}
-                        isResizingRef={isResizingRef}
-                        dataReceivedRef={dataReceivedRef}
-                    />
+                    {state?.showToolbar === true &&
+                        (<GridGlobalSearchBar
+                            onSearchClicked={onSearchClicked}
+                            handleResetSearch={handleResetSearch}
+                        />)}
+                    <div
+                        style={{
+                            backgroundColor: state.gridBackgroundColor
+                        }}
+                        className={
+                            !isNull(state.gridCssClass)
+                                ? `${state.gridCssClass} col-flex-12 mg--0 pd--0 react-data-grid-lite`
+                                : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
+                        }
+                    >
+                        <GridTable
+                            state={state}
+                            setState={setState}
+                            onHeaderClicked={onHeaderClicked}
+                            onSearchClicked={onSearchClicked}
+                            gridHeaderRef={gridHeaderRef}
+                            computedColumnWidthsRef={computedColumnWidthsRef}
+                            isResizingRef={isResizingRef}
+                            dataReceivedRef={dataReceivedRef}
+                        />
+                    </div>
+                    {state.showFooter === true && (
+                        <GridFooter
+                            onPageChange={handleChangePage}
+                            onPrev={handleBackwardPage}
+                            onNext={handleForwardPage}
+                        />)}
                 </div>
-                {state.showFooter === true && (
-                    <GridFooter
-                        onPageChange={handleChangePage}
-                        onPrev={handleBackwardPage}
-                        onNext={handleForwardPage}
-                    />)}
-            </div>
-        </GridConfigContext.Provider>
+            </GridConfigContext.Provider>
+        </ErrorBoundary>
     );
 }
 

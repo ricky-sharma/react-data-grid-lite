@@ -63,8 +63,8 @@ describe('Dropdown component', () => {
     });
 
     it('does not crash with no options', () => {
-        render(<Dropdown options={[]} value="None" />);
-        fireEvent.click(screen.getByText('Select'));
+        render(<Dropdown options={[]} value='None' />);
+        fireEvent.click(screen.getByText('None'));
         expect(screen.queryByText('Option 1')).not.toBeInTheDocument();
     });
 

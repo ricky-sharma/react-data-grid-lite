@@ -17,3 +17,4 @@ export const Formatting_Types = ['date', 'number', 'currency', 'percent', 'boole
 export const OpenAI_API_EndPoint = 'https://api.openai.com/v1/chat/completions';
 export const OpenAI_API_Model = 'gpt-4';
 export const OpenAI_Default_System_Prompt = `You are a filtering assistant. Given a list of JSON rows, return only the rows matching the query. Only return a JSON array of matched rows.`;
+export const Page_Size_Selector_Options = [5, 10, 25, 50, 100, 250, 500];

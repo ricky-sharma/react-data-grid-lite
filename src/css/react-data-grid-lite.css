@@ -65,7 +65,7 @@
 
     .r-d-g-lt-comp .drop--down {
         position: relative;
-        width: 60px;
+        min-width: 60px;
         border-radius: 8px !important;
         height: 32px;
         padding: 0;
@@ -76,7 +76,7 @@
     }
 
     .r-d-g-lt-comp .dropdown-selected {
-        padding: 4px 4px 4px 4px;
+        padding: 4px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -105,7 +105,6 @@
 
     .r-d-g-lt-comp .dropdown-option {
         padding: 6px 10px;
-        font-size: 14px;
         background: white;
         text-align: center;
         box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, .1);
@@ -331,6 +330,56 @@
         color: #000;
     }
 
+.r-d-g-lt-comp .page-size-selector {
+    float: right;
+    justify-content: right;
+    padding-right: 60px !important;
+}
+
+.r-d-g-lt-comp .rows--selector {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    position: relative;
+    padding: 0 0 0 5px;
+}
+
+    .r-d-g-lt-comp .rows--selector .ps-dropdown {
+        padding: 6px 4px;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        min-width: 60px;
+    }
+
+        .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-options {
+            position: absolute;
+            bottom: -60%;
+            left: 0;
+            background: white;
+            border: 1px solid #ccc;
+            z-index: 999;
+            width: 100%;
+            min-width: 70px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-height: 280px;
+            overflow-y: hidden;
+        }
+
+        .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-option {
+            cursor: pointer;
+            padding: 8px 20px;
+            text-align: left;
+            box-shadow: none;
+        }
+
+            .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-option:hover,
+            .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-option.selected {
+                background-color: #f0f0f0;
+                color: inherit;
+                font-weight: inherit;
+            }
+
 .r-d-g-lt-comp .pd--0 {
     padding: 0;
 }
@@ -350,6 +399,14 @@
 
 .r-d-g-lt-comp .col-flex-2 {
     width: 16.666%;
+}
+
+.r-d-g-lt-comp .col-flex-3 {
+    width: 24.999%;
+}
+
+.r-d-g-lt-comp .col-flex-4 {
+    width: 33.332%;
 }
 
 .r-d-g-lt-comp .col-flex-5 {
@@ -520,10 +577,6 @@
     border-bottom: 2px solid #e0e0e0 !important;
 }
 
-    .r-d-g-lt-comp table tbody tr.gridRow:last-child {
-        border-bottom: 1px solid #e0e0e0 !important;
-    }
-
     .r-d-g-lt-comp table tbody tr.gridRow:first-child {
         border-top: 2px solid #e0e0e0 !important;
     }
@@ -582,6 +635,7 @@
     height: 60px !important;
     z-index: 2;
     position: relative;
+    opacity: 90%;
 }
 
 .r-d-g-lt-comp .searchDiv {
@@ -595,6 +649,7 @@
     display: inline-block !important;
     padding: 4px 10px !important;
     margin: 0 !important;
+    opacity: 90%;
 }
 
     .r-d-g-lt-comp .globalSearchDiv .button-container {
@@ -625,25 +680,28 @@
 
 .r-d-g-lt-comp .pagination {
     float: right;
-    padding-right: 5px !important;
+    padding-right: 5px;
     list-style: none;
-    background: inherit !important;
+    background: inherit;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
 }
 
     .r-d-g-lt-comp .pagination li.page-item a.page-link {
         border: 0;
-        border-radius: 10px !important;
+        border-radius: 6px !important;
         color: #999 !important;
-        font-size: 90% !important;
         height: 24px;
         line-height: 24px;
-        margin: 0 1px !important;
-        padding: 0px;
         text-align: center;
         text-decoration: none !important;
-        width: 34px;
+        min-width: 24px;
         background-color: inherit;
         font-weight: 600;
+        font-size: 14px;
+        padding: 0 3px;
+        margin: 0 1px;
     }
 
     .r-d-g-lt-comp .pagination > li.page-item > a.page-link:hover {
@@ -682,8 +740,6 @@
         }
 
     .r-d-g-lt-comp .pagination li.page-item a i.arrow {
-        font-size: 19px;
-        top: -1.5px;
         font-style: normal;
         font-weight: 900;
         position: relative;
@@ -713,6 +769,25 @@
     display: block !important;
 }
 
+@media (max-width: 1200px) {
+    .r-d-g-lt-comp .page-size-selector {
+        padding-right: 40px !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .r-d-g-lt-comp .page-list {
+        width: 8.333% !important;
+        max-width: 8.333% !important;
+    }
+
+    .r-d-g-lt-comp .page-size-selector {
+        width: 33.332% !important;
+        max-width: 33.332% !important;
+        padding: 0 !important;
+    }
+}
+
 @media (max-width: 700px) {
 
     .r-d-g-lt-comp .download-icon-div div.icon-content {
@@ -724,19 +799,24 @@
     }
 
     .r-d-g-lt-comp .page-results,
-    .r-d-g-lt-comp .pagerSelect {
-        width: 50% !important;
-        max-width: 50% !important;
+    .r-d-g-lt-comp .page-size-selector {
+        width: 40% !important;
+        max-width: 40% !important;
     }
 
-    .r-d-g-lt-comp .pagerSelect {
-        float: right;
-        justify-content: right !important;
-        padding: 0 15px 0 0 !important;
+    .r-d-g-lt-comp .pager-select {
+        width: 20% !important;
+        max-width: 20% !important;
+    }
+
+    .r-d-g-lt-comp .rows--selector .ps-dropdown {
+        padding: 6px 2px;
+        min-width: 40px;
     }
 
     .r-d-g-lt-comp .page-list {
-        display: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     .r-d-g-lt-comp div.globalSearch {
@@ -749,7 +829,7 @@
     }
 
     .r-d-g-lt-comp .drop--down {
-        width: 50px;
+        min-width: 50px;
         height: 32px;
     }
 
@@ -788,9 +868,26 @@
         padding: 4px 0 5px 0;
     }
 
+    .r-d-g-lt-comp .page-results {
+        width: 30% !important;
+        max-width: 30% !important;
+        padding-left: 4px !important;
+    }
+
+    .r-d-g-lt-comp .pager-select {
+        width: 20% !important;
+        max-width: 20% !important;
+    }
+
+    .r-d-g-lt-comp .page-size-selector {
+        width: 50% !important;
+        max-width: 50% !important;
+    }
+
     .r-d-g-lt-comp .page-results,
-    .r-d-g-lt-comp .pagerSelect {
-        transform: scale(0.9) !important;
+    .r-d-g-lt-comp .pager-select,
+    .r-d-g-lt-comp .page-size-selector {
+        transform: scale(0.95) !important;
     }
 }
 

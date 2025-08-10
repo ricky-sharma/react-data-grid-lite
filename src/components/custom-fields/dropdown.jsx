@@ -22,7 +22,8 @@ const Dropdown = memo(({
     fieldIndex,
     focusInput,
     isOpen,
-    setOpenExternally
+    setOpenExternally,
+    cssClass
 }) => {
     const config = useGridConfig();
     const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -36,6 +37,7 @@ const Dropdown = memo(({
     const [internalOpen, setInternalOpen] = useState(false);
     const [readyToPosition, setReadyToPosition] = useState(false);
     const open = isControlled ? isOpen : internalOpen;
+    const fallbackfn = () => { };
 
     if (isNull(options)) options.push('Select');
 
@@ -257,10 +259,10 @@ const Dropdown = memo(({
     return (
         <div
             style={{ width: width ?? undefined, height: height ?? undefined }}
-            className="drop--down"
+            className={cssClass ?? 'drop--down'}
             ref={wrapperRef}
-            onBlur={onBlur ?? (() => { })}
-            onClick={onClick ?? (() => { })}
+            onBlur={onBlur ?? fallbackfn}
+            onClick={onClick ?? fallbackfn}
         >
             <div
                 ref={triggerRef}
@@ -277,8 +279,8 @@ const Dropdown = memo(({
                 role="button"
                 aria-haspopup="listbox"
                 aria-expanded={open}
-                onBlur={onBlur ?? (() => { })}
-                onMouseDown={onMouseDown ?? (() => { })}
+                onBlur={onBlur ?? fallbackfn}
+                onMouseDown={onMouseDown ?? fallbackfn}
                 onFocusCapture={handleFocusCapture}
             >
                 <div
@@ -294,7 +296,7 @@ const Dropdown = memo(({
                         );
                         return selectedOption
                             ? selectedOption.label || selectedOption
-                            : 'Select';
+                            : value ?? 'Select';
                     })()}
                 </div>
                 <span className="dropdown-arrow">{open ? '▲' : '▼'}</span>

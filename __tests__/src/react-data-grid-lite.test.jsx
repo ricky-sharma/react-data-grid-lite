@@ -266,11 +266,26 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
     });
 
     it('renders correct number of rows based on pageSize (via mock slicing)', async () => {
-        await act(() => { render(<DataGrid {...defaultProps} />); });
+        await act(() => {
+            render(<DataGrid
+                {...defaultProps}
+                options={{
+                    ...defaultProps.options,
+                    showToolbar: false,
+                    showResetButton: false,
+                    showFooter: false,
+                    showNumberPagination: false,
+                    showSelectPagination: false,
+                    showPageSizeSelector: false,
+                    showPageInfo: false,
+                    rowHeight: '100px',
+                    debug: true
+                }}
+            />);
+        });
         await waitForReactUpdate();
         await waitFor(() => {
             const rows = screen.getAllByTestId(/^data-grid-row-/);
-
             expect(rows.length).toBe(2);
         });
     });

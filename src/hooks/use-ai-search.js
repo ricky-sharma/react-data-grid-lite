@@ -5,6 +5,8 @@ import {
     OpenAI_Default_System_Prompt
 } from '../constants';
 import trackPromise from '../utils/loading-utils';
+import { logDebug } from '../helpers/logDebug';
+import { useGridConfig } from './use-grid-config';
 
 export function useAISearch({
     apiKey,
@@ -14,6 +16,8 @@ export function useAISearch({
     customRunAISearch,
     customHeaders
 }) {
+    const config = useGridConfig();
+    const debug = config?.state?.debug ?? false;
     const defaultAISearch = useCallback(
         async ({ data, query }) => {
             const isCustomBackend = endpoint && !apiKey;
@@ -83,14 +87,16 @@ export function useAISearch({
             try {
                 result = JSON.parse(content);
             } catch (err) {
-                console.error('Failed to parse AI result as JSON:', content);
+                logDebug(debug, 'error', 'Failed to parse AI result as JSON:', content);
                 throw err;
             }
 
             if (!Array.isArray(result)) {
-                console.error('AI result is not an array:', result);
+                logDebug(debug, 'error', 'AI result is not an array:', result);
                 throw new Error('AI response is not an array');
             }
+
+            logDebug(debug, 'info', 'AI response parsed successfully:', result);
             return result;
         },
         [apiKey, endpoint, model, systemPrompt]
