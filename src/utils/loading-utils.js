@@ -77,5 +77,5 @@ export function hideLoader(parentId) {
 
     const container = parent.querySelector(Container_Identifier);
     const overlay = container?.querySelector(`.${Loader_Identifier}`);
-    if (overlay) overlay.remove();
+    overlay?.remove();
 }

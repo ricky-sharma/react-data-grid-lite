@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 import { GridConfigContext } from '../../../src/context/grid-config-context';
+import * as useGridConfigModule from '../../../src/hooks/use-grid-config';
 import GridFooter from './../../../src/components/grid-footer';
+
 
 describe('GridFooter Component', () => {
     const defaultProps = {
@@ -20,7 +21,11 @@ describe('GridFooter Component', () => {
         pageRows: 10,
         pagerSelectOptions: [1, 2, 3],
         enablePaging: true,
-        noOfPages: 3
+        noOfPages: 3,
+        showNumberPagination: true,
+        showSelectPagination: true,
+        showPageSizeSelector: true,
+        showPageInfo: true,
     };
 
     const mockSetState = jest.fn();
@@ -49,9 +54,15 @@ describe('GridFooter Component', () => {
     });
 
     it('shows only totalRows if all results are on one page', () => {
-        const { container } = renderWithProvider(<GridFooter {...defaultProps} />, { totalRows: 8, currentPageRows: 8 });
+        const { container } = renderWithProvider(<GridFooter {...defaultProps} />, {
+            totalRows: 8,
+            currentPageRows: 8,
+            showSelectPagination: false,
+            activePage: 1,
+            noOfPages: 1
+        });
         const pageResults = container.querySelector('.page-results');
-        expect(pageResults).toHaveTextContent('8 results');
+        expect(pageResults).toHaveTextContent('8 of 8');
     });
 
     it('renders pager select with correct values', () => {
@@ -105,7 +116,11 @@ describe('More Tests for GridFooter Component', () => {
         pageRows: 10,
         pagerSelectOptions: [1, 2, 3, 4, 5],
         enablePaging: true,
-        noOfPages: 5
+        noOfPages: 5,
+        showNumberPagination: true,
+        showSelectPagination: true,
+        showPageSizeSelector: true,
+        showPageInfo: true,
     };
 
     const mockSetState = jest.fn();
@@ -177,4 +192,121 @@ describe('More Tests for GridFooter Component', () => {
     it('renders GridFooter without crashing', () => {
         expect(() => renderWithProvider(<GridFooter />, { pagerSelectOptions: [], totalRows: 0 })).not.toThrow();
     });
+
+    it('updates pagination state correctly when page size is changed', () => {
+        const stateOverrides = {
+            totalRows: 100,
+            currentPageRows: 10,
+            activePage: 6,
+            pageRows: 10,
+            pagerSelectOptions: [1, 2, 3, 4, 5, 6],
+            noOfPages: 10,
+            showPageSizeSelector: true
+        };
+
+        renderWithProvider(<GridFooter {...defaultProps} />, stateOverrides);
+        const pageSizeDropdownTrigger = screen.getByRole('button', { name: /10/i });
+        fireEvent.click(pageSizeDropdownTrigger);
+        const newPageSizeOption = screen.getByText('25');
+        fireEvent.click(newPageSizeOption);
+        expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        const updaterFn = mockSetState.mock.calls[0][0];
+
+        const result = updaterFn({
+            totalRows: 100,
+            activePage: 6,
+            currentPageRows: 10,
+            pageRows: 10,
+        });
+
+        expect(result).toEqual({
+            totalRows: 100,
+            activePage: 1,
+            currentPageRows: 25,
+            pageRows: 25,
+            firstRow: 0,
+            lastPageRows: 25,
+            noOfPages: 4,
+        });
+    });
+
+    it('increments noOfPages if lastPageRows > 0', () => {
+        const stateOverrides = {
+            totalRows: 105,
+            currentPageRows: 10,
+            activePage: 5,
+            pageRows: 10,
+            pagerSelectOptions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            noOfPages: 11,
+            showPageSizeSelector: true
+        };
+
+        renderWithProvider(<GridFooter {...defaultProps} />, stateOverrides);
+        const pageSizeDropdownTrigger = screen.getByRole('button', { name: /10/i });
+        fireEvent.click(pageSizeDropdownTrigger);
+        const newPageSizeOption = screen.getByText('25');
+        fireEvent.click(newPageSizeOption);
+        const updaterFn = mockSetState.mock.calls[0][0];
+        const result = updaterFn({
+            totalRows: 105,
+            activePage: 5,
+            currentPageRows: 5,
+            pageRows: 25
+        });
+
+        expect(result.noOfPages).toBe(5);
+        expect(result.lastPageRows).toBe(5);
+        expect(result.activePage).toBe(5);
+        expect(result.currentPageRows).toBe(5);
+        expect(result.firstRow).toBe(100);
+        expect(result.pageRows).toBe(25);
+    });
+
+    it('defaults activePage to 1 if prev.activePage is undefined and resetPage is false', () => {
+        const mockSetState = jest.fn();
+        render(
+            <GridConfigContext.Provider
+                value={{
+                    state: {
+                        ...mockState,
+                        totalRows: 100,
+                        activePage: undefined 
+                    },
+                    setState: mockSetState
+                }}
+            >
+                <GridFooter {...defaultProps} />
+            </GridConfigContext.Provider>
+        );
+
+        const dropdownTrigger = screen.getAllByRole('button')[1];
+        fireEvent.click(dropdownTrigger);
+        const newPageSizeOption = screen.getByText('25');
+        fireEvent.click(newPageSizeOption);
+        expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        const updatedState = mockSetState.mock.calls[0][0]({
+            totalRows: 100,
+            activePage: undefined
+        });
+        expect(updatedState.activePage).toBe(1);
+    });
+
+    describe('GridFooter when useGridConfig returns null or undefined', () => {
+        afterEach(() => {
+            jest.resetAllMocks();
+        });
+
+        it('renders safely when useGridConfig returns null', () => {
+            jest.spyOn(useGridConfigModule, 'useGridConfig').mockReturnValue(null);
+
+            expect(() => render(<GridFooter {...defaultProps} />)).not.toThrow();
+            expect(screen.queryByText(/of/)).toBeNull();
+        });
+
+        it('renders safely when useGridConfig returns undefined', () => {
+            jest.spyOn(useGridConfigModule, 'useGridConfig').mockReturnValue(undefined);
+
+            expect(() => render(<GridFooter {...defaultProps} />)).not.toThrow();
+        });
+    });   
 });

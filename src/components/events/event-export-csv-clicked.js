@@ -11,7 +11,7 @@ export const eventExportToCSV = (
     data,
     columns,
     filename,
-    onDownloadComplete = () => { }
+    onDownloadComplete
 ) => {
     if (!data || data.length === 0 || !columns) {
         return;
@@ -54,7 +54,7 @@ export const eventExportToCSV = (
     link.click();
     URL.revokeObjectURL(url);
     if (typeof onDownloadComplete === 'function') {
-        onDownloadComplete(
+        onDownloadComplete?.(
             e,
             filename,
             blob

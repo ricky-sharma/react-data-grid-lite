@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/display-name */
@@ -341,6 +340,18 @@ describe('More tests for GridRows Component', () => {
             <tbody>
                 <GridRows
                     state={baseState}
+                    setState={mockSetState}
+                    computedColumnWidthsRef={{ current: null }} />
+            </tbody></table>);
+        const tbody = container.querySelector('tbody');
+        expect(tbody.children.length).toBe(0);
+    });
+
+    it('renders nothing if state and computedColumnWidthsRef.current is null', () => {
+        const { container } = render(<table>
+            <tbody>
+                <GridRows
+                    state={null}
                     setState={mockSetState}
                     computedColumnWidthsRef={{ current: null }} />
             </tbody></table>);

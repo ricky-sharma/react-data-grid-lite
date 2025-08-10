@@ -35,6 +35,7 @@ const DataGrid = ({
     onColumnDragEnd,
     onCellUpdate
 }) => {
+    const fallbackfn = () => { };
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
         maxWidth: maxWidth ?? '100vw',
@@ -77,24 +78,24 @@ const DataGrid = ({
             options?.showPageInfo : true,
         rowHeight: parseInt(options?.rowHeight, 10) ? options?.rowHeight : undefined,
         rowClickEnabled: !isNull(onRowClick),
-        onRowClick: onRowClick ?? (() => { }),
-        onRowHover: onRowHover ?? (() => { }),
-        onRowOut: onRowOut ?? (() => { }),
-        onCellUpdate: onCellUpdate ?? (() => { }),
-        onSortComplete: onSortComplete ?? (() => { }),
-        onSearchComplete: onSearchComplete ?? (() => { }),
-        onPageChange: onPageChange ?? (() => { }),
-        onColumnResized: onColumnResized ?? (() => { }),
-        onColumnDragEnd: onColumnDragEnd ?? (() => { }),
+        onRowClick: onRowClick ?? fallbackfn,
+        onRowHover: onRowHover ?? fallbackfn,
+        onRowOut: onRowOut ?? fallbackfn,
+        onCellUpdate: onCellUpdate ?? fallbackfn,
+        onSortComplete: onSortComplete ?? fallbackfn,
+        onSearchComplete: onSearchComplete ?? fallbackfn,
+        onPageChange: onPageChange ?? fallbackfn,
+        onColumnResized: onColumnResized ?? fallbackfn,
+        onColumnDragEnd: onColumnDragEnd ?? fallbackfn,
         editButtonEnabled: options?.editButton ?? false,
-        editButtonEvent: options?.editButton?.event ?? (() => { }),
+        editButtonEvent: options?.editButton?.event ?? fallbackfn,
         deleteButtonEnabled: options?.deleteButton ?? false,
-        deleteButtonEvent: options?.deleteButton?.event ?? (() => { }),
+        deleteButtonEvent: options?.deleteButton?.event ?? fallbackfn,
         actionColumnAlign: options?.actionColumnAlign ?? '',
         enableDownload: typeof options?.enableDownload === 'boolean' ?
             options?.enableDownload : true,
         downloadFilename: options?.downloadFilename ?? null,
-        onDownloadComplete: options?.onDownloadComplete ?? (() => { }),
+        onDownloadComplete: options?.onDownloadComplete ?? fallbackfn,
         globalSearchPlaceholder: options?.globalSearchPlaceholder,
         gridBackgroundColor: options?.gridBgColor,
         gridHeaderBackgroundColor: options?.headerBgColor,
@@ -278,7 +279,7 @@ const DataGrid = ({
         let noOfPages = Math.floor(state.totalRows / state.pageRows);
         let lastPageRows = state.totalRows % state.pageRows;
         if (lastPageRows > 0) noOfPages++;
-        else if (lastPageRows === 0) lastPageRows = state.pageRows;
+        if (lastPageRows === 0) lastPageRows = state.pageRows;
         let activePage = !isNull(noOfPages) && state.activePage > noOfPages ? 1 : state.activePage;
         setState((prevState) => ({
             ...prevState,
@@ -466,7 +467,7 @@ const DataGrid = ({
             let noOfPages = Math.floor(dataLength / prev?.pageRows);
             let lastPageRows = dataLength % prev?.pageRows;
             if (lastPageRows > 0) noOfPages++;
-            else if (lastPageRows === 0) lastPageRows = prev?.pageRows;
+            if (lastPageRows === 0) lastPageRows = prev?.pageRows;
 
             return {
                 ...prev,
