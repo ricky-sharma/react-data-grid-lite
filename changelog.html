@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754441191418" rel="stylesheet" />
+		<link href="index.css?ver=1754836286787" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -350,6 +350,66 @@
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <br>
+<h2>✨ v1.2.1 – Released 2025-08-10</h2>
+<h3>✨ Features</h3>
+<ul>
+<li>
+<p><strong>Add ErrorBoundary to DataGrid</strong></p>
+<ul>
+<li>Prevents the entire app from crashing due to unhandled errors inside the grid.</li>
+<li>Provides a fallback UI and improved resilience.</li>
+</ul>
+</li>
+<li>
+<p><strong>Logging Enhancements</strong></p>
+<ul>
+<li>Introduced <code>logDebug(debug, type, ...args)</code> utility for level-based, prefixed logging.</li>
+<li>Supports log levels: <code>'log'</code>, <code>'warn'</code>, <code>'error'</code>, <code>'info'</code>; gracefully falls back to <code>console.log</code>.</li>
+<li>Logging is automatically disabled when <code>debug</code> is false.</li>
+<li>Exposed a new <code>debug</code> prop for grid users to enable debug logging (e.g., in production troubleshooting).</li>
+<li>Integrated debug control through grid config and internal hooks.</li>
+<li>Full Jest test coverage for <code>logDebug</code>, including edge cases and fallback scenarios.</li>
+</ul>
+</li>
+<li>
+<p><strong>Pagination Improvements</strong></p>
+<ul>
+<li>
+<p>Added a <strong>&quot;Rows per page&quot; selector</strong> to the DataGrid.</p>
+<ul>
+<li>Allows users to select from predefined options (5, 10, 25, 50, 100, 250, 500).</li>
+<li>Pagination updates dynamically based on the selected value.</li>
+<li>Enhances performance and UX on large datasets.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Grid Footer Customization</strong></p>
+<ul>
+<li>
+<p>Introduced new props for fine-grained control over the footer:</p>
+<ul>
+<li><code>showPageInfo</code></li>
+<li><code>showPageSizeSelector</code></li>
+<li><code>showNumberPagination</code></li>
+<li><code>showSelectPagination</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>♻️ Refactor</h3>
+<ul>
+<li>Improved UI alignment and layout for a cleaner experience.</li>
+<li>Removed redundant code and improved overall readability and maintainability.</li>
+</ul>
+<h3>✅ Tests</h3>
+<ul>
+<li>Extended and updated unit tests for all new features and configuration options.</li>
+<li>Verified pagination behavior and logging functionality under various conditions.</li>
+</ul>
+<p><br><br></p>
 <h3>🔖 v1.2.0 – Released 2025-08-06</h3>
 <h3>✨ Added</h3>
 <ul>

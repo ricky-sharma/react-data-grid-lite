@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754441191418" rel="stylesheet" />
+		<link href="index.css?ver=1754836286787" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -364,98 +364,98 @@
 <tbody>
 <tr>
 <td><code>alias</code></td>
-<td><code>String</code></td>
+<td><code>string</code></td>
 <td>Provides an alternative name or alias for the column key. This alias can be used in column headers and other UI elements to make the grid more intuitive.</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>cellStyle</code></td>
-<td><code>Object</code></td>
+<td><code>object</code></td>
 <td>Applies custom styles to the <code>&lt;td&gt;</code> cell. Useful for matching <code>headerStyle</code>-defined widths or aligning text consistently. Use with caution: this affects only row cells. Setting layout-affecting properties (e.g. <code>width</code>) differently from headers may cause misalignment. Supported in <code>version 1.1.10</code> and above.</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>class</code></td>
-<td><code>String</code></td>
+<td><code>string</code></td>
 <td>Custom CSS class applied to each data cell in the column. Supported in <code>version 1.1.0</code> and above.</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>concatColumns</code></td>
-<td><code>Object</code></td>
+<td><code>object</code></td>
 <td>Specifies columns to concatenate into this column. It includes: <code>columns</code> (array of column keys to concatenate) and <code>separator</code> (the separator string).</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>draggable</code></td>
-<td><code>Boolean</code></td>
+<td><code>boolean</code></td>
 <td>Enables or disables dragging for an individual column. Overrides the global <code>enableColumnDrag</code> setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in <code>version 1.1.4</code> and above.</td>
 <td>false</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>editable</code></td>
-<td><code>Boolean</code></td>
+<td><code>boolean</code></td>
 <td>Enables or disables cell editing for a specific column. Overrides the <code>enableCellEdit</code> setting. Cell editing is fully accessible via keyboard, touch, and mouse. A <code>&lt;td&gt;</code> cell enters edit mode when double-clicked with a mouse, by pressing <strong>Enter</strong> on the keyboard, or with a firm tap on mobile devices. To save changes, press <strong>Enter</strong> on the keyboard, click outside the cell (mouse), or tap outside (touch). Press <strong>Esc</strong> to cancel. When a change is saved, the <code>onCellUpdate</code> callback is fired. Supported in version 1.1.5 and above.</td>
 <td>false</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>editor</code></td>
-<td><code>String</code> / <code>Object</code> / <code>Array</code></td>
+<td><code>string</code> / <code>object</code> / <code>Array</code></td>
 <td>Enables inline editing for the column. Can be a shorthand string (<code>'text'</code>, <code>'number'</code>) or an object (<code>'select'</code>) with detailed configuration. When used with <code>concatColumns</code>, this can be an array matching the column parts.<br><br>💡 <strong>Default behavior:</strong> If <code>editor</code> is not provided but <code>editable: true</code> is set (or <code>enableCellEdit</code> is enabled globally), the field defaults to a <code>'text'</code> input editor. Supported in <code>version 1.1.5</code> and above.</td>
 <td><code>'text'</code> (if <code>editable</code> is <code>true</code>)</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>enableSearch</code></td>
-<td><code>Boolean</code></td>
+<td><code>boolean</code></td>
 <td>Enables or disables the search textbox for a specific column. Overrides the <code>enableColumnSearch</code> setting. Renamed from <code>searchEnable</code> in <code>v1.1.2</code> and above.</td>
 <td>true</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>fixed</code></td>
-<td><code>Boolean</code></td>
+<td><code>boolean</code></td>
 <td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in <code>version 1.1.0</code> and above.</td>
 <td>false</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>formatting</code></td>
-<td><code>Object</code></td>
+<td><code>object</code></td>
 <td>Formatting settings for the column. Includes the <code>type</code> (e.g., <code>currency</code>, <code>date</code>) and <code>format</code> (the format string, such as <code>$0,0.00</code>).</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>headerStyle</code></td>
-<td><code>Object</code></td>
+<td><code>object</code></td>
 <td>Applies custom styles to the <code>&lt;th&gt;</code> (header) cell. Useful for matching <code>cellStyle</code>-defined widths or aligning text consistently. Supported in <code>version 1.1.10</code> and above.</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>hidden</code></td>
-<td><code>Boolean</code></td>
+<td><code>boolean</code></td>
 <td>Whether the column should be hidden.</td>
 <td>false</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>name</code></td>
-<td><code>String</code></td>
+<td><code>string</code></td>
 <td>The display name of the column header. It also serves as the key or identifier for accessing the corresponding data in each row. This value must be unique.</td>
 <td>-</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>order</code></td>
-<td><code>Number</code></td>
+<td><code>number</code></td>
 <td>Specifies the display order of the column (integer value), starting from 1. Supported in version <code>1.1.4</code> and above.</td>
 <td>-</td>
 <td>No</td>
@@ -469,21 +469,21 @@
 </tr>
 <tr>
 <td><code>resizable</code></td>
-<td><code>Boolean</code></td>
+<td><code>boolean</code></td>
 <td>Enables or disables resizing for a specific column. This setting overrides the <code>enableColumnResize</code> option. Supported in version <code>1.1.0</code> and above.</td>
 <td>false</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>searchPlaceholder</code></td>
-<td><code>String</code></td>
+<td><code>string</code></td>
 <td>Sets the placeholder text for individual column search input fields. Useful for customization or localization. Supported in version <code>1.1.6</code> and above.</td>
 <td><code>&quot;Search column…&quot;</code></td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>width</code></td>
-<td><code>Number</code> / <code>String</code></td>
+<td><code>number</code> / <code>string</code></td>
 <td>The width of the column. Can be a fixed pixel value (e.g., <code>100px</code>) or a percentage (e.g., <code>'20%'</code>). Default value is calculated dynamically.</td>
 <td>-</td>
 <td>No</td>
