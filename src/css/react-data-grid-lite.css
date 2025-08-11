@@ -228,7 +228,7 @@
 
 .r-d-g-lt-comp .download-icon-div {
     float: right;
-    width: 136px !important;
+    width: 136px;
     position: relative;
     top: 0px;
     height: 36px;
@@ -333,7 +333,6 @@
 .r-d-g-lt-comp .page-size-selector {
     float: right;
     justify-content: right;
-    padding-right: 60px !important;
 }
 
 .r-d-g-lt-comp .rows--selector {
@@ -345,7 +344,7 @@
 }
 
     .r-d-g-lt-comp .rows--selector .ps-dropdown {
-        padding: 6px 4px;
+        padding: 6px;
         cursor: pointer;
         user-select: none;
         position: relative;
@@ -647,7 +646,7 @@
 
 .r-d-g-lt-comp .globalSearchDiv {
     display: inline-block !important;
-    padding: 4px 10px !important;
+    padding: 4px 10px;
     margin: 0 !important;
     opacity: 90%;
 }
@@ -662,9 +661,9 @@
     }
 
 .r-d-g-lt-comp div.globalSearch {
-    width: 60% !important;
-    height: 42px !important;
-    float: left !important;
+    width: 60%;
+    height: 42px;
+    float: left;
     position: relative;
 }
 
@@ -743,6 +742,7 @@
         font-style: normal;
         font-weight: 900;
         position: relative;
+        font-size: 18px;
     }
 
         .r-d-g-lt-comp .pagination li.page-item a i.arrow:hover,
@@ -754,7 +754,6 @@
     .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
         background: inherit !important;
     }
-
 
     .r-d-g-lt-comp .pagination li.page-item.arrow a.page-link:active {
         background: inherit !important;
@@ -769,90 +768,21 @@
     display: block !important;
 }
 
-@media (max-width: 1200px) {
-    .r-d-g-lt-comp .page-size-selector {
-        padding-right: 40px !important;
-    }
-}
-
-@media (max-width: 1024px) {
-    .r-d-g-lt-comp .page-list {
-        width: 8.333% !important;
-        max-width: 8.333% !important;
-    }
-
-    .r-d-g-lt-comp .page-size-selector {
-        width: 33.332% !important;
-        max-width: 33.332% !important;
-        padding: 0 !important;
-    }
-}
-
 @media (max-width: 700px) {
-
-    .r-d-g-lt-comp .download-icon-div div.icon-content {
-        gap: 0 !important;
-    }
-
-    .r-d-g-lt-comp .download-icon {
-        margin-left: 0px !important;
-    }
-
-    .r-d-g-lt-comp .page-results,
-    .r-d-g-lt-comp .page-size-selector {
-        width: 40% !important;
-        max-width: 40% !important;
-    }
-
-    .r-d-g-lt-comp .pager-select {
-        width: 20% !important;
-        max-width: 20% !important;
-    }
-
     .r-d-g-lt-comp .rows--selector .ps-dropdown {
         padding: 6px 2px;
         min-width: 40px;
-    }
-
-    .r-d-g-lt-comp .page-list {
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    .r-d-g-lt-comp div.globalSearch {
-        margin: 0;
-        height: 34px !important;
-    }
-
-    .r-d-g-lt-comp .globalSearchDiv {
-        padding-top: 2px !important;
     }
 
     .r-d-g-lt-comp .drop--down {
         min-width: 50px;
         height: 32px;
     }
-
-    .r-d-g-lt-comp .clear-icon-div {
-        float: right !important;
-    }
-
-    .r-d-g-lt-comp .icon-div-mobile {
-        width: 36px !important;
-        height: 30px !important;
-    }
 }
 
 @media (max-width: 500px) {
-    .r-d-g-lt-comp .react-data-grid-lite table tbody {
-        max-height: 345px;
-        height: 345px;
-    }
-
     .r-d-g-lt-comp table thead tr.gridHeader th {
         padding: 2px 0 !important;
-        border-top: none !important;
-        border-bottom: none !important;
         height: 50px;
     }
 
@@ -868,32 +798,10 @@
         padding: 4px 0 5px 0;
     }
 
-    .r-d-g-lt-comp .page-results {
-        width: 30% !important;
-        max-width: 30% !important;
-        padding-left: 4px !important;
-    }
-
-    .r-d-g-lt-comp .pager-select {
-        width: 20% !important;
-        max-width: 20% !important;
-    }
-
-    .r-d-g-lt-comp .page-size-selector {
-        width: 50% !important;
-        max-width: 50% !important;
-    }
-
     .r-d-g-lt-comp .page-results,
     .r-d-g-lt-comp .pager-select,
     .r-d-g-lt-comp .page-size-selector {
         transform: scale(0.95) !important;
-    }
-}
-
-@media (max-width: 350px) {
-    .r-d-g-lt-comp div.globalSearch {
-        width: 50% !important;
     }
 }
 

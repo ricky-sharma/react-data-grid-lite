@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { Page_Size_Selector_Options } from '../constants';
 import { useGridConfig } from '../hooks/use-grid-config';
 import { useWindowWidth } from '../hooks/use-window-width';
+import { gridWidthType } from '../utils/grid-width-type';
 import Dropdown from './custom-fields/dropdown';
 import GridPagination from './grid-pagination';
 
@@ -25,7 +26,7 @@ const GridFooter = memo(({
         showPageSizeSelector,
         showPageInfo
     } = state;
-    const isMobile = windowWidth < 701;
+    const { isSmallWidth, isMobileWidth, isTabletWidth, isMediumWidth, isLargeWidth } = gridWidthType(windowWidth);
     const start = (activePage - 1) * pageRows + 1;
     const end = start + currentPageRows - 1;
     const showingRange = totalRows > currentPageRows ? `${start} - ${end}` : totalRows;
@@ -54,10 +55,21 @@ const GridFooter = memo(({
         <div style={{
             backgroundColor: gridBackgroundColor
         }} className="row--flex col-flex-12 mg--0 pd--0 alignCenter grid-footer">
-            <div className="col-flex-5 mg--0 pd--0 page-results">
+            <div
+                style={{
+                    paddingLeft: isSmallWidth === true ? '4px' : undefined,
+                    width: isMobileWidth ? '40%' : isSmallWidth ? "30%" : undefined,
+                    maxWidth: isMobileWidth ? '40%' : isSmallWidth ? "30%" : undefined,
+                }}
+                className="col-flex-5 mg--0 pd--0 page-results">
                 {showPageInfo === true && totalRows > 0 && (`${showingRange} of ${totalRows}`)}
             </div>
-            <div className="col-flex-2 mg--0 pd--0 pager-select alignCenter">
+            <div
+                style={{
+                    width: isMobileWidth || isSmallWidth ? '20%' : undefined,
+                    maxWidth: isMobileWidth || isSmallWidth ? '20%' : undefined,
+                }}
+                className="col-flex-2 mg--0 pd--0 pager-select alignCenter">
                 {showSelectPagination === true &&
                     enablePaging === true &&
                     pagerSelectOptions?.length > 0 &&
@@ -67,12 +79,19 @@ const GridFooter = memo(({
                         onChange={(e, val) => onPageChange(e, parseInt(val, 10))}
                     />)}
             </div>
-            <div className="col-flex-3 mg--0 pd--0 page-size-selector alignCenter">
+            <div
+                style={{
+                    padding: isLargeWidth === true ? '0 60px 0 0' :
+                        (isMediumWidth === true ? '0 40px 0 0' : 0),
+                    width: isTabletWidth ? '33.332%' : (isMobileWidth ? '40%' : isSmallWidth ? '50%' : undefined),
+                    maxWidth: isTabletWidth ? '33.332%' : (isMobileWidth ? '40%' : isSmallWidth ? '50%' : undefined)
+                }}
+                className="col-flex-3 mg--0 pd--0 page-size-selector alignCenter">
                 {showPageSizeSelector === true &&
                     enablePaging === true &&
                     state?.pageRows > 0 &&
-                    (<div className="rows--selector" >
-                        <div>Rows per page:</div>
+                    (<div className="rows--selector">
+                        <div style={{ flex: 'none' }}>Rows per page:</div>
                         <Dropdown
                             options={Page_Size_Selector_Options}
                             value={state?.pageRows}
@@ -81,10 +100,15 @@ const GridFooter = memo(({
                         />
                     </div>)}
             </div>
-            <div className="float-lt col-flex-2 mg--0 pd--0 page-list">
+            <div
+                style={{
+                    width: isTabletWidth ? '8.333%' : (isMobileWidth || isSmallWidth ? '100%' : undefined),
+                    maxWidth: isTabletWidth ? '8.333%' : (isMobileWidth || isSmallWidth ? '100%' : undefined)
+                }}
+                className="float-lt col-flex-2 mg--0 pd--0 page-list">
                 {showNumberPagination === true &&
                     pagerSelectOptions?.length > 0 &&
-                    (!isMobile || !showSelectPagination) && (
+                    ((!isMobileWidth && !isSmallWidth) || !showSelectPagination) && (
                         <GridPagination
                             onPageChange={onPageChange}
                             onPrevButtonClick={onPrev}
