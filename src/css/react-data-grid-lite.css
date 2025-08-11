@@ -67,7 +67,7 @@
         position: relative;
         min-width: 60px;
         border-radius: 8px !important;
-        height: 32px;
+        height: 30px;
         padding: 0;
         cursor: pointer;
         font-weight: 600 !important;
@@ -690,7 +690,7 @@
     .r-d-g-lt-comp .pagination li.page-item a.page-link {
         border: 0;
         border-radius: 6px !important;
-        color: #999 !important;
+        color: #0c0c0c !important;
         height: 24px;
         line-height: 24px;
         text-align: center;
@@ -776,7 +776,7 @@
 
     .r-d-g-lt-comp .drop--down {
         min-width: 50px;
-        height: 32px;
+        height: 30px;
     }
 }
 

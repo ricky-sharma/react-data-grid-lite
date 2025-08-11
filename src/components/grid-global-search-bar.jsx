@@ -25,10 +25,11 @@ const GridGlobalSearchBar = memo(({
         downloadFilename,
         onDownloadComplete,
         showResetButton,
-        globalSearchPlaceholder
+        globalSearchPlaceholder,
+        gridID
     } = state;
 
-    const { isXSWidth, isSmallWidth, isMobileWidth } = gridWidthType(windowWidth);
+    const { isXSWidth, isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
     const noColumns = isNull(columns);
     const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns
     return (

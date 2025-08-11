@@ -24,9 +24,16 @@ const GridFooter = memo(({
         showNumberPagination,
         showSelectPagination,
         showPageSizeSelector,
-        showPageInfo
+        showPageInfo,
+        gridID
     } = state;
-    const { isSmallWidth, isMobileWidth, isTabletWidth, isMediumWidth, isLargeWidth } = gridWidthType(windowWidth);
+    const {
+        isSmallWidth,
+        isMobileWidth,
+        isTabletWidth,
+        isMediumWidth,
+        isLargeWidth
+    } = gridWidthType(windowWidth, gridID);
     const start = (activePage - 1) * pageRows + 1;
     const end = start + currentPageRows - 1;
     const showingRange = totalRows > currentPageRows ? `${start} - ${end}` : totalRows;
