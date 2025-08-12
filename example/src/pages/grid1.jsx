@@ -23,7 +23,7 @@ export default function Grid1() {
     const columns = [
         {
             name: 'id',
-            width: '150px',
+            width: '75px',
             fixed: true,
             render: (row) => (
                 <div

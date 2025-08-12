@@ -144,16 +144,6 @@ The grid intelligently calculates column widths based on a mix of fixed, flexibl
 * Each column receives at least the default value specified by `Fallback_Column_Width`.
 
 
-### 📱 Mobile Mode
-
-* Each column is expected to take a fixed width (`Mobile_Column_Width`, e.g., `120px`).
-* If total required width exceeds container width:
-
-  * Button columns or columns with wider settings retain their defined size.
-  * Other columns default to `Mobile_Column_Width`.
-* Otherwise, all columns share the container width equally.
-
-
 ### ⚠️ Fallbacks & Edge Cases
 
 * If no visible columns are found, a default width of `100%` is returned.

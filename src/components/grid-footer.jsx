@@ -28,6 +28,7 @@ const GridFooter = memo(({
         gridID
     } = state;
     const {
+        isXSWidth,
         isSmallWidth,
         isMobileWidth,
         isTabletWidth,
@@ -65,8 +66,8 @@ const GridFooter = memo(({
             <div
                 style={{
                     paddingLeft: isSmallWidth === true ? '4px' : undefined,
-                    width: isMobileWidth ? '40%' : isSmallWidth ? "30%" : undefined,
-                    maxWidth: isMobileWidth ? '40%' : isSmallWidth ? "30%" : undefined,
+                    width: isMobileWidth ? '40%' : isXSWidth ? "25%" : isSmallWidth ? "30%" : undefined,
+                    maxWidth: isMobileWidth ? '40%' : isXSWidth ? "25%" : isSmallWidth ? "30%" : undefined,
                 }}
                 className="col-flex-5 mg--0 pd--0 page-results">
                 {showPageInfo === true && totalRows > 0 && (`${showingRange} of ${totalRows}`)}
@@ -90,8 +91,10 @@ const GridFooter = memo(({
                 style={{
                     padding: isLargeWidth === true ? '0 60px 0 0' :
                         (isMediumWidth === true ? '0 40px 0 0' : 0),
-                    width: isTabletWidth ? '33.332%' : (isMobileWidth ? '40%' : isSmallWidth ? '50%' : undefined),
-                    maxWidth: isTabletWidth ? '33.332%' : (isMobileWidth ? '40%' : isSmallWidth ? '50%' : undefined)
+                    width: isTabletWidth ? '33.332%' :
+                        (isMobileWidth ? '40%' : isXSWidth ? "55%" : isSmallWidth ? '50%' : undefined),
+                    maxWidth: isTabletWidth ? '33.332%'
+                        : (isMobileWidth ? '40%' : isXSWidth ? "55%" : isSmallWidth ? '50%' : undefined)
                 }}
                 className="col-flex-3 mg--0 pd--0 page-size-selector alignCenter">
                 {showPageSizeSelector === true &&

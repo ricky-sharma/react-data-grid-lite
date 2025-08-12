@@ -4,8 +4,7 @@ import {
     Button_Column_Width,
     Container_Identifier,
     Default_Grid_Width_VW,
-    Fallback_Column_Width,
-    Mobile_Column_Width
+    Fallback_Column_Width
 } from "../constants";
 import {
     convertViewportUnitToPixels,
@@ -20,14 +19,12 @@ export function calculateColumnWidth(
     hiddenCols,
     currentColKey,
     buttonColEnabled = false,
-    isMobile = false,
     gridID
 ) {
     if (!Array.isArray(colWidthArray)) return '100%';
     const containerWidth = getContainerWidthInPixels(`#${gridID} ${Container_Identifier}`,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     const buttonColumnWidth = parseFloat(Button_Column_Width?.replace?.('px', '') || '0');
-    const mobileColumnWidth = parseFloat(Mobile_Column_Width?.replace?.('px', '') || '0');
     const fallbackWidth = parseFloat(Fallback_Column_Width?.replace?.('px', '') || '0');
     const netContainerWidth = buttonColEnabled ?
         containerWidth - buttonColumnWidth - parseFloat(Border_Padding_Margin_Width ?? 0)
@@ -65,15 +62,6 @@ export function calculateColumnWidth(
     const safeColWidth = isValidWidth ? `${parsedWidth}px` : Fallback_Column_Width;
     const nonFixedColumnComputedValue = nonFixedWidthColCount > 0 ?
         ((netContainerWidth - fixedWidthTotal) / nonFixedWidthColCount) : 0;
-    // MOBILE LOGIC
-    if (isMobile) {
-        const totalMobileRequired = totalVisibleColumns * mobileColumnWidth;
-        return totalMobileRequired >= netContainerWidth
-            ? (parsedWidth > mobileColumnWidth ? safeColWidth : Mobile_Column_Width)
-            : `${(netContainerWidth / totalVisibleColumns)}px`;
-    }
-
-    // DESKTOP LOGIC
 
     // SCENARIO 1: All fixed columns
     if (fixedWidthColCount > 0 && nonFixedWidthColCount === 0) {

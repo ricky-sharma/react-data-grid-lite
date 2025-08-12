@@ -111,6 +111,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: normal;
+        height: 30px;
     }
 
         .r-d-g-lt-comp .dropdown-option:hover {
@@ -370,6 +371,7 @@
             padding: 8px 20px;
             text-align: left;
             box-shadow: none;
+            height: 35px;
         }
 
             .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-option:hover,

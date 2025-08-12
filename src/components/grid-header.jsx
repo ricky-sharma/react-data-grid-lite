@@ -5,6 +5,7 @@ import { useDraggableColumns } from '../hooks/use-draggable-columns';
 import { useWindowWidth } from '../hooks/use-window-width';
 import ActionIcon from '../icons/action-icon';
 import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
+import { gridWidthType } from '../utils/grid-width-type';
 import ColumnSortIcon from './column-sort-icon';
 import Input from './custom-fields/input';
 
@@ -17,9 +18,11 @@ const GridHeader = ({
     computedColumnWidthsRef
 }) => {
     const windowWidth = useWindowWidth();
-    const { getColumnProps } = useDraggableColumns(state?.columns,
-        setState, state?.onColumnDragEnd);
-    const isMobile = windowWidth < 701;
+    const { getColumnProps } = useDraggableColumns(
+        state?.columns,
+        setState,
+        state?.onColumnDragEnd
+    );
     if (!state || isNull(state.columns) || isNull(state.columnWidths)) return null;
     const {
         columns,
@@ -38,6 +41,8 @@ const GridHeader = ({
         gridHeaderBackgroundColor
     } = state;
 
+    const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
+    const isMobile = isSmallWidth || isMobileWidth;
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
     const headers = [...columns];
     let computedColumnWidths = [];
@@ -47,7 +52,7 @@ const GridHeader = ({
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
-        Button_Column_Key, buttonColEnabled, isMobile, gridID);
+        Button_Column_Key, buttonColEnabled, gridID);
 
     if (Button_Column_Key) {
         computedColumnWidths = [
@@ -124,7 +129,7 @@ const GridHeader = ({
             }} /> : null;
 
         const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
-            key, buttonColEnabled, isMobile, gridID);
+            key, buttonColEnabled, gridID);
 
         if (header?.name) {
             computedColumnWidths = [
@@ -271,7 +276,7 @@ const GridHeader = ({
 
     return (
         <thead ref={gridHeaderRef}>
-            <tr style={{ backgroundColor: state.gridHeaderBackgroundColor }} className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>
+            <tr style={{ backgroundColor: gridHeaderBackgroundColor }} className={`${headerCssClass} gridHeader`} id={`thead-row-${gridID}`}>
                 {thColHeaders}
             </tr>
             {searchRowEnabled && <tr className={`${headerCssClass} searchHeader`}>{thSearchHeaders}</tr>}

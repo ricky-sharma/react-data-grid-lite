@@ -27,7 +27,7 @@ export default function Grid2() {
     const columns = users?.length > 0 ? Object.keys(users[0])?.map((val) => {
         if (val.toLowerCase() === 'id')
             return {
-                name: val, alias: 'ID', width: '120px',
+                name: val, alias: 'ID', width: '90px',
                 render: (row) => {
                     return <div
                         style={{ height: "100%" }}
@@ -65,7 +65,7 @@ export default function Grid2() {
             }
         else if (val.toLowerCase() === 'image')
             return {
-                name: val, width: '300px',
+                name: val, width: '300px', cellStyle: { backgroundColor: '#e0e0e0' },
                 render: (row) => (
                     <div className="alignCenter" style={{
                         height: '100%',
@@ -90,16 +90,16 @@ export default function Grid2() {
                 formatting: {
                     type: 'Date', format: 'dd-MMMM-yyyy'
                 },
-                width: '200px'
+                width: '200px', cellStyle: { backgroundColor: 'red' }
             }
         else if (val.toLowerCase() === 'title'
             || val.toLowerCase() === 'publisher')
             return {
-                name: val, width: '250px'
+                name: val, width: '250px', cellStyle: {backgroundColor : 'silver'}
             }
         else
             return {
-                name: val, width: '175px'
+                name: val, width: '175px', cellStyle: { backgroundColor: 'gold' }
             }
     }) : [];
 
