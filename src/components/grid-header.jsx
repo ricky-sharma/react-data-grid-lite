@@ -38,7 +38,8 @@ const GridHeader = ({
         searchValues,
         actionColumnAlign,
         enableColumnDrag,
-        gridHeaderBackgroundColor
+        gridHeaderBackgroundColor,
+        enableSorting
     } = state;
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
@@ -51,8 +52,13 @@ const GridHeader = ({
     const containerWidth = getContainerWidthInPixels(`#${gridID} ${Container_Identifier}`,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
-        Button_Column_Key, buttonColEnabled, gridID);
+    const buttonColWidth = calculateColumnWidth(
+        columnWidths,
+        hiddenColIndex,
+        Button_Column_Key,
+        buttonColEnabled,
+        gridID
+    );
 
     if (Button_Column_Key) {
         computedColumnWidths = [
@@ -122,8 +128,10 @@ const GridHeader = ({
         key -= (isActionColumnLeft && buttonColEnabled) ? 1 : 0;
 
         if (header?.hidden === true) return null;
+        const colResizable = typeof header?.resizable === "boolean"
+            ? header?.resizable : enableColumnResize;
 
-        const thInnerHtml = lastVisibleIndex !== key ?
+        const thInnerHtml = lastVisibleIndex !== key || colResizable === true ?
             <span style={{
                 zIndex: (header?.fixed === true ? 11 : '')
             }} /> : null;
@@ -166,9 +174,12 @@ const GridHeader = ({
         const displayName = isNull(header?.alias) || header?.name === header?.alias
             ? header?.name
             : header?.alias;
+        const sortable = typeof header?.sortable === "boolean"
+            ? header?.sortable
+            : enableSorting;
         const onClickHandler = (e) => {
             const colNames = !isNull(header?.concatColumns?.columns) ? header?.concatColumns?.columns : [header?.name];
-            if (typeof onHeaderClicked === 'function') onHeaderClicked(e, colNames, header?.name);
+            if (typeof onHeaderClicked === 'function' && sortable === true) onHeaderClicked(e, colNames, header?.name);
         };
 
         const draggableProps = (typeof header?.draggable === 'boolean' ?
@@ -187,16 +198,16 @@ const GridHeader = ({
                         if (e.key === 'Enter' || e.key === ' ')
                             onClickHandler(e)
                     }}
-                className="pointer"
+                className={sortable === true ? ' pointer' : undefined}
                 role="columnheader"
                 aria-label={displayName}
                 tabIndex="0"
             >
                 <div
-                    className="pd--0 mg--0 alignCenter" data-column-name={header?.name}
+                    className={`pd--0 mg--0 alignCenter${sortable === true ? ' pointer' : ''}`} data-column-name={header?.name}
                 >
                     <div className="headerText" data-column-name={header?.name}>{displayName}</div>
-                    <ColumnSortIcon columns={columns} header={header} />
+                    {sortable === true && <ColumnSortIcon columns={columns} header={header} />}
                 </div>
                 {thInnerHtml}
             </th>
@@ -263,7 +274,6 @@ const GridHeader = ({
                                 }
                             }}
                         />
-
                     ) : (
                         <>.</>
                     )}

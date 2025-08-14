@@ -62,6 +62,8 @@ const DataGrid = ({
             options?.enableGlobalSearch : true,
         enableCellEdit: typeof options?.enableCellEdit === 'boolean' ?
             options?.enableCellEdit : false,
+        enableSorting: typeof options?.enableSorting === 'boolean' ?
+            options?.enableSorting : true,
         showToolbar: typeof options?.showToolbar === 'boolean' ?
             options?.showToolbar : true,
         showResetButton: typeof options?.showResetButton === 'boolean' ?
@@ -148,7 +150,9 @@ const DataGrid = ({
                         ).map(col => ({
                             ...col,
                             fixed: typeof col?.fixed === 'boolean' ? col?.fixed : false,
-                            hidden: typeof col?.hidden === 'boolean' ? col?.hidden : false
+                            hidden: typeof col?.hidden === 'boolean' ? col?.hidden : false,
+                            width: prevState.columns?.find(c => c?.name === col?.name)?.width ?? col?.width ??'',
+                            order: prevState.columns?.find(c => c?.name === col?.name)?.displayIndex ?? col?.order ?? ''
                         }));
                         const fixedCols = validColumns.filter(col => col.fixed === true);
                         const nonFixedCols = validColumns.filter(col => col.fixed === false);

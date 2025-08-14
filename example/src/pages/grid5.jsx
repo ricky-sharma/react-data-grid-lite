@@ -38,6 +38,10 @@ export default function Grid5() {
                     type: 'Date', format: 'dd-MMM-yyyy'
                 }
             }
+        else if (val.toLowerCase() === 'isbn' || val.toLowerCase() === 'genre')
+            return {
+                name: val, width: '200px'
+            }
         else
             return {
                 name: val, width: '250px'
