@@ -114,7 +114,7 @@ export default function Grid2() {
             <DataGrid
                 columns={columns}
                 data={users}
-                pageSize={10}
+                pageSize={25}
                 options={options}
                 width="inherit"
                 height="88vh"

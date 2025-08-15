@@ -2,7 +2,7 @@ import { Formatting_Types } from '../../constants';
 import { isEqual, isNull, normalize } from '../../helpers/common';
 import { format as formatVal } from '../../helpers/format';
 import { getNormalizedCombinedValue } from '../../utils/component-utils';
-import { SortData } from './event-grid-header-clicked';
+import { sortData } from './event-grid-header-clicked';
 
 /*
  * Handles column or global search logic in a grid.
@@ -40,11 +40,11 @@ export const eventGridSearchClicked = async (
     if (searchQuery !== '') {
         searchColsRef.current.push({ colName, searchQuery, colObj, formatting: { format, type }, colSep });
     }
-    data = FilterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled);
+    data = filterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled);
 
     const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
     data = shouldSort
-        ? await SortData(
+        ? await sortData(
             sortRef.current.colObject,
             sortRef.current.sortOrder,
             data
@@ -73,7 +73,7 @@ export const eventGridSearchClicked = async (
     });
 };
 
-export function FilterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled) {
+export function filterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled) {
     if (searchColsRef?.current?.length > 0) {
         let globalSearchData = [];
         searchColsRef?.current?.forEach(col => {

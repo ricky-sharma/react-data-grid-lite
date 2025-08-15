@@ -1,6 +1,5 @@
 import {
     Border_Padding_Margin_Width,
-    Button_Column_Key,
     Button_Column_Width,
     Container_Identifier,
     Default_Grid_Width_VW,
@@ -50,11 +49,6 @@ export function calculateColumnWidth(
 
     const totalVisibleColumns = fixedWidthColCount + nonFixedWidthColCount;
     if (totalVisibleColumns === 0) return '100%';
-
-    // Handle button column
-    if (currentColKey === Button_Column_Key) {
-        return Button_Column_Width;
-    }
 
     let parsedWidth = tryParseWidth(colWidthArray?.[currentColKey] ?? 0, containerWidth);
 

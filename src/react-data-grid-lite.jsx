@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
-import { SortData, eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
-import { FilterData, eventGridSearchClicked } from './components/events/event-grid-search-clicked';
+import { sortData, eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
+import { filterData, eventGridSearchClicked } from './components/events/event-grid-search-clicked';
 import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
@@ -33,7 +33,8 @@ const DataGrid = ({
     theme,
     currentPage,
     onColumnDragEnd,
-    onCellUpdate
+    onCellUpdate,
+    onRowSelect
 }) => {
     const fallbackfn = () => { };
     const [state, setState] = useState({
@@ -64,6 +65,8 @@ const DataGrid = ({
             options?.enableCellEdit : false,
         enableSorting: typeof options?.enableSorting === 'boolean' ?
             options?.enableSorting : true,
+        enableRowSelection: typeof options?.enableRowSelection === 'boolean' ?
+            options?.enableRowSelection : true,
         showToolbar: typeof options?.showToolbar === 'boolean' ?
             options?.showToolbar : true,
         showResetButton: typeof options?.showResetButton === 'boolean' ?
@@ -89,11 +92,13 @@ const DataGrid = ({
         onPageChange: onPageChange ?? fallbackfn,
         onColumnResized: onColumnResized ?? fallbackfn,
         onColumnDragEnd: onColumnDragEnd ?? fallbackfn,
-        editButtonEnabled: options?.editButton ?? false,
+        onRowSelect: onRowSelect ?? fallbackfn,
+        editButtonEnabled: typeof options?.editButton === 'object',
         editButtonEvent: options?.editButton?.event ?? fallbackfn,
-        deleteButtonEnabled: options?.deleteButton ?? false,
+        deleteButtonEnabled: typeof options?.deleteButton === 'object',
         deleteButtonEvent: options?.deleteButton?.event ?? fallbackfn,
-        actionColumnAlign: options?.actionColumnAlign ?? '',
+        actionColumnAlign: options?.actionColumnAlign ?? 'right',
+        rowSelectColumnAlign: options?.rowSelectColumnAlign ?? 'left',
         enableDownload: typeof options?.enableDownload === 'boolean' ?
             options?.enableDownload : true,
         downloadFilename: options?.downloadFilename ?? null,
@@ -151,7 +156,7 @@ const DataGrid = ({
                             ...col,
                             fixed: typeof col?.fixed === 'boolean' ? col?.fixed : false,
                             hidden: typeof col?.hidden === 'boolean' ? col?.hidden : false,
-                            width: prevState.columns?.find(c => c?.name === col?.name)?.width ?? col?.width ??'',
+                            width: prevState.columns?.find(c => c?.name === col?.name)?.width ?? col?.width ?? '',
                             order: prevState.columns?.find(c => c?.name === col?.name)?.displayIndex ?? col?.order ?? ''
                         }));
                         const fixedCols = validColumns.filter(col => col.fixed === true);
@@ -223,11 +228,11 @@ const DataGrid = ({
                         logDebug(state?.debug, 'error', 'AI search failed, falling back to default local search.', err);
                     }
                 }
-                const filteredData = await FilterData(searchColsRef, processedRows, aiSearchFailedRef,
+                const filteredData = await filterData(searchColsRef, processedRows, aiSearchFailedRef,
                     aiEnabled);
                 const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
                 const sortedRows = shouldSort
-                    ? await SortData(
+                    ? await sortData(
                         sortRef.current.colObject,
                         sortRef.current.sortOrder,
                         filteredData

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button_Column_Key, Container_Identifier, Default_Grid_Width_VW } from '../constants';
+import { Button_Column_Key, Button_Column_Width, Container_Identifier, Default_Grid_Width_VW, Selection_Column_Key, Selection_Column_Width } from '../constants';
 import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from '../helpers/common';
 import { useDraggableColumns } from '../hooks/use-draggable-columns';
 import { useWindowWidth } from '../hooks/use-window-width';
@@ -8,6 +8,7 @@ import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
 import { gridWidthType } from '../utils/grid-width-type';
 import ColumnSortIcon from './column-sort-icon';
 import Input from './custom-fields/input';
+import Checkbox from './custom-fields/checkbox';
 
 const GridHeader = ({
     state,
@@ -39,7 +40,9 @@ const GridHeader = ({
         actionColumnAlign,
         enableColumnDrag,
         gridHeaderBackgroundColor,
-        enableSorting
+        enableSorting,
+        enableRowSelection,
+        rowSelectColumnAlign
     } = state;
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
@@ -52,46 +55,65 @@ const GridHeader = ({
     const containerWidth = getContainerWidthInPixels(`#${gridID} ${Container_Identifier}`,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
-    const buttonColWidth = calculateColumnWidth(
-        columnWidths,
-        hiddenColIndex,
-        Button_Column_Key,
-        buttonColEnabled,
-        gridID
-    );
-
-    if (Button_Column_Key) {
+    if (buttonColEnabled) {
         computedColumnWidths = [
             ...computedColumnWidths.filter(entry => entry?.name !== Button_Column_Key),
-            { name: Button_Column_Key, width: buttonColWidth ?? 0 }
+            { name: Button_Column_Key, width: Button_Column_Width ?? 0 }
+        ];
+    }
+    if (enableRowSelection === true) {
+        computedColumnWidths = [
+            ...computedColumnWidths.filter(entry => entry?.name !== Selection_Column_Key),
+            { name: Selection_Column_Key, width: Selection_Column_Width }
         ];
     }
 
-    const isActionColumnLeft = actionColumnAlign === 'left';
-    const isActionColumnRight = actionColumnAlign === 'right';
+    const isSelectionColumnLeft = enableRowSelection === true && rowSelectColumnAlign === 'left';
+    const isSelectionColumnRight = enableRowSelection === true && rowSelectColumnAlign === 'right';
+    const isActionColumnLeft = buttonColEnabled && actionColumnAlign === 'left';
+    const isActionColumnRight = buttonColEnabled && actionColumnAlign === 'right';
 
-    if (buttonColEnabled && headers[headers.length - 1] !== '##Actions##') {
-        headers[isActionColumnLeft ? 'unshift' : 'push']('##Actions##');
+    if (enableRowSelection && headers[headers.length - 1] !== Selection_Column_Key) {
+        headers[isSelectionColumnLeft ? 'unshift' : 'push'](Selection_Column_Key);
     }
+
+    if (buttonColEnabled && headers[headers.length - 1] !== Button_Column_Key) {
+        headers[isActionColumnLeft ? 'unshift' : 'push'](Button_Column_Key);
+    }
+
+    const totalExternalCols =
+        (isSelectionColumnLeft ? 1 : 0) +
+        (isActionColumnLeft ? 1 : 0);
 
     let leftPosition = 0;
 
-    const lastVisibleIndex = (Array.isArray(headers) ?
-        headers.reduce((lastIdx, item, idx) =>
-            (!item?.hidden ? idx : lastIdx), -1)
+    const lastVisibleIndex = (Array.isArray(headers)
+        ? headers.reduce((lastIdx, item, idx) =>
+            !item?.hidden ? idx : lastIdx, -1)
         : -1
-    ) - ((isActionColumnLeft && buttonColEnabled) ? 1 : 0);
+    ) - totalExternalCols;
 
-    const getActionColumnStyle = (withBoxShadow = false) => {
+    const getActionColumnStyle = (header, withBoxShadow = false) => {
+        var selectionColLeft = isActionColumnLeft && isSelectionColumnLeft && !isMobile ? Button_Column_Width :
+            (!isActionColumnLeft && isSelectionColumnLeft && !isMobile ? 0 : '');
+        var buttonColLeft = isActionColumnLeft && !isMobile ? 0 : '';
+        var selectionColRight = isActionColumnRight && isSelectionColumnRight && !isMobile ? Button_Column_Width :
+            !isActionColumnRight && isSelectionColumnRight && !isMobile ? "-0.1px" : '';
+        var buttonColRight = isActionColumnRight && !isMobile ? "-0.1px" : '';
+
         const baseStyle = {
-            width: buttonColWidth,
-            maxWidth: buttonColWidth,
-            minWidth: buttonColWidth,
-            left: isActionColumnLeft && !isMobile ? 0 : '',
-            right: isActionColumnRight && !isMobile ? "-0.1px" : '',
-            position: (isActionColumnRight || isActionColumnLeft) && !isMobile ? 'sticky' : '',
-            zIndex: (isActionColumnRight || isActionColumnLeft) && !isMobile ? 10 : '',
-            backgroundColor: isActionColumnRight || isActionColumnLeft ? 'inherit' : '',
+            width: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
+            maxWidth: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
+            minWidth: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
+            left: header === Button_Column_Key ? buttonColLeft : selectionColLeft,
+            right: header === Button_Column_Key ? buttonColRight : selectionColRight,
+            position:
+                (isActionColumnRight || isActionColumnLeft || isSelectionColumnLeft || isSelectionColumnRight)
+                    && !isMobile ? 'sticky' : '',
+            zIndex: (isActionColumnRight || isActionColumnLeft || isSelectionColumnLeft || isSelectionColumnRight)
+                && !isMobile ? 10 : '',
+            backgroundColor: isActionColumnRight || isActionColumnLeft || isSelectionColumnLeft || isSelectionColumnRight
+                ? 'inherit' : '',
             contain: 'layout paint',
         };
 
@@ -124,20 +146,31 @@ const GridHeader = ({
                 && !Array.isArray(header?.headerStyle) ? header.headerStyle : {})
         };
     };
-    const thColHeaders = headers.map((header, key) => {
-        key -= (isActionColumnLeft && buttonColEnabled) ? 1 : 0;
+
+    const selectionColOffset = isSelectionColumnLeft ? -1 : 0;
+    const actionColOffset = isActionColumnLeft ? selectionColOffset - 1 : selectionColOffset;
+
+    const thColHeaders = headers.map((header, _key) => {
+        let key = _key;
+
+        if (isSelectionColumnLeft) key -= 1;
+        if (isActionColumnLeft) key -= 1;
 
         if (header?.hidden === true) return null;
         const colResizable = typeof header?.resizable === "boolean"
             ? header?.resizable : enableColumnResize;
-
         const thInnerHtml = lastVisibleIndex !== key || colResizable === true ?
             <span style={{
                 zIndex: (header?.fixed === true ? 11 : '')
             }} /> : null;
 
-        const colWidth = calculateColumnWidth(columnWidths, hiddenColIndex,
-            key, buttonColEnabled, gridID);
+        const colWidth = calculateColumnWidth(
+            columnWidths,
+            hiddenColIndex,
+            key,
+            buttonColEnabled,
+            gridID
+        );
 
         if (header?.name) {
             computedColumnWidths = [
@@ -146,28 +179,37 @@ const GridHeader = ({
             ];
         }
 
-        leftPosition += tryParseWidth((isActionColumnLeft && key === -1 ?
-            buttonColWidth : colWidth), containerWidth);
+        leftPosition += tryParseWidth(
+            (isSelectionColumnLeft && key === selectionColOffset)
+                ? Selection_Column_Width
+                : (isActionColumnLeft && key === actionColOffset)
+                    ? Button_Column_Width
+                    : colWidth,
+            containerWidth
+        );
 
-        if (header === '##Actions##') {
+        if (header === Button_Column_Key || header === Selection_Column_Key) {
             return (
                 <th
-                    style={getActionColumnStyle()}
-                    title="Actions"
-                    data-toggle="tooltip"
+                    style={getActionColumnStyle(header)}
+                    title={header === Button_Column_Key ? "Actions" : "Select all rows"}
                     key={key}
                     role="columnheader"
-                    aria-label="Actions"
+                    aria-label={header === Button_Column_Key ? "Actions" : "Select all rows"}
                 >
                     <div
-                        style={{ width: buttonColWidth, maxWidth: buttonColWidth }}
+                        style={{
+                            width: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
+                            maxWidth: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width
+                        }}
                         className={"pd--0 emptyHeader alignCenter"}
-                    >
-                        <ActionIcon />
+                    > {(header === Button_Column_Key && <ActionIcon />)
+                        || (header === Selection_Column_Key && <Checkbox />)}
                     </div>
-                    {actionColumnAlign === 'left' ? <span style={{
-                        zIndex: 11
-                    }} /> : null}
+                    {(isActionColumnLeft && header === Button_Column_Key)
+                        || (isSelectionColumnLeft && header === Selection_Column_Key) ?
+                        <span style={{ zIndex: 11 }} />
+                        : null}
                 </th>
             );
         };
@@ -213,8 +255,12 @@ const GridHeader = ({
             </th>
         );
     });
-    const thSearchHeaders = headers.map((header, key) => {
-        key -= actionColumnAlign === 'left' ? 1 : 0;
+    const thSearchHeaders = headers.map((header, _key) => {
+        let key = _key;
+
+        if (isSelectionColumnLeft) key -= 1;
+        if (isActionColumnLeft) key -= 1;
+
         if (header?.hidden === true) return null;
         const conCols = header?.concatColumns?.columns ?? null;
         const formatting = header?.formatting;
@@ -227,16 +273,16 @@ const GridHeader = ({
         if (columnSearchEnabled) {
             searchRowEnabled = true;
         };
-        if (header === '##Actions##') {
+        if (header === Button_Column_Key || header === Selection_Column_Key) {
             return (
                 <th
-                    style={getActionColumnStyle(true)}
+                    style={getActionColumnStyle(header, true)}
                     key={key}
                 >
                     <div
                         style={{
-                            width: buttonColWidth,
-                            maxWidth: buttonColWidth
+                            width: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
+                            maxWidth: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
                         }}
                         className="pd--0 alignCenter"
                     ></div>

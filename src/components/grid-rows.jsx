@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import {
     Button_Column_Key,
     No_Column_Visible_Message,
-    No_Data_Message
+    No_Data_Message,
+    Selection_Column_Key
 } from '../constants';
 import { isNull } from '../helpers/common';
 import { useCellChange } from '../hooks/use-cell-change';
@@ -16,6 +17,7 @@ import DeleteIcon from '../icons/delete-icon';
 import EditIcon from '../icons/edit-icon';
 import { formatRowData } from '../utils/component-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
+import Checkbox from './custom-fields/checkbox';
 import GridCell from './grid-cell';
 
 const GridRows = ({
@@ -86,7 +88,10 @@ const GridRows = ({
         editingCell,
         onCellUpdate,
         editingCellData,
-        rowHeight
+        rowHeight,
+        enableRowSelection,
+        rowSelectColumnAlign,
+        onRowSelect
     } = state || {};
     if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)) {
         hideLoader(gridID);
@@ -99,6 +104,8 @@ const GridRows = ({
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = computedColumnWidthsRef?.current?.find(i =>
         i?.name === Button_Column_Key)?.width ?? 0;
+    const selectionColWidth = computedColumnWidthsRef?.current?.find(i =>
+        i?.name === Selection_Column_Key)?.width ?? 0;
     let lastFixedIndex = -1;
     columns.reduceRight((_, col, index) => {
         if (lastFixedIndex === -1 && col?.fixed === true && !col?.hidden) {
@@ -142,6 +149,47 @@ const GridRows = ({
             });
             const isActionColumnLeft = actionColumnAlign === 'left';
             const isActionColumnRight = actionColumnAlign === 'right';
+            const isSelectionColumnLeft = rowSelectColumnAlign === 'left';
+            const isSelectionColumnRight = rowSelectColumnAlign === 'right';
+            const insertSelectionColumn = isSelectionColumnLeft ? 'unshift' : 'push';
+            var selectionColLeft = isActionColumnLeft && isSelectionColumnLeft && !isMobile ? buttonColWidth :
+                (!isActionColumnLeft && isSelectionColumnLeft && !isMobile ? 0 : '');
+            var selectionColRight = isActionColumnRight && isSelectionColumnRight && !isMobile ? buttonColWidth :
+                !isActionColumnRight && isSelectionColumnRight && !isMobile ? "-0.1px" : '';
+            if (enableRowSelection) {
+                cols[insertSelectionColumn](
+                    <td key="gridSelectionColumn" className="alignCenter"
+                        onClick={e => e.stopPropagation()}
+                        title="Select row"
+                        aria-label="Select row"
+                        style={{
+                            width: selectionColWidth,
+                            maxWidth: selectionColWidth,
+                            minWidth: selectionColWidth,
+                            left: selectionColLeft,
+                            right: selectionColRight,
+                            position: ((isSelectionColumnRight || isSelectionColumnLeft)
+                                && !isMobile ? 'sticky' : ''),
+                            zIndex: ((isActionColumnRight || isSelectionColumnLeft)
+                                && !isMobile ? 6 : ''),
+                            backgroundColor: (isSelectionColumnRight || isSelectionColumnLeft
+                                ? 'inherit' : ''),
+                            boxShadow: (isSelectionColumnLeft && !isMobile ?
+                                '#e0e0e0 -0.5px 0 0 0 inset' :
+                                (isSelectionColumnRight && !isMobile
+                                    ? '#e0e0e0 0.5px 0 0 0 inset' : '')),
+                            contain: 'layout paint'
+                        }}>
+                        <div className="mg--0 pd--0 selection-column alignCenter"
+                            style={{ width: selectionColWidth }}>
+                            <Checkbox onChange={() => {
+                                if (typeof onRowSelect === 'function')
+                                    onRowSelect?.(formattedRow, baseRow);
+                            }} />
+                        </div>
+                    </td>
+                );
+            }
             const insert = isActionColumnLeft ? 'unshift' : 'push';
             if (buttonColEnabled) {
                 cols[insert](
@@ -173,7 +221,6 @@ const GridRows = ({
                                     "pd--0 mg--0 icon-div alignCenter grid-icon-div"
                                     title="Edit"
                                     onClick={e => editButtonEvent(e, baseRow)}
-                                    data-toggle="tooltip"
                                     role="button"
                                     tabIndex="0"
                                     onKeyDown={
@@ -191,7 +238,6 @@ const GridRows = ({
                                     "pd--0 mg--0 icon-div alignCenter grid-icon-div"
                                     title="Delete"
                                     onClick={e => deleteButtonEvent(e, baseRow)}
-                                    data-toggle="tooltip"
                                     role="button"
                                     tabIndex="0"
                                     onKeyDown={
