@@ -18,6 +18,7 @@ const DataGrid = ({
     columns = [],
     data = [],
     pageSize,
+    currentPage,
     options = {},
     width,
     height,
@@ -30,11 +31,11 @@ const DataGrid = ({
     onSearchComplete,
     onPageChange,
     onColumnResized,
-    theme,
-    currentPage,
     onColumnDragEnd,
     onCellUpdate,
-    onRowSelect
+    onRowSelect,
+    onSelectAll,
+    theme
 }) => {
     const fallbackfn = () => { };
     const [state, setState] = useState({
@@ -86,13 +87,14 @@ const DataGrid = ({
         onRowClick: onRowClick ?? fallbackfn,
         onRowHover: onRowHover ?? fallbackfn,
         onRowOut: onRowOut ?? fallbackfn,
+        onRowSelect: onRowSelect ?? fallbackfn,
+        onSelectAll: onSelectAll ?? fallbackfn,
         onCellUpdate: onCellUpdate ?? fallbackfn,
         onSortComplete: onSortComplete ?? fallbackfn,
         onSearchComplete: onSearchComplete ?? fallbackfn,
         onPageChange: onPageChange ?? fallbackfn,
         onColumnResized: onColumnResized ?? fallbackfn,
         onColumnDragEnd: onColumnDragEnd ?? fallbackfn,
-        onRowSelect: onRowSelect ?? fallbackfn,
         editButtonEnabled: typeof options?.editButton === 'object',
         editButtonEvent: options?.editButton?.event ?? fallbackfn,
         deleteButtonEnabled: typeof options?.deleteButton === 'object',
@@ -111,7 +113,8 @@ const DataGrid = ({
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
-        editingCell: null
+        editingCell: null,
+        selectedRows: new Set()
     });
     const dataReceivedRef = useRef(null);
     const searchColsRef = useRef([]);
@@ -466,39 +469,45 @@ const DataGrid = ({
         }, 300);
     }, [state, setState, runAISearch, state?.aiSearchOptions]);
 
-    const handleResetSearch = useCallback((e) => {
-        e.preventDefault();
-        searchColsRef.current = [];
-        globalSearchQueryRef.current = '';
-        sortRef.current = null;
-        setState(prev => {
-            const dataLength = dataReceivedRef?.current?.length ?? 0
-            let noOfPages = Math.floor(dataLength / prev?.pageRows);
-            let lastPageRows = dataLength % prev?.pageRows;
-            if (lastPageRows > 0) noOfPages++;
-            if (lastPageRows === 0) lastPageRows = prev?.pageRows;
+    const handleResetGrid = useCallback((e) => {
+        try {
+            e.preventDefault();
+            searchColsRef.current = [];
+            globalSearchQueryRef.current = '';
+            sortRef.current = null;
+            setState(prev => {
+                const dataLength = dataReceivedRef?.current?.length ?? 0
+                let noOfPages = Math.floor(dataLength / prev?.pageRows);
+                let lastPageRows = dataLength % prev?.pageRows;
+                if (lastPageRows > 0) noOfPages++;
+                if (lastPageRows === 0) lastPageRows = prev?.pageRows;
 
-            return {
-                ...prev,
-                searchValues: Object.fromEntries(
-                    (Array.isArray(prev.columns) ? prev.columns : [])
-                        .filter(col => col && col.name)
-                        .map(col => [col.name, ''])
-                ),
-                globalSearchInput: '',
-                rowsData: dataReceivedRef?.current ?? [],
-                noOfPages,
-                lastPageRows,
-                currentPageRows: prev?.pageRows,
-                activePage: 1,
-                totalRows: dataLength,
-                firstRow: 0,
-                columns: prev.columns.map(col => ({
-                    ...col,
-                    sortOrder: '',
-                })),
-            }
-        });
+                return {
+                    ...prev,
+                    searchValues: Object.fromEntries(
+                        (Array.isArray(prev.columns) ? prev.columns : [])
+                            .filter(col => col && col.name)
+                            .map(col => [col.name, ''])
+                    ),
+                    globalSearchInput: '',
+                    rowsData: dataReceivedRef?.current ?? [],
+                    noOfPages,
+                    lastPageRows,
+                    currentPageRows: prev?.pageRows,
+                    activePage: 1,
+                    totalRows: dataLength,
+                    firstRow: 0,
+                    selectedRows: new Set(),
+                    columns: prev.columns.map(col => ({
+                        ...col,
+                        sortOrder: '',
+                    })),
+                }
+            });
+        }
+        catch (err) {
+            logDebug(state?.debug, 'error', 'Reset Grid:', err);
+        }
     }, [state, setState]);
 
     return (
@@ -520,7 +529,7 @@ const DataGrid = ({
                     {state?.showToolbar === true &&
                         (<GridGlobalSearchBar
                             onSearchClicked={onSearchClicked}
-                            handleResetSearch={handleResetSearch}
+                        handleResetGrid={handleResetGrid}
                         />)}
                     <div
                         style={{

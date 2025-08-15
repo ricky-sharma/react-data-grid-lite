@@ -42,7 +42,8 @@ const GridHeader = ({
         gridHeaderBackgroundColor,
         enableSorting,
         enableRowSelection,
-        rowSelectColumnAlign
+        rowSelectColumnAlign,
+        onSelectAll
     } = state;
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
@@ -189,6 +190,13 @@ const GridHeader = ({
         );
 
         if (header === Button_Column_Key || header === Selection_Column_Key) {
+            const selectedRows = new Set(state?.selectedRows);
+            const firstRow = state?.firstRow ?? 0;
+            const lastRow = firstRow + (state?.currentPageRows ?? 0);
+            const currentPageRows = state?.rowsData?.slice(firstRow, lastRow) ?? [];
+            const isAllSelected = currentPageRows?.length > 0 ?
+                currentPageRows?.every(row => selectedRows?.has(row.__$index__)) : false;
+
             return (
                 <th
                     style={getActionColumnStyle(header)}
@@ -203,11 +211,42 @@ const GridHeader = ({
                             maxWidth: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width
                         }}
                         className={"pd--0 emptyHeader alignCenter"}
-                    > {(header === Button_Column_Key && <ActionIcon />)
-                        || (header === Selection_Column_Key && <Checkbox />)}
+                    > {
+                            (header === Button_Column_Key && <ActionIcon />) ||
+                            (header === Selection_Column_Key &&
+                                <Checkbox
+                                    isSelected={isAllSelected}
+                                    onChange={(e) => {
+                                        const isSelected = e.target.checked;
+                                        const firstRow = state?.firstRow ?? 0;
+                                        const lastRow = firstRow + (state?.currentPageRows ?? 0);
+                                        const currentPageRows = state?.rowsData.slice(firstRow, lastRow) ?? [];
+                                        setState(prev => {
+                                            const selectedRows = new Set(prev.selectedRows);
+                                            currentPageRows.forEach(row => {
+                                                const index = row.__$index__;
+                                                if (isSelected) {
+                                                    selectedRows.add(index);
+                                                } else {
+                                                    selectedRows.delete(index);
+                                                }
+                                            });
+                                            return {
+                                                ...prev,
+                                                selectedRows
+                                            };
+                                        });
+                                        if (typeof onSelectAll === 'function') {
+                                            onSelectAll(e, currentPageRows, isSelected);
+                                        }
+                                    }}
+                                />
+                            )
+                        }
                     </div>
                     {(isActionColumnLeft && header === Button_Column_Key)
-                        || (isSelectionColumnLeft && header === Selection_Column_Key) ?
+                        || (isSelectionColumnLeft && header === Selection_Column_Key)
+                        || (isActionColumnRight && isSelectionColumnRight && header === Selection_Column_Key) ?
                         <span style={{ zIndex: 11 }} />
                         : null}
                 </th>

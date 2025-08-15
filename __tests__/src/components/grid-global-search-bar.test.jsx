@@ -36,7 +36,7 @@ describe('GridGlobalSearchBar', () => {
 
     const defaultProps = {
         onSearchClicked: jest.fn(),
-        handleResetSearch: jest.fn()
+        handleResetGrid: jest.fn()
     };
 
     const renderWithProvider = (ui, stateOverrides = {}) =>
@@ -85,11 +85,11 @@ describe('GridGlobalSearchBar', () => {
         );
     });
 
-    it('calls handleResetSearch on reset icon click', () => {
+    it('calls handleResetGrid on reset icon click', () => {
         renderWithProvider(<GridGlobalSearchBar {...defaultProps} />);
         const resetIcon = screen.getByTitle(/Reset Filters/i);
         fireEvent.click(resetIcon);
-        expect(defaultProps.handleResetSearch).toHaveBeenCalled();
+        expect(defaultProps.handleResetGrid).toHaveBeenCalled();
     });
 
     it('calls eventExportToCSV on export click', () => {
@@ -114,12 +114,12 @@ describe('GridGlobalSearchBar', () => {
 describe('More Tests for GridGlobalSearchBar', () => {
     const setState = jest.fn();
     const onSearchClicked = jest.fn();
-    const handleResetSearch = jest.fn();
+    const handleResetGrid = jest.fn();
     const onDownloadComplete = jest.fn();
 
     const defaultProps = {
         onSearchClicked,
-        handleResetSearch
+        handleResetGrid
     };
     const mockState = {
         enableGlobalSearch: true,
@@ -163,23 +163,23 @@ describe('More Tests for GridGlobalSearchBar', () => {
         expect(onSearchClicked).toHaveBeenCalled();
     });
 
-    it('calls handleResetSearch on reset button click', () => {
+    it('calls handleResetGrid on reset button click', () => {
         renderWithProvider(<GridGlobalSearchBar {...defaultProps} />);
         const resetBtn = screen.getByTitle('Reset Filters');
 
         fireEvent.click(resetBtn);
 
-        expect(handleResetSearch).toHaveBeenCalled();
+        expect(handleResetGrid).toHaveBeenCalled();
     });
 
-    it('calls handleResetSearch on reset button key press Enter and Space', () => {
+    it('calls handleResetGrid on reset button key press Enter and Space', () => {
         renderWithProvider(<GridGlobalSearchBar {...defaultProps} />);
         const resetBtn = screen.getByTitle('Reset Filters');
 
         fireEvent.keyDown(resetBtn, { key: 'Enter' });
         fireEvent.keyDown(resetBtn, { key: ' ' });
 
-        expect(handleResetSearch).toHaveBeenCalledTimes(2);
+        expect(handleResetGrid).toHaveBeenCalledTimes(2);
     });
 
     it('renders download button when enabled', () => {
@@ -214,7 +214,7 @@ describe('More Tests for GridGlobalSearchBar', () => {
         expect(downloadBtn).toHaveStyle('opacity: 0.5');
     });
 
-    it('does not call handleResetSearch on other key presses', () => {
+    it('does not call handleResetGrid on other key presses', () => {
         renderWithProvider(
             <GridGlobalSearchBar
                 {...defaultProps}
@@ -225,7 +225,7 @@ describe('More Tests for GridGlobalSearchBar', () => {
         fireEvent.keyDown(resetBtn, { key: 'Escape' });
         fireEvent.keyDown(resetBtn, { key: 'Tab' });
         fireEvent.keyDown(resetBtn, { key: 'a' });
-        expect(handleResetSearch).not.toHaveBeenCalled();
+        expect(handleResetGrid).not.toHaveBeenCalled();
 
         const downloadBtn = screen.getByTitle(/Export CSV/i);
         fireEvent.keyDown(downloadBtn, { key: 'Escape' });
@@ -239,7 +239,7 @@ describe('GridGlobalSearchBar else path for onSearchClicked', () => {
         const setState = jest.fn();
         const defaultProps = {
             onSearchClicked: null,
-            handleResetSearch: () => { }
+            handleResetGrid: () => { }
         };
 
         const mockState = {
@@ -276,7 +276,7 @@ describe('GridGlobalSearchBar setState coverage', () => {
         const setState = jest.fn();
         const defaultProps = {
             onSearchClicked: undefined,
-            handleResetSearch: () => { }
+            handleResetGrid: () => { }
         };
         const mockState = {
             enableGlobalSearch: true,
@@ -325,13 +325,13 @@ describe('GridGlobalSearchBar (AI Search Button)', () => {
         };
 
         const onSearchClicked = jest.fn();
-        const handleResetSearch = jest.fn();
+        const handleResetGrid = jest.fn();
 
         const utils = render(
             <GridConfigContext.Provider value={{ state: { ...mockState }, setState: setState }}>
                 <GridGlobalSearchBar
                     onSearchClicked={onSearchClicked}
-                    handleResetSearch={handleResetSearch}
+                    handleResetGrid={handleResetGrid}
                 />
             </GridConfigContext.Provider>
         );

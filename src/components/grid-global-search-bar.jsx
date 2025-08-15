@@ -12,7 +12,7 @@ import { eventExportToCSV } from './events/event-export-csv-clicked';
 
 const GridGlobalSearchBar = memo(({
     onSearchClicked,
-    handleResetSearch,
+    handleResetGrid,
 }) => {
     const windowWidth = useWindowWidth();
     const { state = {}, setState = () => { } } = useGridConfig() ?? {};
@@ -81,14 +81,14 @@ const GridGlobalSearchBar = memo(({
                         }}
                         className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
                         title="Reset Filters"
-                        onClick={handleResetSearch}
+                        onClick={handleResetGrid}
                         data-toggle="tooltip"
                         role="button"
                         tabIndex="0"
                         onKeyDown={
                             (e) => {
                                 if (e.key === 'Enter' || e.key === ' ')
-                                    handleResetSearch(e)
+                                    handleResetGrid(e)
                             }}
                     >
                         <EraseIcon />

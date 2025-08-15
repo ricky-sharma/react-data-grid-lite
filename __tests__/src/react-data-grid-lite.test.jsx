@@ -31,7 +31,7 @@ jest.mock('./../../src/components/grid-global-search-bar', () => {
                 />
                 <button onClick={(e) => {
                     setValue('');
-                    props?.handleResetSearch(e);
+                    props?.handleResetGrid(e);
                 }}>Reset</button>
                 <button
                     data-testid="download-btn"
