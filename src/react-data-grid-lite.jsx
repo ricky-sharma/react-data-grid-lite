@@ -288,22 +288,20 @@ const DataGrid = forwardRef(({
         getFilteredRows: () => {
             return state?.rowsData ?? [];
         },
-        getFilteredSelectedRowsIndexes: () => {
-            return (state?.rowsData ?? [])
-                .filter(row => selectedSet?.has(row?.__$index__))
-                .map(row => row?.__$index__);
-        },
         getFilteredSelectedRows: () => {
             return state?.rowsData?.filter(row => selectedSet?.has(row?.__$index__)) ?? [];
-        },
-        getAllSelectedRowsIndexes: () => {
-            return Array.from(selectedSet);
         },
         getAllSelectedRows: () => {
             return dataReceivedRef?.current?.filter(row => selectedSet?.has(row?.__$index__)) ?? [];
         },
         getCurrentPage: () => state?.activePage ?? 1,
         resetGrid: handleResetGrid,
+        clearSelectedRows: () => {
+            setState(prev => ({
+                ...prev,
+                selectedRows: new Set()
+            }));
+        }
     }), [selectedSet, state?.rowsData, state?.activePage, dataReceivedRef, handleResetGrid]);
 
     useEffect(() => {
@@ -492,9 +490,8 @@ const DataGrid = forwardRef(({
         }, 300);
     }, [state, setState, runAISearch, state?.aiSearchOptions]);
 
-    const handleResetGrid = useCallback((e) => {
+    const handleResetGrid = useCallback(() => {
         try {
-            e.preventDefault();
             searchColsRef.current = [];
             globalSearchQueryRef.current = '';
             sortRef.current = null;

@@ -81,14 +81,18 @@ const GridGlobalSearchBar = memo(({
                         }}
                         className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
                         title="Reset Filters"
-                        onClick={handleResetGrid}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleResetGrid();
+                        }}
                         data-toggle="tooltip"
                         role="button"
                         tabIndex="0"
                         onKeyDown={
                             (e) => {
                                 if (e.key === 'Enter' || e.key === ' ')
-                                    handleResetGrid(e)
+                                    e.preventDefault();
+                                    handleResetGrid()
                             }}
                     >
                         <EraseIcon />
