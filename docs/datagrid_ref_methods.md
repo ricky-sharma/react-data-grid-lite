@@ -1,10 +1,10 @@
-### 📦 Imperative Grid API (`ref` methods)
+# 📦 Imperative Grid API (`ref` methods)
 
 The **DataGrid** component exposes a set of **imperative methods** through a `ref` using React’s `useImperativeHandle` hook. This allows parent or consuming components to programmatically interact with and control the grid beyond the declarative prop-based API.
 
 By using these methods, you can perform actions such as retrieving filtered or selected rows, resetting the grid, or getting the current page — all from outside the DataGrid component itself.
 
-#### How to Use
+## How to Use
 
 To access these methods, create a React ref and attach it to your `<DataGrid />` component:
 
@@ -21,11 +21,10 @@ const gridRef = useRef();
 
 You can then call any exposed method via `gridRef.current` after the grid mounts.
 
----
 
-#### 🔍 Available Methods
+## 🔍 Available Methods
 
-##### `getFilteredRows()`
+### `getFilteredRows()`
 
 Returns an array of rows currently displayed in the grid, reflecting any applied search, filter, or sorting criteria.
 
@@ -33,9 +32,7 @@ Returns an array of rows currently displayed in the grid, reflecting any applied
 const filteredRows = gridRef.current.getFilteredRows();
 ```
 
----
-
-##### `getFilteredSelectedRows()`
+### `getFilteredSelectedRows()`
 
 Returns an array of rows that are **both selected and currently visible** in the filtered view.
 
@@ -43,9 +40,7 @@ Returns an array of rows that are **both selected and currently visible** in the
 const selectedFilteredRows = gridRef.current.getFilteredSelectedRows();
 ```
 
----
-
-##### `getAllSelectedRows()`
+### `getAllSelectedRows()`
 
 Returns an array of **all selected rows**, including those that might be filtered out or on other pages.
 
@@ -53,9 +48,7 @@ Returns an array of **all selected rows**, including those that might be filtere
 const allSelectedRows = gridRef.current.getAllSelectedRows();
 ```
 
----
-
-##### `getCurrentPage()`
+### `getCurrentPage()`
 
 Returns the current page number that the grid is displaying.
 
@@ -63,9 +56,7 @@ Returns the current page number that the grid is displaying.
 const currentPage = gridRef.current.getCurrentPage();
 ```
 
----
-
-##### `resetGrid()`
+### `resetGrid()`
 
 Resets the grid to its initial state by:
 
@@ -77,9 +68,7 @@ Resets the grid to its initial state by:
 gridRef.current.resetGrid();
 ```
 
----
-
-##### `clearSelectedRows()`
+### `clearSelectedRows()`
 
 Clears the current selection of rows in the grid — **without affecting** filters, pagination, or sorting.
 
@@ -87,9 +76,7 @@ Clears the current selection of rows in the grid — **without affecting** filte
 gridRef.current.clearSelectedRows();
 ```
 
----
-
-### Why Use These Methods?
+## Why Use These Methods?
 
 These imperative APIs are particularly useful when you need to:
 
