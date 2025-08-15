@@ -7,6 +7,7 @@
 - [Advanced Usage](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/advanced.md)
 - [Format Guide](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/format_guide.md)
 - [Examples](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/examples.md)
+- [Imperative Grid API](https://github.com/ricky-sharma/react-data-grid-lite/blob/master/docs/datagrid_ref_methods.md)
 - [Project ReadMe](https://github.com/ricky-sharma/react-data-grid-lite#readme)
 
 ---
