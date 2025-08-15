@@ -53,15 +53,15 @@ const GridSelectionCell = ({
                 style={{ width: selectionColWidth }}
             >
                 <Checkbox
-                    isSelected={selectedRows.has(baseRow.__$index__)}
+                    isSelected={selectedRows.has(baseRow?.__$index__)}
                     onChange={(e) => {
                         const isSelected = e.target.checked;
                         setState(prev => {
-                            const selectedRows = new Set(prev.selectedRows);
+                            const selectedRows = new Set(prev?.selectedRows);
                             if (isSelected === true) {
-                                selectedRows.add(baseRow.__$index__);
+                                selectedRows.add(baseRow?.__$index__);
                             } else {
-                                selectedRows.delete(baseRow.__$index__);
+                                selectedRows.delete(baseRow?.__$index__);
                             }
                             return {
                                 ...prev,

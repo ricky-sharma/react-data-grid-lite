@@ -195,7 +195,7 @@ const GridHeader = ({
             const lastRow = firstRow + (state?.currentPageRows ?? 0);
             const currentPageRows = state?.rowsData?.slice(firstRow, lastRow) ?? [];
             const isAllSelected = currentPageRows?.length > 0 ?
-                currentPageRows?.every(row => selectedRows?.has(row.__$index__)) : false;
+                currentPageRows?.every(row => selectedRows?.has(row?.__$index__)) : false;
 
             return (
                 <th
@@ -222,13 +222,13 @@ const GridHeader = ({
                                         const lastRow = firstRow + (state?.currentPageRows ?? 0);
                                         const currentPageRows = state?.rowsData.slice(firstRow, lastRow) ?? [];
                                         setState(prev => {
-                                            const selectedRows = new Set(prev.selectedRows);
-                                            currentPageRows.forEach(row => {
-                                                const index = row.__$index__;
+                                            const selectedRows = new Set(prev?.selectedRows);
+                                            currentPageRows?.forEach(row => {
+                                                const index = row?.__$index__;
                                                 if (isSelected) {
-                                                    selectedRows.add(index);
+                                                    selectedRows?.add(index);
                                                 } else {
-                                                    selectedRows.delete(index);
+                                                    selectedRows?.delete(index);
                                                 }
                                             });
                                             return {

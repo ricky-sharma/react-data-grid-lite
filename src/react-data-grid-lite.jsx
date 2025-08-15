@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
-import { sortData, eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
-import { filterData, eventGridSearchClicked } from './components/events/event-grid-search-clicked';
+import { eventGridHeaderClicked, sortData } from './components/events/event-grid-header-clicked';
+import { eventGridSearchClicked, filterData } from './components/events/event-grid-search-clicked';
 import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
@@ -13,7 +13,7 @@ import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
 import { applyTheme } from './utils/themes-utils';
 
-const DataGrid = ({
+const DataGrid = forwardRef(({
     id,
     columns = [],
     data = [],
@@ -36,7 +36,7 @@ const DataGrid = ({
     onRowSelect,
     onSelectAll,
     theme
-}) => {
+}, ref) => {
     const fallbackfn = () => { };
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
@@ -282,6 +282,29 @@ const DataGrid = ({
                     : []
             }));
     }, [state?.columns, containerWidth]);
+
+    const selectedSet = useMemo(() => new Set(state?.selectedRows ?? []), [state?.selectedRows]);
+    useImperativeHandle(ref, () => ({
+        getFilteredRows: () => {
+            return state?.rowsData ?? [];
+        },
+        getFilteredSelectedRowsIndexes: () => {
+            return (state?.rowsData ?? [])
+                .filter(row => selectedSet?.has(row?.__$index__))
+                .map(row => row?.__$index__);
+        },
+        getFilteredSelectedRows: () => {
+            return state?.rowsData?.filter(row => selectedSet?.has(row?.__$index__)) ?? [];
+        },
+        getAllSelectedRowsIndexes: () => {
+            return Array.from(selectedSet);
+        },
+        getAllSelectedRows: () => {
+            return dataReceivedRef?.current?.filter(row => selectedSet?.has(row?.__$index__)) ?? [];
+        },
+        getCurrentPage: () => state?.activePage ?? 1,
+        resetGrid: handleResetGrid,
+    }), [selectedSet, state?.rowsData, state?.activePage, dataReceivedRef, handleResetGrid]);
 
     useEffect(() => {
         setPagingVariables();
@@ -529,7 +552,7 @@ const DataGrid = ({
                     {state?.showToolbar === true &&
                         (<GridGlobalSearchBar
                             onSearchClicked={onSearchClicked}
-                        handleResetGrid={handleResetGrid}
+                            handleResetGrid={handleResetGrid}
                         />)}
                     <div
                         style={{
@@ -562,6 +585,6 @@ const DataGrid = ({
             </GridConfigContext.Provider>
         </ErrorBoundary>
     );
-}
+});
 
 export default DataGrid;
