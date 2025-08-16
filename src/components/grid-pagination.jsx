@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { useGridConfig } from '../hooks/use-grid-config';
 import { useWindowWidth } from '../hooks/use-window-width';
-import { gridWidthType } from '../utils/grid-width-type';
+import { gridWidthType } from '../utils/grid-width-type-utils';
 
 const GridPagination = memo(({
     onPageChange,

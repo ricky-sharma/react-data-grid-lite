@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Page_Size_Selector_Options } from '../constants';
 import { useGridConfig } from '../hooks/use-grid-config';
 import { useWindowWidth } from '../hooks/use-window-width';
-import { gridWidthType } from '../utils/grid-width-type';
+import { gridWidthType } from '../utils/grid-width-type-utils';
 import Dropdown from './custom-fields/dropdown';
 import GridPagination from './grid-pagination';
 

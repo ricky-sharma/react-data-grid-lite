@@ -14,6 +14,7 @@ import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { formatRowData } from '../utils/component-utils';
+import { gridWidthType } from '../utils/grid-width-type-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
 import GridActionCell from './grid-action-cell';
 import GridCell from './grid-cell';
@@ -67,7 +68,6 @@ const GridRows = ({
         }));
     });
 
-    const isMobile = windowWidth < 701;
     const {
         rowsData,
         firstRow,
@@ -91,6 +91,10 @@ const GridRows = ({
         enableRowSelection,
         rowSelectColumnAlign
     } = state || {};
+
+    const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
+    const isMobile = isSmallWidth || isMobileWidth;
+
     if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)) {
         hideLoader(gridID);
         loading ? showLoader(gridID) :

@@ -5,7 +5,7 @@ import { useWindowWidth } from '../hooks/use-window-width';
 import DownloadIcon from '../icons/download-icon';
 import EraseIcon from '../icons/erase-icon';
 import SearchIcon from '../icons/search-icon';
-import { gridWidthType } from '../utils/grid-width-type';
+import { gridWidthType } from '../utils/grid-width-type-utils';
 import { Export_To_CSV_Text } from './../constants';
 import Input from './custom-fields/input';
 import { eventExportToCSV } from './events/event-export-csv-clicked';

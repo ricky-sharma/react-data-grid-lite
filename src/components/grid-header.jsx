@@ -5,7 +5,7 @@ import { useDraggableColumns } from '../hooks/use-draggable-columns';
 import { useWindowWidth } from '../hooks/use-window-width';
 import ActionIcon from '../icons/action-icon';
 import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
-import { gridWidthType } from '../utils/grid-width-type';
+import { gridWidthType } from '../utils/grid-width-type-utils';
 import ColumnSortIcon from './column-sort-icon';
 import Input from './custom-fields/input';
 import Checkbox from './custom-fields/checkbox';
