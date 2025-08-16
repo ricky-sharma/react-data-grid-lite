@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
 import { eventGridHeaderClicked, sortData } from './components/events/event-grid-header-clicked';
 import { eventGridSearchClicked, filterData } from './components/events/event-grid-search-clicked';
@@ -11,6 +11,7 @@ import ErrorBoundary from './error-boundary';
 import { logDebug } from './helpers/logDebug';
 import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
+import { useGridApi } from './hooks/use-grid-api';
 import { useProcessedColumns } from './hooks/use-processed-columns';
 import { useProcessedData } from './hooks/use-processed-data';
 import { applyTheme } from './utils/themes-utils';
@@ -180,27 +181,6 @@ const DataGrid = forwardRef(({
                     : []
             }));
     }, [state?.columns, containerWidth]);
-
-    const selectedSet = useMemo(() => new Set(state?.selectedRows ?? []), [state?.selectedRows]);
-    useImperativeHandle(ref, () => ({
-        getFilteredRows: () => {
-            return state?.rowsData ?? [];
-        },
-        getFilteredSelectedRows: () => {
-            return state?.rowsData?.filter(row => selectedSet?.has(row?.__$index__)) ?? [];
-        },
-        getAllSelectedRows: () => {
-            return dataReceivedRef?.current?.filter(row => selectedSet?.has(row?.__$index__)) ?? [];
-        },
-        getCurrentPage: () => state?.activePage ?? 1,
-        resetGrid: handleResetGrid,
-        clearSelectedRows: () => {
-            setState(prev => ({
-                ...prev,
-                selectedRows: new Set()
-            }));
-        }
-    }), [selectedSet, state?.rowsData, state?.activePage, dataReceivedRef, handleResetGrid]);
 
     useEffect(() => {
         setPagingVariables();
@@ -394,7 +374,8 @@ const DataGrid = forwardRef(({
             globalSearchQueryRef.current = '';
             sortRef.current = null;
             setState(prev => {
-                const dataLength = dataReceivedRef?.current?.length ?? 0
+                const dataLength = dataReceivedRef?.current?.length ?? 0;
+                const pageRows = !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : dataLength;
                 let noOfPages = Math.floor(dataLength / prev?.pageRows);
                 let lastPageRows = dataLength % prev?.pageRows;
                 if (lastPageRows > 0) noOfPages++;
@@ -409,9 +390,10 @@ const DataGrid = forwardRef(({
                     ),
                     globalSearchInput: '',
                     rowsData: dataReceivedRef?.current ?? [],
+                    pageRows,
                     noOfPages,
                     lastPageRows,
-                    currentPageRows: prev?.pageRows,
+                    currentPageRows: pageRows,
                     activePage: 1,
                     totalRows: dataLength,
                     firstRow: 0,
@@ -427,6 +409,13 @@ const DataGrid = forwardRef(({
             logDebug(state?.debug, 'error', 'Reset Grid:', err);
         }
     }, [state, setState]);
+
+    useGridApi(ref, {
+        state,
+        dataReceivedRef,
+        setState,
+        handleResetGrid
+    });
 
     return (
         <ErrorBoundary debug={state?.debug}>
