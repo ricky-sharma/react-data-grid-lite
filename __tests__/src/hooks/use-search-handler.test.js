@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 import { act, cleanup, render, renderHook } from '@testing-library/react';
 import React, { useRef, useState } from 'react';
-import { eventGridSearchClicked } from '../../../src/components/events/event-grid-search-clicked';
+import { eventGridSearchTriggered } from '../../../src/components/events/event-grid-search-triggered';
 import { logDebug } from '../../../src/helpers/logDebug';
 import { useSearchHandler } from '../../../src/hooks/use-search-handler';
 
-jest.mock('../../../src/components/events/event-grid-search-clicked', () => ({
-    eventGridSearchClicked: jest.fn()
+jest.mock('../../../src/components/events/event-grid-search-triggered', () => ({
+    eventGridSearchTriggered: jest.fn()
 }));
 jest.mock('../../../src/helpers/logDebug', () => ({
     logDebug: jest.fn()
@@ -82,7 +82,7 @@ describe('useSearchHandler', () => {
             query: 'ai search test'
         });
 
-        expect(eventGridSearchClicked).toHaveBeenCalledWith(
+        expect(eventGridSearchTriggered).toHaveBeenCalledWith(
             'ai search test',
             '##globalSearch##',
             { someCol: 'meta' },
@@ -121,7 +121,7 @@ describe('useSearchHandler', () => {
 
         expect(refs.aiSearchFailedRef.current).toBe(true);
 
-        expect(eventGridSearchClicked).toHaveBeenCalledWith(
+        expect(eventGridSearchTriggered).toHaveBeenCalledWith(
             'error test',
             '##globalSearch##',
             {},
@@ -179,7 +179,7 @@ describe('useSearchHandler', () => {
 
         expect(mockRunAISearch).not.toHaveBeenCalled();
 
-        expect(eventGridSearchClicked).toHaveBeenCalledWith(
+        expect(eventGridSearchTriggered).toHaveBeenCalledWith(
             'column search',
             'someCol',
             {},

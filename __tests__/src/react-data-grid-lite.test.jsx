@@ -2,7 +2,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import * as eventHandlers from './../../src/components/events/event-grid-header-clicked';
-import * as searchHandlers from './../../src/components/events/event-grid-search-clicked';
+import * as searchHandlers from './../../src/components/events/event-grid-search-triggered';
 import DataGrid from './../../src/react-data-grid-lite';
 
 const flushPromises = () => act(() => new Promise(resolve => setTimeout(resolve, 0)));
@@ -108,11 +108,11 @@ describe('DataGrid Component', () => {
     });
 
 
-    it('calls eventGridSearchClicked when global search input is changed', async () => {
+    it('calls eventGridSearchTriggered when global search input is changed', async () => {
         await act(() => { render(<DataGrid {...defaultProps} id={null} onSearchComplete={null} />); });
         await waitForReactUpdate();
         await waitFor(() => {
-            const spy = jest.spyOn(searchHandlers, 'eventGridSearchClicked').mockImplementation(() => { });
+            const spy = jest.spyOn(searchHandlers, 'eventGridSearchTriggered').mockImplementation(() => { });
             const input = screen.getByTestId('global-search-input');
             fireEvent.change(input, { target: { value: 'test' } });
             expect(spy).toHaveBeenCalled();

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { isNull } from '../helpers/common';
 import { logDebug } from '../helpers/logDebug';
-import { filterData } from '../components/events/event-grid-search-clicked';
+import { filterData } from '../components/events/event-grid-search-triggered';
 import { sortData } from '../components/events/event-grid-header-clicked';
 
 export function useProcessedData({

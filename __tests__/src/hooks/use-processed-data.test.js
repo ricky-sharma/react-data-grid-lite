@@ -2,7 +2,7 @@
 import { act, render, waitFor } from '@testing-library/react';
 import React, { useRef, useState } from 'react';
 import { sortData } from '../../../src/components/events/event-grid-header-clicked';
-import { filterData } from '../../../src/components/events/event-grid-search-clicked';
+import { filterData } from '../../../src/components/events/event-grid-search-triggered';
 import { logDebug } from '../../../src/helpers/logDebug';
 import { useProcessedData } from '../../../src/hooks/use-processed-data';
 
@@ -10,7 +10,7 @@ jest.mock('../../../src/helpers/logDebug', () => ({
     logDebug: jest.fn(),
 }));
 
-jest.mock('../../../src/components/events/event-grid-search-clicked', () => ({
+jest.mock('../../../src/components/events/event-grid-search-triggered', () => ({
     filterData: jest.fn(async (_, rows) => rows),
 }));
 

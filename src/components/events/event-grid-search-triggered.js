@@ -7,7 +7,7 @@ import { sortData } from './event-grid-header-clicked';
 /*
  * Handles column or global search logic in a grid.
  */
-export const eventGridSearchClicked = async (
+export const eventGridSearchTriggered = async (
     searchQuery,
     colName,
     colObject = [],

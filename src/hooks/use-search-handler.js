@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { eventGridSearchClicked } from '../components/events/event-grid-search-clicked';
+import { eventGridSearchTriggered } from '../components/events/event-grid-search-triggered';
 import { logDebug } from '../helpers/logDebug';
 
 export function useSearchHandler({
@@ -62,7 +62,7 @@ export function useSearchHandler({
                     }
                 }
 
-                eventGridSearchClicked(
+                eventGridSearchTriggered(
                     query,
                     colName,
                     colObject,
@@ -89,7 +89,7 @@ export function useSearchHandler({
         aiSearchFailedRef,
         sortRef,
         logDebug,
-        eventGridSearchClicked
+        eventGridSearchTriggered
     ]);
 
     return onSearch;
