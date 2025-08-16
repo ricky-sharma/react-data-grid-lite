@@ -20,7 +20,7 @@ describe('GridGlobalSearchBar (small screen)', () => {
 		const mockState = {
 			enableGlobalSearch: true,
 			globalSearchInput: '',
-			gridID: '1',
+			gridID: 'id-1',
 			columns: [{ name: 'col1' }],
 			enableDownload: true,
 			rowsData: [{ col1: 'value1' }],

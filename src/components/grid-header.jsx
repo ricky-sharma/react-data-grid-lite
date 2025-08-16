@@ -170,7 +170,8 @@ const GridHeader = ({
             hiddenColIndex,
             key,
             buttonColEnabled,
-            gridID
+            gridID,
+            enableRowSelection
         );
 
         if (header?.name) {

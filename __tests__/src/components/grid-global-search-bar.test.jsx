@@ -30,6 +30,7 @@ describe('GridGlobalSearchBar', () => {
         downloadFilename: 'my-data',
         onDownloadComplete: jest.fn(),
         showResetButton: true,
+        gridID: 'testID'
     };
 
     const mockSetState = jest.fn();
@@ -130,6 +131,7 @@ describe('More Tests for GridGlobalSearchBar', () => {
         downloadFilename: 'file.csv',
         onDownloadComplete,
         showResetButton: true,
+        gridID: 'testID'
     };
 
     const renderWithProvider = (ui, stateOverrides = {}) =>
@@ -249,7 +251,8 @@ describe('GridGlobalSearchBar else path for onSearchClicked', () => {
             enableDownload: false,
             rowsData: [{ id: 1, name: 'test' }],
             downloadFilename: "test.csv",
-            onDownloadComplete: () => { }
+            onDownloadComplete: () => { },
+            gridID:'testID'
         };
 
         const renderWithProvider = (ui, stateOverrides = {}) =>

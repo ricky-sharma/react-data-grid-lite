@@ -187,7 +187,8 @@ describe('GridHeader Component', () => {
             const columns = [{ name: 'Name' }];
             const [state] = useState({
                 columns: columns,
-                columnWidths: columnWidth
+                columnWidths: columnWidth,
+                enableSorting: true
             });
             return (<table>
                 <GridHeader

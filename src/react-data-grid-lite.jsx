@@ -43,7 +43,7 @@ const DataGrid = forwardRef(({
         maxWidth: maxWidth ?? '100vw',
         height: height ?? '60vh',
         maxHeight: maxHeight ?? '100vh',
-        gridID: id ?? `id-${Math.floor(Math.random() * 100000000)}`,
+        gridID: id ? `id-${id}`: `id-${Math.floor(Math.random() * 100000000)}`,
         enablePaging: !isNull(parseInt(pageSize, 10)),
         noOfPages: 0,
         pagerSelectOptions: [],

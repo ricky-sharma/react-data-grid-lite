@@ -174,7 +174,7 @@ describe('DataGrid Component', () => {
         });
         await waitForReactUpdate();
         await waitFor(() => {
-            const element = container.querySelector('#test-grid');
+            const element = container.querySelector('#id-test-grid');
 
             expect(element).toBeInTheDocument();
         });
@@ -279,7 +279,9 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
                     showPageSizeSelector: false,
                     showPageInfo: false,
                     rowHeight: '100px',
-                    debug: true
+                    debug: true,
+                    enableSorting: true,
+                    enableRowSelection: false
                 }}
             />);
         });

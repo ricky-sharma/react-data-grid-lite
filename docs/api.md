@@ -20,7 +20,7 @@
 |    `currentPage`      | `string` / `number` | Loads the data grid with the specified page number. Useful with query string params for deep linking or bookmarking.|       -           | No           |
 |    `data`             | `Array`             | Array of objects representing the rows of data to display.                                                                  |       -           | Yes          |
 |    `height`           | `string` / `number` | The height of the grid. Can be a pixel value (e.g., `'300px'`) or a percentage (e.g., `'100%'`). Recommended for optimal display of the column. |    `'60vh'`       | No           |
-|    `id`               | `string`            | Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not provided.|       -           | No           |
+|    `id`               | `string`            | Unique ID for the DataGrid component. Defaults to a random ID in the format `id-<randomNumber>` if not provided.|       -           | No           |
 |    `maxHeight`        | `string` / `number` | The maximum height of the grid.                                                                                             |    `'100vh'`      | No           |
 |    `maxWidth`         | `string` / `number` | The maximum width of the grid.                                                                                              |    `'100vw'`      | No           |
 |    `onCellUpdate`     | `function`          | Callback triggered when a cell edit is saved (e.g., on Enter key press or on cell blur). Receives an object containing details of the updated row and changed cells.|        -          | No           |

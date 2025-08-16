@@ -13,7 +13,7 @@ const GridSelectionCell = ({
     baseRow
 }) => {
     const { state = {}, setState } = useGridConfig();
-    const { onRowSelect, selectedRows } = state;
+    const { onRowSelect, selectedRows = new Set() } = state;
     const left = isSelectionColumnLeft && !isMobile
         ? isActionColumnLeft ? buttonColWidth : 0
         : '';
