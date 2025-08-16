@@ -36,7 +36,7 @@ describe('GridGlobalSearchBar', () => {
     const mockSetState = jest.fn();
 
     const defaultProps = {
-        onSearchClicked: jest.fn(),
+        searchHandler: jest.fn(),
         handleResetGrid: jest.fn()
     };
 
@@ -75,11 +75,11 @@ describe('GridGlobalSearchBar', () => {
         expect(screen.queryByPlaceholderText(/Search all columns…/i)).not.toBeInTheDocument();
     });
 
-    it('calls onSearchClicked when input changes', () => {
+    it('calls searchHandler when input changes', () => {
         renderWithProvider(<GridGlobalSearchBar {...defaultProps} />);
         const input = screen.getByPlaceholderText(/Search all columns…/i);
         fireEvent.change(input, { target: { value: 'new' } });
-        expect(defaultProps.onSearchClicked).toHaveBeenCalledWith(
+        expect(defaultProps.searchHandler).toHaveBeenCalledWith(
             expect.any(Object),
             '##globalSearch##',
             mockState.columns
@@ -114,12 +114,12 @@ describe('GridGlobalSearchBar', () => {
 
 describe('More Tests for GridGlobalSearchBar', () => {
     const setState = jest.fn();
-    const onSearchClicked = jest.fn();
+    const searchHandler = jest.fn();
     const handleResetGrid = jest.fn();
     const onDownloadComplete = jest.fn();
 
     const defaultProps = {
-        onSearchClicked,
+        searchHandler,
         handleResetGrid
     };
     const mockState = {
@@ -155,14 +155,14 @@ describe('More Tests for GridGlobalSearchBar', () => {
         expect(screen.queryByPlaceholderText('Search all columns…')).toBeNull();
     });
 
-    it('calls setState and onSearchClicked on input change', () => {
+    it('calls setState and searchHandler on input change', () => {
         renderWithProvider(<GridGlobalSearchBar {...defaultProps} />);
         const input = screen.getByPlaceholderText('Search all columns…');
 
         fireEvent.change(input, { target: { value: 'hello' } });
 
         expect(setState).toHaveBeenCalled();
-        expect(onSearchClicked).toHaveBeenCalled();
+        expect(searchHandler).toHaveBeenCalled();
     });
 
     it('calls handleResetGrid on reset button click', () => {
@@ -236,11 +236,11 @@ describe('More Tests for GridGlobalSearchBar', () => {
     });
 });
 
-describe('GridGlobalSearchBar else path for onSearchClicked', () => {
-    it('should NOT call onSearchClicked when it is not a function', () => {
+describe('GridGlobalSearchBar else path for searchHandler', () => {
+    it('should NOT call searchHandler when it is not a function', () => {
         const setState = jest.fn();
         const defaultProps = {
-            onSearchClicked: null,
+            searchHandler: null,
             handleResetGrid: () => { }
         };
 
@@ -278,7 +278,7 @@ describe('GridGlobalSearchBar setState coverage', () => {
     it('calls setState with updater that sets globalSearchInput', () => {
         const setState = jest.fn();
         const defaultProps = {
-            onSearchClicked: undefined,
+            searchHandler: undefined,
             handleResetGrid: () => { }
         };
         const mockState = {
@@ -327,13 +327,13 @@ describe('GridGlobalSearchBar (AI Search Button)', () => {
             showResetButton: false
         };
 
-        const onSearchClicked = jest.fn();
+        const searchHandler = jest.fn();
         const handleResetGrid = jest.fn();
 
         const utils = render(
             <GridConfigContext.Provider value={{ state: { ...mockState }, setState: setState }}>
                 <GridGlobalSearchBar
-                    onSearchClicked={onSearchClicked}
+                    searchHandler={searchHandler}
                     handleResetGrid={handleResetGrid}
                 />
             </GridConfigContext.Provider>
@@ -341,19 +341,19 @@ describe('GridGlobalSearchBar (AI Search Button)', () => {
 
         return {
             ...utils,
-            onSearchClicked
+            searchHandler
         };
     };
 
-    it('renders AI search button and triggers onSearchClicked on click', () => {
-        const { getByTitle, onSearchClicked } = setup(true);
+    it('renders AI search button and triggers searchHandler on click', () => {
+        const { getByTitle, searchHandler } = setup(true);
 
         const aiButton = getByTitle('Run AI Search');
         expect(aiButton).toBeInTheDocument();
 
         fireEvent.click(aiButton);
 
-        expect(onSearchClicked).toHaveBeenCalledWith(
+        expect(searchHandler).toHaveBeenCalledWith(
             expect.any(Object),
             '##globalSearch##',
             [{ name: 'name' }],

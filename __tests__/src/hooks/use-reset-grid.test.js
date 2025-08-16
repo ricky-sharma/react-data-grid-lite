@@ -1,9 +1,14 @@
 import { act, render } from '@testing-library/react';
 import React, { useRef, useState } from 'react';
+import { logDebug } from '../../../src/helpers/logDebug';
 import { useResetGrid } from '../../../src/hooks/use-reset-grid';
 
 jest.mock('../../../src/helpers/common', () => ({
     isNull: jest.fn(value => value === null || isNaN(value)),
+}));
+
+jest.mock('../../../src/helpers/logDebug', () => ({
+    logDebug: jest.fn(),
 }));
 
 describe('useResetGrid hook', () => {
@@ -31,8 +36,7 @@ describe('useResetGrid hook', () => {
             searchColsRef,
             globalSearchQueryRef,
             sortRef,
-            dataReceivedRef,
-            logDebug,
+            dataReceivedRef
         });
 
         return (
@@ -44,8 +48,6 @@ describe('useResetGrid hook', () => {
     }
 
     it('resets state and refs properly', () => {
-        const logDebug = jest.fn();
-
         const { getByText, getByTestId } = render(<TestComponent pageSize="2" logDebug={logDebug} />);
         act(() => {
             getByText('Reset').click();
@@ -64,7 +66,6 @@ describe('useResetGrid hook', () => {
     });
 
     it('calls logDebug on error', () => {
-        const logDebug = jest.fn();
         function ErrorComponent() {
             const [state, setState] = useState({ ...initialState, columns: null });
             const searchColsRef = undefined;
@@ -79,8 +80,7 @@ describe('useResetGrid hook', () => {
                 searchColsRef,
                 globalSearchQueryRef,
                 sortRef,
-                dataReceivedRef,
-                logDebug
+                dataReceivedRef
             });
 
             return <button onClick={resetGrid}>Reset</button>;
@@ -101,8 +101,6 @@ describe('useResetGrid hook', () => {
     });
 
     it('does not crash', () => {
-        const logDebug = jest.fn();
-
         function ErrorComponent() {
             const [state, setState] = React.useState({ ...initialState, columns: null });
             const searchColsRef = React.useRef([]);
@@ -116,8 +114,7 @@ describe('useResetGrid hook', () => {
                 searchColsRef,
                 globalSearchQueryRef,
                 sortRef,
-                dataReceivedRef,
-                logDebug,
+                dataReceivedRef
             });
 
             return <button onClick={resetGrid}>Reset</button>;

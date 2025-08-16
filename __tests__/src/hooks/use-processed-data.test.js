@@ -1,6 +1,22 @@
+/* eslint-disable no-undef */
 import { act, render, waitFor } from '@testing-library/react';
 import React, { useRef, useState } from 'react';
+import { sortData } from '../../../src/components/events/event-grid-header-clicked';
+import { filterData } from '../../../src/components/events/event-grid-search-clicked';
+import { logDebug } from '../../../src/helpers/logDebug';
 import { useProcessedData } from '../../../src/hooks/use-processed-data';
+
+jest.mock('../../../src/helpers/logDebug', () => ({
+    logDebug: jest.fn(),
+}));
+
+jest.mock('../../../src/components/events/event-grid-search-clicked', () => ({
+    filterData: jest.fn(async (_, rows) => rows),
+}));
+
+jest.mock('../../../src/components/events/event-grid-header-clicked', () => ({
+    sortData: jest.fn(async (_, __, rows) => rows),
+}));
 
 describe('useProcessedData hook', () => {
     function TestComponent(props) {
@@ -52,9 +68,6 @@ describe('useProcessedData hook', () => {
     const defaultData = [{ id: 1 }, { id: 2 }];
 
     const runAISearchMock = jest.fn(async ({ data, query }) => data);
-    const filterDataMock = jest.fn(async (_, rows) => rows);
-    const sortDataMock = jest.fn(async (_, __, rows) => rows);
-    const logDebugMock = jest.fn();
 
     afterEach(() => {
         jest.clearAllMocks();
@@ -66,9 +79,9 @@ describe('useProcessedData hook', () => {
                 data={defaultData}
                 pageSize="10"
                 runAISearch={runAISearchMock}
-                filterData={filterDataMock}
-                sortData={sortDataMock}
-                logDebug={logDebugMock}
+                filterData={filterData}
+                sortData={sortData}
+                logDebug={logDebug}
             />
         );
 
@@ -87,7 +100,7 @@ describe('useProcessedData hook', () => {
     });
 
     it('runs AI search when enabled and threshold met', async () => {
-        const data = Array(5).fill({ id: 1 }); // 5 rows
+        const data = Array(5).fill({ id: 1 });
         const aiSearchResult = [{ id: 99 }];
         runAISearchMock.mockResolvedValueOnce(aiSearchResult);
 
@@ -111,9 +124,9 @@ describe('useProcessedData hook', () => {
                 data: props.data,
                 pageSize: '5',
                 runAISearch: runAISearchMock,
-                filterData: filterDataMock,
-                sortData: sortDataMock,
-                logDebug: logDebugMock,
+                filterData,
+                sortData,
+                logDebug,
                 state,
                 setState,
                 dataReceivedRef,
@@ -154,9 +167,9 @@ describe('useProcessedData hook', () => {
                 data: [{ id: 1 }],
                 pageSize: '5',
                 runAISearch: runAISearchMock,
-                filterData: filterDataMock,
-                sortData: sortDataMock,
-                logDebug: logDebugMock,
+                filterData,
+                sortData,
+                logDebug,
                 state,
                 setState,
                 dataReceivedRef,
@@ -177,7 +190,7 @@ describe('useProcessedData hook', () => {
 
         await waitFor(() => {
             expect(runAISearchMock).toHaveBeenCalled();
-            expect(logDebugMock).toHaveBeenCalledWith(
+            expect(logDebug).toHaveBeenCalledWith(
                 true,
                 'error',
                 'AI search failed, falling back to default local search.',
@@ -217,9 +230,9 @@ describe('useProcessedData hook', () => {
                 searchColsRef,
                 sortRef,
                 runAISearch: runAISearchMock,
-                filterData: filterDataMock,
-                sortData: sortDataMock,
-                logDebug: logDebugMock,
+                filterData,
+                sortData,
+                logDebug,
             }) || <div data-testid="state">{JSON.stringify(state)}</div>;
         };
 
@@ -239,9 +252,9 @@ describe('useProcessedData hook', () => {
                 data={defaultData}
                 pageSize="10"
                 runAISearch={runAISearchMock}
-                filterData={filterDataMock}
-                sortData={sortDataMock}
-                logDebug={logDebugMock}
+                filterData={filterData}
+                sortData={sortData}
+                logDebug={logDebug}
             />
         );
 
@@ -274,9 +287,9 @@ describe('useProcessedData hook more tests', () => {
             data,
             pageSize: '10',
             runAISearch: runAISearchMock,
-            filterData: filterDataMock,
-            sortData: sortDataMock,
-            logDebug: logDebugMock,
+            filterData,
+            sortData,
+            logDebug,
             state,
             setState,
             dataReceivedRef,
@@ -306,10 +319,7 @@ describe('useProcessedData hook more tests', () => {
         { id: 4, __$index__: 1 }
     ];
 
-    const sortDataMock = jest.fn(async (_, __, rows) => rows);
     const runAISearchMock = jest.fn(async ({ data, query }) => data);
-    const filterDataMock = jest.fn(async (_, rows) => rows);
-    const logDebugMock = jest.fn();
 
     afterEach(() => {
         jest.clearAllMocks();
@@ -327,7 +337,7 @@ describe('useProcessedData hook more tests', () => {
         });
 
         await waitFor(() => {
-            expect(sortDataMock).toHaveBeenCalledWith(
+            expect(sortData).toHaveBeenCalledWith(
                 { name: 'id' },
                 'asc',
                 expect.any(Array)
@@ -336,5 +346,4 @@ describe('useProcessedData hook more tests', () => {
             expect(state.rowsData).toEqual(sortedData);
         });
     });
-
 });

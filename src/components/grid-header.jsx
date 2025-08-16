@@ -14,7 +14,7 @@ const GridHeader = ({
     state,
     setState,
     onHeaderClicked,
-    onSearchClicked,
+    searchHandler,
     gridHeaderRef,
     computedColumnWidthsRef
 }) => {
@@ -355,8 +355,8 @@ const GridHeader = ({
                                         [header?.name]: updatedVal
                                     }
                                 }));
-                                if (typeof onSearchClicked === 'function') {
-                                    onSearchClicked(e, header?.name, conCols, formatting);
+                                if (typeof searchHandler === 'function') {
+                                    searchHandler(e, header?.name, conCols, formatting);
                                 }
                             }}
                         />

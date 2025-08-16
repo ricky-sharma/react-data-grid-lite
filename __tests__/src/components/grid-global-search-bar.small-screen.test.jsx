@@ -33,7 +33,7 @@ describe('GridGlobalSearchBar (small screen)', () => {
 
 		render(
 			<GridConfigContext.Provider value={{ state: mockState, setState: mockSetState }}>
-				<GridGlobalSearchBar onSearchClicked={jest.fn()} handleResetGrid={jest.fn()} />
+				<GridGlobalSearchBar searchHandler={jest.fn()} handleResetGrid={jest.fn()} />
 			</GridConfigContext.Provider>
 		);
 

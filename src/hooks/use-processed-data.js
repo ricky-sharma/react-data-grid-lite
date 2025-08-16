@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
 import { isNull } from '../helpers/common';
+import { logDebug } from '../helpers/logDebug';
+import { filterData } from '../components/events/event-grid-search-clicked';
+import { sortData } from '../components/events/event-grid-header-clicked';
 
 export function useProcessedData({
     data,
@@ -11,10 +14,7 @@ export function useProcessedData({
     aiSearchFailedRef,
     searchColsRef,
     sortRef,
-    runAISearch,
-    filterData,
-    sortData,
-    logDebug
+    runAISearch
 }) {
     useEffect(() => {
         if (!isNull(data)) {

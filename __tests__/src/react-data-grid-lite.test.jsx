@@ -26,7 +26,7 @@ jest.mock('./../../src/components/grid-global-search-bar', () => {
                     value={value}
                     onChange={(e) => {
                         setValue(e.target.value);
-                        props?.onSearchClicked(e);
+                        props?.searchHandler(e);
                     }}
                 />
                 <button onClick={() => {
@@ -292,7 +292,7 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
         });
     });
 
-    it('renders global search bar and triggers onSearchClicked', async () => {
+    it('renders global search bar and triggers searchHandler', async () => {
         const inputValue = 'Alice';
         await act(() => { render(<DataGrid {...defaultProps} />); });
         await waitForReactUpdate();

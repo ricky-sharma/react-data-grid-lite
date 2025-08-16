@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { isNull } from '../helpers/common';
+import { logDebug } from '../helpers/logDebug';
 
 export function useResetGrid({
     state,
@@ -8,8 +9,7 @@ export function useResetGrid({
     searchColsRef,
     globalSearchQueryRef,
     sortRef,
-    dataReceivedRef,
-    logDebug
+    dataReceivedRef
 }) {
     return useCallback(() => {
         try {

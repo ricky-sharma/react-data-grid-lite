@@ -1,20 +1,19 @@
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
-import { eventGridHeaderClicked, sortData } from './components/events/event-grid-header-clicked';
-import { eventGridSearchClicked, filterData } from './components/events/event-grid-search-clicked';
+import { eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
 import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
 import { GridConfigContext } from './context/grid-config-context';
 import ErrorBoundary from './error-boundary';
-import { logDebug } from './helpers/logDebug';
 import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
 import { useGridApi } from './hooks/use-grid-api';
 import { useProcessedColumns } from './hooks/use-processed-columns';
 import { useProcessedData } from './hooks/use-processed-data';
 import { useResetGrid } from './hooks/use-reset-grid';
+import { useSearchHandler } from './hooks/use-search-handler';
 import { applyTheme } from './utils/themes-utils';
 
 const DataGrid = forwardRef(({
@@ -47,7 +46,7 @@ const DataGrid = forwardRef(({
         maxWidth: maxWidth ?? '100vw',
         height: height ?? '60vh',
         maxHeight: maxHeight ?? '100vh',
-        gridID: id ? `id-${id}`: `id-${Math.floor(Math.random() * 100000000)}`,
+        gridID: id ? `id-${id}` : `id-${Math.floor(Math.random() * 100000000)}`,
         enablePaging: !isNull(parseInt(pageSize, 10)),
         noOfPages: 0,
         pagerSelectOptions: [],
@@ -161,26 +160,22 @@ const DataGrid = forwardRef(({
         aiSearchFailedRef,
         searchColsRef,
         sortRef,
-        runAISearch,
-        filterData,
-        sortData,
-        logDebug
+        runAISearch
     });
 
     useEffect(() => {
-        if (!isNull(state?.columns))
+        if (!isNull(state?.columns)) {
             setState((prevState) => ({
                 ...prevState,
-                hiddenColIndex: !isNull(state?.columns) ? state?.columns.map((col, key) =>
-                    !isNull(col?.hidden) && col?.hidden === true ? key : null) : [],
-                columnWidths: !isNull(state?.columns)
-                    ? state?.columns.map(col =>
-                        typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
-                            ? col.width
-                            : null
-                    )
-                    : []
+                hiddenColIndex: state?.columns.map((col, key) =>
+                    !isNull(col?.hidden) && col?.hidden === true ? key : null),
+                columnWidths: state?.columns.map(col =>
+                    typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
+                        ? col.width
+                        : null
+                )
             }));
+        }
     }, [state?.columns, containerWidth]);
 
     useEffect(() => {
@@ -295,79 +290,18 @@ const DataGrid = forwardRef(({
         searchRef.current = null;
     }, [state.toggleState])
 
-    const onSearchClicked = useCallback((
-        e,
-        colName,
-        colObject,
-        formatting,
-        onChange = true
-    ) => {
-        if (searchTimeoutRef?.current) {
-            clearTimeout(searchTimeoutRef.current);
-        }
-        let searchableData = dataReceivedRef?.current ?? [];
-        const eventCopy = e?.nativeEvent ? { ...e } : e;
-        const isGlobal = colName === '##globalSearch##';
-        const aiEnabled = state?.aiSearchOptions?.enabled;
-        const aiThreshold = state?.aiSearchOptions?.minRowCount ?? 1;
-        const query = isGlobal && aiEnabled && !onChange
-            ? state.globalSearchInput?.trimStart() ?? ''
-            : eventCopy?.target?.value?.trimStart() ?? '';
-
-        searchTimeoutRef.current = setTimeout(() => {
-            searchRef.current = {
-                changeEvent: eventCopy,
-                searchQuery: query
-            };
-
-            if (isGlobal) {
-                const existingGlobalCol = searchColsRef.current.find(col => col.colName === '##globalSearch##');
-                if (existingGlobalCol) {
-                    existingGlobalCol.searchQuery = query;
-                } else {
-                    searchColsRef.current.push({
-                        colName,
-                        searchQuery: query,
-                        colObj: colObject
-                    });
-                }
-                globalSearchQueryRef.current = query;
-            }
-
-            const rowCount = searchableData?.length ?? 0;
-            const globalSearchCol = searchColsRef.current.find(col => col.colName === '##globalSearch##');
-            const aiQuery = query !== '' ? query : globalSearchCol?.searchQuery ?? '';
-
-            (async () => {
-                if (aiEnabled && rowCount >= aiThreshold && aiQuery) {
-                    try {
-                        aiSearchFailedRef.current = false;
-                        searchableData = await runAISearch({
-                            data: searchableData,
-                            query: aiQuery
-                        });
-                    } catch (err) {
-                        aiSearchFailedRef.current = true;
-                        logDebug(state?.debug, 'error', 'AI search failed, falling back to default local search.', err);
-                    }
-                }
-
-                eventGridSearchClicked(
-                    query,
-                    colName,
-                    colObject,
-                    formatting,
-                    searchableData,
-                    searchColsRef,
-                    state,
-                    setState,
-                    sortRef,
-                    aiSearchFailedRef,
-                    aiEnabled
-                );
-            })();
-        }, 300);
-    }, [state, setState, runAISearch, state?.aiSearchOptions]);
+    const searchHandler = useSearchHandler({
+        state,
+        setState,
+        runAISearch,
+        dataReceivedRef,
+        searchTimeoutRef,
+        searchRef,
+        searchColsRef,
+        globalSearchQueryRef,
+        aiSearchFailedRef,
+        sortRef
+    });
 
     const handleResetGrid = useResetGrid({
         state,
@@ -376,10 +310,9 @@ const DataGrid = forwardRef(({
         searchColsRef,
         globalSearchQueryRef,
         sortRef,
-        dataReceivedRef,
-        logDebug
+        dataReceivedRef
     });
-    
+
     useGridApi(ref, {
         state,
         dataReceivedRef,
@@ -405,7 +338,7 @@ const DataGrid = forwardRef(({
                 >
                     {state?.showToolbar === true &&
                         (<GridGlobalSearchBar
-                            onSearchClicked={onSearchClicked}
+                            searchHandler={searchHandler}
                             handleResetGrid={handleResetGrid}
                         />)}
                     <div
@@ -422,7 +355,7 @@ const DataGrid = forwardRef(({
                             state={state}
                             setState={setState}
                             onHeaderClicked={onHeaderClicked}
-                            onSearchClicked={onSearchClicked}
+                            searchHandler={searchHandler}
                             gridHeaderRef={gridHeaderRef}
                             computedColumnWidthsRef={computedColumnWidthsRef}
                             isResizingRef={isResizingRef}

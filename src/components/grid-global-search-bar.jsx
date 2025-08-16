@@ -11,7 +11,7 @@ import Input from './custom-fields/input';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
 
 const GridGlobalSearchBar = memo(({
-    onSearchClicked,
+    searchHandler,
     handleResetGrid,
 }) => {
     const windowWidth = useWindowWidth();
@@ -52,15 +52,15 @@ const GridGlobalSearchBar = memo(({
                                     ...prev,
                                     globalSearchInput: e?.target?.value
                                 }));
-                                if ((!state?.aiSearchOptions?.enabled || e?.target?.value === '') && typeof onSearchClicked === 'function') {
-                                    onSearchClicked(e, '##globalSearch##', columns);
+                                if ((!state?.aiSearchOptions?.enabled || e?.target?.value === '') && typeof searchHandler === 'function') {
+                                    searchHandler(e, '##globalSearch##', columns);
                                 }
                             }}
                         />
                         {state?.aiSearchOptions?.enabled && (
                             <button
                                 className="inline-search-btn alignCenter"
-                                onClick={(e) => onSearchClicked(e, '##globalSearch##', columns, null, false)}
+                                onClick={(e) => searchHandler(e, '##globalSearch##', columns, null, false)}
                                 title="Run AI Search"
                             >
                                 <SearchIcon />
