@@ -12,6 +12,7 @@ import { logDebug } from './helpers/logDebug';
 import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
 import { useProcessedColumns } from './hooks/use-processed-columns';
+import { useProcessedData } from './hooks/use-processed-data';
 import { applyTheme } from './utils/themes-utils';
 
 const DataGrid = forwardRef(({
@@ -148,66 +149,21 @@ const DataGrid = forwardRef(({
 
     useProcessedColumns(columns, setState, computedColumnWidthsRef);
 
-    useEffect(() => {
-        if (!isNull(data)) {
-            let timeout;
-            const processData = async () => {
-                let processedRows = data?.map((row, index) => ({
-                    ...row,
-                    __$index__: index
-                }));
-                dataReceivedRef.current = processedRows;
-                const aiQuery = globalSearchQueryRef?.current?.trim();
-                const aiEnabled = state?.aiSearchOptions?.enabled;
-                const aiThreshold = state?.aiSearchOptions?.minRowCount ?? 1;
-
-                if (aiEnabled && aiQuery && processedRows.length >= aiThreshold) {
-                    try {
-                        aiSearchFailedRef.current = false;
-                        processedRows = await runAISearch({
-                            data: dataReceivedRef.current,
-                            query: aiQuery
-                        });
-                    } catch (err) {
-                        aiSearchFailedRef.current = true;
-                        logDebug(state?.debug, 'error', 'AI search failed, falling back to default local search.', err);
-                    }
-                }
-                const filteredData = await filterData(searchColsRef, processedRows, aiSearchFailedRef,
-                    aiEnabled);
-                const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
-                const sortedRows = shouldSort
-                    ? await sortData(
-                        sortRef.current.colObject,
-                        sortRef.current.sortOrder,
-                        filteredData
-                    )
-                    : filteredData;
-                const pageRowCount = state?.pageRows ?? (!isNull(parseInt(pageSize, 10))
-                    ? parseInt(pageSize, 10)
-                    : sortedRows?.length);
-                timeout = setTimeout(() => {
-                    setState(prevState => {
-                        return {
-                            ...prevState,
-                            rowsData: sortedRows,
-                            totalRows: sortedRows?.length,
-                            pageRows: pageRowCount,
-                            currentPageRows: (prevState?.activePage === prevState?.noOfPages)
-                                ? prevState?.lastPageRows : pageRowCount,
-                            columns: prevState?.columns?.map(col => ({
-                                ...col,
-                                sortOrder: col?.name === sortRef?.current?.colKey
-                                    ? sortRef?.current?.sortOrder : ''
-                            }))
-                        }
-                    });
-                });
-            };
-            processData();
-            return () => clearTimeout(timeout);
-        }
-    }, [data]);
+    useProcessedData({
+        data,
+        pageSize,
+        state,
+        setState,
+        dataReceivedRef,
+        globalSearchQueryRef,
+        aiSearchFailedRef,
+        searchColsRef,
+        sortRef,
+        runAISearch,
+        filterData,
+        sortData,
+        logDebug
+    });
 
     useEffect(() => {
         if (!isNull(state?.columns))
