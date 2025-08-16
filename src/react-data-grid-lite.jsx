@@ -11,6 +11,7 @@ import ErrorBoundary from './error-boundary';
 import { logDebug } from './helpers/logDebug';
 import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
+import { useProcessedColumns } from './hooks/use-processed-columns';
 import { applyTheme } from './utils/themes-utils';
 
 const DataGrid = forwardRef(({
@@ -145,66 +146,7 @@ const DataGrid = forwardRef(({
         };
     }, []);
 
-    useEffect(() => {
-        computedColumnWidthsRef.current = [];
-        if (!isNull(columns))
-            setState((prevState) => ({
-                ...prevState,
-                columnsReceived: columns,
-                columns: Array.isArray(columns) && columns.every(obj => typeof obj === 'object')
-                    ? (() => {
-                        const validColumns = columns.filter(
-                            obj => obj && typeof obj.name === 'string' && obj.name.trim() !== ''
-                        ).map(col => ({
-                            ...col,
-                            fixed: typeof col?.fixed === 'boolean' ? col?.fixed : false,
-                            hidden: typeof col?.hidden === 'boolean' ? col?.hidden : false,
-                            width: prevState.columns?.find(c => c?.name === col?.name)?.width ?? col?.width ?? '',
-                            order: prevState.columns?.find(c => c?.name === col?.name)?.displayIndex ?? col?.order ?? ''
-                        }));
-                        const fixedCols = validColumns.filter(col => col.fixed === true);
-                        const nonFixedCols = validColumns.filter(col => col.fixed === false);
-                        const applyGlobalOrder = (group, globalStartIndex = 0) => {
-                            const result = [];
-                            const withOrder = group.filter(c => typeof c.order === 'number');
-                            const withoutOrder = group.filter(c => typeof c.order !== 'number');
-                            const orderGroups = new Map();
-                            for (const col of withOrder) {
-                                const order = col.order;
-                                if (!orderGroups.has(order)) orderGroups.set(order, []);
-                                orderGroups.get(order).push(col);
-                            }
-                            const sortedOrderValues = Array.from(orderGroups.keys()).sort((a, b) => a - b);
-                            for (const order of sortedOrderValues) {
-                                const cols = orderGroups.get(order).sort((a, b) => a.name.localeCompare(b.name));
-                                for (const col of cols) {
-                                    const maxIndex = group.length - 1;
-                                    const globalIdx = Math.min(Math.max(0, col.order - 1), maxIndex + globalStartIndex);
-                                    const localIdx = Math.max(0, globalIdx - globalStartIndex);
-                                    let i = localIdx;
-                                    while (result[i]) i++;
-                                    result[i] = col;
-                                }
-                            }
-
-                            let i = 0;
-                            for (const col of withoutOrder) {
-                                while (result[i]) i++;
-                                result[i] = col;
-                            }
-                            return result;
-                        };
-                        const orderedFixed = applyGlobalOrder(fixedCols, 0);
-                        const orderedNonFixed = applyGlobalOrder(nonFixedCols, orderedFixed.length);
-                        const finalList = [...orderedFixed, ...orderedNonFixed];
-                        return finalList.filter(Boolean).map((col, index) => ({
-                            ...col,
-                            displayIndex: index + 1
-                        }));
-                    })()
-                    : []
-            }));
-    }, [columns]);
+    useProcessedColumns(columns, setState, computedColumnWidthsRef);
 
     useEffect(() => {
         if (!isNull(data)) {
