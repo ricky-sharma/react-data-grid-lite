@@ -14,6 +14,7 @@ import useContainerWidth from './hooks/use-container-width';
 import { useGridApi } from './hooks/use-grid-api';
 import { useProcessedColumns } from './hooks/use-processed-columns';
 import { useProcessedData } from './hooks/use-processed-data';
+import { useResetGrid } from './hooks/use-reset-grid';
 import { applyTheme } from './utils/themes-utils';
 
 const DataGrid = forwardRef(({
@@ -368,48 +369,17 @@ const DataGrid = forwardRef(({
         }, 300);
     }, [state, setState, runAISearch, state?.aiSearchOptions]);
 
-    const handleResetGrid = useCallback(() => {
-        try {
-            searchColsRef.current = [];
-            globalSearchQueryRef.current = '';
-            sortRef.current = null;
-            setState(prev => {
-                const dataLength = dataReceivedRef?.current?.length ?? 0;
-                const pageRows = !isNull(parseInt(pageSize, 10)) ? parseInt(pageSize, 10) : dataLength;
-                let noOfPages = Math.floor(dataLength / prev?.pageRows);
-                let lastPageRows = dataLength % prev?.pageRows;
-                if (lastPageRows > 0) noOfPages++;
-                if (lastPageRows === 0) lastPageRows = prev?.pageRows;
-
-                return {
-                    ...prev,
-                    searchValues: Object.fromEntries(
-                        (Array.isArray(prev.columns) ? prev.columns : [])
-                            .filter(col => col && col.name)
-                            .map(col => [col.name, ''])
-                    ),
-                    globalSearchInput: '',
-                    rowsData: dataReceivedRef?.current ?? [],
-                    pageRows,
-                    noOfPages,
-                    lastPageRows,
-                    currentPageRows: pageRows,
-                    activePage: 1,
-                    totalRows: dataLength,
-                    firstRow: 0,
-                    selectedRows: new Set(),
-                    columns: prev.columns.map(col => ({
-                        ...col,
-                        sortOrder: '',
-                    })),
-                }
-            });
-        }
-        catch (err) {
-            logDebug(state?.debug, 'error', 'Reset Grid:', err);
-        }
-    }, [state, setState]);
-
+    const handleResetGrid = useResetGrid({
+        state,
+        setState,
+        pageSize,
+        searchColsRef,
+        globalSearchQueryRef,
+        sortRef,
+        dataReceivedRef,
+        logDebug
+    });
+    
     useGridApi(ref, {
         state,
         dataReceivedRef,
