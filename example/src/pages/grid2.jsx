@@ -7,6 +7,7 @@ import './../App.css';
 const options = {
     actionColumnAlign: 'left',
     enableColumnSearch: false,
+    rowSelectColumnAlign: 'right',
     editButton: {
         event: (e, row) => {
             alert('Edit Button clicked!');

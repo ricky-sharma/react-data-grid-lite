@@ -24,6 +24,12 @@ function Navbar() {
             <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
                 <li>
                     <Link to="/" className={isActive('/') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                        Column Drag-Drop
+                    </Link>
+                    <span></span>
+                </li>
+                <li>
+                    <Link to="/Grid1" className={isActive('/Grid1') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Interactive Grid
                     </Link>
                     <span></span>
@@ -31,12 +37,6 @@ function Navbar() {
                 <li>
                     <Link to="/Grid2" className={isActive('/Grid2') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Row Actions
-                    </Link>
-                    <span></span>
-                </li>
-                <li>
-                    <Link to="/Grid6" className={isActive('/Grid6') ? 'active' : ''} onClick={() => setIsOpen(false)}>
-                        Column Drag-Drop
                     </Link>
                     <span></span>
                 </li>

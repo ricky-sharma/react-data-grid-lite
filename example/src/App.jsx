@@ -15,12 +15,12 @@ function App() {
             <Navbar style={{ display: 'flex', justifyContent: 'center' }} />
             <div style={{ padding: '8px' }}>
                 <Routes>
-                    <Route path="/" element={<Grid1 />} />
+                    <Route path="/Grid1" element={<Grid1 />} />
                     <Route path="/Grid2" element={<Grid2 />} />
                     <Route path="/Grid3" element={<Grid3 />} />
                     <Route path="/Grid4" element={<Grid4 />} />
                     <Route path="/Grid5" element={<Grid5 />} />
-                    <Route path="/Grid6" element={<Grid6 />} />
+                    <Route path="/" element={<Grid6 />} />
                     <Route path="/Grid7" element={<Grid7 />} />
                 </Routes>
             </div>

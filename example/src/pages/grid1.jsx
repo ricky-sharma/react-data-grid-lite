@@ -8,7 +8,8 @@ const options = {
     enableColumnSearch: false,
     enableColumnResize: true,
     enableColumnDrag: true,
-    rowHeight: '70px'
+    rowHeight: '70px',
+    enableRowSelection: false
 };
 
 export default function Grid1() {
