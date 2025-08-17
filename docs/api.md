@@ -30,7 +30,9 @@
 |    `onRowClick`       | `function`          | Callback function triggered when a row is clicked. The clicked row data is passed as an argument.                           |        -          | No           |
 |    `onRowHover`       | `function`          | Callback function triggered when a row is hovered over.                                                                     |        -          | No           |
 |    `onRowOut`         | `function`          | Callback function triggered when the mouse leaves a hovered row.                                                            |        -          | No           |
+|    `onRowSelect`      | `function`          | Callback function triggered when a row is selected using the selection column. Available in version `1.2.2` and above.      |        -          | No           |
 |    `onSearchComplete` | `function`          | Callback function triggered after a search operation.                                                                       |        -          | No           |
+|    `onSelectAll`      | `function`          | Callback function triggered when all rows on the current page are selected by clicking the selection column header. Available in version `1.2.2` and above.|        -          | No           |
 |    `onSortComplete`   | `function`          | Callback function triggered after sorting finishes.                                                                         |        -          | No           |
 |    `options`          | `object`            | An object for additional customization. Contains options like `gridClass`, `enableGlobalSearch`, etc.                       |       -           | No           |
 |    `pageSize`         | `string` / `number` | Number of rows per page for pagination. If `null` or not provided, pagination is disabled.                                  |       -           | No           |
@@ -269,7 +271,7 @@ The `options` prop is an **object** that provides additional configuration setti
 
 | **Field**            | **Type**  | **Description**                                                                                                           | **Default Value** | **Required** |
 | -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------|------------------ | ------------ |
-| `actionColumnAlign`  | `string` (`'left'` \| `'right'` \| `''`)  | Controls alignment of the Actions column. Set to `'left'` or `'right'` to fix its position. Leave empty to allow the column to scroll with the rest of the table.|      `''` (empty string)        | No           |
+| `actionColumnAlign`  | `string` (`'left'` \| `'right'` \| `''`)  | Controls alignment of the Actions column. Set to `'left'` or `'right'` to fix its position. Leave empty to allow the column to scroll with the rest of the table.|      `'right'`        | No           |
 | `aiSearch`           | `object`  | Configuration object to enable AI search functionality in the data grid. Supported in version `1.2.0` and above. For more details, refer to the [`AI Search Integration`](./ai_search_integration.md) document.|       -      | No           |
 | `debug`              | `boolean` | Enables debug logging for development. When set to `true`, the grid will output console `error`, `warn`, and `info` logs — useful for debugging features like AI search. **Should be disabled in production** to avoid unnecessary console output. Available in version `1.2.1` and above.|      `false`       | No           |
 | `deleteButton`       | `object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked.|       -      | No           |
@@ -281,6 +283,7 @@ The `options` prop is an **object** that provides additional configuration setti
 | `enableColumnSearch` | `boolean` | Whether to enable column-wise search functionality (search per individual column). Column-level search settings override this option.|      `true`        | No           |
 | `enableDownload`     | `boolean` | Whether to enable the download functionality (export data as CSV).                                                        |      `true`       | No           |
 | `enableGlobalSearch` | `boolean` | Enables global search across all columns.                                                                                 |      `true`       | No           |
+| `enableRowSelection` | `boolean` | Enables the row selection column. Available in version `1.2.2` and above.                                                 |      `true`       | No           |
 | `enableSorting`      | `boolean` | Enables sorting for all columns by default. Can be overridden by individual column-level `sortable` settings. Supported in version `1.2.2` and above.|      `true`       | No           |
 | `globalSearchPlaceholder`| `string` | Sets the placeholder text for the global search input field in the toolbar. Useful for localization or customization.  | `"Search all columns…"` | No       |
 | `gridBgColor`        | `string`  | Sets a custom background color for the grid container. Supported in version `1.1.11` and above.                           |       -           | No           |
@@ -290,6 +293,7 @@ The `options` prop is an **object** that provides additional configuration setti
 | `onDownloadComplete` | `function`| Callback function that enables post-download handling such as logging, notifications, or emailing downloaded files.       |       -           | No           |
 | `rowClass`           | `string`  | Custom CSS class for each row in the grid.                                                                                |       -           | No           |
 | `rowHeight`          | `string` / `number`  | Sets the height of each data row. Accepts a pixel value (e.g., `'200px'`) or a percentage of the table body height (e.g., `'25%'`).|       -           | No           |
+| `rowSelectColumnAlign`| `string` (`'left'` \| `'right'` \| `''`)  | Controls the alignment of the selection column. Set to `'left'` or `'right'` to fix its position. Leave empty (`''`) to allow the column to scroll with the rest of the table. Available in version `1.2.2` and above.|      `'left'`        | No           |
 | `showFooter`         | `boolean` | Controls the visibility of the grid footer, which includes summary rows and pagination.| `true` | No       |
 | `showNumberPagination`| `boolean` | Controls visibility of number-based pagination in the grid footer. Supported from version `1.2.1`.                       |      `true`       | No           |
 | `showPageInfo`       | `boolean` | Controls visibility of page information (e.g. "1–10 of 50") in the grid footer. Supported from version `1.2.1`.           |      `true`       | No           |
