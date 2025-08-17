@@ -17,7 +17,7 @@
 		</script>
 		<!-- Google tag (gtag.js) -->
 		
-		<title>React Data Grid Lite - 📝 Global &amp; Column Search</title>
+		<title>React Data Grid Lite - 📦 Imperative Grid API (`ref` methods)</title>
 		<meta
 		  name="description"
 		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
@@ -29,17 +29,17 @@
 		  content="react, data grid, react table, api, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
-		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/example-2.html" />
+		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/datagrid-ref-methods.html" />
 
 		<!-- Open Graph for social sharing -->
-		<meta property="og:title" content="React Data Grid Lite - 📝 Global &amp; Column Search" />
+		<meta property="og:title" content="React Data Grid Lite - 📦 Imperative Grid API (`ref` methods)" />
 		<meta
 		  property="og:description"
 		  content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides."
     />
 		<meta
 		  property="og:url"
-		  content="https://ricky-sharma.github.io/react-data-grid-lite/example-2.html"
+		  content="https://ricky-sharma.github.io/react-data-grid-lite/datagrid-ref-methods.html"
     />
 		<meta property="og:type" content="website" />
 		<meta
@@ -50,7 +50,7 @@
 
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:title" content="React Data Grid Lite - 📝 Global &amp; Column Search" />
+		<meta name="twitter:title" content="React Data Grid Lite - 📦 Imperative Grid API (`ref` methods)" />
 		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 		
@@ -335,11 +335,11 @@
 				<article class="">
 					<header class="">
 						<p class="text-base font-medium text-slate-500 mb-6 inline-flex items-center space-x-4">
-							<span>Examples</span>
+							<span>Documentation</span>
 							
 						</p>
 						<h1 class="text-3xl font-bold tracking-tight text-slate-900">
-							📝 Global &amp; Column Search
+							📦 Imperative Grid API (`ref` methods)
 						</h1>
 					</header>
 
@@ -350,94 +350,59 @@
 					
 
 					<div class="mt-8 prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-lead:text-slate-500 prose-a:font-semibold prose-a:underline prose-pre:bg-slate-900">
-						<p>This example demonstrates a basic setup of the <code>react-data-grid-lite</code> component with the following features:</p>
-<ul>
-<li><strong>Global and column-specific search</strong></li>
-<li><strong>Row action buttons</strong> (Edit &amp; Delete) with event handlers</li>
-<li><strong>Column formatting</strong> (e.g. date formatting)</li>
-<li><strong>Responsive grid size</strong></li>
-</ul>
-<blockquote>
-<p>The data is fetched from a public API using a custom React hook.</p>
-</blockquote>
-<hr>
-<h2>✅ Key Features</h2>
-<ul>
-<li><strong>Action Column</strong>: Edit and Delete buttons are aligned to the <strong>left side</strong> of the grid for better layout control.</li>
-<li><strong>Date Formatting</strong>: The <code>published</code> field is formatted using <code>dd-MMMM-yyyy</code>.</li>
-<li><strong>Theming</strong>: Uses <code>blue-core</code> theme.</li>
-</ul>
-<hr>
-<h2>🧩 Grid Component Example</h2>
-<pre><code class="language-jsx">import React from 'react';
-import DataGrid from 'react-data-grid-lite';
-import { useFetch } from '../data';
+						<p>The <strong>DataGrid</strong> component exposes a set of <strong>imperative methods</strong> through a <code>ref</code> using React’s <code>useImperativeHandle</code> hook. This allows parent or consuming components to programmatically interact with and control the grid beyond the declarative prop-based API.</p>
+<p>By using these methods, you can perform actions such as retrieving filtered or selected rows, resetting the grid, or getting the current page — all from outside the DataGrid component itself.</p>
+<h2>How to Use</h2>
+<p>To access these methods, create a React ref and attach it to your <code>&lt;DataGrid /&gt;</code> component:</p>
+<pre><code class="language-jsx">import { useRef } from 'react';
 
-const options = {
-  enableColumnSearch: true,
-  actionColumnAlign: 'left',
-  editButton: { event: (e, row) =&gt; { alert('Edit Button clicked!'); console.log(row); }},
-  deleteButton: { event: (e, row) =&gt; { alert('Delete Button clicked!'); console.log(row); }}
-};
+const gridRef = useRef();
 
-export default function Grid() {
-  const users = useFetch();
-  const columns = users?.length &gt; 0
-    ? Object.keys(users[0])?.map((val) =&gt; {
-        if (val.toLowerCase() === 'id')
-          return { name: val, alias: 'ID', width: '100px' };
-        else if (val.toLowerCase() === 'description')
-          return { name: val, hidden: true };
-        else if (val.toLowerCase() === 'published')
-          return { name: val, formatting: { type: 'Date', format: 'dd-MMMM-yyyy' },
-            width: '200px'
-          };
-        else if (val.toLowerCase() === 'genre')
-          return { name: val, width: '150px' };
-        else
-          return { name: val, width: '200px' };
-      })
-    : [];
-
-  return (
-      &lt;DataGrid columns={columns} data={users} pageSize={10} options={options}
-        width=&quot;70vw&quot; height=&quot;35vh&quot; theme=&quot;blue-core&quot;
-      /&gt;
-  );
-}
+&lt;DataGrid
+  ref={gridRef}
+  /* other props */
+ /&gt;
 </code></pre>
-<hr>
-<h2>📡 <code>useFetch()</code> – Data Fetching Hook</h2>
-<p>This hook fetches 100 records from the <a href="https://fakerapi.it/en"><code>fakerapi.it</code></a> API. You can optionally pass an endpoint (<code>books</code>, <code>users</code>, etc.):</p>
-<pre><code class="language-js">import { useEffect, useState } from 'react';
-import { trackPromise } from 'react-data-grid-lite';
-
-export const useFetch = (api = 'books') =&gt; {
-  const [data, setData] = useState([]);
-
-  useEffect(() =&gt; {
-    const promise = fetch(`https://fakerapi.it/api/v2/${api}?_quantity=100`)
-      .then(response =&gt; response.json())
-      .then(response =&gt; { setData(response.data); });
-
-    trackPromise(promise);
-  }, []);
-
-  return data;
-};
+<p>You can then call any exposed method via <code>gridRef.current</code> after the grid mounts.</p>
+<h2>🔍 Available Methods</h2>
+<h3><code>getFilteredRows()</code></h3>
+<p>Returns an array of rows currently displayed in the grid, reflecting any applied search, filter, or sorting criteria.</p>
+<pre><code class="language-js">const filteredRows = gridRef.current.getFilteredRows();
 </code></pre>
-<hr>
-<h2>📌 Notes</h2>
+<h3><code>getFilteredSelectedRows()</code></h3>
+<p>Returns an array of rows that are <strong>both selected and currently visible</strong> in the filtered view.</p>
+<pre><code class="language-js">const selectedFilteredRows = gridRef.current.getFilteredSelectedRows();
+</code></pre>
+<h3><code>getAllSelectedRows()</code></h3>
+<p>Returns an array of <strong>all selected rows</strong>, including those that might be filtered out or on other pages.</p>
+<pre><code class="language-js">const allSelectedRows = gridRef.current.getAllSelectedRows();
+</code></pre>
+<h3><code>getCurrentPage()</code></h3>
+<p>Returns the current page number that the grid is displaying.</p>
+<pre><code class="language-js">const currentPage = gridRef.current.getCurrentPage();
+</code></pre>
+<h3><code>resetGrid()</code></h3>
+<p>Resets the grid to its initial state by:</p>
 <ul>
-<li>You can switch the API endpoint (e.g. <code>books</code>, <code>users</code>, <code>companies</code>, etc.) as supported by <a href="https://fakerapi.it">fakerapi.it</a>.</li>
-<li>The <code>trackPromise</code> utility is built into <strong>react-data-grid-lite</strong>.
+<li>Clearing all selected rows</li>
+<li>Resetting pagination to the first page</li>
+<li>Clearing any applied filters and sorting</li>
+</ul>
+<pre><code class="language-js">gridRef.current.resetGrid();
+</code></pre>
+<h3><code>clearSelectedRows()</code></h3>
+<p>Clears the current selection of rows in the grid — <strong>without affecting</strong> filters, pagination, or sorting.</p>
+<pre><code class="language-js">gridRef.current.clearSelectedRows();
+</code></pre>
+<h2>Why Use These Methods?</h2>
+<p>These imperative APIs are particularly useful when you need to:</p>
 <ul>
-<li>It helps manage loading states during asynchronous operations like data fetching.</li>
-<li>It integrates well with <strong>custom loading components</strong> or libraries like <a href="https://www.npmjs.com/package/react-promise-tracker"><code>react-promise-tracker</code></a> for showing spinners or loaders.</li>
+<li>Export selected rows to a file</li>
+<li>Sync grid state with other UI components</li>
+<li>Implement custom toolbar buttons that reset or modify grid state</li>
+<li>Perform bulk operations based on current selection or filters</li>
 </ul>
-</li>
-</ul>
-<hr>
+<p>They give you full control over the grid’s behavior from parent components, making your DataGrid implementation more flexible and powerful.</p>
 
 					</div>
 
@@ -541,19 +506,19 @@ export const useFetch = (api = 'books') =&gt; {
   
 
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
     
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
   
 
   
@@ -576,8 +541,8 @@ export const useFetch = (api = 'books') =&gt; {
           Previous
         </dt>
         <dd class="mt-1">
-          <a href="example-1.html" class="text-base font-semibold text-slate-900 hover:underline">
-            📡 Consuming Remote API
+          <a href="ai-search.html" class="text-base font-semibold text-slate-900 hover:underline">
+            🤖 AI Search Integration
           </a>
         </dd>
       </div>
@@ -589,8 +554,8 @@ export const useFetch = (api = 'books') =&gt; {
           Next
         </dt>
         <dd class="mt-1">
-          <a href="example-3.html" class="text-base font-semibold text-slate-900 hover:underline">
-            ↔️ Pinned &amp; Resizable Columns
+          <a href="events.html" class="text-base font-semibold text-slate-900 hover:underline">
+            🔁 Event Callbacks
           </a>
         </dd>
       </div>
@@ -602,7 +567,7 @@ export const useFetch = (api = 'books') =&gt; {
 			<!-- Floating Social Share Bar -->
 			<div class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col gap-3 z-10001">
 				<!-- Twitter -->
-				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/example-2.html&text=React%20Data%20Grid%20Lite%20-%20%F0%9F%93%9D%20Global%20%26%20Column%20Search"
+				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/datagrid-ref-methods.html&text=React%20Data%20Grid%20Lite%20-%20%F0%9F%93%A6%20Imperative%20Grid%20API%20(%60ref%60%20methods)"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-500 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-600 text-lg"
@@ -611,7 +576,7 @@ export const useFetch = (api = 'books') =&gt; {
 				</a>
 
 				<!-- Facebook -->
-				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/example-2.html"
+				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/datagrid-ref-methods.html"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-700 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-800 text-lg"
@@ -620,7 +585,7 @@ export const useFetch = (api = 'books') =&gt; {
 				</a>
 
 				<!-- LinkedIn -->
-				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/example-2.html&title=React%20Data%20Grid%20Lite%20-%20%F0%9F%93%9D%20Global%20%26%20Column%20Search"
+				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/datagrid-ref-methods.html&title=React%20Data%20Grid%20Lite%20-%20%F0%9F%93%A6%20Imperative%20Grid%20API%20(%60ref%60%20methods)"
 				   target="_blank"
 				   rel="noopener"
 				   class="bg-white text-blue-600 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-700 text-lg"

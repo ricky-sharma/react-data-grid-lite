@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754924410881" rel="stylesheet" />
+		<link href="index.css?ver=1755424516665" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -81,11 +81,6 @@
 	</div>
 	<div class="items-center justify-end flex-grow hidden basis-0 md:flex">
 		<p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-			<a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
-				<img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
-                class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-					 alt="Download ZIP" />
-			</a>
 			<a
 		  href="https://www.npmjs.com/package/react-data-grid-lite"
 		  target="_blank"
@@ -221,6 +216,14 @@
 							</li>
 							
 						</ul>
+					</li>
+					
+					
+					
+					<li>
+						<a href="datagrid-ref-methods.html" class="text-slate-900 hover:text-slate-800">
+							Imperative Grid API
+						</a>
 					</li>
 					
 					
@@ -379,7 +382,7 @@
 <tr>
 <td><code>class</code></td>
 <td><code>string</code></td>
-<td>Custom CSS class applied to each data cell in the column. Supported in <code>version 1.1.0</code> and above.</td>
+<td>Custom CSS class applied to each data cell in the column.</td>
 <td>-</td>
 <td>No</td>
 </tr>
@@ -393,35 +396,35 @@
 <tr>
 <td><code>draggable</code></td>
 <td><code>boolean</code></td>
-<td>Enables or disables dragging for an individual column. Overrides the global <code>enableColumnDrag</code> setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group. Supported in <code>version 1.1.4</code> and above.</td>
-<td>false</td>
+<td>Enables or disables dragging for an individual column. Overrides the global <code>enableColumnDrag</code> setting. Fixed columns can be reordered among themselves, and non-fixed columns among their own group.</td>
+<td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>editable</code></td>
 <td><code>boolean</code></td>
-<td>Enables or disables cell editing for a specific column. Overrides the <code>enableCellEdit</code> setting. Cell editing is fully accessible via keyboard, touch, and mouse. A <code>&lt;td&gt;</code> cell enters edit mode when double-clicked with a mouse, by pressing <strong>Enter</strong> on the keyboard, or with a firm tap on mobile devices. To save changes, press <strong>Enter</strong> on the keyboard, click outside the cell (mouse), or tap outside (touch). Press <strong>Esc</strong> to cancel. When a change is saved, the <code>onCellUpdate</code> callback is fired. Supported in version 1.1.5 and above.</td>
-<td>false</td>
+<td>Enables or disables cell editing for a specific column. Overrides the <code>enableCellEdit</code> setting. Cell editing is fully accessible via keyboard, touch, and mouse. A <code>&lt;td&gt;</code> cell enters edit mode when double-clicked with a mouse, by pressing <strong>Enter</strong> on the keyboard, or with a firm tap on mobile devices. To save changes, press <strong>Enter</strong> on the keyboard, click outside the cell (mouse), or tap outside (touch). Press <strong>Esc</strong> to cancel. When a change is saved, the <code>onCellUpdate</code> callback is fired.</td>
+<td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>editor</code></td>
 <td><code>string</code> / <code>object</code> / <code>Array</code></td>
-<td>Enables inline editing for the column. Can be a shorthand string (<code>'text'</code>, <code>'number'</code>) or an object (<code>'select'</code>) with detailed configuration. When used with <code>concatColumns</code>, this can be an array matching the column parts.<br><br>💡 <strong>Default behavior:</strong> If <code>editor</code> is not provided but <code>editable: true</code> is set (or <code>enableCellEdit</code> is enabled globally), the field defaults to a <code>'text'</code> input editor. Supported in <code>version 1.1.5</code> and above.</td>
+<td>Enables inline editing for the column. Can be a shorthand string (<code>'text'</code>, <code>'number'</code>) or an object (<code>'select'</code>) with detailed configuration. When used with <code>concatColumns</code>, this can be an array matching the column parts.<br><br>💡 <strong>Default behavior:</strong> If <code>editor</code> is not provided but <code>editable: true</code> is set (or <code>enableCellEdit</code> is enabled globally), the field defaults to a <code>'text'</code> input editor.</td>
 <td><code>'text'</code> (if <code>editable</code> is <code>true</code>)</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>enableSearch</code></td>
 <td><code>boolean</code></td>
-<td>Enables or disables the search textbox for a specific column. Overrides the <code>enableColumnSearch</code> setting. Renamed from <code>searchEnable</code> in <code>v1.1.2</code> and above.</td>
-<td>true</td>
+<td>Enables or disables the search textbox for a specific column. Overrides the <code>enableColumnSearch</code> setting.</td>
+<td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>fixed</code></td>
 <td><code>boolean</code></td>
-<td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration. Supported in <code>version 1.1.0</code> and above.</td>
+<td>Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration.</td>
 <td>false</td>
 <td>No</td>
 </tr>
@@ -456,29 +459,36 @@
 <tr>
 <td><code>order</code></td>
 <td><code>number</code></td>
-<td>Specifies the display order of the column (integer value), starting from 1. Supported in version <code>1.1.4</code> and above.</td>
+<td>Specifies the display order of the column (integer value), starting from 1.</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>render</code></td>
 <td><code>function(formattedRow, baseRow) =&gt; React.ReactNode</code></td>
-<td>Custom render function for the column. Receives <code>formattedRow</code> (the transformed row data after formatting and concatenation) and <code>baseRow</code> (the original, unformatted row data). Should return a React node to be rendered in the cell. Available in version <code>1.1.3</code> and above.</td>
+<td>Custom render function for the column. Receives <code>formattedRow</code> (the transformed row data after formatting and concatenation) and <code>baseRow</code> (the original, unformatted row data). Should return a React node to be rendered in the cell.</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>resizable</code></td>
 <td><code>boolean</code></td>
-<td>Enables or disables resizing for a specific column. This setting overrides the <code>enableColumnResize</code> option. Supported in version <code>1.1.0</code> and above.</td>
-<td>false</td>
+<td>Enables or disables resizing for a specific column. This setting overrides the <code>enableColumnResize</code> option.</td>
+<td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>searchPlaceholder</code></td>
 <td><code>string</code></td>
-<td>Sets the placeholder text for individual column search input fields. Useful for customization or localization. Supported in version <code>1.1.6</code> and above.</td>
+<td>Sets the placeholder text for individual column search input fields. Useful for customization or localization.</td>
 <td><code>&quot;Search column…&quot;</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>sortable</code></td>
+<td><code>boolean</code></td>
+<td>Enables or disables sorting for an individual column. Overrides the global <code>enableSorting</code> setting. Supported in version <code>1.2.2</code> and above.</td>
+<td>-</td>
 <td>No</td>
 </tr>
 <tr>
@@ -767,20 +777,6 @@ const App = () =&gt; (
       
     
   
-
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
     
       
     
@@ -795,6 +791,24 @@ const App = () =&gt; (
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -807,6 +821,8 @@ const App = () =&gt; (
 
   
     
+  
+
   
 
   

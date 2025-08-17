@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754924410881" rel="stylesheet" />
+		<link href="index.css?ver=1755424516665" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -81,11 +81,6 @@
 	</div>
 	<div class="items-center justify-end flex-grow hidden basis-0 md:flex">
 		<p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-			<a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
-				<img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
-                class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-					 alt="Download ZIP" />
-			</a>
 			<a
 		  href="https://www.npmjs.com/package/react-data-grid-lite"
 		  target="_blank"
@@ -226,6 +221,14 @@
 					
 					
 					<li>
+						<a href="datagrid-ref-methods.html" class="text-slate-900 hover:text-slate-800">
+							Imperative Grid API
+						</a>
+					</li>
+					
+					
+					
+					<li>
 						<a href="events.html" class="text-slate-900 hover:text-slate-800">
 							Event Callbacks
 						</a>
@@ -350,7 +353,7 @@
 						<h3><code>onSortComplete(e, sortColumns, sortedData, sortOrder)</code></h3>
 <p>Triggered after sorting completes.</p>
 <ul>
-<li><code>e</code>: Event object</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : Event object</li>
 <li><code>sortColumns</code>: Array of sorted column keys</li>
 <li><code>sortedData</code>: The sorted data array</li>
 <li><code>sortOrder</code>: <code>'asc'</code> or <code>'desc'</code></li>
@@ -358,7 +361,7 @@
 <h3><code>onSearchComplete(e, query, columns, result, matchCount)</code></h3>
 <p>Fired after search operation finishes.</p>
 <ul>
-<li><code>e</code>: Event object</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : Event object</li>
 <li><code>query</code>: Search string</li>
 <li><code>columns</code>: Columns searched</li>
 <li><code>result</code>: Filtered rows</li>
@@ -367,7 +370,7 @@
 <h3><code>onPageChange(e, currentPage, previousPage, currentPageRows, currentPageFirstRow)</code></h3>
 <p>Fired when pagination changes.</p>
 <ul>
-<li><code>e</code>: Event object</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : Event object</li>
 <li><code>currentPage</code>: Current active page number</li>
 <li><code>previousPage</code>: Previous active page number</li>
 <li><code>currentPageRows</code>: Number of rows on current page</li>
@@ -376,19 +379,19 @@
 <h3><code>onDownloadComplete(e, filename, blob)</code></h3>
 <p>Triggered after CSV file download. Useful for logging or triggering post-download workflows.</p>
 <ul>
-<li><code>e</code>: Event object</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : Event object</li>
 <li><code>filename</code>: Name of the downloaded file</li>
 <li><code>blob</code>: Blob object of the file</li>
 </ul>
-<h3><code>onColumnResized(e, newWidth, columnName)</code> — <em>Supported in <code>v1.1.0</code> and above</em></h3>
+<h3><code>onColumnResized(e, newWidth, columnName)</code></h3>
 <p>This event handler is called <strong>after a column has been resized</strong>. This function allows you to respond to column resize events, such as updating UI elements or saving user preferences.</p>
 <ul>
-<li><code>e</code> — The original event object from the resize action.</li>
-<li><code>newWidth</code> — The new width of the column in pixels as a string with <code>px</code> suffix (e.g., <code>&quot;150px&quot;</code>). If the new width is <code>null</code> or invalid, it defaults to <code>0</code>.</li>
-<li><code>columnName</code> — The unique identifier (<code>name</code>) of the resized column.</li>
-<li><code>gridID</code> — The unique identifier (<code>id</code>) for the DataGrid component.</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : The original event object from the resize action.</li>
+<li><code>newWidth</code> : The new width of the column in pixels as a string with <code>px</code> suffix (e.g., <code>&quot;150px&quot;</code>). If the new width is <code>null</code> or invalid, it defaults to <code>0</code>.</li>
+<li><code>columnName</code> : The unique identifier (<code>name</code>) of the resized column.</li>
+<li><code>gridID</code> : The unique identifier (<code>id</code>) for the DataGrid component.</li>
 </ul>
-<h3><code>onColumnDragEnd(columnName, newColumnOrder)</code> — <em>Supported in <code>v1.1.4</code> and above</em></h3>
+<h3><code>onColumnDragEnd(columnName, newColumnOrder)</code></h3>
 <p>This callback is triggered when a column is dropped after a drag. It provides:</p>
 <ul>
 <li><code>columnName</code>: The unique identifier (<code>name</code>) of the column that was dragged.</li>
@@ -400,39 +403,53 @@
 </ul>
 </li>
 </ul>
+<h3><code>onSelectAll(event, selectedRows, isSelected)</code> — <em>Supported in <code>v1.2.2</code> and above</em></h3>
+<p>Callback function triggered when the selection column header is clicked to select or deselect all rows on the current page.</p>
+<ul>
+<li><code>event</code> (<code>React.SyntheticEvent</code>) : The event object triggered by the user interaction.</li>
+<li><code>selectedRows</code> (<code>RowData[]</code>) : An array of data objects representing the currently selected (or deselected) rows.</li>
+<li><code>isSelected</code> (<code>boolean</code>) : Indicates whether rows are now selected (<code>true</code>) or deselected (<code>false</code>).</li>
+</ul>
 <p><br><br></p>
 <h2>Row-Level Action Events</h2>
+<h3><code>onRowSelect(event, row, isSelected)</code> — <em>Supported in <code>v1.2.2</code> and above</em></h3>
+<p>Callback function triggered when a single row is selected or deselected via the selection column.</p>
+<ul>
+<li><code>event</code> (<code>React.SyntheticEvent</code>) : The event object triggered by the user interaction.</li>
+<li><code>row</code> (<code>RowData</code>) : The data object for the selected or deselected row.</li>
+<li><code>isSelected</code> (<code>boolean</code>) : Indicates whether the row is now selected (<code>true</code>) or deselected (<code>false</code>).</li>
+</ul>
 <h3><code>editButtonEvent(e, row)</code></h3>
 <p>Triggered when the <strong>Edit</strong> button in a row is clicked. Use this to open edit forms or modals tied to specific row data.</p>
 <ul>
-<li><code>e</code>: Click event object</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : Click event object</li>
 <li><code>row</code>: Data object representing the clicked row</li>
 </ul>
 <h3><code>deleteButtonEvent(e, row)</code></h3>
 <p>Fired when the <strong>Delete</strong> button in a row is clicked. Typically used to confirm and process row deletions.</p>
 <ul>
-<li><code>e</code>: Click event</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : Click event</li>
 <li><code>row</code>: The row data being deleted</li>
 </ul>
 <h3><code>onRowClick(e, row)</code></h3>
 <p>Called when any part of a row (not a specific button) is clicked. Useful for row-level selection, navigation, or detailed views.</p>
 <ul>
-<li><code>e</code>: Click event</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : Click event</li>
 <li><code>row</code>: The full row data</li>
 </ul>
 <h3><code>onRowHover(e, row)</code></h3>
 <p>Triggered when the mouse hovers over a row. Ideal for showing tooltips, highlights, or preview actions.</p>
 <ul>
-<li><code>e</code>: Mouse event</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : Mouse event</li>
 <li><code>row</code>: Row under the cursor</li>
 </ul>
 <h3><code>onRowOut(e, row)</code></h3>
 <p>Fired when the mouse leaves a row area. Often used to reset styles or hide tooltips.</p>
 <ul>
-<li><code>e</code>: Mouse event</li>
+<li><code>e</code> (<code>React.SyntheticEvent</code>) : Mouse event</li>
 <li><code>row</code>: Row from which the cursor exited</li>
 </ul>
-<h3><code>onCellUpdate(cellUpdate)</code> — <em>Supported in <code>v1.1.5</code> and above</em></h3>
+<h3><code>onCellUpdate(cellUpdate)</code></h3>
 <p>Fired when cell editing is saved (e.g., by pressing <code>Enter</code>). Useful for persisting changes, triggering validations, or syncing with a backend.</p>
 <ul>
 <li><code>cellUpdate</code>: An object containing details about the updated row and columns.</li>
@@ -544,20 +561,6 @@ A list of updated columns and their new values.</p>
       
     
   
-
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
     
       
     
@@ -572,9 +575,29 @@ A list of updated columns and their new values.</p>
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
+
+  
 
   
 
@@ -622,8 +645,8 @@ A list of updated columns and their new values.</p>
           Previous
         </dt>
         <dd class="mt-1">
-          <a href="ai-search.html" class="text-base font-semibold text-slate-900 hover:underline">
-            🤖 AI Search Integration
+          <a href="datagrid-ref-methods.html" class="text-base font-semibold text-slate-900 hover:underline">
+            📦 Imperative Grid API (`ref` methods)
           </a>
         </dd>
       </div>

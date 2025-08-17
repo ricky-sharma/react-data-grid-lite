@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754924410881" rel="stylesheet" />
+		<link href="index.css?ver=1755424516665" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -81,11 +81,6 @@
 	</div>
 	<div class="items-center justify-end flex-grow hidden basis-0 md:flex">
 		<p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-			<a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
-				<img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
-                class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-					 alt="Download ZIP" />
-			</a>
 			<a
 		  href="https://www.npmjs.com/package/react-data-grid-lite"
 		  target="_blank"
@@ -221,6 +216,14 @@
 							</li>
 							
 						</ul>
+					</li>
+					
+					
+					
+					<li>
+						<a href="datagrid-ref-methods.html" class="text-slate-900 hover:text-slate-800">
+							Imperative Grid API
+						</a>
 					</li>
 					
 					
@@ -521,22 +524,6 @@ The concatenated column does not create a new column in your dataset. Instead, i
 <li>The container width is evenly divided among all visible columns.</li>
 <li>Each column receives at least the default value specified by <code>Fallback_Column_Width</code>.</li>
 </ul>
-<h3>📱 Mobile Mode</h3>
-<ul>
-<li>
-<p>Each column is expected to take a fixed width (<code>Mobile_Column_Width</code>, e.g., <code>120px</code>).</p>
-</li>
-<li>
-<p>If total required width exceeds container width:</p>
-<ul>
-<li>Button columns or columns with wider settings retain their defined size.</li>
-<li>Other columns default to <code>Mobile_Column_Width</code>.</li>
-</ul>
-</li>
-<li>
-<p>Otherwise, all columns share the container width equally.</p>
-</li>
-</ul>
 <h3>⚠️ Fallbacks &amp; Edge Cases</h3>
 <ul>
 <li>If no visible columns are found, a default width of <code>100%</code> is returned.</li>
@@ -634,20 +621,6 @@ The logic automatically recalculates widths based on the container’s size and 
       
     
   
-
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
     
       
     
@@ -662,9 +635,29 @@ The logic automatically recalculates widths based on the container’s size and 
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
+
+  
 
   
 

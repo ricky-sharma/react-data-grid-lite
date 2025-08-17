@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754924410881" rel="stylesheet" />
+		<link href="index.css?ver=1755424516665" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -81,11 +81,6 @@
 	</div>
 	<div class="items-center justify-end flex-grow hidden basis-0 md:flex">
 		<p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-			<a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
-				<img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
-                class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-					 alt="Download ZIP" />
-			</a>
 			<a
 		  href="https://www.npmjs.com/package/react-data-grid-lite"
 		  target="_blank"
@@ -221,6 +216,14 @@
 							</li>
 							
 						</ul>
+					</li>
+					
+					
+					
+					<li>
+						<a href="datagrid-ref-methods.html" class="text-slate-900 hover:text-slate-800">
+							Imperative Grid API
+						</a>
 					</li>
 					
 					
@@ -372,7 +375,7 @@
 <tr>
 <td><code>currentPage</code></td>
 <td><code>string</code> / <code>number</code></td>
-<td>Loads the data grid with the specified page number. Useful with query string params for deep linking or bookmarking. Supported in <code>version 1.1.2</code> and above.</td>
+<td>Loads the data grid with the specified page number. Useful with query string params for deep linking or bookmarking.</td>
 <td>-</td>
 <td>No</td>
 </tr>
@@ -393,7 +396,7 @@
 <tr>
 <td><code>id</code></td>
 <td><code>string</code></td>
-<td>Unique ID for the DataGrid component. Defaults to a random ID in the format id-<randomNumber> if not provided. This feature is supported in <code>version 1.0.5</code> and above.</td>
+<td>Unique ID for the DataGrid component. Defaults to a random ID in the format <code>id-&lt;randomNumber&gt;</code> if not provided.</td>
 <td>-</td>
 <td>No</td>
 </tr>
@@ -414,21 +417,21 @@
 <tr>
 <td><code>onCellUpdate</code></td>
 <td><code>function</code></td>
-<td>Callback triggered when a cell edit is saved (e.g., on Enter key press or on cell blur). Receives an object containing details of the updated row and changed cells. Supported in <code>version 1.1.5</code> and above.</td>
+<td>Callback triggered when a cell edit is saved (e.g., on Enter key press or on cell blur). Receives an object containing details of the updated row and changed cells.</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>onColumnDragEnd</code></td>
 <td><code>function</code></td>
-<td>Callback function triggered after a column is dragged and dropped. Supported in <code>v1.1.4</code> and above.</td>
+<td>Callback function triggered after a column is dragged and dropped.</td>
 <td>-</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>onColumnResized</code></td>
 <td><code>function</code></td>
-<td>Callback function triggered after a column is resized. Supported in <code>v1.1.0</code> and above.</td>
+<td>Callback function triggered after a column is resized.</td>
 <td>-</td>
 <td>No</td>
 </tr>
@@ -461,9 +464,23 @@
 <td>No</td>
 </tr>
 <tr>
+<td><code>onRowSelect</code></td>
+<td><code>function</code></td>
+<td>Callback function triggered when a row is selected using the selection column. Available in version <code>1.2.2</code> and above.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
 <td><code>onSearchComplete</code></td>
 <td><code>function</code></td>
 <td>Callback function triggered after a search operation.</td>
+<td>-</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>onSelectAll</code></td>
+<td><code>function</code></td>
+<td>Callback function triggered when all rows on the current page are selected by clicking the selection column header. Available in version <code>1.2.2</code> and above.</td>
 <td>-</td>
 <td>No</td>
 </tr>
@@ -491,7 +508,7 @@
 <tr>
 <td><code>theme</code></td>
 <td><code>string</code> (<code>'blue-core'</code> | <code>'dark-stack'</code> | <code>'medi-glow'</code> | <code>''</code>)</td>
-<td>Applies a predefined visual theme to the grid. Affects header background, grid body background, borders, and control colors. Use an empty string to apply the default neutral style. Supported in <code>v1.1.1</code> and above.</td>
+<td>Applies a predefined visual theme to the grid. Affects header background, grid body background, borders, and control colors. Use an empty string to apply the default neutral style.</td>
 <td><code>''</code> (empty string)</td>
 <td>No</td>
 </tr>
@@ -670,20 +687,6 @@
       
     
   
-
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
     
       
     
@@ -698,6 +701,24 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -708,6 +729,8 @@
 
   
     
+  
+
   
 
   

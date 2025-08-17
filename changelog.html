@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1754924410881" rel="stylesheet" />
+		<link href="index.css?ver=1755424516665" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -81,11 +81,6 @@
 	</div>
 	<div class="items-center justify-end flex-grow hidden basis-0 md:flex">
 		<p style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-			<a href="https://github.com/ricky-sharma/react-data-grid-lite/archive/refs/heads/master.zip">
-				<img src="https://img.shields.io/badge/Download-ZIP-blue?style=flat&logo=github"
-                class="rounded bg-slate-900 transition-transform ease-in-out duration-200 hover:scale-105"
-					 alt="Download ZIP" />
-			</a>
 			<a
 		  href="https://www.npmjs.com/package/react-data-grid-lite"
 		  target="_blank"
@@ -226,6 +221,14 @@
 					
 					
 					<li>
+						<a href="datagrid-ref-methods.html" class="text-slate-900 hover:text-slate-800">
+							Imperative Grid API
+						</a>
+					</li>
+					
+					
+					
+					<li>
 						<a href="events.html" class="text-slate-900 hover:text-slate-800">
 							Event Callbacks
 						</a>
@@ -350,6 +353,103 @@
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <br>
+<h2>🔖 v1.2.2 – Released 2025-08-17</h2>
+<h3>🚀 Features</h3>
+<ul>
+<li>
+<p><strong>Selection Column Support</strong></p>
+<ul>
+<li>Added <code>enableRowSelection</code> prop to toggle the selection column.</li>
+<li>Added <code>rowSelectColumnAlign</code> prop to control selection column alignment (<code>'left'</code> | <code>'right'</code> | <code>''</code>).</li>
+<li>Added <code>onRowSelect</code> callback for handling individual row selection.</li>
+<li>Added <code>onSelectAll</code> callback for selecting/deselecting all rows on the current page.</li>
+</ul>
+</li>
+<li>
+<p><strong>Sorting Enhancements</strong></p>
+<ul>
+<li>Added global <code>enableSorting</code> prop and column-level <code>sortable</code> prop.</li>
+<li>Added missing resize handle on the last column. Resizing was already supported, but the handle was not rendered, which affected usability.</li>
+<li>Improved column state retention after interactive actions (e.g., checkbox changes).</li>
+</ul>
+</li>
+<li>
+<p><strong>Grid API (via <code>ref</code>)</strong></p>
+<ul>
+<li>
+<p>Exposed new imperative methods like <code>clearSelectedRows()</code>.</p>
+</li>
+<li>
+<p>Added documentation: <code>/docs/datagrid_ref_methods.md</code> detailing all available <code>ref</code> methods:</p>
+<ul>
+<li><code>getFilteredRows()</code></li>
+<li><code>getFilteredSelectedRows()</code></li>
+<li><code>getAllSelectedRows()</code></li>
+<li><code>getCurrentPage()</code></li>
+<li><code>resetGrid()</code></li>
+<li><code>clearSelectedRows()</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>🐛 Fixes</h3>
+<ul>
+<li>UI layout now correctly adjusts based on the <strong>grid container’s width</strong> instead of the <strong>viewport width</strong>.</li>
+<li>Improved layout styling for small grid widths (header, footer, and grid spacing).</li>
+</ul>
+<h3>🧼 Refactors</h3>
+<ul>
+<li>
+<p><strong>Column &amp; Grid Processing</strong></p>
+<ul>
+<li>
+<p>Moved column processing to new <code>useProcessedColumns</code> hook:</p>
+<ul>
+<li>Improved handling of column ordering, <code>displayIndex</code>, and hidden columns.</li>
+</ul>
+</li>
+<li>
+<p>Extracted <code>handleResetGrid</code> into a reusable <code>useResetGrid</code> hook.</p>
+</li>
+<li>
+<p>Refactored <code>useProcessedData</code> for cleaner data flow and better testability.</p>
+</li>
+<li>
+<p>Extracted grid API logic into <code>useGridApi</code> with <code>useImperativeHandle</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Search &amp; Sort Logic</strong></p>
+<ul>
+<li>
+<p>Extracted logic to a dedicated <code>useSearchAndSortCallbacks</code> hook with full test coverage.</p>
+</li>
+<li>
+<p>Renamed:</p>
+<ul>
+<li><code>eventGridSearchClicked</code> → <code>eventGridSearchTriggered</code></li>
+<li>File: <code>event-grid-search-clicked</code> → <code>event-grid-search-triggered</code> (for clarity and naming consistency).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>✅ Tests</h3>
+<ul>
+<li>
+<p>Added unit tests for:</p>
+<ul>
+<li>Column processing</li>
+<li>Grid API methods</li>
+<li>Data processing and AI search</li>
+<li>Error handling</li>
+<li>Sorting and filtering behaviors</li>
+</ul>
+</li>
+</ul>
+<p><br><br></p>
 <h2>✨ v1.2.1 – Released 2025-08-10</h2>
 <h3>✨ Features</h3>
 <ul>
@@ -410,7 +510,7 @@
 <li>Verified pagination behavior and logging functionality under various conditions.</li>
 </ul>
 <p><br><br></p>
-<h3>🔖 v1.2.0 – Released 2025-08-06</h3>
+<h2>🔖 v1.2.0 – Released 2025-08-06</h2>
 <h3>✨ Added</h3>
 <ul>
 <li><strong>AI-powered search support</strong> integrated into the DataGrid using the OpenAI API.</li>
@@ -503,7 +603,7 @@
 <li>🧪 Test cases updated and aligned with recent changes.</li>
 </ul>
 <p><br><br></p>
-<h3>🔖 v1.1.9 – Released 2025-07-26</h3>
+<h2>🔖 v1.1.9 – Released 2025-07-26</h2>
 <h3>UI Enhancements</h3>
 <h4>🛠 Paging Improvements</h4>
 <ul>
@@ -1147,20 +1247,6 @@ Resolved issue where global search omitted valid matches due to incorrect column
       
     
   
-
-  
-    
-      
-    
-  
-    
-      
-    
-  
-    
-      
-    
-  
     
       
     
@@ -1175,9 +1261,29 @@ Resolved issue where global search omitted valid matches due to incorrect column
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
+
+  
 
   
 
