@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { useGridConfig } from '../hooks/use-grid-config';
 import { useWindowWidth } from '../hooks/use-window-width';
+import { gridWidthType } from '../utils/grid-width-type-utils';
 
 const GridPagination = memo(({
     onPageChange,
@@ -11,11 +12,13 @@ const GridPagination = memo(({
     const {
         enablePaging,
         activePage = 1,
-        noOfPages = 1
+        noOfPages = 1,
+        gridID
     } = state
     const windowWidth = useWindowWidth();
-    const isTablet = windowWidth < 1025;
-    const isMediumScreen = windowWidth < 1201;
+    const { isSmallWidth, isMobileWidth, isTabletWidth, isMediumWidth } = gridWidthType(windowWidth, gridID);
+    const isTablet = isSmallWidth || isMobileWidth || isTabletWidth;
+    const isMediumScreen = isTablet || isMediumWidth;
     if (!enablePaging) return null;
 
     const page = parseInt(activePage), total = parseInt(noOfPages);

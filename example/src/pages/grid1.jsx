@@ -7,7 +7,9 @@ import './../App.css';
 const options = {
     enableColumnSearch: false,
     enableColumnResize: true,
-    rowHeight: '70px'
+    enableColumnDrag: true,
+    rowHeight: '70px',
+    enableRowSelection: false
 };
 
 export default function Grid1() {
@@ -23,7 +25,7 @@ export default function Grid1() {
     const columns = [
         {
             name: 'id',
-            width: '150px',
+            width: '75px',
             fixed: true,
             render: (row) => (
                 <div
@@ -59,6 +61,7 @@ export default function Grid1() {
         {
             name: 'completed',
             width: '180px',
+            sortable: false,
             render: (row) => (
                 <div className="alignCenter" style={{ height: '100%' }}>
                     <label className="custom-checkbox">

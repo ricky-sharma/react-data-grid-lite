@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import {
     Button_Column_Key,
     No_Column_Visible_Message,
-    No_Data_Message
+    No_Data_Message,
+    Selection_Column_Key
 } from '../constants';
 import { isNull } from '../helpers/common';
 import { useCellChange } from '../hooks/use-cell-change';
@@ -12,11 +13,12 @@ import { useDoubleTap } from '../hooks/use-double-tap';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
 import { useWindowWidth } from '../hooks/use-window-width';
-import DeleteIcon from '../icons/delete-icon';
-import EditIcon from '../icons/edit-icon';
 import { formatRowData } from '../utils/component-utils';
+import { gridWidthType } from '../utils/grid-width-type-utils';
 import { hideLoader, showLoader } from '../utils/loading-utils';
+import GridActionCell from './grid-action-cell';
 import GridCell from './grid-cell';
+import GridSelectionCell from './grid-selection-cell';
 
 const GridRows = ({
     state,
@@ -66,7 +68,6 @@ const GridRows = ({
         }));
     });
 
-    const isMobile = windowWidth < 701;
     const {
         rowsData,
         firstRow,
@@ -86,8 +87,14 @@ const GridRows = ({
         editingCell,
         onCellUpdate,
         editingCellData,
-        rowHeight
+        rowHeight,
+        enableRowSelection,
+        rowSelectColumnAlign
     } = state || {};
+
+    const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
+    const isMobile = isSmallWidth || isMobileWidth;
+
     if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)) {
         hideLoader(gridID);
         loading ? showLoader(gridID) :
@@ -99,6 +106,8 @@ const GridRows = ({
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const buttonColWidth = computedColumnWidthsRef?.current?.find(i =>
         i?.name === Button_Column_Key)?.width ?? 0;
+    const selectionColWidth = computedColumnWidthsRef?.current?.find(i =>
+        i?.name === Selection_Column_Key)?.width ?? 0;
     let lastFixedIndex = -1;
     columns.reduceRight((_, col, index) => {
         if (lastFixedIndex === -1 && col?.fixed === true && !col?.hidden) {
@@ -142,69 +151,39 @@ const GridRows = ({
             });
             const isActionColumnLeft = actionColumnAlign === 'left';
             const isActionColumnRight = actionColumnAlign === 'right';
-            const insert = isActionColumnLeft ? 'unshift' : 'push';
+            const isSelectionColumnLeft = rowSelectColumnAlign === 'left';
+            const isSelectionColumnRight = rowSelectColumnAlign === 'right';
+            const insertSelectionColumn = isSelectionColumnLeft ? 'unshift' : 'push';
+            if (enableRowSelection) {
+                cols[insertSelectionColumn](
+                    <GridSelectionCell
+                        key={`gridSelectionColumn${baseRowIndex}`}
+                        selectionColWidth={selectionColWidth}
+                        isSelectionColumnLeft={isSelectionColumnLeft}
+                        isSelectionColumnRight={isSelectionColumnRight}
+                        isActionColumnLeft={isActionColumnLeft}
+                        isActionColumnRight={isActionColumnRight}
+                        isMobile={isMobile}
+                        buttonColWidth={buttonColWidth}
+                        baseRow={baseRow}
+                    />
+                );
+            }
+            const insertButtonColumn = isActionColumnLeft ? 'unshift' : 'push';
             if (buttonColEnabled) {
-                cols[insert](
-                    <td key="gridButtons" className="alignCenter"
-                        onClick={e => e.stopPropagation()}
-                        style={{
-                            width: buttonColWidth,
-                            maxWidth: buttonColWidth,
-                            minWidth: buttonColWidth,
-                            left: (isActionColumnLeft && !isMobile ? 0 : ''),
-                            right: (isActionColumnRight && !isMobile ? "-0.1px" : ''),
-                            position: ((isActionColumnRight || isActionColumnLeft)
-                                && !isMobile ? 'sticky' : ''),
-                            zIndex: ((isActionColumnRight || isActionColumnLeft)
-                                && !isMobile ? 6 : ''),
-                            backgroundColor: (isActionColumnRight || isActionColumnLeft
-                                ? 'inherit' : ''),
-                            boxShadow: (isActionColumnLeft && !isMobile ?
-                                '#e0e0e0 -0.5px 0 0 0 inset' :
-                                (isActionColumnRight && !isMobile
-                                    ? '#e0e0e0 0.5px 0 0 0 inset' : '')),
-                            contain: 'layout paint'
-                        }}>
-                        <div className="mg--0 pd--0 button-column alignCenter"
-                            style={{ width: buttonColWidth }}>
-                            {editButtonEnabled && (
-                                <div
-                                    className=
-                                    "pd--0 mg--0 icon-div alignCenter grid-icon-div"
-                                    title="Edit"
-                                    onClick={e => editButtonEvent(e, baseRow)}
-                                    data-toggle="tooltip"
-                                    role="button"
-                                    tabIndex="0"
-                                    onKeyDown={
-                                        (e) => {
-                                            if (e.key === 'Enter' || e.key === ' ')
-                                                editButtonEvent(e, baseRow)
-                                        }}
-                                >
-                                    <EditIcon />
-                                </div>
-                            )}
-                            {deleteButtonEnabled && (
-                                <div
-                                    className=
-                                    "pd--0 mg--0 icon-div alignCenter grid-icon-div"
-                                    title="Delete"
-                                    onClick={e => deleteButtonEvent(e, baseRow)}
-                                    data-toggle="tooltip"
-                                    role="button"
-                                    tabIndex="0"
-                                    onKeyDown={
-                                        (e) => {
-                                            if (e.key === 'Enter' || e.key === ' ')
-                                                deleteButtonEvent(e, baseRow)
-                                        }}
-                                >
-                                    <DeleteIcon />
-                                </div>
-                            )}
-                        </div>
-                    </td>
+                cols[insertButtonColumn](
+                    <GridActionCell
+                        key={`gridButtons${baseRowIndex}`}
+                        buttonColWidth={buttonColWidth}
+                        isActionColumnLeft={isActionColumnLeft}
+                        isActionColumnRight={isActionColumnRight}
+                        isMobile={isMobile}
+                        baseRow={baseRow}
+                        editButtonEnabled={editButtonEnabled}
+                        deleteButtonEnabled={deleteButtonEnabled}
+                        editButtonEvent={editButtonEvent}
+                        deleteButtonEvent={deleteButtonEvent}
+                    />
                 );
             }
             return (

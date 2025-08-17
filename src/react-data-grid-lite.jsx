@@ -1,23 +1,28 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { isNull } from '../src/helpers/common';
-import { SortData, eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
-import { FilterData, eventGridSearchClicked } from './components/events/event-grid-search-clicked';
+import { eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
 import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
 import { Default_Grid_Width_VW } from './constants';
 import { GridConfigContext } from './context/grid-config-context';
 import ErrorBoundary from './error-boundary';
-import { logDebug } from './helpers/logDebug';
 import { useAISearch } from './hooks/use-ai-search';
 import useContainerWidth from './hooks/use-container-width';
+import { useGridApi } from './hooks/use-grid-api';
+import { useProcessedColumns } from './hooks/use-processed-columns';
+import { useProcessedData } from './hooks/use-processed-data';
+import { useResetGrid } from './hooks/use-reset-grid';
+import { useSearchAndSortCallbacks } from './hooks/use-search-and-sort-callbacks';
+import { useSearchHandler } from './hooks/use-search-handler';
 import { applyTheme } from './utils/themes-utils';
 
-const DataGrid = ({
+const DataGrid = forwardRef(({
     id,
     columns = [],
     data = [],
     pageSize,
+    currentPage,
     options = {},
     width,
     height,
@@ -30,18 +35,19 @@ const DataGrid = ({
     onSearchComplete,
     onPageChange,
     onColumnResized,
-    theme,
-    currentPage,
     onColumnDragEnd,
-    onCellUpdate
-}) => {
+    onCellUpdate,
+    onRowSelect,
+    onSelectAll,
+    theme
+}, ref) => {
     const fallbackfn = () => { };
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
         maxWidth: maxWidth ?? '100vw',
         height: height ?? '60vh',
         maxHeight: maxHeight ?? '100vh',
-        gridID: id ?? `id-${Math.floor(Math.random() * 100000000)}`,
+        gridID: id ? `id-${id}` : `id-${Math.floor(Math.random() * 100000000)}`,
         enablePaging: !isNull(parseInt(pageSize, 10)),
         noOfPages: 0,
         pagerSelectOptions: [],
@@ -62,6 +68,10 @@ const DataGrid = ({
             options?.enableGlobalSearch : true,
         enableCellEdit: typeof options?.enableCellEdit === 'boolean' ?
             options?.enableCellEdit : false,
+        enableSorting: typeof options?.enableSorting === 'boolean' ?
+            options?.enableSorting : true,
+        enableRowSelection: typeof options?.enableRowSelection === 'boolean' ?
+            options?.enableRowSelection : true,
         showToolbar: typeof options?.showToolbar === 'boolean' ?
             options?.showToolbar : true,
         showResetButton: typeof options?.showResetButton === 'boolean' ?
@@ -81,17 +91,20 @@ const DataGrid = ({
         onRowClick: onRowClick ?? fallbackfn,
         onRowHover: onRowHover ?? fallbackfn,
         onRowOut: onRowOut ?? fallbackfn,
+        onRowSelect: onRowSelect ?? fallbackfn,
+        onSelectAll: onSelectAll ?? fallbackfn,
         onCellUpdate: onCellUpdate ?? fallbackfn,
         onSortComplete: onSortComplete ?? fallbackfn,
         onSearchComplete: onSearchComplete ?? fallbackfn,
         onPageChange: onPageChange ?? fallbackfn,
         onColumnResized: onColumnResized ?? fallbackfn,
         onColumnDragEnd: onColumnDragEnd ?? fallbackfn,
-        editButtonEnabled: options?.editButton ?? false,
+        editButtonEnabled: typeof options?.editButton === 'object',
         editButtonEvent: options?.editButton?.event ?? fallbackfn,
-        deleteButtonEnabled: options?.deleteButton ?? false,
+        deleteButtonEnabled: typeof options?.deleteButton === 'object',
         deleteButtonEvent: options?.deleteButton?.event ?? fallbackfn,
-        actionColumnAlign: options?.actionColumnAlign ?? '',
+        actionColumnAlign: options?.actionColumnAlign ?? 'right',
+        rowSelectColumnAlign: options?.rowSelectColumnAlign ?? 'left',
         enableDownload: typeof options?.enableDownload === 'boolean' ?
             options?.enableDownload : true,
         downloadFilename: options?.downloadFilename ?? null,
@@ -104,7 +117,8 @@ const DataGrid = ({
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
-        editingCell: null
+        editingCell: null,
+        selectedRows: new Set()
     });
     const dataReceivedRef = useRef(null);
     const searchColsRef = useRef([]);
@@ -135,140 +149,34 @@ const DataGrid = ({
         };
     }, []);
 
+    useProcessedColumns(columns, setState, computedColumnWidthsRef);
+
+    useProcessedData({
+        data,
+        pageSize,
+        state,
+        setState,
+        dataReceivedRef,
+        globalSearchQueryRef,
+        aiSearchFailedRef,
+        searchColsRef,
+        sortRef,
+        runAISearch
+    });
+
     useEffect(() => {
-        computedColumnWidthsRef.current = [];
-        if (!isNull(columns))
+        if (!isNull(state?.columns)) {
             setState((prevState) => ({
                 ...prevState,
-                columnsReceived: columns,
-                columns: Array.isArray(columns) && columns.every(obj => typeof obj === 'object')
-                    ? (() => {
-                        const validColumns = columns.filter(
-                            obj => obj && typeof obj.name === 'string' && obj.name.trim() !== ''
-                        ).map(col => ({
-                            ...col,
-                            fixed: typeof col?.fixed === 'boolean' ? col?.fixed : false,
-                            hidden: typeof col?.hidden === 'boolean' ? col?.hidden : false
-                        }));
-                        const fixedCols = validColumns.filter(col => col.fixed === true);
-                        const nonFixedCols = validColumns.filter(col => col.fixed === false);
-                        const applyGlobalOrder = (group, globalStartIndex = 0) => {
-                            const result = [];
-                            const withOrder = group.filter(c => typeof c.order === 'number');
-                            const withoutOrder = group.filter(c => typeof c.order !== 'number');
-                            const orderGroups = new Map();
-                            for (const col of withOrder) {
-                                const order = col.order;
-                                if (!orderGroups.has(order)) orderGroups.set(order, []);
-                                orderGroups.get(order).push(col);
-                            }
-                            const sortedOrderValues = Array.from(orderGroups.keys()).sort((a, b) => a - b);
-                            for (const order of sortedOrderValues) {
-                                const cols = orderGroups.get(order).sort((a, b) => a.name.localeCompare(b.name));
-                                for (const col of cols) {
-                                    const maxIndex = group.length - 1;
-                                    const globalIdx = Math.min(Math.max(0, col.order - 1), maxIndex + globalStartIndex);
-                                    const localIdx = Math.max(0, globalIdx - globalStartIndex);
-                                    let i = localIdx;
-                                    while (result[i]) i++;
-                                    result[i] = col;
-                                }
-                            }
-
-                            let i = 0;
-                            for (const col of withoutOrder) {
-                                while (result[i]) i++;
-                                result[i] = col;
-                            }
-                            return result;
-                        };
-                        const orderedFixed = applyGlobalOrder(fixedCols, 0);
-                        const orderedNonFixed = applyGlobalOrder(nonFixedCols, orderedFixed.length);
-                        const finalList = [...orderedFixed, ...orderedNonFixed];
-                        return finalList.filter(Boolean).map((col, index) => ({
-                            ...col,
-                            displayIndex: index + 1
-                        }));
-                    })()
-                    : []
+                hiddenColIndex: state?.columns.map((col, key) =>
+                    !isNull(col?.hidden) && col?.hidden === true ? key : null),
+                columnWidths: state?.columns.map(col =>
+                    typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
+                        ? col.width
+                        : null
+                )
             }));
-    }, [columns]);
-
-    useEffect(() => {
-        if (!isNull(data)) {
-            let timeout;
-            const processData = async () => {
-                let processedRows = data?.map((row, index) => ({
-                    ...row,
-                    __$index__: index
-                }));
-                dataReceivedRef.current = processedRows;
-                const aiQuery = globalSearchQueryRef?.current?.trim();
-                const aiEnabled = state?.aiSearchOptions?.enabled;
-                const aiThreshold = state?.aiSearchOptions?.minRowCount ?? 1;
-
-                if (aiEnabled && aiQuery && processedRows.length >= aiThreshold) {
-                    try {
-                        aiSearchFailedRef.current = false;
-                        processedRows = await runAISearch({
-                            data: dataReceivedRef.current,
-                            query: aiQuery
-                        });
-                    } catch (err) {
-                        aiSearchFailedRef.current = true;
-                        logDebug(state?.debug, 'error', 'AI search failed, falling back to default local search.', err);
-                    }
-                }
-                const filteredData = await FilterData(searchColsRef, processedRows, aiSearchFailedRef,
-                    aiEnabled);
-                const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
-                const sortedRows = shouldSort
-                    ? await SortData(
-                        sortRef.current.colObject,
-                        sortRef.current.sortOrder,
-                        filteredData
-                    )
-                    : filteredData;
-                const pageRowCount = state?.pageRows ?? (!isNull(parseInt(pageSize, 10))
-                    ? parseInt(pageSize, 10)
-                    : sortedRows?.length);
-                timeout = setTimeout(() => {
-                    setState(prevState => {
-                        return {
-                            ...prevState,
-                            rowsData: sortedRows,
-                            totalRows: sortedRows?.length,
-                            pageRows: pageRowCount,
-                            currentPageRows: (prevState?.activePage === prevState?.noOfPages)
-                                ? prevState?.lastPageRows : pageRowCount,
-                            columns: prevState?.columns?.map(col => ({
-                                ...col,
-                                sortOrder: col?.name === sortRef?.current?.colKey
-                                    ? sortRef?.current?.sortOrder : ''
-                            }))
-                        }
-                    });
-                });
-            };
-            processData();
-            return () => clearTimeout(timeout);
         }
-    }, [data]);
-
-    useEffect(() => {
-        if (!isNull(state?.columns))
-            setState((prevState) => ({
-                ...prevState,
-                hiddenColIndex: !isNull(state?.columns) ? state?.columns.map((col, key) =>
-                    !isNull(col?.hidden) && col?.hidden === true ? key : null) : [],
-                columnWidths: !isNull(state?.columns)
-                    ? state?.columns.map(col =>
-                        typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
-                            ? col.width
-                            : null
-                    )
-                    : []
-            }));
     }, [state?.columns, containerWidth]);
 
     useEffect(() => {
@@ -358,139 +266,37 @@ const DataGrid = ({
         eventGridHeaderClicked(colObject, state, setState, colKey, isResizingRef);
     }, [state, setState]);
 
-    useEffect(() => {
-        const sortOrder = state?.columns?.find(col => col?.name
-            === sortRef?.current?.colKey)?.sortOrder ?? ''
-        if (sortRef?.current) sortRef.current.sortOrder = sortOrder;
-        if (typeof state.onSortComplete === 'function' && sortRef?.current?.changeEvent) {
-            state.onSortComplete(
-                sortRef.current.changeEvent,
-                sortRef.current.colObject,
-                state.rowsData,
-                sortOrder
-            );
-            sortRef.current.changeEvent = null;
-        }
-        if (typeof state?.onSearchComplete === 'function' && searchRef?.current?.changeEvent) {
-            state.onSearchComplete(
-                searchRef.current.changeEvent,
-                searchRef.current.searchQuery,
-                searchColsRef?.current ?? [],
-                state?.rowsData ?? [],
-                state?.rowsData?.length || 0
-            );
-        }
-        searchRef.current = null;
-    }, [state.toggleState])
+    useSearchAndSortCallbacks({ state, sortRef, searchRef, searchColsRef });
 
-    const onSearchClicked = useCallback((
-        e,
-        colName,
-        colObject,
-        formatting,
-        onChange = true
-    ) => {
-        if (searchTimeoutRef?.current) {
-            clearTimeout(searchTimeoutRef.current);
-        }
-        let searchableData = dataReceivedRef?.current ?? [];
-        const eventCopy = e?.nativeEvent ? { ...e } : e;
-        const isGlobal = colName === '##globalSearch##';
-        const aiEnabled = state?.aiSearchOptions?.enabled;
-        const aiThreshold = state?.aiSearchOptions?.minRowCount ?? 1;
-        const query = isGlobal && aiEnabled && !onChange
-            ? state.globalSearchInput?.trimStart() ?? ''
-            : eventCopy?.target?.value?.trimStart() ?? '';
+    const searchHandler = useSearchHandler({
+        state,
+        setState,
+        runAISearch,
+        dataReceivedRef,
+        searchTimeoutRef,
+        searchRef,
+        searchColsRef,
+        globalSearchQueryRef,
+        aiSearchFailedRef,
+        sortRef
+    });
 
-        searchTimeoutRef.current = setTimeout(() => {
-            searchRef.current = {
-                changeEvent: eventCopy,
-                searchQuery: query
-            };
+    const handleResetGrid = useResetGrid({
+        state,
+        setState,
+        pageSize,
+        searchColsRef,
+        globalSearchQueryRef,
+        sortRef,
+        dataReceivedRef
+    });
 
-            if (isGlobal) {
-                const existingGlobalCol = searchColsRef.current.find(col => col.colName === '##globalSearch##');
-                if (existingGlobalCol) {
-                    existingGlobalCol.searchQuery = query;
-                } else {
-                    searchColsRef.current.push({
-                        colName,
-                        searchQuery: query,
-                        colObj: colObject
-                    });
-                }
-                globalSearchQueryRef.current = query;
-            }
-
-            const rowCount = searchableData?.length ?? 0;
-            const globalSearchCol = searchColsRef.current.find(col => col.colName === '##globalSearch##');
-            const aiQuery = query !== '' ? query : globalSearchCol?.searchQuery ?? '';
-
-            (async () => {
-                if (aiEnabled && rowCount >= aiThreshold && aiQuery) {
-                    try {
-                        aiSearchFailedRef.current = false;
-                        searchableData = await runAISearch({
-                            data: searchableData,
-                            query: aiQuery
-                        });
-                    } catch (err) {
-                        aiSearchFailedRef.current = true;
-                        logDebug(state?.debug, 'error', 'AI search failed, falling back to default local search.', err);
-                    }
-                }
-
-                eventGridSearchClicked(
-                    query,
-                    colName,
-                    colObject,
-                    formatting,
-                    searchableData,
-                    searchColsRef,
-                    state,
-                    setState,
-                    sortRef,
-                    aiSearchFailedRef,
-                    aiEnabled
-                );
-            })();
-        }, 300);
-    }, [state, setState, runAISearch, state?.aiSearchOptions]);
-
-    const handleResetSearch = useCallback((e) => {
-        e.preventDefault();
-        searchColsRef.current = [];
-        globalSearchQueryRef.current = '';
-        sortRef.current = null;
-        setState(prev => {
-            const dataLength = dataReceivedRef?.current?.length ?? 0
-            let noOfPages = Math.floor(dataLength / prev?.pageRows);
-            let lastPageRows = dataLength % prev?.pageRows;
-            if (lastPageRows > 0) noOfPages++;
-            if (lastPageRows === 0) lastPageRows = prev?.pageRows;
-
-            return {
-                ...prev,
-                searchValues: Object.fromEntries(
-                    (Array.isArray(prev.columns) ? prev.columns : [])
-                        .filter(col => col && col.name)
-                        .map(col => [col.name, ''])
-                ),
-                globalSearchInput: '',
-                rowsData: dataReceivedRef?.current ?? [],
-                noOfPages,
-                lastPageRows,
-                currentPageRows: prev?.pageRows,
-                activePage: 1,
-                totalRows: dataLength,
-                firstRow: 0,
-                columns: prev.columns.map(col => ({
-                    ...col,
-                    sortOrder: '',
-                })),
-            }
-        });
-    }, [state, setState]);
+    useGridApi(ref, {
+        state,
+        dataReceivedRef,
+        setState,
+        handleResetGrid
+    });
 
     return (
         <ErrorBoundary debug={state?.debug}>
@@ -510,8 +316,8 @@ const DataGrid = ({
                 >
                     {state?.showToolbar === true &&
                         (<GridGlobalSearchBar
-                            onSearchClicked={onSearchClicked}
-                            handleResetSearch={handleResetSearch}
+                            searchHandler={searchHandler}
+                            handleResetGrid={handleResetGrid}
                         />)}
                     <div
                         style={{
@@ -527,7 +333,7 @@ const DataGrid = ({
                             state={state}
                             setState={setState}
                             onHeaderClicked={onHeaderClicked}
-                            onSearchClicked={onSearchClicked}
+                            searchHandler={searchHandler}
                             gridHeaderRef={gridHeaderRef}
                             computedColumnWidthsRef={computedColumnWidthsRef}
                             isResizingRef={isResizingRef}
@@ -544,6 +350,6 @@ const DataGrid = ({
             </GridConfigContext.Provider>
         </ErrorBoundary>
     );
-}
+});
 
 export default DataGrid;

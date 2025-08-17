@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import DataGrid from 'react-data-grid-lite';
 import { useFetch } from '../data';
 import { ExampleBlock } from '../example-block';
@@ -10,11 +10,12 @@ const options = {
 }
 
 export default function Grid6() {
+    const gridRef = useRef(null);
     const users = useFetch("users");
     const columns = users?.length > 0 ? Object.keys(users[0])?.map((val) => {
         if (val.toLowerCase() === 'id')
             return {
-                name: val, alias: 'ID', width: '100px', class:"testClass"
+                name: val, alias: 'ID', width: '100px', class: "testClass"
             }
         else if (val.toLowerCase() === 'email' || val.toLowerCase() === 'website'
             || val.toLowerCase() === 'image')
@@ -43,12 +44,25 @@ export default function Grid6() {
             text="Drag-and-drop functionality is enabled for all columns in the grid. Users can freely rearrange column positions to suit their preferences. Column layout updates dynamically as columns are moved."
             htmlContent="<a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid6.jsx'>Complete Source Code on GitHub</a>"
         >
+            <button style={{ margin: "20px 10px", height: "30px" }} onClick={() => {
+                gridRef?.current?.resetGrid();
+            }}
+            >
+                Reset Grid
+            </button>
+            <button style={{ margin: "20px 10px" , height: "30px" }} onClick={() => {
+                gridRef?.current?.clearSelectedRows();
+            }}
+            >
+                Clear Selected Rows
+            </button>
             <DataGrid
+                ref={gridRef}
                 columns={columns}
                 data={users}
                 pageSize={10}
                 width="inherit"
-                height="35vh"
+                height="60vh"
                 options={options}
             />
         </ExampleBlock>

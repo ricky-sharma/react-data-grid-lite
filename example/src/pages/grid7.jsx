@@ -8,7 +8,7 @@ const options = {
     enableColumnDrag: true,
     enableCellEdit: true,
     enableColumnSearch: false,
-    rowHeight: '70px'
+    rowHeight: '80px'
 }
 
 export default function Grid7() {

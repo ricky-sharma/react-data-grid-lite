@@ -7,7 +7,7 @@ const GridTable = ({
     state,
     setState,
     onHeaderClicked,
-    onSearchClicked,
+    searchHandler,
     gridHeaderRef,
     computedColumnWidthsRef,
     isResizingRef,
@@ -22,7 +22,7 @@ const GridTable = ({
                 state={state}
                 setState={setState}
                 onHeaderClicked={onHeaderClicked}
-                onSearchClicked={onSearchClicked}
+                searchHandler={searchHandler}
                 gridHeaderRef={gridHeaderRef}
                 computedColumnWidthsRef={computedColumnWidthsRef}
             />

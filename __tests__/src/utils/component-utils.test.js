@@ -1,8 +1,7 @@
 jest.mock('./../../../src/constants', () => ({
     Button_Column_Key: 'button',
     Button_Column_Width: '60px',
-    Default_Grid_Width_VW: '80vw',
-    Mobile_Column_Width: '100px',
+    Default_Grid_Width_VW: '80vw'
 }));
 
 jest.mock('./../../../src/helpers/common', () => {
@@ -36,10 +35,6 @@ describe('calculateColumnWidth', () => {
         expect(calculateColumnWidth(undefined, [], 0)).toBe('100%');
     });
 
-    it('returns Button_Column_Width if currentColKey is button column', () => {
-        expect(calculateColumnWidth(['100px', '50px'], [], 'button')).toBe('60px');
-    });
-
     it('handles all fixed columns (stretch if under container width)', () => {
         const result = calculateColumnWidth(['100', '200'], [], 0);
         expect(result).toBe('400px');
@@ -65,14 +60,14 @@ describe('calculateColumnWidth', () => {
 
     it('returns correct width in mobile mode (smaller total fits)', () => {
         const colWidths = ['100', null, '100', null];
-        const result = calculateColumnWidth(colWidths, [], 1, false, true);
-        expect(result).toBe('200px');
+        const result = calculateColumnWidth(colWidths, [], 1, false);
+        expect(result).toBe('300px');
     });
 
-    it('returns Mobile_Column_Width if total mobile width exceeds container', () => {
+    it('returns width if total mobile width exceeds container', () => {
         common.getContainerWidthInPixels.mockReturnValue(300);
         const colWidths = [null, null, null];
-        const result = calculateColumnWidth(colWidths, [], 1, false, true);
+        const result = calculateColumnWidth(colWidths, [], 1, false);
         expect(result).toBe('100px');
     });
 

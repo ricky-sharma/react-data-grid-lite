@@ -46,6 +46,57 @@
         color: #212529;
     }
 
+        .r-d-g-lt-comp .grid--check--box {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            user-select: none;
+            position: relative;
+        }
+
+            .r-d-g-lt-comp .grid--check--box input {
+                display: none;
+            }
+
+            .r-d-g-lt-comp .grid--check--box .checkmark {
+                width: 20px;
+                height: 20px;
+                border: 2px solid #ccc;
+                border-radius: 6px;
+                background-color: #fff;
+                position: relative;
+                transition: all 0.2s ease;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+                bottom: 0;
+                top: 0;
+                right: 0;
+            }
+
+            .r-d-g-lt-comp .grid--check--box input:checked + .checkmark {
+                background-color: #212529;
+                border-color: #e0e0e0;
+            }
+
+            .r-d-g-lt-comp .grid--check--box .checkmark::after {
+                content: '';
+                position: absolute;
+                display: none;
+                left: 5px;
+                top: 0.5px;
+                width: 5px;
+                height: 10px;
+                border: solid #fff;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+                transition: all 0.2s ease;
+            }
+
+            .r-d-g-lt-comp .grid--check--box input:checked + .checkmark::after {
+                display: block;
+            }
+
     .r-d-g-lt-comp div.globalSearch input,
     .r-d-g-lt-comp div.searchDiv input,
     .r-d-g-lt-comp div.editField input {
@@ -67,7 +118,7 @@
         position: relative;
         min-width: 60px;
         border-radius: 8px !important;
-        height: 32px;
+        height: 30px;
         padding: 0;
         cursor: pointer;
         font-weight: 600 !important;
@@ -111,6 +162,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: normal;
+        height: 30px;
     }
 
         .r-d-g-lt-comp .dropdown-option:hover {
@@ -228,7 +280,7 @@
 
 .r-d-g-lt-comp .download-icon-div {
     float: right;
-    width: 136px !important;
+    width: 136px;
     position: relative;
     top: 0px;
     height: 36px;
@@ -333,7 +385,6 @@
 .r-d-g-lt-comp .page-size-selector {
     float: right;
     justify-content: right;
-    padding-right: 60px !important;
 }
 
 .r-d-g-lt-comp .rows--selector {
@@ -345,7 +396,7 @@
 }
 
     .r-d-g-lt-comp .rows--selector .ps-dropdown {
-        padding: 6px 4px;
+        padding: 6px;
         cursor: pointer;
         user-select: none;
         position: relative;
@@ -371,6 +422,7 @@
             padding: 8px 20px;
             text-align: left;
             box-shadow: none;
+            height: 35px;
         }
 
             .r-d-g-lt-comp .rows--selector .ps-dropdown .dropdown-option:hover,
@@ -530,7 +582,6 @@
             padding: 0px !important;
             width: 100%;
             transition: all 0.2s ease;
-            cursor: pointer;
             margin: 0px !important;
         }
 
@@ -647,7 +698,7 @@
 
 .r-d-g-lt-comp .globalSearchDiv {
     display: inline-block !important;
-    padding: 4px 10px !important;
+    padding: 4px 10px;
     margin: 0 !important;
     opacity: 90%;
 }
@@ -662,13 +713,14 @@
     }
 
 .r-d-g-lt-comp div.globalSearch {
-    width: 60% !important;
-    height: 42px !important;
-    float: left !important;
+    width: 60%;
+    height: 42px;
+    float: left;
     position: relative;
 }
 
-.r-d-g-lt-comp .button-column {
+.r-d-g-lt-comp .button-column,
+.r-d-g-lt-comp .selection-column {
     flex-wrap: wrap !important;
     padding: 10px !important;
 }
@@ -691,7 +743,7 @@
     .r-d-g-lt-comp .pagination li.page-item a.page-link {
         border: 0;
         border-radius: 6px !important;
-        color: #999 !important;
+        color: #0c0c0c !important;
         height: 24px;
         line-height: 24px;
         text-align: center;
@@ -743,6 +795,7 @@
         font-style: normal;
         font-weight: 900;
         position: relative;
+        font-size: 18px;
     }
 
         .r-d-g-lt-comp .pagination li.page-item a i.arrow:hover,
@@ -754,7 +807,6 @@
     .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
         background: inherit !important;
     }
-
 
     .r-d-g-lt-comp .pagination li.page-item.arrow a.page-link:active {
         background: inherit !important;
@@ -769,90 +821,21 @@
     display: block !important;
 }
 
-@media (max-width: 1200px) {
-    .r-d-g-lt-comp .page-size-selector {
-        padding-right: 40px !important;
-    }
-}
-
-@media (max-width: 1024px) {
-    .r-d-g-lt-comp .page-list {
-        width: 8.333% !important;
-        max-width: 8.333% !important;
-    }
-
-    .r-d-g-lt-comp .page-size-selector {
-        width: 33.332% !important;
-        max-width: 33.332% !important;
-        padding: 0 !important;
-    }
-}
-
 @media (max-width: 700px) {
-
-    .r-d-g-lt-comp .download-icon-div div.icon-content {
-        gap: 0 !important;
-    }
-
-    .r-d-g-lt-comp .download-icon {
-        margin-left: 0px !important;
-    }
-
-    .r-d-g-lt-comp .page-results,
-    .r-d-g-lt-comp .page-size-selector {
-        width: 40% !important;
-        max-width: 40% !important;
-    }
-
-    .r-d-g-lt-comp .pager-select {
-        width: 20% !important;
-        max-width: 20% !important;
-    }
-
     .r-d-g-lt-comp .rows--selector .ps-dropdown {
         padding: 6px 2px;
         min-width: 40px;
     }
 
-    .r-d-g-lt-comp .page-list {
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    .r-d-g-lt-comp div.globalSearch {
-        margin: 0;
-        height: 34px !important;
-    }
-
-    .r-d-g-lt-comp .globalSearchDiv {
-        padding-top: 2px !important;
-    }
-
     .r-d-g-lt-comp .drop--down {
         min-width: 50px;
-        height: 32px;
-    }
-
-    .r-d-g-lt-comp .clear-icon-div {
-        float: right !important;
-    }
-
-    .r-d-g-lt-comp .icon-div-mobile {
-        width: 36px !important;
-        height: 30px !important;
+        height: 30px;
     }
 }
 
 @media (max-width: 500px) {
-    .r-d-g-lt-comp .react-data-grid-lite table tbody {
-        max-height: 345px;
-        height: 345px;
-    }
-
     .r-d-g-lt-comp table thead tr.gridHeader th {
         padding: 2px 0 !important;
-        border-top: none !important;
-        border-bottom: none !important;
         height: 50px;
     }
 
@@ -868,32 +851,10 @@
         padding: 4px 0 5px 0;
     }
 
-    .r-d-g-lt-comp .page-results {
-        width: 30% !important;
-        max-width: 30% !important;
-        padding-left: 4px !important;
-    }
-
-    .r-d-g-lt-comp .pager-select {
-        width: 20% !important;
-        max-width: 20% !important;
-    }
-
-    .r-d-g-lt-comp .page-size-selector {
-        width: 50% !important;
-        max-width: 50% !important;
-    }
-
     .r-d-g-lt-comp .page-results,
     .r-d-g-lt-comp .pager-select,
     .r-d-g-lt-comp .page-size-selector {
         transform: scale(0.95) !important;
-    }
-}
-
-@media (max-width: 350px) {
-    .r-d-g-lt-comp div.globalSearch {
-        width: 50% !important;
     }
 }
 

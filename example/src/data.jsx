@@ -130,7 +130,8 @@ export const columns = [
                 { type: 'select', values: ["Engineering", "HR", "Marketing", "Sales"] },
                 { type: 'text' }
             ],
-        }
+        },
+        width: '250px'
     },
     { name: 'Title', hidden: true },
     { name: 'Email'},

@@ -47,7 +47,7 @@ export default function Grid4() {
                 data={users}
                 pageSize={10}
                 width="inherit"
-                height="35vh"
+                height="50vh"
                 options={options}
             />
         </ExampleBlock>

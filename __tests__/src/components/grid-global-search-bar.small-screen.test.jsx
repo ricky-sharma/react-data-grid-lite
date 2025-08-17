@@ -20,7 +20,7 @@ describe('GridGlobalSearchBar (small screen)', () => {
 		const mockState = {
 			enableGlobalSearch: true,
 			globalSearchInput: '',
-			gridID: '1',
+			gridID: 'id-1',
 			columns: [{ name: 'col1' }],
 			enableDownload: true,
 			rowsData: [{ col1: 'value1' }],
@@ -33,7 +33,7 @@ describe('GridGlobalSearchBar (small screen)', () => {
 
 		render(
 			<GridConfigContext.Provider value={{ state: mockState, setState: mockSetState }}>
-				<GridGlobalSearchBar onSearchClicked={jest.fn()} handleResetSearch={jest.fn()} />
+				<GridGlobalSearchBar searchHandler={jest.fn()} handleResetGrid={jest.fn()} />
 			</GridConfigContext.Provider>
 		);
 

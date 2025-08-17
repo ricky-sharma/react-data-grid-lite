@@ -6,6 +6,71 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br>
 
+## 🔖 v1.2.2 – Released 2025-08-17
+
+### 🚀 Features
+
+* **Selection Column Support**
+
+  * Added `enableRowSelection` prop to toggle the selection column.
+  * Added `rowSelectColumnAlign` prop to control selection column alignment (`'left'` | `'right'` | `''`).
+  * Added `onRowSelect` callback for handling individual row selection.
+  * Added `onSelectAll` callback for selecting/deselecting all rows on the current page.
+
+* **Sorting Enhancements**
+
+  * Added global `enableSorting` prop and column-level `sortable` prop.
+  * Added missing resize handle on the last column. Resizing was already supported, but the handle was not rendered, which affected usability.
+  * Improved column state retention after interactive actions (e.g., checkbox changes).
+
+* **Grid API (via `ref`)**
+
+  * Exposed new imperative methods like `clearSelectedRows()`.
+  * Added documentation: `/docs/datagrid_ref_methods.md` detailing all available `ref` methods:
+
+    * `getFilteredRows()`
+    * `getFilteredSelectedRows()`
+    * `getAllSelectedRows()`
+    * `getCurrentPage()`
+    * `resetGrid()`
+    * `clearSelectedRows()`
+
+### 🐛 Fixes
+
+* UI layout now correctly adjusts based on the **grid container’s width** instead of the **viewport width**.
+* Improved layout styling for small grid widths (header, footer, and grid spacing).
+
+### 🧼 Refactors
+
+* **Column & Grid Processing**
+
+  * Moved column processing to new `useProcessedColumns` hook:
+
+    * Improved handling of column ordering, `displayIndex`, and hidden columns.
+  * Extracted `handleResetGrid` into a reusable `useResetGrid` hook.
+  * Refactored `useProcessedData` for cleaner data flow and better testability.
+  * Extracted grid API logic into `useGridApi` with `useImperativeHandle`.
+
+* **Search & Sort Logic**
+
+  * Extracted logic to a dedicated `useSearchAndSortCallbacks` hook with full test coverage.
+  * Renamed:
+
+    * `eventGridSearchClicked` → `eventGridSearchTriggered`
+    * File: `event-grid-search-clicked` → `event-grid-search-triggered` (for clarity and naming consistency).
+
+### ✅ Tests
+
+* Added unit tests for:
+
+  * Column processing
+  * Grid API methods
+  * Data processing and AI search
+  * Error handling
+  * Sorting and filtering behaviors
+
+<br><br>
+
 ## ✨ v1.2.1 – Released 2025-08-10
 
 ### ✨ Features
@@ -53,7 +118,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
-### 🔖 v1.2.0 – Released 2025-08-06
+## 🔖 v1.2.0 – Released 2025-08-06
 
 ### ✨ Added
 
@@ -131,7 +196,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br><br>
 
-### 🔖 v1.1.9 – Released 2025-07-26
+## 🔖 v1.1.9 – Released 2025-07-26
 
 ### UI Enhancements
 

@@ -3,7 +3,7 @@ jest.mock('./../../../../src/helpers/format.js', () => ({
 }));
 
 import { cleanup } from '@testing-library/react';
-import { eventGridSearchClicked } from './../../../../src/components/events/event-grid-search-clicked';
+import { eventGridSearchTriggered } from './../../../../src/components/events/event-grid-search-triggered';
 import { format as mockFormatVal } from './../../../../src/helpers/format.js';
 
 beforeEach(() => {
@@ -12,7 +12,7 @@ beforeEach(() => {
     cleanup();
 });
 
-describe('eventGridSearchClicked', () => {
+describe('eventGridSearchTriggered', () => {
     let searchQuery, dataReceived, searchColsRef, setState, state;
 
     beforeEach(() => {
@@ -34,7 +34,7 @@ describe('eventGridSearchClicked', () => {
     });
 
     it('should do nothing if event or colName is invalid', () => {
-        eventGridSearchClicked(null, null, [], {}, dataReceived, searchColsRef, state, setState);
+        eventGridSearchTriggered(null, null, [], {}, dataReceived, searchColsRef, state, setState);
         expect(setState).not.toHaveBeenCalled();
     });
 
@@ -42,7 +42,7 @@ describe('eventGridSearchClicked', () => {
         const colName = 'name';
         const colObject = ['name'];
 
-        eventGridSearchClicked(searchQuery, colName, colObject, {}, dataReceived, searchColsRef, state, setState);
+        eventGridSearchTriggered(searchQuery, colName, colObject, {}, dataReceived, searchColsRef, state, setState);
 
         expect(searchColsRef.current.length).toBe(1);
         expect(setState).toHaveBeenCalledWith(expect.any(Function));
@@ -75,7 +75,7 @@ describe('eventGridSearchClicked', () => {
             ];
         const state = { toggleState: false };
         const setState = jest.fn();
-        eventGridSearchClicked(
+        eventGridSearchTriggered(
             searchQuery,
             colName,
             undefined,
@@ -90,7 +90,7 @@ describe('eventGridSearchClicked', () => {
     });
 });
 
-describe('More tests for eventGridSearchClicked', () => {
+describe('More tests for eventGridSearchTriggered', () => {
     let searchQuery, dataReceived, searchColsRef, setState, state;
 
     beforeEach(() => {
@@ -108,12 +108,12 @@ describe('More tests for eventGridSearchClicked', () => {
     });
 
     it('should do nothing with invalid event or colName', () => {
-        eventGridSearchClicked(null, null, [], {}, dataReceived, searchColsRef, state, setState);
+        eventGridSearchTriggered(null, null, [], {}, dataReceived, searchColsRef, state, setState);
         expect(setState).not.toHaveBeenCalled();
     });
 
     it('should push to searchColsRef and filter using default logic', () => {
-        eventGridSearchClicked(searchQuery, 'name', ['name'], {}, dataReceived, searchColsRef, state, setState);
+        eventGridSearchTriggered(searchQuery, 'name', ['name'], {}, dataReceived, searchColsRef, state, setState);
         expect(searchColsRef.current.length).toBe(1);
         expect(setState).toHaveBeenCalled();
     });
@@ -129,7 +129,7 @@ describe('More tests for eventGridSearchClicked', () => {
             formatting
         }];
 
-        eventGridSearchClicked(searchQuery, 'age', ['age'], formatting, dataReceived, searchColsRef, state, setState);
+        eventGridSearchTriggered(searchQuery, 'age', ['age'], formatting, dataReceived, searchColsRef, state, setState);
         expect(mockFormatVal).toHaveBeenCalled();
         expect(setState).toHaveBeenCalled();
     });
@@ -145,7 +145,7 @@ describe('More tests for eventGridSearchClicked', () => {
             formatting
         }];
 
-        eventGridSearchClicked(searchQuery, 'price', ['price'], formatting, dataReceived, searchColsRef, state, setState);
+        eventGridSearchTriggered(searchQuery, 'price', ['price'], formatting, dataReceived, searchColsRef, state, setState);
         expect(mockFormatVal).toHaveBeenCalled();
     });
 
@@ -160,7 +160,7 @@ describe('More tests for eventGridSearchClicked', () => {
             formatting
         }];
 
-        eventGridSearchClicked(searchQuery, 'isActive', ['isActive'], formatting, dataReceived, searchColsRef, state, setState);
+        eventGridSearchTriggered(searchQuery, 'isActive', ['isActive'], formatting, dataReceived, searchColsRef, state, setState);
         expect(mockFormatVal).toHaveBeenCalled();
     });
 
@@ -177,20 +177,20 @@ describe('More tests for eventGridSearchClicked', () => {
             formatting: {}
         }];
 
-        eventGridSearchClicked(searchQuery, '##globalSearch##', [], null, dataReceived, searchColsRef, state, setState);
+        eventGridSearchTriggered(searchQuery, '##globalSearch##', [], null, dataReceived, searchColsRef, state, setState);
         expect(setState).toHaveBeenCalled();
     });
 
     it('should return early if event or colName is invalid', () => {
         const setState = jest.fn();
-        eventGridSearchClicked(null, null, [], {},  [], [], {}, setState);
+        eventGridSearchTriggered(null, null, [], {},  [], [], {}, setState);
         expect(setState).not.toHaveBeenCalled();
     });
 
     it('should be able to handle null data reference', () => {
         const searchQuery = 'Alice';
         const setState = jest.fn();
-        eventGridSearchClicked(searchQuery, 'amount', [], {}, null ,  [], {}, setState);
+        eventGridSearchTriggered(searchQuery, 'amount', [], {}, null ,  [], {}, setState);
         expect(setState).toHaveBeenCalled();
     });
 
@@ -199,7 +199,7 @@ describe('More tests for eventGridSearchClicked', () => {
         const searchColsRef = { current: null };
         const setState = jest.fn();
 
-        eventGridSearchClicked(
+        eventGridSearchTriggered(
             searchQuery,
             'name',
             ['name'],
@@ -226,7 +226,7 @@ describe('More tests for eventGridSearchClicked', () => {
         };
         const setState = jest.fn();
 
-        eventGridSearchClicked(
+        eventGridSearchTriggered(
             searchQuery,
             'amount',
             [],
@@ -253,7 +253,7 @@ describe('More tests for eventGridSearchClicked', () => {
             }]
         };
 
-        eventGridSearchClicked(
+        eventGridSearchTriggered(
             searchQuery,
             'status',
             [],
@@ -289,7 +289,7 @@ describe('More tests for eventGridSearchClicked', () => {
             }]
         };
 
-        eventGridSearchClicked(
+        eventGridSearchTriggered(
             searchQuery,
             '##globalSearch##',
             [],
@@ -320,7 +320,7 @@ describe('More tests for eventGridSearchClicked', () => {
         const data = [{ secretField: 'Hidden Data', id: 1 }];
         const setState = jest.fn();
 
-        eventGridSearchClicked(
+        eventGridSearchTriggered(
             searchQuery,
             '##globalSearch##',
             [],
@@ -366,7 +366,7 @@ describe('More tests for eventGridSearchClicked', () => {
         const setState = jest.fn();
         const state = { toggleState: false };
 
-        eventGridSearchClicked(
+        eventGridSearchTriggered(
             'test',
             '##globalSearch##',
             [],
@@ -402,7 +402,7 @@ describe('More tests for eventGridSearchClicked', () => {
         const setState = jest.fn();
         const state = { toggleState: true };
 
-        eventGridSearchClicked(
+        eventGridSearchTriggered(
             'foo',
             '##globalSearch##',
             [],

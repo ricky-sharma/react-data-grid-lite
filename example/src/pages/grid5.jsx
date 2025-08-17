@@ -8,6 +8,7 @@ const options = {
     enableColumnSearch: false,
     enableColumnResize: true,
     actionColumnAlign: 'right',
+    rowSelectColumnAlign: 'right',
     editButton: {
         event: (e, row) => {
             alert('Edit Button clicked!');
@@ -37,6 +38,10 @@ export default function Grid5() {
                 name: val, formatting: {
                     type: 'Date', format: 'dd-MMM-yyyy'
                 }
+            }
+        else if (val.toLowerCase() === 'isbn' || val.toLowerCase() === 'genre')
+            return {
+                name: val, width: '200px'
             }
         else
             return {

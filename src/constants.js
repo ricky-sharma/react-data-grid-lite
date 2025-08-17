@@ -1,5 +1,4 @@
-export const Mobile_Column_Width = "110px";
-export const Button_Column_Width = "110px";
+export const Button_Column_Width = "100px";
 export const Fallback_Column_Width = "150px";
 export const Maximum_Column_Width = 2400; // in pixels, also configured in CSS for td and th
 export const Minimum_Column_Width = 75;  // in pixels, also configured in CSS for td and th
@@ -8,7 +7,9 @@ export const No_Data_Message = "There is no data to display.";
 export const No_Column_Visible_Message = "Column definitions may be missing or misconfigured, or all columns are currently hidden.";
 export const CSV_File_Name_Prefix = "export";
 export const Default_Grid_Width_VW = '90vw';
-export const Button_Column_Key = 'ButtonColumnKey';
+export const Button_Column_Key = '_$##_Actions_##$_';
+export const Selection_Column_Key = '_$##_Selections_##$_';
+export const Selection_Column_Width = "75px";
 export const Export_To_CSV_Text = 'Export CSV';
 export const Border_Padding_Margin_Width = "1";
 export const Loader_Identifier = "table-loader-overlay";

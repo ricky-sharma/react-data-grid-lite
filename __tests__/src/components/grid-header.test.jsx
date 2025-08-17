@@ -84,8 +84,8 @@ describe('GridHeader Component', () => {
         expect(screen.queryAllByPlaceholderText('Search')).toHaveLength(0);
     });
 
-    it('calls onSearchClicked when search input changes', () => {
-        const onSearchClicked = jest.fn();
+    it('calls searchHandler when search input changes', () => {
+        const searchHandler = jest.fn();
         const columns = [{ name: 'Name', enableSearch: true }];
         const TableComponent = () => {
             const ref = useRef(null);
@@ -98,14 +98,14 @@ describe('GridHeader Component', () => {
                     state={state}
                     setState={setState}
                     computedColumnWidthsRef={ref}
-                    onSearchClicked={onSearchClicked}
+                    searchHandler={searchHandler}
                 />
             </table>);
         }
         render(<TableComponent />);
         const input = screen.getByPlaceholderText('Search name');
         fireEvent.change(input, { target: { value: 'John' } });
-        expect(onSearchClicked).toHaveBeenCalled();
+        expect(searchHandler).toHaveBeenCalled();
     });
 
     it('renders action column when editButtonEnabled or deleteButtonEnabled is true', () => {
@@ -187,7 +187,8 @@ describe('GridHeader Component', () => {
             const columns = [{ name: 'Name' }];
             const [state] = useState({
                 columns: columns,
-                columnWidths: columnWidth
+                columnWidths: columnWidth,
+                enableSorting: true
             });
             return (<table>
                 <GridHeader

@@ -10,7 +10,7 @@ export const eventGridHeaderClicked = (colObject, state, setState, colKey, isRes
     const currentSortEntry = state?.columns?.find(col => col?.name === colKey);
     const prevSortOrder = currentSortEntry?.sortOrder || '';
     const sortOrder = state?.rowsData ? (prevSortOrder === 'desc' ? 'asc' : 'desc') : '';
-    const sortedData = SortData(colObject, sortOrder, state?.rowsData);
+    const sortedData = sortData(colObject, sortOrder, state?.rowsData);
 
     setState(prev => ({
         ...prev,
@@ -23,7 +23,7 @@ export const eventGridHeaderClicked = (colObject, state, setState, colKey, isRes
     }));
 };
 
-export function SortData(colObject, sortOrder, data) {
+export function sortData(colObject, sortOrder, data) {
     const sortColumns = colObject?.map(field => (sortOrder === 'asc' ? field : `-${field}`));
     const sortedData = data?.slice().sort(dynamicSort(...sortColumns));
     return sortedData;
