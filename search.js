@@ -21,13 +21,33 @@ function getQueryParam(param) {
 }
 
 function highlightQuery(text, query) {
+    if (!text || !query) return text;
+
+    // Highlight full query match first
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // escape regex
+    const fullRegex = new RegExp(`\\b(${escapedQuery})\\b`, 'gi');
+    text = text.replace(fullRegex, '<strong class="text-black-900 font-bold"><mark>$1</mark></strong>');
+
+    // Highlight individual terms
     const terms = query.split(/\s+/).filter(Boolean);
-    for (const term of terms) {
-        const regex = new RegExp(`(${term})`, 'gi');
+    const allTerms = Array.from(terms);
+
+    // Check if any "long" terms (4 or more chars) exist
+    const hasLongTerm = allTerms.some(term => term.length >= 4);
+
+    // Filter terms accordingly
+    const filteredTerms = hasLongTerm
+        ? allTerms.filter(term => term.length >= 4)
+        : allTerms;
+    for (const term of filteredTerms.sort((a, b) => b.length - a.length)) {
+        const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(${escapedTerm})`, 'gi');
         text = text.replace(regex, '<strong class="text-black-900 font-bold"><mark>$1</mark></strong>');
     }
+
     return text;
 }
+
 
 async function search(query) {
     if (!idx) await loadIndex();
@@ -40,36 +60,54 @@ async function search(query) {
     const originalQuery = query.trim();
     const lowerQuery = originalQuery.toLowerCase();
 
-    // Break the query into multiple meaningful tokens
+    // Set of unique search terms
     const terms = new Set();
-    terms.add(lowerQuery);
-    terms.add(lowerQuery.replace(/[.]/g, ' ')); // Replace dots with space for Lunr tokenization
 
-    // Also split on dots/spaces/underscores to get partial tokens
+    // Add raw and dot-replaced versions for Lunr tokenization
+    terms.add(lowerQuery);
+    terms.add(lowerQuery.replace(/[.]/g, ' '));
+
+    // Split on common delimiters and add parts
     lowerQuery.split(/[.\s_]/).forEach(part => {
-        if (part.length > 2) terms.add(part);
+        if (part) terms.add(part);
     });
+
+    // Convert to array for processing
+    const allTerms = Array.from(terms);
+
+    // Check if any "long" terms (4 or more chars) exist
+    const hasLongTerm = allTerms.some(term => term.length >= 4);
+
+    // Filter terms accordingly
+    const filteredTerms = hasLongTerm
+        ? allTerms.filter(term => term.length >= 4)
+        : allTerms;
 
     const allResults = [];
     const seenRefs = new Set();
 
-    // Run lunr queries for each term
+    // Run Lunr queries
     idx.query(q => {
-        for (const term of terms) {
-            // Exact term (no wildcard)
-            q.term(term, { boost: 5 });
+        for (const term of filteredTerms.sort((a, b) => b.length - a.length)) {
+            const termLength = term.length;
 
-            // Wildcard for partial match
+            // Boost proportionally to term length
+            const baseBoost = termLength * 10;
+
+            // Exact match
+            q.term(term, { boost: baseBoost });
+
+            // Wildcard match (trailing)
             q.term(term, {
                 wildcard: lunr.Query.wildcard.TRAILING,
-                boost: 3
+                boost: baseBoost / 5
             });
 
             // Fuzzy match (edit distance = 1)
             if (term.length > 3) {
                 q.term(term, {
                     editDistance: 1,
-                    boost: 1
+                    boost: baseBoost / 10
                 });
             }
         }
@@ -91,7 +129,7 @@ async function search(query) {
 
     allResults.forEach(result => {
         const page = pages.find(p => p.url === result.ref);
-        let snippet = getSnippetByChars(page.content, originalQuery, 100);
+        let snippet = getSnippetByChars(page.content, originalQuery, 300);
 
         if (!snippet && page.title.toLowerCase().includes(lowerQuery)) {
             snippet = 'Term found in title: ' + page.title;
@@ -112,29 +150,43 @@ async function search(query) {
 function getSnippetByChars(content, query, chars = 100) {
     if (!content || !query) return '';
 
-    const cleanContent = content.replace(/<\/?[^>]+(>|$)/g, ""); // strip HTML if needed
+    const cleanContent = content.replace(/<\/?[^>]+(>|$)/g, ""); // strip HTML
     const lowerContent = cleanContent.toLowerCase();
     const lowerQuery = query.toLowerCase();
 
-    // Break query into words
-    const queryWords = lowerQuery.split(/\s+/);
+    let bestIndex = lowerContent.indexOf(lowerQuery);
 
-    let bestIndex = -1;
+    // If full query not found, try individual words
+    if (bestIndex === -1) {
+        const queryWords = lowerQuery.split(/\s+/);
+        // Convert to array for processing
+        const allTerms = Array.from(queryWords);
 
-    for (const word of queryWords) {
-        const index = lowerContent.indexOf(word);
-        if (index !== -1 && (bestIndex === -1 || index < bestIndex)) {
-            bestIndex = index;
+        // Check if any "long" terms (4 or more chars) exist
+        const hasLongTerm = allTerms.some(term => term.length >= 4);
+
+        // Filter terms accordingly
+        const filteredTerms = hasLongTerm
+            ? allTerms.filter(term => term.length >= 4)
+            : allTerms;
+
+        for (const word of filteredTerms.sort((a, b) => b.length - a.length)) {
+            const index = lowerContent.indexOf(word);
+            if (index !== -1) {
+                bestIndex = index;
+                break;
+            }
         }
     }
 
     if (bestIndex === -1) return '';
 
-    const start = Math.max(0, bestIndex - chars / 2);
-    const end = Math.min(cleanContent.length, bestIndex + chars / 2);
+    const start = Math.max(0, bestIndex - Math.floor(chars / 2));
+    const end = Math.min(cleanContent.length, bestIndex + Math.floor(chars / 2));
 
-    return cleanContent.substring(start, end) + '...';
+    return cleanContent.substring(start, end).trim() + '...';
 }
+
 
 // On page load, if ?q= is present in URL, populate search box and run search
 window.addEventListener('DOMContentLoaded', async () => {

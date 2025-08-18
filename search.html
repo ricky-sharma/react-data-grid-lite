@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1755509543978" rel="stylesheet" />
+		<link href="index.css?ver=1755525917104" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -433,12 +433,10 @@
 						
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Search</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
+<head>
+    <script src="lunr.min.js"></script>
+    <script src="search.js"></script>
+</head>
   <body class="bg-gray-50 min-h-screen text-gray-800">
 
     <div class="max-w-xs sm:max-w-3xl md:max-w-4xl mx-auto p-0 sm:px-4 sm:py-12">
@@ -471,9 +469,6 @@
         <!-- Results go here -->
       </ul>
     </div>
-
-    <script src="lunr.min.js"></script>
-    <script src="search.js"></script>
       <script>
   document.getElementById("searchInput").addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
