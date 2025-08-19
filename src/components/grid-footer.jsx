@@ -69,7 +69,7 @@ const GridFooter = memo(({
                     width: isMobileWidth ? '40%' : isXSWidth ? "25%" : isSmallWidth ? "30%" : undefined,
                     maxWidth: isMobileWidth ? '40%' : isXSWidth ? "25%" : isSmallWidth ? "30%" : undefined,
                 }}
-                className="col-flex-5 mg--0 pd--0 page-results">
+                className="col-flex-5 mg--0 pd--0 page-results opacity--7">
                 {showPageInfo === true && totalRows > 0 && (`${showingRange} of ${totalRows}`)}
             </div>
             <div
@@ -101,7 +101,7 @@ const GridFooter = memo(({
                     enablePaging === true &&
                     state?.pageRows > 0 &&
                     (<div className="rows--selector">
-                        <div style={{ flex: 'none' }}>Rows per page:</div>
+                        <div className="opacity--7" style={{ flex: 'none' }}>Rows per page:</div>
                         <Dropdown
                             options={Page_Size_Selector_Options}
                             value={state?.pageRows}
@@ -115,10 +115,10 @@ const GridFooter = memo(({
                     width: isTabletWidth ? '8.333%' : (isMobileWidth || isSmallWidth ? '100%' : undefined),
                     maxWidth: isTabletWidth ? '8.333%' : (isMobileWidth || isSmallWidth ? '100%' : undefined)
                 }}
-                className="float-lt col-flex-2 mg--0 pd--0 page-list">
+                className="float-lt col-flex-2 mg--0 pd--0 page-list opacity--7">
                 {showNumberPagination === true &&
                     pagerSelectOptions?.length > 0 &&
-                    ((!isMobileWidth && !isSmallWidth) || !showSelectPagination) && (
+                    (
                         <GridPagination
                             onPageChange={onPageChange}
                             onPrevButtonClick={onPrev}

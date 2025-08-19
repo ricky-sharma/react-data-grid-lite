@@ -9,6 +9,7 @@ import { gridWidthType } from '../utils/grid-width-type-utils';
 import { Export_To_CSV_Text } from './../constants';
 import Input from './custom-fields/input';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
+import GridToolBarMenu from './grid-toolbar-menu';
 
 const GridGlobalSearchBar = memo(({
     searchHandler,
@@ -29,17 +30,26 @@ const GridGlobalSearchBar = memo(({
         gridID
     } = state;
 
-    const { isXSWidth, isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
+    const { isXSWidth, isSmallWidth, isMobileWidth, isTabletWidth, isMediumWidth } = gridWidthType(windowWidth, gridID);
     const noColumns = isNull(columns);
     const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns
     return (
-        <div className="row--flex col-flex-12 globalSearchDiv">
+        <div
+            style={{
+                zIndex: 5,
+                position: 'relative'
+            }}
+            className="row--flex col-flex-12 globalSearchDiv">
             {enableGlobalSearch === true && (
                 <div
                     style={{
-                        opacity: (noData ? '0.8' : ''),
+                        opacity: (noData ? '0.7' : '0.9'),
                         height: (isSmallWidth || isMobileWidth ? '34px' : undefined),
-                        width: isXSWidth ? '50%' : undefined
+                        width: isXSWidth ? '48%' :
+                            isSmallWidth ? '53%' :
+                                isMobileWidth ? '63%' :
+                                    isTabletWidth ? '68%'
+                                        : isMediumWidth ? '73%' : '80%',
                     }}
                     className="pd--0 mg--0 globalSearch">
                     <div className="ai-search-input-wrapper">
@@ -79,7 +89,7 @@ const GridGlobalSearchBar = memo(({
                             width: (isSmallWidth || isMobileWidth ? '36px' : undefined),
                             height: (isSmallWidth || isMobileWidth ? '30px' : undefined)
                         }}
-                        className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile"
+                        className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile opacity--7"
                         title="Reset Filters"
                         onClick={(e) => {
                             e.preventDefault();
@@ -106,15 +116,15 @@ const GridGlobalSearchBar = memo(({
                             width: (isSmallWidth || isMobileWidth ? '36px' : undefined),
                             height: (isSmallWidth || isMobileWidth ? '30px' : undefined)
                         }}
-                        className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile"
+                        className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile opacity--7"
                         title={Export_To_CSV_Text}
                         onClick={(e) =>
                             eventExportToCSV(
-                                e,
                                 rowsData,
                                 columns,
                                 downloadFilename,
-                                onDownloadComplete
+                                onDownloadComplete,
+                                e
                             )
                         }
                         role="button"
@@ -132,7 +142,11 @@ const GridGlobalSearchBar = memo(({
                             }}
                         data-toggle="tooltip"
                     >
-                        <div style={{ gap: isSmallWidth || isMobileWidth ? 0 : undefined }} className="pd--0 mg--0 icon-content">
+                        <div
+                            style={{
+                                gap: isSmallWidth || isMobileWidth ? 0 : undefined
+                            }}
+                            className="pd--0 mg--0 icon-content">
                             <DownloadIcon />
                             <span>
                                 {isSmallWidth || isMobileWidth ? '' : Export_To_CSV_Text}
@@ -140,6 +154,9 @@ const GridGlobalSearchBar = memo(({
                         </div>
                     </div>
                 )}
+                <div className="pd--0 mg--0 alignCenter">
+                    <GridToolBarMenu handleResetGrid={handleResetGrid} />
+                </div>
             </div>
         </div>
     );

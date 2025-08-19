@@ -46,56 +46,56 @@
         color: #212529;
     }
 
-        .r-d-g-lt-comp .grid--check--box {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            user-select: none;
-            position: relative;
+    .r-d-g-lt-comp .grid--check--box {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        user-select: none;
+        position: relative;
+    }
+
+        .r-d-g-lt-comp .grid--check--box input {
+            display: none;
         }
 
-            .r-d-g-lt-comp .grid--check--box input {
-                display: none;
-            }
+        .r-d-g-lt-comp .grid--check--box .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            background-color: #fff;
+            position: relative;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            bottom: 0;
+            top: 0;
+            right: 0;
+        }
 
-            .r-d-g-lt-comp .grid--check--box .checkmark {
-                width: 20px;
-                height: 20px;
-                border: 2px solid #ccc;
-                border-radius: 6px;
-                background-color: #fff;
-                position: relative;
-                transition: all 0.2s ease;
-                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-                bottom: 0;
-                top: 0;
-                right: 0;
-            }
+        .r-d-g-lt-comp .grid--check--box input:checked + .checkmark {
+            background-color: #212529;
+            border-color: #e0e0e0;
+        }
 
-            .r-d-g-lt-comp .grid--check--box input:checked + .checkmark {
-                background-color: #212529;
-                border-color: #e0e0e0;
-            }
+        .r-d-g-lt-comp .grid--check--box .checkmark::after {
+            content: '';
+            position: absolute;
+            display: none;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            transition: all 0.2s ease;
+        }
 
-            .r-d-g-lt-comp .grid--check--box .checkmark::after {
-                content: '';
-                position: absolute;
-                display: none;
-                left: 5px;
-                top: 0.5px;
-                width: 5px;
-                height: 10px;
-                border: solid #fff;
-                border-width: 0 2px 2px 0;
-                transform: rotate(45deg);
-                transition: all 0.2s ease;
-            }
-
-            .r-d-g-lt-comp .grid--check--box input:checked + .checkmark::after {
-                display: block;
-            }
+        .r-d-g-lt-comp .grid--check--box input:checked + .checkmark::after {
+            display: block;
+        }
 
     .r-d-g-lt-comp div.globalSearch input,
     .r-d-g-lt-comp div.searchDiv input,
@@ -440,6 +440,10 @@
     margin: 0;
 }
 
+.r-d-g-lt-comp .opacity--7 {
+    opacity: 0.7;
+}
+
 .r-d-g-lt-comp .row--flex {
     display: flex;
     flex-wrap: wrap;
@@ -686,7 +690,6 @@
     height: 60px !important;
     z-index: 2;
     position: relative;
-    opacity: 90%;
 }
 
 .r-d-g-lt-comp .searchDiv {
@@ -700,7 +703,6 @@
     display: inline-block !important;
     padding: 4px 10px;
     margin: 0 !important;
-    opacity: 90%;
 }
 
     .r-d-g-lt-comp .globalSearchDiv .button-container {
@@ -713,7 +715,6 @@
     }
 
 .r-d-g-lt-comp div.globalSearch {
-    width: 60%;
     height: 42px;
     float: left;
     position: relative;

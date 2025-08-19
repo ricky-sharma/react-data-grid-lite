@@ -39,14 +39,14 @@ describe('eventExportToCSV', () => {
     });
 
     it('returns early if data is empty', () => {
-        const result = eventExportToCSV(null, [], [{ name: 'col1' }], 'file.csv');
+        const result = eventExportToCSV([], [{ name: 'col1' }], 'file.csv', null, null);
         expect(result).toBeUndefined();
         expect(URL.createObjectURL).not.toHaveBeenCalled();
     });
 
     it('returns early if columns is falsy', () => {
         const data = [{ col1: 'value' }];
-        const result = eventExportToCSV(null, data, null, 'file.csv');
+        const result = eventExportToCSV(data, null, 'file.csv', null, null);
         expect(result).toBeUndefined();
         expect(URL.createObjectURL).not.toHaveBeenCalled();
     });
@@ -58,7 +58,7 @@ describe('eventExportToCSV', () => {
         const data = [{ col1: 'value' }];
         const columns = [{ name: 'col1' }];
 
-        eventExportToCSV(null, data, columns, null);
+        eventExportToCSV(data, columns, null, null, null);
 
         expect(commonHelpers.isNull).toHaveBeenCalledWith(null);
         expect(dateHelpers.formatDate).toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe('eventExportToCSV', () => {
         const columns = [{ name: 'col1' }];
         const filename = 'myfile';
 
-        eventExportToCSV(null, data, columns, filename);
+        eventExportToCSV(data, columns, filename, null, null);
 
         const createdLink = document.createElement.mock.results[0].value;
         expect(createdLink.setAttribute).toHaveBeenCalledWith('download', 'myfile.csv');
@@ -88,7 +88,7 @@ describe('eventExportToCSV', () => {
         const columns = [{ name: 'col1' }];
         const filename = 'myfile.CSV';
 
-        eventExportToCSV(null, data, columns, filename);
+        eventExportToCSV(data, columns, filename, null, null);
 
         const createdLink = document.createElement.mock.results[0].value;
         expect(createdLink.setAttribute).toHaveBeenCalledWith('download', 'myfile.CSV');
@@ -104,7 +104,7 @@ describe('eventExportToCSV', () => {
 
         const event = { type: 'click' };
 
-        eventExportToCSV(event, data, columns, filename, onDownloadComplete);
+        eventExportToCSV(data, columns, filename, onDownloadComplete, event);
 
         expect(onDownloadComplete).toHaveBeenCalledWith(expect.any(Object), filename, expect.any(Blob));
     });
@@ -129,7 +129,7 @@ describe('eventExportToCSV', () => {
         const originalBlob = global.Blob;
         global.Blob = mockBlobConstructor;
 
-        eventExportToCSV(null, data, columns, 'file.csv');
+        eventExportToCSV(data, columns, 'file.csv', null, null);
 
         expect(mockBlobConstructor).toHaveBeenCalledTimes(1);
 

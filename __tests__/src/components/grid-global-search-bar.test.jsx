@@ -98,11 +98,11 @@ describe('GridGlobalSearchBar', () => {
         const exportIcon = screen.getByTitle(/Export CSV/i);
         fireEvent.click(exportIcon);
         expect(eventExportToCSV).toHaveBeenCalledWith(
-            expect.any(Object),
             mockState.rowsData,
             mockState.columns,
             mockState.downloadFilename,
-            mockState.onDownloadComplete
+            mockState.onDownloadComplete,
+            expect.any(Object)
         );
     });
 
