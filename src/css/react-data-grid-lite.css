@@ -649,7 +649,9 @@
         .r-d-g-lt-comp .dropdown-option:focus-visible,
         .r-d-g-lt-comp .icon-div:focus-visible,
         .r-d-g-lt-comp table thead tr.gridHeader th:focus-visible,
-        .r-d-g-lt-comp table tbody tr.gridRow td a:focus-visible {
+        .r-d-g-lt-comp table tbody tr.gridRow td a:focus-visible,
+        .r-d-g-lt-comp .menu--btn:focus-visible,
+        .r-d-g-lt-comp .menu--item:focus-visible {
             outline: currentColor 2px dotted !important;
             box-sizing: border-box !important;
             outline-offset: -5px;
@@ -661,6 +663,10 @@
             text-overflow: ellipsis;
             align-content: center;
         }
+
+.r-d-g-lt-comp .menu--btn:focus-visible {
+    outline-offset: 0;
+}
 
 .r-d-g-lt-comp .pagination li.page-item a.page-link:focus-visible {
     outline-offset: -2px !important;
