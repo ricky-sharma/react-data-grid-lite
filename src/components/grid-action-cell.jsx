@@ -14,13 +14,13 @@ const GridActionCell = ({
     deleteButtonEvent
 }) => {
     const left = isActionColumnLeft && !isMobile ? 0 : '';
-    const right = isActionColumnRight && !isMobile ? '-0.1px' : '';
+    const right = isActionColumnRight && !isMobile ? '-0.5px' : '';
     const position = (isActionColumnLeft || isActionColumnRight) && !isMobile ? 'sticky' : '';
     const zIndex = (isActionColumnLeft || isActionColumnRight) && !isMobile ? 6 : '';
     const boxShadow = isActionColumnLeft && !isMobile
-        ? '#e0e0e0 -0.5px 0 0 0 inset'
+        ? '#e0e0e0 -0.6px 0 0 0 inset'
         : isActionColumnRight && !isMobile
-            ? '#e0e0e0 0.5px 0 0 0 inset'
+            ? '#e0e0e0 0.6px 0 0 0 inset'
             : '';
 
     return (

@@ -18,14 +18,14 @@ const GridSelectionCell = ({
         ? isActionColumnLeft ? buttonColWidth : 0
         : '';
     const right = isSelectionColumnRight && !isMobile
-        ? isActionColumnRight ? buttonColWidth : '-0.1px'
+        ? isActionColumnRight ? buttonColWidth : '-0.5px'
         : '';
     const position = (isSelectionColumnLeft || isSelectionColumnRight) && !isMobile ? 'sticky' : '';
     const zIndex = (isActionColumnRight || isSelectionColumnLeft) && !isMobile ? 6 : '';
     const boxShadow = isSelectionColumnLeft && !isMobile
-        ? '#e0e0e0 -0.5px 0 0 0 inset'
+        ? '#e0e0e0 -0.6px 0 0 0 inset'
         : isSelectionColumnRight && !isMobile
-            ? '#e0e0e0 0.5px 0 0 0 inset'
+            ? '#e0e0e0 0.6px 0 0 0 inset'
             : '';
 
     return (

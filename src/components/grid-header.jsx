@@ -94,13 +94,13 @@ const GridHeader = ({
         : -1
     ) - totalExternalCols;
 
-    const getActionColumnStyle = (header, withBoxShadow = false) => {
+    const getActionColumnStyle = (header, withLightBoxShadow = false) => {
         var selectionColLeft = isActionColumnLeft && isSelectionColumnLeft && !isMobile ? Button_Column_Width :
             (!isActionColumnLeft && isSelectionColumnLeft && !isMobile ? 0 : '');
         var buttonColLeft = isActionColumnLeft && !isMobile ? 0 : '';
         var selectionColRight = isActionColumnRight && isSelectionColumnRight && !isMobile ? Button_Column_Width :
-            !isActionColumnRight && isSelectionColumnRight && !isMobile ? "-0.1px" : '';
-        var buttonColRight = isActionColumnRight && !isMobile ? "-0.1px" : '';
+            !isActionColumnRight && isSelectionColumnRight && !isMobile ? "-0.5px" : '';
+        var buttonColRight = isActionColumnRight && !isMobile ? "-0.5px" : '';
 
         const baseStyle = {
             width: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
@@ -118,11 +118,13 @@ const GridHeader = ({
             contain: 'layout paint',
         };
 
-        if (withBoxShadow && !isMobile) {
-            baseStyle.boxShadow = isActionColumnLeft
-                ? '#e0e0e0 -0.5px 0px 0px 0px inset'
-                : isActionColumnRight
-                    ? '#e0e0e0 0.5px 0px 0px 0px inset'
+        if (!isMobile) {
+            baseStyle.boxShadow = (header === Button_Column_Key && isActionColumnLeft) ||
+                (header === Selection_Column_Key && isSelectionColumnLeft)
+                ? `#e0e0e0 ${withLightBoxShadow ? "-0.2px" : "-0.6px"} 0 0 0 inset`
+                : (header === Button_Column_Key && isActionColumnRight) ||
+                    (header === Selection_Column_Key && isSelectionColumnRight)
+                    ? `#e0e0e0 ${withLightBoxShadow ? "0.2px" : "0.6px"} 0 0 0 inset`
                     : '';
         }
 
@@ -200,7 +202,7 @@ const GridHeader = ({
 
             return (
                 <th
-                    style={getActionColumnStyle(header)}
+                    style={getActionColumnStyle(header, true)}
                     title={header === Button_Column_Key ? "Actions" : "Select all rows"}
                     key={key}
                     role="columnheader"
@@ -316,7 +318,7 @@ const GridHeader = ({
         if (header === Button_Column_Key || header === Selection_Column_Key) {
             return (
                 <th
-                    style={getActionColumnStyle(header, true)}
+                    style={getActionColumnStyle(header)}
                     key={key}
                 >
                     <div

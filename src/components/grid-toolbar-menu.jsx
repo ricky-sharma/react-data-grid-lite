@@ -5,6 +5,8 @@ import EraseIcon from '../icons/erase-icon';
 import Menu from './custom-fields/menu';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
 import { Export_To_CSV_Text } from '../constants';
+import CheckboxIcon from '../icons/checkbox-icon';
+import HideViewIcon from '../icons/hideview-Icon';
 
 const GridToolBarMenu = ({ handleResetGrid }) => {
     const { state = {}, setState = () => { } } = useGridConfig() ?? {};
@@ -38,11 +40,12 @@ const GridToolBarMenu = ({ handleResetGrid }) => {
             name: 'Column Visibility',
             action: () => { },
             tooltip: 'Toggle visibility of columns in the grid',
+            icon: <HideViewIcon />,
             subItems: columns?.
                 filter(col => !col?.hidden).
                 map((col) => ({
                     name: col?.alias ?? col?.name,
-                    icon: col?.hideable ? '✔️' : '',
+                    icon: !col?.hideable ? <CheckboxIcon />: null,
                     tooltip: `Toggle visibility of ${col.name}`,
                     action: () =>
                         setState((prev) => ({

@@ -7,8 +7,11 @@ const Menu = ({ items }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState(0);
     const [openSubMenuIndex, setOpenSubMenuIndex] = useState(null);
+    const [subMenuFocusedIndex, setSubMenuFocusedIndex] = useState(0);
+
     const menuRef = useRef();
     const itemRefs = useRef([]);
+    const subItemRefs = useRef([]);
     const windowWidth = useWindowWidth();
     const { state = {} } = useGridConfig() ?? {};
     const { isSmallWidth } = gridWidthType(windowWidth, state?.gridID);
@@ -28,35 +31,54 @@ const Menu = ({ items }) => {
         const handleKeyDown = (e) => {
             if (!menuOpen) return;
 
+            const focusedItem = items[focusedIndex];
+            const subItems = focusedItem?.subItems;
+
             if (e.key === 'ArrowDown') {
                 e.preventDefault();
-                setFocusedIndex((prev) => (prev + 1) % items.length);
-                setOpenSubMenuIndex(null);
+                if (openSubMenuIndex === focusedIndex && subItems) {
+                    setSubMenuFocusedIndex((prev) => (prev + 1) % subItems.length);
+                } else {
+                    setFocusedIndex((prev) => (prev + 1) % items.length);
+                    setOpenSubMenuIndex(null);
+                }
             } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
-                setFocusedIndex((prev) => (prev - 1 + items.length) % items.length);
+                if (openSubMenuIndex === focusedIndex && subItems) {
+                    setSubMenuFocusedIndex((prev) => (prev - 1 + subItems.length) % subItems.length);
+                } else {
+                    setFocusedIndex((prev) => (prev - 1 + items.length) % items.length);
+                    setOpenSubMenuIndex(null);
+                }
+            } else if (e.key === 'ArrowRight' && subItems) {
+                e.preventDefault();
+                setOpenSubMenuIndex(focusedIndex);
+                setSubMenuFocusedIndex(0);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
                 setOpenSubMenuIndex(null);
             } else if (e.key === 'Enter') {
                 e.preventDefault();
-                const item = items[focusedIndex];
-                const args = Array.isArray(item.args) ? item.args : [];
-                if (item?.subItems) {
-                    setOpenSubMenuIndex(focusedIndex);
-                } else {
-                    item?.action?.(...args, e);
+                if (openSubMenuIndex === focusedIndex && subItems) {
+                    const subItem = subItems[subMenuFocusedIndex];
+                    const args = Array.isArray(subItem.args) ? subItem.args : [];
+                    subItem?.action?.(...args, e);
+                    setMenuOpen(false);
+                    setOpenSubMenuIndex(null);
+                } else if (focusedItem && !focusedItem.subItems) {
+                    const args = Array.isArray(focusedItem.args) ? focusedItem.args : [];
+                    focusedItem?.action?.(...args, e);
                     setMenuOpen(false);
                 }
             } else if (e.key === 'Escape' || e.key === 'Tab') {
                 setMenuOpen(false);
-                setOpenSubMenuIndex(null);
-            } else if (e.key === 'ArrowLeft') {
                 setOpenSubMenuIndex(null);
             }
         };
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [menuOpen, focusedIndex, items]);
+    }, [menuOpen, focusedIndex, items, openSubMenuIndex, subMenuFocusedIndex]);
 
     useEffect(() => {
         if (menuOpen && itemRefs.current[focusedIndex]) {
@@ -64,47 +86,69 @@ const Menu = ({ items }) => {
         }
     }, [focusedIndex, menuOpen]);
 
+    useEffect(() => {
+        if (
+            openSubMenuIndex !== null &&
+            subItemRefs.current[subMenuFocusedIndex]
+        ) {
+            subItemRefs.current[subMenuFocusedIndex].focus();
+        }
+    }, [subMenuFocusedIndex, openSubMenuIndex]);
+
     const renderSubMenu = (subItems) => (
         <div
             role="menu"
             style={{
                 position: 'absolute',
-                top: 0,
+                top: isSmallWidth ? '25px' : 0,
                 right: isSmallWidth ? 0 : '100%',
                 backgroundColor: '#fff',
                 border: '1px solid #ccc',
                 borderRadius: '6px',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
                 padding: '5px 0',
-                minWidth: '150px',
-                zIndex: 20
+                minWidth: '180px',
+                zIndex: 20,
             }}
         >
             {subItems.map((subItem, i) => (
                 <div
                     key={i}
+                    ref={(el) => (subItemRefs.current[i] = el)}
+                    tabIndex={-1}
                     className="menu--item"
                     role="menuitem"
-                    tabIndex={-1}
                     style={{
                         padding: '8px 12px',
                         cursor: 'pointer',
-                        backgroundColor: 'transparent',
+                        backgroundColor:
+                            subMenuFocusedIndex === i ? '#eee' : 'transparent',
                         gap: '12px',
                         alignItems: 'center',
                         display: 'flex',
-                        justifyContent: 'left'
+                        justifyContent: 'left',
+                        minHeight: '35px'
                     }}
                     onClick={(e) => {
                         e.preventDefault();
-                        const args = Array.isArray(subItem.args) ? subItem.args : [];
+                        const args = Array.isArray(subItem.args)
+                            ? subItem.args
+                            : [];
                         subItem?.action?.(...args, e);
                         setMenuOpen(false);
                         setOpenSubMenuIndex(null);
                     }}
+                    onMouseEnter={() => setSubMenuFocusedIndex(i)}
                 >
-                    <div style={{ maxWidth: '24px', minWidth: '24px', width: '24px' }}>{subItem?.icon}</div>
-                    <div style={{ textTransform: 'capitalize' }} title={subItem?.tooltip}>{subItem?.name}</div>
+                    <div style={{ maxWidth: '24px', minWidth: '24px' }}>
+                        {subItem?.icon}
+                    </div>
+                    <div
+                        style={{ textTransform: 'capitalize' }}
+                        title={subItem?.tooltip}
+                    >
+                        {subItem?.name}
+                    </div>
                 </div>
             ))}
         </div>
@@ -118,6 +162,7 @@ const Menu = ({ items }) => {
                     e.stopPropagation();
                     setMenuOpen((prev) => !prev);
                     setFocusedIndex(0);
+                    setOpenSubMenuIndex(null);
                 }}
                 style={{
                     background: 'none',
@@ -128,7 +173,7 @@ const Menu = ({ items }) => {
                     borderRadius: '50%',
                     width: '36px',
                     height: '36px',
-                    border: menuOpen ? '1px solid rgba(0, 0, 0, 0.4)' : undefined
+                    border: menuOpen ? '1px solid rgba(0, 0, 0, 0.4)' : undefined,
                 }}
                 aria-haspopup="true"
                 aria-expanded={menuOpen}
@@ -151,11 +196,11 @@ const Menu = ({ items }) => {
                         boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
                         padding: '5px 0',
                         minWidth: '225px',
-                        zIndex: 15
+                        zIndex: 15,
                     }}
                 >
                     {items.map((item, index) =>
-                        !item?.hidden && (
+                        !item?.hidden ? (
                             <div
                                 key={index}
                                 className="menu--item"
@@ -166,38 +211,59 @@ const Menu = ({ items }) => {
                                     padding: '8px 12px',
                                     cursor: 'pointer',
                                     outline: 'none',
-                                    backgroundColor: focusedIndex === index ? '#eee' : 'transparent',
-                                    position: 'relative'
+                                    backgroundColor:
+                                        focusedIndex === index ? '#eee' : 'transparent',
+                                    position: 'relative',
+                                    minHeight: '40px'
                                 }}
                                 onClick={(e) => {
                                     if (item.subItems) {
                                         e.stopPropagation();
                                         setOpenSubMenuIndex(index);
+                                        setSubMenuFocusedIndex(0);
                                     } else {
                                         e.preventDefault();
-                                        const args = Array.isArray(item.args) ? item.args : [];
+                                        const args = Array.isArray(item.args)
+                                            ? item.args
+                                            : [];
                                         item?.action?.(...args, e);
                                         setMenuOpen(false);
                                     }
                                 }}
                                 onMouseEnter={() => {
                                     setFocusedIndex(index);
-                                    if (item.subItems) setOpenSubMenuIndex(index);
-                                    else setOpenSubMenuIndex(null);
+                                    if (item.subItems) {
+                                        setOpenSubMenuIndex(index);
+                                        setSubMenuFocusedIndex(0);
+                                    } else {
+                                        setOpenSubMenuIndex(null);
+                                    }
                                 }}
                             >
                                 <div
+                                    className="icon-content"
                                     style={{
                                         gap: '12px',
                                         alignItems: 'center',
                                         display: 'flex',
-                                        justifyContent: 'space-between'
+                                        justifyContent: 'space-between',
                                     }}
-                                    className="icon-content"
                                 >
-                                    <div className="opacity--level"
-                                        style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <div style={{ maxWidth: '24px', minWidth: '24px', width: '24px' }}>
+                                    <div
+                                        className="opacity--level"
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '10px',
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                maxWidth: '24px',
+                                                minWidth: '24px',
+                                                width: '24px',
+                                            }}
+                                        >
                                             {item?.icon}
                                         </div>
                                         <div title={item?.tooltip}>{item?.name}</div>
@@ -206,13 +272,11 @@ const Menu = ({ items }) => {
                                         <span style={{ fontSize: '12px' }}>▶</span>
                                     )}
                                 </div>
-                                {item.subItems && openSubMenuIndex === index && (
-                                    <div style={{ position: 'static' }}>
-                                        {renderSubMenu(item.subItems)}
-                                    </div>
-                                )}
+                                {item.subItems &&
+                                    openSubMenuIndex === index &&
+                                    renderSubMenu(item.subItems)}
                             </div>
-                        )
+                        ) : null
                     )}
                 </div>
             )}

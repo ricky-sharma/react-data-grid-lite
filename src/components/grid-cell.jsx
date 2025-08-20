@@ -66,7 +66,7 @@ const GridCell = memo(({
                 zIndex: fixedMeta ? 6 : '',
                 backgroundColor: 'inherit',
                 boxShadow: (lastFixedIndex === keyProp && fixedMeta
-                    ? '#e0e0e0 -0.5px 0 0 0 inset'
+                    ? '#e0e0e0 -0.6px 0 0 0 inset'
                     : ''),
                 contain: 'layout paint',
                 cursor: editable === true ? 'pointer' : undefined,
