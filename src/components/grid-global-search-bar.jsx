@@ -27,7 +27,8 @@ const GridGlobalSearchBar = memo(({
         onDownloadComplete,
         showResetButton,
         globalSearchPlaceholder,
-        gridID
+        gridID,
+        isCSVExportUIButton
     } = state;
 
     const { isXSWidth, isSmallWidth, isMobileWidth, isTabletWidth, isMediumWidth } = gridWidthType(windowWidth, gridID);
@@ -44,12 +45,10 @@ const GridGlobalSearchBar = memo(({
                 <div
                     style={{
                         opacity: (noData ? '0.7' : '0.9'),
-                        height: (isSmallWidth || isMobileWidth ? '34px' : undefined),
-                        width: isXSWidth ? '48%' :
-                            isSmallWidth ? '53%' :
-                                isMobileWidth ? '63%' :
-                                    isTabletWidth ? '68%'
-                                        : isMediumWidth ? '73%' : '80%',
+                        width: !isCSVExportUIButton ? (isXSWidth ? '64%' : '70%')
+                            : (isXSWidth ? '48%' :
+                                isSmallWidth ? '53%' :
+                                    isMobileWidth ? '63%' : '68%')
                     }}
                     className="pd--0 mg--0 globalSearch">
                     <div className="ai-search-input-wrapper">
@@ -87,15 +86,13 @@ const GridGlobalSearchBar = memo(({
                             opacity: (noColumns ? '0.5' : ''),
                             float: (isSmallWidth || isMobileWidth ? 'right' : undefined),
                             width: (isSmallWidth || isMobileWidth ? '36px' : undefined),
-                            height: (isSmallWidth || isMobileWidth ? '30px' : undefined)
                         }}
-                        className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile opacity--7"
+                        className="pd--0 mg--0 icon-div alignCenter clear-icon-div icon-div-mobile opacity--level"
                         title="Reset Filters"
                         onClick={(e) => {
                             e.preventDefault();
                             handleResetGrid();
                         }}
-                        data-toggle="tooltip"
                         role="button"
                         tabIndex="0"
                         onKeyDown={
@@ -108,15 +105,14 @@ const GridGlobalSearchBar = memo(({
                     >
                         <EraseIcon />
                     </div>)}
-                {enableDownload === true && (
+                {enableDownload === true && isCSVExportUIButton === true && (
                     <div
                         style={{
                             pointerEvents: (noData ? 'none' : ''),
                             opacity: (noData ? '0.5' : ''),
                             width: (isSmallWidth || isMobileWidth ? '36px' : undefined),
-                            height: (isSmallWidth || isMobileWidth ? '30px' : undefined)
                         }}
-                        className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile opacity--7"
+                        className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile opacity--level"
                         title={Export_To_CSV_Text}
                         onClick={(e) =>
                             eventExportToCSV(
@@ -140,7 +136,6 @@ const GridGlobalSearchBar = memo(({
                                         onDownloadComplete
                                     )
                             }}
-                        data-toggle="tooltip"
                     >
                         <div
                             style={{

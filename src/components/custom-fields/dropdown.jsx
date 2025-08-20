@@ -109,9 +109,9 @@ const Dropdown = memo(({
             }
         };
 
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('click', handleClickOutside);
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('click', handleClickOutside);
         };
     }, []);
 
@@ -242,7 +242,7 @@ const Dropdown = memo(({
                         key={optionValue}
                         id={`dropdown-option-${index}`}
                         ref={(el) => (optionRefs.current[index] = el)}
-                        className={`opacity--7 dropdown-option ${optionValue === value ? 'selected' : ''
+                        className={`opacity--level dropdown-option ${optionValue === value ? 'selected' : ''
                             } ${index === focusedIndex ? 'focused' : ''}`}
                         onClick={(e) => handleOptionClick(e, option)}
                         tabIndex={index === focusedIndex ? 0 : -1}
@@ -266,7 +266,7 @@ const Dropdown = memo(({
         >
             <div
                 ref={triggerRef}
-                className="dropdown-selected opacity--7"
+                className="dropdown-selected opacity--level"
                 onKeyDown={(e) => {
                     onKeyDown?.(e);
                     handleKeyDown(e);

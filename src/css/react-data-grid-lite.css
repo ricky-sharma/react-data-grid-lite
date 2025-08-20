@@ -57,10 +57,14 @@
     }
 
         .r-d-g-lt-comp .grid--check--box input {
-            display: none;
+            position: absolute;
+            opacity: 0;
+            height: 0;
+            width: 0;
+            pointer-events: none;
         }
 
-        .r-d-g-lt-comp .grid--check--box .checkmark {
+        .r-d-g-lt-comp .grid--check--box .check--mark {
             width: 20px;
             height: 20px;
             border: 2px solid #ccc;
@@ -74,12 +78,12 @@
             right: 0;
         }
 
-        .r-d-g-lt-comp .grid--check--box input:checked + .checkmark {
+        .r-d-g-lt-comp .grid--check--box input:checked + .check--mark {
             background-color: #212529;
             border-color: #e0e0e0;
         }
 
-        .r-d-g-lt-comp .grid--check--box .checkmark::after {
+        .r-d-g-lt-comp .grid--check--box .check--mark::after {
             content: '';
             position: absolute;
             display: none;
@@ -93,9 +97,15 @@
             transition: all 0.2s ease;
         }
 
-        .r-d-g-lt-comp .grid--check--box input:checked + .checkmark::after {
+        .r-d-g-lt-comp .grid--check--box input:checked + .check--mark::after {
             display: block;
         }
+
+    .r-d-g-lt-comp .input-check--mark:focus-visible + .check--mark {
+        outline: 2px solid #005fcc;
+        outline-offset: -2px;
+        background-color: #d0e7ff;
+    }
 
     .r-d-g-lt-comp div.globalSearch input,
     .r-d-g-lt-comp div.searchDiv input,
@@ -187,6 +197,14 @@
 
         .r-d-g-lt-comp .clear-input:hover {
             color: #333;
+        }
+
+    .r-d-g-lt-comp .menu--btn {
+        border: none;
+    }
+
+        .r-d-g-lt-comp .menu--btn:hover {
+            border: 1px solid rgba(0, 0, 0, 0.4);
         }
 
     .r-d-g-lt-comp .pointer {
@@ -440,8 +458,8 @@
     margin: 0;
 }
 
-.r-d-g-lt-comp .opacity--7 {
-    opacity: 0.7;
+.r-d-g-lt-comp .opacity--level {
+    opacity: 0.8;
 }
 
 .r-d-g-lt-comp .row--flex {

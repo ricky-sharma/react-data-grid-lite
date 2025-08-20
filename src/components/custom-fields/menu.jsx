@@ -12,8 +12,8 @@ const Menu = ({ items }) => {
                 setMenuOpen(false);
             }
         };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
     }, []);
 
     useEffect(() => {
@@ -50,16 +50,22 @@ const Menu = ({ items }) => {
     return (
         <div style={{ display: 'inline-block', position: 'relative' }}>
             <button
-                className="menu--btn"
-                onClick={() => {
+                className="menu--btn alignCenter"
+                onClick={(e) => {
+                    e.stopPropagation();
                     setMenuOpen((prev) => !prev);
                     setFocusedIndex(0);
                 }}
                 style={{
                     background: 'none',
-                    border: 'none',
-                    fontSize: '18px',
-                    cursor: 'pointer'
+                    fontSize: '30px',
+                    cursor: 'pointer',
+                    top: '1px',
+                    position: 'relative',
+                    borderRadius: '50%',
+                    width: '36px',
+                    height: '36px',
+                    border: menuOpen ? '1px solid rgba(0, 0, 0, 0.4)' : undefined
                 }}
                 aria-haspopup="true"
                 aria-expanded={menuOpen}
@@ -74,41 +80,59 @@ const Menu = ({ items }) => {
                     role="menu"
                     style={{
                         position: 'absolute',
-                        top: 25,
+                        top: 40,
                         right: 0,
                         backgroundColor: '#fff',
                         border: '1px solid #ccc',
                         borderRadius: '6px',
                         boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
                         padding: '5px 0',
-                        minWidth: '160px',
+                        minWidth: '200px',
                         zIndex: 15
                     }}
                 >
-                    {items.map((item, index) => (
-                        <div
-                            key={index}
-                            className="opacity--7 menu--item"
-                            role="menuitem"
-                            ref={(el) => (itemRefs.current[index] = el)}
-                            tabIndex={-1}
-                            style={{
-                                padding: '8px 12px',
-                                cursor: 'pointer',
-                                outline: 'none',
-                                backgroundColor: focusedIndex === index ? '#eee' : 'transparent'
-                            }}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                const args = Array.isArray(item.args) ? item.args : [];
-                                item?.action?.(...args, e);
-                                setMenuOpen(false);
-                            }}
-                            onMouseEnter={() => setFocusedIndex(index)}
-                        >
-                            {item?.name}
-                        </div>
-                    ))}
+                    {items.map((item, index) =>
+                        !item?.hidden && (
+                            <div
+                                key={index}
+                                className="opacity--level menu--item"
+                                role="menuitem"
+                                ref={(el) => (itemRefs.current[index] = el)}
+                                tabIndex={-1}
+                                style={{
+                                    padding: '8px 12px',
+                                    cursor: 'pointer',
+                                    outline: 'none',
+                                    backgroundColor: focusedIndex === index ? '#eee' : 'transparent'
+                                }}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const args = Array.isArray(item.args) ? item.args : [];
+                                    item?.action?.(...args, e);
+                                    setMenuOpen(false);
+                                }}
+                                onMouseEnter={() => setFocusedIndex(index)}
+                            >
+                                <div
+                                    style={{
+                                        gap: '25px',
+                                        alignItems: 'center',
+                                        display: 'inline-flex'
+                                    }}
+                                    className="pd--0 mg--0 icon-content">
+                                    <div>{item?.icon} </div>
+                                    <div
+                                        title={item?.tooltip}
+                                        style={{
+                                            position: 'relative',
+                                            justifyContent: 'left',
+                                            display: 'inline-flex'
+                                        }}>
+                                        {item?.name}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                 </div>
             )}
         </div>

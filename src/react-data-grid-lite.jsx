@@ -75,7 +75,11 @@ const DataGrid = forwardRef(({
         showToolbar: typeof options?.showToolbar === 'boolean' ?
             options?.showToolbar : true,
         showResetButton: typeof options?.showResetButton === 'boolean' ?
-            options?.showResetButton : true,
+            options?.showResetButton : false,
+        showResetMenuItem: typeof options?.showResetMenuItem === 'boolean' ?
+            options?.showResetMenuItem : true,
+        csvExportUI: options?.csvExportUI === 'button' ? 'button' : 'menu',
+        isCSVExportUIButton: options?.csvExportUI === 'button',
         showFooter: typeof options?.showFooter === 'boolean' ?
             options?.showFooter : true,
         showNumberPagination: typeof options?.showNumberPagination === 'boolean' ?

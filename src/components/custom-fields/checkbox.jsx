@@ -8,8 +8,13 @@ const Checkbox = ({ isSelected, onChange }) => {
                     type="checkbox"
                     checked={isSelected}
                     onChange={onChange}
+                    className="input-check--mark"
+                    role="checkbox"
+                    tabIndex={0}
                 />
-                <span className="checkmark" />
+                <span
+                    className="check--mark"
+                />
             </label>
         </div>
     );
