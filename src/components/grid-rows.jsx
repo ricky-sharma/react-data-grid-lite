@@ -124,7 +124,7 @@ const GridRows = ({
             const baseRowIndex = baseRow?.__$index__;
             const formattedRow = formatRowData(baseRow, columns);
             const cols = Object.values(columns).map((col, key) => {
-                if (col?.hidden === true) return null;
+                if (col?.hidden === true || col?.hideable === true) return null;
                 return (
                     <GridCell
                         key={key}

@@ -157,7 +157,7 @@ const GridHeader = ({
         if (isSelectionColumnLeft) key -= 1;
         if (isActionColumnLeft) key -= 1;
 
-        if (header?.hidden === true) return null;
+        if (header?.hidden === true || header?.hideable === true) return null;
         const colResizable = typeof header?.resizable === "boolean"
             ? header?.resizable : enableColumnResize;
         const thInnerHtml = lastVisibleIndex !== key || colResizable === true ?
@@ -301,7 +301,7 @@ const GridHeader = ({
         if (isSelectionColumnLeft) key -= 1;
         if (isActionColumnLeft) key -= 1;
 
-        if (header?.hidden === true) return null;
+        if (header?.hidden === true || header?.hideable === true) return null;
         const conCols = header?.concatColumns?.columns ?? null;
         const formatting = header?.formatting;
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;

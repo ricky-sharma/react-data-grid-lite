@@ -31,7 +31,7 @@ const GridGlobalSearchBar = memo(({
         isCSVExportUIButton
     } = state;
 
-    const { isXSWidth, isSmallWidth, isMobileWidth, isTabletWidth, isMediumWidth } = gridWidthType(windowWidth, gridID);
+    const { isXSWidth, isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
     const noColumns = isNull(columns);
     const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns
     return (
