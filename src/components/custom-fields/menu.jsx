@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { Container_Identifier } from '../../constants';
 import { useGridConfig } from '../../hooks/use-grid-config';
 import { useWindowWidth } from '../../hooks/use-window-width';
+import Horizontal3Dot from '../../icons/horizontal-three-dot-icon';
+import Vertical3Dot from '../../icons/vertical-three-dot-icon';
 import { gridWidthType } from '../../utils/grid-width-type-utils';
 
 const Menu = ({
@@ -334,7 +336,7 @@ const Menu = ({
                 aria-expanded={menuOpen}
                 aria-label="Open menu"
             >
-                {vertical ? '⋮' : '⋯'}
+                {vertical ? <Vertical3Dot /> : <Horizontal3Dot />}
             </button>
             {menuOpen && (
                 !usePortal
