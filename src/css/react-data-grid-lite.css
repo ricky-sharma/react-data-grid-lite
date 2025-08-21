@@ -199,13 +199,9 @@
             color: #333;
         }
 
-    .r-d-g-lt-comp .menu--btn {
-        border: none;
+    .r-d-g-lt-comp .menu--btn-border:hover {
+        border: 1px solid rgba(0, 0, 0, 0.4);
     }
-
-        .r-d-g-lt-comp .menu--btn:hover {
-            border: 1px solid rgba(0, 0, 0, 0.4);
-        }
 
     .r-d-g-lt-comp .pointer {
         cursor: pointer !important;

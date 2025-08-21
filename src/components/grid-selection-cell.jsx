@@ -1,6 +1,8 @@
 import React from 'react';
-import Checkbox from './custom-fields/checkbox';
+import { Button_Column_Width } from '../constants';
 import { useGridConfig } from '../hooks/use-grid-config';
+import { tryParseWidth } from '../utils/component-utils';
+import Checkbox from './custom-fields/checkbox';
 
 const GridSelectionCell = ({
     selectionColWidth,
@@ -18,7 +20,7 @@ const GridSelectionCell = ({
         ? isActionColumnLeft ? buttonColWidth : 0
         : '';
     const right = isSelectionColumnRight && !isMobile
-        ? isActionColumnRight ? buttonColWidth : '-0.5px'
+        ? isActionColumnRight ? `${tryParseWidth(Button_Column_Width) - 0.5}px` : '-0.5px'
         : '';
     const position = (isSelectionColumnLeft || isSelectionColumnRight) && !isMobile ? 'sticky' : '';
     const zIndex = (isActionColumnRight || isSelectionColumnLeft) && !isMobile ? 6 : '';

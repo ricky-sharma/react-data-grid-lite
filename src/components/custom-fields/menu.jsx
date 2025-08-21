@@ -3,7 +3,7 @@ import { useGridConfig } from '../../hooks/use-grid-config';
 import { useWindowWidth } from '../../hooks/use-window-width';
 import { gridWidthType } from '../../utils/grid-width-type-utils';
 
-const Menu = ({ items }) => {
+const Menu = ({ items, width = '36px', fontSize = '30px', noBorder = false }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState(0);
     const [openSubMenuIndex, setOpenSubMenuIndex] = useState(null);
@@ -155,9 +155,9 @@ const Menu = ({ items }) => {
     );
 
     return (
-        <div style={{ display: 'inline-block', position: 'relative' }}>
+        <div style={{ display: 'inline-block', position: 'relative', width: width }}>
             <button
-                className="menu--btn alignCenter"
+                className={`menu--btn alignCenter${!noBorder ? " menu--btn-border" : ""}`}
                 onClick={(e) => {
                     e.stopPropagation();
                     setMenuOpen((prev) => !prev);
@@ -166,14 +166,15 @@ const Menu = ({ items }) => {
                 }}
                 style={{
                     background: 'none',
-                    fontSize: '30px',
+                    fontSize: fontSize,
                     cursor: 'pointer',
                     top: '1px',
                     position: 'relative',
                     borderRadius: '50%',
-                    width: '36px',
-                    height: '36px',
-                    border: menuOpen ? '1px solid rgba(0, 0, 0, 0.4)' : undefined,
+                    width: width,
+                    height: width,
+                    border: menuOpen && !noBorder ? '1px solid rgba(0, 0, 0, 0.4)' : 'none',
+                    color: 'currentColor'
                 }}
                 aria-haspopup="true"
                 aria-expanded={menuOpen}

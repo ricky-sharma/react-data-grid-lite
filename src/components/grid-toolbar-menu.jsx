@@ -46,7 +46,7 @@ const GridToolBarMenu = ({ handleResetGrid }) => {
                 map((col) => ({
                     name: col?.alias ?? col?.name,
                     icon: !col?.hideable ? <CheckboxIcon />: null,
-                    tooltip: `Toggle visibility of ${col.name}`,
+                    tooltip: `Toggle visibility of ${col?.alias ?? col?.name} column`,
                     action: () =>
                         setState((prev) => ({
                             ...prev,

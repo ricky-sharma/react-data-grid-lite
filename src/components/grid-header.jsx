@@ -6,9 +6,10 @@ import { useWindowWidth } from '../hooks/use-window-width';
 import ActionIcon from '../icons/action-icon';
 import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
 import { gridWidthType } from '../utils/grid-width-type-utils';
+import ColumnMenu from './column-menu';
 import ColumnSortIcon from './column-sort-icon';
-import Input from './custom-fields/input';
 import Checkbox from './custom-fields/checkbox';
+import Input from './custom-fields/input';
 
 const GridHeader = ({
     state,
@@ -98,7 +99,8 @@ const GridHeader = ({
         var selectionColLeft = isActionColumnLeft && isSelectionColumnLeft && !isMobile ? Button_Column_Width :
             (!isActionColumnLeft && isSelectionColumnLeft && !isMobile ? 0 : '');
         var buttonColLeft = isActionColumnLeft && !isMobile ? 0 : '';
-        var selectionColRight = isActionColumnRight && isSelectionColumnRight && !isMobile ? Button_Column_Width :
+        var selectionColRight = isActionColumnRight && isSelectionColumnRight && !isMobile ?
+            `${tryParseWidth(Button_Column_Width) - 0.5}px` :
             !isActionColumnRight && isSelectionColumnRight && !isMobile ? "-0.5px" : '';
         var buttonColRight = isActionColumnRight && !isMobile ? "-0.5px" : '';
 
@@ -292,6 +294,7 @@ const GridHeader = ({
                 >
                     <div className="headerText" data-column-name={header?.name}>{displayName}</div>
                     {sortable === true && <ColumnSortIcon columns={columns} header={header} />}
+                    {<ColumnMenu column={header} /> }
                 </div>
                 {thInnerHtml}
             </th>
