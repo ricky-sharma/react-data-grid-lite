@@ -498,7 +498,7 @@
     outline: none;
     position: relative;
     z-index: 1;
-    padding: 8px;
+    padding: 10px 8px;
 }
 
     .r-d-g-lt-comp .react-data-grid-lite table.gd-tbl {
@@ -597,10 +597,10 @@
 
         .r-d-g-lt-comp table thead tr.gridHeader th div {
             position: relative;
-            padding: 0px !important;
+            padding: 0;
             width: 100%;
             transition: all 0.2s ease;
-            margin: 0px !important;
+            margin: 0;
         }
 
             .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
@@ -666,7 +666,7 @@
         .r-d-g-lt-comp table tbody tr.gridRow td a:focus-visible,
         .r-d-g-lt-comp .menu--btn:focus-visible,
         .r-d-g-lt-comp .menu--item:focus-visible {
-            outline: currentColor 2px dotted !important;
+            outline: currentColor 2px solid !important;
             box-sizing: border-box !important;
             outline-offset: -5px;
         }

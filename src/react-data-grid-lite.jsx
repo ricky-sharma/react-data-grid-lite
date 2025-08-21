@@ -16,6 +16,7 @@ import { useResetGrid } from './hooks/use-reset-grid';
 import { useSearchAndSortCallbacks } from './hooks/use-search-and-sort-callbacks';
 import { useSearchHandler } from './hooks/use-search-handler';
 import { applyTheme } from './utils/themes-utils';
+import GridToolBarMenu from './components/grid-toolbar-menu';
 
 const DataGrid = forwardRef(({
     id,
@@ -333,6 +334,24 @@ const DataGrid = forwardRef(({
                                 : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
                         }
                     >
+                        {state?.showToolbar === false && <div
+                            style={{
+                                right: '30px',
+                                top: '-7px',
+                                position: 'absolute'
+                            }}
+                            className="pd--0 mg--0">
+                            <GridToolBarMenu
+                                handleResetGrid={handleResetGrid}
+                                vertical={false}
+                                borderRadius={"0"}
+                                noBorder="true"
+                                height={"10px"}
+                                top={"0"}
+                                boxShadow='.1px 0 2px 0 currentcolor'
+                                padding='0 0 2px'
+                            />
+                        </div>}
                         <GridTable
                             state={state}
                             setState={setState}

@@ -1,17 +1,22 @@
 import React from 'react';
 export default function ActionIcon() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg"
-            fill="none"
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
             viewBox="0 0 24 24"
+            fill="none"
             stroke="currentColor"
-            strokeWidth="1.5"
-            width="28"
-            height="28">
-            <path strokeLinecap="round" strokeLinejoin="round"
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.591 1.05c1.527-.897 3.347.923 2.45 2.45a1.724 1.724 0 001.05 2.591c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.05 2.591c.897 1.527-.923 3.347-2.45 2.45a1.724 1.724 0 00-2.591 1.05c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.591-1.05c-1.527.897-3.347-.923-2.45-2.45a1.724 1.724 0 00-1.05-2.591c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.05-2.591c-.897-1.527.923-3.347 2.45-2.45a1.724 1.724 0 002.591-1.05z" />
-            <path strokeLinecap="round" strokeLinejoin="round"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+            <rect x="9" y="3" width="6" height="3" rx="1" ry="1" />
+            <line x1="8" y1="10" x2="16" y2="10" />
+            <line x1="8" y1="14" x2="16" y2="14" />
+            <line x1="8" y1="18" x2="16" y2="18" />
         </svg>
     );
 }

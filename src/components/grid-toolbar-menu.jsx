@@ -7,8 +7,18 @@ import { eventExportToCSV } from './events/event-export-csv-clicked';
 import { Export_To_CSV_Text } from '../constants';
 import CheckboxIcon from '../icons/checkbox-icon';
 import HideViewIcon from '../icons/hideview-Icon';
+import { capitalize } from '../helpers/common';
 
-const GridToolBarMenu = ({ handleResetGrid }) => {
+const GridToolBarMenu = ({
+    handleResetGrid,
+    vertical,
+    borderRadius,
+    noBorder,
+    height,
+    top,
+    boxShadow,
+    padding
+}) => {
     const { state = {}, setState = () => { } } = useGridConfig() ?? {};
     const {
         columns,
@@ -45,8 +55,8 @@ const GridToolBarMenu = ({ handleResetGrid }) => {
                 filter(col => !col?.hidden).
                 map((col) => ({
                     name: col?.alias ?? col?.name,
-                    icon: !col?.hideable ? <CheckboxIcon />: null,
-                    tooltip: `Toggle visibility of ${col?.alias ?? col?.name} column`,
+                    icon: !col?.hideable ? <CheckboxIcon /> : null,
+                    tooltip: `Toggle visibility of "${capitalize(col?.alias ?? col?.name)}" column`,
                     action: () =>
                         setState((prev) => ({
                             ...prev,
@@ -59,7 +69,16 @@ const GridToolBarMenu = ({ handleResetGrid }) => {
     ];
 
     return (
-        <Menu items={items} />
+        <Menu
+            items={items}
+            vertical={vertical}
+            borderRadius={borderRadius}
+            noBorder={noBorder}
+            height={height}
+            top={top}
+            boxShadow={boxShadow}
+            padding={padding}
+        />
     )
 }
 
