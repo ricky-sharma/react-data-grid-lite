@@ -102,8 +102,8 @@
         }
 
     .r-d-g-lt-comp .input-check--mark:focus-visible + .check--mark {
-        outline: 2px solid #005fcc;
-        outline-offset: -2px;
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
         background-color: #d0e7ff;
     }
 
@@ -618,7 +618,7 @@
         width: 2px;
         background-color: rgb(224, 224, 224);
         position: absolute;
-        right: 1px;
+        right: 0;
         top: 8px;
         bottom: 8px;
         z-index: 5;
@@ -687,7 +687,7 @@
 }
 
 .r-d-g-lt-comp table thead tr.gridHeader th:focus-visible {
-    outline-offset: -7px !important;
+    outline-offset: -3px !important;
 }
 
 .r-d-g-lt-comp table tbody tr:nth-of-type(even) {

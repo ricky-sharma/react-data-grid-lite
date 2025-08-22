@@ -294,7 +294,7 @@ const GridHeader = ({
                 >
                     <div className="headerText" data-column-name={header?.name}>{displayName}</div>
                     {sortable === true && <ColumnSortIcon columns={columns} header={header} />}
-                    {<ColumnMenu column={header} /> }
+                    {<ColumnMenu column={header} sortable={sortable} /> }
                 </div>
                 {thInnerHtml}
             </th>

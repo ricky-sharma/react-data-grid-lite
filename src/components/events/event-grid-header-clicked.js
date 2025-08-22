@@ -6,11 +6,11 @@ import { dynamicSort } from '../../helpers/sort';
 export const eventGridHeaderClicked = (colObject, state, setState, colKey, isResizingRef) => {
     if (isResizingRef?.current === true) return;
     if (!Array.isArray(colObject)) return;
-
+    const data = state?.rowsData;
     const currentSortEntry = state?.columns?.find(col => col?.name === colKey);
     const prevSortOrder = currentSortEntry?.sortOrder || '';
     const sortOrder = state?.rowsData ? (prevSortOrder === 'desc' ? 'asc' : 'desc') : '';
-    const sortedData = sortData(colObject, sortOrder, state?.rowsData);
+    const sortedData = sortData(colObject, sortOrder, data);
 
     setState(prev => ({
         ...prev,

@@ -11,12 +11,11 @@ const Menu = ({
     items,
     width = '36px',
     height = '36px',
-    fontSize = '30px',
     borderRadius = '50%',
     noBorder = false,
     usePortal = false,
     margin = '0',
-    top = '1px',
+    top = '0',
     menuId = "toolBarMenu",
     vertical = 'true',
     boxShadow = '',
@@ -33,6 +32,7 @@ const Menu = ({
     const subItemRefs = useRef([]);
     const buttonRef = useRef(null);
     const menuContainerRef = useRef(null);
+    const focusBeforeOpenRef = useRef(null);
 
     const windowWidth = useWindowWidth();
     const { state = {} } = useGridConfig() ?? {};
@@ -60,56 +60,66 @@ const Menu = ({
         return () => window.removeEventListener('closeAllMenus', handleCloseMenus);
     }, []);
 
+    const handleKeyDown = (e) => {
+        e.stopPropagation();
+        if (!menuOpen) return;
 
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (!menuOpen) return;
+        const focusedItem = items[focusedIndex];
+        const subItems = focusedItem?.subItems;
 
-            const focusedItem = items[focusedIndex];
-            const subItems = focusedItem?.subItems;
-
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (openSubMenuIndex === focusedIndex && subItems) {
-                    setSubMenuFocusedIndex((prev) => (prev + 1) % subItems.length);
-                } else {
-                    setFocusedIndex((prev) => (prev + 1) % items.length);
-                    setOpenSubMenuIndex(null);
-                }
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (openSubMenuIndex === focusedIndex && subItems) {
-                    setSubMenuFocusedIndex((prev) => (prev - 1 + subItems.length) % subItems.length);
-                } else {
-                    setFocusedIndex((prev) => (prev - 1 + items.length) % items.length);
-                    setOpenSubMenuIndex(null);
-                }
-            } else if (e.key === 'ArrowRight' && subItems) {
-                e.preventDefault();
-                setOpenSubMenuIndex(focusedIndex);
-                setSubMenuFocusedIndex(0);
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                setOpenSubMenuIndex(null);
-            } else if (e.key === 'Enter') {
-                e.preventDefault();
-                if (openSubMenuIndex === focusedIndex && subItems) {
-                    const subItem = subItems[subMenuFocusedIndex];
-                    const args = Array.isArray(subItem.args) ? subItem.args : [];
-                    subItem?.action?.(...args, e);
-                    setMenuOpen(false);
-                    setOpenSubMenuIndex(null);
-                } else if (focusedItem && !focusedItem.subItems) {
-                    const args = Array.isArray(focusedItem.args) ? focusedItem.args : [];
-                    focusedItem?.action?.(...args, e);
-                    setMenuOpen(false);
-                }
-            } else if (e.key === 'Escape' || e.key === 'Tab') {
-                setMenuOpen(false);
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (openSubMenuIndex === focusedIndex && subItems) {
+                setSubMenuFocusedIndex((prev) => (prev + 1) % subItems.length);
+            } else {
+                setFocusedIndex((prev) => (prev + 1) % items.length);
                 setOpenSubMenuIndex(null);
             }
-        };
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (openSubMenuIndex === focusedIndex && subItems) {
+                setSubMenuFocusedIndex((prev) => (prev - 1 + subItems.length) % subItems.length);
+            } else {
+                setFocusedIndex((prev) => (prev - 1 + items.length) % items.length);
+                setOpenSubMenuIndex(null);
+            }
+        } else if (e.key === 'ArrowRight' && subItems) {
+            e.preventDefault();
+            setOpenSubMenuIndex(focusedIndex);
+            setSubMenuFocusedIndex(0);
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            setOpenSubMenuIndex(null);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (openSubMenuIndex === focusedIndex && subItems) {
+                const subItem = subItems[subMenuFocusedIndex];
+                const args = Array.isArray(subItem.args) ? subItem.args : [];
+                subItem?.action?.(...args, e);
+                setMenuOpen(false);
+                setOpenSubMenuIndex(null);
+            } else if (focusedItem && !focusedItem.subItems) {
+                const args = Array.isArray(focusedItem.args) ? focusedItem.args : [];
+                focusedItem?.action?.(...args, e);
+                setMenuOpen(false);
+            }
+        } else if (e.key === 'Escape' || e.key === 'Tab') {
+            setMenuOpen(false);
+            setOpenSubMenuIndex(null);
+        }
+    };
 
+    useEffect(() => {
+        if (!menuOpen) {
+            focusBeforeOpenRef.current?.focus();
+        }
+    }, [menuOpen]);
+
+    const handleFocusCapture = (e) => {
+        focusBeforeOpenRef.current = e.target;
+    };
+
+    useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [menuOpen, focusedIndex, items, openSubMenuIndex, subMenuFocusedIndex]);
@@ -188,6 +198,7 @@ const Menu = ({
                         minHeight: '35px'
                     }}
                     onClick={(e) => {
+                        e.stopPropagation();
                         e.preventDefault();
                         const args = Array.isArray(subItem.args)
                             ? subItem.args
@@ -245,9 +256,10 @@ const Menu = ({
                             position: 'relative',
                             minHeight: '40px'
                         }}
+                        onKeyDown={handleKeyDown}
                         onClick={(e) => {
+                            e.stopPropagation();
                             if (item.subItems) {
-                                e.stopPropagation();
                                 setOpenSubMenuIndex(index);
                                 setSubMenuFocusedIndex(0);
                             } else {
@@ -317,10 +329,16 @@ const Menu = ({
                 ref={buttonRef}
                 className={`menu--btn alignCenter${!noBorder ? " menu--btn-border" : ""}`}
                 onClick={handleButtonClick}
+                onKeyDown={
+                    (e) => {
+                        e.stopPropagation();
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleButtonClick(e)
+                        }
+                    }}
                 style={{
                     background: 'none',
-                    fontSize,
-                    lineHeight: fontSize,
                     cursor: 'pointer',
                     top,
                     position: 'relative',
@@ -335,6 +353,7 @@ const Menu = ({
                 aria-haspopup="true"
                 aria-expanded={menuOpen}
                 aria-label="Open menu"
+                onFocusCapture={handleFocusCapture}
             >
                 {vertical ? <Vertical3Dot /> : <Horizontal3Dot />}
             </button>

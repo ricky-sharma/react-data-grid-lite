@@ -348,7 +348,6 @@ const DataGrid = forwardRef(({
                                     borderRadius={"0"}
                                     noBorder="true"
                                     height={"10px"}
-                                    top={"0"}
                                     boxShadow='.1px 0 2px 0 currentcolor'
                                 />
                             </div>}
