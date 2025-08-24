@@ -273,6 +273,7 @@ The `options` prop is an **object** that provides additional configuration setti
 | -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------|------------------ | ------------ |
 | `actionColumnAlign`  | `string` (`'left'` \| `'right'` \| `''`)  | Controls alignment of the Actions column. Set to `'left'` or `'right'` to fix its position. Leave empty to allow the column to scroll with the rest of the table.|      `'right'`        | No           |
 | `aiSearch`           | `object`  | Configuration object to enable AI search functionality in the data grid. Supported in version `1.2.0` and above. For more details, refer to the [`AI Search Integration`](./ai_search_integration.md) document.|       -      | No           |
+| `csvExportUI`        | `string` (`'button'` \| `'menu'`)  | Controls the UI placement of the CSV export option — either as a button in the toolbar (`'button'`) or as a menu item in the toolbar menu (`'menu'`). If set to any value other than `'button'`, it defaults to `'menu'`. To disable this functionality entirely, set the `enableDownload` option to `false`. Available in version `1.2.3` and above.|      `menu`       | No           |
 | `debug`              | `boolean` | Enables debug logging for development. When set to `true`, the grid will output console `error`, `warn`, and `info` logs — useful for debugging features like AI search. **Should be disabled in production** to avoid unnecessary console output. Available in version `1.2.1` and above.|      `false`       | No           |
 | `deleteButton`       | `object`  | Configuration for enabling a delete button on each row. Includes an `event` field which is the function triggered when the button is clicked.|       -      | No           |
 | `downloadFilename`   | `string`  | The filename used when downloading grid data in CSV format. The default value is `'export-{yyyy-MM-dd HH:mm:ss}'`         |       -           | No           |
@@ -294,13 +295,16 @@ The `options` prop is an **object** that provides additional configuration setti
 | `rowClass`           | `string`  | Custom CSS class for each row in the grid.                                                                                |       -           | No           |
 | `rowHeight`          | `string` / `number`  | Sets the height of each data row. Accepts a pixel value (e.g., `'200px'`) or a percentage of the table body height (e.g., `'25%'`).|       -           | No           |
 | `rowSelectColumnAlign`| `string` (`'left'` \| `'right'` \| `''`)  | Controls the alignment of the selection column. Set to `'left'` or `'right'` to fix its position. Leave empty (`''`) to allow the column to scroll with the rest of the table. Available in version `1.2.2` and above.|      `'left'`        | No           |
+| `showColumnMenu`     | `boolean` | Controls the visibility of the column menu, which includes actions like toggling column visibility and enabling or disabling column editing. Available from version `1.2.3`.| `true` | No       |
 | `showFooter`         | `boolean` | Controls the visibility of the grid footer, which includes summary rows and pagination.| `true` | No       |
 | `showNumberPagination`| `boolean` | Controls visibility of number-based pagination in the grid footer. Supported from version `1.2.1`.                       |      `true`       | No           |
 | `showPageInfo`       | `boolean` | Controls visibility of page information (e.g. "1–10 of 50") in the grid footer. Supported from version `1.2.1`.           |      `true`       | No           |
 | `showPageSizeSelector`| `boolean` | Controls visibility of the page size selector ("Rows per page") in the grid footer. Supported from version `1.2.1`.      |      `true`       | No           |
-| `showResetButton`    | `boolean` | Controls the visibility of a reset button in the toolbar, allowing users to clear all filters and search.| `true` | No       |
+| `showResetButton`    | `boolean` | Controls the visibility of the reset button in the toolbar, allowing users to clear all filters, sorting and search.| `false` | No       |
+| `showResetMenuItem`  | `boolean` | Controls the visibility of the reset menu item in the toolbar menu, allowing users to clear all filters, sorting, and search. Available from version `1.2.3`.| `true`  | No       |
 | `showSelectPagination`| `boolean` | Controls visibility of the page selection dropdown in the grid footer. Supported from version `1.2.1`.                   |      `true`       | No           |
 | `showToolbar`        | `boolean` | Controls the visibility of the react data grid lite toolbar, which includes actions like search and reset.| `true` | No       |
+| `showToolbarMenu`    | `boolean` | Controls the visibility of the toolbar menu, which includes actions like toggling column visibility and resetting the grid. Available from version `1.2.3`.| `true` | No       |
 
 #### **Example of `options` Object:**
 

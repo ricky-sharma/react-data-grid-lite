@@ -37,6 +37,7 @@ const ColumnMenu = ({ column, sortable }) => {
             name: `Hide column`,
             tooltip: `Hide "${capitalize(columnAlias ?? columnName)}" column`,
             icon: <HideViewIcon height="20" width="20" />,
+            hidden: !state?.showToolbarMenu,
             action: (e) => {
                 e.stopPropagation();
                 e.preventDefault();

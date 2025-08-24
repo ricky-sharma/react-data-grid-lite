@@ -25,7 +25,7 @@ const Menu = ({
     const [focusedIndex, setFocusedIndex] = useState(0);
     const [openSubMenuIndex, setOpenSubMenuIndex] = useState(null);
     const [subMenuFocusedIndex, setSubMenuFocusedIndex] = useState(0);
-    const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0});
+    const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
     const menuRef = useRef();
     const itemRefs = useRef([]);
@@ -195,7 +195,9 @@ const Menu = ({
                         alignItems: 'center',
                         display: 'flex',
                         justifyContent: 'left',
-                        minHeight: '35px'
+                        minHeight: '35px',
+                        pointerEvents: (subItem?.disabled ? 'none' : ''),
+                        opacity: (subItem?.disabled ? '0.5' : ''),
                     }}
                     onClick={(e) => {
                         e.stopPropagation();
@@ -254,7 +256,9 @@ const Menu = ({
                             backgroundColor:
                                 focusedIndex === index ? '#eee' : 'transparent',
                             position: 'relative',
-                            minHeight: '40px'
+                            minHeight: '40px',
+                            pointerEvents: (item?.disabled ? 'none' : ''),
+                            opacity: (item?.disabled ? '0.5' : ''),
                         }}
                         onKeyDown={handleKeyDown}
                         onClick={(e) => {

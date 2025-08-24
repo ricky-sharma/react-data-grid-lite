@@ -84,7 +84,7 @@ export function useProcessedColumns(columns, setState, computedColumnWidthsRef) 
                 }
 
                 const validColumns = columns
-                    .filter(obj => obj && typeof obj.name === 'string' && obj.name.trim() !== '')
+                    .filter(obj => obj && typeof obj.name === 'string' && obj.name.trim() !== '' && !obj?.hidden)
                     .map(col => {
                         const prev = prevCols.find(c => c?.name === col?.name);
                         return {
@@ -98,8 +98,6 @@ export function useProcessedColumns(columns, setState, computedColumnWidthsRef) 
 
                 const fixedCols = validColumns.filter(col => col.fixed);
                 const nonFixedCols = validColumns.filter(col => !col.fixed);
-
-               
 
                 const orderedFixed = getColumnOrder(fixedCols, 0);
                 const orderedNonFixed = getColumnOrder(nonFixedCols, orderedFixed.length);

@@ -32,6 +32,7 @@ describe('ColumnMenu Component', () => {
                 columns: [mockColumn],
                 toggleState: false,
                 gridID: 'testGrid',
+                showToolbarMenu: true
             },
             setState: mockSetState
         });
@@ -91,6 +92,7 @@ describe('ColumnMenu Component', () => {
             columns: [mockColumn],
             toggleState: false,
             gridID: 'testGrid',
+            showToolbarMenu: true
         }
 
         useGridConfig.mockReturnValue({
@@ -127,6 +129,7 @@ describe('ColumnMenu Component', () => {
             columns: [mockColumn],
             toggleState: false,
             gridID: 'testGrid',
+            showToolbarMenu: true
         }
 
         useGridConfig.mockReturnValue({
@@ -176,6 +179,7 @@ describe('ColumnMenu Component', () => {
             columns: [mockColumn],
             toggleState: false,
             gridID: 'testGrid',
+            showToolbarMenu: true
         }
 
         useGridConfig.mockReturnValue({
@@ -212,6 +216,7 @@ describe('ColumnMenu Component', () => {
             columns: [mockColumn],
             toggleState: false,
             gridID: 'testGrid',
+            showToolbarMenu: true
         }
 
         useGridConfig.mockReturnValue({
@@ -299,6 +304,7 @@ describe('ColumnMenu Component', () => {
                 columns: mockColumns,
                 toggleState: false,
                 gridID: 'testGrid',
+                showToolbarMenu: true
             },
             setState: jest.fn()
         });
@@ -338,7 +344,7 @@ describe('ColumnMenu Component', () => {
         fireEvent.click(menuButton);
 
         expect(screen.getByText('Enable editing')).toBeInTheDocument();
-        expect(screen.getByText('Hide column')).toBeInTheDocument();
+        expect(screen.queryByText('Hide column')).not.toBeInTheDocument();
     });
 });
 
@@ -368,6 +374,7 @@ describe('More ColumnMenu tests', () => {
         const mockState = {
             enableCellEdit: false,
             columns: [{ name: 'testCol', editable: true, hideable: false }],
+            showToolbarMenu: true,
             ...stateOverrides,
         };
 

@@ -44,13 +44,15 @@ const GridHeader = ({
         enableSorting,
         enableRowSelection,
         rowSelectColumnAlign,
-        onSelectAll
+        onSelectAll,
+        showColumnMenu
     } = state;
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
     const isMobile = isSmallWidth || isMobileWidth;
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
     const headers = [...columns];
+    if (!headers.some(col => !col?.hideable && !col?.hidden)) return null;
     let computedColumnWidths = [];
     if (computedColumnWidthsRef) computedColumnWidthsRef.current = [];
     let searchRowEnabled = false;
@@ -294,7 +296,7 @@ const GridHeader = ({
                 >
                     <div className="headerText" data-column-name={header?.name}>{displayName}</div>
                     {sortable === true && <ColumnSortIcon columns={columns} header={header} />}
-                    {<ColumnMenu column={header} sortable={sortable} /> }
+                    {showColumnMenu === true && <ColumnMenu column={header} sortable={sortable} />}
                 </div>
                 {thInnerHtml}
             </th>

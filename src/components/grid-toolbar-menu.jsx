@@ -1,13 +1,13 @@
 import React from 'react';
+import { Export_To_CSV_Text } from '../constants';
+import { capitalize, isNull } from '../helpers/common';
 import { useGridConfig } from '../hooks/use-grid-config';
+import CheckboxIcon from '../icons/checkbox-icon';
 import DownloadIcon from '../icons/download-icon';
 import EraseIcon from '../icons/erase-icon';
+import HideViewIcon from '../icons/hideview-Icon';
 import Menu from './custom-fields/menu';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
-import { Export_To_CSV_Text } from '../constants';
-import CheckboxIcon from '../icons/checkbox-icon';
-import HideViewIcon from '../icons/hideview-Icon';
-import { capitalize } from '../helpers/common';
 
 const GridToolBarMenu = ({
     handleResetGrid,
@@ -29,10 +29,12 @@ const GridToolBarMenu = ({
         isCSVExportUIButton,
         enableDownload
     } = state || {};
+    const noColumns = isNull(columns) || !columns.some(col => !col?.hideable && !col?.hidden);
     const items = [
         {
             name: 'Reset filters',
-            action: handleResetGrid,
+            action: !noColumns ? handleResetGrid : null,
+            disabled: noColumns,
             hidden: !showResetMenuItem,
             icon: <EraseIcon />,
             tooltip:
@@ -40,7 +42,8 @@ const GridToolBarMenu = ({
         },
         {
             name: Export_To_CSV_Text,
-            action: eventExportToCSV,
+            action: !noColumns ? eventExportToCSV : null,
+            disabled: noColumns,
             args: [rowsData, columns, downloadFilename, onDownloadComplete],
             hidden: !(enableDownload && !isCSVExportUIButton),
             icon: <DownloadIcon />,

@@ -245,7 +245,9 @@ describe('DataGrid Advanced Features (aligned with mocks)', () => {
         enableColumnResize: false,
         enableColumnDrag: false,
         enableCellEdit: false,
-        enableDownload: true
+        enableDownload: true,
+        showResetMenuItem: true,
+        csvExportUI: 'button'
     }
 
     const defaultProps = {

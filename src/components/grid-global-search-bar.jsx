@@ -28,11 +28,12 @@ const GridGlobalSearchBar = memo(({
         showResetButton,
         globalSearchPlaceholder,
         gridID,
-        isCSVExportUIButton
+        isCSVExportUIButton,
+        showToolbarMenu
     } = state;
 
     const { isXSWidth, isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
-    const noColumns = isNull(columns);
+    const noColumns = isNull(columns) || !columns.some(col => !col?.hideable && !col?.hidden);
     const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns
     return (
         <div
@@ -46,9 +47,9 @@ const GridGlobalSearchBar = memo(({
                     style={{
                         opacity: (noData ? '0.7' : '0.9'),
                         width: !isCSVExportUIButton ? (isXSWidth ? '64%' : '70%')
-                            : (isXSWidth ? '48%' :
+                            : (isXSWidth ? '42%' :
                                 isSmallWidth ? '53%' :
-                                    isMobileWidth ? '63%' : '68%')
+                                    isMobileWidth ? '63%' : '66%')
                     }}
                     className="pd--0 mg--0 globalSearch">
                     <div className="ai-search-input-wrapper">
@@ -105,53 +106,56 @@ const GridGlobalSearchBar = memo(({
                     >
                         <EraseIcon />
                     </div>)}
-                {enableDownload === true && isCSVExportUIButton === true && (
-                    <div
-                        style={{
-                            pointerEvents: (noData ? 'none' : ''),
-                            opacity: (noData ? '0.5' : ''),
-                            width: (isSmallWidth || isMobileWidth ? '36px' : undefined),
-                        }}
-                        className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile opacity--level"
-                        title={Export_To_CSV_Text}
-                        onClick={(e) =>
-                            eventExportToCSV(
-                                rowsData,
-                                columns,
-                                downloadFilename,
-                                onDownloadComplete,
-                                e
-                            )
-                        }
-                        role="button"
-                        tabIndex="0"
-                        onKeyDown={
-                            (e) => {
-                                if (e.key === 'Enter' || e.key === ' ')
-                                    eventExportToCSV(
-                                        e,
-                                        rowsData,
-                                        columns,
-                                        downloadFilename,
-                                        onDownloadComplete
-                                    )
-                            }}
-                    >
+                {enableDownload === true &&
+                    isCSVExportUIButton === true && (
                         <div
                             style={{
-                                gap: isSmallWidth || isMobileWidth ? 0 : undefined
+                                pointerEvents: (noData ? 'none' : ''),
+                                opacity: (noData ? '0.5' : ''),
+                                width: (isSmallWidth || isMobileWidth ? '36px' : undefined),
                             }}
-                            className="pd--0 mg--0 icon-content">
-                            <DownloadIcon />
-                            <span>
-                                {isSmallWidth || isMobileWidth ? '' : Export_To_CSV_Text}
-                            </span>
+                            className="pd--0 mg--0 alignCenter download-icon-div icon-div icon-div-mobile opacity--level"
+                            title={Export_To_CSV_Text}
+                            onClick={(e) =>
+                                eventExportToCSV(
+                                    rowsData,
+                                    columns,
+                                    downloadFilename,
+                                    onDownloadComplete,
+                                    e
+                                )
+                            }
+                            role="button"
+                            tabIndex="0"
+                            onKeyDown={
+                                (e) => {
+                                    if (e.key === 'Enter' || e.key === ' ')
+                                        eventExportToCSV(
+                                            e,
+                                            rowsData,
+                                            columns,
+                                            downloadFilename,
+                                            onDownloadComplete
+                                        )
+                                }}
+                        >
+                            <div
+                                style={{
+                                    gap: isSmallWidth || isMobileWidth ? 0 : undefined
+                                }}
+                                className="pd--0 mg--0 icon-content">
+                                <DownloadIcon />
+                                <span>
+                                    {isSmallWidth || isMobileWidth ? '' : Export_To_CSV_Text}
+                                </span>
+                            </div>
                         </div>
+                    )}
+                {showToolbarMenu === true &&
+                    <div className="pd--0 mg--0 alignCenter">
+                        <GridToolBarMenu handleResetGrid={handleResetGrid} />
                     </div>
-                )}
-                <div className="pd--0 mg--0 alignCenter">
-                    <GridToolBarMenu handleResetGrid={handleResetGrid} />
-                </div>
+                }
             </div>
         </div>
     );
