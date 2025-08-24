@@ -19,7 +19,7 @@ const GridToolBarMenu = ({
     boxShadow,
     padding
 }) => {
-    const { state = {}, setState = () => { } } = useGridConfig() ?? {};
+    const { state = {}, setState } = useGridConfig() ?? {};
     const {
         columns,
         rowsData,
@@ -28,10 +28,10 @@ const GridToolBarMenu = ({
         showResetMenuItem,
         isCSVExportUIButton,
         enableDownload
-    } = state;
+    } = state || {};
     const items = [
         {
-            name: 'Reset Filters',
+            name: 'Reset filters',
             action: handleResetGrid,
             hidden: !showResetMenuItem,
             icon: <EraseIcon />,
@@ -47,8 +47,7 @@ const GridToolBarMenu = ({
             tooltip: 'Export the grid data to a CSV format file',
         },
         {
-            name: 'Column Visibility',
-            action: () => { },
+            name: 'Column visibility',
             tooltip: 'Toggle visibility of columns in the grid',
             icon: <HideViewIcon />,
             subItems: columns?.

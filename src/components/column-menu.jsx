@@ -3,46 +3,44 @@ import { capitalize, isNull } from '../helpers/common';
 import { useGridConfig } from '../hooks/use-grid-config';
 import DownArrowIcon from '../icons/down-arrow-icon';
 import HideViewIcon from '../icons/hideview-Icon';
+import LockIcon from '../icons/lock-icon';
+import UnLockIcon from '../icons/unlock-icon';
 import UpArrowIcon from '../icons/up-arrow-icon';
 import Menu from './custom-fields/menu';
-import { sortData } from './events/event-grid-header-clicked';
-
-const SortColumn = (state, setState, sortable, columnName, colObject, sortOrder) => {
-    if (typeof sortData === 'function' && sortable === true) {
-        let timeout;
-        const processSort = async () => {
-            const data = state?.rowsData;
-            const sortedRows = await sortData(colObject, sortOrder, data);
-            timeout = setTimeout(() => {
-                setState(prev => ({
-                    ...prev,
-                    rowsData: sortedRows,
-                    columns: prev?.columns?.map(col => ({
-                        ...col,
-                        sortOrder: col?.name === columnName ? sortOrder : ''
-                    })),
-                    toggleState: !prev?.toggleState
-                }));
-            }, 0);
-        }
-        processSort();
-        return () => clearTimeout(timeout);
-    }
-}
+import { SortColumn } from './events/event-grid-header-clicked';
 
 const ColumnMenu = ({ column, sortable }) => {
-    const { state = {}, setState = () => { } } = useGridConfig() ?? {};
+    const { state, setState } = useGridConfig() ?? {};
     const columnName = column?.name;
     const columnAlias = column?.alias;
+    const editable = typeof column?.editable === "boolean"
+        ? column?.editable : state?.enableCellEdit;
     const items = [
         {
-            name: `Hide`,
-            tooltip: `Hide "${capitalize(columnAlias ?? columnName)}" column`,
-            icon: <HideViewIcon />,
+            name: editable === true ? 'Disable editing' : `Enable editing`,
+            tooltip: editable === true ?
+                `Disable "${capitalize(columnAlias ?? columnName)}" column editing` :
+                `Enable "${capitalize(columnAlias ?? columnName)}" column editing`,
+            icon: editable === true ? <LockIcon /> : <UnLockIcon />,
             action: (e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                setState((prev) => ({
+                setState?.((prev) => ({
+                    ...prev,
+                    columns: prev.columns.map((c) =>
+                        c.name === columnName ? { ...c, editable: !editable } : c
+                    ),
+                }))
+            }
+        },
+        {
+            name: `Hide column`,
+            tooltip: `Hide "${capitalize(columnAlias ?? columnName)}" column`,
+            icon: <HideViewIcon height="20" width="20" />,
+            action: (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setState?.((prev) => ({
                     ...prev,
                     columns: prev.columns.map((c) =>
                         c.name === columnName ? { ...c, hideable: !c.hideable } : c
@@ -51,7 +49,7 @@ const ColumnMenu = ({ column, sortable }) => {
             }
         },
         {
-            name: `Sort Ascending`,
+            name: `Sort ascending`,
             tooltip: `Sort "${capitalize(columnAlias ?? columnName)}" column in ascending order`,
             icon: <UpArrowIcon />,
             hidden: !sortable,
@@ -61,12 +59,12 @@ const ColumnMenu = ({ column, sortable }) => {
                 if (column?.sortOrder === 'asc') return;
                 const colObject = !isNull(column?.concatColumns?.columns) ?
                     column?.concatColumns?.columns : [column?.name];
-                SortColumn(state, setState, sortable, columnName, colObject, 'asc');
+                SortColumn(state, setState, columnName, colObject, 'asc');
             }
         },
         {
-            name: `Sort Descending`,
-            tooltip: `Sort "${capitalize(columnAlias ?? columnName)}" column in ascending order`,
+            name: `Sort descending`,
+            tooltip: `Sort "${capitalize(columnAlias ?? columnName)}" column in descending order`,
             icon: <DownArrowIcon />,
             hidden: !sortable,
             action: (e) => {
@@ -75,7 +73,7 @@ const ColumnMenu = ({ column, sortable }) => {
                 if (column?.sortOrder === 'desc') return;
                 const colObject = !isNull(column?.concatColumns?.columns) ?
                     column?.concatColumns?.columns : [column?.name];
-                SortColumn(state, setState, sortable, columnName, colObject, 'desc');
+                SortColumn(state, setState, columnName, colObject, 'desc');
             }
         }
     ];

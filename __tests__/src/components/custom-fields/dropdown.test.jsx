@@ -50,7 +50,7 @@ describe('Dropdown component', () => {
         fireEvent.click(screen.getByText('Option 1'));
         expect(screen.getByText('Option 2')).toBeInTheDocument();
 
-        fireEvent.mouseDown(screen.getByTestId('outside'));
+        fireEvent.click(screen.getByTestId('outside'));
         expect(screen.queryByText('Option 2')).not.toBeInTheDocument();
     });
 

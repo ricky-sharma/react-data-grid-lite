@@ -38,14 +38,14 @@ const Menu = ({
     const { state = {} } = useGridConfig() ?? {};
     const { isSmallWidth } = gridWidthType(windowWidth, state?.gridID);
     useEffect(() => {
-        const handleClickOutside = (event) => {
+        const handleClickOutsideMenu = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
                 setMenuOpen(false);
                 setOpenSubMenuIndex(null);
             }
         };
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
+        document.addEventListener('click', handleClickOutsideMenu);
+        return () => document.removeEventListener('click', handleClickOutsideMenu);
     }, []);
 
     useEffect(() => {
@@ -209,7 +209,7 @@ const Menu = ({
                     }}
                     onMouseEnter={() => setSubMenuFocusedIndex(i)}
                 >
-                    <div style={{ maxWidth: '24px', minWidth: '24px' }}>
+                    <div className="alignCenter" style={{ maxWidth: '24px', minWidth: '24px' }}>
                         {subItem?.icon}
                     </div>
                     <div
@@ -228,7 +228,7 @@ const Menu = ({
             style={{
                 position: 'absolute',
                 top: usePortal ? menuPosition.top + 20 : '40px',
-                left: usePortal ? menuPosition.left - 100 : undefined,
+                left: usePortal ? menuPosition.left - 115 : undefined,
                 right: !usePortal ? 0 : undefined,
                 backgroundColor: '#fff',
                 border: '1px solid #ccc',
@@ -300,10 +300,10 @@ const Menu = ({
                                 }}
                             >
                                 <div
+                                    className="alignCenter"
                                     style={{
                                         maxWidth: '24px',
-                                        minWidth: '24px',
-                                        width: '24px',
+                                        minWidth: '24px'
                                     }}
                                 >
                                     {item?.icon}

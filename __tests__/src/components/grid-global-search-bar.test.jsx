@@ -30,7 +30,8 @@ describe('GridGlobalSearchBar', () => {
         downloadFilename: 'my-data',
         onDownloadComplete: jest.fn(),
         showResetButton: true,
-        gridID: 'testID'
+        gridID: 'testID',
+        isCSVExportUIButton: true
     };
 
     const mockSetState = jest.fn();
@@ -131,7 +132,8 @@ describe('More Tests for GridGlobalSearchBar', () => {
         downloadFilename: 'file.csv',
         onDownloadComplete,
         showResetButton: true,
-        gridID: 'testID'
+        gridID: 'testID',
+        isCSVExportUIButton: true
     };
 
     const renderWithProvider = (ui, stateOverrides = {}) =>
@@ -252,7 +254,8 @@ describe('GridGlobalSearchBar else path for searchHandler', () => {
             rowsData: [{ id: 1, name: 'test' }],
             downloadFilename: "test.csv",
             onDownloadComplete: () => { },
-            gridID:'testID'
+            gridID: 'testID',
+            isCSVExportUIButton: true
         };
 
         const renderWithProvider = (ui, stateOverrides = {}) =>
@@ -288,7 +291,8 @@ describe('GridGlobalSearchBar setState coverage', () => {
             enableDownload: false,
             rowsData: [{ id: 1, name: 'Row' }],
             downloadFilename: "test.csv",
-            onDownloadComplete: () => { }
+            onDownloadComplete: () => { },
+            isCSVExportUIButton: true
         };
 
         const renderWithProvider = (ui, stateOverrides = {}) =>
@@ -324,7 +328,8 @@ describe('GridGlobalSearchBar (AI Search Button)', () => {
                 enabled: aiEnabled,
                 minRowCount: 1
             },
-            showResetButton: false
+            showResetButton: false,
+            isCSVExportUIButton: true
         };
 
         const searchHandler = jest.fn();

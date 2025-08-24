@@ -55,7 +55,7 @@ describe('GridActionCell', () => {
             left: '0',
             position: 'sticky',
             zIndex: '6',
-            boxShadow: '#e0e0e0 -0.5px 0 0 0 inset',
+            boxShadow: '#e0e0e0 -0.6px 0 0 0 inset',
         });
     });
 
@@ -64,10 +64,10 @@ describe('GridActionCell', () => {
 
         const td = screen.getByRole('cell');
         expect(td).toHaveStyle({
-            right: '-0.1px',
+            right: '-0.5px',
             position: 'sticky',
             zIndex: '6',
-            boxShadow: '#e0e0e0 0.5px 0 0 0 inset',
+            boxShadow: '#e0e0e0 0.6px 0 0 0 inset',
         });
     });
 
