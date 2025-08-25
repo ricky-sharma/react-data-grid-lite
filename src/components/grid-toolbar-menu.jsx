@@ -30,6 +30,7 @@ const GridToolBarMenu = ({
         enableDownload
     } = state || {};
     const noColumns = isNull(columns) || !columns.some(col => !col?.hideable && !col?.hidden);
+    const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns
     const items = [
         {
             name: 'Reset filters',
@@ -42,8 +43,8 @@ const GridToolBarMenu = ({
         },
         {
             name: Export_To_CSV_Text,
-            action: !noColumns ? eventExportToCSV : null,
-            disabled: noColumns,
+            action: !noData ? eventExportToCSV : null,
+            disabled: noData,
             args: [rowsData, columns, downloadFilename, onDownloadComplete],
             hidden: !(enableDownload && !isCSVExportUIButton),
             icon: <DownloadIcon />,
