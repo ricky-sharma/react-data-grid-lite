@@ -25,9 +25,9 @@ export function calculateColumnWidth(
     if (!Array.isArray(colWidthArray)) return '100%';
     const containerWidth = getContainerWidthInPixels(`#${gridID} ${Container_Identifier}`,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
-    const buttonColumnWidth = parseFloat(Button_Column_Width?.replace?.('px', '') || '0');
-    const selectionColumnWidth = parseFloat(Selection_Column_Width?.replace?.('px', '') || '0');
-    const fallbackWidth = parseFloat(Fallback_Column_Width?.replace?.('px', '') || '0');
+    const buttonColumnWidth = parseFloat(Button_Column_Width?.replace?.('px', ''));
+    const selectionColumnWidth = parseFloat(Selection_Column_Width?.replace?.('px', ''));
+    const fallbackWidth = parseFloat(Fallback_Column_Width?.replace?.('px', ''));
     const controlColumnsWidth =
         (buttonColEnabled ? buttonColumnWidth : 0) +
         (enableRowSelection ? selectionColumnWidth : 0);
@@ -74,17 +74,14 @@ export function calculateColumnWidth(
     // SCENARIO 2: Mixed fixed + flexible
     if (nonFixedWidthColCount > 0 && fixedWidthColCount > 0) {
         return colWidthArray?.[currentColKey] ? safeColWidth :
-            (nonFixedColumnComputedValue > fallbackWidth ? `${nonFixedColumnComputedValue}px` : Fallback_Column_Width);
+            (nonFixedColumnComputedValue > fallbackWidth ?
+                `${nonFixedColumnComputedValue}px` : Fallback_Column_Width);
     }
 
-    // SCENARIO 3: All flexible
-    if (fixedWidthColCount === 0 && nonFixedWidthColCount > 0) {
-        return (netContainerWidth / totalVisibleColumns) > fallbackWidth ?
-            `${(netContainerWidth / totalVisibleColumns)}px` : Fallback_Column_Width;
-    }
-
-    // Fallback
-    return `${(netContainerWidth / totalVisibleColumns)}px`;
+    // SCENARIO 3: All flexible, fixedWidthColCount === 0 && nonFixedWidthColCount > 0
+    return (netContainerWidth / totalVisibleColumns) > fallbackWidth
+        ? `${(netContainerWidth / totalVisibleColumns)}px`
+        : Fallback_Column_Width;
 }
 
 export const tryParseWidth = (val, totalWidth = 0) => {

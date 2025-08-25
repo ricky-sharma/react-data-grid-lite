@@ -2,6 +2,7 @@ import React, { memo, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Container_Identifier } from '../../constants';
 import { isNull } from '../../helpers/common';
+import { useDropdownNavigation } from '../../hooks/use-dropdown-navigation';
 import { useGridConfig } from '../../hooks/use-grid-config';
 
 const Dropdown = memo(({
@@ -123,14 +124,15 @@ const Dropdown = memo(({
                 setOpen(false);
             }
         };
+        const handleResize = () => setOpen(false);
         container?.addEventListener('scroll', handleScroll, true);
         window.addEventListener('scroll', handleScroll, true);
-        window.addEventListener('resize', () => setOpen(false));
+        window.addEventListener('resize', handleResize);
 
         return () => {
             container?.removeEventListener('scroll', handleScroll, true);
             window.removeEventListener('scroll', handleScroll, true);
-            window.removeEventListener('resize', () => setOpen(false));
+            window.removeEventListener('resize', handleResize);
         };
     }, [open]);
 
@@ -139,7 +141,7 @@ const Dropdown = memo(({
             const index = options.findIndex((option) => getOptionValue(option) === value);
             if (index >= 0) {
                 setFocusedIndex(index);
-                if (optionRefs?.current?.[value]?.scrollIntoView) {
+                if (optionRefs?.current?.[index]?.scrollIntoView) {
                     optionRefs.current[index].scrollIntoView({
                         block: 'nearest',
                         behavior: 'smooth'
@@ -165,39 +167,31 @@ const Dropdown = memo(({
                 listboxRef.current?.focus();
             }, 0);
         }
-    }, [open, value, options, usePortal]);
+    }, [
+        open,
+        value,
+        options,
+        usePortal
+    ]);
 
     useEffect(() => {
         if (open && focusedIndex >= 0 && optionRefs?.current?.[focusedIndex]) {
             optionRefs.current[focusedIndex].focus();
         }
-    }, [focusedIndex, open]);
+    }, [
+        focusedIndex,
+        open
+    ]);
 
-    const handleKeyDown = (e) => {
-        const { key } = e;
-
-        if (key === 'Enter' || key === ' ') {
-            e.preventDefault();
-            if (!open) {
-                setOpen(true);
-                setFocusedIndex(0);
-            } else if (focusedIndex >= 0) {
-                handleOptionClick(e, options[focusedIndex]);
-            }
-        } else if (key === 'ArrowDown') {
-            e.preventDefault();
-            setOpen(true);
-            setFocusedIndex((prev) => (prev + 1) % options.length);
-        } else if (key === 'ArrowUp') {
-            e.preventDefault();
-            setOpen(true);
-            setFocusedIndex((prev) => (prev - 1 + options.length) % options.length);
-        } else if (key === 'Escape' || key === 'Tab') {
-            if (isControlled)
-                e.preventDefault();
-            setOpen(false);
-        }
-    };
+    const handleKeyDown = useDropdownNavigation({
+        open,
+        setOpen,
+        focusedIndex,
+        setFocusedIndex,
+        options,
+        handleOptionClick,
+        isControlled,
+    });
 
     const renderOptions = () => (
         <div
@@ -242,7 +236,7 @@ const Dropdown = memo(({
                         key={optionValue}
                         id={`dropdown-option-${index}`}
                         ref={(el) => (optionRefs.current[index] = el)}
-                        className={`${usePortal ? '' : 'opacity--level ' }dropdown-option${optionValue === value ? ' selected' : ''
+                        className={`${usePortal ? '' : 'opacity--level '}dropdown-option${optionValue === value ? ' selected' : ''
                             } ${index === focusedIndex ? 'focused' : ''}`}
                         onClick={(e) => handleOptionClick(e, option)}
                         tabIndex={index === focusedIndex ? 0 : -1}
