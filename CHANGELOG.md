@@ -79,6 +79,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   * `showToolbarMenu`
   * `showColumnMenu`
   * `csvExportUI`
+  * `showResetMenuItem`
 * Aligned docs with new menu and accessibility features
 
 <br><br>
