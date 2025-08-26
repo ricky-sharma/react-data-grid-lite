@@ -47,11 +47,10 @@ With built-in support for OpenAI (or other LLMs via configurable endpoints), the
 <br><br>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4516b8d8-130e-45ff-a76c-1b5d013f5bf1" alt="React Data Grid Lite Image" width="100%" />
+  <img src="https://github.com/user-attachments/assets/ce1ac4d4-3258-4bbf-a3c9-ecb49ff14af0" alt="React Data Grid Lite Image with menu" width="100%" />
 </p>
 
 <br><br>
-
 
 ## 📦 Installation
 
@@ -76,6 +75,12 @@ This component has the following peer dependencies that need to be installed as 
 }
 
 ```
+
+<br><br>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4516b8d8-130e-45ff-a76c-1b5d013f5bf1" alt="React Data Grid Lite Image - keyboard edit" width="100%" />
+</p>
 
 <br><br>
 
@@ -133,5 +138,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <br><br>
 ## 🙋‍♂️ Available for freelance work!
 Reach out via [LinkedIn](https://www.linkedin.com/in/vinay-sharma-2022354) or check out my projects on [GitHub](https://github.com/ricky-sharma).
+
 
 
