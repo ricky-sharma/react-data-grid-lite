@@ -26,7 +26,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="https://ricky-sharma.github.io/react-data-grid-lite/favicon.png" />
 		<meta name="keywords"
-		  content="react, data grid, react table, api, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		  content="react, data grid, react table, api, free, mit-license, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
 		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/" />
@@ -69,7 +69,31 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1755534650062" rel="stylesheet" />
+		<link href="index.css?ver=1756210144912" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+		<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+		<style>
+			.cc-window, .cc-banner {
+			z-index: 100000 !important;
+			}
+		</style>
+		<script>
+			window.addEventListener("load", function(){
+			window.cookieconsent.initialise({
+			"palette": {
+			"popup": { "background": "#000" },
+			"button": { "background": "#f1d600" }
+			},
+			"theme": "classic",
+			"content": {
+			"message": "This website uses cookies to analyze traffic via Google Analytics.",
+			"dismiss": "Got it!",
+			"link": "Learn more",
+			"href": "/privacy-policy"
+			}
+			})
+			});
+		</script>
 	</head>
 
 	<body>
@@ -84,7 +108,7 @@
 	</div>
 
 	<!-- Search + Badges container -->
-	<div class="flex items-center ml-auto space-x-4 flex-nowrap max-w-full">
+	<div class="flex items-center ml-auto space-x-5 flex-nowrap max-w-full">
 		<!-- Search box -->
 		<form
 		  action="search.html"
@@ -141,6 +165,21 @@
 		<!-- Full badge set: visible only on md+ -->
 		<div class="hidden md:flex items-center space-x-2 flex-nowrap">
 			<a
+			  href="https://codesandbox.io/s/github/ricky-sharma/react-data-grid-lite/tree/master/example"
+			  target="_blank"
+			  aria-label="CodeSandbox"
+			  rel="noopener"
+			  class="inline-block rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
+			  style="line-height: 0;"
+      >
+				<img
+				  src="https://codesandbox.io/static/img/play-codesandbox.svg"
+				  alt="Open in CodeSandbox"
+				  style="height:24px;"
+				  class="block"
+        />
+			</a>
+			<a
 			  href="https://www.npmjs.com/package/react-data-grid-lite"
 			  target="_blank"
 			  aria-label="NPM"
@@ -161,21 +200,7 @@
 			  alt="npm downloads"
       />
 
-			<a
-			  href="https://codesandbox.io/s/github/ricky-sharma/react-data-grid-lite/tree/master/example"
-			  target="_blank"
-			  aria-label="CodeSandbox"
-			  rel="noopener"
-			  class="inline-block rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
-			  style="line-height: 0;"
-      >
-				<img
-				  src="https://codesandbox.io/static/img/play-codesandbox.svg"
-				  alt="Open in CodeSandbox"
-				  style="height:24px;"
-				  class="block"
-        />
-			</a>
+			
 
 			<a
 			  href="https://github.com/ricky-sharma/react-data-grid-lite"
@@ -188,20 +213,6 @@
 				  alt="GitHub"
 				  style="height: 20px;"
 				  class="rounded transition-transform duration-200 hover:scale-105"
-        />
-			</a>
-
-			<a
-			  href="https://www.linkedin.com/in/vinay-sharma-2022354/"
-			  target="_blank"
-			  aria-label="LinkedIn"
-			  rel="noopener"
-      >
-				<img
-				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-				  alt="LinkedIn"
-				  style="height: 20px; background-color: white;"
-				  class="rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
         />
 			</a>
 		</div>
@@ -501,8 +512,9 @@
 <h3>⚡ <strong>Lightweight</strong></h3>
 <p>A small bundle footprint ensures your application loads fast, even on slower connections. The grid is optimized to avoid unnecessary re-renders, includes zero dependencies, and only loads what it needs. Ideal for SPAs and mobile-first experiences. By not including external dependencies, the grid remains lightweight and performs well across different use cases. Whether you're building small apps or large enterprise dashboards, this grid won't slow down your performance with unnecessary bloat.</p>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4516b8d8-130e-45ff-a76c-1b5d013f5bf1" alt="React Data Grid Lite Image" width="100%" />
+  <img src="https://github.com/user-attachments/assets/ce1ac4d4-3258-4bbf-a3c9-ecb49ff14af0" alt="React Data Grid Lite Image" width="100%" />
 </p>
+<br>
 <h3>🤖 <strong>AI-Powered Semantic Search</strong></h3>
 <p>Take your data grid to the next level with <strong>AI-powered semantic search</strong> using the OpenAI API—or any custom LLM endpoint. This feature interprets natural language queries and matches them intelligently to your grid data, opening up smarter filtering experiences.</p>
 <h4>✅ Benefits</h4>
@@ -669,7 +681,7 @@ const MyGrid = () =&gt; {
 <br>
 <h3>🧩 <strong>Merged Columns</strong></h3>
 <p>Display composite values by merging multiple fields into a single cell. For example, show <code>firstName + lastName</code> in one column.</p>
-<pre><code class="language-js">{ 
+<pre><code class="language-jsx">{ 
     name: 'firstname',
     alias: 'Name',
     concatColumns: { 
@@ -680,25 +692,49 @@ const MyGrid = () =&gt; {
 <br>
 <h3>📊 <strong>Analytics Events</strong></h3>
 <p>Track interactions such as <strong>row clicks</strong>, <strong>sort changes</strong>, and <strong>searches</strong> using event callbacks. Useful for product analytics (e.g., Mixpanel, GA) or auditing user behavior.</p>
-<pre><code class="language-js">onRowClick={(e, row) =&gt; logEvent('row_clicked', row)}
+<pre><code class="language-jsx">onRowClick={(e, row) =&gt; logEvent('row_clicked', row)}
+</code></pre>
+<br>
+<h3>🟩 <strong>Selection column</strong></h3>
+<p>Select rows using a checkbox column, with alignable positioning.</p>
+<pre><code class="language-jsx">options={{
+  enableRowSelection: true,
+  rowSelectColumnAlign: 'left'
+}}
 </code></pre>
 <br>
 <h3>🎨 <strong>Theming</strong></h3>
 <p>Apply visual consistency with <strong>predefined themes</strong> like <code>blue-core</code>, <code>dark-stack</code>, and <code>medi-glow</code>. You can also pass in custom CSS classes or override default styles for headers, rows, hover states, etc.</p>
 <pre><code class="language-js">&lt;DataGrid theme=&quot;dark-stack&quot; /&gt;
 </code></pre>
+<br>
 <h3>🧾 <strong>CSV Export</strong></h3>
 <p>Allow users to download the currently viewed data as a <code>.csv</code> file. Ideal for admin panels, reporting dashboards, or finance tools. Supports exporting filtered or paginated data.</p>
-<br>
+<h3>⚙️ <strong>Toolbar Menu</strong></h3>
+<p>The <strong>Toolbar Menu</strong> is a 3-dot dropdown in the grid's top toolbar that gives users quick access to essential actions. It includes built-in options like:</p>
+<ul>
+<li>Export CSV – Download visible grid data as a CSV file</li>
+<li>Reset Filters – Clear all applied filters</li>
+<li>Column Visibility – Toggle which columns are shown</li>
+</ul>
+<p>Accessible via keyboard and customizable via <code>options</code>.</p>
+<h3>🔽 <strong>Column Menu</strong></h3>
+<p>The <strong>Column Menu</strong> appears in each column header as a dropdown, allowing column-level control. It includes:</p>
+<ul>
+<li>Sort Ascending/Descending</li>
+<li>Toggle Edit Mode</li>
+<li>Hide Column</li>
+</ul>
+<p>It's rendered using a portal for perfect positioning and supports full keyboard navigation.</p>
 <h3>✏️ <strong>Row Actions</strong></h3>
 <p>Built-in hooks for common actions like <strong>edit</strong>, <strong>delete</strong> allow you to bind behavior directly to row-level operations.</p>
-<br>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4516b8d8-130e-45ff-a76c-1b5d013f5bf1" alt="React Data Grid Lite - Cell Edit" width="100%" />
+</p>
 <h3>🧩 <strong>Actions Align</strong></h3>
 <p>Use props like <code>actionColumnAlign: 'right'</code> or <code>actionColumnAlign: 'left'</code> to pin action column to one side, keeping UI controls consistent regardless of scroll position.</p>
-<br>
 <h3>🧪 <strong>Fully Tested</strong></h3>
 <p>The component comes with strong <strong>unit and integration test coverage</strong>, ensuring high reliability. Common scenarios — like rendering, sorting, searching, and resizing — are validated against regressions using tools like Jest and React Testing Library.</p>
-<br>
 <p>✅ <strong>Pagination</strong>
 Built-in page handling with control over <code>pageSize</code>, <code>currentPage</code>, and callbacks like <code>onPageChange</code>.</p>
 <p>✅ <strong>Search &amp; Filtering</strong>

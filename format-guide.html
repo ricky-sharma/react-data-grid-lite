@@ -26,7 +26,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="https://ricky-sharma.github.io/react-data-grid-lite/favicon.png" />
 		<meta name="keywords"
-		  content="react, data grid, react table, api, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		  content="react, data grid, react table, api, free, mit-license, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
 		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/format-guide.html" />
@@ -69,7 +69,31 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1755534650062" rel="stylesheet" />
+		<link href="index.css?ver=1756210144912" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+		<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+		<style>
+			.cc-window, .cc-banner {
+			z-index: 100000 !important;
+			}
+		</style>
+		<script>
+			window.addEventListener("load", function(){
+			window.cookieconsent.initialise({
+			"palette": {
+			"popup": { "background": "#000" },
+			"button": { "background": "#f1d600" }
+			},
+			"theme": "classic",
+			"content": {
+			"message": "This website uses cookies to analyze traffic via Google Analytics.",
+			"dismiss": "Got it!",
+			"link": "Learn more",
+			"href": "/privacy-policy"
+			}
+			})
+			});
+		</script>
 	</head>
 
 	<body>
@@ -84,7 +108,7 @@
 	</div>
 
 	<!-- Search + Badges container -->
-	<div class="flex items-center ml-auto space-x-4 flex-nowrap max-w-full">
+	<div class="flex items-center ml-auto space-x-5 flex-nowrap max-w-full">
 		<!-- Search box -->
 		<form
 		  action="search.html"
@@ -141,6 +165,21 @@
 		<!-- Full badge set: visible only on md+ -->
 		<div class="hidden md:flex items-center space-x-2 flex-nowrap">
 			<a
+			  href="https://codesandbox.io/s/github/ricky-sharma/react-data-grid-lite/tree/master/example"
+			  target="_blank"
+			  aria-label="CodeSandbox"
+			  rel="noopener"
+			  class="inline-block rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
+			  style="line-height: 0;"
+      >
+				<img
+				  src="https://codesandbox.io/static/img/play-codesandbox.svg"
+				  alt="Open in CodeSandbox"
+				  style="height:24px;"
+				  class="block"
+        />
+			</a>
+			<a
 			  href="https://www.npmjs.com/package/react-data-grid-lite"
 			  target="_blank"
 			  aria-label="NPM"
@@ -161,21 +200,7 @@
 			  alt="npm downloads"
       />
 
-			<a
-			  href="https://codesandbox.io/s/github/ricky-sharma/react-data-grid-lite/tree/master/example"
-			  target="_blank"
-			  aria-label="CodeSandbox"
-			  rel="noopener"
-			  class="inline-block rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
-			  style="line-height: 0;"
-      >
-				<img
-				  src="https://codesandbox.io/static/img/play-codesandbox.svg"
-				  alt="Open in CodeSandbox"
-				  style="height:24px;"
-				  class="block"
-        />
-			</a>
+			
 
 			<a
 			  href="https://github.com/ricky-sharma/react-data-grid-lite"
@@ -188,20 +213,6 @@
 				  alt="GitHub"
 				  style="height: 20px;"
 				  class="rounded transition-transform duration-200 hover:scale-105"
-        />
-			</a>
-
-			<a
-			  href="https://www.linkedin.com/in/vinay-sharma-2022354/"
-			  target="_blank"
-			  aria-label="LinkedIn"
-			  rel="noopener"
-      >
-				<img
-				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-				  alt="LinkedIn"
-				  style="height: 20px; background-color: white;"
-				  class="rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
         />
 			</a>
 		</div>

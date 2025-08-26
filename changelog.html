@@ -26,7 +26,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="https://ricky-sharma.github.io/react-data-grid-lite/favicon.png" />
 		<meta name="keywords"
-		  content="react, data grid, react table, api, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		  content="react, data grid, react table, api, free, mit-license, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
 		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/changelog.html" />
@@ -69,7 +69,31 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1755534650062" rel="stylesheet" />
+		<link href="index.css?ver=1756210144912" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+		<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+		<style>
+			.cc-window, .cc-banner {
+			z-index: 100000 !important;
+			}
+		</style>
+		<script>
+			window.addEventListener("load", function(){
+			window.cookieconsent.initialise({
+			"palette": {
+			"popup": { "background": "#000" },
+			"button": { "background": "#f1d600" }
+			},
+			"theme": "classic",
+			"content": {
+			"message": "This website uses cookies to analyze traffic via Google Analytics.",
+			"dismiss": "Got it!",
+			"link": "Learn more",
+			"href": "/privacy-policy"
+			}
+			})
+			});
+		</script>
 	</head>
 
 	<body>
@@ -84,7 +108,7 @@
 	</div>
 
 	<!-- Search + Badges container -->
-	<div class="flex items-center ml-auto space-x-4 flex-nowrap max-w-full">
+	<div class="flex items-center ml-auto space-x-5 flex-nowrap max-w-full">
 		<!-- Search box -->
 		<form
 		  action="search.html"
@@ -141,6 +165,21 @@
 		<!-- Full badge set: visible only on md+ -->
 		<div class="hidden md:flex items-center space-x-2 flex-nowrap">
 			<a
+			  href="https://codesandbox.io/s/github/ricky-sharma/react-data-grid-lite/tree/master/example"
+			  target="_blank"
+			  aria-label="CodeSandbox"
+			  rel="noopener"
+			  class="inline-block rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
+			  style="line-height: 0;"
+      >
+				<img
+				  src="https://codesandbox.io/static/img/play-codesandbox.svg"
+				  alt="Open in CodeSandbox"
+				  style="height:24px;"
+				  class="block"
+        />
+			</a>
+			<a
 			  href="https://www.npmjs.com/package/react-data-grid-lite"
 			  target="_blank"
 			  aria-label="NPM"
@@ -161,21 +200,7 @@
 			  alt="npm downloads"
       />
 
-			<a
-			  href="https://codesandbox.io/s/github/ricky-sharma/react-data-grid-lite/tree/master/example"
-			  target="_blank"
-			  aria-label="CodeSandbox"
-			  rel="noopener"
-			  class="inline-block rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
-			  style="line-height: 0;"
-      >
-				<img
-				  src="https://codesandbox.io/static/img/play-codesandbox.svg"
-				  alt="Open in CodeSandbox"
-				  style="height:24px;"
-				  class="block"
-        />
-			</a>
+			
 
 			<a
 			  href="https://github.com/ricky-sharma/react-data-grid-lite"
@@ -188,20 +213,6 @@
 				  alt="GitHub"
 				  style="height: 20px;"
 				  class="rounded transition-transform duration-200 hover:scale-105"
-        />
-			</a>
-
-			<a
-			  href="https://www.linkedin.com/in/vinay-sharma-2022354/"
-			  target="_blank"
-			  aria-label="LinkedIn"
-			  rel="noopener"
-      >
-				<img
-				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-				  alt="LinkedIn"
-				  style="height: 20px; background-color: white;"
-				  class="rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
         />
 			</a>
 		</div>
@@ -498,6 +509,121 @@
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <br>
+<h2>📦 v1.2.3 – Released 2025-08-26</h2>
+<h3>✨ Features</h3>
+<h4>New <strong>Toolbar Menu</strong></h4>
+<ul>
+<li>
+<p>Added 3-dot menu to toolbar with:</p>
+<ul>
+<li><strong>Export CSV</strong> option</li>
+<li><strong>Reset Filters</strong> option</li>
+<li><strong>Column Visibility</strong> option</li>
+</ul>
+</li>
+<li>
+<p>Improved toolbar layout, spacing, and styling</p>
+</li>
+<li>
+<p>New props:</p>
+<ul>
+<li><code>showToolbarMenu</code> — controls visibility of the toolbar menu</li>
+<li><code>showResetMenuItem</code> — toggles the reset item in the menu</li>
+<li><code>csvExportUI</code> — selects between <code>'button'</code> and <code>'menu'</code> display (default: <code>'menu'</code>)</li>
+</ul>
+</li>
+</ul>
+<h4>New <strong>Column Menu</strong></h4>
+<ul>
+<li>
+<p>Added column header menus using <code>ReactDOM.createPortal</code> for improved positioning</p>
+</li>
+<li>
+<p>Added options:</p>
+<ul>
+<li>Sort Ascending / Descending</li>
+<li>Toggle Edit Mode</li>
+<li>Hide column</li>
+</ul>
+</li>
+<li>
+<p>Implemented &quot;Column Visibility&quot; submenu within the toolbar menu</p>
+</li>
+<li>
+<p>Added support for hiding columns via a <code>hideable</code> flag</p>
+</li>
+<li>
+<p>New prop:</p>
+<ul>
+<li><code>showColumnMenu</code> — controls visibility of the column menu</li>
+</ul>
+</li>
+</ul>
+<h4><strong>Menu Navigation &amp; Accessibility</strong></h4>
+<ul>
+<li>
+<p>Full <strong>keyboard support</strong> for menu and submenu navigation:</p>
+<ul>
+<li>Arrow keys to navigate</li>
+<li><code>Enter</code> to select</li>
+<li><code>Esc</code> to close</li>
+</ul>
+</li>
+<li>
+<p>Improved accessibility of:</p>
+<ul>
+<li>Column selection checkboxes</li>
+<li>Submenus</li>
+<li>Toolbar and column menus</li>
+</ul>
+</li>
+<li>
+<p>Added horizontal 3dot menu support when toolbar is hidden</p>
+</li>
+</ul>
+<h3>🧪 Tests &amp; Coverage</h3>
+<ul>
+<li>
+<p>Achieved <strong>90%+ test coverage</strong>:</p>
+<ul>
+<li>Statements, branches, functions, and lines</li>
+</ul>
+</li>
+<li>
+<p>Added comprehensive test cases for:</p>
+<ul>
+<li><code>filterData</code> function</li>
+<li>Keyboard events</li>
+<li>DOM behaviors (blur, focus, portal rendering)</li>
+<li>Async/UI interactions</li>
+</ul>
+</li>
+<li>
+<p>Refactored components (e.g., <code>Dropdown</code>) for improved testability</p>
+</li>
+</ul>
+<h3>🛠️ Code Quality &amp; Refactors</h3>
+<ul>
+<li>Refactored grid dropdown logic and styling for maintainability</li>
+<li>Improved UI layout and user interaction responsiveness</li>
+<li>Updated icons and SVGs for better consistency</li>
+</ul>
+<h3>📝 Documentation</h3>
+<ul>
+<li>
+<p>Updated README and prop documentation for:</p>
+<ul>
+<li><code>showToolbarMenu</code></li>
+<li><code>showColumnMenu</code></li>
+<li><code>csvExportUI</code></li>
+<li><code>showResetMenuItem</code></li>
+</ul>
+</li>
+<li>
+<p>Aligned docs with new menu and accessibility features</p>
+</li>
+</ul>
+<p><br><br></p>
 <h2>🔖 v1.2.2 – Released 2025-08-17</h2>
 <h3>🚀 Features</h3>
 <ul>
