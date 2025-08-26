@@ -24,25 +24,25 @@ The DataGrid component is a highly customizable, feature-rich table built with R
 With built-in support for OpenAI (or other LLMs via configurable endpoints), the grid can semantically interpret user queries and return intelligent, filtered results—ideal for enhancing user experience in modern data-driven applications.
 
 
-✅ **Key Features**  
-⚡ **Lightweight** – Small bundle, fast loading  
-📦 **API-ready** – Works with any JSON API  
-🛠️ **Dynamic columns** – Auto-adapts to schema  
-🔍 **Search & aliases** – Fast filtering, custom labels  
-🤖 **AI-powered search** – Use OpenAI or custom LLMs to semantically interpret and match user queries to grid data    
-📌 **Fixed columns** – Lock columns during scroll  
-📏 **Resizable columns** – User can resize  
-📱 **Responsive** – Adapts to all screen sizes  
-🧾 **CSV export** – Download full data grid  
-✏️ **Cell & Row Editing** – Inline cell editing with keyboard, touch support; callbacks hooks on save/edit/delete  
-🧩 **Merged columns** – Combine multiple fields  
-🎨 **Custom rendering** – Tailored cell views with `render` prop  
-📊 **Analytics** – Track user interactions  
-🎨 **Theming** – Pre-built themes, easy customization  
-🧩 **Align actions** – Fix columns left/right  
-🔄 **Drag-and-drop** – Reorder columns with drag  
-🔢 **Column order** – User-defined via `order` prop  
-🧪 **Fully tested** – Robust unit tests  
+✅ Key Features  
+⚡ Lightweight – Fast, small bundle  
+📦 API-ready – Plug into any JSON API  
+🛠️ Smart columns – Auto schema detection  
+🔍 Fast search – Filter with custom labels & aliases  
+🤖 AI search – Semantic query support (OpenAI/LLM)  
+📌 Fixed & resizable columns  
+📱 Responsive – Mobile-friendly layout  
+🧾 CSV export – One-click data download  
+✏️ Inline editing – Keyboard & touch support  			   
+🎨 Custom cells – Render anything  
+🧩 Merged columns – Combine multiple fields  
+📊 Analytics-ready – Track user actions  
+🎨 Theming – Easy styling & prebuilt themes  
+🔄 Drag & reorder columns  
+🧩 Align actions – left/right  
+📂 Column Menu – Per-column sort, hide, and edit options  
+🧰 Toolbar Menu – Compact 3-dot menu for export, reset, and more  
+🧪 Fully tested – Robust unit tests  
 
 <br><br>
 
@@ -133,4 +133,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <br><br>
 ## 🙋‍♂️ Available for freelance work!
 Reach out via [LinkedIn](https://www.linkedin.com/in/vinay-sharma-2022354) or check out my projects on [GitHub](https://github.com/ricky-sharma).
+
 
