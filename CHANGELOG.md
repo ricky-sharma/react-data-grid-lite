@@ -50,8 +50,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   * Toolbar and column menus
 * Added horizontal 3dot menu support when toolbar is hidden
 
----
-
 ### 🧪 Tests & Coverage
 
 * Achieved **90%+ test coverage**:
@@ -65,15 +63,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   * Async/UI interactions
 * Refactored components (e.g., `Dropdown`) for improved testability
 
----
-
 ### 🛠️ Code Quality & Refactors
 
 * Refactored grid dropdown logic and styling for maintainability
 * Improved UI layout and user interaction responsiveness
 * Updated icons and SVGs for better consistency
-
----
 
 ### 📝 Documentation
 
