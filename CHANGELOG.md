@@ -34,6 +34,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   * Hide column
 * Implemented "Column Visibility" submenu within the toolbar menu
 * Added support for hiding columns via a `hideable` flag
+* New prop:
+
+  * `showColumnMenu` — controls visibility of the column menu
 
 #### **Menu Navigation & Accessibility**
 
