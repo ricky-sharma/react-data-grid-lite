@@ -27,6 +27,7 @@ describe('GridGlobalSearchBar (small screen)', () => {
 			downloadFilename: 'my-data',
 			onDownloadComplete: jest.fn(),
 			showResetButton: true,
+			isCSVExportUIButton: true
 		};
 
 		const mockSetState = jest.fn();

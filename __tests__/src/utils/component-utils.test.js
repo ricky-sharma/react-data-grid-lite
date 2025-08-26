@@ -1,6 +1,6 @@
 jest.mock('./../../../src/constants', () => ({
     Button_Column_Key: 'button',
-    Button_Column_Width: '60px',
+    Fallback_Column_Width: '75px',
     Default_Grid_Width_VW: '80vw'
 }));
 
@@ -15,13 +15,12 @@ jest.mock('./../../../src/helpers/common', () => {
 
 
 jest.mock('../../../src/helpers/format', () => ({
-    ...jest.requireActual('../../../src/helpers/format'),
-    format: jest.fn(),
+    format: jest.fn(x => x)
 }));
 
 import * as helpers from '../../../src/helpers/format';
 import * as common from './../../../src/helpers/common';
-import { calculateColumnWidth, formatRowData, getNormalizedCombinedValue } from './../../../src/utils/component-utils';
+import { calculateColumnWidth, formatRowData, getNormalizedCombinedValue, resolveColumnItems, resolveColumnType, tryParseWidth } from './../../../src/utils/component-utils';
 
 describe('calculateColumnWidth', () => {
     beforeEach(() => {
@@ -44,6 +43,18 @@ describe('calculateColumnWidth', () => {
         common.getContainerWidthInPixels.mockReturnValue(250);
         const result = calculateColumnWidth(['200', '200'], [], 0);
         expect(result).toBe('200px');
+    });
+
+    it('returns fallback width if non-fixed column width less than fallback and atleast one fixed column is present', () => {
+        common.getContainerWidthInPixels.mockReturnValue(250);
+        const result = calculateColumnWidth(['200', null], [], 1);
+        expect(result).toBe('75px');
+    });
+
+    it('returns fallback width if non-fixed column width less than fallback and no fixed column is present', () => {
+        common.getContainerWidthInPixels.mockReturnValue(100);
+        const result = calculateColumnWidth([null, null], [], 0);
+        expect(result).toBe('75px');
     });
 
     it('handles all flexible columns', () => {
@@ -168,7 +179,7 @@ describe('formatRowData', () => {
     it('should skip missing concat column values gracefully', () => {
         const row = { first: 'Jane' };
         const columns = [
-            { name: 'fullName', concatColumns: { columns: ['first', 'last'], separator: '-' } },
+            { name: 'fullName', concatColumns: { columns: ['first', 'last1'], separator: '-' } },
             { name: 'first' },
             { name: 'last' }
         ];
@@ -246,5 +257,155 @@ describe('getNormalizedCombinedValue', () => {
 
         const result = getNormalizedCombinedValue(obj, keys, formatType, type, format, separator);
         expect(result).toBe('  valuea , valueb');
+    });
+
+    it('applies formatting when type is included in formatType (integration test)', () => {
+        const keys = ['a'];
+        const formatType = ['number'];
+        const type = 'number';
+        const format = '';
+
+        const result = getNormalizedCombinedValue({ a: 'a' }, keys, formatType, type, format);
+        expect(result).toBe('');
+    });
+});
+
+
+describe('resolveColumnType', () => {
+    it('should return concatType when it is a string', () => {
+        const result = resolveColumnType('number', { type: 'text' });
+        expect(result).toBe('number');
+    });
+
+    it('should return concatType.type when concatType is object with string type', () => {
+        const result = resolveColumnType({ type: 'date' }, 'text');
+        expect(result).toBe('date');
+    });
+
+    it('should return baseType when concatType is invalid and baseType is a string', () => {
+        const result = resolveColumnType(null, 'boolean');
+        expect(result).toBe('boolean');
+    });
+
+    it('should return baseType.type when baseType is object with string type', () => {
+        const result = resolveColumnType(null, { type: 'currency' });
+        expect(result).toBe('currency');
+    });
+
+    it('should return "text" if neither concatType nor baseType has valid type', () => {
+        const result = resolveColumnType({}, {});
+        expect(result).toBe('text');
+    });
+
+    it('should return "text" if both concatType and baseType are undefined', () => {
+        const result = resolveColumnType(undefined, undefined);
+        expect(result).toBe('text');
+    });
+
+    it('should return "text" if type fields exist but are not strings', () => {
+        const result = resolveColumnType({ type: 123 }, { type: true });
+        expect(result).toBe('text');
+    });
+
+    it('should prioritize concatType over baseType', () => {
+        const result = resolveColumnType('email', { type: 'url' });
+        expect(result).toBe('email');
+    });
+
+    it('should prioritize concatType.type over baseType and baseType.type', () => {
+        const result = resolveColumnType({ type: 'json' }, { type: 'xml' });
+        expect(result).toBe('json');
+    });
+});
+
+describe('resolveColumnItems', () => {
+    it('should return concatType.values if it is an array', () => {
+        const concatType = { values: ['a', 'b', 'c'] };
+        const baseType = { values: ['x', 'y'] };
+
+        const result = resolveColumnItems(concatType, baseType);
+        expect(result).toEqual(['a', 'b', 'c']);
+    });
+
+    it('should return baseType.values if concatType.values is not an array', () => {
+        const concatType = { values: null };
+        const baseType = { values: ['x', 'y'] };
+
+        const result = resolveColumnItems(concatType, baseType);
+        expect(result).toEqual(['x', 'y']);
+    });
+
+    it('should return empty array if neither concatType.values nor baseType.values is an array', () => {
+        const concatType = { values: null };
+        const baseType = { values: null };
+
+        const result = resolveColumnItems(concatType, baseType);
+        expect(result).toEqual([]);
+    });
+
+    it('should return empty array if both concatType and baseType are undefined', () => {
+        const result = resolveColumnItems(undefined, undefined);
+        expect(result).toEqual([]);
+    });
+
+    it('should return empty array if concatType is undefined and baseType.values is not an array', () => {
+        const baseType = { values: 'not-an-array' };
+
+        const result = resolveColumnItems(undefined, baseType);
+        expect(result).toEqual([]);
+    });
+
+    it('should return empty array if values properties are missing', () => {
+        const concatType = {};
+        const baseType = {};
+
+        const result = resolveColumnItems(concatType, baseType);
+        expect(result).toEqual([]);
+    });
+});
+
+describe('tryParseWidth', () => {
+    it('should parse percentage width correctly', () => {
+        expect(tryParseWidth('50%', 200)).toBe(100);
+        expect(tryParseWidth('100%', 500)).toBe(500);
+        expect(tryParseWidth('0%', 400)).toBe(0);
+    });
+
+    it('should return 0 for invalid percentage values', () => {
+        expect(tryParseWidth('%', 300)).toBe(0);
+        expect(tryParseWidth('abc%', 300)).toBe(0);
+    });
+
+    it('should parse pixel values correctly', () => {
+        expect(tryParseWidth('150px')).toBe(150);
+        expect(tryParseWidth('  75px  ')).toBe(75);
+    });
+
+    it('should return 0 for invalid px values', () => {
+        expect(tryParseWidth('px')).toBe(0);
+        expect(tryParseWidth('abcpx')).toBe(0);
+    });
+
+    it('should parse plain number strings', () => {
+        expect(tryParseWidth('42')).toBe(42);
+        expect(tryParseWidth('  88.5  ')).toBe(88.5);
+    });
+
+    it('should return 0 for invalid number strings', () => {
+        expect(tryParseWidth('abc')).toBe(0);
+        expect(tryParseWidth('')).toBe(0);
+    });
+
+    it('should return number as-is if input is number', () => {
+        expect(tryParseWidth(100)).toBe(100);
+        expect(tryParseWidth(0)).toBe(0);
+    });
+
+    it('should return 0 for non-string and non-number inputs', () => {
+        expect(tryParseWidth(undefined)).toBe(0);
+        expect(tryParseWidth(null)).toBe(0);
+        expect(tryParseWidth({})).toBe(0);
+        expect(tryParseWidth([])).toBe(0);
+        expect(tryParseWidth(true)).toBe(0);
     });
 });

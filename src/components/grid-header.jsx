@@ -6,9 +6,10 @@ import { useWindowWidth } from '../hooks/use-window-width';
 import ActionIcon from '../icons/action-icon';
 import { calculateColumnWidth, tryParseWidth } from "../utils/component-utils";
 import { gridWidthType } from '../utils/grid-width-type-utils';
+import ColumnMenu from './column-menu';
 import ColumnSortIcon from './column-sort-icon';
-import Input from './custom-fields/input';
 import Checkbox from './custom-fields/checkbox';
+import Input from './custom-fields/input';
 
 const GridHeader = ({
     state,
@@ -43,13 +44,15 @@ const GridHeader = ({
         enableSorting,
         enableRowSelection,
         rowSelectColumnAlign,
-        onSelectAll
+        onSelectAll,
+        showColumnMenu
     } = state;
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
     const isMobile = isSmallWidth || isMobileWidth;
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
     const headers = [...columns];
+    if (!headers.some(col => !col?.hideable && !col?.hidden)) return null;
     let computedColumnWidths = [];
     if (computedColumnWidthsRef) computedColumnWidthsRef.current = [];
     let searchRowEnabled = false;
@@ -94,13 +97,14 @@ const GridHeader = ({
         : -1
     ) - totalExternalCols;
 
-    const getActionColumnStyle = (header, withBoxShadow = false) => {
+    const getActionColumnStyle = (header, withLightBoxShadow = false) => {
         var selectionColLeft = isActionColumnLeft && isSelectionColumnLeft && !isMobile ? Button_Column_Width :
             (!isActionColumnLeft && isSelectionColumnLeft && !isMobile ? 0 : '');
         var buttonColLeft = isActionColumnLeft && !isMobile ? 0 : '';
-        var selectionColRight = isActionColumnRight && isSelectionColumnRight && !isMobile ? Button_Column_Width :
-            !isActionColumnRight && isSelectionColumnRight && !isMobile ? "-0.1px" : '';
-        var buttonColRight = isActionColumnRight && !isMobile ? "-0.1px" : '';
+        var selectionColRight = isActionColumnRight && isSelectionColumnRight && !isMobile ?
+            `${tryParseWidth(Button_Column_Width) - 0.5}px` :
+            !isActionColumnRight && isSelectionColumnRight && !isMobile ? "-0.5px" : '';
+        var buttonColRight = isActionColumnRight && !isMobile ? "-0.5px" : '';
 
         const baseStyle = {
             width: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
@@ -118,11 +122,13 @@ const GridHeader = ({
             contain: 'layout paint',
         };
 
-        if (withBoxShadow && !isMobile) {
-            baseStyle.boxShadow = isActionColumnLeft
-                ? '#e0e0e0 -0.5px 0px 0px 0px inset'
-                : isActionColumnRight
-                    ? '#e0e0e0 0.5px 0px 0px 0px inset'
+        if (!isMobile) {
+            baseStyle.boxShadow = (header === Button_Column_Key && isActionColumnLeft) ||
+                (header === Selection_Column_Key && isSelectionColumnLeft)
+                ? `#e0e0e0 ${withLightBoxShadow ? "-0.2px" : "-0.6px"} 0 0 0 inset`
+                : (header === Button_Column_Key && isActionColumnRight) ||
+                    (header === Selection_Column_Key && isSelectionColumnRight)
+                    ? `#e0e0e0 ${withLightBoxShadow ? "0.2px" : "0.6px"} 0 0 0 inset`
                     : '';
         }
 
@@ -157,7 +163,7 @@ const GridHeader = ({
         if (isSelectionColumnLeft) key -= 1;
         if (isActionColumnLeft) key -= 1;
 
-        if (header?.hidden === true) return null;
+        if (header?.hidden === true || header?.hideable === true) return null;
         const colResizable = typeof header?.resizable === "boolean"
             ? header?.resizable : enableColumnResize;
         const thInnerHtml = lastVisibleIndex !== key || colResizable === true ?
@@ -200,7 +206,7 @@ const GridHeader = ({
 
             return (
                 <th
-                    style={getActionColumnStyle(header)}
+                    style={getActionColumnStyle(header, true)}
                     title={header === Button_Column_Key ? "Actions" : "Select all rows"}
                     key={key}
                     role="columnheader"
@@ -290,6 +296,7 @@ const GridHeader = ({
                 >
                     <div className="headerText" data-column-name={header?.name}>{displayName}</div>
                     {sortable === true && <ColumnSortIcon columns={columns} header={header} />}
+                    {showColumnMenu === true && <ColumnMenu column={header} sortable={sortable} />}
                 </div>
                 {thInnerHtml}
             </th>
@@ -301,7 +308,7 @@ const GridHeader = ({
         if (isSelectionColumnLeft) key -= 1;
         if (isActionColumnLeft) key -= 1;
 
-        if (header?.hidden === true) return null;
+        if (header?.hidden === true || header?.hideable === true) return null;
         const conCols = header?.concatColumns?.columns ?? null;
         const formatting = header?.formatting;
         const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
@@ -316,7 +323,7 @@ const GridHeader = ({
         if (header === Button_Column_Key || header === Selection_Column_Key) {
             return (
                 <th
-                    style={getActionColumnStyle(header, true)}
+                    style={getActionColumnStyle(header)}
                     key={key}
                 >
                     <div

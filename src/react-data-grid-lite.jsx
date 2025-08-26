@@ -16,6 +16,7 @@ import { useResetGrid } from './hooks/use-reset-grid';
 import { useSearchAndSortCallbacks } from './hooks/use-search-and-sort-callbacks';
 import { useSearchHandler } from './hooks/use-search-handler';
 import { applyTheme } from './utils/themes-utils';
+import GridToolBarMenu from './components/grid-toolbar-menu';
 
 const DataGrid = forwardRef(({
     id,
@@ -75,7 +76,15 @@ const DataGrid = forwardRef(({
         showToolbar: typeof options?.showToolbar === 'boolean' ?
             options?.showToolbar : true,
         showResetButton: typeof options?.showResetButton === 'boolean' ?
-            options?.showResetButton : true,
+            options?.showResetButton : false,
+        showResetMenuItem: typeof options?.showResetMenuItem === 'boolean' ?
+            options?.showResetMenuItem : true,
+        showColumnMenu: typeof options?.showColumnMenu === 'boolean' ?
+            options?.showColumnMenu : true,
+        showToolbarMenu: typeof options?.showToolbarMenu === 'boolean' ?
+            options?.showToolbarMenu : true,
+        csvExportUI: options?.csvExportUI === 'button' ? 'button' : 'menu',
+        isCSVExportUIButton: options?.csvExportUI === 'button',
         showFooter: typeof options?.showFooter === 'boolean' ?
             options?.showFooter : true,
         showNumberPagination: typeof options?.showNumberPagination === 'boolean' ?
@@ -329,6 +338,24 @@ const DataGrid = forwardRef(({
                                 : 'col-flex-12 mg--0 pd--0 react-data-grid-lite'
                         }
                     >
+                        {state?.showToolbar === false &&
+                            state?.showToolbarMenu === true &&
+                            <div
+                                style={{
+                                    right: '30px',
+                                    top: '-4px',
+                                    position: 'absolute'
+                                }}
+                                className="pd--0 mg--0">
+                                <GridToolBarMenu
+                                    handleResetGrid={handleResetGrid}
+                                    vertical={false}
+                                    borderRadius={"0"}
+                                    noBorder="true"
+                                    height={"10px"}
+                                    boxShadow='.1px 0 2px 0 currentcolor'
+                                />
+                            </div>}
                         <GridTable
                             state={state}
                             setState={setState}

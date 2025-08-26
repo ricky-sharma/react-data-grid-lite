@@ -1,4 +1,4 @@
-import { cleanup } from '@testing-library/react';
+import { cleanup, waitFor } from '@testing-library/react';
 import { eventGridHeaderClicked } from './../../../../src/components/events/event-grid-header-clicked';
 import { dynamicSort } from './../../../../src/helpers/sort';
 
@@ -32,23 +32,27 @@ describe('eventGridHeaderClicked', () => {
         });
     });
 
-    it('should handle multiple sort columns', () => {
+    it('should handle multiple sort columns', async () => {
         mockState.columns = [{ name: 'name' }, { name: 'age' }]
         eventGridHeaderClicked(['name', 'age'], mockState, mockSetState, 'name');
-        expect(dynamicSort).toHaveBeenCalledWith('-name', '-age');
-        expect(mockState.columns[0].sortOrder).toBe('desc');
+        await waitFor(() => {
+            expect(dynamicSort).toHaveBeenCalledWith('-name', '-age');
+            expect(mockState.columns[0].sortOrder).toBe('desc');
+        });
     });
 
-    it('should not sort if rowsData is null', () => {
+    it('should not sort if rowsData is null', async () => {
         mockState.rowsData = undefined;
         mockState.columns = [{ name: 'name' }]
         eventGridHeaderClicked(['name'], mockState, mockSetState, 'name');
-        expect(dynamicSort).not.toHaveBeenCalled();
-        expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
-        expect(mockState).toMatchObject({
-            rowsData: undefined,
-            columns: [{ name: 'name', sortOrder: '' }],
-            toggleState: true
+        await waitFor(() => {
+            expect(dynamicSort).not.toHaveBeenCalled();
+            expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+            expect(mockState).toMatchObject({
+                rowsData: undefined,
+                columns: [{ name: 'name', sortOrder: '' }],
+                toggleState: true
+            });
         });
     });
 });
@@ -57,7 +61,6 @@ describe('More tests for eventGridHeaderClicked', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         cleanup();
-
         jest.mock('./../../../../src/helpers/sort', () => ({
             dynamicSort: (...fields) => (a, b) => {
                 const field = fields[0].replace('-', '');
@@ -69,7 +72,7 @@ describe('More tests for eventGridHeaderClicked', () => {
         }));
     });
 
-    it('sorts data descending on first click', () => {
+    it('sorts data descending on first click', async () => {
         const colObject = ['name'];
         const state = {
             rowsData: [
@@ -82,15 +85,15 @@ describe('More tests for eventGridHeaderClicked', () => {
         const isResizingRef = { current: false };
 
         eventGridHeaderClicked(colObject, state, setState, 'name', isResizingRef);
-
-        expect(setState).toHaveBeenCalledWith(expect.any(Function));
-
-        const updaterFn = setState.mock.calls[0][0];
-        const newState = updaterFn(state);
-        expect(newState.columns[0].sortOrder).toBe('desc');
+        await waitFor(() => {
+            expect(setState).toHaveBeenCalledWith(expect.any(Function));
+            const updaterFn = setState.mock.calls[0][0];
+            const newState = updaterFn(state);
+            expect(newState.columns[0].sortOrder).toBe('desc');
+        });
     });
 
-    it('sorts data ascending on second click', () => {
+    it('sorts data ascending on second click', async () => {
         const colObject = ['name'];
         const state = {
             rowsData: [
@@ -103,25 +106,32 @@ describe('More tests for eventGridHeaderClicked', () => {
         const isResizingRef = { current: false };
 
         eventGridHeaderClicked(colObject, state, setState, 'name', isResizingRef);
-        const updaterFn = setState.mock.calls[0][0];
-        const newState = updaterFn(state);
-        expect(newState.columns[0].sortOrder).toBe('asc');
+        await waitFor(() => {
+            const updaterFn = setState.mock.calls[0][0];
+            const newState = updaterFn(state);
+            expect(newState.columns[0].sortOrder).toBe('asc');
+        });
     });
 
-    it('does not sort when isResizingRef.current is true', () => {
+    it('does not sort when isResizingRef.current is true', async () => {
         const setState = jest.fn();
         const isResizingRef = { current: true };
         eventGridHeaderClicked(['name'], {}, setState, 'name', isResizingRef);
-        expect(setState).not.toHaveBeenCalled();
+        await waitFor(() => {
+            expect(setState).not.toHaveBeenCalled();
+        });
     });
 
-    it('does not sort when colObject is not an array', () => {
+    it('does not sort when colObject is not an array', async () => {
         const setState = jest.fn();
         eventGridHeaderClicked(null, {}, setState, 'name', { current: false });
-        expect(setState).not.toHaveBeenCalled();
+
+        await waitFor(() => {
+            expect(setState).not.toHaveBeenCalled();
+        });
     });
 
-    it('toggles toggleState value on each sort', () => {
+    it('toggles toggleState value on each sort', async () => {
         const colObject = ['name'];
         const state = {
             rowsData: [
@@ -133,7 +143,10 @@ describe('More tests for eventGridHeaderClicked', () => {
         };
         const setState = jest.fn();
         eventGridHeaderClicked(colObject, state, setState, 'name', { current: false });
-        const newState = setState.mock.calls[0][0](state);
-        expect(newState.toggleState).toBe(true);
+
+        await waitFor(() => {
+            const newState = setState.mock.calls[0][0](state);
+            expect(newState.toggleState).toBe(true);
+        });
     });
 });

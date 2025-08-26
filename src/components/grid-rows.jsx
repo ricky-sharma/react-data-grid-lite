@@ -95,7 +95,8 @@ const GridRows = ({
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
     const isMobile = isSmallWidth || isMobileWidth;
 
-    if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)) {
+    if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)
+        || !columns.some(col => !col?.hideable && !col?.hidden)) {
         hideLoader(gridID);
         loading ? showLoader(gridID) :
             (isNull(rowsData) ? showLoader(gridID, No_Data_Message)
@@ -124,7 +125,7 @@ const GridRows = ({
             const baseRowIndex = baseRow?.__$index__;
             const formattedRow = formatRowData(baseRow, columns);
             const cols = Object.values(columns).map((col, key) => {
-                if (col?.hidden === true) return null;
+                if (col?.hidden === true || col?.hideable === true) return null;
                 return (
                     <GridCell
                         key={key}

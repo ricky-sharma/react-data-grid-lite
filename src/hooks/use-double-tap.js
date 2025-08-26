@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
 
-export function useDoubleTap(delay = 300) {
+export function useDoubleTap(delay = 200) {
     const lastTapRef = useRef(0);
 
     const getTouchHandler = useCallback((callback) => {

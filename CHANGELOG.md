@@ -6,6 +6,84 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br>
 
+## 📦 v1.2.3 – Released 2025-08-26
+
+### ✨ Features
+
+#### New **Toolbar Menu**
+
+* Added 3-dot menu to toolbar with:
+
+  * **Export CSV** option
+  * **Reset Filters** option
+  * **Column Visibility** option
+* Improved toolbar layout, spacing, and styling
+* New props:
+
+  * `showToolbarMenu` — controls visibility of the toolbar menu
+  * `showResetMenuItem` — toggles the reset item in the menu
+  * `csvExportUI` — selects between `'button'` and `'menu'` display (default: `'menu'`)
+
+#### New **Column Menu**
+
+* Added column header menus using `ReactDOM.createPortal` for improved positioning
+* Added options:
+
+  * Sort Ascending / Descending
+  * Toggle Edit Mode
+  * Hide column
+* Implemented "Column Visibility" submenu within the toolbar menu
+* Added support for hiding columns via a `hideable` flag
+* New prop:
+
+  * `showColumnMenu` — controls visibility of the column menu
+
+#### **Menu Navigation & Accessibility**
+
+* Full **keyboard support** for menu and submenu navigation:
+
+  * Arrow keys to navigate
+  * `Enter` to select
+  * `Esc` to close
+
+* Improved accessibility of:
+
+  * Column selection checkboxes
+  * Submenus
+  * Toolbar and column menus
+* Added horizontal 3dot menu support when toolbar is hidden
+
+### 🧪 Tests & Coverage
+
+* Achieved **90%+ test coverage**:
+
+  * Statements, branches, functions, and lines
+* Added comprehensive test cases for:
+
+  * `filterData` function
+  * Keyboard events
+  * DOM behaviors (blur, focus, portal rendering)
+  * Async/UI interactions
+* Refactored components (e.g., `Dropdown`) for improved testability
+
+### 🛠️ Code Quality & Refactors
+
+* Refactored grid dropdown logic and styling for maintainability
+* Improved UI layout and user interaction responsiveness
+* Updated icons and SVGs for better consistency
+
+### 📝 Documentation
+
+* Updated README and prop documentation for:
+
+  * `showToolbarMenu`
+  * `showColumnMenu`
+  * `csvExportUI`
+  * `showResetMenuItem`
+* Aligned docs with new menu and accessibility features
+
+<br><br>
+
 ## 🔖 v1.2.2 – Released 2025-08-17
 
 ### 🚀 Features

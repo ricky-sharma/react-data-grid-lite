@@ -37,9 +37,9 @@ export function useResizableTableColumns(tableRef, state, setState,
             resizer.style.position = 'absolute';
             resizer.style.top = '0';
             resizer.style.right = '0';
-            resizer.style.width = '8px';
+            resizer.style.width = '6px';
             if (window.matchMedia('(pointer: coarse)').matches) {
-                resizer.style.width = '20px';
+                resizer.style.width = '8px';
             }
             resizer.style.height = '100%';
             resizer.style.cursor = 'col-resize';

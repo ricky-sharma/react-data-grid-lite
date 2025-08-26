@@ -71,7 +71,7 @@ describe('useProcessedColumns', () => {
 
     it('should assign displayIndex only to visible columns', () => {
         const columns = [
-            { name: 'visible', order: 1 },
+            { name: 'visible', order: 1, hidden: false },
             { name: 'hidden', order: 2, hidden: true }
         ];
 
@@ -82,8 +82,8 @@ describe('useProcessedColumns', () => {
         const updater = setStateMock.mock.calls[0][0];
         const result = updater({ columns: [] });
 
-        expect(result.columns.find(c => c.name === 'visible').displayIndex).toBe(1);
-        expect(result.columns.find(c => c.name === 'hidden').displayIndex).toBeUndefined();
+        expect(result.columns.find(c => c && c.name === 'visible').displayIndex).toBe(1);
+        expect(result.columns.find(c => c && c.name === 'hidden')).toBeUndefined();
     });
 
     it('should sort by order and name correctly', () => {

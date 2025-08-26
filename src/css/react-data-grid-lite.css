@@ -46,56 +46,66 @@
         color: #212529;
     }
 
-        .r-d-g-lt-comp .grid--check--box {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            user-select: none;
-            position: relative;
+    .r-d-g-lt-comp .grid--check--box {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        user-select: none;
+        position: relative;
+    }
+
+        .r-d-g-lt-comp .grid--check--box input {
+            position: absolute;
+            opacity: 0;
+            height: 0;
+            width: 0;
+            pointer-events: none;
         }
 
-            .r-d-g-lt-comp .grid--check--box input {
-                display: none;
-            }
+        .r-d-g-lt-comp .grid--check--box .check--mark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            background-color: #fff;
+            position: relative;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            bottom: 0;
+            top: 0;
+            right: 0;
+        }
 
-            .r-d-g-lt-comp .grid--check--box .checkmark {
-                width: 20px;
-                height: 20px;
-                border: 2px solid #ccc;
-                border-radius: 6px;
-                background-color: #fff;
-                position: relative;
-                transition: all 0.2s ease;
-                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-                bottom: 0;
-                top: 0;
-                right: 0;
-            }
+        .r-d-g-lt-comp .grid--check--box input:checked + .check--mark {
+            background-color: #212529;
+            border-color: #e0e0e0;
+        }
 
-            .r-d-g-lt-comp .grid--check--box input:checked + .checkmark {
-                background-color: #212529;
-                border-color: #e0e0e0;
-            }
+        .r-d-g-lt-comp .grid--check--box .check--mark::after {
+            content: '';
+            position: absolute;
+            display: none;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            transition: all 0.2s ease;
+        }
 
-            .r-d-g-lt-comp .grid--check--box .checkmark::after {
-                content: '';
-                position: absolute;
-                display: none;
-                left: 5px;
-                top: 0.5px;
-                width: 5px;
-                height: 10px;
-                border: solid #fff;
-                border-width: 0 2px 2px 0;
-                transform: rotate(45deg);
-                transition: all 0.2s ease;
-            }
+        .r-d-g-lt-comp .grid--check--box input:checked + .check--mark::after {
+            display: block;
+        }
 
-            .r-d-g-lt-comp .grid--check--box input:checked + .checkmark::after {
-                display: block;
-            }
+    .r-d-g-lt-comp .input-check--mark:focus-visible + .check--mark {
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
+        background-color: #d0e7ff;
+    }
 
     .r-d-g-lt-comp div.globalSearch input,
     .r-d-g-lt-comp div.searchDiv input,
@@ -188,6 +198,10 @@
         .r-d-g-lt-comp .clear-input:hover {
             color: #333;
         }
+
+    .r-d-g-lt-comp .menu--btn-border:hover {
+        border: 1px solid rgba(0, 0, 0, 0.4);
+    }
 
     .r-d-g-lt-comp .pointer {
         cursor: pointer !important;
@@ -298,7 +312,7 @@
         }
 
 .r-d-g-lt-comp .sort-icon-wrapper {
-    width: 30px !important;
+    width: 35px !important;
     position: relative;
 }
 
@@ -440,6 +454,10 @@
     margin: 0;
 }
 
+.r-d-g-lt-comp .opacity--level {
+    opacity: 0.8;
+}
+
 .r-d-g-lt-comp .row--flex {
     display: flex;
     flex-wrap: wrap;
@@ -480,7 +498,7 @@
     outline: none;
     position: relative;
     z-index: 1;
-    padding: 8px;
+    padding: 10px 8px;
 }
 
     .r-d-g-lt-comp .react-data-grid-lite table.gd-tbl {
@@ -579,10 +597,10 @@
 
         .r-d-g-lt-comp table thead tr.gridHeader th div {
             position: relative;
-            padding: 0px !important;
+            padding: 0;
             width: 100%;
             transition: all 0.2s ease;
-            margin: 0px !important;
+            margin: 0;
         }
 
             .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
@@ -600,7 +618,7 @@
         width: 2px;
         background-color: rgb(224, 224, 224);
         position: absolute;
-        right: 1px;
+        right: 0;
         top: 8px;
         bottom: 8px;
         z-index: 5;
@@ -645,8 +663,10 @@
         .r-d-g-lt-comp .dropdown-option:focus-visible,
         .r-d-g-lt-comp .icon-div:focus-visible,
         .r-d-g-lt-comp table thead tr.gridHeader th:focus-visible,
-        .r-d-g-lt-comp table tbody tr.gridRow td a:focus-visible {
-            outline: currentColor 2px dotted !important;
+        .r-d-g-lt-comp table tbody tr.gridRow td a:focus-visible,
+        .r-d-g-lt-comp .menu--btn:focus-visible,
+        .r-d-g-lt-comp .menu--item:focus-visible {
+            outline: currentColor 2px solid !important;
             box-sizing: border-box !important;
             outline-offset: -5px;
         }
@@ -658,12 +678,16 @@
             align-content: center;
         }
 
+.r-d-g-lt-comp .menu--btn:focus-visible {
+    outline-offset: 0;
+}
+
 .r-d-g-lt-comp .pagination li.page-item a.page-link:focus-visible {
     outline-offset: -2px !important;
 }
 
 .r-d-g-lt-comp table thead tr.gridHeader th:focus-visible {
-    outline-offset: -7px !important;
+    outline-offset: -3px !important;
 }
 
 .r-d-g-lt-comp table tbody tr:nth-of-type(even) {
@@ -686,7 +710,6 @@
     height: 60px !important;
     z-index: 2;
     position: relative;
-    opacity: 90%;
 }
 
 .r-d-g-lt-comp .searchDiv {
@@ -700,7 +723,6 @@
     display: inline-block !important;
     padding: 4px 10px;
     margin: 0 !important;
-    opacity: 90%;
 }
 
     .r-d-g-lt-comp .globalSearchDiv .button-container {
@@ -708,12 +730,11 @@
         justify-content: right;
         align-items: center;
         position: relative;
-        gap: 12px;
+        gap: 8px;
         top: 3px;
     }
 
 .r-d-g-lt-comp div.globalSearch {
-    width: 60%;
     height: 42px;
     float: left;
     position: relative;

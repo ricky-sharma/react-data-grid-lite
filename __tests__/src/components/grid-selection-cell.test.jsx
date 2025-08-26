@@ -109,7 +109,7 @@ describe('GridSelectionCell', () => {
             position: 'sticky',
             left: '100px',
             zIndex: '6',
-            boxShadow: '#e0e0e0 -0.5px 0 0 0 inset',
+            boxShadow: '#e0e0e0 -0.6px 0 0 0 inset',
         });
     });
 
@@ -349,14 +349,14 @@ describe('GridSelectionCell `right` style', () => {
         return screen.getByRole('cell', { name: /select row/i });
     };
 
-    it('sets right to -0.1px when not mobile and isActionColumnRight is false', () => {
+    it('sets right to -0.5px when not mobile and isActionColumnRight is false', () => {
         const td = renderCell(getProps({ isActionColumnRight: false }));
-        expect(td).toHaveStyle({ right: '-0.1px' });
+        expect(td).toHaveStyle({ right: '-0.5px' });
     });
 
     it('sets right to buttonColWidth when not mobile and isActionColumnRight is true', () => {
         const td = renderCell(getProps({ isActionColumnRight: true }));
-        expect(td).toHaveStyle({ right: '100px' });
+        expect(td).toHaveStyle({ right: '99.5px' });
     });
 
     it('sets right to empty string when isMobile is true', () => {

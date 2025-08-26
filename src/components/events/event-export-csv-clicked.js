@@ -7,11 +7,11 @@ import { formatRowData } from "../../utils/component-utils";
  * Exports an array of data objects to a CSV file.
  */
 export const eventExportToCSV = (
-    e,
     data,
     columns,
     filename,
-    onDownloadComplete
+    onDownloadComplete,
+    e
 ) => {
     if (!data || data.length === 0 || !columns) {
         return;

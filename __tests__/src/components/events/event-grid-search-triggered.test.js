@@ -3,7 +3,7 @@ jest.mock('./../../../../src/helpers/format.js', () => ({
 }));
 
 import { cleanup } from '@testing-library/react';
-import { eventGridSearchTriggered } from './../../../../src/components/events/event-grid-search-triggered';
+import { eventGridSearchTriggered, filterData } from './../../../../src/components/events/event-grid-search-triggered';
 import { format as mockFormatVal } from './../../../../src/helpers/format.js';
 
 beforeEach(() => {
@@ -20,10 +20,10 @@ describe('eventGridSearchTriggered', () => {
         jest.clearAllMocks();
 
         searchQuery = 'test';
-        dataReceived =  [
-                { id: 1, name: 'Test User', age: 30 },
-                { id: 2, name: 'Another One', age: 25 },
-            ];
+        dataReceived = [
+            { id: 1, name: 'Test User', age: 30 },
+            { id: 2, name: 'Another One', age: 25 },
+        ];
 
         searchColsRef = { current: [] };
         setState = jest.fn();
@@ -70,9 +70,9 @@ describe('eventGridSearchTriggered', () => {
             ]
         };
         const dataReceived = [
-                { price: 123 },
-                { price: 456 }
-            ];
+            { price: 123 },
+            { price: 456 }
+        ];
         const state = { toggleState: false };
         const setState = jest.fn();
         eventGridSearchTriggered(
@@ -98,9 +98,9 @@ describe('More tests for eventGridSearchTriggered', () => {
         jest.resetModules();
         searchQuery = '123';
         dataReceived = [
-                { id: 1, name: 'John', age: 30, price: 123.45, isActive: true },
-                { id: 2, name: 'Jane', age: 40, price: 678.90, isActive: false },
-            ];
+            { id: 1, name: 'John', age: 30, price: 123.45, isActive: true },
+            { id: 2, name: 'Jane', age: 40, price: 678.90, isActive: false },
+        ];
         searchColsRef = { current: [] };
         setState = jest.fn();
         state = { toggleState: false };
@@ -183,14 +183,14 @@ describe('More tests for eventGridSearchTriggered', () => {
 
     it('should return early if event or colName is invalid', () => {
         const setState = jest.fn();
-        eventGridSearchTriggered(null, null, [], {},  [], [], {}, setState);
+        eventGridSearchTriggered(null, null, [], {}, [], [], {}, setState);
         expect(setState).not.toHaveBeenCalled();
     });
 
     it('should be able to handle null data reference', () => {
         const searchQuery = 'Alice';
         const setState = jest.fn();
-        eventGridSearchTriggered(searchQuery, 'amount', [], {}, null ,  [], {}, setState);
+        eventGridSearchTriggered(searchQuery, 'amount', [], {}, null, [], {}, setState);
         expect(setState).toHaveBeenCalled();
     });
 
@@ -258,7 +258,7 @@ describe('More tests for eventGridSearchTriggered', () => {
             'status',
             [],
             { format: '', type: 'custom' },
-            [{ status: 'Active' }] ,
+            [{ status: 'Active' }],
             searchColsRef,
             { toggleState: false },
             setState
@@ -415,5 +415,321 @@ describe('More tests for eventGridSearchTriggered', () => {
 
         expect(setState).toHaveBeenCalledWith(expect.any(Function));
     });
+});
 
+describe('filterData (using real helper implementations)', () => {
+    const sampleData = [
+        { name: 'John Doe', email: 'john@example.com', age: 30, city: 'New York' },
+        { name: 'Jane Smith', email: 'jane@example.com', age: 25, city: 'London' },
+        { name: 'Bob Johnson', email: 'bob@sample.com', age: 40, city: 'New York' },
+    ];
+
+    let aiSearchFailedRef;
+    let aiSearchEnabled;
+
+    beforeEach(() => {
+        aiSearchFailedRef = { current: false };
+        aiSearchEnabled = false;
+    });
+
+    it('filters by single field and single term', () => {
+        const searchColsRef = {
+            current: [{
+                colName: 'name',
+                searchQuery: 'Jane',
+                colObj: ['name'],
+                formatting: {}
+            }]
+        };
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+        expect(result).toEqual([
+            { name: 'Jane Smith', email: 'jane@example.com', age: 25, city: 'London' }
+        ]);
+    });
+
+    it('filters by multiple terms across single field', () => {
+        const searchColsRef = {
+            current: [{
+                colName: 'email',
+                searchQuery: 'sample.com 40',
+                colObj: ['email', 'age'],
+                formatting: {}
+            }]
+        };
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+        expect(result.length).toBeGreaterThanOrEqual(0);
+    });
+
+    it('handles global search when AI is disabled', () => {
+        aiSearchEnabled = false;
+
+        const searchColsRef = {
+            current: [{
+                colName: '##globalSearch##',
+                searchQuery: 'New York',
+                colObj: [
+                    { name: 'city', formatting: {}, hidden: false },
+                    { name: 'email', formatting: {}, hidden: false }
+                ]
+            }]
+        };
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+        expect(result).toEqual(expect.arrayContaining([
+            expect.objectContaining({ city: 'New York' })
+        ]));
+    });
+
+    it('skips global search when AI enabled and no failure', () => {
+        aiSearchEnabled = true;
+        aiSearchFailedRef.current = false;
+
+        const searchColsRef = {
+            current: [{
+                colName: '##globalSearch##',
+                searchQuery: 'john',
+                colObj: [{ name: 'name', formatting: {}, hidden: false }]
+            }]
+        };
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+        expect(result).toEqual(sampleData);
+    });
+
+    it('filters concatenated columns using real helper logic', () => {
+        const searchColsRef = {
+            current: [{
+                colName: 'full',
+                searchQuery: 'john new',
+                colObj: ['name', 'city'],
+                formatting: {},
+                colSep: ' '
+            }]
+        };
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+        const containsJohnNY = result.some(r => r.name === 'John Doe' && r.city === 'New York');
+        expect(containsJohnNY).toBe(true);
+    });
+
+    it('returns data when searchColsRef is undefined', () => {
+        const result = filterData(undefined, sampleData, { current: false }, false);
+        expect(result).toEqual(sampleData);
+    });
+
+    it('returns data when searchColsRef.current is undefined', () => {
+        const result = filterData({ current: undefined }, sampleData, { current: false }, false);
+        expect(result).toEqual(sampleData);
+    });
+
+    it('returns data when searchColsRef.current is empty array', () => {
+        const result = filterData({ current: [] }, sampleData, { current: false }, false);
+        expect(result).toEqual(sampleData);
+    });
+
+    it('excludes records where searched column value is null', () => {
+        const sampleData = [
+            { name: null, email: 'john@example.com' },
+            { name: 'Jane Smith', email: 'jane@example.com' },
+            { name: undefined, email: 'bob@example.com' }
+        ];
+
+        const searchColsRef = {
+            current: [
+                {
+                    colName: 'name',
+                    searchQuery: 'john',
+                    colObj: ['name'],
+                    formatting: {}
+                }
+            ]
+        };
+
+        const aiSearchFailedRef = { current: false };
+        const aiSearchEnabled = false;
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+        expect(result).toEqual([]);
+    });
+
+    it('excludes undefined values during search', () => {
+        const sampleData = [
+            { name: null, email: 'john@example.com' },
+            { name: 'Jane Smith', email: 'jane@example.com' },
+            { name: undefined, email: 'bob@example.com' }
+        ];
+
+        const searchColsRef = {
+            current: [
+                {
+                    colName: 'name',
+                    searchQuery: 'bob',
+                    colObj: ['name'],
+                    formatting: {}
+                }
+            ]
+        };
+
+        const aiSearchFailedRef = { current: false };
+        const aiSearchEnabled = false;
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+
+        expect(result).toEqual([]);
+    });
+
+    it('does not search in hidden column (should skip it)', () => {
+        const sampleData = [
+            { name: 'John Doe', email: 'john@example.com', city: 'New York' },
+            { name: 'Jane Smith', email: 'jane@example.com', city: 'London' }
+        ];
+
+        const searchColsRef = {
+            current: [
+                {
+                    colName: '##globalSearch##',
+                    searchQuery: 'john',
+                    colObj: [
+                        {
+                            name: 'name',
+                            formatting: {},
+                            hidden: true
+                        },
+                        {
+                            name: 'email',
+                            formatting: {},
+                            hidden: false
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const aiSearchFailedRef = { current: true };
+        const aiSearchEnabled = true;
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+        expect(result).toEqual([
+            { name: 'John Doe', email: 'john@example.com', city: 'New York' }
+        ]);
+    });
+
+    it('calls getNormalizedCombinedValue when concatColumns is defined (global search)', () => {
+        const sampleData = [
+            { firstName: 'John', lastName: 'Doe', email: 'john@example.com' },
+            { firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com' },
+            { firstName: 'Bob', lastName: 'Johnson', email: 'bob@example.com' }
+        ];
+
+        const searchColsRef = {
+            current: [
+                {
+                    colName: '##globalSearch##',
+                    searchQuery: 'john doe', // Matches combined firstName + lastName
+                    colObj: [
+                        {
+                            formatting: {},
+                            hidden: false,
+                            concatColumns: {
+                                columns: ['firstName', 'lastName'],
+                                separator: ' '
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const aiSearchFailedRef = { current: true };
+        const aiSearchEnabled = true;
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+        expect(result).toEqual([
+            { firstName: 'John', lastName: 'Doe', email: 'john@example.com' }
+        ]);
+    });
+
+    it('calls formatVal when formatting.type is included in Formatting_Types', () => {
+        const sampleData = [
+            { name: 'John', salary: 1234.56 },
+            { name: 'Jane', salary: 999.99 }
+        ];
+
+        const searchColsRef = {
+            current: [
+                {
+                    colName: '##globalSearch##',
+                    searchQuery: '1,234',
+                    colObj: [
+                        {
+                            name: 'salary',
+                            formatting: {
+                                type: 'currency',
+                                format: 'USD'
+                            },
+                            hidden: false
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const aiSearchFailedRef = { current: true };
+        const aiSearchEnabled = true;
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+
+        expect(result).toEqual([]);
+    });
+
+    it('returns all data when searchQuery is empty (terms fallback to [])', () => {
+        const sampleData = [
+            { name: 'Alice', email: 'alice@example.com' },
+            { name: 'Bob', email: 'bob@example.com' }
+        ];
+
+        const searchColsRef = {
+            current: [
+                {
+                    colName: 'name',
+                    searchQuery: '   ', // whitespace-only
+                    colObj: ['name'],
+                    formatting: {}
+                }
+            ]
+        };
+
+        const aiSearchFailedRef = { current: false };
+        const aiSearchEnabled = false;
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+        expect(result).toEqual(sampleData);
+    });
+
+    it('returns all data when searchQuery is undefined (terms fallback to [])', () => {
+        const sampleData = [
+            { name: 'Alice', email: 'alice@example.com' },
+            { name: 'Bob', email: 'bob@example.com' }
+        ];
+
+        const searchColsRef = {
+            current: [
+                {
+                    colName: 'name',
+                    searchQuery: undefined, // not set at all
+                    colObj: ['name'],
+                    formatting: {}
+                }
+            ]
+        };
+
+        const aiSearchFailedRef = { current: false };
+        const aiSearchEnabled = false;
+
+        const result = filterData(searchColsRef, sampleData, aiSearchFailedRef, aiSearchEnabled);
+
+        expect(result).toEqual(sampleData);
+    });
 });

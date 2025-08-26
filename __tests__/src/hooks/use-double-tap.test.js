@@ -37,7 +37,7 @@ describe('useDoubleTap', () => {
             result.current.onTouchStart(callback)();
         });
 
-        mockNow = 1200;
+        mockNow = 1000;
         act(() => {
             result.current.onTouchStart(callback)();
         });
