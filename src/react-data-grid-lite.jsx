@@ -178,7 +178,7 @@ const DataGrid = forwardRef(({
             setState((prevState) => ({
                 ...prevState,
                 hiddenColIndex: state?.columns.map((col, key) =>
-                    !isNull(col?.hidden) && col?.hidden === true ? key : null),
+                    col?.hidden === true || col?.hideable === true ? key : null),
                 columnWidths: state?.columns.map(col =>
                     typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
                         ? col.width

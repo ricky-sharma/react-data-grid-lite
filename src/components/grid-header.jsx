@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button_Column_Key, Button_Column_Width, Container_Identifier, Default_Grid_Width_VW, Selection_Column_Key, Selection_Column_Width } from '../constants';
-import { convertViewportUnitToPixels, getContainerWidthInPixels, isNull } from '../helpers/common';
+import { Button_Column_Key, Button_Column_Width, Selection_Column_Key, Selection_Column_Width } from '../constants';
+import { isNull } from '../helpers/common';
 import { useDraggableColumns } from '../hooks/use-draggable-columns';
 import { useWindowWidth } from '../hooks/use-window-width';
 import ActionIcon from '../icons/action-icon';
@@ -56,8 +56,7 @@ const GridHeader = ({
     let computedColumnWidths = [];
     if (computedColumnWidthsRef) computedColumnWidthsRef.current = [];
     let searchRowEnabled = false;
-    const containerWidth = getContainerWidthInPixels(`#${gridID} ${Container_Identifier}`,
-        convertViewportUnitToPixels(Default_Grid_Width_VW));
+
     let buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     if (buttonColEnabled) {
         computedColumnWidths = [
@@ -192,9 +191,7 @@ const GridHeader = ({
                 ? Selection_Column_Width
                 : (isActionColumnLeft && key === actionColOffset)
                     ? Button_Column_Width
-                    : colWidth,
-            containerWidth
-        );
+                    : colWidth);
 
         if (header === Button_Column_Key || header === Selection_Column_Key) {
             const selectedRows = new Set(state?.selectedRows);

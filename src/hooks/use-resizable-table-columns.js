@@ -2,8 +2,14 @@ import { useEffect } from 'react';
 import { isNull } from '../helpers/common';
 import { Button_Column_Key, Maximum_Column_Width, Minimum_Column_Width } from '../constants';
 
-export function useResizableTableColumns(tableRef, state, setState,
-    compColWidthsRef, enableColumnResize, isResizingRef) {
+export function useResizableTableColumns(
+    tableRef,
+    state,
+    setState,
+    compColWidthsRef,
+    enableColumnResize,
+    isResizingRef
+) {
     useEffect(() => {
         const table = tableRef?.current;
         if (!table) return;
