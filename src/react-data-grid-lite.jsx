@@ -73,6 +73,8 @@ const DataGrid = forwardRef(({
             options?.enableSorting : true,
         enableRowSelection: typeof options?.enableRowSelection === 'boolean' ?
             options?.enableRowSelection : true,
+        enableRtl: typeof options?.enableRtl === 'boolean' ?
+            options?.enableRtl : false,
         showToolbar: typeof options?.showToolbar === 'boolean' ?
             options?.showToolbar : true,
         showResetButton: typeof options?.showResetButton === 'boolean' ?
@@ -311,12 +313,9 @@ const DataGrid = forwardRef(({
         <ErrorBoundary debug={state?.debug}>
             <GridConfigContext.Provider value={{ state, setState }}>
                 <div
+                    dir={state.enableRtl ? 'rtl' : ''}
                     id={state.gridID}
-                    className={
-                        !isNull(state.gridCssClass)
-                            ? `${state.gridCssClass} r-d-g-lt-comp`
-                            : 'r-d-g-lt-comp'
-                    }
+                    className={`${state.gridCssClass ?? ''} r-d-g-lt-comp${state.enableRtl ? ' rdg-rtl' : ''}`.trim()}
                     style={{
                         maxWidth: state.maxWidth,
                         width: state.width,
@@ -342,7 +341,8 @@ const DataGrid = forwardRef(({
                             state?.showToolbarMenu === true &&
                             <div
                                 style={{
-                                    right: '30px',
+                                    right: !state.enableRtl ? '30px' : undefined,
+                                    left: state.enableRtl ? '30px' : undefined,
                                     top: '-4px',
                                     position: 'absolute'
                                 }}

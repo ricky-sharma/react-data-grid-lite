@@ -29,7 +29,8 @@ const GridCell = memo(({
         columns,
         enableCellEdit,
         enableColumnResize,
-        editingCell
+        editingCell,
+        enableRtl
     } = state;
     const colWidth = computedColumnWidthsRef?.current?.find(i =>
         i?.name === col?.name)?.width ?? 0;
@@ -61,12 +62,13 @@ const GridCell = memo(({
                 width: colWidth,
                 maxWidth: colResizable ? undefined : colWidth,
                 minWidth: colResizable ? undefined : colWidth,
-                left: fixedMeta ? leftPosition : '',
+                left: fixedMeta && !enableRtl ? leftPosition : '',
+                right: fixedMeta && enableRtl ? leftPosition : '',
                 position: fixedMeta ? 'sticky' : '',
                 zIndex: fixedMeta ? 6 : '',
                 backgroundColor: 'inherit',
                 boxShadow: (lastFixedIndex === keyProp && fixedMeta
-                    ? '#e0e0e0 -0.6px 0 0 0 inset'
+                    ? (enableRtl ? '#e0e0e0 0.6px 0 0 0 inset' : '#e0e0e0 -0.6px 0 0 0 inset')
                     : ''),
                 contain: 'layout paint',
                 cursor: editable === true ? 'pointer' : undefined,

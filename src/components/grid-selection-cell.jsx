@@ -15,7 +15,7 @@ const GridSelectionCell = ({
     baseRow
 }) => {
     const { state = {}, setState } = useGridConfig();
-    const { onRowSelect, selectedRows = new Set() } = state;
+    const { onRowSelect, selectedRows = new Set(), enableRtl } = state;
     const left = isSelectionColumnLeft && !isMobile
         ? isActionColumnLeft ? buttonColWidth : 0
         : '';
@@ -25,9 +25,9 @@ const GridSelectionCell = ({
     const position = (isSelectionColumnLeft || isSelectionColumnRight) && !isMobile ? 'sticky' : '';
     const zIndex = (isActionColumnRight || isSelectionColumnLeft) && !isMobile ? 6 : '';
     const boxShadow = isSelectionColumnLeft && !isMobile
-        ? '#e0e0e0 -0.6px 0 0 0 inset'
+        ? (enableRtl ? '#e0e0e0 0.6px 0 0 0 inset' :  '#e0e0e0 -0.6px 0 0 0 inset')
         : isSelectionColumnRight && !isMobile
-            ? '#e0e0e0 0.6px 0 0 0 inset'
+            ? (enableRtl ? '#e0e0e0 -0.6px 0 0 0 inset' : '#e0e0e0 0.6px 0 0 0 inset')
             : '';
 
     return (
@@ -41,8 +41,8 @@ const GridSelectionCell = ({
                 width: selectionColWidth,
                 maxWidth: selectionColWidth,
                 minWidth: selectionColWidth,
-                left,
-                right,
+                left: enableRtl ? right : left,
+                right: enableRtl ? left : right,
                 position,
                 zIndex,
                 backgroundColor: 'inherit',

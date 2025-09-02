@@ -1,6 +1,7 @@
 import React from 'react';
-import EditIcon from '../icons/edit-icon';
+import { useGridConfig } from '../hooks/use-grid-config';
 import DeleteIcon from '../icons/delete-icon';
+import EditIcon from '../icons/edit-icon';
 
 const GridActionCell = ({
     buttonColWidth,
@@ -13,14 +14,16 @@ const GridActionCell = ({
     editButtonEvent,
     deleteButtonEvent
 }) => {
+    const { state = {} } = useGridConfig();
+    const { enableRtl } = state;
     const left = isActionColumnLeft && !isMobile ? 0 : '';
     const right = isActionColumnRight && !isMobile ? '-0.5px' : '';
     const position = (isActionColumnLeft || isActionColumnRight) && !isMobile ? 'sticky' : '';
     const zIndex = (isActionColumnLeft || isActionColumnRight) && !isMobile ? 6 : '';
     const boxShadow = isActionColumnLeft && !isMobile
-        ? '#e0e0e0 -0.6px 0 0 0 inset'
+        ? (enableRtl ? '#e0e0e0 0.6px 0 0 0 inset' : '#e0e0e0 -0.6px 0 0 0 inset')
         : isActionColumnRight && !isMobile
-            ? '#e0e0e0 0.6px 0 0 0 inset'
+            ? (enableRtl ? '#e0e0e0 -0.6px 0 0 0 inset' : '#e0e0e0 0.6px 0 0 0 inset')
             : '';
 
     return (
@@ -32,8 +35,8 @@ const GridActionCell = ({
                 width: buttonColWidth,
                 maxWidth: buttonColWidth,
                 minWidth: buttonColWidth,
-                left,
-                right,
+                left: enableRtl ? right : left,
+                right: enableRtl ? left : right,
                 position,
                 zIndex,
                 backgroundColor: 'inherit',

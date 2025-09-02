@@ -45,7 +45,8 @@ const GridHeader = ({
         enableRowSelection,
         rowSelectColumnAlign,
         onSelectAll,
-        showColumnMenu
+        showColumnMenu,
+        enableRtl
     } = state;
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
@@ -109,8 +110,10 @@ const GridHeader = ({
             width: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
             maxWidth: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
             minWidth: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
-            left: header === Button_Column_Key ? buttonColLeft : selectionColLeft,
-            right: header === Button_Column_Key ? buttonColRight : selectionColRight,
+            left: enableRtl ? (header === Button_Column_Key ? buttonColRight : selectionColRight)
+                : (header === Button_Column_Key ? buttonColLeft : selectionColLeft),
+            right: enableRtl ? (header === Button_Column_Key ? buttonColLeft : selectionColLeft) :
+                (header === Button_Column_Key ? buttonColRight : selectionColRight),
             position:
                 (isActionColumnRight || isActionColumnLeft || isSelectionColumnLeft || isSelectionColumnRight)
                     && !isMobile ? 'sticky' : '',
@@ -124,10 +127,12 @@ const GridHeader = ({
         if (!isMobile) {
             baseStyle.boxShadow = (header === Button_Column_Key && isActionColumnLeft) ||
                 (header === Selection_Column_Key && isSelectionColumnLeft)
-                ? `#e0e0e0 ${withLightBoxShadow ? "-0.2px" : "-0.6px"} 0 0 0 inset`
+                ? (enableRtl ? `#e0e0e0 ${withLightBoxShadow ? "0.2px" : "0.6px"} 0 0 0 inset` :
+                    `#e0e0e0 ${withLightBoxShadow ? "-0.2px" : "-0.6px"} 0 0 0 inset`)
                 : (header === Button_Column_Key && isActionColumnRight) ||
                     (header === Selection_Column_Key && isSelectionColumnRight)
-                    ? `#e0e0e0 ${withLightBoxShadow ? "0.2px" : "0.6px"} 0 0 0 inset`
+                    ? (enableRtl ? `#e0e0e0 ${withLightBoxShadow ? "-0.2px" : "-0.6px"} 0 0 0 inset` :
+                        `#e0e0e0 ${withLightBoxShadow ? "0.2px" : "0.6px"} 0 0 0 inset`)
                     : '';
         }
 
@@ -142,7 +147,9 @@ const GridHeader = ({
             width,
             maxWidth: colResizable ? undefined : width,
             minWidth: colResizable ? undefined : width,
-            left: fixed === true ? computedColumnWidths
+            left: fixed === true && !enableRtl ? computedColumnWidths
+                .find(i => i.name === header.name)?.leftPosition ?? '' : '',
+            right: fixed === true && enableRtl ? computedColumnWidths
                 .find(i => i.name === header.name)?.leftPosition ?? '' : '',
             position: fixed === true ? 'sticky' : '',
             zIndex: fixed === true ? 10 : '',

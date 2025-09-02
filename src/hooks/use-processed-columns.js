@@ -84,7 +84,7 @@ export function useProcessedColumns(columns, setState, computedColumnWidthsRef) 
                 }
 
                 const validColumns = columns
-                    .filter(obj => obj && typeof obj.name === 'string' && obj.name.trim() !== '' && !obj?.hidden)
+                    .filter(obj => obj && typeof obj.name === 'string' && obj.name.trim() !== '')
                     .map(col => {
                         const prev = prevCols.find(c => c?.name === col?.name);
                         return {

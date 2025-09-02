@@ -42,7 +42,8 @@ export function useResizableTableColumns(
             resizer.classList.add('r-d-g-lt-column-resizer');
             resizer.style.position = 'absolute';
             resizer.style.top = '0';
-            resizer.style.right = '0';
+            resizer.style.right = !state?.enableRtl ? '0' : undefined;
+            resizer.style.left = state?.enableRtl ? '0' : undefined;
             resizer.style.width = '6px';
             if (window.matchMedia('(pointer: coarse)').matches) {
                 resizer.style.width = '8px';
