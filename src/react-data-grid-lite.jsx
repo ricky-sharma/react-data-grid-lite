@@ -153,6 +153,21 @@ const DataGrid = forwardRef(({
     });
 
     useEffect(() => {
+        setState(prevState => ({
+            ...prevState,
+            enableRtl: options.enableRtl,
+            actionColumnAlign: options.actionColumnAlign,
+            enableCellEdit: options.enableCellEdit,
+            enableColumnDrag: options.enableColumnDrag,
+            enableColumnResize: options.enableColumnResize,
+            enableSorting: options.enableSorting,
+            rowSelectColumnAlign: options.rowSelectColumnAlign,
+            showColumnMenu: options.showColumnMenu,
+            showToolbarMenu: options.showToolbarMenu
+        }))
+    }, [options])
+
+    useEffect(() => {
         return () => {
             if (searchTimeoutRef.current) {
                 clearTimeout(searchTimeoutRef.current);

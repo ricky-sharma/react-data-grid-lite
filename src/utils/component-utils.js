@@ -112,21 +112,23 @@ export function formatRowData(row, columns) {
     columns?.forEach((column) => {
         const colName = column.name;
         const valueFromRow = normalizedRow[colName?.toLowerCase()];
-        const conValue = getConcatValue(normalizedRow, columns, column.concatColumns);
-        const value = getFormattedValue(conValue || valueFromRow, column.formatting);
+        const conValue = getConcatValue(normalizedRow, column?.concatColumns);
+        const value = getFormattedValue(conValue || valueFromRow, column?.formatting);
         keyMap[colName?.toLowerCase()] = value;
     });
 
     return keyMap;
 }
 
-const getConcatValue = (row, columns, concatColumns) => {
+const getConcatValue = (row, concatColumns) => {
     const conCols = concatColumns?.columns || [];
     const conSep = concatColumns?.separator || ' ';
     return conCols
         .map(conName => {
-            const colDef = columns.find(c => c?.name?.toUpperCase() === conName?.toUpperCase());
-            return colDef ? row[colDef?.name?.toLowerCase()] : '';
+            const matchedKey = Object.keys(row).find(
+                key => key?.toLowerCase() === conName?.toLowerCase()
+            );
+            return matchedKey ? row[matchedKey] : '';
         })
         .filter(Boolean)
         .join(conSep);
