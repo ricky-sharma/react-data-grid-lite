@@ -15,7 +15,7 @@ const options = {
             console.log(row);
         }
     },
-    rowHeight: '60px'
+    rowHeight: '70px'
 }
 
 export default function Grid5() {

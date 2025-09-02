@@ -717,6 +717,10 @@
     background-color: #f5f5f5;
 }
 
+.r-d-g-lt-comp table tbody tr.gridRow.selected {
+    background-color: #add8e6 !important;
+}
+
 .r-d-g-lt-comp .float-lt {
     float: left;
 }

@@ -89,7 +89,8 @@ const GridRows = ({
         editingCellData,
         rowHeight,
         enableRowSelection,
-        rowSelectColumnAlign
+        rowSelectColumnAlign,
+        selectedRows
     } = state || {};
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
@@ -190,7 +191,7 @@ const GridRows = ({
             return (
                 <tr
                     key={rowIndex}
-                    className={`${rowCssClass} gridRow`}
+                    className={`${rowCssClass} ${selectedRows.has(baseRow?.__$index__) ? 'selected' : ''} gridRow`}
                     style={{
                         cursor: rowClickEnabled ? 'pointer' : undefined,
                         height: rowHeight

@@ -35,7 +35,7 @@ export default function Grid6() {
 
     const options = {
         enableColumnDrag: true,
-        rowHeight: '50px',
+        rowHeight: '70px',
         enableRtl: rtl
     }
 
