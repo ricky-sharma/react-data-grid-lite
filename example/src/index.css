@@ -59,6 +59,7 @@
     margin: 20px 10px;
     height: 30px;
     font-weight: 600;
+    cursor: pointer;
 }
 
     .clear-selected-rows:active {
@@ -79,6 +80,7 @@
     font-weight: 600;
     gap: 5px;
     user-select: none;
+    cursor: pointer;
 }
 
     .rightToLeftChkbx:active {

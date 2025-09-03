@@ -138,3 +138,6 @@ export const normalize = (str) =>
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .toLowerCase();
+
+export const getBool = (val, fallback = false) =>
+    typeof val === 'boolean' ? val : fallback;

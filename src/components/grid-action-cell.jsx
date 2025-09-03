@@ -8,14 +8,16 @@ const GridActionCell = ({
     isActionColumnLeft,
     isActionColumnRight,
     isMobile,
-    baseRow,
-    editButtonEnabled,
-    deleteButtonEnabled,
-    editButtonEvent,
-    deleteButtonEvent
+    baseRow
 }) => {
-    const { state = {} } = useGridConfig();
-    const { enableRtl } = state;
+    const { state = {} } = useGridConfig() ?? {};
+    const {
+        enableRtl,
+        editButtonEnabled,
+        deleteButtonEnabled,
+        editButtonEvent,
+        deleteButtonEvent
+    } = state;
     const left = isActionColumnLeft && !isMobile ? 0 : '';
     const right = isActionColumnRight && !isMobile ? '-0.5px' : '';
     const position = (isActionColumnLeft || isActionColumnRight) && !isMobile ? 'sticky' : '';

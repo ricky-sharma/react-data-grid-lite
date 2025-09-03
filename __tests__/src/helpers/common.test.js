@@ -213,3 +213,114 @@ describe('normalize', () => {
         expect(result).toBe('e');
     });
 });
+
+
+describe('More getContainerWidthInPixels tests', () => {
+    let container;
+
+    beforeEach(() => {
+        document.body.innerHTML = '';
+    });
+
+    it('returns default width if element is null', () => {
+        expect(getContainerWidthInPixels(null, 123)).toBe(123);
+    });
+
+    it('returns default width if element is not in DOM', () => {
+        const dummy = {};
+        expect(getContainerWidthInPixels(dummy, 456)).toBe(456);
+    });
+
+    it('returns width minus padding for valid HTMLElement', () => {
+        container = document.createElement('div');
+        container.style.width = '200px';
+        container.style.paddingLeft = '10px';
+        container.style.paddingRight = '10px';
+        container.style.boxSizing = 'border-box';
+
+        document.body.appendChild(container);
+
+        Object.defineProperty(container, 'clientWidth', { value: 200 });
+
+        const result = getContainerWidthInPixels(container);
+        expect(result).toBe(180);
+    });
+
+    it('works with selector string if element exists', () => {
+        const el = document.createElement('div');
+        el.id = 'my-test-container';
+        el.style.width = '300px';
+        el.style.paddingLeft = '20px';
+        el.style.paddingRight = '10px';
+        document.body.appendChild(el);
+
+        Object.defineProperty(el, 'clientWidth', { value: 300 });
+
+        const result = getContainerWidthInPixels('#my-test-container');
+        expect(result).toBe(270);
+    });
+
+    it('falls back to computed style width if clientWidth is 0', () => {
+        const el = document.createElement('div');
+        el.style.width = '250px';
+        el.style.paddingLeft = '0px';
+        el.style.paddingRight = '0px';
+        document.body.appendChild(el);
+
+        Object.defineProperty(el, 'clientWidth', { value: 0 });
+
+        const result = getContainerWidthInPixels(el);
+        expect(result).toBe(250);
+    });
+
+    it('falls back to parentElement width if own width is 0', () => {
+        const parent = document.createElement('div');
+        const child = document.createElement('div');
+
+        parent.style.width = '400px';
+        Object.defineProperty(parent, 'clientWidth', { value: 400 });
+
+        parent.appendChild(child);
+        document.body.appendChild(parent);
+
+        Object.defineProperty(child, 'clientWidth', { value: 0 });
+
+        const result = getContainerWidthInPixels(child);
+        expect(result).toBe(400);
+    });
+
+    it('returns default if no width available even in parent', () => {
+        const el = document.createElement('div');
+        document.body.appendChild(el);
+
+        Object.defineProperty(el, 'clientWidth', { value: 0 });
+
+        const result = getContainerWidthInPixels(el, 999);
+        expect(result).toBe(999);
+    });
+
+    it('falls back to defaultWidth when cs.width throws in parseFloat', () => {
+        const el = document.createElement('div');
+        document.body.appendChild(el);
+
+        Object.defineProperty(el, 'clientWidth', { value: 0 });
+
+        const mockComputedStyle = {
+            paddingLeft: '10px',
+            paddingRight: '10px',
+            get width() {
+                throw new Error('Simulated width error');
+            }
+        };
+
+        const originalGetComputedStyle = window.getComputedStyle;
+        window.getComputedStyle = jest.fn(() => mockComputedStyle);
+
+        const defaultWidth = 456;
+        const result = getContainerWidthInPixels(el, defaultWidth);
+
+        expect(result).toBe(defaultWidth);
+
+        window.getComputedStyle = originalGetComputedStyle;
+    });
+});

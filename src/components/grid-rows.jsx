@@ -80,8 +80,6 @@ const GridRows = ({
         onRowOut,
         editButtonEnabled,
         deleteButtonEnabled,
-        editButtonEvent,
-        deleteButtonEvent,
         gridID,
         actionColumnAlign,
         editingCell,
@@ -181,17 +179,13 @@ const GridRows = ({
                         isActionColumnRight={isActionColumnRight}
                         isMobile={isMobile}
                         baseRow={baseRow}
-                        editButtonEnabled={editButtonEnabled}
-                        deleteButtonEnabled={deleteButtonEnabled}
-                        editButtonEvent={editButtonEvent}
-                        deleteButtonEvent={deleteButtonEvent}
                     />
                 );
             }
             return (
                 <tr
                     key={rowIndex}
-                    className={`${rowCssClass} ${selectedRows.has(baseRow?.__$index__) ? 'selected' : ''} gridRow`}
+                    className={`${rowCssClass} ${selectedRows?.has(baseRow?.__$index__) ? 'selected' : ''} gridRow`}
                     style={{
                         cursor: rowClickEnabled ? 'pointer' : undefined,
                         height: rowHeight

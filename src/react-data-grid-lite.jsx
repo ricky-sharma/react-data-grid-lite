@@ -1,9 +1,10 @@
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { isNull } from '../src/helpers/common';
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { getBool, isNull } from '../src/helpers/common';
 import { eventGridHeaderClicked } from './components/events/event-grid-header-clicked';
 import GridFooter from './components/grid-footer';
 import GridGlobalSearchBar from './components/grid-global-search-bar';
 import GridTable from './components/grid-table';
+import GridToolBarMenu from './components/grid-toolbar-menu';
 import { Default_Grid_Width_VW } from './constants';
 import { GridConfigContext } from './context/grid-config-context';
 import ErrorBoundary from './error-boundary';
@@ -16,7 +17,6 @@ import { useResetGrid } from './hooks/use-reset-grid';
 import { useSearchAndSortCallbacks } from './hooks/use-search-and-sort-callbacks';
 import { useSearchHandler } from './hooks/use-search-handler';
 import { applyTheme } from './utils/themes-utils';
-import GridToolBarMenu from './components/grid-toolbar-menu';
 
 const DataGrid = forwardRef(({
     id,
@@ -43,6 +43,122 @@ const DataGrid = forwardRef(({
     theme
 }, ref) => {
     const fallbackfn = () => { };
+
+    const {
+        enableRtl,
+        actionColumnAlign,
+        enableCellEdit,
+        enableColumnDrag,
+        enableColumnResize,
+        enableSorting,
+        rowSelectColumnAlign,
+        showColumnMenu,
+        showToolbarMenu,
+        enableColumnSearch,
+        enableGlobalSearch,
+        enableRowSelection,
+        showToolbar,
+        showResetButton,
+        showResetMenuItem,
+        csvExportUI,
+        gridClass,
+        headerClass,
+        rowClass,
+        showFooter,
+        showNumberPagination,
+        showSelectPagination,
+        showPageSizeSelector,
+        showPageInfo,
+        rowHeight,
+        editButton,
+        deleteButton,
+        enableDownload,
+        downloadFilename,
+        onDownloadComplete,
+        globalSearchPlaceholder,
+        gridBgColor,
+        headerBgColor,
+        aiSearch,
+        debug
+    } = options || {};
+
+    const optionProps = useMemo(() => ({
+        enableRtl: getBool(enableRtl),
+        actionColumnAlign: actionColumnAlign ?? 'right',
+        enableCellEdit: getBool(enableCellEdit),
+        enableColumnDrag: getBool(enableColumnDrag),
+        enableColumnResize: getBool(enableColumnResize),
+        enableSorting: getBool(enableSorting, true),
+        rowSelectColumnAlign: rowSelectColumnAlign ?? 'left',
+        showColumnMenu: getBool(showColumnMenu, true),
+        showToolbarMenu: getBool(showToolbarMenu, true),
+        enableColumnSearch: getBool(enableColumnSearch, true),
+        enableGlobalSearch: getBool(enableGlobalSearch, true),
+        enableRowSelection: getBool(enableRowSelection, true),
+        showToolbar: getBool(showToolbar, true),
+        showResetButton: getBool(showResetButton),
+        showResetMenuItem: getBool(showResetMenuItem, true),
+        csvExportUI: csvExportUI === 'button' ? 'button' : 'menu',
+        isCSVExportUIButton: csvExportUI === 'button',
+        gridCssClass: gridClass ?? applyTheme(theme ?? '')?.grid ?? '',
+        headerCssClass: headerClass ?? applyTheme(theme ?? '')?.header ?? '',
+        rowCssClass: rowClass ?? applyTheme(theme ?? '')?.row ?? '',
+        showFooter: getBool(showFooter, true),
+        showNumberPagination: getBool(showNumberPagination, true),
+        showSelectPagination: getBool(showSelectPagination, true),
+        showPageSizeSelector: getBool(showPageSizeSelector, true),
+        showPageInfo: getBool(showPageInfo, true),
+        rowHeight: parseInt(rowHeight, 10) ? rowHeight : undefined,
+        editButtonEnabled: typeof editButton === 'object',
+        editButtonEvent: editButton?.event ?? fallbackfn,
+        deleteButtonEnabled: typeof deleteButton === 'object',
+        deleteButtonEvent: deleteButton?.event ?? fallbackfn,
+        enableDownload: getBool(enableDownload, true),
+        downloadFilename: downloadFilename ?? null,
+        onDownloadComplete: onDownloadComplete ?? fallbackfn,
+        globalSearchPlaceholder: globalSearchPlaceholder,
+        gridBackgroundColor: gridBgColor,
+        gridHeaderBackgroundColor: headerBgColor,
+        aiSearchOptions: aiSearch ?? {},
+        debug: getBool(debug),
+    }), [
+        enableRtl,
+        actionColumnAlign,
+        enableCellEdit,
+        enableColumnDrag,
+        enableColumnResize,
+        enableSorting,
+        rowSelectColumnAlign,
+        showColumnMenu,
+        showToolbarMenu,
+        enableColumnSearch,
+        enableGlobalSearch,
+        enableRowSelection,
+        showToolbar,
+        showResetButton,
+        showResetMenuItem,
+        csvExportUI,
+        gridClass,
+        headerClass,
+        rowClass,
+        showFooter,
+        showNumberPagination,
+        showSelectPagination,
+        showPageSizeSelector,
+        showPageInfo,
+        rowHeight,
+        editButton,
+        deleteButton,
+        enableDownload,
+        downloadFilename,
+        onDownloadComplete,
+        globalSearchPlaceholder,
+        gridBgColor,
+        headerBgColor,
+        aiSearch,
+        debug
+    ]);
+
     const [state, setState] = useState({
         width: width ?? Default_Grid_Width_VW,
         maxWidth: maxWidth ?? '100vw',
@@ -56,48 +172,6 @@ const DataGrid = forwardRef(({
         lastPageRows: 10,
         activePage: parseInt(currentPage, 10) ? parseInt(currentPage, 10) : 1,
         theme: theme,
-        gridCssClass: options?.gridClass ?? applyTheme(theme ?? '')?.grid ?? '',
-        headerCssClass: options?.headerClass ?? applyTheme(theme ?? '')?.header ?? '',
-        rowCssClass: options?.rowClass ?? applyTheme(theme ?? '')?.row ?? '',
-        enableColumnSearch: typeof options?.enableColumnSearch === 'boolean'
-            ? options?.enableColumnSearch : true,
-        enableColumnResize: typeof options?.enableColumnResize === 'boolean' ?
-            options?.enableColumnResize : false,
-        enableColumnDrag: typeof options?.enableColumnDrag === 'boolean' ?
-            options?.enableColumnDrag : false,
-        enableGlobalSearch: typeof options?.enableGlobalSearch === 'boolean' ?
-            options?.enableGlobalSearch : true,
-        enableCellEdit: typeof options?.enableCellEdit === 'boolean' ?
-            options?.enableCellEdit : false,
-        enableSorting: typeof options?.enableSorting === 'boolean' ?
-            options?.enableSorting : true,
-        enableRowSelection: typeof options?.enableRowSelection === 'boolean' ?
-            options?.enableRowSelection : true,
-        enableRtl: typeof options?.enableRtl === 'boolean' ?
-            options?.enableRtl : false,
-        showToolbar: typeof options?.showToolbar === 'boolean' ?
-            options?.showToolbar : true,
-        showResetButton: typeof options?.showResetButton === 'boolean' ?
-            options?.showResetButton : false,
-        showResetMenuItem: typeof options?.showResetMenuItem === 'boolean' ?
-            options?.showResetMenuItem : true,
-        showColumnMenu: typeof options?.showColumnMenu === 'boolean' ?
-            options?.showColumnMenu : true,
-        showToolbarMenu: typeof options?.showToolbarMenu === 'boolean' ?
-            options?.showToolbarMenu : true,
-        csvExportUI: options?.csvExportUI === 'button' ? 'button' : 'menu',
-        isCSVExportUIButton: options?.csvExportUI === 'button',
-        showFooter: typeof options?.showFooter === 'boolean' ?
-            options?.showFooter : true,
-        showNumberPagination: typeof options?.showNumberPagination === 'boolean' ?
-            options?.showNumberPagination : true,
-        showSelectPagination: typeof options?.showSelectPagination === 'boolean' ?
-            options?.showSelectPagination : true,
-        showPageSizeSelector: typeof options?.showPageSizeSelector === 'boolean' ?
-            options?.showPageSizeSelector : true,
-        showPageInfo: typeof options?.showPageInfo === 'boolean' ?
-            options?.showPageInfo : true,
-        rowHeight: parseInt(options?.rowHeight, 10) ? options?.rowHeight : undefined,
         rowClickEnabled: !isNull(onRowClick),
         onRowClick: onRowClick ?? fallbackfn,
         onRowHover: onRowHover ?? fallbackfn,
@@ -110,26 +184,12 @@ const DataGrid = forwardRef(({
         onPageChange: onPageChange ?? fallbackfn,
         onColumnResized: onColumnResized ?? fallbackfn,
         onColumnDragEnd: onColumnDragEnd ?? fallbackfn,
-        editButtonEnabled: typeof options?.editButton === 'object',
-        editButtonEvent: options?.editButton?.event ?? fallbackfn,
-        deleteButtonEnabled: typeof options?.deleteButton === 'object',
-        deleteButtonEvent: options?.deleteButton?.event ?? fallbackfn,
-        actionColumnAlign: options?.actionColumnAlign ?? 'right',
-        rowSelectColumnAlign: options?.rowSelectColumnAlign ?? 'left',
-        enableDownload: typeof options?.enableDownload === 'boolean' ?
-            options?.enableDownload : true,
-        downloadFilename: options?.downloadFilename ?? null,
-        onDownloadComplete: options?.onDownloadComplete ?? fallbackfn,
-        globalSearchPlaceholder: options?.globalSearchPlaceholder,
-        gridBackgroundColor: options?.gridBgColor,
-        gridHeaderBackgroundColor: options?.headerBgColor,
-        aiSearchOptions: options?.aiSearch ?? {},
-        debug: typeof options?.debug === 'boolean' ? options?.debug : false,
         globalSearchInput: '',
         toggleState: true,
         searchValues: {},
         editingCell: null,
-        selectedRows: new Set()
+        selectedRows: new Set(),
+        ...optionProps
     });
     const dataReceivedRef = useRef(null);
     const searchColsRef = useRef([]);
@@ -155,17 +215,9 @@ const DataGrid = forwardRef(({
     useEffect(() => {
         setState(prevState => ({
             ...prevState,
-            enableRtl: options.enableRtl,
-            actionColumnAlign: options.actionColumnAlign,
-            enableCellEdit: options.enableCellEdit,
-            enableColumnDrag: options.enableColumnDrag,
-            enableColumnResize: options.enableColumnResize,
-            enableSorting: options.enableSorting,
-            rowSelectColumnAlign: options.rowSelectColumnAlign,
-            showColumnMenu: options.showColumnMenu,
-            showToolbarMenu: options.showToolbarMenu
+            ...optionProps
         }))
-    }, [options])
+    }, [optionProps])
 
     useEffect(() => {
         return () => {
