@@ -11,6 +11,7 @@ import ColumnMenu from './column-menu';
 import ColumnSortIcon from './column-sort-icon';
 import Checkbox from './custom-fields/checkbox';
 import Input from './custom-fields/input';
+import { handleHeaderSelectAllChange } from './events/handle-header-selectall-change';
 
 const GridHeader = ({
     state,
@@ -175,30 +176,7 @@ const GridHeader = ({
                             (header === Selection_Column_Key &&
                                 <Checkbox
                                     isSelected={isAllSelected}
-                                    onChange={(e) => {
-                                        const isSelected = e.target.checked;
-                                        const firstRow = state?.firstRow ?? 0;
-                                        const lastRow = firstRow + (state?.currentPageRows ?? 0);
-                                        const currentPageRows = state?.rowsData.slice(firstRow, lastRow) ?? [];
-                                        setState(prev => {
-                                            const selectedRows = new Set(prev?.selectedRows);
-                                            currentPageRows?.forEach(row => {
-                                                const index = row?.__$index__;
-                                                if (isSelected) {
-                                                    selectedRows?.add(index);
-                                                } else {
-                                                    selectedRows?.delete(index);
-                                                }
-                                            });
-                                            return {
-                                                ...prev,
-                                                selectedRows
-                                            };
-                                        });
-                                        if (typeof onSelectAll === 'function') {
-                                            onSelectAll(e, currentPageRows, isSelected);
-                                        }
-                                    }}
+                                    onChange={(e) => handleHeaderSelectAllChange(e, state, setState, onSelectAll)}
                                 />
                             )
                         }
