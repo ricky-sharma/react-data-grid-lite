@@ -96,3 +96,115 @@ describe('dynamicSort', () => {
         expect(compare({ x: 'test' }, { x: 'test' })).toBe(0);
     });
 });
+
+
+describe('More dynamicSort tests', () => {
+    const data = [
+        { name: 'Alice', age: 30, salary: '$3,000', date: '2021-01-01', uuid: 'b123' },
+        { name: 'bob', age: 25, salary: '$2,500', date: '2020-01-01', uuid: 'a123' },
+        { name: 'Charlie', age: 35, salary: '$4,000', date: '2022-01-01', uuid: 'c123' },
+        { name: 'david', age: null, salary: null, date: null, uuid: null },
+    ];
+
+    it('sorts by string field (case-insensitive)', () => {
+        const sorted = [...data].sort(dynamicSort('name'));
+        expect(sorted.map(d => d.name)).toEqual(['Alice', 'bob', 'Charlie', 'david']);
+    });
+
+    it('sorts by string field descending', () => {
+        const sorted = [...data].sort(dynamicSort('-name'));
+        expect(sorted.map(d => d.name)).toEqual(['david', 'Charlie', 'bob', 'Alice']);
+    });
+
+    it('sorts by number field', () => {
+        const sorted = [...data].sort(dynamicSort('age'));
+        expect(sorted.map(d => d.age)).toEqual([null, 25, 30, 35]);
+    });
+
+    it('sorts by number field descending', () => {
+        const sorted = [...data].sort(dynamicSort('-age'));
+        expect(sorted.map(d => d.age)).toEqual([35, 30, 25, null]);
+    });
+
+    it('sorts by currency field', () => {
+        const sorted = [...data].sort(dynamicSort('salary'));
+        expect(sorted.map(d => d.salary)).toEqual([null, '$2,500', '$3,000', '$4,000']);
+    });
+
+    it('sorts by date string field', () => {
+        const sorted = [...data].sort(dynamicSort('date'));
+        expect(sorted.map(d => d.date)).toEqual([null, '2020-01-01', '2021-01-01', '2022-01-01']);
+    });
+
+    it('sorts by UUID (fallback to lowercase string)', () => {
+        const sorted = [...data].sort(dynamicSort('uuid'));
+        expect(sorted.map(d => d.uuid)).toEqual([null, 'a123', 'b123', 'c123']);
+    });
+
+    it('sorts by multiple fields', () => {
+        const multi = [
+            { name: 'John', age: 30 },
+            { name: 'John', age: 25 },
+            { name: 'Alice', age: 40 },
+        ];
+        const sorted = [...multi].sort(dynamicSort('name', 'age'));
+        expect(sorted).toEqual([
+            { name: 'Alice', age: 40 },
+            { name: 'John', age: 25 },
+            { name: 'John', age: 30 },
+        ]);
+    });
+
+    it('handles null and undefined values gracefully', () => {
+        const mixed = [
+            { val: null },
+            { val: undefined },
+            { val: 'B' },
+            { val: 'a' },
+        ];
+        const sorted = [...mixed].sort(dynamicSort('val'));
+        expect(sorted.map(i => i.val)).toEqual([null, undefined, 'a', 'B']);
+    });
+
+    it('sorts by Date object field', () => {
+        const date1 = new Date('2020-01-01');
+        const date2 = new Date('2021-01-01');
+        const date3 = new Date('2022-01-01');
+
+        const items = [
+            { createdAt: date2 },
+            { createdAt: date1 },
+            { createdAt: date3 },
+        ];
+
+        const sorted = [...items].sort(dynamicSort('createdAt'));
+        expect(sorted.map(i => i.createdAt)).toEqual([date1, date2, date3]);
+    });
+
+    it('sorts by Date object field descending', () => {
+        const date1 = new Date('2020-01-01');
+        const date2 = new Date('2021-01-01');
+        const date3 = new Date('2022-01-01');
+
+        const items = [
+            { createdAt: date2 },
+            { createdAt: date1 },
+            { createdAt: date3 },
+        ];
+
+        const sorted = [...items].sort(dynamicSort('-createdAt'));
+        expect(sorted.map(i => i.createdAt)).toEqual([date3, date2, date1]);
+    });
+
+    it('forces fallback string normalization (not date, not numeric, not currency)', () => {
+        const items = [
+            { key: '  Zebra!@#  ' },
+            { key: ['alpha'] },
+            { key: 'MIDDLE' },
+        ];
+
+        const sorted = [...items].sort(dynamicSort('key'));
+
+        expect(sorted.map(i => i.key)).toEqual([['alpha'], 'MIDDLE', '  Zebra!@#  ']);
+    });
+});

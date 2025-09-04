@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { capitalize, convertViewportUnitToPixels, getContainerWidthInPixels, isEqual, isNull, normalize } from './../../../src/helpers/common';
+import { capitalize, convertViewportUnitToPixels, getBool, getContainerWidthInPixels, isEqual, isNull, normalize } from './../../../src/helpers/common';
 
 describe('isNull', () => {
     it('returns true for null, undefined, NaN', () => {
@@ -77,6 +77,14 @@ describe('convertViewportUnitToPixels', () => {
 
     it('uses 90% of window width if both fail', () => {
         expect(convertViewportUnitToPixels('invalid', 'also-invalid')).toBe(900);
+    });
+
+    it('falls back to clientWidth when innerWidth is 0', () => {
+        Object.defineProperty(window, 'innerWidth', { value: 0 });
+        Object.defineProperty(document.documentElement, 'clientWidth', { value: 1000 });
+
+        const result = convertViewportUnitToPixels('50vw');
+        expect(result).toBe(500);
     });
 });
 
@@ -290,12 +298,17 @@ describe('More getContainerWidthInPixels tests', () => {
     });
 
     it('returns default if no width available even in parent', () => {
-        const el = document.createElement('div');
-        document.body.appendChild(el);
+        const parent = document.createElement('div');
+        const child = document.createElement('div');
+        child.style.width = '-1px';
+        parent.style.width = '-1px';
+        parent.appendChild(child);
+        document.body.appendChild(parent);
 
-        Object.defineProperty(el, 'clientWidth', { value: 0 });
+        Object.defineProperty(parent, 'clientWidth', { value: 0 });
+        Object.defineProperty(child, 'clientWidth', { value: 0 });
 
-        const result = getContainerWidthInPixels(el, 999);
+        const result = getContainerWidthInPixels(child, 999);
         expect(result).toBe(999);
     });
 
@@ -322,5 +335,32 @@ describe('More getContainerWidthInPixels tests', () => {
         expect(result).toBe(defaultWidth);
 
         window.getComputedStyle = originalGetComputedStyle;
+    });
+});
+
+describe('getBool', () => {
+    it('returns true when val is true', () => {
+        expect(getBool(true)).toBe(true);
+    });
+
+    it('returns false when val is false', () => {
+        expect(getBool(false)).toBe(false);
+    });
+
+    it('returns fallback when val is not a boolean', () => {
+        expect(getBool('true')).toBe(false);
+        expect(getBool(1)).toBe(false);
+        expect(getBool(null)).toBe(false);
+        expect(getBool(undefined)).toBe(false);
+        expect(getBool({})).toBe(false);
+        expect(getBool([])).toBe(false);
+    });
+
+    it('respects the provided fallback value', () => {
+        expect(getBool('true', true)).toBe(true);
+        expect(getBool(0, true)).toBe(true);
+        expect(getBool(null, true)).toBe(true);
+        expect(getBool(undefined, true)).toBe(true);
+        expect(getBool('false', true)).toBe(true);
     });
 });

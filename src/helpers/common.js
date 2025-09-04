@@ -91,7 +91,7 @@ export function getContainerWidthInPixels(element, defaultWidth = 0) {
 
     // Fallback to parent element width if still invalid
     if (width <= 0 && el.parentElement) {
-        width = el.parentElement.clientWidth || parseFloat(window.getComputedStyle(el.parentElement).width) || defaultWidth;
+        width = el.parentElement?.clientWidth || parseFloat(window.getComputedStyle(el.parentElement).width);
     }
 
     // Final fallback

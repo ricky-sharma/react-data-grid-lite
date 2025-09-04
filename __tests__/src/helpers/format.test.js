@@ -69,6 +69,7 @@ describe('format()', () => {
 
         it('returns original value if percent is not a number', () => {
             expect(format('abc%', 'percent')).toBe('abc%');
+            expect(format('-1px', 'percent')).toBe('-1px');
         });
     });
 
