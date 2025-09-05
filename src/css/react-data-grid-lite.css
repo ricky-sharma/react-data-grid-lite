@@ -857,20 +857,28 @@
         font-size: 18px;
     }
 
+    .r-d-g-lt-comp .pagination li.page-item.arrow.left {
+        margin: 0 0 0 10px;
+    }
+
+    .r-d-g-lt-comp .pagination li.page-item.arrow.right {
+        margin: 0 10px 0 0;
+    }
+
         .r-d-g-lt-comp .pagination li.page-item a i.arrow:hover,
         .r-d-g-lt-comp .pagination li.page-item.arrow:hover,
         .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
             color: #212529 !important;
         }
 
-    .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
-        background: inherit !important;
-    }
+        .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
+            background: inherit !important;
+        }
 
-    .r-d-g-lt-comp .pagination li.page-item.arrow a.page-link:active {
-        background: inherit !important;
-        color: inherit !important;
-    }
+        .r-d-g-lt-comp .pagination li.page-item.arrow a.page-link:active {
+            background: inherit !important;
+            color: inherit !important;
+        }
 
 .r-d-g-lt-comp .emptyHeader {
     cursor: default !important;

@@ -1,5 +1,5 @@
 /**
- * Checks if a value is considered "null-like" — including:
+ * Checks if a value is considered "null-like" â€” including:
  * - null
  * - undefined
  * - NaN

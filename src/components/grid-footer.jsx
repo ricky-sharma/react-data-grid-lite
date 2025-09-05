@@ -80,6 +80,8 @@ const GridFooter = memo(({
                 style={{
                     width: isMobileWidth || isSmallWidth ? '20%' : undefined,
                     maxWidth: isMobileWidth || isSmallWidth ? '20%' : undefined,
+                    position: 'relative',
+                    top: isMobileWidth || isSmallWidth ? '10px' : undefined
                 }}
                 className="col-flex-2 mg--0 pd--0 pager-select alignCenter">
                 {showSelectPagination === true &&
@@ -93,12 +95,14 @@ const GridFooter = memo(({
             </div>
             <div
                 style={{
-                    padding: isLargeWidth === true ? '0 60px 0 0' :
-                        (isMediumWidth === true ? '0 40px 0 0' : 0),
+                    padding: isLargeWidth ? '0 40px 0 0' :
+                        (isMediumWidth ? '0 30px 0 0' : isTabletWidth ? '0 20px 0 0' : 0),
                     width: isTabletWidth ? '33.332%' :
                         (isMobileWidth ? '40%' : isXSWidth ? "55%" : isSmallWidth ? '50%' : undefined),
                     maxWidth: isTabletWidth ? '33.332%'
-                        : (isMobileWidth ? '40%' : isXSWidth ? "55%" : isSmallWidth ? '50%' : undefined)
+                        : (isMobileWidth ? '40%' : isXSWidth ? "55%" : isSmallWidth ? '50%' : undefined),
+                    position: 'relative',
+                    top: isMobileWidth || isSmallWidth ? '-1px' : undefined
                 }}
                 className="col-flex-3 mg--0 pd--0 page-size-selector alignCenter">
                 {showPageSizeSelector === true &&
