@@ -35,7 +35,10 @@ export default function Grid3() {
                 render: (row) => (
                     <div className="alignCenter"
                         style={{
-                            height: '100%', width: "100%", padding: "38px"
+                            height: '100%',
+                            width: "100%",
+                            justifyContent: 'left',
+                            padding: '25px'
                         }}>
                         <a rel='noopener noreferrer' href={`mailto:${row[val.toLowerCase()]}`}
                             className="ellipsis">
@@ -48,9 +51,14 @@ export default function Grid3() {
             return {
                 name: val,
                 render: (row) => (
-                    <div className="alignCenter" style={{
-                        height: '100%', width: "100%", padding: "38px"
-                    }}>
+                    <div
+                        className="alignCenter"
+                        style={{
+                            height: '100%',
+                            width: "100%",
+                            justifyContent: 'left',
+                            padding: '25px'
+                        }}>
                         <a href={`${row[val.toLowerCase()]}`}
                             className="ellipsis" rel='noopener noreferrer' target='_blank'>
                             {row[val.toLowerCase()]}
@@ -62,7 +70,7 @@ export default function Grid3() {
             return {
                 name: val,
                 width: '300px',
-                order:4,
+                order: 4,
                 render: () => {
                     const random = Math.random();
                     const largeImage = `https://picsum.photos/300/100?random=${random}`;

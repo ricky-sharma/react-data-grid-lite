@@ -614,9 +614,9 @@
         }
 
             .r-d-g-lt-comp table thead tr.gridHeader th div.headerText {
-                padding: 0 0 0 5px !important;
+                padding: 0 0 0 25px;
                 white-space: normal;
-                text-align: center;
+                text-align: left;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 text-transform: capitalize;
@@ -634,6 +634,11 @@
         z-index: 5;
         padding: 0 !important
     }
+
+.r-d-g-lt-comp.rdg-rtl table thead tr.gridHeader th div.headerText {
+    padding: 0 25px 0 0;
+    text-align: right;
+}
 
 .r-d-g-lt-comp.rdg-rtl table thead tr.gridHeader span {
     right: unset;
@@ -865,20 +870,20 @@
         margin: 0 10px 0 0;
     }
 
-        .r-d-g-lt-comp .pagination li.page-item a i.arrow:hover,
-        .r-d-g-lt-comp .pagination li.page-item.arrow:hover,
-        .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
-            color: #212529 !important;
-        }
+    .r-d-g-lt-comp .pagination li.page-item a i.arrow:hover,
+    .r-d-g-lt-comp .pagination li.page-item.arrow:hover,
+    .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
+        color: #212529 !important;
+    }
 
-        .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
-            background: inherit !important;
-        }
+    .r-d-g-lt-comp .pagination li.page-item.arrow a:hover {
+        background: inherit !important;
+    }
 
-        .r-d-g-lt-comp .pagination li.page-item.arrow a.page-link:active {
-            background: inherit !important;
-            color: inherit !important;
-        }
+    .r-d-g-lt-comp .pagination li.page-item.arrow a.page-link:active {
+        background: inherit !important;
+        color: inherit !important;
+    }
 
 .r-d-g-lt-comp .emptyHeader {
     cursor: default !important;
