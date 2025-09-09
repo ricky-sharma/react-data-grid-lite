@@ -176,6 +176,8 @@ const Menu = ({
                 padding: '5px 0',
                 minWidth: '180px',
                 zIndex: 20,
+                maxHeight: '250px',
+                overflow: 'auto'
             }}
         >
             {subItems.map((subItem, i) => (
@@ -239,7 +241,7 @@ const Menu = ({
                 boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
                 padding: !usePortal ? '5px 0' : undefined,
                 minWidth: !usePortal ? '225px' : undefined,
-                zIndex: 1000,
+                zIndex: 1000
             }}
         >
             {items.map((item, index) =>

@@ -70,6 +70,12 @@ function Navbar() {
                     </Link>
                     <span></span>
                 </li>
+                <li>
+                    <Link to="/Grid9" className={isActive('/Grid9') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                        Million Cells
+                    </Link>
+                    <span></span>
+                </li>
             </ul>
         </nav>
     );

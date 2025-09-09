@@ -1,5 +1,5 @@
 import { Button_Column_Key, Button_Column_Width, Selection_Column_Key, Selection_Column_Width } from "../constants";
-import { tryParseWidth } from "./component-utils";
+import { tryParseValue } from "./component-utils";
 
 export function getActionColumnStyle(
     header,
@@ -18,7 +18,7 @@ export function getActionColumnStyle(
     const buttonColLeft = isActionColumnLeft && !isMobile ? 0 : '';
 
     const selectionColRight = isActionColumnRight && isSelectionColumnRight && !isMobile
-        ? `${tryParseWidth(Button_Column_Width) - 0.5}px`
+        ? `${tryParseValue(Button_Column_Width) - 0.5}px`
         : (!isActionColumnRight && isSelectionColumnRight && !isMobile ? '-0.5px' : '');
 
     const buttonColRight = isActionColumnRight && !isMobile ? '-0.5px' : '';

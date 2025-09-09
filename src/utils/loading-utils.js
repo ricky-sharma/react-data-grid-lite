@@ -17,17 +17,20 @@ const notify = () => {
     subscribers.forEach(fn => fn(loading));
 };
 
-const trackPromise = async (promise) => {
+const trackPromise = async (promise, minDelay = 10000) => {
     loadingCount += 1;
     notify();
 
+    const delay = new Promise(resolve => setTimeout(resolve, minDelay));
+
     try {
-        await promise;
+        await Promise.all([promise, delay]);
     } finally {
         loadingCount -= 1;
         notify();
     }
 };
+
 
 export default trackPromise;
 

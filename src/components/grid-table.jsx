@@ -31,14 +31,15 @@ const GridTable = ({
                 searchHandler={searchHandler}
                 gridHeaderRef={gridHeaderRef}
                 computedColumnWidthsRef={computedColumnWidthsRef}
+                tableRef={tableRef}
             />
-
             <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
                 <GridRows
                     state={state}
                     setState={setState}
                     computedColumnWidthsRef={computedColumnWidthsRef}
                     dataReceivedRef={dataReceivedRef}
+                    tableRef={tableRef}
                 />
             </tbody>
         </table>

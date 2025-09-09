@@ -17,7 +17,7 @@ export function useProcessedData({
     runAISearch
 }) {
     useEffect(() => {
-        if (!isNull(data)) {
+        if (!isNull(data) && Array.isArray(data)) {
             let timeout;
 
             const processData = async () => {

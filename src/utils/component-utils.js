@@ -15,14 +15,13 @@ import {
 import { format as formatVal } from "../helpers/format";
 
 export function calculateColumnWidth(
-    colWidthArray,
-    hiddenCols,
-    currentColKey,
+    columns,
+    currentColumn,
     buttonColEnabled = false,
     gridID,
     enableRowSelection
 ) {
-    if (!Array.isArray(colWidthArray)) return '100%';
+    if (!Array.isArray(columns)) return '100%';
     const containerWidth = getContainerWidthInPixels(`#${gridID} ${Container_Identifier}`,
         convertViewportUnitToPixels(Default_Grid_Width_VW));
     const buttonColumnWidth = parseFloat(Button_Column_Width?.replace?.('px', ''));
@@ -37,13 +36,13 @@ export function calculateColumnWidth(
     let fixedWidthColCount = 0;
     let nonFixedWidthColCount = 0;
 
-    colWidthArray.forEach((width, index) => {
-        if (hiddenCols?.includes(index)) return;
-        if (width == null) {
+    columns.forEach((col, index) => {
+        if (col?.hidden === true || col?.hideable === true) return;
+        if (col?.width == null || col?.width === '') {
             nonFixedWidthColCount++;
             return;
         }
-        const pixelValue = tryParseWidth(width, containerWidth);
+        const pixelValue = tryParseValue(col?.width, containerWidth);
         if (isNaN(pixelValue) || pixelValue <= 0) {
             nonFixedWidthColCount++;
         } else {
@@ -55,7 +54,7 @@ export function calculateColumnWidth(
     const totalVisibleColumns = fixedWidthColCount + nonFixedWidthColCount;
     if (totalVisibleColumns === 0) return '100%';
 
-    let parsedWidth = tryParseWidth(colWidthArray?.[currentColKey] ?? 0, containerWidth);
+    let parsedWidth = tryParseValue(currentColumn?.width ?? 0, containerWidth);
 
     const isValidWidth = !isNaN(parsedWidth) && parsedWidth > 0;
     const safeColWidth = isValidWidth ? `${parsedWidth}px` : Fallback_Column_Width;
@@ -73,7 +72,7 @@ export function calculateColumnWidth(
 
     // SCENARIO 2: Mixed fixed + flexible
     if (nonFixedWidthColCount > 0 && fixedWidthColCount > 0) {
-        return colWidthArray?.[currentColKey] ? safeColWidth :
+        return currentColumn?.width != null && currentColumn?.width !== '' ? safeColWidth :
             (nonFixedColumnComputedValue > fallbackWidth ?
                 `${nonFixedColumnComputedValue}px` : Fallback_Column_Width);
     }
@@ -84,12 +83,12 @@ export function calculateColumnWidth(
         : Fallback_Column_Width;
 }
 
-export const tryParseWidth = (val, totalWidth = 0) => {
+export const tryParseValue = (val, total = 0) => {
     if (typeof val === 'string') {
         const trimmed = val.trim();
         if (trimmed.endsWith('%')) {
             const percent = parseFloat(trimmed);
-            return isNaN(percent) ? 0 : (percent * totalWidth) / 100;
+            return isNaN(percent) ? 0 : (percent * total) / 100;
         }
         if (trimmed.endsWith('px')) {
             const px = parseFloat(trimmed);

@@ -20,7 +20,7 @@ jest.mock('../../../src/helpers/format', () => ({
 
 import * as helpers from '../../../src/helpers/format';
 import * as common from './../../../src/helpers/common';
-import { calculateColumnWidth, formatRowData, getNormalizedCombinedValue, resolveColumnItems, resolveColumnType, tryParseWidth } from './../../../src/utils/component-utils';
+import { calculateColumnWidth, formatRowData, getNormalizedCombinedValue, resolveColumnItems, resolveColumnType, tryParseValue } from './../../../src/utils/component-utils';
 
 describe('calculateColumnWidth', () => {
     beforeEach(() => {
@@ -364,48 +364,48 @@ describe('resolveColumnItems', () => {
     });
 });
 
-describe('tryParseWidth', () => {
+describe('tryParseValue', () => {
     it('should parse percentage width correctly', () => {
-        expect(tryParseWidth('50%', 200)).toBe(100);
-        expect(tryParseWidth('100%', 500)).toBe(500);
-        expect(tryParseWidth('0%', 400)).toBe(0);
+        expect(tryParseValue('50%', 200)).toBe(100);
+        expect(tryParseValue('100%', 500)).toBe(500);
+        expect(tryParseValue('0%', 400)).toBe(0);
     });
 
     it('should return 0 for invalid percentage values', () => {
-        expect(tryParseWidth('%', 300)).toBe(0);
-        expect(tryParseWidth('abc%', 300)).toBe(0);
+        expect(tryParseValue('%', 300)).toBe(0);
+        expect(tryParseValue('abc%', 300)).toBe(0);
     });
 
     it('should parse pixel values correctly', () => {
-        expect(tryParseWidth('150px')).toBe(150);
-        expect(tryParseWidth('  75px  ')).toBe(75);
+        expect(tryParseValue('150px')).toBe(150);
+        expect(tryParseValue('  75px  ')).toBe(75);
     });
 
     it('should return 0 for invalid px values', () => {
-        expect(tryParseWidth('px')).toBe(0);
-        expect(tryParseWidth('abcpx')).toBe(0);
+        expect(tryParseValue('px')).toBe(0);
+        expect(tryParseValue('abcpx')).toBe(0);
     });
 
     it('should parse plain number strings', () => {
-        expect(tryParseWidth('42')).toBe(42);
-        expect(tryParseWidth('  88.5  ')).toBe(88.5);
+        expect(tryParseValue('42')).toBe(42);
+        expect(tryParseValue('  88.5  ')).toBe(88.5);
     });
 
     it('should return 0 for invalid number strings', () => {
-        expect(tryParseWidth('abc')).toBe(0);
-        expect(tryParseWidth('')).toBe(0);
+        expect(tryParseValue('abc')).toBe(0);
+        expect(tryParseValue('')).toBe(0);
     });
 
     it('should return number as-is if input is number', () => {
-        expect(tryParseWidth(100)).toBe(100);
-        expect(tryParseWidth(0)).toBe(0);
+        expect(tryParseValue(100)).toBe(100);
+        expect(tryParseValue(0)).toBe(0);
     });
 
     it('should return 0 for non-string and non-number inputs', () => {
-        expect(tryParseWidth(undefined)).toBe(0);
-        expect(tryParseWidth(null)).toBe(0);
-        expect(tryParseWidth({})).toBe(0);
-        expect(tryParseWidth([])).toBe(0);
-        expect(tryParseWidth(true)).toBe(0);
+        expect(tryParseValue(undefined)).toBe(0);
+        expect(tryParseValue(null)).toBe(0);
+        expect(tryParseValue({})).toBe(0);
+        expect(tryParseValue([])).toBe(0);
+        expect(tryParseValue(true)).toBe(0);
     });
 });
