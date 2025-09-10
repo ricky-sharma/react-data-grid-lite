@@ -244,15 +244,10 @@ const DataGrid = forwardRef(({
 
     useEffect(() => {
         if (!isNull(state?.columns)) {
+            const visibleColumns = state?.columns?.filter(col => !col?.hidden && !col?.hideable);
             setState((prevState) => ({
                 ...prevState,
-                hiddenColIndex: state?.columns.map((col, key) =>
-                    col?.hidden === true || col?.hideable === true ? key : null),
-                columnWidths: state?.columns.map(col =>
-                    typeof col?.width === 'string' && (col.width.endsWith('px') || col.width.endsWith('%'))
-                        ? col.width
-                        : null
-                )
+                enableVirtualColumns: visibleColumns?.length > 25
             }));
         }
     }, [state?.columns, containerWidth]);
@@ -273,6 +268,7 @@ const DataGrid = forwardRef(({
             activePage,
             lastPageRows,
             firstRow: state.pageRows * (activePage - 1),
+            enableVirtualRows: state.pageRows > 25,
             pagerSelectOptions: noOfPages > 0 ? [...Array(noOfPages).keys()].map((i) => i + 1) : []
         }));
     };

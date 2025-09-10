@@ -12,7 +12,7 @@ export function useVirtualRows({
     rowHeight = DEFAULT_ROW_HEIGHT,
     buffer = DEFAULT_BUFFER
 }) {
-    const config = useGridConfig();   
+    const config = useGridConfig();
     const [scrollTop, setScrollTop] = useState(0);
     const tableHeight = useElementHeight(tableRef)
     const rowHeightFixed = tryParseValue(config?.state?.rowHeight, tableHeight);
@@ -40,6 +40,16 @@ export function useVirtualRows({
             container.removeEventListener('scroll', handleScroll);
         };
     }, [tableRef, scrollTop]);
+
+    if (!config?.state?.enableVirtualRows) {
+        return {
+            visibleRows: null,
+            startIndex: 0,
+            endIndex: 0,
+            topPaddingHeight: 0,
+            bottomPaddingHeight: 0
+        };
+    }
 
     const totalRows = pageData?.length || 0;
     const startIndex = Math.max(0, Math.floor(scrollTop / (rowHeightFixed || rowHeight)) - buffer);

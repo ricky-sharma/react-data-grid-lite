@@ -91,7 +91,9 @@ const GridRows = ({
         rowHeight,
         enableRowSelection,
         rowSelectColumnAlign,
-        selectedRows
+        selectedRows,
+        enableVirtualColumns,
+        enableVirtualRows,
     } = state || {};
 
     const pageData = rowsData?.slice(firstRow, firstRow + currentPageRows) || [];
@@ -115,8 +117,11 @@ const GridRows = ({
         computedColumnWidthsRef
     });
 
-    const visibleNames = new Set(visibleColumns.map(col => col.name));
-    const filteredColumns = columns?.filter(col => visibleNames.has(col.name));
+    const filteredRows = enableVirtualRows ? visibleRows : pageData;
+    const rowStartIndex = enableVirtualRows ? startIndex : firstRow;
+    const visibleNames = new Set(visibleColumns?.map(col => col?.name));
+    const filteredColumns = enableVirtualColumns ? columns?.filter(col => visibleNames?.has(col?.name)) : columns;
+
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
     const isMobile = isSmallWidth || isMobileWidth;
     if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)
@@ -142,9 +147,9 @@ const GridRows = ({
     configureCellChange({ editingCell, editingCellData, rowsData, dataReceivedRef, setState });
     configureCellCommit({ editingCell, onCellUpdate, setState });
     configureCellRevert({ editingCell, editingCellData, rowsData, setState, dataReceivedRef });
-    const gridRows = visibleRows
+    const gridRows = filteredRows
         .map((baseRow, sliceIndex) => {
-            const rowIndex = sliceIndex + startIndex;
+            const rowIndex = sliceIndex + rowStartIndex;
             const baseRowIndex = baseRow?.__$index__;
             const formattedRow = formatRowData(baseRow, columns);
             const cols = Object.values(filteredColumns).map((col, key) => {
@@ -173,8 +178,25 @@ const GridRows = ({
                     />
                 );
             });
-            cols['unshift'](<td key={`leftSpace${baseRowIndex}`} style={{ width: leftBufferWidth, maxWidth: leftBufferWidth, minWidth: leftBufferWidth }} />);
-            cols['push'](<td key={`rightSpace${baseRowIndex}`} style={{ width: rightBufferWidth, maxWidth: rightBufferWidth, minWidth: rightBufferWidth }} />);
+            if (enableVirtualColumns) {
+                cols['unshift'](
+                    <td
+                        key={`leftSpace${baseRowIndex}`}
+                        style={{
+                            width: leftBufferWidth,
+                            maxWidth: leftBufferWidth,
+                            minWidth: leftBufferWidth
+                        }} />
+                );
+                cols['push'](
+                    <td key={`rightSpace${baseRowIndex}`}
+                        style={{
+                            width: rightBufferWidth,
+                            maxWidth: rightBufferWidth,
+                            minWidth: rightBufferWidth
+                        }} />
+                );
+            }
             const isActionColumnLeft = actionColumnAlign === 'left';
             const isActionColumnRight = actionColumnAlign === 'right';
             const isSelectionColumnLeft = rowSelectColumnAlign === 'left';

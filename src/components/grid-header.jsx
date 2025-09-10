@@ -32,13 +32,11 @@ const GridHeader = ({
 
     const {
         columns,
-        hiddenColIndex,
         enableColumnSearch,
         editButtonEnabled,
         deleteButtonEnabled,
         headerCssClass,
         gridID,
-        columnWidths,
         enableColumnResize,
         rowsData,
         searchValues,
@@ -50,7 +48,8 @@ const GridHeader = ({
         rowSelectColumnAlign,
         onSelectAll,
         showColumnMenu,
-        enableRtl
+        enableRtl,
+        enableVirtualColumns
     } = state || {};
 
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
@@ -59,7 +58,7 @@ const GridHeader = ({
     const isActionColumnLeft = buttonColEnabled && actionColumnAlign === 'left';
     const isActionColumnRight = buttonColEnabled && actionColumnAlign === 'right';
 
-    const { colWidthMap, computedColWidths } = useMemo(() => {
+    const { colWidthMap, computedColumnWidths } = useMemo(() => {
         let colWidthMap = {};
         let leftMap = {};
         let computed = [];
@@ -99,32 +98,21 @@ const GridHeader = ({
             left += tryParseValue(actualWidth);
         });
 
-        return { colWidthMap, leftMap, computedColWidths: computed };
+        if (buttonColEnabled) {
+            computed = [...computed, { name: Button_Column_Key, width: Button_Column_Width }];
+        }
+        if (enableRowSelection === true) {
+            computed = [...computed, { name: Selection_Column_Key, width: Selection_Column_Width }];
+        }
+        return { colWidthMap, leftMap, computedColumnWidths: computed };
     }, [
         columns,
-        columnWidths,
-        hiddenColIndex,
         buttonColEnabled,
         gridID,
         enableRowSelection,
         isSelectionColumnLeft,
         isActionColumnLeft
     ]);
-
-    let computedColumnWidths = computedColWidths;
-
-    if (buttonColEnabled) {
-        computedColumnWidths = [
-            ...computedColumnWidths.filter(entry => entry?.name !== Button_Column_Key),
-            { name: Button_Column_Key, width: Button_Column_Width ?? 0 }
-        ];
-    }
-    if (enableRowSelection === true) {
-        computedColumnWidths = [
-            ...computedColumnWidths.filter(entry => entry?.name !== Selection_Column_Key),
-            { name: Selection_Column_Key, width: Selection_Column_Width }
-        ];
-    }
 
     if (computedColumnWidthsRef) computedColumnWidthsRef.current = [...computedColumnWidths];
 
@@ -137,24 +125,27 @@ const GridHeader = ({
         computedColumnWidthsRef
     });
 
-    if (!state || isNull(state.columns) || isNull(state.columnWidths)) return null;
+    if (!state || isNull(state.columns)) return null;
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
     const isMobile = isSmallWidth || isMobileWidth;
     const noData = !Array.isArray(rowsData) || rowsData.length === 0;
-    const headers = [...visibleColumns];
+    const filteredColumns = enableVirtualColumns ? visibleColumns : columns;
+    const headers = [...filteredColumns];
     if (!headers.some(col => !col?.hideable && !col?.hidden)) return null;
 
     let searchRowEnabled = false;
 
-    headers['unshift'](Left_Space_Column_Key);
-    headers['push'](Right_Space_Column_Key);
+    if (enableVirtualColumns) {
+        headers['unshift'](Left_Space_Column_Key);
+        headers['push'](Right_Space_Column_Key);
+    }
 
-    if (enableRowSelection && headers[headers.length - 1] !== Selection_Column_Key) {
+    if (enableRowSelection) {
         headers[isSelectionColumnLeft ? 'unshift' : 'push'](Selection_Column_Key);
     }
 
-    if (buttonColEnabled && headers[headers.length - 1] !== Button_Column_Key) {
+    if (buttonColEnabled) {
         headers[isActionColumnLeft ? 'unshift' : 'push'](Button_Column_Key);
     }
 
@@ -262,7 +253,7 @@ const GridHeader = ({
                 style={
                     getHeaderCellStyles(
                         header,
-                        colWidthMap[header.name],
+                        colWidthMap[header?.name],
                         enableColumnResize,
                         enableRtl,
                         isMobile,
@@ -302,7 +293,6 @@ const GridHeader = ({
         if (header?.hidden === true || header?.hideable === true) return null;
         const conCols = header?.concatColumns?.columns ?? null;
         const formatting = header?.formatting;
-        //const colWidth = computedColumnWidths?.find(i => i?.name === header?.name)?.width ?? 0;
         const columnSearchEnabled = typeof header?.enableSearch === "boolean"
             ? header?.enableSearch : enableColumnSearch;
         const displayName = isNull(header?.alias) || header?.name === header?.alias
@@ -350,7 +340,7 @@ const GridHeader = ({
                 style={
                     getHeaderCellStyles(
                         header,
-                        colWidthMap[header.name],
+                        colWidthMap[header?.name],
                         enableColumnResize,
                         enableRtl,
                         isMobile,
