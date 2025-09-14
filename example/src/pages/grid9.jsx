@@ -23,7 +23,7 @@ export default function Grid4() {
         }
     });
 
-    async function generateDataAsync(rows, cols, delay = 4000) {
+    async function generateDataAsync(rows, cols, delay = 2000) {
         return new Promise((resolve) => {
             setTimeout(() => {
                 const data = Array.from({ length: rows }, (_, rowIndex) =>
@@ -38,7 +38,7 @@ export default function Grid4() {
         const promise = generateDataAsync(rows, cols)
             .then(response => { setData(response) })
 
-        trackPromise(promise);
+        trackPromise(promise, 500);
     }, []);
 
     return (

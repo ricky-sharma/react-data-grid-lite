@@ -177,10 +177,26 @@ const GridHeader = ({
             }} /> : null;
 
         if (header === Left_Space_Column_Key) {
-            return <th key={key} style={{ width: leftBufferWidth, minWidth: leftBufferWidth, maxWidth: leftBufferWidth }} />
+            return <th
+                key={key}
+                style={{
+                    width: leftBufferWidth,
+                    minWidth: leftBufferWidth,
+                    maxWidth: leftBufferWidth,
+                    padding: 0,
+                    margin: 0
+                }} />
         }
         else if (header === Right_Space_Column_Key) {
-            return <th key={key} style={{ width: rightBufferWidth, minWidth: rightBufferWidth, maxWidth: rightBufferWidth }} />
+            return <th
+                key={key}
+                style={{
+                    width: rightBufferWidth,
+                    minWidth: rightBufferWidth,
+                    maxWidth: rightBufferWidth,
+                    padding: 0,
+                    margin: 0
+                }} />
         }
         else if (header === Button_Column_Key || header === Selection_Column_Key) {
             const selectedRows = new Set(state?.selectedRows);
@@ -303,10 +319,26 @@ const GridHeader = ({
         };
 
         if (header === Left_Space_Column_Key) {
-            return <th key={key} style={{ width: leftBufferWidth, minWidth: leftBufferWidth, maxWidth: leftBufferWidth }} />
+            return <th
+                key={key}
+                style={{
+                    width: leftBufferWidth,
+                    minWidth: leftBufferWidth,
+                    maxWidth: leftBufferWidth,
+                    padding: 0,
+                    margin: 0
+                }} />
         }
         else if (header === Right_Space_Column_Key) {
-            return <th key={key} style={{ width: rightBufferWidth, minWidth: rightBufferWidth, maxWidth: rightBufferWidth }} />
+            return <th
+                key={key}
+                style={{
+                    width: rightBufferWidth,
+                    minWidth: rightBufferWidth,
+                    maxWidth: rightBufferWidth,
+                    padding: 0,
+                    margin: 0
+                }} />
         }
         else if (header === Button_Column_Key || header === Selection_Column_Key) {
             return (

@@ -8,6 +8,7 @@ const options = {
     actionColumnAlign: 'right',
     enableColumnSearch: false,
     showToolbar: false,
+    rowHeight: '100px',
     editButton: {
         event: (e, row) => {
             alert('Edit Button clicked!');
