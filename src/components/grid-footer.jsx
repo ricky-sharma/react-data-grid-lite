@@ -40,7 +40,8 @@ const GridFooter = memo(({
     const end = start + currentPageRows - 1;
     const showingRange = totalRows > currentPageRows ? `${start} - ${end}` : totalRows;
 
-    const onPageSelectorChange = (value) => {
+    const onPageSelectorChange = (e, value) => {
+        e.preventDefault();
         setState?.(prev => {
             let noOfPages = Math.floor(totalRows / value);
             let lastPageRows = totalRows % value;
@@ -115,7 +116,7 @@ const GridFooter = memo(({
                         <Dropdown
                             options={Page_Size_Selector_Options}
                             value={state?.pageRows}
-                            onChange={(_, value) => onPageSelectorChange(value)}
+                            onChange={(e, value) => onPageSelectorChange(e, value)}
                             cssClass="ps-dropdown"
                         />
                     </div>)}

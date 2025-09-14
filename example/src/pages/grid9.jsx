@@ -23,7 +23,7 @@ export default function Grid4() {
         }
     });
 
-    async function generateDataAsync(rows, cols, delay = 1000) {
+    async function generateDataAsync(rows, cols, delay = 4000) {
         return new Promise((resolve) => {
             setTimeout(() => {
                 const data = Array.from({ length: rows }, (_, rowIndex) =>

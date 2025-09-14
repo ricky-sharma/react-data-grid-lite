@@ -17,7 +17,7 @@ const notify = () => {
     subscribers.forEach(fn => fn(loading));
 };
 
-const trackPromise = async (promise, minDelay = 10000) => {
+const trackPromise = async (promise, minDelay = 0) => {
     loadingCount += 1;
     notify();
 
