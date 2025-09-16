@@ -13,7 +13,7 @@ const options = {
     },
 };
 
-export default function Grid4() {
+export default function Grid9() {
     const rows = 1000;
     const cols = 1000;
     const [data, setData] = useState();

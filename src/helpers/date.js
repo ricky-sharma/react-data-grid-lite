@@ -60,36 +60,14 @@ export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC
         },
         hh: () => pad((d.getHours() % 12) || 12),
         Z: () => {
-            const dtf = new Intl.DateTimeFormat('en-US', {
-                timeZone,
-                hour12: false,
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-            });
+            const utcDate = new Date(d.toLocaleString('en-US', { timeZone: 'UTC' }));
+            const tzDate = new Date(d.toLocaleString('en-US', { timeZone }));
 
-            const parts = dtf.formatToParts(d);
-            const get = (type) => Number(parts.find(p => p.type === type)?.value);
-
-            const tzY = get('year');
-            const tzM = get('month');
-            const tzD = get('day');
-            const tzH = get('hour');
-            const tzMin = get('minute');
-            const tzS = get('second');
-
-            const tzDate = new Date(Date.UTC(tzY, tzM - 1, tzD, tzH, tzMin, tzS));
-
-            const offsetMinutes = Math.round((tzDate - d) / (60 * 1000));
-
-            const sign = offsetMinutes >= 0 ? '+' : '-';
+            const offsetMinutes = (utcDate.getTime() - tzDate.getTime()) / (60 * 1000);
+            const sign = offsetMinutes <= 0 ? '+' : '-';
             const absOffset = Math.abs(offsetMinutes);
             const hours = String(Math.floor(absOffset / 60)).padStart(2, '0');
             const minutes = String(absOffset % 60).padStart(2, '0');
-
             return `${sign}${hours}${minutes}`;
         },
         ZZZZ: () => d.toLocaleString(locale, { timeZoneName: 'long', timeZone }),

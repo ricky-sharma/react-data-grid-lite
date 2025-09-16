@@ -9,7 +9,7 @@ const DEFAULT_BUFFER = 1;
 export function useVirtualRows({
     pageData,
     tableRef,
-    rowHeight = DEFAULT_ROW_HEIGHT,
+    defaultRowHeight = DEFAULT_ROW_HEIGHT,
     buffer = DEFAULT_BUFFER
 }) {
     const config = useGridConfig();
@@ -52,14 +52,15 @@ export function useVirtualRows({
     }
 
     const totalRows = pageData?.length || 0;
-    const startIndex = Math.max(0, Math.floor(scrollTop / (rowHeightFixed || rowHeight)) - buffer);
+    const rowHeight = rowHeightFixed || defaultRowHeight;
+    const startIndex = Math.max(0, Math.floor(scrollTop / rowHeight) - buffer);
     const endIndex = Math.min(
         totalRows - 1,
-        Math.ceil((scrollTop + tableHeight) / (rowHeightFixed || rowHeight)) + buffer
+        Math.ceil((scrollTop + tableHeight) / rowHeight) + buffer
     );
     const visibleRows = pageData?.slice(startIndex, endIndex + 1) || [];
-    const topPaddingHeight = startIndex * (rowHeightFixed || rowHeight);
-    const bottomPaddingHeight = (totalRows - endIndex - 1) * (rowHeightFixed || rowHeight);
+    const topPaddingHeight = startIndex * rowHeight;
+    const bottomPaddingHeight = Math.max(0, (totalRows - endIndex - 1) * rowHeight);
 
     return {
         visibleRows,
