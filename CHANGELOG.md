@@ -17,8 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
   * Implemented **virtual rendering** for columns and rows to improve performance.
   * Introduced `virtualization` prop to enable/disable virtualization.
-  * **Automatically enables virtual rows when row count > 25.**
-  * **Automatically enables virtual columns when column count > 25.**
+  * Automatically enables virtual rows when row count > 25.
+  * Automatically enables virtual columns when column count > 25.
 
 ### 🎨 UI/UX Improvements
 
