@@ -26,7 +26,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="https://ricky-sharma.github.io/react-data-grid-lite/favicon.png" />
 		<meta name="keywords"
-		  content="react, data grid, react table, api, free, mit-license, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		  content="react, data grid, react table, api, free, mit-license, react data grid lite RTL, right to left support, virtualized rows columns, react infinite scroll table, react data grid performance, react table 1000 rows, react grid smooth scrolling, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
 		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/changelog.html" />
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1756210144912" rel="stylesheet" />
+		<link href="index.css?ver=1758082402173" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
 		<style>
@@ -229,11 +229,11 @@
 <input type="checkbox" name="navigation" id="navigation" class="hidden peer" />
 <div class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none z-10001">
   <div class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"></div>
-	<nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16">
+	<nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16 select-none">
 		<ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-3 pl-0.5 space-y-6 scroll-hide">
 			
 			<li>
-				<h3 class="font-bold text-base tracking-tight text-slate-900">Overview</h3>
+				<h3 class="font-semibold text-base tracking-wide text-gray-600">Overview</h3>
 				<ul role="list" class="pl-3 mt-3 space-y-2">
 					
 					
@@ -266,12 +266,12 @@
 			</li>
 			
 			<li>
-				<h3 class="font-bold text-base tracking-tight text-slate-900">Documentation</h3>
+				<h3 class="font-semibold text-base tracking-wide text-gray-600">Documentation</h3>
 				<ul role="list" class="pl-3 mt-3 space-y-2">
 					
 					
 					<li class="mt-2">
-						<h4 class="font-semibold text-slate-700">API Reference</h4>
+						<h4 class="text-sm text-gray-600 font-semibold tracking-wide cursor-default">API Reference</h4>
 						<ul role="list" class="pl-4 mt-2 space-y-2">
 							
 							
@@ -391,7 +391,7 @@
 			</li>
 			
 			<li>
-				<h3 class="font-bold text-base tracking-tight text-slate-900">Examples</h3>
+				<h3 class="font-semibold text-base tracking-wide text-gray-600">Examples</h3>
 				<ul role="list" class="pl-3 mt-3 space-y-2">
 					
 					
@@ -450,7 +450,7 @@
 			</li>
 			
 			<li>
-				<h3 class="font-bold text-base tracking-tight text-slate-900">Terms &amp; Changes</h3>
+				<h3 class="font-semibold text-base tracking-wide text-gray-600">Terms &amp; Changes</h3>
 				<ul role="list" class="pl-3 mt-3 space-y-2">
 					
 					
@@ -509,6 +509,69 @@
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <br>
+<h2>📦 v1.2.4 – Released 2025-09-17</h2>
+<h3>✨ Features</h3>
+<ul>
+<li>
+<p><strong>RTL Support</strong></p>
+<ul>
+<li>Added <code>enableRtl</code> prop to toggle <strong>Right-to-Left (RTL)</strong> UI rendering.</li>
+</ul>
+</li>
+<li>
+<p><strong>Virtualization</strong></p>
+<ul>
+<li>Implemented <strong>virtual rendering</strong> for columns and rows to improve performance.</li>
+<li>Introduced <code>virtualization</code> prop to enable/disable virtualization.</li>
+<li>Automatically enables virtual rows when row count &gt; 25.</li>
+<li>Automatically enables virtual columns when column count &gt; 25.</li>
+</ul>
+</li>
+</ul>
+<h3>🎨 UI/UX Improvements</h3>
+<ul>
+<li>Highlighted selected rows with a background color for <strong>better user feedback</strong>.</li>
+<li>Updated grid <strong>scrollbar styling</strong> for visual consistency.</li>
+<li>Set column menu height to <strong>100%</strong> to expand the clickable area.</li>
+<li>Updated <strong>grid footer layout</strong> for improved <strong>mobile compatibility</strong>.</li>
+<li>Set default <strong>header text alignment</strong> to <strong>left</strong>.</li>
+</ul>
+<h3>⚙️ Enhancements &amp; Refactors</h3>
+<ul>
+<li>
+<p><strong>Performance Optimizations</strong></p>
+<ul>
+<li>Refactored <code>filterData</code> for improved speed and robustness on large grids (~1M cells).</li>
+<li>Improved <code>trackPromise</code> to better handle concurrent async operations.</li>
+<li>Debounced <code>notify()</code> to reduce loader flickering and ensure accurate loading state.</li>
+</ul>
+</li>
+<li>
+<p><strong>Code Refactoring</strong></p>
+<ul>
+<li>Extracted header styles for action vs. regular cells.</li>
+<li>Separated &quot;select all&quot; header logic into <code>handle-header-selectall-change.js</code> for clarity and testability.</li>
+<li>Handled <code>hideable</code> flag during column width calculations to prevent layout issues.</li>
+<li>General refactoring for better readability and maintainability.</li>
+</ul>
+</li>
+</ul>
+<h3>🧪 Testing</h3>
+<ul>
+<li>
+<p>Added and updated <strong>unit tests</strong> for:</p>
+<ul>
+<li>RTL handling</li>
+<li>Header styling and logic</li>
+<li>Filter and virtualization logic</li>
+</ul>
+</li>
+</ul>
+<h3>📝 Documentation</h3>
+<ul>
+<li>Updated <strong>docs</strong> and <strong>examples</strong> to reflect new features and changes in <strong>v1.2.4</strong>.</li>
+</ul>
+<p><br><br></p>
 <h2>📦 v1.2.3 – Released 2025-08-26</h2>
 <h3>✨ Features</h3>
 <h4>New <strong>Toolbar Menu</strong></h4>
