@@ -53,7 +53,7 @@
 		<meta name="twitter:title" content="React Data Grid Lite - ↔️ Pinned &amp; Resizable Columns" />
 		<meta name="twitter:description" content="React Data Grid Lite is a lightweight, high-performance, and highly customizable data grid component for React. It offers advanced features like AI-powered semantic search using OpenAI, column resizing, drag-and-drop, and CSV export. Perfect for building responsive, dynamic data grids in React applications. Explore API documentation, usage examples, and integration guides." />
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
-		
+
 		<!-- goat counter -->
 		<script
       data-goatcounter="https://react-data-grid-lite.goatcounter.com/count"
@@ -61,7 +61,7 @@
       src="https://gc.zgo.at/count.js"
     ></script>
 		<!-- goat counter -->
-		
+
 		<!-- google site verification -->
 		<meta
 		  name="google-site-verification"
@@ -69,7 +69,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1758082402173" rel="stylesheet" />
+		<link href="index.css?ver=1758105310200" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
 		<style>
@@ -98,13 +98,18 @@
 
 	<body>
 		<header
-  class="sticky top-0 z-10002 flex items-center justify-between px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40"
+  class="sticky top-0 z-10002 flex items-center justify-between px-1 sm:px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40"
 >
 	<!-- Site title -->
-	<div class="flex items-center flex-shrink-0">
-		<a href="index.html" class="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 whitespace-nowrap">
+	<div class="flex flex-row sm:items-center space-x-1 space-y-0">
+		<a href="index.html" class="text-lg sm:text-2xl font-semibold tracking-tight text-slate-900 whitespace-nowrap">
 			React Data Grid Lite
 		</a>
+		<div class="inline-block w-fit">
+			<span class="text-[11px] font-bold text-green-500 bg-gray-100 px-1 py-0.5 rounded-md border border-gray-200">
+				v1.2.4
+			</span>
+		</div>
 	</div>
 
 	<!-- Search + Badges container -->
@@ -114,7 +119,7 @@
 		  action="search.html"
 		  method="get"
 		  id="headerSearchForm"
-		  class="relative w-36 sm:w-48 md:w-60 lg:w-72 flex-shrink-0"
+		  class="relative w-32 sm:w-48 md:w-60 lg:w-72 flex-shrink-0"
     >
 			<input
 			  id="headerSearchInput"
@@ -152,7 +157,7 @@
 		  target="_blank"
 		  aria-label="GitHub"
 		  rel="noopener"
-		  class="inline-block flex-shrink-0 md:hidden"
+		  class="inline-block flex-shrink-0 hidden"
     >
 			<img
 			  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
@@ -175,8 +180,7 @@
 				<img
 				  src="https://codesandbox.io/static/img/play-codesandbox.svg"
 				  alt="Open in CodeSandbox"
-				  style="height:24px;"
-				  class="block"
+				  class="block CodeSandbox"
         />
 			</a>
 			<a
@@ -200,7 +204,7 @@
 			  alt="npm downloads"
       />
 
-			
+
 
 			<a
 			  href="https://github.com/ricky-sharma/react-data-grid-lite"
@@ -735,33 +739,50 @@ export const useFetch = (api = 'books') =&gt; {
 
 
 			</div>
+			<!-- Floating Badges -->
+			<div class="fixed top-[55px] right-0 px-1 flex flex-col gap-3 z-10001 md:hidden">
+				<a
+				  href="https://www.npmjs.com/package/react-data-grid-lite"
+				  target="_blank"
+				  aria-label="NPM"
+				  rel="noopener"
+				  class="inline-block rounded bg-slate-900 transition-transform duration-200 hover:scale-105"
+				  style="line-height: 0;"
+					  >
+									<img
+									  src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
+									  alt="NPM Badge"
+									  class="block"
+						/>
+				</a>
+			</div>
 			<!-- Floating Social Share Bar -->
-			<div class="fixed top-1/2 right-0 -translate-y-1/2 flex flex-col gap-3 z-10001">
+			<div class="fixed top-1/2 right-0 -translate-y-1/2 flex px-1 flex-col gap-3 z-10001">
 				<!-- Twitter -->
 				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/example-3.html&text=React%20Data%20Grid%20Lite%20-%20%E2%86%94%EF%B8%8F%20Pinned%20%26%20Resizable%20Columns"
 				   target="_blank"
 				   rel="noopener"
-				   class="bg-white text-blue-500 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-600 text-lg"
+				   class="bg-white text-blue-500 p-1 sm:p-2 rounded-l shadow hover:bg-blue-100 hover:text-blue-600 text-lg"
 				   aria-label="Share on Twitter">
-					<i class="fab fa-twitter w-5 h-5"></i>
+					<i class="fab fa-twitter w-3 h-3 sm:w-5 sm:h-5"></i>
 				</a>
 
 				<!-- Facebook -->
 				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/example-3.html"
 				   target="_blank"
 				   rel="noopener"
-				   class="bg-white text-blue-700 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-800 text-lg"
+				   class="bg-white text-blue-700 p-1 sm:p-2 rounded-l shadow hover:bg-blue-100 hover:text-blue-800 text-lg"
 				   aria-label="Share on Facebook">
-					<i class="fab fa-facebook-f w-5 h-5"></i>
+					<i class="fab fa-facebook-f w-3 h-3 sm:w-5 sm:h-5"></i>
 				</a>
 
 				<!-- LinkedIn -->
 				<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ricky-sharma.github.io/react-data-grid-lite/example-3.html&title=React%20Data%20Grid%20Lite%20-%20%E2%86%94%EF%B8%8F%20Pinned%20%26%20Resizable%20Columns"
 				   target="_blank"
 				   rel="noopener"
-				   class="bg-white text-blue-600 p-3 rounded-l shadow hover:bg-blue-100 hover:text-blue-700 text-lg"
+				   class="bg-white text-blue-600 p-1 sm:p-2 rounded-l shadow hover:bg-blue-100 hover:text-blue-700 text-lg"
 				   aria-label="Share on LinkedIn">
-					<i class="fab fa-linkedin-in w-5 h-5"></i>
+					<i class="fab fa-linkedin-in w-3 h-3 sm:w-5 sm:h-5"></i>
 				</a>
 			</div>
 		</main>
@@ -779,7 +800,7 @@ export const useFetch = (api = 'books') =&gt; {
 			});
 			}
 			});
-			
+
 			document.addEventListener("DOMContentLoaded", () => {
 			document.querySelectorAll("pre").forEach((block) => {
 			const button = document.createElement("button");
