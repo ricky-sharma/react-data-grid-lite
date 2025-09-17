@@ -80,7 +80,8 @@ const DataGrid = forwardRef(({
         gridBgColor,
         headerBgColor,
         aiSearch,
-        debug
+        debug,
+        virtualization
     } = options || {};
 
     const optionProps = useMemo(() => ({
@@ -122,6 +123,7 @@ const DataGrid = forwardRef(({
         gridHeaderBackgroundColor: headerBgColor,
         aiSearchOptions: aiSearch ?? {},
         debug: getBool(debug),
+        virtualization: typeof virtualization === 'boolean' ? virtualization : undefined
     }), [
         enableRtl,
         actionColumnAlign,
@@ -157,7 +159,8 @@ const DataGrid = forwardRef(({
         gridBgColor,
         headerBgColor,
         aiSearch,
-        debug
+        debug,
+        virtualization
     ]);
 
     const [state, setState] = useState({
@@ -248,7 +251,8 @@ const DataGrid = forwardRef(({
             const visibleColumns = state?.columns?.filter(col => !col?.hidden && !col?.hideable);
             setState((prevState) => ({
                 ...prevState,
-                enableVirtualColumns: visibleColumns?.length > 25
+                enableVirtualColumns: state?.virtualization === true
+                    || (state?.virtualization === undefined && visibleColumns?.length > 25)
             }));
         }
     }, [state?.columns, containerWidth]);
@@ -268,8 +272,9 @@ const DataGrid = forwardRef(({
             noOfPages,
             activePage,
             lastPageRows,
-            firstRow: state.pageRows * (activePage - 1),
-            enableVirtualRows: state.pageRows > 25,
+            firstRow: prevState.pageRows * (activePage - 1),
+            enableVirtualRows: prevState?.virtualization === true
+                || (prevState?.virtualization === undefined && prevState.pageRows > 25),
             pagerSelectOptions: noOfPages > 0 ? [...Array(noOfPages).keys()].map((i) => i + 1) : []
         }));
     };

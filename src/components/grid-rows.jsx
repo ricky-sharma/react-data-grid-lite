@@ -185,7 +185,9 @@ const GridRows = ({
                         style={{
                             width: leftBufferWidth,
                             maxWidth: leftBufferWidth,
-                            minWidth: leftBufferWidth
+                            minWidth: leftBufferWidth,
+                            padding: 0,
+                            margin: 0
                         }} />
                 );
                 cols['push'](
@@ -193,7 +195,9 @@ const GridRows = ({
                         style={{
                             width: rightBufferWidth,
                             maxWidth: rightBufferWidth,
-                            minWidth: rightBufferWidth
+                            minWidth: rightBufferWidth,
+                            padding: 0,
+                            margin: 0
                         }} />
                 );
             }
@@ -256,9 +260,21 @@ const GridRows = ({
 
     return (
         <>
-            <tr style={{ height: topPaddingHeight }} />
+            {enableVirtualRows &&
+                <tr style={{
+                    height: topPaddingHeight,
+                    padding: 0,
+                    margin: 0
+                }} />
+            }
             {gridRows}
-            <tr style={{ height: bottomPaddingHeight }} />
+            {enableVirtualRows &&
+                <tr style={{
+                    height: bottomPaddingHeight,
+                    padding: 0,
+                    margin: 0
+                }} />
+            }
         </>
     )
 };

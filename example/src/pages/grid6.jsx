@@ -50,7 +50,7 @@ export default function Grid6() {
             text="Drag-and-drop functionality is enabled for all columns in the grid. Users can freely rearrange column positions to suit their preferences. Column layout updates dynamically as columns are moved."
             htmlContent="<p>The 'Clear Selected Rows' button uses the `clearSelectedRows()` imperative ref API to clear the currently selected rows in the grid.</p><p><a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid6.jsx'>Complete Source Code on GitHub</a></p>"
         >
-            <div style={{ display: 'inline-flex', justifyContent: 'left', width: '50%' }}>
+            <div className="width-100" style={{ display: 'inline-flex', justifyContent: 'left', width: '50%' }}>
                 <button
                     className="clear-selected-rows"
                     onClick={() => {
@@ -60,7 +60,7 @@ export default function Grid6() {
                     Clear Selected Rows
                 </button>
             </div>
-            <div style={{ display: 'inline-flex', justifyContent: 'right', width: '50%' }}>
+            <div className="width-100" style={{ display: 'inline-flex', justifyContent: 'right', width: '50%' }}>
                 <label className="pointer alignCenter grid--check--box rightToLeftChkbx">
                     <input
                         type="checkbox"

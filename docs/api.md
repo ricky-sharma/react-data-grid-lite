@@ -285,6 +285,7 @@ The `options` prop is an **object** that provides additional configuration setti
 | `enableDownload`     | `boolean` | Whether to enable the download functionality (export data as CSV).                                                        |      `true`       | No           |
 | `enableGlobalSearch` | `boolean` | Enables global search across all columns.                                                                                 |      `true`       | No           |
 | `enableRowSelection` | `boolean` | Enables the row selection column. Available in version `1.2.2` and above.                                                 |      `true`       | No           |
+| `enableRtl`          | `boolean` | Renders the grid from right to left. Available in version `1.2.4` and above.                                              |      `false`      | No           |
 | `enableSorting`      | `boolean` | Enables sorting for all columns by default. Can be overridden by individual column-level `sortable` settings. Supported in version `1.2.2` and above.|      `true`       | No           |
 | `globalSearchPlaceholder`| `string` | Sets the placeholder text for the global search input field in the toolbar. Useful for localization or customization.  | `"Search all columns…"` | No       |
 | `gridBgColor`        | `string`  | Sets a custom background color for the grid container. Supported in version `1.1.11` and above.                           |       -           | No           |
@@ -305,6 +306,7 @@ The `options` prop is an **object** that provides additional configuration setti
 | `showSelectPagination`| `boolean` | Controls visibility of the page selection dropdown in the grid footer. Supported from version `1.2.1`.                   |      `true`       | No           |
 | `showToolbar`        | `boolean` | Controls the visibility of the react data grid lite toolbar, which includes actions like search and reset.| `true` | No       |
 | `showToolbarMenu`    | `boolean` | Controls the visibility of the toolbar menu, which includes actions like toggling column visibility and resetting the grid. Available from version `1.2.3`.| `true` | No       |
+| `virtualization`     | `boolean` | Enables or disables virtualization. Overrides the automatic virtualization, which kicks in when rows > 25 or columns > 25. Available since version `1.2.4`.| No value set (automatic virtualization) | No       |
 
 #### **Example of `options` Object:**
 

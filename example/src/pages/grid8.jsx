@@ -56,7 +56,7 @@ export default function Grid5() {
             title="Right to Left Grid"
             theme="dark-stack"
             text=""
-            htmlContent="<p>Following features are enabled:</p><ul><li>Pinned and resizable columns are enabled.</li><li>Drag-and-drop functionality is enabled, allowing fixed columns to be reordered with other fixed columns, and non-fixed columns with other non-fixed columns.</li></ul><a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid5.jsx'>Complete Source Code on GitHub</a>"
+            htmlContent="<p>Following features are enabled:</p><ul><li>Pinned and resizable columns are enabled.</li><li>Drag-and-drop functionality is enabled, allowing fixed columns to be reordered with other fixed columns, and non-fixed columns with other non-fixed columns.</li></ul><a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid8.jsx'>Complete Source Code on GitHub</a>"
         >
             <DataGrid
                 columns={columns}
