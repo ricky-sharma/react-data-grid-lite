@@ -51,7 +51,7 @@ export function format(value, type, format) {
             return formatDate(value, format);
 
         case 'percent':
-            return isNaN(value) ? originalVal : `${(value * 100).toFixed(0)}%`;
+            return `${(value * 100).toFixed(0)}%`;
 
         case 'boolean':
             return value === true || /^yes$/i.test(value) ? 'Yes' : 'No';

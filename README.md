@@ -24,25 +24,28 @@ The DataGrid component is a highly customizable, feature-rich table built with R
 With built-in support for OpenAI (or other LLMs via configurable endpoints), the grid can semantically interpret user queries and return intelligent, filtered results—ideal for enhancing user experience in modern data-driven applications.
 
 
-✅ Key Features  
-⚡ Lightweight – Fast, small bundle  
-📦 API-ready – Plug into any JSON API  
-🛠️ Smart columns – Auto schema detection  
-🔍 Fast search – Filter with custom labels & aliases  
-🤖 AI search – Semantic query support (OpenAI/LLM)  
-📌 Fixed & resizable columns  
-📱 Responsive – Mobile-friendly layout  
-🧾 CSV export – One-click data download  
-✏️ Inline editing – Keyboard & touch support  			   
-🎨 Custom cells – Render anything  
-🧩 Merged columns – Combine multiple fields  
-📊 Analytics-ready – Track user actions  
-🎨 Theming – Easy styling & prebuilt themes  
-🔄 Drag & reorder columns  
-🧩 Align actions – left/right  
-📂 Column Menu – Per-column sort, hide, and edit options  
-🧰 Toolbar Menu – Compact 3-dot menu for export, reset, and more  
-🧪 Fully tested – Robust unit tests  
+### ✅ Key Features   
+
+⚡ **Lightweight** – Fast, small bundle  
+📦 **API-ready** – Plug into any JSON API  
+🛠️ **Smart columns** – Auto schema detection  
+🔍 **Fast search** – Filter with custom labels & aliases  
+🤖 **AI search** – Semantic query support (OpenAI/LLM)  
+📌 **Fixed & resizable columns**  
+📱 **Responsive** – Mobile-friendly layout  
+🧾 **CSV export** – One-click data download  
+✏️ **Inline editing** – Keyboard & touch support  
+🎨 **Custom cells** – Render anything  
+🧩 **Merged columns** – Combine multiple fields  
+📊 **Analytics-ready** – Track user actions  
+🎨 **Theming** – Easy styling & prebuilt themes  
+🔄 **Drag & reorder columns**  
+🧩 **Align actions** – Left/right  
+📂 **Column menu** – Per-column sort, hide, and edit options  
+🧰 **Toolbar menu** – Compact 3-dot menu for export, reset, and more  
+🧪 **Fully tested** – Robust unit tests  
+🌍 **RTL support** – Right-to-left layout support  
+🚀 **Virtualization** – Handles 1,000s of rows and columns efficiently  
 
 <br><br>
 

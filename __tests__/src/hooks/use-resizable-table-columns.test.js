@@ -36,7 +36,11 @@ describe('useResizableTableColumns', () => {
     const TestTable = ({ onColumnResized, initialWidths }) => {
         const tableRef = useRef(null);
         const [state, setState] = useState({
-            columns: [{ name: 'Name', resizable: true }],
+            columns: [
+                { name: 'Name', resizable: true },
+                { name: 'Age', resizable: false },
+                { name: 'Address', resizable: true }
+            ],
             onColumnResized,
             gridID: 'test-grid-id'
         });
@@ -49,11 +53,15 @@ describe('useResizableTableColumns', () => {
                 <thead>
                     <tr>
                         <th data-column-name="Name" style={{ width: '100px' }}>Name</th>
+                        <th data-column-name="Age" style={{ width: '100px' }}>Age</th>
+                        <th data-column-name="Address" style={{ width: '100px' }}>Address</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Name</td>
+                        <td>Age</td>
+                        <td>Address</td>
                     </tr>
                 </tbody>
             </table>
@@ -534,7 +542,7 @@ describe('Additional tests for useResizableTableColumns', () => {
         );
 
         const resizers = container.querySelectorAll('th > div[style*="col-resize"]');
-        expect(resizers.length).toBe(2); // One per column
+        expect(resizers.length).toBe(2);
     });
 
     it('mouse drag resizes column and updates state', async () => {
@@ -720,5 +728,155 @@ describe('Additional tests for useResizableTableColumns', () => {
         );
 
         jest.useRealTimers();
+    });
+
+    it('does not process if <tr> contains no <th> (tests `!th` path)', () => {
+        const tableRef = React.createRef();
+
+        function NoThComponent() {
+            const [state, setState] = useState({
+                columns: [{ name: 'test', resizable: true }],
+            });
+            const compColWidthsRef = useRef([]);
+            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, true);
+
+            return (
+                <table ref={tableRef}>
+                    <thead>
+                        <tr />
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td></tr>
+                    </tbody>
+                </table>
+            );
+        }
+
+        const { container } = render(<NoThComponent />);
+        const resizers = container.querySelectorAll('div[style*="col-resize"]');
+        expect(resizers.length).toBe(0);
+    });
+
+    it('does not re-process <th> if already in WeakSet (tests `processed.has(th)` path)', () => {
+        const tableRef = React.createRef();
+
+        function AlreadyProcessedComponent() {
+            const [state, setState] = useState({
+                columns: [{ name: 'test', resizable: true }],
+            });
+
+            const compColWidthsRef = useRef([]);
+            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, true);
+
+            return (
+                <table ref={tableRef}>
+                    <thead>
+                        <tr>
+                            <th data-column-name="test">Test</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Value</td></tr>
+                    </tbody>
+                </table>
+            );
+        }
+
+        const { container, rerender } = render(<AlreadyProcessedComponent />);
+
+        let resizers = container.querySelectorAll('th > div[style*="col-resize"]');
+        expect(resizers.length).toBe(1);
+        rerender(<AlreadyProcessedComponent />);
+        resizers = container.querySelectorAll('th > div[style*="col-resize"]');
+        expect(resizers.length).toBe(1);
+    });
+
+    it('skips already processed <th> elements (covers processed.has(th))', () => {
+        const tableRef = React.createRef();
+        const compColWidthsRef = { current: [{ name: 'Name', width: '100px', leftPosition: '0px' }] };
+        const initialState = {
+            columns: [{ name: 'Name', resizable: true }],
+            gridID: 'test-grid-id',
+        };
+
+        function ReusableTable({ state }) {
+            const [gridState, setGridState] = useState(state);
+            useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, true);
+
+            return (
+                <table ref={tableRef}>
+                    <thead>
+                        <tr>
+                            <th data-column-name="Name" style={{ width: '100px' }}>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Alice</td></tr>
+                    </tbody>
+                </table>
+            );
+        }
+
+        const { rerender, container } = render(<ReusableTable state={initialState} />);
+        const initialResizers = container.querySelectorAll('th > div[style*="col-resize"]');
+        expect(initialResizers.length).toBe(1);
+
+        rerender(<ReusableTable state={initialState} />);
+        const afterResizers = container.querySelectorAll('th > div[style*="col-resize"]');
+        expect(afterResizers.length).toBe(1);
+    });
+});
+
+describe('useResizableTableColumns - pointer: coarse', () => {
+    beforeAll(() => {
+        // Mock matchMedia before tests
+        window.matchMedia = jest.fn().mockImplementation(query => {
+            return {
+                matches: query === '(pointer: coarse)',  // true only for this query
+                media: query,
+                onchange: null,
+                addListener: jest.fn(), // deprecated, but some libs use it
+                removeListener: jest.fn(),
+                addEventListener: jest.fn(),
+                removeEventListener: jest.fn(),
+                dispatchEvent: jest.fn(),
+            };
+        });
+    });
+
+    afterAll(() => {
+        jest.resetAllMocks();
+    });
+
+    it('sets resizer width to 8px when pointer is coarse', () => {
+        const tableRef = React.createRef();
+        const compColWidthsRef = { current: [{ name: 'Name', width: '100px', leftPosition: '0px' }] };
+        const initialState = {
+            columns: [{ name: 'Name', resizable: true }],
+            gridID: 'test-grid-id',
+        };
+
+        function TableComponent() {
+            useResizableTableColumns(tableRef, initialState, () => { }, compColWidthsRef, true);
+
+            return (
+                <table ref={tableRef}>
+                    <thead>
+                        <tr>
+                            <th data-column-name="Name" style={{ width: '100px' }}>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Alice</td></tr>
+                    </tbody>
+                </table>
+            );
+        }
+
+        const { container } = render(<TableComponent />);
+        const resizer = container.querySelector('th > div[style*="col-resize"]');
+
+        expect(resizer).toBeTruthy();
+        expect(resizer.style.width).toBe('8px');
     });
 });

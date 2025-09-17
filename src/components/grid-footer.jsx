@@ -25,7 +25,8 @@ const GridFooter = memo(({
         showSelectPagination,
         showPageSizeSelector,
         showPageInfo,
-        gridID
+        gridID,
+        enableRtl
     } = state;
     const {
         isXSWidth,
@@ -39,7 +40,8 @@ const GridFooter = memo(({
     const end = start + currentPageRows - 1;
     const showingRange = totalRows > currentPageRows ? `${start} - ${end}` : totalRows;
 
-    const onPageSelectorChange = (value) => {
+    const onPageSelectorChange = (e, value) => {
+        e.preventDefault();
         setState?.(prev => {
             let noOfPages = Math.floor(totalRows / value);
             let lastPageRows = totalRows % value;
@@ -59,6 +61,8 @@ const GridFooter = memo(({
         });
     }
 
+    const pageInfoRtl = `${showingRange} / ${totalRows}`;
+
     return (
         <div style={{
             backgroundColor: gridBackgroundColor
@@ -70,12 +74,15 @@ const GridFooter = memo(({
                     maxWidth: isMobileWidth ? '40%' : isXSWidth ? "25%" : isSmallWidth ? "30%" : undefined,
                 }}
                 className="col-flex-5 mg--0 pd--0 page-results opacity--level">
-                {showPageInfo === true && totalRows > 0 && (`${showingRange} of ${totalRows}`)}
+                {showPageInfo === true && totalRows > 0 &&
+                    (enableRtl ? pageInfoRtl : `${showingRange} of ${totalRows}`)}
             </div>
             <div
                 style={{
                     width: isMobileWidth || isSmallWidth ? '20%' : undefined,
                     maxWidth: isMobileWidth || isSmallWidth ? '20%' : undefined,
+                    position: 'relative',
+                    top: isMobileWidth || isSmallWidth ? '10px' : undefined
                 }}
                 className="col-flex-2 mg--0 pd--0 pager-select alignCenter">
                 {showSelectPagination === true &&
@@ -89,23 +96,27 @@ const GridFooter = memo(({
             </div>
             <div
                 style={{
-                    padding: isLargeWidth === true ? '0 60px 0 0' :
-                        (isMediumWidth === true ? '0 40px 0 0' : 0),
+                    padding: isLargeWidth ? '0 40px 0 0' :
+                        (isMediumWidth ? '0 30px 0 0' : isTabletWidth ? '0 20px 0 0' : 0),
                     width: isTabletWidth ? '33.332%' :
                         (isMobileWidth ? '40%' : isXSWidth ? "55%" : isSmallWidth ? '50%' : undefined),
                     maxWidth: isTabletWidth ? '33.332%'
-                        : (isMobileWidth ? '40%' : isXSWidth ? "55%" : isSmallWidth ? '50%' : undefined)
+                        : (isMobileWidth ? '40%' : isXSWidth ? "55%" : isSmallWidth ? '50%' : undefined),
+                    position: 'relative',
+                    top: isMobileWidth || isSmallWidth ? '-1px' : undefined
                 }}
                 className="col-flex-3 mg--0 pd--0 page-size-selector alignCenter">
                 {showPageSizeSelector === true &&
                     enablePaging === true &&
                     state?.pageRows > 0 &&
                     (<div className="rows--selector">
-                        <div className="opacity--level" style={{ flex: 'none' }}>Rows per page:</div>
+                    <div className="opacity--level" style={{ flex: 'none' }}>
+                        {enableRtl ? 'page per Rows:' : 'Rows per page:'}
+                    </div>
                         <Dropdown
                             options={Page_Size_Selector_Options}
                             value={state?.pageRows}
-                            onChange={(_, value) => onPageSelectorChange(value)}
+                            onChange={(e, value) => onPageSelectorChange(e, value)}
                             cssClass="ps-dropdown"
                         />
                     </div>)}
@@ -113,9 +124,11 @@ const GridFooter = memo(({
             <div
                 style={{
                     width: isTabletWidth ? '8.333%' : (isMobileWidth || isSmallWidth ? '100%' : undefined),
-                    maxWidth: isTabletWidth ? '8.333%' : (isMobileWidth || isSmallWidth ? '100%' : undefined)
+                    maxWidth: isTabletWidth ? '8.333%' : (isMobileWidth || isSmallWidth ? '100%' : undefined),
+                    bottom: (isMobileWidth || isSmallWidth ? '4px' : undefined),
+                    position: 'relative'
                 }}
-                className="float-lt col-flex-2 mg--0 pd--0 page-list opacity--level">
+                className="float-lt col-flex-2 mg--0 pd--0 page--list opacity--level">
                 {showNumberPagination === true &&
                     pagerSelectOptions?.length > 0 &&
                     (

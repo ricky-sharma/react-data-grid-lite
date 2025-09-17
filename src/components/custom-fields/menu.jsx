@@ -167,8 +167,8 @@ const Menu = ({
             role="menu"
             style={{
                 position: 'absolute',
-                top: isSmallWidth ? '25px' : 0,
-                right: isSmallWidth ? 0 : '100%',
+                top: isSmallWidth || state?.enableRtl ? '25px' : 0,
+                right: !state.enableRtl ? (isSmallWidth ? 0 : '100%') : undefined,
                 backgroundColor: '#fff',
                 border: '1px solid #ccc',
                 borderRadius: '6px',
@@ -176,6 +176,8 @@ const Menu = ({
                 padding: '5px 0',
                 minWidth: '180px',
                 zIndex: 20,
+                maxHeight: '250px',
+                overflow: 'auto'
             }}
         >
             {subItems.map((subItem, i) => (
@@ -194,7 +196,7 @@ const Menu = ({
                         gap: '12px',
                         alignItems: 'center',
                         display: 'flex',
-                        justifyContent: 'left',
+                        justifyContent: state.enableRtl ? 'right' : 'left',
                         minHeight: '35px',
                         pointerEvents: (subItem?.disabled ? 'none' : ''),
                         opacity: (subItem?.disabled ? '0.5' : ''),
@@ -229,16 +231,17 @@ const Menu = ({
             role="menu"
             style={{
                 position: 'absolute',
-                top: usePortal ? menuPosition.top + 20 : '40px',
-                left: usePortal ? menuPosition.left - 115 : undefined,
-                right: !usePortal ? 0 : undefined,
+                top: usePortal ? menuPosition.top + 5 : (vertical ? '40px' : '5px'),
+                left: usePortal ? (state?.enableRtl ? menuPosition.left - 50 : menuPosition.left - 115)
+                    : (state?.enableRtl ? '0' : undefined),
+                right: !usePortal && !state?.enableRtl ? '0' : undefined,
                 backgroundColor: '#fff',
                 border: '1px solid #ccc',
                 borderRadius: '6px',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
                 padding: !usePortal ? '5px 0' : undefined,
                 minWidth: !usePortal ? '225px' : undefined,
-                zIndex: 1000,
+                zIndex: 1000
             }}
         >
             {items.map((item, index) =>

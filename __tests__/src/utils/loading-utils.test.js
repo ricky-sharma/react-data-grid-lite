@@ -36,6 +36,8 @@ describe('trackPromise module', () => {
         resolveFn();
         await tracked;
 
+        await new Promise(resolve => setTimeout(resolve, 150));
+
         expect(mockCallback).toHaveBeenCalledWith(true);
         expect(mockCallback).toHaveBeenCalledWith(false);
 

@@ -11,15 +11,28 @@ export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC
 
     const pad = (n) => (n < 10 ? '0' + n : n);
 
+    const getOffset = (date, timeZone) => {
+        const options = {
+            timeZone,
+            hour12: false,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZoneName: 'short'
+        };
+
+        const formatter = new Intl.DateTimeFormat('en-US', options);
+        const parts = formatter.formatToParts(date);
+        const tzName = parts.find(p => p.type === 'timeZoneName')?.value;
+
+        return tzName.includes('DT') ? 'DST' : 'Non-DST';
+    };
+
     const isDST = (date, timeZone) => {
-        const jan = new Date(date.getFullYear(), 0, 1);
-        const jul = new Date(date.getFullYear(), 6, 1);
-
-        const janOffset = new Date(jan.toLocaleString('en-US', { timeZone })).getTimezoneOffset();
-        const julOffset = new Date(jul.toLocaleString('en-US', { timeZone })).getTimezoneOffset();
-        const currentOffset = new Date(date.toLocaleString('en-US', { timeZone })).getTimezoneOffset();
-
-        return currentOffset < Math.max(janOffset, julOffset);
+        return getOffset(date, timeZone) === 'DST';
     };
 
     const formatters = {
@@ -47,17 +60,21 @@ export const formatDate = (date, formatString, locale = 'en-US', timeZone = 'UTC
         },
         hh: () => pad((d.getHours() % 12) || 12),
         Z: () => {
-            const offset = new Date(d.toLocaleString('en-US', { timeZone })).getTimezoneOffset();
-            const hours = Math.floor(Math.abs(offset) / 60);
-            const minutes = Math.abs(offset) % 60;
-            const sign = offset > 0 ? '-' : '+';
-            return `${sign}${pad(hours)}${pad(minutes)}`;
+            const utcDate = new Date(d.toLocaleString('en-US', { timeZone: 'UTC' }));
+            const tzDate = new Date(d.toLocaleString('en-US', { timeZone }));
+
+            const offsetMinutes = (utcDate.getTime() - tzDate.getTime()) / (60 * 1000);
+            const sign = offsetMinutes <= 0 ? '+' : '-';
+            const absOffset = Math.abs(offsetMinutes);
+            const hours = String(Math.floor(absOffset / 60)).padStart(2, '0');
+            const minutes = String(absOffset % 60).padStart(2, '0');
+            return `${sign}${hours}${minutes}`;
         },
         ZZZZ: () => d.toLocaleString(locale, { timeZoneName: 'long', timeZone }),
         DST: () => isDST(d, timeZone) ? 'DST' : 'Non-DST',
     };
 
     return formatString.replace(/yyyy|MMMM|MMM|MM|dd|HH|mm|ss|S|EEEE|EEE|a|do|hh|ZZZZ|Z|DST/g, (match) => {
-        return formatters[match] ? formatters[match]() : match;
+        return formatters[match]?.();
     });
 };

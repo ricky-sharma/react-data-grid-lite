@@ -14,8 +14,14 @@ const GridTable = ({
     dataReceivedRef
 }) => {
     const tableRef = useRef(null);
-    useResizableTableColumns(tableRef, state, setState,
-        computedColumnWidthsRef, state.enableColumnResize, isResizingRef);
+    useResizableTableColumns(
+        tableRef,
+        state,
+        setState,
+        computedColumnWidthsRef,
+        state.enableColumnResize,
+        isResizingRef
+    );
     return (
         <table ref={tableRef} className="mg--0 pd--0 gd-tbl">
             <GridHeader
@@ -25,14 +31,15 @@ const GridTable = ({
                 searchHandler={searchHandler}
                 gridHeaderRef={gridHeaderRef}
                 computedColumnWidthsRef={computedColumnWidthsRef}
+                tableRef={tableRef}
             />
-
             <tbody style={{ height: state.height, maxHeight: state.maxHeight }}>
                 <GridRows
                     state={state}
                     setState={setState}
                     computedColumnWidthsRef={computedColumnWidthsRef}
                     dataReceivedRef={dataReceivedRef}
+                    tableRef={tableRef}
                 />
             </tbody>
         </table>

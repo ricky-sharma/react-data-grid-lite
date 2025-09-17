@@ -1,7 +1,8 @@
 import { Formatting_Types } from '../../constants';
-import { isEqual, isNull, normalize } from '../../helpers/common';
+import { isNull, normalize } from '../../helpers/common';
 import { format as formatVal } from '../../helpers/format';
 import { getNormalizedCombinedValue } from '../../utils/component-utils';
+import { showLoader } from '../../utils/loading-utils';
 import { sortData } from './event-grid-header-clicked';
 
 /*
@@ -40,6 +41,7 @@ export const eventGridSearchTriggered = async (
     if (searchQuery !== '') {
         searchColsRef.current.push({ colName, searchQuery, colObj, formatting: { format, type }, colSep });
     }
+    showLoader(state?.gridID);
     data = filterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled);
 
     const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
@@ -74,70 +76,105 @@ export const eventGridSearchTriggered = async (
 };
 
 export function filterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled) {
-    if (searchColsRef?.current?.length > 0) {
-        let globalSearchData = [];
-        searchColsRef?.current?.forEach(col => {
-            const q = col?.searchQuery?.toLowerCase();
-            const terms = normalize(q)?.match(/\S+/g) || [];
-            const colMatchesSearch = (val) => {
-                if (isNull(val)) return false;
-                const normalizedValue = normalize(val);
-                return terms.every(term => normalizedValue.includes(term));
-            };
+    if (!searchColsRef?.current?.length) return data;
 
-            if (col.colName === '##globalSearch##') {
-                if (aiSearchEnabled === true && aiSearchFailedRef?.current === false)
-                    return;
-                col.colObj.forEach(c => {
-                    if (c?.hidden === true) return;
-                    let colObjSearchData = [];
-                    const f = c?.formatting?.format ?? '';
-                    const t = (c?.formatting?.type || '')?.toLowerCase();
-                    const cc = c?.concatColumns?.columns;
-                    const ccs = c?.concatColumns?.separator || ' ';
+    const searchCols = searchColsRef.current;
+    const isAIEnabled = aiSearchEnabled === true && aiSearchFailedRef?.current === false;
+    const dataLength = data?.length;
+    let filteredData = data;
 
-                    colObjSearchData = data.filter(o => {
-                        let combinedValue = '';
-                        // If this is a "concatenated column"
-                        if (cc && Array.isArray(cc)) {
-                            combinedValue = getNormalizedCombinedValue(o, cc, Formatting_Types, t, f, ccs);
-                        } else {
-                            const val = o[c.name];
-                            combinedValue = Formatting_Types.includes(t)
-                                ? formatVal(val, t, f)?.toString()?.toLowerCase()
-                                : val?.toString()?.toLowerCase();
-                        }
+    for (let col of searchCols) {
+        const rawQuery = col?.searchQuery?.toLowerCase();
+        const terms = normalize(rawQuery)?.match(/\S+/g);
+        if (!terms || terms.length === 0) continue;
 
-                        return terms.every(term => combinedValue?.includes(term));
-                    });
-                    globalSearchData = [...globalSearchData, ...colObjSearchData];
-                });
+        const type = (col?.formatting?.type || '').toLowerCase();
+        const format = col?.formatting?.format ?? '';
+        const separator = col?.colSep || ' ';
 
-                data = globalSearchData.filter((item, index, self) => index === self.findIndex(other => isEqual(item, other))
-                );
-            } else {
-                const t = (col?.formatting?.type || '')?.toLowerCase();
-                const f = col?.formatting?.format ?? '';
-                const ccs = col?.colSep || ' ';
-
-                data = data.filter(o => {
-                    // If this is a "concatenated column"
-                    if (col.colObj.length > 1) {
-                        const combinedValue = getNormalizedCombinedValue(o, col.colObj, Formatting_Types, t, f, ccs);
-                        return terms.every(term => combinedValue.includes(term));
-                    } else {
-                        // Single field
-                        return Object.keys(o).some(k => col.colObj.some(x => x?.toLowerCase() === k?.toLowerCase()) &&
-                            (
-                                Formatting_Types.includes(t)
-                                    ? (!isNull(o[k]) && colMatchesSearch(formatVal(o[k], t, f)))
-                                    : colMatchesSearch(o[k])
-                            )
-                        );
-                    }
-                });
+        const colMatchesSearch = (val) => {
+            if (isNull(val)) return false;
+            const normalizedValue = normalize(val);
+            for (let term of terms) {
+                if (!normalizedValue.includes(term)) return false;
             }
-        });
+            return true;
+        };
+
+        if (col.colName === '##globalSearch##') {
+            if (isAIEnabled) continue;
+
+            let seen = new Set();
+            let globalResults = [];
+
+            for (let c of col.colObj) {
+                if (c?.hidden === true) continue;
+
+                const fieldType = (c?.formatting?.type || '').toLowerCase();
+                const fieldFormat = c?.formatting?.format ?? '';
+                const concatCols = c?.concatColumns?.columns;
+                const concatSep = c?.concatColumns?.separator || ' ';
+
+                for (let row of data) {
+                    let value = '';
+                    if (Array.isArray(concatCols)) {
+                        value = getNormalizedCombinedValue(row, concatCols, Formatting_Types, fieldType, fieldFormat, concatSep);
+                    } else {
+                        const rawVal = row[c.name];
+                        value = Formatting_Types.includes(fieldType)
+                            ? formatVal(rawVal, fieldType, fieldFormat)?.toString()?.toLowerCase()
+                            : rawVal?.toString()?.toLowerCase();
+                    }
+
+                    if (!value) continue;
+
+                    let match = true;
+                    for (let term of terms) {
+                        if (!value.includes(term)) {
+                            match = false;
+                            break;
+                        }
+                    }
+
+                    if (match) {
+                        const rowKey = JSON.stringify(row);
+                        if (!seen.has(rowKey)) {
+                            seen.add(rowKey);
+                            globalResults.push(row);
+                        }
+                    }
+                }
+                if (globalResults?.length === dataLength) {
+                    break;
+                }
+            }
+
+            filteredData = globalResults;
+        } else {
+            filteredData = filteredData.filter(row => {
+                if (col.colObj.length > 1) {
+                    const value = getNormalizedCombinedValue(row, col.colObj, Formatting_Types, type, format, separator);
+                    return terms.every(term => value.includes(term));
+                }
+
+                // Single field
+                for (let key in row) {
+                    for (let targetCol of col.colObj) {
+                        if (targetCol?.toLowerCase() === key?.toLowerCase()) {
+                            const rawVal = row[key];
+                            const valToCheck = Formatting_Types.includes(type)
+                                ? formatVal(rawVal, type, format)
+                                : rawVal;
+
+                            if (colMatchesSearch(valToCheck)) return true;
+                        }
+                    }
+                }
+
+                return false;
+            });
+        }
     }
-    return data;
+
+    return filteredData;
 }

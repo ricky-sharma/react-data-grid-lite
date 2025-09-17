@@ -1,5 +1,5 @@
 /**
- * Checks if a value is considered "null-like" — including:
+ * Checks if a value is considered "null-like" â€” including:
  * - null
  * - undefined
  * - NaN
@@ -91,7 +91,7 @@ export function getContainerWidthInPixels(element, defaultWidth = 0) {
 
     // Fallback to parent element width if still invalid
     if (width <= 0 && el.parentElement) {
-        width = el.parentElement.clientWidth || parseFloat(window.getComputedStyle(el.parentElement).width) || defaultWidth;
+        width = el.parentElement?.clientWidth || parseFloat(window.getComputedStyle(el.parentElement).width);
     }
 
     // Final fallback
@@ -138,3 +138,6 @@ export const normalize = (str) =>
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .toLowerCase();
+
+export const getBool = (val, fallback = false) =>
+    typeof val === 'boolean' ? val : fallback;

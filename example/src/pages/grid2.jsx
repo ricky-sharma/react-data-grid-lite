@@ -36,9 +36,9 @@ export default function Grid2() {
                         <label className='alignCenter'
                             style={{
                                 width: "100%",
-                                height: "100%",  
+                                height: "100%",
                                 backgroundColor: "#ff8300",
-                                color:"#e0e0e0"
+                                color: "#e0e0e0"
                             }} >
                             {row[val]}
                         </label>
@@ -50,14 +50,16 @@ export default function Grid2() {
                 name: val, width: '175px',
                 render: (row) => {
                     return <div
-                        style={{ height: "100%" }}
-                        >
+                        style={{ width: "100%", height: "100%" }}
+                    >
                         <label className='alignCenter'
                             style={{
                                 width: "100%",
                                 height: "100%",
                                 backgroundColor: "#007700",
-                                color: "#e0e0e0"
+                                color: "#e0e0e0",
+                                justifyContent: 'left',
+                                padding: '25px'
                             }} >
                             {row[val]}
                         </label>
@@ -96,7 +98,7 @@ export default function Grid2() {
         else if (val.toLowerCase() === 'title'
             || val.toLowerCase() === 'publisher')
             return {
-                name: val, width: '250px', cellStyle: {backgroundColor : 'silver'}
+                name: val, width: '250px', cellStyle: { backgroundColor: 'silver' }
             }
         else
             return {

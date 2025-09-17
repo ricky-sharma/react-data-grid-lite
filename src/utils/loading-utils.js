@@ -2,6 +2,7 @@ import { Container_Identifier, Loader_Identifier } from "../constants";
 
 let loadingCount = 0;
 let subscribers = [];
+let debounceTimer = null;
 
 export const getLoading = () => loadingCount > 0;
 
@@ -17,15 +18,24 @@ const notify = () => {
     subscribers.forEach(fn => fn(loading));
 };
 
-const trackPromise = async (promise) => {
+const notifyDebounced = (delay = 100) => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        notify();
+    }, delay);
+};
+
+const trackPromise = async (promise, minDelay = 0) => {
     loadingCount += 1;
     notify();
 
+    const delay = new Promise(resolve => setTimeout(resolve, minDelay));
+
     try {
-        await promise;
+        await Promise.all([promise, delay]);
     } finally {
-        loadingCount -= 1;
-        notify();
+        loadingCount = Math.max(0, loadingCount - 1);
+        notifyDebounced();
     }
 };
 

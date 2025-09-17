@@ -12,6 +12,11 @@ jest.mock('../../../src/components/grid-edit/editable-cell-fields', () => () => 
     <div data-testid="editable-cell">EditableCellFields</div>
 ));
 
+afterEach(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers();
+});
+
 describe('GridCell', () => {
     const baseProps = {
         keyProp: 0,
@@ -232,5 +237,436 @@ describe('More GridCell tests', () => {
         expect(td.className).toContain('custom-class');
         expect(td.style.color).toBe('red');
         expect(td.style.position).toBe('sticky');
+    });
+
+    it('handles concatColumns and resolves editor types', () => {
+        useGridConfig.mockReturnValue({
+            state: {
+                columns: [
+                    { name: 'col1', editor: 'text' },
+                    { name: 'col2', editor: 'number' }
+                ],
+                enableCellEdit: true,
+                editingCell: { rowIndex: 0, columnName: 'testConcat' }
+            }
+        });
+        const props = {
+            ...baseProps,
+            col: {
+                name: 'testConcat',
+                editable: true,
+                concatColumns: {
+                    columns: ['col1', 'col2'],
+                    editor: ['text', 'number']
+                }
+            }
+        };
+        const { getByTestId } = render(
+            <table><tbody><tr><GridCell {...props} /></tr></tbody></table>
+        );
+        expect(getByTestId('editable-cell')).toBeInTheDocument();
+    });
+
+    it('clears clickTimerRef.current timeout on double click', () => {
+        const fakeTimeoutId = 123;
+        const clickTimerRef = { current: fakeTimeoutId };
+
+        const props = {
+            ...baseProps,
+            clickTimerRef,
+            col: { name: 'name', editable: true },
+            formattedRow: { name: 'Formatted' },
+        };
+
+        const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout');
+
+        render(
+            <table>
+                <tbody>
+                    <tr>
+                        <GridCell {...props} />
+                    </tr>
+                </tbody>
+            </table>
+        );
+
+        const cell = screen.getByText('Formatted').closest('td');
+
+        fireEvent.doubleClick(cell);
+
+        expect(clearTimeoutSpy).toHaveBeenCalledWith(fakeTimeoutId);
+
+        clearTimeoutSpy.mockRestore();
+    });
+});
+
+describe('GridCell editable double click', () => {
+    beforeEach(() => {
+        useGridConfig.mockReturnValue({
+            state: {
+                columns: [{ name: 'name' }],
+                enableCellEdit: true,
+                enableColumnResize: false,
+                editingCell: {}
+            }
+        });
+    });
+
+    it('calls onCellEdit on double click if editable is true', () => {
+        const onCellEdit = jest.fn();
+        const baseProps = {
+            keyProp: 0,
+            col: { name: 'name', editable: true },
+            isMobile: false,
+            computedColumnWidthsRef: { current: [{ name: 'name', width: 100 }] },
+            lastFixedIndex: null,
+            rowIndex: 0,
+            baseRowIndex: 0,
+            baseRow: { name: 'Original' },
+            formattedRow: { name: 'Formatted' },
+            onCellEdit,
+            onKeyDown: jest.fn(),
+            onTouchStart: () => (fn) => fn,
+            commitChanges: jest.fn(),
+            onCellChange: jest.fn(),
+            revertChanges: jest.fn(),
+            cellChangedFocusRef: { current: null },
+            clickTimerRef: { current: null },
+            didDoubleClickRef: { current: false }
+        };
+
+        render(
+            <table>
+                <tbody>
+                    <tr>
+                        <GridCell {...baseProps} />
+                    </tr>
+                </tbody>
+            </table>
+        );
+
+        const cell = screen.getByText('Formatted').closest('td');
+        fireEvent.doubleClick(cell);
+
+        expect(onCellEdit).toHaveBeenCalledWith('name', 0, 0);
+    });
+});
+
+describe('GridCell onTouchStart', () => {
+    it('calls onCellEdit on touch start if editable is true', () => {
+        useGridConfig.mockReturnValue({
+            state: {
+                columns: [{ name: 'name' }],
+                enableCellEdit: true,
+                enableColumnResize: false,
+                editingCell: {}
+            }
+        });
+
+        const onCellEdit = jest.fn();
+        const onTouchStart = jest.fn((callback) => () => callback());
+
+        const baseProps = {
+            keyProp: 0,
+            col: { name: 'name', editable: true },
+            isMobile: false,
+            computedColumnWidthsRef: { current: [{ name: 'name', width: 100 }] },
+            lastFixedIndex: null,
+            rowIndex: 0,
+            baseRowIndex: 0,
+            baseRow: { name: 'Original' },
+            formattedRow: { name: 'Formatted' },
+            onCellEdit,
+            onKeyDown: jest.fn(),
+            onTouchStart,
+            commitChanges: jest.fn(),
+            onCellChange: jest.fn(),
+            revertChanges: jest.fn(),
+            cellChangedFocusRef: { current: null },
+            clickTimerRef: { current: null },
+            didDoubleClickRef: { current: false }
+        };
+
+        render(
+            <table>
+                <tbody>
+                    <tr>
+                        <GridCell {...baseProps} />
+                    </tr>
+                </tbody>
+            </table>
+        );
+
+        const cell = screen.getByText('Formatted').closest('td');
+
+        fireEvent.touchStart(cell);
+
+        expect(onTouchStart).toHaveBeenCalled();
+        expect(onCellEdit).toHaveBeenCalledWith('name', 0, 0);
+    });
+
+    it('does not calls onCellEdit on touch start if editable is false', () => {
+        useGridConfig.mockReturnValue({
+            state: {
+                columns: [{ name: 'name' }],
+                enableCellEdit: false,
+                enableColumnResize: false,
+                editingCell: {}
+            }
+        });
+
+        const onCellEdit = jest.fn();
+        const onTouchStart = jest.fn((callback) => () => callback());
+
+        const baseProps = {
+            keyProp: 0,
+            col: { name: 'name', editable: false },
+            isMobile: false,
+            computedColumnWidthsRef: { current: [{ name: 'name', width: 100 }] },
+            lastFixedIndex: null,
+            rowIndex: 0,
+            baseRowIndex: 0,
+            baseRow: { name: 'Original' },
+            formattedRow: { name: 'Formatted' },
+            onCellEdit,
+            onKeyDown: jest.fn(),
+            onTouchStart,
+            commitChanges: jest.fn(),
+            onCellChange: jest.fn(),
+            revertChanges: jest.fn(),
+            cellChangedFocusRef: { current: null },
+            clickTimerRef: { current: null },
+            didDoubleClickRef: { current: false }
+        };
+
+        render(
+            <table>
+                <tbody>
+                    <tr>
+                        <GridCell {...baseProps} />
+                    </tr>
+                </tbody>
+            </table>
+        );
+
+        const cell = screen.getByText('Formatted').closest('td');
+
+        fireEvent.touchStart(cell);
+
+        expect(onTouchStart).toHaveBeenCalled();
+        expect(onCellEdit).not.toHaveBeenCalled();
+    });
+});
+
+describe('GridCell onMouseDown', () => {
+    beforeEach(() => {
+        useGridConfig.mockReturnValue({
+            state: {
+                columns: [{ name: 'name' }],
+                enableCellEdit: true,
+                enableColumnResize: false,
+                editingCell: {}
+            }
+        });
+    });
+
+    it('calls preventDefault if mousedown target is an <a> tag', () => {
+        const baseProps = {
+            keyProp: 0,
+            col: { name: 'name', editable: true },
+            isMobile: false,
+            computedColumnWidthsRef: { current: [{ name: 'name', width: 100 }] },
+            lastFixedIndex: null,
+            rowIndex: 0,
+            baseRowIndex: 0,
+            baseRow: { name: 'Original' },
+            formattedRow: { name: 'Formatted' },
+            onCellEdit: jest.fn(),
+            onKeyDown: jest.fn(),
+            onTouchStart: jest.fn(),
+            commitChanges: jest.fn(),
+            onCellChange: jest.fn(),
+            revertChanges: jest.fn(),
+            cellChangedFocusRef: { current: null },
+            clickTimerRef: { current: null },
+            didDoubleClickRef: { current: false }
+        };
+
+        const { container } = render(
+            <table>
+                <tbody>
+                    <tr>
+                        <GridCell {...baseProps} />
+                    </tr>
+                </tbody>
+            </table>
+        );
+
+        const td = container.querySelector('td');
+        const a = document.createElement('a');
+        a.textContent = 'Link';
+        td.appendChild(a);
+
+        const mouseDownEvent = new MouseEvent('mousedown', {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+        });
+        jest.spyOn(mouseDownEvent, 'preventDefault');
+        a.dispatchEvent(mouseDownEvent);
+
+        expect(mouseDownEvent.preventDefault).toHaveBeenCalled();
+    });
+
+    it('does not call preventDefault if mousedown target is not an <a> tag', () => {
+        const baseProps = {
+            keyProp: 0,
+            col: { name: 'name', editable: true },
+            isMobile: false,
+            computedColumnWidthsRef: { current: [{ name: 'name', width: 100 }] },
+            lastFixedIndex: null,
+            rowIndex: 0,
+            baseRowIndex: 0,
+            baseRow: { name: 'Original' },
+            formattedRow: { name: 'Formatted' },
+            onCellEdit: jest.fn(),
+            onKeyDown: jest.fn(),
+            onTouchStart: jest.fn(),
+            commitChanges: jest.fn(),
+            onCellChange: jest.fn(),
+            revertChanges: jest.fn(),
+            cellChangedFocusRef: { current: null },
+            clickTimerRef: { current: null },
+            didDoubleClickRef: { current: false }
+        };
+
+        const { container } = render(
+            <table>
+                <tbody>
+                    <tr>
+                        <GridCell {...baseProps} />
+                    </tr>
+                </tbody>
+            </table>
+        );
+
+        const td = container.querySelector('td');
+
+        const mouseDownEvent = new MouseEvent('mousedown', {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            target: td,
+        });
+
+        jest.spyOn(mouseDownEvent, 'preventDefault');
+        td.dispatchEvent(mouseDownEvent);
+
+        expect(mouseDownEvent.preventDefault).not.toHaveBeenCalled();
+    });
+});
+
+describe('GridCell right positioning with RTL', () => {
+    const defaultProps = {
+        keyProp: 0,
+        col: { name: 'name', fixed: true },
+        isMobile: false,
+        computedColumnWidthsRef: {
+            current: [{ name: 'name', width: 100, leftPosition: '120px' }]
+        },
+        lastFixedIndex: 0,
+        rowIndex: 0,
+        baseRowIndex: 0,
+        baseRow: { name: 'Original' },
+        formattedRow: { name: 'Formatted' },
+        onCellEdit: jest.fn(),
+        onKeyDown: jest.fn(),
+        onTouchStart: jest.fn(() => jest.fn()),
+        commitChanges: jest.fn(),
+        onCellChange: jest.fn(),
+        revertChanges: jest.fn(),
+        cellChangedFocusRef: { current: null },
+        clickTimerRef: { current: null },
+        didDoubleClickRef: { current: false }
+    };
+
+    it('applies right style when fixedMeta and enableRtl are true', () => {
+        useGridConfig.mockReturnValue({
+            state: {
+                columns: [{ name: 'name' }],
+                enableRtl: true,
+                enableCellEdit: false,
+                enableColumnResize: false,
+                editingCell: {}
+            }
+        });
+
+        const { getByRole } = render(
+            <table>
+                <tbody>
+                    <tr>
+                        <GridCell {...defaultProps} />
+                    </tr>
+                </tbody>
+            </table>
+        );
+
+        const td = getByRole('cell');
+        expect(td.style.right).toBe('120px');
+    });
+
+    it('does not apply right style when enableRtl is false', () => {
+        useGridConfig.mockReturnValue({
+            state: {
+                columns: [{ name: 'name' }],
+                enableRtl: false,
+                enableCellEdit: false,
+                enableColumnResize: false,
+                editingCell: {}
+            }
+        });
+
+        const { getByRole } = render(
+            <table>
+                <tbody>
+                    <tr>
+                        <GridCell {...defaultProps} />
+                    </tr>
+                </tbody>
+            </table>
+        );
+
+        const td = getByRole('cell');
+        expect(td.style.right).toBe('');
+    });
+
+    it('does not apply right style when fixedMeta is false (e.g. isMobile = true)', () => {
+        useGridConfig.mockReturnValue({
+            state: {
+                columns: [{ name: 'name' }],
+                enableRtl: true,
+                enableCellEdit: false,
+                enableColumnResize: false,
+                editingCell: {}
+            }
+        });
+
+        const props = {
+            ...defaultProps,
+            isMobile: true
+        };
+
+        const { getByRole } = render(
+            <table>
+                <tbody>
+                    <tr>
+                        <GridCell {...props} />
+                    </tr>
+                </tbody>
+            </table>
+        );
+
+        const td = getByRole('cell');
+        expect(td.style.right).toBe('');
     });
 });

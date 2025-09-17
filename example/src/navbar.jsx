@@ -64,6 +64,18 @@ function Navbar() {
                     </Link>
                     <span></span>
                 </li>
+                <li>
+                    <Link to="/Grid8" className={isActive('/Grid8') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                        Right To Left
+                    </Link>
+                    <span></span>
+                </li>
+                <li>
+                    <Link to="/Grid9" className={isActive('/Grid9') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                        Million Cells
+                    </Link>
+                    <span></span>
+                </li>
             </ul>
         </nav>
     );

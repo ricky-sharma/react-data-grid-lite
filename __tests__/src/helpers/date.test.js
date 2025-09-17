@@ -69,14 +69,74 @@ describe('formatDate', () => {
         expect(['DST', 'Non-DST']).toContain(result);
     });
 
-    it('includes time zone offset using "Z"', () => {
+    it('includes time zone offset using "Z" for system local time zone', () => {
         const offset = -new Date().getTimezoneOffset();
         const sign = offset >= 0 ? '+' : '-';
         const absOffset = Math.abs(offset);
         const hours = String(Math.floor(absOffset / 60)).padStart(2, '0');
         const minutes = String(absOffset % 60).padStart(2, '0');
-        const localTimeZone =  `${sign}${hours}${minutes}`;
-        const formatted = formatDate(date, 'Z', 'en-US', 'UTC');
+        const localTimeZone = `${sign}${hours}${minutes}`;
+
+        const date = new Date();
+        const formatted = formatDate(date, 'Z', 'en-US', Intl.DateTimeFormat().resolvedOptions().timeZone);
         expect(formatted).toBe(localTimeZone);
+    });
+
+
+    it('returns unknown tokens as-is', () => {
+        expect(formatDate(date, 'yyyy-XX-dd')).toBe('2024-XX-02');
+    });
+
+    it('handles 12 AM and 12 PM correctly', () => {
+        const midnight = new Date('2024-06-02T00:00:00');
+        const noon = new Date('2024-06-02T12:00:00');
+
+        expect(formatDate(midnight, 'hh a')).toBe('12 AM');
+        expect(formatDate(noon, 'hh a')).toBe('12 PM');
+    });
+
+    it('detects DST correctly around transition dates', () => {
+        const beforeDST = new Date('2024-03-10T06:59:00Z');
+        const afterDST = new Date('2024-03-10T07:01:00Z');
+
+        const before = formatDate(beforeDST, 'DST', 'en-US', 'America/New_York');
+        const after = formatDate(afterDST, 'DST', 'en-US', 'America/New_York');
+
+        expect(before).toBe('Non-DST');
+        expect(after).toBe('DST');
+    });
+
+    it('formats milliseconds with leading zeros if needed', () => {
+        const d = new Date('2024-06-02T14:30:45.007');
+        expect(formatDate(d, 'S')).toBe('7');
+    });
+
+    it('uses default format if format string is not a string', () => {
+        expect(formatDate(date, {})).toBe('2024-06-02');
+        expect(formatDate(date, 123)).toBe('2024-06-02');
+    });
+
+    it('includes negative sign for time zones behind UTC in "Z"', () => {
+        const date = new Date('2024-06-02T12:00:00Z');
+        const formatted = formatDate(date, 'Z', 'en-US', 'America/New_York');
+        expect(formatted).toBe('-0400');
+    });
+
+    it('includes positive sign for time zones ahead of UTC in "Z"', () => {
+        const date = new Date('2024-06-02T12:00:00Z');
+        const formatted = formatDate(date, 'Z', 'en-US', 'Asia/Tokyo');
+        expect(formatted).toBe('+0900');
+    });
+
+    it('returns unknown tokens as-is', () => {
+        const date = new Date('2024-06-02T12:00:00');
+        const output = formatDate(date, 'yyyy-XX-dd');
+        expect(output).toBe('2024-XX-02');
+    });
+
+    it('leaves multiple unknown tokens unchanged', () => {
+        const date = new Date('2024-06-02T12:00:00');
+        const output = formatDate(date, 'AA-yyyy-BB-dd-CC');
+        expect(output).toBe('AA-2024-BB-02-CC');
     });
 });

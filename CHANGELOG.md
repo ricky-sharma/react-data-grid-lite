@@ -6,6 +6,57 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br>
 
+## 📦 **v1.2.4** – Released 2025-09-17
+
+### ✨ Features
+
+* **RTL Support**
+
+  * Added `enableRtl` prop to toggle **Right-to-Left (RTL)** UI rendering.
+* **Virtualization**
+
+  * Implemented **virtual rendering** for columns and rows to improve performance.
+  * Introduced `virtualization` prop to enable/disable virtualization.
+  * Automatically enables virtual rows when row count > 25.
+  * Automatically enables virtual columns when column count > 25.
+
+### 🎨 UI/UX Improvements
+
+* Highlighted selected rows with a background color for **better user feedback**.
+* Updated grid **scrollbar styling** for visual consistency.
+* Set column menu height to **100%** to expand the clickable area.
+* Updated **grid footer layout** for improved **mobile compatibility**.
+* Set default **header text alignment** to **left**.
+
+### ⚙️ Enhancements & Refactors
+
+* **Performance Optimizations**
+
+  * Refactored `filterData` for improved speed and robustness on large grids (\~1M cells).
+  * Improved `trackPromise` to better handle concurrent async operations.
+  * Debounced `notify()` to reduce loader flickering and ensure accurate loading state.
+
+* **Code Refactoring**
+
+  * Extracted header styles for action vs. regular cells.
+  * Separated "select all" header logic into `handle-header-selectall-change.js` for clarity and testability.
+  * Handled `hideable` flag during column width calculations to prevent layout issues.
+  * General refactoring for better readability and maintainability.
+
+### 🧪 Testing
+
+* Added and updated **unit tests** for:
+
+  * RTL handling
+  * Header styling and logic
+  * Filter and virtualization logic
+
+### 📝 Documentation
+
+* Updated **docs** and **examples** to reflect new features and changes in **v1.2.4**.
+
+<br><br>
+
 ## 📦 v1.2.3 – Released 2025-08-26
 
 ### ✨ Features

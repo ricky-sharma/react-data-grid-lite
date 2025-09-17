@@ -12,6 +12,8 @@ import { useCellRevert } from '../hooks/use-cell-revert';
 import { useDoubleTap } from '../hooks/use-double-tap';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
 import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
+import { useVirtualColumns } from '../hooks/use-virtual-columns';
+import { useVirtualRows } from '../hooks/use-virtual-rows';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { formatRowData } from '../utils/component-utils';
 import { gridWidthType } from '../utils/grid-width-type-utils';
@@ -24,7 +26,8 @@ const GridRows = ({
     state,
     setState,
     computedColumnWidthsRef,
-    dataReceivedRef
+    dataReceivedRef,
+    tableRef
 }) => {
     const loading = useLoadingIndicator();
     const { onTouchStart } = useDoubleTap();
@@ -80,8 +83,6 @@ const GridRows = ({
         onRowOut,
         editButtonEnabled,
         deleteButtonEnabled,
-        editButtonEvent,
-        deleteButtonEvent,
         gridID,
         actionColumnAlign,
         editingCell,
@@ -89,12 +90,40 @@ const GridRows = ({
         editingCellData,
         rowHeight,
         enableRowSelection,
-        rowSelectColumnAlign
+        rowSelectColumnAlign,
+        selectedRows,
+        enableVirtualColumns,
+        enableVirtualRows,
     } = state || {};
+
+    const pageData = rowsData?.slice(firstRow, firstRow + currentPageRows) || [];
+
+    const {
+        visibleRows,
+        startIndex,
+        topPaddingHeight,
+        bottomPaddingHeight
+    } = useVirtualRows({
+        pageData,
+        tableRef
+    });
+
+    const {
+        visibleColumns,
+        leftBufferWidth,
+        rightBufferWidth
+    } = useVirtualColumns({
+        tableRef,
+        computedColumnWidthsRef
+    });
+
+    const filteredRows = enableVirtualRows ? visibleRows : pageData;
+    const rowStartIndex = enableVirtualRows ? startIndex : firstRow;
+    const visibleNames = new Set(visibleColumns?.map(col => col?.name));
+    const filteredColumns = enableVirtualColumns ? columns?.filter(col => visibleNames?.has(col?.name)) : columns;
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
     const isMobile = isSmallWidth || isMobileWidth;
-
     if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)
         || !columns.some(col => !col?.hideable && !col?.hidden)) {
         hideLoader(gridID);
@@ -118,13 +147,12 @@ const GridRows = ({
     configureCellChange({ editingCell, editingCellData, rowsData, dataReceivedRef, setState });
     configureCellCommit({ editingCell, onCellUpdate, setState });
     configureCellRevert({ editingCell, editingCellData, rowsData, setState, dataReceivedRef });
-
-    return rowsData.slice(firstRow, firstRow + currentPageRows)
+    const gridRows = filteredRows
         .map((baseRow, sliceIndex) => {
-            const rowIndex = sliceIndex + firstRow;
+            const rowIndex = sliceIndex + rowStartIndex;
             const baseRowIndex = baseRow?.__$index__;
             const formattedRow = formatRowData(baseRow, columns);
-            const cols = Object.values(columns).map((col, key) => {
+            const cols = Object.values(filteredColumns).map((col, key) => {
                 if (col?.hidden === true || col?.hideable === true) return null;
                 return (
                     <GridCell
@@ -150,6 +178,29 @@ const GridRows = ({
                     />
                 );
             });
+            if (enableVirtualColumns) {
+                cols['unshift'](
+                    <td
+                        key={`leftSpace${baseRowIndex}`}
+                        style={{
+                            width: leftBufferWidth,
+                            maxWidth: leftBufferWidth,
+                            minWidth: leftBufferWidth,
+                            padding: 0,
+                            margin: 0
+                        }} />
+                );
+                cols['push'](
+                    <td key={`rightSpace${baseRowIndex}`}
+                        style={{
+                            width: rightBufferWidth,
+                            maxWidth: rightBufferWidth,
+                            minWidth: rightBufferWidth,
+                            padding: 0,
+                            margin: 0
+                        }} />
+                );
+            }
             const isActionColumnLeft = actionColumnAlign === 'left';
             const isActionColumnRight = actionColumnAlign === 'right';
             const isSelectionColumnLeft = rowSelectColumnAlign === 'left';
@@ -180,17 +231,13 @@ const GridRows = ({
                         isActionColumnRight={isActionColumnRight}
                         isMobile={isMobile}
                         baseRow={baseRow}
-                        editButtonEnabled={editButtonEnabled}
-                        deleteButtonEnabled={deleteButtonEnabled}
-                        editButtonEvent={editButtonEvent}
-                        deleteButtonEvent={deleteButtonEvent}
                     />
                 );
             }
             return (
                 <tr
                     key={rowIndex}
-                    className={`${rowCssClass} gridRow`}
+                    className={`${rowCssClass} ${selectedRows?.has(baseRow?.__$index__) ? 'selected' : ''} gridRow`}
                     style={{
                         cursor: rowClickEnabled ? 'pointer' : undefined,
                         height: rowHeight
@@ -210,6 +257,26 @@ const GridRows = ({
                 </tr>
             );
         });
+
+    return (
+        <>
+            {enableVirtualRows &&
+                <tr style={{
+                    height: topPaddingHeight,
+                    padding: 0,
+                    margin: 0
+                }} />
+            }
+            {gridRows}
+            {enableVirtualRows &&
+                <tr style={{
+                    height: bottomPaddingHeight,
+                    padding: 0,
+                    margin: 0
+                }} />
+            }
+        </>
+    )
 };
 
 export default GridRows;

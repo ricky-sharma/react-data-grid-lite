@@ -134,7 +134,7 @@ describe('GridRows', () => {
         const editFn = jest.fn();
         const deleteFn = jest.fn();
         function TableComponent() {
-            const [state] = useState({
+            const [state, setState] = useState({
                 ...defaultProps,
                 editButtonEnabled: true,
                 deleteButtonEnabled: true,
@@ -145,14 +145,17 @@ describe('GridRows', () => {
             ref.current = [
                 { name: 'name', width: '150px', leftPosition: '0px' }
                 , { name: 'age', width: '150px', leftPosition: '150px' }]
-            return (<table>
-                <tbody>
-                    <GridRows
-                        state={state}
-                        computedColumnWidthsRef={ref}
-                    />
-                </tbody>
-            </table>);
+            return (
+                <GridConfigContext.Provider value={{ state: state, setState: setState }}>
+                    <table>
+                        <tbody>
+                            <GridRows
+                                state={state}
+                                computedColumnWidthsRef={ref}
+                            />
+                        </tbody>
+                    </table>
+                </GridConfigContext.Provider>);
         }
         render(<TableComponent />);
 
@@ -281,18 +284,34 @@ describe('More tests for GridRows Component', () => {
         render(<table><tbody><GridRows state={baseState} setState={mockSetState} computedColumnWidthsRef={computedColumnWidthsRef} /></tbody></table>);
         expect(screen.getByText('Alice')).toBeInTheDocument();
         expect(screen.getByText('Bob')).toBeInTheDocument();
-        expect(screen.getAllByRole('row')).toHaveLength(2);
+        expect(screen.getAllByRole('row')).toHaveLength(4);
     });
 
     it('calls editButtonEvent on edit icon click', () => {
-        render(<table><tbody><GridRows state={baseState} setState={mockSetState} computedColumnWidthsRef={computedColumnWidthsRef} /></tbody></table>);
+        render(
+            <GridConfigContext.Provider value={{ state: baseState, setState: mockSetState }}>
+                <table>
+                    <tbody>
+                        <GridRows state={baseState} setState={mockSetState} computedColumnWidthsRef={computedColumnWidthsRef} />
+                    </tbody>
+                </table>
+            </GridConfigContext.Provider>
+        );
         const editButtons = screen.getAllByTitle('Edit');
         fireEvent.click(editButtons[0]);
         expect(mockEditButtonEvent).toHaveBeenCalledWith(expect.any(Object), baseState.rowsData[0]);
     });
 
     it('calls deleteButtonEvent on delete icon click', () => {
-        render(<table><tbody><GridRows state={baseState} setState={mockSetState} computedColumnWidthsRef={computedColumnWidthsRef} /></tbody></table>);
+        render(
+            <GridConfigContext.Provider value={{ state: baseState, setState: mockSetState }}>
+                <table>
+                    <tbody>
+                        <GridRows state={baseState} setState={mockSetState} computedColumnWidthsRef={computedColumnWidthsRef} />
+                    </tbody>
+                </table>
+            </GridConfigContext.Provider>
+        );
         const deleteButtons = screen.getAllByTitle('Delete');
         fireEvent.click(deleteButtons[1]);
         expect(mockDeleteButtonEvent).toHaveBeenCalledWith(expect.any(Object), baseState.rowsData[1]);
@@ -315,7 +334,7 @@ describe('More tests for GridRows Component', () => {
         jest.useFakeTimers();
         render(<table><tbody><GridRows state={baseState} setState={mockSetState} computedColumnWidthsRef={computedColumnWidthsRef} /></tbody></table>);
         const rows = screen.getAllByRole('row');
-        fireEvent.click(rows[0]);
+        fireEvent.click(rows[1]);
         jest.advanceTimersByTime(500);
         expect(mockOnRowClick).toHaveBeenCalledWith(expect.any(Object), baseState.rowsData[0]);
         jest.useRealTimers();

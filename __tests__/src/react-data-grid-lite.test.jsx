@@ -75,6 +75,24 @@ const data = [
     { name: 'Bob', age: 25 }
 ];
 
+const options = {
+    gridClass: "test",
+    editButton: {},
+    deleteButton: {},
+    enableColumnSearch: true,
+    enableGlobalSearch: true,
+    enableColumnResize: false,
+    enableColumnDrag: false,
+    enableCellEdit: false,
+    enableDownload: true,
+    showResetMenuItem: true,
+    csvExportUI: 'button',
+    showColumnMenu: true,
+    showToolbarMenu: true,
+    enableSorting: true,
+    enableRtl: false
+}
+
 const defaultProps = {
     id: 'test-grid',
     columns,
@@ -84,6 +102,7 @@ const defaultProps = {
     onPageChange: jest.fn(),
     onSortComplete: jest.fn(),
     onSearchComplete: jest.fn(),
+    options
 };
 
 describe('DataGrid Component', () => {

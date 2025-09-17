@@ -1,9 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import GridActionCell from '../../../src/components/grid-action-cell';
+import { useGridConfig } from '../../../src/hooks/use-grid-config';
 
 jest.mock('../../../src/icons/edit-icon', () => () => <svg data-testid="edit-icon" />);
 jest.mock('../../../src/icons/delete-icon', () => () => <svg data-testid="delete-icon" />);
+jest.mock('../../../src/hooks/use-grid-config', () => ({
+    useGridConfig: jest.fn(),
+}));
 
 describe('GridActionCell', () => {
     const baseRow = { id: 123, name: 'Row 1' };
@@ -12,11 +16,7 @@ describe('GridActionCell', () => {
         isActionColumnLeft: false,
         isActionColumnRight: false,
         isMobile: false,
-        baseRow,
-        editButtonEnabled: false,
-        deleteButtonEnabled: false,
-        editButtonEvent: jest.fn(),
-        deleteButtonEvent: jest.fn(),
+        baseRow
     };
 
     const renderCell = (props = {}) =>
@@ -32,6 +32,14 @@ describe('GridActionCell', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        useGridConfig.mockReturnValue({
+            state: {
+                editButtonEnabled: false,
+                deleteButtonEnabled: false,
+                editButtonEvent: jest.fn(),
+                deleteButtonEvent: jest.fn()
+            }
+        });
     });
 
     it('renders td with correct width styles', () => {
@@ -85,14 +93,30 @@ describe('GridActionCell', () => {
     });
 
     it('renders edit button when editButtonEnabled is true', () => {
-        renderCell({ editButtonEnabled: true });
+        useGridConfig.mockReturnValue({
+            state: {
+                editButtonEnabled: true,
+                deleteButtonEnabled: false,
+                editButtonEvent: jest.fn(),
+                deleteButtonEvent: jest.fn()
+            }
+        });
+        renderCell();
 
         expect(screen.getByTitle('Edit')).toBeInTheDocument();
         expect(screen.getByTestId('edit-icon')).toBeInTheDocument();
     });
 
     it('renders delete button when deleteButtonEnabled is true', () => {
-        renderCell({ deleteButtonEnabled: true });
+        useGridConfig.mockReturnValue({
+            state: {
+                editButtonEnabled: false,
+                deleteButtonEnabled: true,
+                editButtonEvent: jest.fn(),
+                deleteButtonEvent: jest.fn()
+            }
+        });
+        renderCell();
 
         expect(screen.getByTitle('Delete')).toBeInTheDocument();
         expect(screen.getByTestId('delete-icon')).toBeInTheDocument();
@@ -100,7 +124,15 @@ describe('GridActionCell', () => {
 
     it('calls editButtonEvent on edit button click', () => {
         const editButtonEvent = jest.fn();
-        renderCell({ editButtonEnabled: true, editButtonEvent });
+        useGridConfig.mockReturnValue({
+            state: {
+                editButtonEnabled: true,
+                deleteButtonEnabled: false,
+                editButtonEvent,
+                deleteButtonEvent: jest.fn()
+            }
+        });
+        renderCell();
 
         const editBtn = screen.getByTitle('Edit');
         fireEvent.click(editBtn);
@@ -110,7 +142,15 @@ describe('GridActionCell', () => {
 
     it('calls deleteButtonEvent on delete button click', () => {
         const deleteButtonEvent = jest.fn();
-        renderCell({ deleteButtonEnabled: true, deleteButtonEvent });
+        useGridConfig.mockReturnValue({
+            state: {
+                editButtonEnabled: false,
+                deleteButtonEnabled: true,
+                editButtonEvent: jest.fn(),
+                deleteButtonEvent
+            }
+        });
+        renderCell();
 
         const deleteBtn = screen.getByTitle('Delete');
         fireEvent.click(deleteBtn);
@@ -120,7 +160,15 @@ describe('GridActionCell', () => {
 
     it('calls editButtonEvent on Enter and Space keydown on edit button', () => {
         const editButtonEvent = jest.fn();
-        renderCell({ editButtonEnabled: true, editButtonEvent });
+        useGridConfig.mockReturnValue({
+            state: {
+                editButtonEnabled: true,
+                deleteButtonEnabled: false,
+                editButtonEvent,
+                deleteButtonEvent: jest.fn()
+            }
+        });
+        renderCell();
 
         const editBtn = screen.getByTitle('Edit');
 
@@ -133,7 +181,15 @@ describe('GridActionCell', () => {
 
     it('calls deleteButtonEvent on Enter and Space keydown on delete button', () => {
         const deleteButtonEvent = jest.fn();
-        renderCell({ deleteButtonEnabled: true, deleteButtonEvent });
+        useGridConfig.mockReturnValue({
+            state: {
+                editButtonEnabled: false,
+                deleteButtonEnabled: true,
+                editButtonEvent: jest.fn(),
+                deleteButtonEvent
+            }
+        });
+        renderCell();
 
         const deleteBtn = screen.getByTitle('Delete');
 
@@ -159,5 +215,4 @@ describe('GridActionCell', () => {
 
         expect(stopPropagation).toHaveBeenCalled();
     });
-
 });

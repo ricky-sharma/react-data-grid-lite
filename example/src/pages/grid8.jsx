@@ -9,6 +9,8 @@ const options = {
     enableColumnResize: true,
     actionColumnAlign: 'right',
     rowSelectColumnAlign: 'right',
+    enableRtl: true,
+    enableColumnDrag: true,
     editButton: {
         event: (e, row) => {
             alert('Edit Button clicked!');
@@ -51,10 +53,10 @@ export default function Grid5() {
 
     return (
         <ExampleBlock
-            title="Pinned and resizable columns enabled"
+            title="Right to Left Grid"
             theme="dark-stack"
             text=""
-            htmlContent="<a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid5.jsx'>Complete Source Code on GitHub</a>"
+            htmlContent="<p>Following features are enabled:</p><ul><li>Pinned and resizable columns are enabled.</li><li>Drag-and-drop functionality is enabled, allowing fixed columns to be reordered with other fixed columns, and non-fixed columns with other non-fixed columns.</li></ul><a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid8.jsx'>Complete Source Code on GitHub</a>"
         >
             <DataGrid
                 columns={columns}

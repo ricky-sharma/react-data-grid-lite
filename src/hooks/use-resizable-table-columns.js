@@ -2,8 +2,14 @@ import { useEffect } from 'react';
 import { isNull } from '../helpers/common';
 import { Button_Column_Key, Maximum_Column_Width, Minimum_Column_Width } from '../constants';
 
-export function useResizableTableColumns(tableRef, state, setState,
-    compColWidthsRef, enableColumnResize, isResizingRef) {
+export function useResizableTableColumns(
+    tableRef,
+    state,
+    setState,
+    compColWidthsRef,
+    enableColumnResize,
+    isResizingRef
+) {
     useEffect(() => {
         const table = tableRef?.current;
         if (!table) return;
@@ -36,7 +42,8 @@ export function useResizableTableColumns(tableRef, state, setState,
             resizer.classList.add('r-d-g-lt-column-resizer');
             resizer.style.position = 'absolute';
             resizer.style.top = '0';
-            resizer.style.right = '0';
+            resizer.style.right = !state?.enableRtl ? '0' : undefined;
+            resizer.style.left = state?.enableRtl ? '0' : undefined;
             resizer.style.width = '6px';
             if (window.matchMedia('(pointer: coarse)').matches) {
                 resizer.style.width = '8px';

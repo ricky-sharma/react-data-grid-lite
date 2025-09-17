@@ -85,7 +85,7 @@ const ColumnMenu = ({ column, sortable }) => {
             menuId={columnName}
             items={items}
             width={"20px"}
-            height={"24px"}
+            height={"100%"}
             margin={"0 5px 0 0"}
             borderRadius={"0"}
             noBorder="true"

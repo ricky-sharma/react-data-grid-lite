@@ -76,7 +76,7 @@ export function useSearchHandler({
                     aiEnabled
                 );
             })();
-        }, 300);
+        }, 500);
     }, [
         state,
         setState,
