@@ -50,11 +50,7 @@
 		<meta name="twitter:image" content="https://ricky-sharma.github.io/react-data-grid-lite/preview.png" />
 
 		<!-- goat counter -->
-		<script
-      data-goatcounter="https://react-data-grid-lite.goatcounter.com/count"
-      async=""
-      src="https://gc.zgo.at/count.js"
-    ></script>
+		<script data-goatcounter="https://react-data-grid-lite.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script>
 		<!-- goat counter -->
 
 		<!-- google site verification -->
@@ -64,7 +60,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1758166773346" rel="stylesheet" />
+		<link href="index.css?ver=1758203779837" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
 		<style>
@@ -91,7 +87,7 @@
 		</script>
 	</head>
 
-	<body>
+	<body >
 		<!-- Google Tag Manager (noscript) -->
 		<noscript>
 			<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WH86MHGD"
@@ -102,12 +98,12 @@
   class="sticky top-0 z-10002 flex items-center justify-between px-1 sm:px-3 py-2 border-b shadow-lg bg-white/90 backdrop-blur-sm border-slate-400/40"
 >
 	<!-- Site title -->
-	<div class="flex flex-row sm:items-center space-x-1 space-y-0">
-		<a href="index.html" class="text-lg sm:text-2xl font-semibold tracking-tight text-slate-900 whitespace-nowrap">
+	<div class="flex flex-row sm:items-center space-x-1 pl-1 space-y-0">
+		<a href="index.html" class="text-lg sm:text-2xl font-semibold tracking-tight text-blue-900 whitespace-nowrap">
 			React Data Grid Lite
 		</a>
 		<div class="inline-block w-fit">
-			<span class="text-[12px] font-bold text-green-500 bg-gray-100 px-1 py-0.5 rounded-md border border-gray-200">
+			<span class="text-[12px] font-bold text-orange-500 hover:bg-gray-200 hover:text-orange-600 bg-gray-100 px-1 py-0.5 rounded-md border border-gray-200">
 				v1.2.4
 			</span>
 		</div>
@@ -127,8 +123,9 @@
 			  name="q"
 			  type="search"
 			  placeholder="Search..."
-			  class="w-0 opacity-0 sm:w-full sm:opacity-100 group-focus-within:w-full group-focus-within:opacity-100
-			                  sm:w-48 md:w-60 lg:w-72 transition-all duration-300
+			  class="w-0 opacity-0 sm:opacity-100 group-focus-within:w-full group-focus-within:opacity-100
+			                  sm:w-48 group-focus-within:sm:w-48 md:w-60 group-focus-within:md:w-60
+							  lg:w-80 group-focus-within:lg:w-80 transition-all duration-300
 						pl-4 pr-10 py-1.5 rounded-md border border-gray-300 text-sm text-slate-700
                  focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400
     "
@@ -181,20 +178,11 @@
 			  style="line-height: 0;"
       >
 				<img
-				  src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
+				  src="https://img.shields.io/npm/v/react-data-grid-lite"
 				  alt="NPM Badge"
 				  class="block"
         />
 			</a>
-
-			<img
-			  src="https://img.shields.io/npm/dt/react-data-grid-lite"
-			  class="rounded bg-slate-900"
-			  alt="npm downloads"
-      />
-
-
-
 			<a
 			  href="https://github.com/ricky-sharma/react-data-grid-lite"
 			  target="_blank"
@@ -205,7 +193,7 @@
 				  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
 				  alt="GitHub"
 				  style="height: 20px;"
-				  class="rounded transition-transform duration-200 hover:scale-105"
+				  class="rounded transition-transform duration-200 hover:scale-110"
         />
 			</a>
 		</div>
@@ -213,21 +201,21 @@
 </header>
 
 
-		<main class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12">
+		<main class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8">
 			<label for="navigation" class="fixed bottom-0 left-0 z-10002 flex items-center justify-center w-12 h-12 mb-4 ml-4 bg-white border rounded-full shadow-lg cursor-pointer text-slate-600 border-slate-300 lg:hidden transition duration-200 ease-in-out active:scale-95">
   <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
     <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
   </svg>
 </label>
 <input type="checkbox" name="navigation" id="navigation" class="hidden peer" />
-<div class="fixed top-[3.5rem] h-screen shadow-xl px-4 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none z-10001">
-  <div class="absolute inset-y-0 right-0 w-full lg:w-[50vw] bg-white lg:bg-slate-50"></div>
-	<nav class="sticky top-[4.5rem] w-64 pr-8 text-base lg:text-sm xl:w-72 xl:pr-16 select-none">
-		<ul role="list" class="-ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-3 pl-0.5 space-y-6 scroll-hide">
+<div class="fixed top-[3.5rem] h-screen shadow-xl px-1 left-0 hidden peer-checked:block lg:relative lg:top-0 lg:h-auto lg:px-0 lg:block lg:flex-none lg:shadow-none z-10001">
+  <div class="absolute inset-y-0 right-0 w-full lg:w-[30vw] bg-white lg:bg-slate-100"></div>
+	<nav class="sticky top-[4.5rem] w-64 pr-5 text-base lg:text-sm select-none">
+		<ul role="list" class="h-[calc(100vh-4.5rem)] overflow-y-auto py-3 pl-0.5 space-y-5 scroll-hide">
 			
 			<li>
-				<h3 class="font-semibold text-base tracking-wide text-gray-600">Overview</h3>
-				<ul role="list" class="pl-3 mt-3 space-y-2">
+				<h3 class="font-semibold text-base tracking-wide text-green-600">Overview</h3>
+				<ul role="list" class="pl-1 mt-2 space-y-2">
 					
 					
 					
@@ -235,7 +223,7 @@
 						<a href="index.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Introduction
 						</a>						
@@ -248,9 +236,22 @@
 						<a href="demo.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Live Demo
+						</a>						
+					</li>
+					
+					
+					
+					
+					<li>
+						<a href="download.html"
+						   
+						   
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
+						   >
+							Download
 						</a>						
 					</li>
 					
@@ -259,20 +260,20 @@
 			</li>
 			
 			<li>
-				<h3 class="font-semibold text-base tracking-wide text-gray-600">Documentation</h3>
-				<ul role="list" class="pl-3 mt-3 space-y-2">
+				<h3 class="font-semibold text-base tracking-wide text-green-600">Documentation</h3>
+				<ul role="list" class="pl-1 mt-2 space-y-2">
 					
 					
 					<li class="mt-2">
-						<h4 class="text-sm text-gray-600 font-semibold tracking-wide cursor-default">API Reference</h4>
-						<ul role="list" class="pl-4 mt-2 space-y-2">
+						<h4 class="text-sm text-green-700 font-semibold tracking-wide cursor-default">API Reference</h4>
+						<ul role="list" class="pl-1 mt-2 space-y-2">
 							
 							
 							<li>
 								<a href="api.html"
 								   
 								   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium px-1 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 								   >
 									DataGrid
 								</a>								
@@ -283,7 +284,7 @@
 								<a href="api-columns.html"
 								   
 								   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium px-1 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 								   >
 									Columns
 								</a>								
@@ -294,7 +295,7 @@
 								<a href="api-options.html"
 								   
 								   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium px-1 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 								   >
 									Options
 								</a>								
@@ -305,7 +306,7 @@
 								<a href="ai-search.html"
 								   
 								   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium px-1 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 								   >
 									AI Search
 								</a>								
@@ -321,7 +322,7 @@
 						<a href="datagrid-ref-methods.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Imperative Grid API
 						</a>						
@@ -334,7 +335,7 @@
 						<a href="events.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Event Callbacks
 						</a>						
@@ -347,7 +348,7 @@
 						<a href="styling.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Styling &amp; Theming
 						</a>						
@@ -360,7 +361,7 @@
 						<a href="advanced.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Advanced Usage
 						</a>						
@@ -373,7 +374,7 @@
 						<a href="format-guide.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Format Guide
 						</a>						
@@ -384,8 +385,8 @@
 			</li>
 			
 			<li>
-				<h3 class="font-semibold text-base tracking-wide text-gray-600">Examples</h3>
-				<ul role="list" class="pl-3 mt-3 space-y-2">
+				<h3 class="font-semibold text-base tracking-wide text-green-600">Examples</h3>
+				<ul role="list" class="pl-1 mt-2 space-y-2">
 					
 					
 					
@@ -393,7 +394,7 @@
 						<a href="example-1.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Consuming Remote API
 						</a>						
@@ -406,7 +407,7 @@
 						<a href="example-2.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Global &amp; Column Search
 						</a>						
@@ -419,7 +420,7 @@
 						<a href="example-3.html"
 						   aria-current="page"
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Pinned &amp; Resizable Columns
 						</a>						
@@ -432,7 +433,7 @@
 						<a href="example-4.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Column Control
 						</a>						
@@ -443,8 +444,8 @@
 			</li>
 			
 			<li>
-				<h3 class="font-semibold text-base tracking-wide text-gray-600">Terms &amp; Changes</h3>
-				<ul role="list" class="pl-3 mt-3 space-y-2">
+				<h3 class="font-semibold text-base tracking-wide text-green-600">Terms &amp; Changes</h3>
+				<ul role="list" class="pl-1 mt-2 space-y-2">
 					
 					
 					
@@ -452,7 +453,7 @@
 						<a href="changelog.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							Changelog
 						</a>						
@@ -465,7 +466,7 @@
 						<a href="license.html"
 						   
 						   
-   class="text-gray-600 font-medium px-2 py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-200 dark:aria-[current=page]:text-slate-900 aria-[current=page]:font-bold active:text-slate-200"
+   class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
 							License
 						</a>						
@@ -591,6 +592,10 @@ export const useFetch = (api = 'books') =&gt; {
       
     
   
+    
+      
+    
+  
 
   
     
@@ -656,6 +661,8 @@ export const useFetch = (api = 'books') =&gt; {
 
 
 
+
+  
 
   
 
@@ -739,7 +746,7 @@ export const useFetch = (api = 'books') =&gt; {
 				  style="line-height: 0;"
 					  >
 									<img
-									  src="https://img.shields.io/npm/v/react-data-grid-lite?label=npm&logo=npm&style=flat-square"
+									  src="https://img.shields.io/npm/v/react-data-grid-lite"
 									  alt="NPM Badge"
 									  class="block"
 						/>
@@ -751,16 +758,16 @@ export const useFetch = (api = 'books') =&gt; {
 				<a href="https://twitter.com/intent/tweet?url=https://ricky-sharma.github.io/react-data-grid-lite/example-3.html&text=React%20Data%20Grid%20Lite%20-%20%E2%86%94%EF%B8%8F%20Pinned%20%26%20Resizable%20Columns"
 				   target="_blank"
 				   rel="noopener"
-				   class="bg-white text-blue-500 p-1 sm:p-2 rounded-l shadow hover:bg-blue-100 hover:text-blue-600 text-lg"
+				   class="bg-white text-slate-500 p-1 sm:p-2 rounded-l shadow hover:bg-slate-100 hover:text-slate-600 text-lg"
 				   aria-label="Share on Twitter">
-					<i class="fab fa-twitter w-3 h-3 sm:w-5 sm:h-5"></i>
+					<i class="fa-brands fa-x-twitter w-3 h-3 sm:w-5 sm:h-5"></i>
 				</a>
 
 				<!-- Facebook -->
 				<a href="https://www.facebook.com/sharer/sharer.php?u=https://ricky-sharma.github.io/react-data-grid-lite/example-3.html"
 				   target="_blank"
 				   rel="noopener"
-				   class="bg-white text-blue-700 p-1 sm:p-2 rounded-l shadow hover:bg-blue-100 hover:text-blue-800 text-lg"
+				   class="bg-white text-orange-500 p-1 sm:p-2 rounded-l shadow hover:bg-orange-100 hover:text-orange-600 text-lg"
 				   aria-label="Share on Facebook">
 					<i class="fab fa-facebook-f w-3 h-3 sm:w-5 sm:h-5"></i>
 				</a>
