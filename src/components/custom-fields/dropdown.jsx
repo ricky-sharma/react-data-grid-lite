@@ -236,7 +236,7 @@ const Dropdown = memo(({
                         key={optionValue}
                         id={`dropdown-option-${index}`}
                         ref={(el) => (optionRefs.current[index] = el)}
-                        className={`${usePortal ? '' : 'opacity--level '}dropdown-option${optionValue === value ? ' selected' : ''
+                        className={`${usePortal ? '' : 'opacity--level '}alignCenter dropdown-option${optionValue === value ? ' selected' : ''
                             } ${index === focusedIndex ? 'focused' : ''}`}
                         onClick={(e) => handleOptionClick(e, option)}
                         tabIndex={index === focusedIndex ? 0 : -1}

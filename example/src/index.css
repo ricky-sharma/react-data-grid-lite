@@ -46,7 +46,7 @@
     }
 
 .clear-selected-rows {
-    background-color: #e0e0e0;
+    background: inherit;
     padding: 10px !important;
     display: inline-flex;
     justify-content: center;
@@ -66,7 +66,7 @@
 
 
 .rightToLeftChkbx {
-    background-color: #e0e0e0;
+    background: inherit;
     padding: 10px !important;
     display: inline-flex;
     justify-content: center;
@@ -80,7 +80,6 @@
     cursor: pointer;
     height: 20px;
     position: relative;
-}
 }
 
     .rightToLeftChkbx:active {
