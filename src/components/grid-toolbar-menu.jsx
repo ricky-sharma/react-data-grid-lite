@@ -8,9 +8,9 @@ import DownloadIcon from '../icons/download-icon';
 import EraseIcon from '../icons/erase-icon';
 import HideViewIcon from '../icons/hideview-Icon';
 import TransposeIcon from '../icons/transpose-icon';
+import { hideLoader, showLoader } from '../utils/loading-utils';
 import Menu from './custom-fields/menu';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
-import { showLoader } from '../utils/loading-utils';
 
 const GridToolBarMenu = ({
     handleResetGrid,
@@ -67,27 +67,27 @@ const GridToolBarMenu = ({
                         : <BoxIcon />,
                     tooltip: 'Toggle visibility of all columns',
                     action: () => {
+                        hideLoader(state?.gridID);
                         showLoader(state?.gridID);
-                        setState((prev) => {
-
-                            const allVisible = prev.columns.every(
-                                (col) => col.hidden || !col.hideable
-                            );
-                            const updatedColumns = prev.columns.map((col) => {
-                                if (col.hidden) return col;
-
-                                const shouldHide = allVisible;
-                                if (col.hideable !== shouldHide) {
-                                    return { ...col, hideable: shouldHide };
-                                }
-                                return col;
+                        setTimeout(() => {
+                            setState((prev) => {
+                                const allVisible = prev.columns.every(
+                                    (col) => col.hidden || !col.hideable
+                                );
+                                const updatedColumns = prev.columns.map((col) => {
+                                    if (col.hidden) return col;
+                                    const shouldHide = allVisible;
+                                    if (col.hideable !== shouldHide) {
+                                        return { ...col, hideable: shouldHide };
+                                    }
+                                    return col;
+                                });
+                                return {
+                                    ...prev,
+                                    columns: updatedColumns,
+                                };
                             });
-
-                            return {
-                                ...prev,
-                                columns: updatedColumns,
-                            };
-                        });
+                        }, 0);
                     },
                 },
                 ...(columns

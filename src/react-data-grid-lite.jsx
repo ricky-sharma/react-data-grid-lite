@@ -17,7 +17,7 @@ import { useResetGrid } from './hooks/use-reset-grid';
 import { useSearchAndSortCallbacks } from './hooks/use-search-and-sort-callbacks';
 import { useSearchHandler } from './hooks/use-search-handler';
 import { useTransposeData } from './hooks/use-transpose-data';
-import { showLoader } from './utils/loading-utils';
+import { hideLoader, showLoader } from './utils/loading-utils';
 import { applyTheme } from './utils/themes-utils';
 
 const DataGrid = forwardRef(({
@@ -316,7 +316,6 @@ const DataGrid = forwardRef(({
 
     const handleChangePage = useCallback((e, newPage, previousPage = -1) => {
         e.preventDefault();
-        showLoader(state?.gridID);
         prevPageRef.current = {
             changeEvent: e,
             pageNo: previousPage === -1 ? state.activePage : previousPage
@@ -348,6 +347,7 @@ const DataGrid = forwardRef(({
 
     const onHeaderClicked = useCallback((e, colObject, colKey) => {
         sortRef.current = { changeEvent: e, colObject: colObject, colKey: colKey }
+        hideLoader(state?.gridID);
         showLoader(state?.gridID);
         eventGridHeaderClicked(colObject, state, setState, colKey, isResizingRef);
     }, [state, setState]);

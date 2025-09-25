@@ -3,6 +3,9 @@ import { Container_Identifier, Loader_Identifier } from "../constants";
 let loadingCount = 0;
 let subscribers = [];
 let debounceTimer = null;
+let dotLoaderActive = false;
+
+export const isDotLoaderActive = () => dotLoaderActive;
 
 export const getLoading = () => loadingCount > 0;
 
@@ -72,11 +75,13 @@ export function showLoader(parentId, message) {
         msg.style.fontSize = '14px';
         msg.style.color = '#333';
         overlay.appendChild(msg);
+        dotLoaderActive = false;
     } else {
         const dots = document.createElement('div');
         dots.className = 'dot-loader';
         dots.innerHTML = '<span></span><span></span><span></span>';
         overlay.appendChild(dots);
+        dotLoaderActive = true;
     }
     container.appendChild(overlay);
 }
@@ -88,4 +93,5 @@ export function hideLoader(parentId) {
     const container = parent.querySelector(Container_Identifier);
     const overlay = container?.querySelector(`.${Loader_Identifier}`);
     overlay?.remove();
+    dotLoaderActive = false;
 }

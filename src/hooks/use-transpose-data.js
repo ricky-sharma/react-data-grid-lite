@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { capitalize } from '../helpers/common';
 import { normalizeRowKeys, resolveFormattedValue } from '../utils/component-utils';
 
 export function useTransposeData(state, setState) {
@@ -49,9 +50,12 @@ export function useTransposeData(state, setState) {
         ];
 
         const newRows = transposedFields.map(fieldName => {
-            const row = { field: fieldName };
+            const column = processedColumns?.find(col => col?.name === fieldName);
+            const row = {
+                field: capitalize(column?.alias ?? column?.name)
+            };
             processedData.forEach((item, index) => {
-                row[`${item[transposeColumnName]}_${index}`] = item[fieldName];
+                row[`${item[transposeColumnName]}_${index}`] = resolveFormattedValue(item, column);
             });
             return row;
         });

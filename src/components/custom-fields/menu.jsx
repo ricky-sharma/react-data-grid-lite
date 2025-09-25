@@ -34,6 +34,7 @@ const Menu = ({
     const menuContainerRef = useRef(null);
     const focusBeforeOpenRef = useRef(null);
     const openTimeoutRef = useRef(null);
+    const closeTimeoutRef = useRef(null);
 
     const windowWidth = useWindowWidth();
     const { state = {} } = useGridConfig() ?? {};
@@ -280,6 +281,7 @@ const Menu = ({
                             }
                         }}
                         onMouseEnter={() => {
+                            clearTimeout(closeTimeoutRef.current);
                             openTimeoutRef.current = setTimeout(() => {
                                 setFocusedIndex(index);
                                 if (item.subItems) {
@@ -292,7 +294,9 @@ const Menu = ({
                         }}
                         onMouseLeave={() => {
                             clearTimeout(openTimeoutRef.current);
-                            setOpenSubMenuIndex(null);
+                            closeTimeoutRef.current = setTimeout(() => {
+                                setOpenSubMenuIndex(null);
+                            }, 250);
                         }}
                     >
                         <div

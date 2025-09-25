@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { useGridConfig } from '../hooks/use-grid-config';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { gridWidthType } from '../utils/grid-width-type-utils';
+import { hideLoader, showLoader } from '../utils/loading-utils';
 
 const GridPagination = memo(({
     onPageChange,
@@ -35,7 +36,15 @@ const GridPagination = memo(({
                 {...optionalProps}
                 className={`${commonLinkProps.className}
                 ${atagClass}`}
-                onClick={onClick}
+                onClick={(e, page) => {
+                    e.preventDefault();
+                    hideLoader(state?.gridID);
+                    showLoader(state?.gridID);
+                    setTimeout(() => {
+                        onClick(e, page);
+                    }, 0);
+                    
+                }}
             >
                 {content}
             </a>
