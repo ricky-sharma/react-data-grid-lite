@@ -42,6 +42,7 @@ export function useResetGrid({
                     totalRows: dataLength,
                     firstRow: 0,
                     selectedRows: new Set(),
+                    transposeColumnName: null,
                     columns: (Array.isArray(prev.columns) ? prev.columns : []).map(col => ({
                         ...col,
                         sortOrder: '',

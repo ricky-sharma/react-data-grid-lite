@@ -33,6 +33,7 @@ const Menu = ({
     const buttonRef = useRef(null);
     const menuContainerRef = useRef(null);
     const focusBeforeOpenRef = useRef(null);
+    const openTimeoutRef = useRef(null);
 
     const windowWidth = useWindowWidth();
     const { state = {} } = useGridConfig() ?? {};
@@ -168,7 +169,7 @@ const Menu = ({
             style={{
                 position: 'absolute',
                 top: isSmallWidth || state?.enableRtl ? '25px' : 0,
-                right: !state.enableRtl ? (isSmallWidth ? 0 : '100%') : undefined,
+                right: !state.enableRtl ? (isSmallWidth ? 0 : '100%') : '-35px',
                 backgroundColor: '#fff',
                 border: '1px solid #ccc',
                 borderRadius: '6px',
@@ -279,13 +280,19 @@ const Menu = ({
                             }
                         }}
                         onMouseEnter={() => {
-                            setFocusedIndex(index);
-                            if (item.subItems) {
-                                setOpenSubMenuIndex(index);
-                                setSubMenuFocusedIndex(0);
-                            } else {
-                                setOpenSubMenuIndex(null);
-                            }
+                            openTimeoutRef.current = setTimeout(() => {
+                                setFocusedIndex(index);
+                                if (item.subItems) {
+                                    setOpenSubMenuIndex(index);
+                                    setSubMenuFocusedIndex(0);
+                                } else {
+                                    setOpenSubMenuIndex(null);
+                                }
+                            }, 250);
+                        }}
+                        onMouseLeave={() => {
+                            clearTimeout(openTimeoutRef.current);
+                            setOpenSubMenuIndex(null);
                         }}
                     >
                         <div

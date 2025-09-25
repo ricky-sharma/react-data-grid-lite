@@ -66,23 +66,28 @@ export function useProcessedData({
                     : sortedRows?.length);
 
                 timeout = setTimeout(() => {
-                    setState(prevState => ({
-                        ...prevState,
-                        rowsData: sortedRows,
-                        totalRows: sortedRows.length,
-                        pageRows: pageRowCount,
-                        currentPageRows:
-                            prevState.activePage === prevState.noOfPages
-                                ? prevState.lastPageRows
-                                : pageRowCount,
-                        columns: prevState.columns?.map(col => ({
+                    setState(prevState => {
+                        const { activePage, noOfPages, lastPageRows, processedColumns } = prevState;
+                        const { colKey, sortOrder } = sortRef?.current || {};
+
+                        const updateSortOrder = (col) => ({
                             ...col,
-                            sortOrder:
-                                col.name === sortRef?.current?.colKey
-                                    ? sortRef.current.sortOrder
-                                    : ''
-                        }))
-                    }));
+                            sortOrder: col.name === colKey ? sortOrder : ''
+                        });
+
+                        const updatedColumns = processedColumns?.map(updateSortOrder);
+
+                        return {
+                            ...prevState,
+                            processedData: sortedRows,
+                            rowsData: sortedRows,
+                            totalRows: sortedRows.length,
+                            pageRows: pageRowCount,
+                            currentPageRows: activePage === noOfPages ? lastPageRows : pageRowCount,
+                            columns: updatedColumns,
+                            processedColumns: updatedColumns,
+                        };
+                    });
                 });
             };
 
@@ -90,5 +95,5 @@ export function useProcessedData({
 
             return () => clearTimeout(timeout);
         }
-    }, [data]);
+    }, [data, state?.transposeColumnName]);
 }

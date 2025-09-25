@@ -30,7 +30,7 @@ export function useVirtualColumns({
             }
 
             animationFrameId = requestAnimationFrame(() => {
-                setScrollLeft(container.scrollLeft);
+                setScrollLeft(container.scrollLeft < 0 ? container.scrollLeft * -1 : container.scrollLeft);
             });
         };
 

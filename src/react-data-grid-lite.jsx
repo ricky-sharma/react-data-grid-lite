@@ -16,8 +16,9 @@ import { useProcessedData } from './hooks/use-processed-data';
 import { useResetGrid } from './hooks/use-reset-grid';
 import { useSearchAndSortCallbacks } from './hooks/use-search-and-sort-callbacks';
 import { useSearchHandler } from './hooks/use-search-handler';
-import { applyTheme } from './utils/themes-utils';
+import { useTransposeData } from './hooks/use-transpose-data';
 import { showLoader } from './utils/loading-utils';
+import { applyTheme } from './utils/themes-utils';
 
 const DataGrid = forwardRef(({
     id,
@@ -193,6 +194,7 @@ const DataGrid = forwardRef(({
         searchValues: {},
         editingCell: null,
         selectedRows: new Set(),
+        transposeColumnName: null,
         ...optionProps
     });
     const dataReceivedRef = useRef(null);
@@ -231,7 +233,7 @@ const DataGrid = forwardRef(({
         };
     }, []);
 
-    useProcessedColumns(columns, setState, computedColumnWidthsRef);
+    useProcessedColumns(columns, setState, computedColumnWidthsRef, state);
 
     useProcessedData({
         data,
@@ -245,6 +247,8 @@ const DataGrid = forwardRef(({
         sortRef,
         runAISearch
     });
+
+    useTransposeData(state, setState);
 
     useEffect(() => {
         if (!isNull(state?.columns)) {

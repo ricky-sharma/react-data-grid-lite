@@ -65,7 +65,7 @@ export const getColumnOrder = (group, globalStartIndex = 0) => {
     return result;
 };
 
-export function useProcessedColumns(columns, setState, computedColumnWidthsRef) {
+export function useProcessedColumns(columns, setState, computedColumnWidthsRef, state) {
     useEffect(() => {
         computedColumnWidthsRef.current = [];
 
@@ -109,9 +109,10 @@ export function useProcessedColumns(columns, setState, computedColumnWidthsRef) 
                 return {
                     ...prevState,
                     columnsReceived: columns,
+                    processedColumns: finalList,
                     columns: finalList
                 };
             });
         }
-    }, [columns]);
+    }, [columns, state?.transposeColumnName]);
 }
