@@ -7,11 +7,11 @@ import CheckboxIcon from '../icons/checkbox-icon';
 import DownloadIcon from '../icons/download-icon';
 import EraseIcon from '../icons/erase-icon';
 import HideViewIcon from '../icons/hideview-Icon';
+import InfoIcon from '../icons/info-icon';
 import TransposeIcon from '../icons/transpose-icon';
 import { hideLoader, showLoader } from '../utils/loading-utils';
 import Menu from './custom-fields/menu';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
-import InfoIcon from '../icons/info-icon';
 
 const GridToolBarMenu = ({
     handleResetGrid,
@@ -35,7 +35,9 @@ const GridToolBarMenu = ({
         isCSVExportUIButton,
         enableDownload,
         transposeColumnName,
-        columnsReceived
+        columnsReceived,
+        showTransposeMenuItem,
+        showAboutMenuItem
     } = state || {};
     const noColumns = isNull(columns) || !columns.some(col => !col?.hideable && !col?.hidden);
     const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns;
@@ -65,7 +67,10 @@ const GridToolBarMenu = ({
             icon: <DownloadIcon />,
             tooltip: 'Export the grid data to a CSV format file',
         },
-        { type: 'divider' },
+        {
+            type: 'divider',
+            hidden: !showResetMenuItem && !(enableDownload && !isCSVExportUIButton)
+        },
         {
             name: 'Column Visibility',
             tooltip: 'Show or hide columns in the grid',
@@ -124,6 +129,7 @@ const GridToolBarMenu = ({
             name: 'Transpose By...',
             tooltip: 'Transpose grid view by selecting a column',
             icon: <TransposeIcon />,
+            hidden: !showTransposeMenuItem,
             subItems: columnsReceived?.
                 filter(col => !col?.hidden).
                 map((col) => ({
@@ -150,10 +156,14 @@ const GridToolBarMenu = ({
                     }
                 })),
         },
-        { type: 'divider' },
+        {
+            type: 'divider',
+            hidden: !showAboutMenuItem
+        },
         {
             name: 'About',
             icon: <InfoIcon />,
+            hidden: !showAboutMenuItem,
             subItems: [
                 {
                     name: 'Grid Version: 1.2.5',

@@ -11,6 +11,7 @@ import { useCellCommit } from '../hooks/use-cell-commit';
 import { useCellRevert } from '../hooks/use-cell-revert';
 import { useDoubleTap } from '../hooks/use-double-tap';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
+import { useResizableTableColumns } from '../hooks/use-resizable-table-columns';
 import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
 import { useVirtualColumns } from '../hooks/use-virtual-columns';
 import { useVirtualRows } from '../hooks/use-virtual-rows';
@@ -21,7 +22,6 @@ import { hideLoader, isDotLoaderActive, showLoader } from '../utils/loading-util
 import GridActionCell from './grid-action-cell';
 import GridCell from './grid-cell';
 import GridSelectionCell from './grid-selection-cell';
-import { useResizableTableColumns } from '../hooks/use-resizable-table-columns';
 
 const GridRows = ({
     state,

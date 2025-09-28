@@ -57,7 +57,7 @@ The `columns` prop defines the layout and behavior of each column in the `DataGr
 | `enableSearch`  | `boolean`           | Enables or disables the search textbox for a specific column. Overrides the `enableColumnSearch` setting.                                                 |        -        |  No          |
 | `fixed`         | `boolean`           | Specifies whether the column should be fixed. When enabled, the column will remain aligned to the left side of the grid based on its position in the column configuration.|        false      |  No          |
 | `formatting`    | `object`            | Formatting settings for the column. Includes the `type` (e.g., `currency`, `date`) and `format` (the format string, such as `$0,0.00`).                   |        -          |  No          |
-| `headerStyle`   | `object`            |  Applies custom styles to the `<th>` (header) cell. Useful for matching `cellStyle`-defined widths or aligning text consistently. Supported in `version 1.1.10` and above.|        -          |  No          |
+| `headerStyle`   | `object`            | Applies custom styles to the `<th>` (header) cell. Useful for matching `cellStyle`-defined widths or aligning text consistently. Supported in `version 1.1.10` and above.|        -          |  No          |
 | `hidden`        | `boolean`           | Whether the column should be hidden.                                                                                                                      |       false       |  No          |
 | `name`          | `string`            | The display name of the column header. It also serves as the key or identifier for accessing the corresponding data in each row. This value must be unique.|        -         |  Yes         |
 | `order`         | `number`            | Specifies the display order of the column (integer value), starting from 1.                                                                               |        -          |  No          | 
@@ -296,6 +296,7 @@ The `options` prop is an **object** that provides additional configuration setti
 | `rowClass`           | `string`  | Custom CSS class for each row in the grid.                                                                                |       -           | No           |
 | `rowHeight`          | `string` / `number`  | Sets the height of each data row. Accepts a pixel value (e.g., `'200px'`) or a percentage of the table body height (e.g., `'25%'`).|       -           | No           |
 | `rowSelectColumnAlign`| `string` (`'left'` \| `'right'` \| `''`)  | Controls the alignment of the selection column. Set to `'left'` or `'right'` to fix its position. Leave empty (`''`) to allow the column to scroll with the rest of the table. Available in version `1.2.2` and above.|      `'left'`        | No           |
+| `showAboutMenuItem`  | `boolean` | Controls the visibility of the `"About"` menu item, which includes information such as the grid version and license type. Available from version `1.2.5`.| `true` | No       |
 | `showColumnMenu`     | `boolean` | Controls the visibility of the column menu, which includes actions like toggling column visibility and enabling or disabling column editing. Available from version `1.2.3`.| `true` | No       |
 | `showFooter`         | `boolean` | Controls the visibility of the grid footer, which includes summary rows and pagination.| `true` | No       |
 | `showNumberPagination`| `boolean` | Controls visibility of number-based pagination in the grid footer. Supported from version `1.2.1`.                       |      `true`       | No           |
@@ -306,6 +307,7 @@ The `options` prop is an **object** that provides additional configuration setti
 | `showSelectPagination`| `boolean` | Controls visibility of the page selection dropdown in the grid footer. Supported from version `1.2.1`.                   |      `true`       | No           |
 | `showToolbar`        | `boolean` | Controls the visibility of the react data grid lite toolbar, which includes actions like search and reset.| `true` | No       |
 | `showToolbarMenu`    | `boolean` | Controls the visibility of the toolbar menu, which includes actions like toggling column visibility and resetting the grid. Available from version `1.2.3`.| `true` | No       |
+| `showTransposeMenuItem`| `boolean` | Controls the visibility of the `"Transpose By..."` menu item in the toolbar menu. If enabled, it allows users to transpose the grid view by selecting a column. Available from version `1.2.5`.| `true` | No       |
 | `virtualization`     | `boolean` | Enables or disables virtualization. Overrides the automatic virtualization, which kicks in when rows > 25 or columns > 25. Available since version `1.2.4`.| No value set (automatic virtualization) | No       |
 
 #### **Example of `options` Object:**

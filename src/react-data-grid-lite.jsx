@@ -82,7 +82,9 @@ const DataGrid = forwardRef(({
         headerBgColor,
         aiSearch,
         debug,
-        virtualization
+        virtualization,
+        showTransposeMenuItem,
+        showAboutMenuItem
     } = options || {};
 
     const optionProps = useMemo(() => ({
@@ -125,6 +127,8 @@ const DataGrid = forwardRef(({
         gridHeaderBackgroundColor: headerBgColor,
         aiSearchOptions: aiSearch ?? {},
         debug: getBool(debug),
+        showTransposeMenuItem: getBool(showTransposeMenuItem, true),
+        showAboutMenuItem: getBool(showAboutMenuItem, true),
         virtualization: typeof virtualization === 'boolean' ? virtualization : undefined
     }), [
         enableRtl,
@@ -162,7 +166,9 @@ const DataGrid = forwardRef(({
         headerBgColor,
         aiSearch,
         debug,
-        virtualization
+        virtualization,
+        showTransposeMenuItem,
+        showAboutMenuItem
     ]);
 
     const [state, setState] = useState({
