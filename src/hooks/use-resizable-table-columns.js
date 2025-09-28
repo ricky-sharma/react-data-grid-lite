@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { isNull } from '../helpers/common';
 import { Button_Column_Key, Maximum_Column_Width, Minimum_Column_Width } from '../constants';
 
@@ -7,9 +7,9 @@ export function useResizableTableColumns(
     state,
     setState,
     compColWidthsRef,
-    enableColumnResize,
     isResizingRef
 ) {
+    const resizingColumnNameRef = useRef(null);
     useEffect(() => {
         const table = tableRef?.current;
         if (!table) return;
@@ -24,15 +24,14 @@ export function useResizableTableColumns(
         const ths = mainHeader.querySelectorAll('th');
         if (!ths.length) return;
         const processed = new WeakSet();
-
         ths.forEach((th) => {
             if (!th || processed.has(th)) return;
             processed.add(th);
-            const columnName = th.dataset.columnName;
-            if (!columnName) return;
-            const columnConfig = state?.columns?.find(i => i?.name === columnName);
+            const currentColumnName = th.dataset.columnName;
+            if (!currentColumnName) return;
+            const columnConfig = state?.columns?.find(i => i?.name === currentColumnName);
             const colResizable = typeof columnConfig?.resizable === "boolean"
-                ? columnConfig?.resizable : enableColumnResize;
+                ? columnConfig?.resizable : state?.enableColumnResize;
             if (!colResizable) return;
 
             const colFixed = columnConfig?.fixed;
@@ -56,13 +55,14 @@ export function useResizableTableColumns(
             if (currentPos !== 'sticky') {
                 th.style.position = 'sticky';
             }
-
-            th.appendChild(resizer);
+         
             let startX = 0;
             let startWidth = 0;
 
             const onMouseDown = (e) => {
                 e.preventDefault();
+                resizingColumnNameRef.current =
+                    e.target.closest('th[data-column-name]')?.dataset?.columnName ?? null;
                 if (isResizingRef) isResizingRef.current = false;
                 startX = e?.pageX ?? e?.clientX;
                 startWidth = th?.offsetWidth;
@@ -75,7 +75,7 @@ export function useResizableTableColumns(
                         Math.max(startWidth + (newPosition - startX), Minimum_Column_Width),
                         Maximum_Column_Width
                     );
-                    updateColumnWidth(columnName, newWidth);
+                    updateColumnWidth(resizingColumnNameRef?.current, newWidth);
                 };
                 const onMouseUp = (e) => {
                     document.removeEventListener('mousemove', onMouseMove);
@@ -88,7 +88,7 @@ export function useResizableTableColumns(
                         Math.max(startWidth + (newPosition - startX), Minimum_Column_Width),
                         Maximum_Column_Width
                     );
-                    updateState(e, newWidth, setState, columnName, state);
+                    updateState(e, newWidth, setState, resizingColumnNameRef?.current, state);
                 };
                 document.addEventListener('mousemove', onMouseMove);
                 document.addEventListener('mouseup', onMouseUp);
@@ -98,6 +98,9 @@ export function useResizableTableColumns(
                 if (e?.cancelable) {
                     e.preventDefault();
                 }
+                resizingColumnNameRef.current =
+                    e.target.closest('th[data-column-name]')?.dataset?.columnName ?? null;
+
                 if (isResizingRef) isResizingRef.current = false;
                 const touch = e?.touches ? e?.touches[0] : null;
                 startX = touch?.pageX ?? touch?.clientX;
@@ -113,7 +116,7 @@ export function useResizableTableColumns(
                         Math.max(startWidth + (newPosition - startX), Minimum_Column_Width),
                         Maximum_Column_Width
                     );
-                    updateColumnWidth(columnName, finalWidth);
+                    updateColumnWidth(resizingColumnNameRef?.current, finalWidth);
                 };
 
                 const onTouchEnd = (e) => {
@@ -130,7 +133,7 @@ export function useResizableTableColumns(
                             Maximum_Column_Width
                         )
                         : finalWidth;
-                    updateState(e, newWidth, setState, columnName, state);
+                    updateState(e, newWidth, setState, resizingColumnNameRef?.current, state);
                 };
 
                 document.addEventListener('touchmove', onTouchMove, { passive: false });
@@ -139,30 +142,22 @@ export function useResizableTableColumns(
 
             resizer.addEventListener('mousedown', onMouseDown);
             resizer.addEventListener('touchstart', onTouchStart, { passive: false });
+            th.appendChild(resizer);
         });
         const updateColumnWidth = (columnName, newWidth) => {
             if (!columnName || newWidth <= 0) return;
-
             headerRows.forEach((row) => {
-                const headers = Array.from(row.children);
-                const index = headers.findIndex(
-                    (cell) =>
-                        (cell.dataset.columnName) === columnName
-                );
-                if (index >= 0 && row.children[index]) {
-                    row.children[index].style.width = `${newWidth}px`;
+                const headerCell = row.querySelector(`th[data-column-name="${columnName}"]`);
+                if (headerCell) {
+                    headerCell.style.width = `${newWidth}px`;
                 }
             });
 
             const bodyRows = table.querySelectorAll('tbody tr');
             bodyRows.forEach((row) => {
-                const cells = Array.from(row.children);
-                const index = Array.from(ths).findIndex(
-                    (cell) =>
-                        (cell.dataset.columnName) === columnName
-                );
-                if (index >= 0 && cells[index]) {
-                    cells[index].style.width = `${newWidth}px`;
+                const cell = row.querySelector(`td[data-column-name="${columnName}"]`);
+                if (cell) {
+                    cell.style.width = `${newWidth}px`;
                 }
             });
         };
@@ -210,5 +205,10 @@ export function useResizableTableColumns(
         }
 
 
-    }, [tableRef, state, setState]);
+    }, [
+        tableRef,
+        state?.columns,
+        state?.activePage,
+        state?.scrollLeft
+    ]);
 }

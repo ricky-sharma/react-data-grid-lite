@@ -2,14 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { tryParseValue } from '../utils/component-utils';
 import useContainerWidth from './use-container-width';
 import { useGridConfig } from './use-grid-config';
+import { Fallback_Column_Width } from '../constants';
 
-const DEFAULT_COLUMN_WIDTH = 100;
 const DEFAULT_BUFFER = 2;
 
 export function useVirtualColumns({
     tableRef,
     computedColumnWidthsRef,
-    columnWidth = DEFAULT_COLUMN_WIDTH,
+    columnWidth = Fallback_Column_Width,
     buffer = DEFAULT_BUFFER
 }) {
     const config = useGridConfig();
@@ -42,13 +42,19 @@ export function useVirtualColumns({
             }
             container.removeEventListener('scroll', handleScroll);
         };
-    }, [tableRef, scrollLeft]);
+    }, [tableRef]);
+
+    useEffect(() => {
+        config?.setState(prev => ({
+            ...prev,
+            scrollLeft
+        }));
+    }, [scrollLeft]);
 
     const {
         visibleColumns,
         startIndex,
         endIndex,
-        phantomWidth,
         leftBufferWidth,
         rightBufferWidth
     } = useMemo(() => {
@@ -70,14 +76,14 @@ export function useVirtualColumns({
         for (let i = 0; i < columns.length; i++) {
             const width = tryParseValue(computedColumnWidthsRef?.current?.[i]?.width, containerWidth) ?? columnWidth;
             if (currentOffset + width >= scrollLeft) {
-                start = Math.max(0, i - buffer);
+                start = Math.max(0, i);
                 break;
             }
             currentOffset += width;
         }
         let visibleWidth = 0;
         for (let i = start; i < columns.length; i++) {
-            const width = tryParseValue(computedColumnWidthsRef?.current?.[i]?.width, containerWidth)  ?? columnWidth;
+            const width = tryParseValue(computedColumnWidthsRef?.current?.[i]?.width, containerWidth) ?? columnWidth;
             visibleWidth += width;
             if (visibleWidth > containerWidth) {
                 end = Math.min(columns.length, i + buffer);
@@ -85,37 +91,37 @@ export function useVirtualColumns({
             }
         }
         const visibleCols = columns.slice(start, end);
-        const totalWidth = columns.reduce((sum, _, i) => {
-            const w = tryParseValue(computedColumnWidthsRef?.current?.[i]?.width, containerWidth) ?? columnWidth;
-            return sum + w;
-        }, 0);
 
-        for (let i = (end-buffer); i <= columns.length; i++) {
+        for (let i = (end - buffer); i <= columns.length; i++) {
             const width = tryParseValue(computedColumnWidthsRef?.current?.[i]?.width, containerWidth) ?? columnWidth;
             endOffset += width;
         }
 
         const leftBufferWidth = start > 0 ? currentOffset : 0;
         const rightBufferWidth = end < columns.length ? endOffset : 0;
-        const phantomWidth = totalWidth + leftBufferWidth + rightBufferWidth;
 
         return {
             visibleColumns: visibleCols,
             startIndex: start,
             endIndex: end,
-            phantomWidth,
             leftBufferWidth,
             rightBufferWidth
         };
-    }, [columns, scrollLeft, containerWidth, computedColumnWidthsRef, buffer, columnWidth, enableVirtualColumns]);
-
+    }, [
+        columns,
+        scrollLeft,
+        containerWidth,
+        computedColumnWidthsRef,
+        columnWidth,
+        enableVirtualColumns,
+        buffer
+    ]);
     return {
         visibleColumns,
         startIndex,
         endIndex,
         scrollLeft,
         containerWidth,
-        phantomWidth,
         leftBufferWidth,
         rightBufferWidth
     };

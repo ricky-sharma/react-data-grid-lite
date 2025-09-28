@@ -21,13 +21,15 @@ import { hideLoader, isDotLoaderActive, showLoader } from '../utils/loading-util
 import GridActionCell from './grid-action-cell';
 import GridCell from './grid-cell';
 import GridSelectionCell from './grid-selection-cell';
+import { useResizableTableColumns } from '../hooks/use-resizable-table-columns';
 
 const GridRows = ({
     state,
     setState,
     computedColumnWidthsRef,
     dataReceivedRef,
-    tableRef
+    tableRef,
+    isResizingRef
 }) => {
     const loading = useLoadingIndicator();
     const { onTouchStart } = useDoubleTap();
@@ -116,6 +118,14 @@ const GridRows = ({
         tableRef,
         computedColumnWidthsRef
     });
+
+    useResizableTableColumns(
+        tableRef,
+        state,
+        setState,
+        computedColumnWidthsRef,
+        isResizingRef
+    );
 
     const filteredRows = enableVirtualRows ? visibleRows : pageData;
     const rowStartIndex = enableVirtualRows ? startIndex : firstRow;

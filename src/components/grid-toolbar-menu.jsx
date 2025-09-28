@@ -11,6 +11,7 @@ import TransposeIcon from '../icons/transpose-icon';
 import { hideLoader, showLoader } from '../utils/loading-utils';
 import Menu from './custom-fields/menu';
 import { eventExportToCSV } from './events/event-export-csv-clicked';
+import InfoIcon from '../icons/info-icon';
 
 const GridToolBarMenu = ({
     handleResetGrid,
@@ -20,7 +21,9 @@ const GridToolBarMenu = ({
     height,
     top,
     boxShadow,
-    padding
+    padding,
+    searchColsRef,
+    globalSearchQueryRef
 }) => {
     const { state = {}, setState } = useGridConfig() ?? {};
     const {
@@ -35,7 +38,14 @@ const GridToolBarMenu = ({
         columnsReceived
     } = state || {};
     const noColumns = isNull(columns) || !columns.some(col => !col?.hideable && !col?.hidden);
-    const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns
+    const noData = !Array.isArray(rowsData) || rowsData.length === 0 || noColumns;
+    const commonProps = {
+        disabled: true,
+        hideIcon: true,
+        backgroundColor: '#fff',
+        opacity: 1,
+        width: '200px'
+    };
     const items = [
         {
             name: 'Reset filters',
@@ -55,16 +65,20 @@ const GridToolBarMenu = ({
             icon: <DownloadIcon />,
             tooltip: 'Export the grid data to a CSV format file',
         },
+        { type: 'divider' },
         {
             name: 'Column Visibility',
             tooltip: 'Show or hide columns in the grid',
             icon: <HideViewIcon />,
+            header: true,
             subItems: [
                 {
-                    name: <b>Show All</b>,
+                    name: 'Show All',
                     icon: columns?.every((col) => !col?.hidden && !col?.hideable)
                         ? <CheckboxIcon />
                         : <BoxIcon />,
+                    header: true,
+                    backgroundColor: '#fff',
                     tooltip: 'Toggle visibility of all columns',
                     action: () => {
                         hideLoader(state?.gridID);
@@ -116,14 +130,46 @@ const GridToolBarMenu = ({
                     name: col?.alias ?? col?.name,
                     icon: col?.name === transposeColumnName ? <CheckboxIcon /> : <BoxIcon />,
                     tooltip: `Toggle transposed grid view by "${capitalize(col?.alias ?? col?.name)}" column`,
-                    action: () =>
-                        setState((prev) => ({
-                            ...prev,
-                            transposeColumnName: prev?.transposeColumnName !== col?.name ?
-                                col?.name : null
-                        })),
+                    action: () => {
+                        setState((prev) => {
+                            const removeTranspose = prev?.transposeColumnName === col?.name;
+                            return {
+                                ...prev,
+                                transposeColumnName: removeTranspose ? null : col?.name,
+                                enableCellEdit: removeTranspose ? prev?.enableCellEditProp : false,
+                                searchValues: Object.fromEntries(
+                                    (Array.isArray(prev.columns) ? prev.columns : [])
+                                        .filter(col => col && col.name)
+                                        .map(col => [col.name, ''])
+                                ),
+                                globalSearchInput: '',
+                            };
+                        })
+                        searchColsRef.current = [];
+                        globalSearchQueryRef.current = '';
+                    }
                 })),
         },
+        { type: 'divider' },
+        {
+            name: 'About',
+            icon: <InfoIcon />,
+            subItems: [
+                {
+                    name: 'Grid Version: 1.2.5',
+                    ...commonProps
+                },
+                {
+                    name: 'License: MIT',
+                    ...commonProps
+                },
+                {
+                    name: 'Support: Free Version',
+                    hidden: true,
+                    ...commonProps
+                }
+            ]
+        }
     ];
 
     return (

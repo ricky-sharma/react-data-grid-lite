@@ -66,7 +66,7 @@ export function showLoader(parentId, message) {
     overlay.style.left = '50%';
     overlay.style.transform = 'translate(-50%, -50%)';
     overlay.style.zIndex = '999';
-    overlay.style.backgroundColor = 'rgba(255,255,255,0.6)';
+    overlay.style.backgroundColor = 'transparent';
     overlay.style.textAlign = 'center';
 
     if (message) {

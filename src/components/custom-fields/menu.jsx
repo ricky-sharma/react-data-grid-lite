@@ -164,7 +164,7 @@ const Menu = ({
         }
     };
 
-    const renderSubMenu = (subItems) => (
+    const renderSubMenu = (subItems, header) => (
         <div
             role="menu"
             style={{
@@ -175,56 +175,83 @@ const Menu = ({
                 border: '1px solid #ccc',
                 borderRadius: '6px',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
-                padding: '5px 0',
+                padding: header ? '0 0 5px' : '5px 0',
                 minWidth: '180px',
                 zIndex: 20,
                 maxHeight: '250px',
-                overflow: 'auto'
+                overflow: 'auto',
+                cursor: 'default'
             }}
         >
-            {subItems.map((subItem, i) => (
-                <div
-                    title={subItem?.tooltip}
-                    key={i}
-                    ref={(el) => (subItemRefs.current[i] = el)}
-                    tabIndex={-1}
-                    className="menu--item"
-                    role="menuitem"
-                    style={{
-                        padding: '8px 12px',
-                        cursor: 'pointer',
-                        backgroundColor:
-                            subMenuFocusedIndex === i ? '#eee' : 'transparent',
-                        gap: '12px',
-                        alignItems: 'center',
-                        display: 'flex',
-                        justifyContent: state.enableRtl ? 'right' : 'left',
-                        minHeight: '35px',
-                        pointerEvents: (subItem?.disabled ? 'none' : ''),
-                        opacity: (subItem?.disabled ? '0.5' : ''),
-                    }}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        const args = Array.isArray(subItem.args)
-                            ? subItem.args
-                            : [];
-                        subItem?.action?.(...args, e);
-                        setMenuOpen(false);
-                        setOpenSubMenuIndex(null);
-                    }}
-                    onMouseEnter={() => setSubMenuFocusedIndex(i)}
-                >
-                    <div className="alignCenter" style={{ maxWidth: '24px', minWidth: '24px' }}>
-                        {subItem?.icon}
-                    </div>
+            {subItems.map((subItem, i) =>
+                !subItem?.hidden &&
+                (subItem?.type === 'divider' ? (
                     <div
-                        style={{ textTransform: 'capitalize' }}
+                        key={i}
+                        style={{
+                            height: '1px',
+                            margin: '4px 0',
+                            backgroundColor: 'rgba(0, 0, 0, 0.1)'
+                        }}></div>
+                ) : (
+                    <div
+                        title={subItem?.tooltip}
+                        key={i}
+                        ref={(el) => (subItemRefs.current[i] = el)}
+                        tabIndex={-1}
+                        className="menu--item"
+                        role="menuitem"
+                        style={{
+                            padding: subItem?.header ? '12px' : '8px 12px',
+                            cursor: subItem?.disabled ? 'default' : 'pointer',
+                            backgroundColor: subItem?.backgroundColor ??
+                                (subMenuFocusedIndex === i ? '#eee' : 'transparent'),
+                            gap: '12px',
+                            alignItems: 'center',
+                            display: 'flex',
+                            justifyContent: state.enableRtl ? 'right' : 'left',
+                            minHeight: '35px',
+                            pointerEvents: (subItem?.disabled ? 'none' : ''),
+                            opacity: subItem?.opacity ?? (subItem?.disabled ? '0.5' : ''),
+                            position: subItem?.header ? 'sticky' : undefined,
+                            top: subItem?.header ? 0 : undefined,
+                            zIndex: subItem?.header ? 1 : undefined,
+                            borderBottom: subItem?.header ?
+                                '1px solid rgba(0, 0, 0, 0.1)' : undefined,
+                            width: subItem?.width
+                        }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            const args = Array.isArray(subItem.args)
+                                ? subItem.args
+                                : [];
+                            subItem?.action?.(...args, e);
+                            setMenuOpen(false);
+                            setOpenSubMenuIndex(null);
+                        }}
+                        onMouseEnter={() => setSubMenuFocusedIndex(i)}
                     >
-                        {subItem?.name}
+                        {!subItem?.hideIcon &&
+                            <div
+                                className="alignCenter"
+                                style={{
+                                    maxWidth: '24px',
+                                    minWidth: '24px'
+                                }}>
+                                {subItem?.icon}
+                            </div>
+                        }
+                        <div
+                            style={{
+                                textTransform: 'capitalize',
+                                fontWeight: subItem?.header ? '900' : undefined
+                            }}
+                        >
+                            {subItem?.name}
+                        </div>
                     </div>
-                </div>
-            ))}
+                )))}
         </div>
     );
 
@@ -243,100 +270,110 @@ const Menu = ({
                 boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
                 padding: !usePortal ? '5px 0' : undefined,
                 minWidth: !usePortal ? '225px' : undefined,
-                zIndex: 1000
+                zIndex: 1000,
+                cursor: 'default'
             }}
         >
             {items.map((item, index) =>
-                !item?.hidden ? (
-                    <div
-                        key={index}
-                        className="menu--item"
-                        role="menuitem"
-                        ref={(el) => (itemRefs.current[index] = el)}
-                        tabIndex={-1}
-                        style={{
-                            padding: '8px 12px',
-                            cursor: 'pointer',
-                            outline: 'none',
-                            backgroundColor:
-                                focusedIndex === index ? '#eee' : 'transparent',
-                            position: 'relative',
-                            minHeight: '40px',
-                            pointerEvents: (item?.disabled ? 'none' : ''),
-                            opacity: (item?.disabled ? '0.5' : ''),
-                        }}
-                        onKeyDown={handleKeyDown}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            if (item.subItems) {
-                                setOpenSubMenuIndex(index);
-                                setSubMenuFocusedIndex(0);
-                            } else {
-                                e.preventDefault();
-                                const args = Array.isArray(item.args)
-                                    ? item.args
-                                    : [];
-                                item?.action?.(...args, e);
-                                setMenuOpen(false);
-                            }
-                        }}
-                        onMouseEnter={() => {
-                            clearTimeout(closeTimeoutRef.current);
-                            openTimeoutRef.current = setTimeout(() => {
-                                setFocusedIndex(index);
+                !item?.hidden && (
+                    item?.type === 'divider' ? (
+                        <div
+                            key={index}
+                            style={{
+                                height: '1px',
+                                margin: '4px 0',
+                                backgroundColor: 'rgba(0, 0, 0, 0.1)'
+                            }}></div>
+                    ) : (
+                        <div
+                            key={index}
+                            className="menu--item"
+                            role="menuitem"
+                            ref={(el) => (itemRefs.current[index] = el)}
+                            tabIndex={-1}
+                            style={{
+                                padding: '8px 12px',
+                                cursor: 'pointer',
+                                outline: 'none',
+                                backgroundColor:
+                                    focusedIndex === index ? '#eee' : 'transparent',
+                                position: 'relative',
+                                minHeight: '40px',
+                                pointerEvents: (item?.disabled ? 'none' : ''),
+                                opacity: (item?.disabled ? '0.5' : ''),
+                            }}
+                            onKeyDown={handleKeyDown}
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 if (item.subItems) {
                                     setOpenSubMenuIndex(index);
                                     setSubMenuFocusedIndex(0);
                                 } else {
-                                    setOpenSubMenuIndex(null);
+                                    e.preventDefault();
+                                    const args = Array.isArray(item.args)
+                                        ? item.args
+                                        : [];
+                                    item?.action?.(...args, e);
+                                    setMenuOpen(false);
                                 }
-                            }, 250);
-                        }}
-                        onMouseLeave={() => {
-                            clearTimeout(openTimeoutRef.current);
-                            closeTimeoutRef.current = setTimeout(() => {
-                                setOpenSubMenuIndex(null);
-                            }, 250);
-                        }}
-                    >
-                        <div
-                            title={item?.tooltip}
-                            className="icon-content"
-                            style={{
-                                gap: '12px',
-                                alignItems: 'center',
-                                display: 'flex',
-                                justifyContent: 'space-between',
+                            }}
+                            onMouseEnter={() => {
+                                clearTimeout(closeTimeoutRef.current);
+                                openTimeoutRef.current = setTimeout(() => {
+                                    setFocusedIndex(index);
+                                    if (item.subItems) {
+                                        setOpenSubMenuIndex(index);
+                                        setSubMenuFocusedIndex(0);
+                                    } else {
+                                        setOpenSubMenuIndex(null);
+                                    }
+                                }, 250);
+                            }}
+                            onMouseLeave={() => {
+                                clearTimeout(openTimeoutRef.current);
+                                closeTimeoutRef.current = setTimeout(() => {
+                                    setOpenSubMenuIndex(null);
+                                }, 250);
                             }}
                         >
                             <div
-                                className="opacity--level"
+                                title={item?.tooltip}
+                                className="icon-content"
                                 style={{
-                                    display: 'flex',
+                                    gap: '12px',
                                     alignItems: 'center',
-                                    gap: '10px',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
                                 }}
                             >
                                 <div
-                                    className="alignCenter"
+                                    className="opacity--level"
                                     style={{
-                                        maxWidth: '24px',
-                                        minWidth: '24px'
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '10px',
                                     }}
                                 >
-                                    {item?.icon}
+                                    <div
+                                        className="alignCenter"
+                                        style={{
+                                            maxWidth: '24px',
+                                            minWidth: '24px'
+                                        }}
+                                    >
+                                        {item?.icon}
+                                    </div>
+                                    <div>{item?.name}</div>
                                 </div>
-                                <div>{item?.name}</div>
+                                {item.subItems && (
+                                    <span style={{ fontSize: '10px' }}>▶</span>
+                                )}
                             </div>
-                            {item.subItems && (
-                                <span style={{ fontSize: '12px' }}>▶</span>
-                            )}
+                            {item.subItems &&
+                                openSubMenuIndex === index &&
+                                renderSubMenu(item.subItems, item?.header ?? false)}
                         </div>
-                        {item.subItems &&
-                            openSubMenuIndex === index &&
-                            renderSubMenu(item.subItems)}
-                    </div>
-                ) : null
+                    ))
             )}
         </div>
     );

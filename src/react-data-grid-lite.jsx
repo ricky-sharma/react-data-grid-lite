@@ -89,6 +89,7 @@ const DataGrid = forwardRef(({
         enableRtl: getBool(enableRtl),
         actionColumnAlign: actionColumnAlign ?? 'right',
         enableCellEdit: getBool(enableCellEdit),
+        enableCellEditProp: getBool(enableCellEdit),
         enableColumnDrag: getBool(enableColumnDrag),
         enableColumnResize: getBool(enableColumnResize),
         enableSorting: getBool(enableSorting, true),
@@ -263,7 +264,7 @@ const DataGrid = forwardRef(({
 
     useEffect(() => {
         setPagingVariables();
-    }, [state?.rowsData, state?.pageRows]);
+    }, [state?.rowsData, state?.pageRows, state?.transposeColumnName]);
 
     const setPagingVariables = () => {
         let noOfPages = Math.floor(state.totalRows / state.pageRows);
@@ -277,6 +278,7 @@ const DataGrid = forwardRef(({
             activePage,
             lastPageRows,
             firstRow: prevState.pageRows * (activePage - 1),
+            currentPageRows: activePage === noOfPages ? lastPageRows : prevState.pageRows,
             enableVirtualRows: prevState?.virtualization === true
                 || (prevState?.virtualization === undefined && prevState.pageRows > 25),
             pagerSelectOptions: noOfPages > 0 ? [...Array(noOfPages).keys()].map((i) => i + 1) : []
@@ -401,6 +403,8 @@ const DataGrid = forwardRef(({
                         (<GridGlobalSearchBar
                             searchHandler={searchHandler}
                             handleResetGrid={handleResetGrid}
+                            searchColsRef={searchColsRef}
+                            globalSearchQueryRef={globalSearchQueryRef}
                         />)}
                     <div
                         style={{
@@ -429,6 +433,8 @@ const DataGrid = forwardRef(({
                                     noBorder="true"
                                     height={"10px"}
                                     boxShadow='.1px 0 2px 0 currentcolor'
+                                    searchColsRef={searchColsRef}
+                                    globalSearchQueryRef={globalSearchQueryRef}
                                 />
                             </div>}
                         <GridTable

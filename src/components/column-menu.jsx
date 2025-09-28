@@ -22,6 +22,7 @@ const ColumnMenu = ({ column, sortable }) => {
                 `Disable "${capitalize(columnAlias ?? columnName)}" column editing` :
                 `Enable "${capitalize(columnAlias ?? columnName)}" column editing`,
             icon: editable === true ? <LockIcon /> : <UnLockIcon />,
+            hidden: state?.transposeColumnName !== null,
             action: (e) => {
                 e.stopPropagation();
                 e.preventDefault();
