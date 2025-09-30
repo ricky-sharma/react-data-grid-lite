@@ -90,10 +90,10 @@ const GridToolBarMenu = ({
                         showLoader(state?.gridID);
                         setTimeout(() => {
                             setState((prev) => {
-                                const allVisible = prev.columns.every(
+                                const allVisible = prev?.columns?.every(
                                     (col) => col.hidden || !col.hideable
                                 );
-                                const updatedColumns = prev.columns.map((col) => {
+                                const updatedColumns = prev?.columns?.map((col) => {
                                     if (col.hidden) return col;
                                     const shouldHide = allVisible;
                                     if (col.hideable !== shouldHide) {
@@ -135,7 +135,7 @@ const GridToolBarMenu = ({
                 map((col) => ({
                     name: col?.alias ?? col?.name,
                     icon: col?.name === transposeColumnName ? <CheckboxIcon /> : <BoxIcon />,
-                    tooltip: `Toggle transposed grid view by "${capitalize(col?.alias ?? col?.name)}" column`,
+                    tooltip: `Toggle transposed grid view by the "${capitalize(col?.alias ?? col?.name)}" column`,
                     action: () => {
                         setState((prev) => {
                             const removeTranspose = prev?.transposeColumnName === col?.name;

@@ -19,7 +19,8 @@ const Menu = ({
     menuId = "toolBarMenu",
     vertical = 'true',
     boxShadow = '',
-    padding = '0'
+    padding = '0',
+    columnIndex
 }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState(0);
@@ -69,26 +70,48 @@ const Menu = ({
         const focusedItem = items[focusedIndex];
         const subItems = focusedItem?.subItems;
 
+        const getNextEnabledIndex = (list, startIndex, direction = 1) => {
+            const total = list.length;
+            let index = startIndex;
+
+            for (let i = 0; i < total; i++) {
+                index = (index + direction + total) % total;
+                if (!list[index]?.disabled && list[index]?.type !== 'divider') {
+                    return index;
+                }
+            }
+            return startIndex;
+        };
+
         if (e.key === 'ArrowDown') {
             e.preventDefault();
             if (openSubMenuIndex === focusedIndex && subItems) {
-                setSubMenuFocusedIndex((prev) => (prev + 1) % subItems.length);
+                setSubMenuFocusedIndex((prev) =>
+                    getNextEnabledIndex(subItems, prev, 1)
+                );
             } else {
-                setFocusedIndex((prev) => (prev + 1) % items.length);
+                setFocusedIndex((prev) =>
+                    getNextEnabledIndex(items, prev, 1)
+                );
                 setOpenSubMenuIndex(null);
             }
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
             if (openSubMenuIndex === focusedIndex && subItems) {
-                setSubMenuFocusedIndex((prev) => (prev - 1 + subItems.length) % subItems.length);
+                setSubMenuFocusedIndex((prev) =>
+                    getNextEnabledIndex(subItems, prev, -1)
+                );
             } else {
-                setFocusedIndex((prev) => (prev - 1 + items.length) % items.length);
+                setFocusedIndex((prev) =>
+                    getNextEnabledIndex(items, prev, -1)
+                );
                 setOpenSubMenuIndex(null);
             }
         } else if (e.key === 'ArrowRight' && subItems) {
             e.preventDefault();
+            const firstEnabledIndex = getNextEnabledIndex(subItems, -1, 1);
             setOpenSubMenuIndex(focusedIndex);
-            setSubMenuFocusedIndex(0);
+            setSubMenuFocusedIndex(firstEnabledIndex);
         } else if (e.key === 'ArrowLeft') {
             e.preventDefault();
             setOpenSubMenuIndex(null);
@@ -96,11 +119,13 @@ const Menu = ({
             e.preventDefault();
             if (openSubMenuIndex === focusedIndex && subItems) {
                 const subItem = subItems[subMenuFocusedIndex];
-                const args = Array.isArray(subItem.args) ? subItem.args : [];
-                subItem?.action?.(...args, e);
-                setMenuOpen(false);
-                setOpenSubMenuIndex(null);
-            } else if (focusedItem && !focusedItem.subItems) {
+                if (!subItem?.disabled) {
+                    const args = Array.isArray(subItem.args) ? subItem.args : [];
+                    subItem?.action?.(...args, e);
+                    setMenuOpen(false);
+                    setOpenSubMenuIndex(null);
+                }
+            } else if (focusedItem && !focusedItem.subItems && !focusedItem.disabled) {
                 const args = Array.isArray(focusedItem.args) ? focusedItem.args : [];
                 focusedItem?.action?.(...args, e);
                 setMenuOpen(false);
@@ -127,17 +152,20 @@ const Menu = ({
     }, [menuOpen, focusedIndex, items, openSubMenuIndex, subMenuFocusedIndex]);
 
     useEffect(() => {
-        if (menuOpen && itemRefs.current[focusedIndex]) {
-            itemRefs.current[focusedIndex].focus();
+        if (!menuOpen) return;
+
+        const currentItem = itemRefs.current[focusedIndex];
+        if (currentItem && document.activeElement !== currentItem) {
+            currentItem.focus();
         }
     }, [focusedIndex, menuOpen]);
 
     useEffect(() => {
-        if (
-            openSubMenuIndex !== null &&
-            subItemRefs.current[subMenuFocusedIndex]
-        ) {
-            subItemRefs.current[subMenuFocusedIndex].focus();
+        if (openSubMenuIndex === null) return;
+
+        const subItem = subItemRefs.current[subMenuFocusedIndex];
+        if (subItem && document.activeElement !== subItem) {
+            subItem.focus();
         }
     }, [subMenuFocusedIndex, openSubMenuIndex]);
 
@@ -164,19 +192,20 @@ const Menu = ({
         }
     };
 
-    const renderSubMenu = (subItems, header) => (
+    const renderSubMenu = (subItems, header, minWidth) => (
         <div
             role="menu"
             style={{
                 position: 'absolute',
                 top: isSmallWidth || state?.enableRtl ? '25px' : 0,
-                right: !state.enableRtl ? (isSmallWidth ? 0 : '100%') : '-35px',
+                right: !state.enableRtl ? (isSmallWidth ? 0 :
+                    (columnIndex === 0 ? '-60%' : '100%')) : '-35px',
                 backgroundColor: '#fff',
                 border: '1px solid #ccc',
                 borderRadius: '6px',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
                 padding: header ? '0 0 5px' : '5px 0',
-                minWidth: '180px',
+                minWidth: minWidth ?? '180px',
                 zIndex: 20,
                 maxHeight: '250px',
                 overflow: 'auto',
@@ -191,76 +220,81 @@ const Menu = ({
                         style={{
                             height: '1px',
                             margin: '4px 0',
-                            backgroundColor: 'rgba(0, 0, 0, 0.1)'
-                        }}></div>
+                            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                            pointerEvents: 'none',
+                            userSelect: 'none'
+                        }}>
+                    </div>
                 ) : (
                     <div
                         title={subItem?.tooltip}
                         key={i}
-                        ref={(el) => (subItemRefs.current[i] = el)}
-                        tabIndex={-1}
-                        className="menu--item"
-                        role="menuitem"
-                        style={{
-                            padding: subItem?.header ? '12px' : '8px 12px',
-                            cursor: subItem?.disabled ? 'default' : 'pointer',
-                            backgroundColor: subItem?.backgroundColor ??
-                                (subMenuFocusedIndex === i ? '#eee' : 'transparent'),
-                            gap: '12px',
-                            alignItems: 'center',
-                            display: 'flex',
-                            justifyContent: state.enableRtl ? 'right' : 'left',
-                            minHeight: '35px',
-                            pointerEvents: (subItem?.disabled ? 'none' : ''),
-                            opacity: subItem?.opacity ?? (subItem?.disabled ? '0.5' : ''),
-                            position: subItem?.header ? 'sticky' : undefined,
-                            top: subItem?.header ? 0 : undefined,
-                            zIndex: subItem?.header ? 1 : undefined,
-                            borderBottom: subItem?.header ?
-                                '1px solid rgba(0, 0, 0, 0.1)' : undefined,
-                            width: subItem?.width
-                        }}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            const args = Array.isArray(subItem.args)
-                                ? subItem.args
-                                : [];
-                            subItem?.action?.(...args, e);
-                            setMenuOpen(false);
-                            setOpenSubMenuIndex(null);
-                        }}
-                        onMouseEnter={() => setSubMenuFocusedIndex(i)}
                     >
-                        {!subItem?.hideIcon &&
-                            <div
-                                className="alignCenter"
-                                style={{
-                                    maxWidth: '24px',
-                                    minWidth: '24px'
-                                }}>
-                                {subItem?.icon}
-                            </div>
-                        }
                         <div
+                            ref={(el) => (subItemRefs.current[i] = !subItem?.disabled ? el : null)}
+                            tabIndex={!subItem?.disabled ? -1 : undefined}
+                            role="menuitem"
+                            className="menu--item"
                             style={{
-                                textTransform: 'capitalize',
-                                fontWeight: subItem?.header ? '900' : undefined
+                                padding: subItem?.header ? '12px' : '8px 12px',
+                                cursor: subItem?.disabled ? 'default' : 'pointer',
+                                backgroundColor: subItem?.backgroundColor ??
+                                    (subMenuFocusedIndex === i && !subItem?.disabled ? '#eee' : 'transparent'),
+                                gap: '12px',
+                                alignItems: 'center',
+                                display: 'flex',
+                                justifyContent: state.enableRtl ? 'right' : 'left',
+                                minHeight: '35px',
+                                pointerEvents: (subItem?.disabled ? 'none' : ''),
+                                opacity: subItem?.opacity ?? (subItem?.disabled ? '0.5' : ''),
+                                position: subItem?.header ? 'sticky' : undefined,
+                                top: subItem?.header ? 0 : undefined,
+                                zIndex: subItem?.header ? 1 : undefined,
+                                borderBottom: subItem?.header ?
+                                    '1px solid rgba(0, 0, 0, 0.1)' : undefined,
+                                width: subItem?.width
                             }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                const args = Array.isArray(subItem.args)
+                                    ? subItem.args
+                                    : [];
+                                subItem?.action?.(...args, e);
+                                setMenuOpen(false);
+                                setOpenSubMenuIndex(null);
+                            }}
+                            onMouseEnter={() => setSubMenuFocusedIndex(i)}
                         >
-                            {subItem?.name}
+                            {!subItem?.hideIcon &&
+                                <div
+                                    className="alignCenter"
+                                    style={{
+                                        maxWidth: '24px',
+                                        minWidth: '24px'
+                                    }}>
+                                    {subItem?.icon}
+                                </div>
+                            }
+                            <div
+                                style={{
+                                    textTransform: 'capitalize',
+                                    fontWeight: subItem?.header ? '900' : undefined
+                                }}
+                            >
+                                {subItem?.name}
+                            </div>
                         </div>
                     </div>
                 )))}
         </div>
     );
-
     const renderMenu = () => (
         <div
             role="menu"
             style={{
                 position: 'absolute',
-                top: usePortal ? menuPosition.top + 5 : (vertical ? '40px' : '5px'),
+                top: usePortal ? menuPosition.top : (vertical ? '40px' : '5px'),
                 left: usePortal ? (state?.enableRtl ? menuPosition.left - 50 : menuPosition.left - 115)
                     : (state?.enableRtl ? '0' : undefined),
                 right: !usePortal && !state?.enableRtl ? '0' : undefined,
@@ -282,15 +316,20 @@ const Menu = ({
                             style={{
                                 height: '1px',
                                 margin: '4px 0',
-                                backgroundColor: 'rgba(0, 0, 0, 0.1)'
-                            }}></div>
+                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                pointerEvents: 'none',
+                                userSelect: 'none'
+                            }}>
+                        </div>
                     ) : (
                         <div
                             key={index}
                             className="menu--item"
                             role="menuitem"
-                            ref={(el) => (itemRefs.current[index] = el)}
-                            tabIndex={-1}
+                            ref={(el) => {
+                                itemRefs.current[index] = !item?.disabled ? el : null;
+                            }}
+                            tabIndex={!item?.disabled ? -1 : undefined}
                             style={{
                                 padding: '8px 12px',
                                 cursor: 'pointer',
@@ -344,6 +383,8 @@ const Menu = ({
                                     alignItems: 'center',
                                     display: 'flex',
                                     justifyContent: 'space-between',
+                                    pointerEvents: 'none',
+                                    userSelect: 'none'
                                 }}
                             >
                                 <div
@@ -352,13 +393,17 @@ const Menu = ({
                                         display: 'flex',
                                         alignItems: 'center',
                                         gap: '10px',
+                                        pointerEvents: 'none',
+                                        userSelect: 'none'
                                     }}
                                 >
                                     <div
                                         className="alignCenter"
                                         style={{
                                             maxWidth: '24px',
-                                            minWidth: '24px'
+                                            minWidth: '24px',
+                                            pointerEvents: 'none',
+                                            userSelect: 'none'
                                         }}
                                     >
                                         {item?.icon}
@@ -371,13 +416,12 @@ const Menu = ({
                             </div>
                             {item.subItems &&
                                 openSubMenuIndex === index &&
-                                renderSubMenu(item.subItems, item?.header ?? false)}
+                                renderSubMenu(item.subItems, item?.header ?? false, item?.minWidth)}
                         </div>
                     ))
             )}
         </div>
     );
-
     return (
         <div ref={menuRef} style={{ display: 'inline-block', position: 'relative', width, margin, height }}>
             <button

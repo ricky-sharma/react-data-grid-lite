@@ -178,3 +178,46 @@ export const resolveColumnItems = (concatType, baseType) => {
                 []
     );
 }
+
+export function getMoveStatus(direction, column, columns, enableColumnDrag) {
+    const currentIndex = column.displayIndex;
+    const isRight = direction === 'right';
+
+    const limit = isRight
+        ? Math.max(...columns.map(col => col.displayIndex))
+        : Math.min(...columns.map(col => col.displayIndex));
+
+    let targetIndex = isRight ? currentIndex + 1 : currentIndex - 1;
+
+    while (isRight ? targetIndex <= limit : targetIndex >= limit) {
+        const candidate = columns.find(col => col.displayIndex === targetIndex);
+        if (!candidate) {
+            targetIndex = isRight ? targetIndex + 1 : targetIndex - 1;
+            continue;
+        }
+
+        const draggable = (typeof candidate?.draggable === 'boolean' ?
+            candidate.draggable : enableColumnDrag)
+
+        if (!candidate.hidden && !candidate.hideable && draggable) {
+            if (candidate.fixed !== column.fixed) {
+                return {
+                    disabled: true,
+                    tooltip: `Cannot move ${direction}: adjacent column belongs to a different column group (fixed/non-fixed)`
+                };
+            }
+
+            return {
+                disabled: false,
+                tooltip: `Move column ${direction}`
+            };
+        }
+
+        targetIndex = isRight ? targetIndex + 1 : targetIndex - 1;
+    }
+
+    return {
+        disabled: true,
+        tooltip: `Cannot move ${direction}: already at ${isRight ? 'rightmost' : 'leftmost'} position`
+    };
+}

@@ -25,7 +25,7 @@ const options = {
 
 export default function Grid2() {
     const users = useFetch();
-    const columns = users?.length > 0 ? Object.keys(users[0])?.map((val) => {
+    const columns = users?.length > 0 ? Object.keys(users[0])?.map((val, index) => {
         if (val.toLowerCase() === 'id')
             return {
                 name: val, alias: 'ID', width: '90px',
@@ -102,7 +102,7 @@ export default function Grid2() {
             }
         else
             return {
-                name: val, width: '175px', cellStyle: { backgroundColor: 'gold' }
+                name: val, width: '175px', cellStyle: { backgroundColor: 'gold' }, order:index*2
             }
     }) : [];
 

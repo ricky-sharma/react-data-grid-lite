@@ -3,8 +3,8 @@ import { isNull } from '../helpers/common';
 
 export function assignDisplayIndexes(columns) {
     const assignedIndexes = new Set();
-
     columns.forEach(col => {
+        if (typeof col?.displayIndex === 'number') return;
         if (!col.hidden && typeof col.order === 'number' && col.order > 0) {
             if (!assignedIndexes.has(col.order)) {
                 col.displayIndex = col.order;
@@ -20,15 +20,25 @@ export function assignDisplayIndexes(columns) {
     let nextIndex = 1;
     columns.forEach(col => {
         if (!col.hidden && col.displayIndex === undefined) {
-            while (assignedIndexes.has(nextIndex)) nextIndex++;
-            col.displayIndex = nextIndex;
-            assignedIndexes.add(nextIndex);
+            let colOrder = typeof col.order === 'number' && col.order > 0 ? col.order : undefined;
+            let indexToAssign = colOrder ?? nextIndex;
+            while (assignedIndexes.has(indexToAssign)) {
+                indexToAssign++;
+            }
+
+            col.displayIndex = indexToAssign;
+            assignedIndexes.add(indexToAssign);
+            if (colOrder === undefined) {
+                nextIndex = indexToAssign + 1;
+            }
         }
     });
-    columns.forEach(col => {
-        if (col.hidden) col.displayIndex = undefined;
-    });
 
+    columns
+        .sort((a, b) => a.displayIndex - b.displayIndex)
+        .forEach(col => {
+            if (col.hidden) col.displayIndex = undefined;
+        });
     return columns;
 }
 
@@ -92,7 +102,9 @@ export function useProcessedColumns(columns, setState, computedColumnWidthsRef, 
                             fixed: typeof col?.fixed === 'boolean' ? col.fixed : false,
                             hidden: typeof col?.hidden === 'boolean' ? col.hidden : false,
                             width: prev?.width ?? col?.width ?? '',
-                            order: typeof col?.order === 'number' ? col.order : prev?.displayIndex ?? ''
+                            order: typeof col?.order === 'number' ? col.order : prev?.displayIndex ?? '',
+                            hideable: typeof col?.hideable === 'boolean' ? col.hideable : prev?.hideable ?? false,
+                            displayIndex: typeof prev?.displayIndex === 'number' ? prev?.displayIndex : undefined,
                         };
                     });
 
@@ -105,7 +117,6 @@ export function useProcessedColumns(columns, setState, computedColumnWidthsRef, 
                 const combined = [...orderedFixed, ...orderedNonFixed].filter(Boolean);
 
                 const finalList = assignDisplayIndexes(combined);
-
                 return {
                     ...prevState,
                     columnsReceived: columns,
@@ -114,5 +125,5 @@ export function useProcessedColumns(columns, setState, computedColumnWidthsRef, 
                 };
             });
         }
-    }, [columns, state?.transposeColumnName]);
+    }, [columns, state?.transposeColumnName, state?.toggleColumnMove]);
 }
