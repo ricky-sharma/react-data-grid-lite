@@ -179,9 +179,9 @@ export const resolveColumnItems = (concatType, baseType) => {
     );
 }
 
-export function getMoveStatus(direction, column, columns, enableColumnDrag) {
+export function getMoveStatus(direction, column, columns, enableColumnDrag, enableRtl) {
     const currentIndex = column.displayIndex;
-    const isRight = direction === 'right';
+    const isRight = enableRtl ? direction !== 'right' : direction === 'right';
 
     const limit = isRight
         ? Math.max(...columns.map(col => col.displayIndex))

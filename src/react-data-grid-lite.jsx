@@ -241,7 +241,7 @@ const DataGrid = forwardRef(({
         };
     }, []);
 
-    useProcessedColumns(columns, setState, computedColumnWidthsRef, state);
+    useProcessedColumns(columns, setState, computedColumnWidthsRef, state, containerWidth);
 
     useProcessedData({
         data,

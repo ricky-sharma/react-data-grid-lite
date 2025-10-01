@@ -29,49 +29,49 @@ function Navbar() {
                     <span></span>
                 </li>
                 <li>
-                    <Link to="/Grid1" className={isActive('/Grid1') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                    <Link to="/interactive-grid" className={isActive('/interactive-grid') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Interactive Grid
                     </Link>
                     <span></span>
                 </li>
                 <li>
-                    <Link to="/Grid2" className={isActive('/Grid2') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                    <Link to="/row-actions" className={isActive('/row-actions') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Row Actions
                     </Link>
                     <span></span>
                 </li>
                 <li>
-                    <Link to="/Grid5" className={isActive('/Grid5') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                    <Link to="/pinned-and-resizable-columns" className={isActive('/pinned-and-resizable-columns') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Pinned &amp; Resizable Columns
                     </Link>
                     <span></span>
                 </li>
                 <li>
-                    <Link to="/Grid7" className={isActive('/Grid7') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                    <Link to="/inline-cell-editing" className={isActive('/inline-cell-editing') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Inline Cell Editing
                     </Link>
                     <span></span>
                 </li>
                 <li>
-                    <Link to="/Grid3" className={isActive('/Grid3') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                    <Link to="/dynamic-images-grid" className={isActive('/dynamic-images-grid') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Dynamic Images Grid
                     </Link>
                     <span></span>
                 </li>
                 <li>
-                    <Link to="/Grid4" className={isActive('/Grid4') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                    <Link to="/default-presentation" className={isActive('/default-presentation') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Default Presentation
                     </Link>
                     <span></span>
                 </li>
                 <li>
-                    <Link to="/Grid8" className={isActive('/Grid8') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                    <Link to="/right-to-left" className={isActive('/right-to-left') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Right To Left
                     </Link>
                     <span></span>
                 </li>
                 <li>
-                    <Link to="/Grid9" className={isActive('/Grid9') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                    <Link to="/million-cells" className={isActive('/million-cells') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Million Cells
                     </Link>
                     <span></span>

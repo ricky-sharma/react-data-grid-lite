@@ -49,7 +49,7 @@ const ColumnMenu = ({ column, sortable }) => {
         },
         {
             type: 'divider',
-            hidden: !sortable
+            hidden: !sortable || state?.transposeColumnName !== null
         },
         {
             name: `Sort ascending`,
@@ -92,12 +92,13 @@ const ColumnMenu = ({ column, sortable }) => {
             subItems: [
                 (() => {
                     const leftStatus = getMoveStatus(
-                        state?.enableRtl ? 'right' : 'left',
+                        'left',
                         column,
                         state?.columns,
-                        state?.enableColumnDrag);
+                        state?.enableColumnDrag,
+                        state?.enableRtl);
                     return {
-                        name: state?.enableRtl ? 'Right' : 'Left',
+                        name: 'Left',
                         icon: <MoveColumnLeftIcon />,
                         tooltip: leftStatus.tooltip,
                         disabled: leftStatus.disabled,
@@ -113,12 +114,13 @@ const ColumnMenu = ({ column, sortable }) => {
                 })(),
                 (() => {
                     const rightStatus = getMoveStatus(
-                        state?.enableRtl ? 'left' : 'right',
+                        'right',
                         column,
                         state?.columns,
-                        state?.enableColumnDrag);
+                        state?.enableColumnDrag,
+                        state?.enableRtl);
                     return {
-                        name: state?.enableRtl ? 'Left' : 'Right',
+                        name: 'Right',
                         icon: <MoveColumnRightIcon />,
                         tooltip: rightStatus.tooltip,
                         disabled: rightStatus.disabled,

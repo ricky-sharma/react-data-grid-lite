@@ -107,7 +107,7 @@
             }
 
     .r-d-g-lt-comp .input-check--mark:focus-visible + .check--mark {
-        outline: 2px solid currentColor;
+        outline: 1px solid currentColor;
         outline-offset: 4px;
         background-color: #d0e7ff;
     }
@@ -696,7 +696,7 @@
         .r-d-g-lt-comp table tbody tr.gridRow td a:focus-visible,
         .r-d-g-lt-comp .menu--btn:focus-visible,
         .r-d-g-lt-comp .menu--item:focus-visible {
-            outline: currentColor 2px solid !important;
+            outline: currentColor 1px solid !important;
             box-sizing: border-box !important;
             outline-offset: -5px;
         }

@@ -62,3 +62,7 @@ tr:hover .overlay {
     text-align: left;
     width: 100%;
 }
+
+.header-text-center {
+    text-align: center !important;
+}

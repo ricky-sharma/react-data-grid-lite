@@ -19,7 +19,8 @@ export function useTransposeData(state, setState) {
         enableColumnSearch,
         enableGlobalSearch,
         enableRowSelection,
-        virtualization
+        virtualization,
+        showTransposeMenuItem
     } = state;
 
     const normalizedData = useMemo(() => {
@@ -38,7 +39,7 @@ export function useTransposeData(state, setState) {
     }, [normalizedData, transposeColumnName]);
 
     useEffect(() => {
-        if (!transposeColumnName || !processedData?.length || !processedColumns?.length) {
+        if (!transposeColumnName || !processedData?.length || !processedColumns?.length || !showTransposeMenuItem) {
             return;
         }
 

@@ -290,9 +290,19 @@ const GridHeader = ({
                 tabIndex="0"
             >
                 <div
-                    className={`pd--0 mg--0 alignCenter${sortable === true ? ' pointer' : ''}`} data-column-name={header?.name}
+                    className={`pd--0 mg--0 alignCenter${sortable === true ? ' pointer' : ''}`}
+                    data-column-name={header?.name}
                 >
-                    <div className="headerText" data-column-name={header?.name}>{displayName}</div>
+                    <div
+                        className="headerText"
+                        style={
+                            typeof header?.headerStyle === 'object' && !Array.isArray(header?.headerStyle)
+                                ? header.headerStyle
+                                : {}
+                        }
+                        data-column-name={header?.name}>
+                        {displayName}
+                    </div>
                     {sortable === true && <ColumnSortIcon columns={columns} header={header} />}
                     {showColumnMenu === true && <ColumnMenu column={header} sortable={sortable} />}
                 </div>

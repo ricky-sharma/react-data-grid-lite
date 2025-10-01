@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { isNull } from '../helpers/common';
-import { Button_Column_Key, Maximum_Column_Width, Minimum_Column_Width } from '../constants';
+import { Button_Column_Key, Container_Identifier, Maximum_Column_Width, Minimum_Column_Width } from '../constants';
 
 export function useResizableTableColumns(
     tableRef,
@@ -14,14 +14,14 @@ export function useResizableTableColumns(
         const table = tableRef?.current;
         if (!table) return;
 
-        const thead = table.querySelector('thead');
+        const thead = table.querySelector(`#${state?.gridID} ${Container_Identifier} thead`);
         if (!thead) return;
 
-        const headerRows = thead.querySelectorAll('tr');
+        const headerRows = thead.querySelectorAll(`#${state?.gridID} ${Container_Identifier} tr`);
         if (!headerRows.length) return;
 
         const mainHeader = headerRows[0];
-        const ths = mainHeader.querySelectorAll('th');
+        const ths = mainHeader.querySelectorAll(`#${state?.gridID} ${Container_Identifier} th`);
         if (!ths.length) return;
         const processed = new WeakSet();
         ths.forEach((th) => {
@@ -55,20 +55,20 @@ export function useResizableTableColumns(
             if (currentPos !== 'sticky') {
                 th.style.position = 'sticky';
             }
-         
+
             let startX = 0;
             let startWidth = 0;
 
             const onMouseDown = (e) => {
                 e.preventDefault();
                 resizingColumnNameRef.current =
-                    e.target.closest('th[data-column-name]')?.dataset?.columnName ?? null;
+                    e.target.closest(`#${state?.gridID} ${Container_Identifier} th[data-column-name]`)?.dataset?.columnName ?? null;
                 if (isResizingRef) isResizingRef.current = false;
                 startX = e?.pageX ?? e?.clientX;
                 startWidth = th?.offsetWidth;
                 const onMouseMove = (e) => {
                     if (isResizingRef) isResizingRef.current = true;
-                    const element = document.querySelector(`#${state.gridID} table`);
+                    const element = document.querySelector(`#${state?.gridID} ${Container_Identifier} table`);
                     if (element && colFixed === true) element.scrollLeft = 0;
                     const newPosition = e?.pageX ?? e?.clientX;
                     const newWidth = Math.min(
@@ -99,7 +99,7 @@ export function useResizableTableColumns(
                     e.preventDefault();
                 }
                 resizingColumnNameRef.current =
-                    e.target.closest('th[data-column-name]')?.dataset?.columnName ?? null;
+                    e.target.closest(`#${state?.gridID} ${Container_Identifier} th[data-column-name]`)?.dataset?.columnName ?? null;
 
                 if (isResizingRef) isResizingRef.current = false;
                 const touch = e?.touches ? e?.touches[0] : null;
@@ -108,7 +108,7 @@ export function useResizableTableColumns(
                 let finalWidth = 0;
                 const onTouchMove = (e) => {
                     if (isResizingRef) isResizingRef.current = true;
-                    const element = document.querySelector(`#${state.gridID} table`);
+                    const element = document.querySelector(`#${state?.gridID} ${Container_Identifier} table`);
                     if (element && colFixed === true) element.scrollLeft = 0;
                     const moveTouch = e?.touches ? e?.touches[0] : null;
                     const newPosition = moveTouch?.pageX ?? moveTouch?.clientX ?? 0;
@@ -153,9 +153,9 @@ export function useResizableTableColumns(
                 }
             });
 
-            const bodyRows = table.querySelectorAll('tbody tr');
+            const bodyRows = table.querySelectorAll(`#${state?.gridID} ${Container_Identifier} tbody tr`);
             bodyRows.forEach((row) => {
-                const cell = row.querySelector(`td[data-column-name="${columnName}"]`);
+                const cell = row.querySelector(`td[data-col-name="${columnName}"]`);
                 if (cell) {
                     cell.style.width = `${newWidth}px`;
                 }

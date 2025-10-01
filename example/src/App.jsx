@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Navbar from './navbar';
 import Grid1 from './pages/grid1';
 import Grid2 from './pages/grid2';
@@ -17,15 +17,16 @@ function App() {
             <Navbar style={{ display: 'flex', justifyContent: 'center' }} />
             <div style={{ padding: '8px' }}>
                 <Routes>
-                    <Route path="/Grid1" element={<Grid1 />} />
-                    <Route path="/Grid2" element={<Grid2 />} />
-                    <Route path="/Grid3" element={<Grid3 />} />
-                    <Route path="/Grid4" element={<Grid4 />} />
-                    <Route path="/Grid5" element={<Grid5 />} />
+                    <Route path="/interactive-grid" element={<Grid1 />} />
+                    <Route path="/row-actions" element={<Grid2 />} />
+                    <Route path="/dynamic-images-grid" element={<Grid3 />} />
+                    <Route path="/default-presentation" element={<Grid4 />} />
+                    <Route path="/pinned-and-resizable-columns" element={<Grid5 />} />
                     <Route path="/" element={<Grid6 />} />
-                    <Route path="/Grid7" element={<Grid7 />} />
-                    <Route path="/Grid8" element={<Grid8 />} />
-                    <Route path="/Grid9" element={<Grid9 />} />
+                    <Route path="/inline-cell-editing" element={<Grid7 />} />
+                    <Route path="/right-to-left" element={<Grid8 />} />
+                    <Route path="/million-cells" element={<Grid9 />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </div>
         </Router>
