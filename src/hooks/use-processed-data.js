@@ -57,7 +57,8 @@ export function useProcessedData({
                     ? await sortData(
                         sortRef.current.colObject,
                         sortRef.current.sortOrder,
-                        filteredData
+                        filteredData,
+                        state?.columnTypes
                     )
                     : filteredData;
 

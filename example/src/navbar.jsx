@@ -23,7 +23,7 @@ function Navbar() {
             </div>
             <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
                 <li>
-                    <Link to="/" className={isActive('/') ? 'active' : ''} onClick={() => setIsOpen(false)}>
+                    <Link to="/column-drag-drop" className={isActive('/column-drag-drop') || isActive('/') ? 'active' : ''} onClick={() => setIsOpen(false)}>
                         Column Drag-Drop
                     </Link>
                     <span></span>

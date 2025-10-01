@@ -23,6 +23,7 @@ function App() {
                     <Route path="/default-presentation" element={<Grid4 />} />
                     <Route path="/pinned-and-resizable-columns" element={<Grid5 />} />
                     <Route path="/" element={<Grid6 />} />
+                    <Route path="/column-drag-drop" element={<Grid6 />} />
                     <Route path="/inline-cell-editing" element={<Grid7 />} />
                     <Route path="/right-to-left" element={<Grid8 />} />
                     <Route path="/million-cells" element={<Grid9 />} />

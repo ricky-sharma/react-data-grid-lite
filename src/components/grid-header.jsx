@@ -51,7 +51,6 @@ const GridHeader = ({
         enableRtl,
         enableVirtualColumns
     } = state || {};
-
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const isSelectionColumnLeft = enableRowSelection === true && rowSelectColumnAlign === 'left';
     const isSelectionColumnRight = enableRowSelection === true && rowSelectColumnAlign === 'right';

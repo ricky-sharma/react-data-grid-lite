@@ -52,7 +52,8 @@ export const eventGridSearchTriggered = async (
         ? await sortData(
             sortRef.current.colObject,
             sortRef.current.sortOrder,
-            data
+            data,
+            state?.columnTypes
         )
         : data;
 

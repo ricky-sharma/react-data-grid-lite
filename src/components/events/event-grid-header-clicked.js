@@ -16,7 +16,7 @@ export const SortColumn = (state, setState, columnName, colObject, sortOrder) =>
     let timeout;
     const processSort = async () => {
         const data = state?.rowsData;
-        const sortedRows = await sortData(colObject, sortOrder, data);
+        const sortedRows = await sortData(colObject, sortOrder, data, state?.columnTypes);
         timeout = setTimeout(() => {
             setState?.(prev => ({
                 ...prev,
@@ -33,8 +33,8 @@ export const SortColumn = (state, setState, columnName, colObject, sortOrder) =>
     return () => clearTimeout(timeout);
 }
 
-export function sortData(colObject, sortOrder, data) {
+export function sortData(colObject, sortOrder, data, columnTypes = {}) {
     const sortColumns = colObject?.map(field => (sortOrder === 'asc' ? field : `-${field}`));
-    const sortedData = data?.slice().sort(dynamicSort(...sortColumns));
+    const sortedData = data?.slice().sort(dynamicSort(columnTypes, ...sortColumns));
     return sortedData;
 }

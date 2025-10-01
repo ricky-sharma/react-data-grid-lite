@@ -117,11 +117,17 @@ export function useProcessedColumns(columns, setState, computedColumnWidthsRef, 
                 const combined = [...orderedFixed, ...orderedNonFixed].filter(Boolean);
 
                 const finalList = assignDisplayIndexes(combined);
+                const columnTypes = finalList.reduce((acc, col) => {
+                    acc[col.name] = col?.formatting?.type ?? 'string';
+                    return acc;
+                }, {});
+
                 return {
                     ...prevState,
                     columnsReceived: columns,
                     processedColumns: finalList,
-                    columns: finalList
+                    columns: finalList,
+                    columnTypes
                 };
             });
         }
