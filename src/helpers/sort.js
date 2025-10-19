@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-export function dynamicSort(columnTypes, ...fields) {
+export function dynamicSort(columnTypes = {}, ...fields) {
     const normalize = (val, columnType) => {
         if (val == null) return '';
 
@@ -26,7 +26,7 @@ export function dynamicSort(columnTypes, ...fields) {
             ) {
                 return parseFloat(numeric);
             }
-            return val?.toString().toLowerCase();
+            return val?.toString().trim().toLowerCase();
         }
 
         if (typeof val === 'number') return val;

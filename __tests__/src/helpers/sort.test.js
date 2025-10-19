@@ -12,7 +12,7 @@ describe('dynamicSort', () => {
             { name: 'apple' },
             { name: 'cherry' }
         ];
-        data.sort(dynamicSort('name'));
+        data.sort(dynamicSort({ name: 'string' }, 'name'));
         expect(data.map(d => d.name)).toEqual(['apple', 'banana', 'cherry']);
     });
 
@@ -22,7 +22,7 @@ describe('dynamicSort', () => {
             { age: 25 },
             { age: 40 }
         ];
-        data.sort(dynamicSort('age'));
+        data.sort(dynamicSort({ age: 'string' }, 'age'));
         expect(data.map(d => d.age)).toEqual([25, 32, 40]);
     });
 
@@ -32,7 +32,7 @@ describe('dynamicSort', () => {
             { date: '2021-01-15' },
             { date: '2022-06-20' }
         ];
-        data.sort(dynamicSort('date'));
+        data.sort(dynamicSort({ date: 'date' }, 'date'));
         expect(data.map(d => d.date)).toEqual(['2021-01-15', '2022-06-20', '2023-12-01']);
     });
 
@@ -42,7 +42,7 @@ describe('dynamicSort', () => {
             { score: 50 },
             { score: 75 }
         ];
-        data.sort(dynamicSort('-score'));
+        data.sort(dynamicSort({ score: 'number' }, '-score'));
         expect(data.map(d => d.score)).toEqual([100, 75, 50]);
     });
 
@@ -52,7 +52,7 @@ describe('dynamicSort', () => {
             { last: 'Doe', first: 'Alice' },
             { last: 'Smith', first: 'Adam' }
         ];
-        data.sort(dynamicSort('last', 'first'));
+        data.sort(dynamicSort({ first: 'string', last: 'string' }, 'last', 'first'));
         expect(data.map(d => `${d.last} ${d.first}`)).toEqual([
             'Doe Alice',
             'Smith Adam',
@@ -67,7 +67,7 @@ describe('dynamicSort', () => {
             { value: '' },
             { value: 'apple' }
         ];
-        data.sort(dynamicSort('value'));
+        data.sort(dynamicSort({ value: 'string' }, 'value'));
         expect(data.map(d => d.value)).toEqual([null, undefined, '', 'apple']);
     });
 
@@ -77,7 +77,7 @@ describe('dynamicSort', () => {
             { price: '$20.00' },
             { price: '$300.50' }
         ];
-        data.sort(dynamicSort('price'));
+        data.sort(dynamicSort({ price: 'currency' }, 'price'));
         expect(data.map(d => d.price)).toEqual(['$20.00', '$100.00', '$300.50']);
     });
 
@@ -87,12 +87,12 @@ describe('dynamicSort', () => {
             { id: 'a1c2' },
             { id: 'b1c3' }
         ];
-        data.sort(dynamicSort('id'));
+        data.sort(dynamicSort({ id: 'string' }, 'id'));
         expect(data.map(d => d.id)).toEqual(['a1c2', 'b1c3', 'c1a1']);
     });
 
     it('returns 0 for equal values', () => {
-        const compare = dynamicSort('x');
+        const compare = dynamicSort({ x: 'string' }, 'x');
         expect(compare({ x: 'test' }, { x: 'test' })).toBe(0);
     });
 });
@@ -107,37 +107,37 @@ describe('More dynamicSort tests', () => {
     ];
 
     it('sorts by string field (case-insensitive)', () => {
-        const sorted = [...data].sort(dynamicSort('name'));
+        const sorted = [...data].sort(dynamicSort({ name: 'string' }, 'name'));
         expect(sorted.map(d => d.name)).toEqual(['Alice', 'bob', 'Charlie', 'david']);
     });
 
     it('sorts by string field descending', () => {
-        const sorted = [...data].sort(dynamicSort('-name'));
+        const sorted = [...data].sort(dynamicSort({ name: 'string' }, '-name'));
         expect(sorted.map(d => d.name)).toEqual(['david', 'Charlie', 'bob', 'Alice']);
     });
 
     it('sorts by number field', () => {
-        const sorted = [...data].sort(dynamicSort('age'));
+        const sorted = [...data].sort(dynamicSort({ age: 'number' }, 'age'));
         expect(sorted.map(d => d.age)).toEqual([null, 25, 30, 35]);
     });
 
     it('sorts by number field descending', () => {
-        const sorted = [...data].sort(dynamicSort('-age'));
+        const sorted = [...data].sort(dynamicSort({ age: 'number' }, '-age'));
         expect(sorted.map(d => d.age)).toEqual([35, 30, 25, null]);
     });
 
     it('sorts by currency field', () => {
-        const sorted = [...data].sort(dynamicSort('salary'));
+        const sorted = [...data].sort(dynamicSort({ salary: 'string' }, 'salary'));
         expect(sorted.map(d => d.salary)).toEqual([null, '$2,500', '$3,000', '$4,000']);
     });
 
     it('sorts by date string field', () => {
-        const sorted = [...data].sort(dynamicSort('date'));
+        const sorted = [...data].sort(dynamicSort({ date: 'date' }, 'date'));
         expect(sorted.map(d => d.date)).toEqual([null, '2020-01-01', '2021-01-01', '2022-01-01']);
     });
 
     it('sorts by UUID (fallback to lowercase string)', () => {
-        const sorted = [...data].sort(dynamicSort('uuid'));
+        const sorted = [...data].sort(dynamicSort({ uuid: 'string' }, 'uuid'));
         expect(sorted.map(d => d.uuid)).toEqual([null, 'a123', 'b123', 'c123']);
     });
 
@@ -147,7 +147,7 @@ describe('More dynamicSort tests', () => {
             { name: 'John', age: 25 },
             { name: 'Alice', age: 40 },
         ];
-        const sorted = [...multi].sort(dynamicSort('name', 'age'));
+        const sorted = [...multi].sort(dynamicSort({ name: 'string', age: 'number' }, 'name', 'age'));
         expect(sorted).toEqual([
             { name: 'Alice', age: 40 },
             { name: 'John', age: 25 },
@@ -162,7 +162,7 @@ describe('More dynamicSort tests', () => {
             { val: 'B' },
             { val: 'a' },
         ];
-        const sorted = [...mixed].sort(dynamicSort('val'));
+        const sorted = [...mixed].sort(dynamicSort({ val: 'string' }, 'val'));
         expect(sorted.map(i => i.val)).toEqual([null, undefined, 'a', 'B']);
     });
 
@@ -177,7 +177,7 @@ describe('More dynamicSort tests', () => {
             { createdAt: date3 },
         ];
 
-        const sorted = [...items].sort(dynamicSort('createdAt'));
+        const sorted = [...items].sort(dynamicSort({ createdAt: 'date' }, 'createdAt'));
         expect(sorted.map(i => i.createdAt)).toEqual([date1, date2, date3]);
     });
 
@@ -192,7 +192,7 @@ describe('More dynamicSort tests', () => {
             { createdAt: date3 },
         ];
 
-        const sorted = [...items].sort(dynamicSort('-createdAt'));
+        const sorted = [...items].sort(dynamicSort({ createdAt: 'date' }, '-createdAt'));
         expect(sorted.map(i => i.createdAt)).toEqual([date3, date2, date1]);
     });
 
@@ -203,7 +203,7 @@ describe('More dynamicSort tests', () => {
             { key: 'MIDDLE' },
         ];
 
-        const sorted = [...items].sort(dynamicSort('key'));
+        const sorted = [...items].sort(dynamicSort({ key: 'string' }, 'key'));
 
         expect(sorted.map(i => i.key)).toEqual([['alpha'], 'MIDDLE', '  Zebra!@#  ']);
     });

@@ -35,7 +35,7 @@ export function useTransposeData(state, setState) {
     }, [processedColumns]);
 
     const pivotKeys = useMemo(() => {
-        return normalizedData?.map((row, index) => `${row[transposeColumnName?.toLowerCase()]}_${index}`) || [];
+        return normalizedData?.map((row, index) => `${row[transposeColumnName?.toLowerCase()]}_${index}`);
     }, [normalizedData, transposeColumnName]);
 
     useEffect(() => {

@@ -119,7 +119,7 @@ export function filterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabl
                 const concatCols = c?.concatColumns?.columns;
                 const concatSep = c?.concatColumns?.separator || ' ';
 
-                for (let row of data) {
+                for (let row of filteredData) {
                     let value = '';
                     if (Array.isArray(concatCols)) {
                         value = getNormalizedCombinedValue(row, concatCols, Formatting_Types, fieldType, fieldFormat, concatSep);

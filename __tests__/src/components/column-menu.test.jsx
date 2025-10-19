@@ -1,8 +1,8 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ColumnMenu from '../../../src/components/column-menu';
-import { useGridConfig } from '../../../src/hooks/use-grid-config';
 import { SortColumn } from '../../../src/components/events/event-grid-header-clicked';
+import { useGridConfig } from '../../../src/hooks/use-grid-config';
 
 jest.mock('../../../src/hooks/use-grid-config');
 jest.mock('../../../src/components/events/event-grid-header-clicked', () => ({
@@ -179,7 +179,8 @@ describe('ColumnMenu Component', () => {
             columns: [mockColumn],
             toggleState: false,
             gridID: 'testGrid',
-            showToolbarMenu: true
+            showToolbarMenu: true,
+            transposeColumnName: null
         }
 
         useGridConfig.mockReturnValue({
@@ -216,7 +217,8 @@ describe('ColumnMenu Component', () => {
             columns: [mockColumn],
             toggleState: false,
             gridID: 'testGrid',
-            showToolbarMenu: true
+            showToolbarMenu: true,
+            transposeColumnName: null
         }
 
         useGridConfig.mockReturnValue({
@@ -304,7 +306,8 @@ describe('ColumnMenu Component', () => {
                 columns: mockColumns,
                 toggleState: false,
                 gridID: 'testGrid',
-                showToolbarMenu: true
+                showToolbarMenu: true,
+                transposeColumnName: null
             },
             setState: jest.fn()
         });
@@ -343,7 +346,7 @@ describe('ColumnMenu Component', () => {
         const menuButton = getByLabelText('Open menu');
         fireEvent.click(menuButton);
 
-        expect(screen.getByText('Enable editing')).toBeInTheDocument();
+        expect(screen.queryByText('Enable editing')).not.toBeInTheDocument();
         expect(screen.queryByText('Hide column')).not.toBeInTheDocument();
     });
 });
@@ -375,6 +378,7 @@ describe('More ColumnMenu tests', () => {
             enableCellEdit: false,
             columns: [{ name: 'testCol', editable: true, hideable: false }],
             showToolbarMenu: true,
+            transposeColumnName: null,
             ...stateOverrides,
         };
 
@@ -580,5 +584,233 @@ describe('More ColumnMenu tests', () => {
             { name: 'testCol', hideable: true },
             { name: 'otherCol', hideable: false },
         ]);
+    });
+
+    it('moves column to the left when "Move Left" is clicked',async () => {
+        const onColumnDragEnd = jest.fn();
+        const initialColumns = [
+            { name: 'colA', draggable: true, displayIndex:1 },
+            { name: 'testCol', alias: 'Test Column', draggable: true, displayIndex: 2 },
+            { name: 'colB', draggable: true, displayIndex: 3 },
+            { name: 'colC', draggable: true, displayIndex: 4 }
+        ];
+        const { mockSetState } = setup(
+            { draggable: true, displayIndex: 2 },
+            true,
+            {
+                enableColumnDrag: true,
+                columns: initialColumns,
+                enableRtl: false,
+                onColumnDragEnd
+            }
+        );
+        const moveButton = screen.getByText('Move');
+        expect(moveButton).toBeInTheDocument();
+        fireEvent.click(moveButton);
+        const leftButton = screen.getByText('Left');
+        expect(leftButton).toBeInTheDocument();
+        fireEvent.click(leftButton);
+        await waitFor(() => {
+            expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        });
+    });
+
+    it('moves column to the left when "Move Left" is clicked and enableRtl = true', async () => {
+        const onColumnDragEnd = jest.fn();
+        const initialColumns = [
+            { name: 'colA', draggable: true, displayIndex: 1 },
+            { name: 'testCol', alias: 'Test Column', draggable: true, displayIndex: 2 },
+            { name: 'colB', draggable: true, displayIndex: 3 },
+            { name: 'colC', draggable: true, displayIndex: 4 }
+        ];
+        const { mockSetState } = setup(
+            { draggable: true, displayIndex: 2 },
+            true,
+            {
+                enableColumnDrag: true,
+                columns: initialColumns,
+                enableRtl: true,
+                onColumnDragEnd
+            }
+        );
+        const moveButton = screen.getByText('Move');
+        expect(moveButton).toBeInTheDocument();
+        fireEvent.click(moveButton);
+        const leftButton = screen.getByText('Left');
+        expect(leftButton).toBeInTheDocument();
+        fireEvent.click(leftButton);
+        await waitFor(() => {
+            expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        });
+    });
+
+    it('does not moves column to the left when "Move Left" is clicked with displayIndex=1', async () => {
+        const onColumnDragEnd = jest.fn();
+        const initialColumns = [
+            { name: 'testCol', alias: 'Test Column', draggable: true, displayIndex: 1 },
+            { name: 'colA', draggable: true, displayIndex: 2 },
+            { name: 'colB', draggable: true, displayIndex: 3 },
+            { name: 'colC', draggable: true, displayIndex: 4 }
+        ];
+        const { mockSetState } = setup(
+            { draggable: true, displayIndex: 1 },
+            true,
+            {
+                enableColumnDrag: true,
+                columns: initialColumns,
+                enableRtl: false,
+                onColumnDragEnd
+            }
+        );
+        const moveButton = screen.getByText('Move');
+        expect(moveButton).toBeInTheDocument();
+        fireEvent.click(moveButton);
+        const leftButton = screen.getByText('Left');
+        expect(leftButton).toBeInTheDocument();
+        fireEvent.click(leftButton);
+        await waitFor(() => {
+            expect(mockSetState).not.toHaveBeenCalledWith(expect.any(Function));
+        });
+    });
+
+    it('moves column to the left when "Move Left" is clicked but does not call onColumnDragEnd', async () => {
+        const initialColumns = [
+            { name: 'colA', draggable: true, displayIndex: 1 },
+            { name: 'testCol', alias: 'Test Column', draggable: true, displayIndex: 2 },
+            { name: 'colB', draggable: true, displayIndex: 3 },
+            { name: 'colC', draggable: true, displayIndex: 4 }
+        ];
+        const { mockSetState } = setup(
+            { draggable: true, displayIndex: 2 },
+            true,
+            {
+                enableColumnDrag: true,
+                columns: initialColumns,
+                enableRtl: false
+            }
+        );
+        const moveButton = screen.getByText('Move');
+        expect(moveButton).toBeInTheDocument();
+        fireEvent.click(moveButton);
+        const leftButton = screen.getByText('Left');
+        expect(leftButton).toBeInTheDocument();
+        fireEvent.click(leftButton);
+        await waitFor(() => {
+            expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        });
+    });
+
+    it('moves column to the right when "Move Right" is clicked', async () => {
+        const onColumnDragEnd = jest.fn();
+        const initialColumns = [
+            { name: 'colA', draggable: true, displayIndex: 1 },
+            { name: 'testCol', alias: 'Test Column', draggable: true, displayIndex: 2 },
+            { name: 'colB', draggable: true, displayIndex: 3 },
+            { name: 'colC', draggable: true, displayIndex: 4 }
+        ];
+        const { mockSetState } = setup(
+            { draggable: true, displayIndex: 2 },
+            true,
+            {
+                enableColumnDrag: true,
+                columns: initialColumns,
+                enableRtl: false,
+                onColumnDragEnd
+            }
+        );
+        const moveButton = screen.getByText('Move');
+        expect(moveButton).toBeInTheDocument();
+        fireEvent.click(moveButton);
+        const leftButton = screen.getByText('Right');
+        expect(leftButton).toBeInTheDocument();
+        fireEvent.click(leftButton);
+        await waitFor(() => {
+            expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        });
+    });
+
+    it('moves column to the right when "Move Right" is clicked and enableRtl = true', async () => {
+        const onColumnDragEnd = jest.fn();
+        const initialColumns = [
+            { name: 'colA', draggable: true, displayIndex: 1 },
+            { name: 'testCol', alias: 'Test Column', draggable: true, displayIndex: 2 },
+            { name: 'colB', draggable: true, displayIndex: 3 },
+            { name: 'colC', draggable: true, displayIndex: 4 }
+        ];
+        const { mockSetState } = setup(
+            { draggable: true, displayIndex: 2 },
+            true,
+            {
+                enableColumnDrag: true,
+                columns: initialColumns,
+                enableRtl: true,
+                onColumnDragEnd
+            }
+        );
+        const moveButton = screen.getByText('Move');
+        expect(moveButton).toBeInTheDocument();
+        fireEvent.click(moveButton);
+        const leftButton = screen.getByText('Right');
+        expect(leftButton).toBeInTheDocument();
+        fireEvent.click(leftButton);
+        await waitFor(() => {
+            expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        });
+    });
+
+    it('does not moves column to the right when "Move Right" is clicked with displayIndex=1', async () => {
+        const onColumnDragEnd = jest.fn();
+        const initialColumns = [
+            { name: 'colA', draggable: true, displayIndex: 1 },
+            { name: 'colB', draggable: true, displayIndex: 2 },
+            { name: 'colC', draggable: true, displayIndex: 3 },
+            { name: 'testCol', alias: 'Test Column', draggable: true, displayIndex: 4 }
+        ];
+        const { mockSetState } = setup(
+            { draggable: true, displayIndex: 4 },
+            true,
+            {
+                enableColumnDrag: true,
+                columns: initialColumns,
+                enableRtl: false,
+                onColumnDragEnd
+            }
+        );
+        const moveButton = screen.getByText('Move');
+        expect(moveButton).toBeInTheDocument();
+        fireEvent.click(moveButton);
+        const leftButton = screen.getByText('Right');
+        expect(leftButton).toBeInTheDocument();
+        fireEvent.click(leftButton);
+        await waitFor(() => {
+            expect(mockSetState).not.toHaveBeenCalledWith(expect.any(Function));
+        });
+    });
+
+    it('moves column to the right when "Move Right" is clicked but does not call onColumnDragEnd', async () => {
+        const initialColumns = [
+            { name: 'colA', draggable: true, displayIndex: 1 },
+            { name: 'testCol', alias: 'Test Column', draggable: true, displayIndex: 2 },
+            { name: 'colB', draggable: true, displayIndex: 3 },
+            { name: 'colC', draggable: true, displayIndex: 4 }
+        ];
+        const { mockSetState } = setup(
+            { draggable: true, displayIndex: 2 },
+            true,
+            {
+                enableColumnDrag: true,
+                columns: initialColumns,
+                enableRtl: false
+            }
+        );
+        const moveButton = screen.getByText('Move');
+        expect(moveButton).toBeInTheDocument();
+        fireEvent.click(moveButton);
+        const leftButton = screen.getByText('Right');
+        expect(leftButton).toBeInTheDocument();
+        fireEvent.click(leftButton);
+        await waitFor(() => {
+            expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        });
     });
 });

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import React from 'react';
 import { GridConfigContext } from '../../../src/context/grid-config-context';
 import * as useGridConfigModule from '../../../src/hooks/use-grid-config';
@@ -80,25 +80,27 @@ describe('GridFooter Component', () => {
     });
 
 
-    it('triggers onPageChange when a new page is selected from dropdown', () => {
+    it('triggers onPageChange when a new page is selected from dropdown', async () => {
         renderWithProvider(<GridFooter {...defaultProps} />);
         const dropdownTrigger = screen.getByRole('button', { name: /2/i });
         fireEvent.click(dropdownTrigger);
         const option = screen.getByRole('option', { name: '3' });
         fireEvent.click(option);
-        expect(defaultProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3);
+        await waitFor(() => {
+            expect(defaultProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3);
+        });
     });
 
-    it('calls onPrev when prev button is clicked', () => {
+    it('calls onPrev when prev button is clicked', async () => {
         renderWithProvider(<GridFooter {...defaultProps} />);
         fireEvent.click(screen.getByLabelText('Previous Page'));
-        expect(defaultProps.onPrev).toHaveBeenCalled();
+        await waitFor(() => { expect(defaultProps.onPrev).toHaveBeenCalled(); });
     });
 
-    it('calls onNext when next button is clicked', () => {
+    it('calls onNext when next button is clicked', async () => {
         renderWithProvider(<GridFooter {...defaultProps} />);
         fireEvent.click(screen.getByLabelText('Next Page'));
-        expect(defaultProps.onNext).toHaveBeenCalled();
+        await waitFor(() => { expect(defaultProps.onNext).toHaveBeenCalled(); });
     });
 });
 
@@ -145,27 +147,27 @@ describe('More Tests for GridFooter Component', () => {
         expect(screen.getByLabelText('Previous Page')).toBeInTheDocument();
     });
 
-    it('calls onPrev when Previous is clicked', () => {
+    it('calls onPrev when Previous is clicked', async () => {
         renderWithProvider(<GridFooter {...defaultProps} />);
         const prevButton = screen.getByLabelText('Previous Page');
         fireEvent.click(prevButton);
-        expect(defaultProps.onPrev).toHaveBeenCalledTimes(1);
+        await waitFor(() => { expect(defaultProps.onPrev).toHaveBeenCalledTimes(1); });
     });
 
-    it('calls onNext when Next is clicked', () => {
+    it('calls onNext when Next is clicked', async () => {
         renderWithProvider(<GridFooter {...defaultProps} />);
         const nextButton = screen.getByLabelText('Next Page');
         fireEvent.click(nextButton);
-        expect(defaultProps.onNext).toHaveBeenCalledTimes(1);
+        await waitFor(() => { expect(defaultProps.onNext).toHaveBeenCalledTimes(1); });
     });
 
-    it('calls onPageChange when a page is selected from the dropdown', () => {
+    it('calls onPageChange when a page is selected from the dropdown', async () => {
         renderWithProvider(<GridFooter {...defaultProps} />);
         const dropdownTrigger = screen.getByRole('button', { name: /2/i });
         fireEvent.click(dropdownTrigger);
         const option = screen.getByText('5');
         fireEvent.click(option);
-        expect(defaultProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 5);
+        await waitFor(() => { expect(defaultProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 5); });
     });
 
     it('disables Previous button on the first page', () => {
@@ -193,7 +195,7 @@ describe('More Tests for GridFooter Component', () => {
         expect(() => renderWithProvider(<GridFooter />, { pagerSelectOptions: [], totalRows: 0 })).not.toThrow();
     });
 
-    it('updates pagination state correctly when page size is changed', () => {
+    it('updates pagination state correctly when page size is changed', async () => {
         const stateOverrides = {
             totalRows: 100,
             currentPageRows: 10,
@@ -209,28 +211,30 @@ describe('More Tests for GridFooter Component', () => {
         fireEvent.click(pageSizeDropdownTrigger);
         const newPageSizeOption = screen.getByText('25');
         fireEvent.click(newPageSizeOption);
-        expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
-        const updaterFn = mockSetState.mock.calls[0][0];
+        await waitFor(() => {
+            expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+            const updaterFn = mockSetState.mock.calls[0][0];
 
-        const result = updaterFn({
-            totalRows: 100,
-            activePage: 6,
-            currentPageRows: 10,
-            pageRows: 10,
-        });
+            const result = updaterFn({
+                totalRows: 100,
+                activePage: 6,
+                currentPageRows: 10,
+                pageRows: 10,
+            });
 
-        expect(result).toEqual({
-            totalRows: 100,
-            activePage: 1,
-            currentPageRows: 25,
-            pageRows: 25,
-            firstRow: 0,
-            lastPageRows: 25,
-            noOfPages: 4,
+            expect(result).toEqual({
+                totalRows: 100,
+                activePage: 1,
+                currentPageRows: 25,
+                pageRows: 25,
+                firstRow: 0,
+                lastPageRows: 25,
+                noOfPages: 4,
+            });
         });
     });
 
-    it('increments noOfPages if lastPageRows > 0', () => {
+    it('increments noOfPages if lastPageRows > 0', async () => {
         const stateOverrides = {
             totalRows: 105,
             currentPageRows: 10,
@@ -246,23 +250,25 @@ describe('More Tests for GridFooter Component', () => {
         fireEvent.click(pageSizeDropdownTrigger);
         const newPageSizeOption = screen.getByText('25');
         fireEvent.click(newPageSizeOption);
-        const updaterFn = mockSetState.mock.calls[0][0];
-        const result = updaterFn({
-            totalRows: 105,
-            activePage: 5,
-            currentPageRows: 5,
-            pageRows: 25
-        });
+        await waitFor(() => {
+            const updaterFn = mockSetState.mock.calls[0][0];
+            const result = updaterFn({
+                totalRows: 105,
+                activePage: 5,
+                currentPageRows: 5,
+                pageRows: 25
+            });
 
-        expect(result.noOfPages).toBe(5);
-        expect(result.lastPageRows).toBe(5);
-        expect(result.activePage).toBe(5);
-        expect(result.currentPageRows).toBe(5);
-        expect(result.firstRow).toBe(100);
-        expect(result.pageRows).toBe(25);
+            expect(result.noOfPages).toBe(5);
+            expect(result.lastPageRows).toBe(5);
+            expect(result.activePage).toBe(5);
+            expect(result.currentPageRows).toBe(5);
+            expect(result.firstRow).toBe(100);
+            expect(result.pageRows).toBe(25);
+        });
     });
 
-    it('defaults activePage to 1 if prev.activePage is undefined and resetPage is false', () => {
+    it('defaults activePage to 1 if prev.activePage is undefined and resetPage is false', async () => {
         const mockSetState = jest.fn();
         render(
             <GridConfigContext.Provider
@@ -270,7 +276,7 @@ describe('More Tests for GridFooter Component', () => {
                     state: {
                         ...mockState,
                         totalRows: 100,
-                        activePage: undefined 
+                        activePage: undefined
                     },
                     setState: mockSetState
                 }}
@@ -283,12 +289,13 @@ describe('More Tests for GridFooter Component', () => {
         fireEvent.click(dropdownTrigger);
         const newPageSizeOption = screen.getByText('25');
         fireEvent.click(newPageSizeOption);
-        expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
+        await waitFor(() => {expect(mockSetState).toHaveBeenCalledWith(expect.any(Function));
         const updatedState = mockSetState.mock.calls[0][0]({
             totalRows: 100,
             activePage: undefined
         });
-        expect(updatedState.activePage).toBe(1);
+            expect(updatedState.activePage).toBe(1);
+        });
     });
 
     describe('GridFooter when useGridConfig returns null or undefined', () => {
@@ -308,5 +315,5 @@ describe('More Tests for GridFooter Component', () => {
 
             expect(() => render(<GridFooter {...defaultProps} />)).not.toThrow();
         });
-    });   
+    });
 });

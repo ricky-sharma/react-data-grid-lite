@@ -199,7 +199,7 @@ const Menu = ({
                 position: 'absolute',
                 top: isSmallWidth || state?.enableRtl ? '25px' : 0,
                 right: !state.enableRtl ? (isSmallWidth ? 0 :
-                    (columnIndex === 0 ? '-60%' : '100%')) : '-35px',
+                    (columnIndex === 0 ? '-60%' : '100%')) : '-50%',
                 backgroundColor: '#fff',
                 border: '1px solid #ccc',
                 borderRadius: '6px',
@@ -324,6 +324,7 @@ const Menu = ({
                     ) : (
                         <div
                             key={index}
+                            title={item?.tooltip}
                             className="menu--item"
                             role="menuitem"
                             ref={(el) => {
@@ -376,7 +377,6 @@ const Menu = ({
                             }}
                         >
                             <div
-                                title={item?.tooltip}
                                 className="icon-content"
                                 style={{
                                     gap: '12px',

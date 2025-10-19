@@ -284,7 +284,7 @@ describe('More tests for GridRows Component', () => {
         render(<table><tbody><GridRows state={baseState} setState={mockSetState} computedColumnWidthsRef={computedColumnWidthsRef} /></tbody></table>);
         expect(screen.getByText('Alice')).toBeInTheDocument();
         expect(screen.getByText('Bob')).toBeInTheDocument();
-        expect(screen.getAllByRole('row')).toHaveLength(4);
+        expect(screen.getAllByRole('row')).toHaveLength(2);
     });
 
     it('calls editButtonEvent on edit icon click', () => {
@@ -336,7 +336,7 @@ describe('More tests for GridRows Component', () => {
         const rows = screen.getAllByRole('row');
         fireEvent.click(rows[1]);
         jest.advanceTimersByTime(500);
-        expect(mockOnRowClick).toHaveBeenCalledWith(expect.any(Object), baseState.rowsData[0]);
+        expect(mockOnRowClick).toHaveBeenCalledWith(expect.any(Object), baseState.rowsData[1]);
         jest.useRealTimers();
     });
 

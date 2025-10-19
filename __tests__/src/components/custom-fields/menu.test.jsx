@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import Menu from '../../../../src/components/custom-fields/menu';
 
@@ -58,19 +58,20 @@ describe('Menu component', () => {
         expect(mockAction).toHaveBeenCalledWith('arg1', expect.any(Object));
     });
 
-    it('opens submenu on hover and triggers sub item action', () => {
+    it('opens submenu on hover and triggers sub item action', async () => {
         render(<Menu items={items} />);
         fireEvent.click(screen.getByRole('button'));
 
         const parentItem = screen.getByText('Has SubMenu');
         fireEvent.mouseEnter(parentItem);
 
-        const subItem = screen.getByText('Sub Action');
-        expect(subItem).toBeInTheDocument();
+        await waitFor(() => {
+            const subItem = screen.getByText('Sub Action');
+            expect(subItem).toBeInTheDocument();
 
-        fireEvent.click(subItem);
-
-        expect(subAction).toHaveBeenCalledWith('subArg1', expect.any(Object));
+            fireEvent.click(subItem);
+            expect(subAction).toHaveBeenCalledWith('subArg1', expect.any(Object));
+        });
     });
 
     it('closes menu on outside click', () => {

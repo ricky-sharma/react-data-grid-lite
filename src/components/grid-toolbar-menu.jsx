@@ -143,11 +143,10 @@ const GridToolBarMenu = ({
                                 ...prev,
                                 transposeColumnName: removeTranspose ? null : col?.name,
                                 enableCellEdit: removeTranspose ? prev?.enableCellEditProp : false,
-                                searchValues: Object.fromEntries(
-                                    (Array.isArray(prev.columns) ? prev.columns : [])
-                                        .filter(col => col && col.name)
-                                        .map(col => [col.name, ''])
-                                ),
+                                enableRowSelection: removeTranspose ? prev?.enableRowSelectionProp : false,
+                                deleteButtonEnabled: removeTranspose ? prev?.deleteButtonEnabledProp : false,
+                                editButtonEnabled: removeTranspose ? prev?.editButtonEnabledProp : false,
+                                searchValues: {},
                                 globalSearchInput: '',
                             };
                         })

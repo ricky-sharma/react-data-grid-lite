@@ -27,11 +27,7 @@ export function useResetGrid({
 
                 return {
                     ...prev,
-                    searchValues: Object.fromEntries(
-                        (Array.isArray(prev.columns) ? prev.columns : [])
-                            .filter(col => col && col.name)
-                            .map(col => [col.name, ''])
-                    ),
+                    searchValues: {},
                     globalSearchInput: '',
                     rowsData: dataReceivedRef?.current ?? [],
                     pageRows,

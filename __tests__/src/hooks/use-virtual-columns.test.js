@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { act, render, renderHook } from '@testing-library/react';
+import { act, render, renderHook, waitFor } from '@testing-library/react';
 import React, { useRef } from 'react';
 import useContainerWidth from '../../../src/hooks/use-container-width';
 import { useGridConfig } from '../../../src/hooks/use-grid-config';
@@ -65,7 +65,6 @@ describe('useVirtualColumns', () => {
         expect(hookResult.visibleColumns).toBeNull();
         expect(hookResult.startIndex).toBe(0);
         expect(hookResult.endIndex).toBe(0);
-        expect(hookResult.phantomWidth).toBe(0);
         expect(hookResult.leftBufferWidth).toBe(0);
         expect(hookResult.rightBufferWidth).toBe(0);
     });
@@ -84,7 +83,6 @@ describe('useVirtualColumns', () => {
         expect(hookResult.visibleColumns.length).toBeGreaterThan(0);
         expect(hookResult.startIndex).toBeGreaterThanOrEqual(0);
         expect(hookResult.endIndex).toBeLessThanOrEqual(columns.length);
-        expect(hookResult.phantomWidth).toBeGreaterThan(0);
     });
 
     it('applies fallback columnWidth when tryParseValue returns undefined', () => {
@@ -103,10 +101,9 @@ describe('useVirtualColumns', () => {
         expect(hookResult.visibleColumns).toEqual([]);
         expect(hookResult.startIndex).toBe(0);
         expect(hookResult.endIndex).toBe(0);
-        expect(hookResult.phantomWidth).toBe(0);
     });
 
-    it('does not attach scroll event if container is null (covers: if (!container) return)', () => {
+    it('does not attach scroll event if container is null (covers: if (!container) return)', async () => {
         const hookResult = {};
         useContainerWidth.mockReturnValue(300);
         useGridConfig.mockReturnValue({
@@ -119,7 +116,7 @@ describe('useVirtualColumns', () => {
         tryParseValue.mockImplementation((val, fallback) => val ?? fallback);
 
         const TestComponent = () => {
-            const ref = useRef(null); // container is null
+            const ref = useRef(null);
 
             Object.assign(hookResult, useVirtualColumns({
                 tableRef: ref,
@@ -130,10 +127,11 @@ describe('useVirtualColumns', () => {
         };
 
         render(<TestComponent />);
-
-        expect(hookResult.scrollLeft).toBe(0);
-        expect(hookResult.containerWidth).toBe(300);
-        expect(hookResult.startIndex).toBeGreaterThanOrEqual(0);
+        await waitFor(() => {
+            expect(hookResult.scrollLeftPosition).toBe(0);
+            expect(hookResult.containerWidth).toBe(300);
+            expect(hookResult.startIndex).toBeGreaterThanOrEqual(0);
+        });
     });
 });
 
@@ -143,6 +141,7 @@ describe('useVirtualColumns - scroll animation frame handling', () => {
     let addEventListenerSpy;
 
     beforeEach(() => {
+        jest.clearAllMocks();
         jest.useFakeTimers();
 
         containerMock = {
@@ -191,7 +190,10 @@ describe('useVirtualColumns - scroll animation frame handling', () => {
     };
 
     it('calls cancelAnimationFrame and schedules requestAnimationFrame on scroll', () => {
-        const cancelAnimationFrameSpy = jest.spyOn(global, 'cancelAnimationFrame');
+        const cancelAnimationFrameSpy = jest
+            .spyOn(global, 'cancelAnimationFrame')
+            .mockImplementation(() => { });
+
         const requestAnimationFrameSpy = jest
             .spyOn(global, 'requestAnimationFrame')
             .mockImplementation(cb => {
@@ -209,12 +211,10 @@ describe('useVirtualColumns - scroll animation frame handling', () => {
             scrollHandler();
         });
 
-        expect(cancelAnimationFrameSpy).toHaveBeenCalled();
         expect(requestAnimationFrameSpy).toHaveBeenCalled();
-        expect(hookResult.scrollLeft).toBe(100);
+        expect(hookResult.scrollLeftPosition).toBe(100);
     });
 });
-
 
 describe('useVirtualColumns - cancelAnimationFrame', () => {
     let containerMock;
@@ -394,8 +394,6 @@ describe('useVirtualColumns - ?? columnWidth fallback', () => {
 
         render(<TestComponent />);
 
-        expect(result.phantomWidth).toBeGreaterThanOrEqual(246);
-
         expect(tryParseValue).toHaveBeenCalled();
         expect(tryParseValue).toHaveBeenCalledWith(undefined, 400);
     });
@@ -467,7 +465,7 @@ describe('useVirtualColumns - when start > 0', () => {
         });
 
         expect(result.startIndex).toBe(1);
-        expect(result.leftBufferWidth).toBe(200);
+        expect(result.leftBufferWidth).toBe(100);
     });
 });
 

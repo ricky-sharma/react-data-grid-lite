@@ -184,13 +184,13 @@ export function getMoveStatus(direction, column, columns, enableColumnDrag, enab
     const isRight = enableRtl ? direction !== 'right' : direction === 'right';
 
     const limit = isRight
-        ? Math.max(...columns.map(col => col.displayIndex))
-        : Math.min(...columns.map(col => col.displayIndex));
+        ? Math.max(...columns?.map(col => col.displayIndex) || [])
+        : Math.min(...columns?.map(col => col.displayIndex) || []);
 
     let targetIndex = isRight ? currentIndex + 1 : currentIndex - 1;
 
     while (isRight ? targetIndex <= limit : targetIndex >= limit) {
-        const candidate = columns.find(col => col.displayIndex === targetIndex);
+        const candidate = columns?.find(col => col.displayIndex === targetIndex);
         if (!candidate) {
             targetIndex = isRight ? targetIndex + 1 : targetIndex - 1;
             continue;

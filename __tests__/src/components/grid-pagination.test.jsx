@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { GridConfigContext } from '../../../src/context/grid-config-context';
 import { useWindowWidth } from '../../../src/hooks/use-window-width';
@@ -55,28 +55,28 @@ describe('GridPagination', () => {
         expect(nextButton.parentElement).toHaveClass('disabled');
     });
 
-    it('calls onPrevButtonClick when prev is clicked', () => {
+    it('calls onPrevButtonClick when prev is clicked', async () => {
         const onPrev = jest.fn();
         renderWithProvider(<GridPagination onPrevButtonClick={onPrev} />);
         const prevButton = screen.getAllByRole('link')[0];
         fireEvent.click(prevButton);
-        expect(onPrev).toHaveBeenCalled();
+        await waitFor(() => { expect(onPrev).toHaveBeenCalled(); });
     });
 
-    it('calls onNextButtonClick when next is clicked', () => {
+    it('calls onNextButtonClick when next is clicked', async () => {
         const onNext = jest.fn();
         renderWithProvider(<GridPagination onNextButtonClick={onNext} />);
         const links = screen.getAllByRole('link');
         const nextButton = links[links.length - 1];
         fireEvent.click(nextButton);
-        expect(onNext).toHaveBeenCalled();
+        await waitFor(() => { expect(onNext).toHaveBeenCalled(); });
     });
 
-    it('calls onPageChange when a page number is clicked', () => {
+    it('calls onPageChange when a page number is clicked', async () => {
         const onPageChange = jest.fn();
         renderWithProvider(<GridPagination onPageChange={onPageChange} />);
         fireEvent.click(screen.getByText('1'));
-        expect(onPageChange).toHaveBeenCalledWith(expect.anything(), 1);
+        await waitFor(() => { expect(onPageChange).toHaveBeenCalledWith(expect.anything(), 1); });
     });
 
     it('shows extra left and right numbers when applicable', () => {
@@ -122,32 +122,32 @@ describe('GridPagination Functional Tests', () => {
         jest.clearAllMocks();
     });
 
-    it('triggers onPageChange with page - 2 on left dots click', () => {
+    it('triggers onPageChange with page - 2 on left dots click', async () => {
         renderWithProvider(<GridPagination {...baseProps} />);
         const leftDots = screen.getAllByText('..')[0];
         fireEvent.click(leftDots);
-        expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 1);
+        await waitFor(() => { expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 1); });
     });
 
-    it('triggers onPageChange with 3 on thirdPage item (when page is 1)', () => {
+    it('triggers onPageChange with 3 on thirdPage item (when page is 1)', async () => {
         renderWithProvider(<GridPagination {...baseProps} />, { activePage: 1 });
         const thirdPage = screen.getByText('3');
         fireEvent.click(thirdPage);
-        expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3);
+        await waitFor(() => { expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3); });
     });
 
-    it('triggers onPageChange with total - 2 on thirdLast (when page is last)', () => {
+    it('triggers onPageChange with total - 2 on thirdLast (when page is last)', async () => {
         renderWithProvider(<GridPagination {...baseProps} />, { activePage: 5 });
         const thirdLast = screen.getByText('3');
         fireEvent.click(thirdLast);
-        expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3);
+        await waitFor(() => { expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 3); });
     });
 
-    it('triggers onPageChange with page + 2 on right dots click', () => {
+    it('triggers onPageChange with page + 2 on right dots click', async () => {
         renderWithProvider(<GridPagination {...baseProps} />);
         const rightDots = screen.getAllByText('..')[1];
         fireEvent.click(rightDots);
-        expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 5);
+        await waitFor(() => { expect(baseProps.onPageChange).toHaveBeenCalledWith(expect.anything(), 5); });
     });
 
     it('disables prev button on first page', () => {
@@ -166,17 +166,17 @@ describe('GridPagination Functional Tests', () => {
         expect(parent).toHaveClass('disabled');
     });
 
-    it('calls onPrevButtonClick when prev is clicked and not disabled', () => {
+    it('calls onPrevButtonClick when prev is clicked and not disabled', async () => {
         renderWithProvider(<GridPagination {...baseProps} />, { activePage: 3 });
         const prev = screen.getByLabelText('Previous Page');
         fireEvent.click(prev.firstChild);
-        expect(baseProps.onPrevButtonClick).toHaveBeenCalled();
+        await waitFor(() => { expect(baseProps.onPrevButtonClick).toHaveBeenCalled(); });
     });
 
-    it('calls onNextButtonClick when next is clicked and not disabled', () => {
+    it('calls onNextButtonClick when next is clicked and not disabled', async () => {
         renderWithProvider(<GridPagination {...baseProps} />, { activePage: 3 });
         const next = screen.getByLabelText('Next Page');
         fireEvent.click(next.firstChild);
-        expect(baseProps.onNextButtonClick).toHaveBeenCalled();
+        await waitFor(() => { expect(baseProps.onNextButtonClick).toHaveBeenCalled(); });
     });
 });

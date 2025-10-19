@@ -36,7 +36,7 @@ describe('eventGridHeaderClicked', () => {
         mockState.columns = [{ name: 'name' }, { name: 'age' }]
         eventGridHeaderClicked(['name', 'age'], mockState, mockSetState, 'name');
         await waitFor(() => {
-            expect(dynamicSort).toHaveBeenCalledWith('-name', '-age');
+            expect(dynamicSort).toHaveBeenCalledWith({}, '-name', '-age');
             expect(mockState.columns[0].sortOrder).toBe('desc');
         });
     });

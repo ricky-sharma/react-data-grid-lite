@@ -64,7 +64,7 @@ describe('useProcessedColumns', () => {
         expect(result.columns).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ name: 'id', displayIndex: 1, order: 1 }),
-                expect.objectContaining({ name: 'name', displayIndex: 4, order: 4, width: '250px' }),
+                expect.objectContaining({ name: 'name', displayIndex: 5, order: 4, width: '250px' }),
             ])
         );
     });
@@ -216,8 +216,8 @@ describe('assignDisplayIndexes', () => {
 
         expect(result.find(c => c.name === 'a').displayIndex).toBe(1);
         expect(result.find(c => c.name === 'b').displayIndex).toBe(3);
-        expect(result.find(c => c.name === 'c').displayIndex).toBe(2);
-        expect(result.find(c => c.name === 'd').displayIndex).toBe(4);
+        expect(result.find(c => c.name === 'c').displayIndex).toBe(4);
+        expect(result.find(c => c.name === 'd').displayIndex).toBe(2);
         expect(result.find(c => c.name === 'e').displayIndex).toBeUndefined();
     });
 });

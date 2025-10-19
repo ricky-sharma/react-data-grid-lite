@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-/* eslint-disable react/prop-types */
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import React, { act, useRef, useState } from 'react';
 import { Button_Column_Key } from '../../../src/constants';
@@ -35,6 +34,7 @@ describe('useResizableTableColumns', () => {
 
     const TestTable = ({ onColumnResized, initialWidths }) => {
         const tableRef = useRef(null);
+        const isResizingRef = useRef(true);
         const [state, setState] = useState({
             columns: [
                 { name: 'Name', resizable: true },
@@ -46,25 +46,29 @@ describe('useResizableTableColumns', () => {
         });
         const computedRef = useRef(initialWidths);
 
-        useResizableTableColumns(tableRef, state, setState, computedRef, true);
+        useResizableTableColumns(tableRef, state, setState, computedRef, isResizingRef);
 
         return (
-            <table ref={tableRef}>
-                <thead>
-                    <tr>
-                        <th data-column-name="Name" style={{ width: '100px' }}>Name</th>
-                        <th data-column-name="Age" style={{ width: '100px' }}>Age</th>
-                        <th data-column-name="Address" style={{ width: '100px' }}>Address</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Name</td>
-                        <td>Age</td>
-                        <td>Address</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id="test-grid-id">
+                <div className="react-data-grid-lite">
+                    <table ref={tableRef}>
+                        <thead>
+                            <tr>
+                                <th data-column-name="Name" style={{ width: '100px' }}>Name</th>
+                                <th data-column-name="Age" style={{ width: '100px' }}>Age</th>
+                                <th data-column-name="Address" style={{ width: '100px' }}>Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>Age</td>
+                                <td>Address</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         );
     };
 
@@ -134,6 +138,7 @@ describe('More tests for useResizableTableColumns', () => {
 
     const MockTable = ({ initialWidth = 100, resizable = true, onColumnResized }) => {
         const tableRef = useRef(null);
+        const isResizingRef = useRef(true);
         const compColWidthsRef = useRef([{ name: 'Name', width: `${initialWidth}px`, leftPosition: '0px' }]);
         const [state, setState] = useState({
             columns: [{ name: 'Name', width: `${initialWidth}px`, resizable }],
@@ -141,21 +146,25 @@ describe('More tests for useResizableTableColumns', () => {
             gridID: 'test-grid-id'
         });
 
-        useResizableTableColumns(tableRef, state, setState, compColWidthsRef, true);
+        useResizableTableColumns(tableRef, state, setState, compColWidthsRef, isResizingRef);
 
         return (
-            <table ref={tableRef}>
-                <thead>
-                    <tr>
-                        <th data-column-name="Name" style={{ width: `${initialWidth}px` }}>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Name Value</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id="test-grid-id">
+                <div className="react-data-grid-lite">
+                    <table ref={tableRef}>
+                        <thead>
+                            <tr>
+                                <th data-column-name="Name" style={{ width: `${initialWidth}px` }}>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Name Value</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         );
     };
 
@@ -217,32 +226,38 @@ describe('More tests for useResizableTableColumns', () => {
 });
 
 describe('useResizableTableColumns null/crash safety', () => {
-    function TestComponent({ state = {}, enableColumnResize = true }) {
+    function TestComponent({ state = {} }) {
         const tableRef = useRef(null);
+        const isResizingRef = useRef(true);
         const compColWidthsRef = useRef([]);
         const [gridState, setGridState] = useState(state);
 
-        useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, enableColumnResize);
+        useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, isResizingRef);
 
         return (
-            <table ref={tableRef}>
-                <thead>
-                    <tr>
-                        <th data-column-name="name">Name</th>
-                        <th data-column-name="age">Age</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Alice</td><td>30</td></tr>
-                </tbody>
-            </table>
+            <div id="test-grid-id">
+                <div className="react-data-grid-lite">
+                    <table ref={tableRef}>
+                        <thead>
+                            <tr>
+                                <th data-column-name="name">Name</th>
+                                <th data-column-name="age">Age</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Alice</td><td>30</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         );
     }
 
     it('does not crash when tableRef is null', () => {
         function NullRefComponent() {
-            const [state] = useState({});
-            useResizableTableColumns(null, state, jest.fn(), { current: [] }, true);
+            const [state] = useState({ gridID: 'test-grid-id', });
+            const isResizingRef = useRef(true);
+            useResizableTableColumns(null, state, jest.fn(), { current: [] }, isResizingRef);
             return <div>Safe</div>;
         }
 
@@ -253,10 +268,11 @@ describe('useResizableTableColumns null/crash safety', () => {
     it('does not crash when thead or th is missing', () => {
         function NoTheadComponent() {
             const tableRef = useRef(null);
-            const [state] = useState({});
+            const isResizingRef = useRef(true);
+            const [state] = useState({ gridID: 'test-grid-id', });
             const compColWidthsRef = useRef([]);
 
-            useResizableTableColumns(tableRef, state, jest.fn(), compColWidthsRef, true);
+            useResizableTableColumns(tableRef, state, jest.fn(), compColWidthsRef, isResizingRef);
 
             return <table ref={tableRef}></table>;
         }
@@ -267,6 +283,7 @@ describe('useResizableTableColumns null/crash safety', () => {
 
     it('does not crash when columns are missing in state', () => {
         const badState = {
+            gridID: 'test-grid-id',
             columns: null
         };
 
@@ -276,6 +293,7 @@ describe('useResizableTableColumns null/crash safety', () => {
 
     it('does not call onColumnResized if not provided', () => {
         const state = {
+            gridID: 'test-grid-id',
             columns: [{ name: 'name', resizable: true }, { name: 'age', resizable: true }]
         };
 
@@ -286,25 +304,31 @@ describe('useResizableTableColumns null/crash safety', () => {
     it('does not crash when touch event has null/undefined touches', () => {
         const tableRef = React.createRef();
         const state = {
+            gridID: 'test-grid-id',
             columns: [{ name: 'name', resizable: true }]
         };
 
         function TouchComponent() {
             const compColWidthsRef = useRef([]);
+            const isResizingRef = useRef(true);
             const [gridState, setGridState] = useState(state);
-            useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, true);
+            useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead>
-                        <tr>
-                            <th data-column-name="name">Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Alice</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr>
+                                    <th data-column-name="name">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Alice</td></tr>
+                            </tbody>
+                        </table>
+                    </div >
+                </div >
             );
         }
 
@@ -325,25 +349,31 @@ describe('useResizableTableColumns null/crash safety', () => {
     it('does not crash when changedTouches is undefined in touchend', () => {
         const tableRef = React.createRef();
         const state = {
+            gridID: 'test-grid-id',
             columns: [{ name: 'name', resizable: true }]
         };
 
         function TouchEndComponent() {
             const compColWidthsRef = useRef([]);
+            const isResizingRef = useRef(true);
             const [gridState, setGridState] = useState(state);
-            useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, true);
+            useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead>
-                        <tr>
-                            <th data-column-name="name">Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Alice</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr>
+                                    <th data-column-name="name">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Alice</td></tr>
+                            </tbody>
+                        </table>
+                    </div >
+                </div >
             );
         }
 
@@ -368,24 +398,30 @@ describe('useResizableTableColumns null/crash safety', () => {
     it('does not crash when e.touches is not an array', () => {
         const tableRef = React.createRef();
         const state = {
+            gridID: 'test-grid-id',
             columns: [{ name: 'name', resizable: true }]
         };
         function TouchNotArrayComponent() {
             const compColWidthsRef = useRef([]);
+            const isResizingRef = useRef(true);
             const [gridState, setGridState] = useState(state);
-            useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, true);
+            useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead>
-                        <tr>
-                            <th data-column-name="name">Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Alice</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr>
+                                    <th data-column-name="name">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Alice</td></tr>
+                            </tbody>
+                        </table>
+                    </div >
+                </div >
             );
         }
 
@@ -406,79 +442,97 @@ describe('useResizableTableColumns null/crash safety', () => {
         const tableRef = React.createRef();
 
         function NoHeaderRowsComponent() {
+            const isResizingRef = useRef(true);
             const [state, setState] = useState({
+                gridID: 'test-grid-id',
                 columns: [{ name: 'test', resizable: true }],
             });
             const compColWidthsRef = useRef([]);
-            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, true);
+            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead></thead>
-                    <tbody>
-                        <tr><td>1</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead></thead>
+                            <tbody>
+                                <tr><td>1</td></tr>
+                            </tbody>
+                        </table>
+                    </div >
+                </div >
             );
         }
 
         const { container } = render(<NoHeaderRowsComponent />);
-        expect(container.querySelector('div')).toBeNull();
+        expect(container.querySelector('thead tr')).toBeNull();
     });
 
     it('returns early if first <tr> has no <th>', () => {
         const tableRef = React.createRef();
 
         function NoHeaderCellsComponent() {
+            const isResizingRef = useRef(true);
             const [state, setState] = useState({
+                gridID: 'test-grid-id',
                 columns: [{ name: 'test', resizable: true }],
             });
             const compColWidthsRef = useRef([]);
-            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, true);
+            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead>
-                        <tr></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>1</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td></tr>
+                            </tbody>
+                        </table>
+                    </div >
+                </div >
             );
         }
 
         const { container } = render(<NoHeaderCellsComponent />);
-        expect(container.querySelector('div')).toBeNull();
+        expect(container.querySelector('tr th')).toBeNull();
     });
 
     it('skips processing if <th> already in WeakSet', () => {
         const tableRef = React.createRef();
 
         function AlreadyProcessedThComponent() {
+            const isResizingRef = useRef(true);
             const [state, setState] = useState({
+                gridID: 'test-grid-id',
                 columns: [{ name: 'test', resizable: true }],
             });
             const compColWidthsRef = useRef([]);
-            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, true);
+            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead>
-                        <tr>
-                            <th style={{ position: 'static' }} data-column-name="test">Test</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>1</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr>
+                                    <th style={{ position: 'static' }} data-column-name="test">Test</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td></tr>
+                            </tbody>
+                        </table>
+                    </div >
+                </div >
             );
         }
 
         const { container } = render(<AlreadyProcessedThComponent />);
-        const resizers = container.querySelectorAll('div');
-        expect(resizers.length).toBeLessThanOrEqual(1); // only one resizer, not duplicated
+        const resizers = container.querySelectorAll('tr th div');
+        expect(resizers.length).toBeLessThanOrEqual(1);
     });
 
 });
@@ -486,35 +540,38 @@ describe('useResizableTableColumns null/crash safety', () => {
 describe('Additional tests for useResizableTableColumns', () => {
     const DummyTable = ({ state, setState, compColWidthsRef, isResizingRef, enableColumnResize }) => {
         const tableRef = useRef();
-
         useResizableTableColumns(tableRef, state, setState, compColWidthsRef, enableColumnResize, isResizingRef);
 
         return (
-            <table ref={tableRef} id={state.gridID}>
-                <thead>
-                    <tr>
-                        <th data-column-name="Name">Name</th>
-                        <th data-column-name="Age">Age</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Alice</td>
-                        <td>30</td>
-                        <td>
-                            <button>Edit</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Bob</td>
-                        <td>25</td>
-                        <td>
-                            <button>Edit</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id={state.gridID}>
+                <div className="react-data-grid-lite">
+                    <table ref={tableRef} >
+                        <thead>
+                            <tr>
+                                <th data-column-name="Name">Name</th>
+                                <th data-column-name="Age">Age</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alice</td>
+                                <td>30</td>
+                                <td>
+                                    <button>Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bob</td>
+                                <td>25</td>
+                                <td>
+                                    <button>Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div >
+            </div >
         );
     };
 
@@ -537,7 +594,6 @@ describe('Additional tests for useResizableTableColumns', () => {
                 setState={setState}
                 compColWidthsRef={compColWidthsRef}
                 isResizingRef={isResizingRef}
-                enableColumnResize={true}
             />
         );
 
@@ -574,7 +630,6 @@ describe('Additional tests for useResizableTableColumns', () => {
                 setState={setState}
                 compColWidthsRef={compColWidthsRef}
                 isResizingRef={isResizingRef}
-                enableColumnResize={true}
             />
         );
 
@@ -623,7 +678,6 @@ describe('Additional tests for useResizableTableColumns', () => {
                 setState={setState}
                 compColWidthsRef={compColWidthsRef}
                 isResizingRef={isResizingRef}
-                enableColumnResize={true}
             />
         );
 
@@ -686,7 +740,6 @@ describe('Additional tests for useResizableTableColumns', () => {
                 setState={setState}
                 compColWidthsRef={compColWidthsRef}
                 isResizingRef={isResizingRef}
-                enableColumnResize={true}
             />
         );
 
@@ -734,21 +787,27 @@ describe('Additional tests for useResizableTableColumns', () => {
         const tableRef = React.createRef();
 
         function NoThComponent() {
+            const isResizingRef = useRef(true);
             const [state, setState] = useState({
+                gridID: 'test-grid-id',
                 columns: [{ name: 'test', resizable: true }],
             });
             const compColWidthsRef = useRef([]);
-            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, true);
+            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead>
-                        <tr />
-                    </thead>
-                    <tbody>
-                        <tr><td>1</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr />
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             );
         }
 
@@ -761,24 +820,30 @@ describe('Additional tests for useResizableTableColumns', () => {
         const tableRef = React.createRef();
 
         function AlreadyProcessedComponent() {
+            const isResizingRef = useRef(true);
             const [state, setState] = useState({
+                gridID: 'test-grid-id',
                 columns: [{ name: 'test', resizable: true }],
             });
 
             const compColWidthsRef = useRef([]);
-            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, true);
+            useResizableTableColumns(tableRef, state, setState, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead>
-                        <tr>
-                            <th data-column-name="test">Test</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Value</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr>
+                                    <th data-column-name="test">Test</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Value</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             );
         }
 
@@ -800,20 +865,25 @@ describe('Additional tests for useResizableTableColumns', () => {
         };
 
         function ReusableTable({ state }) {
+            const isResizingRef = useRef(true);
             const [gridState, setGridState] = useState(state);
-            useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, true);
+            useResizableTableColumns(tableRef, gridState, setGridState, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead>
-                        <tr>
-                            <th data-column-name="Name" style={{ width: '100px' }}>Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Alice</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr>
+                                    <th data-column-name="Name" style={{ width: '100px' }}>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Alice</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             );
         }
 
@@ -829,13 +899,12 @@ describe('Additional tests for useResizableTableColumns', () => {
 
 describe('useResizableTableColumns - pointer: coarse', () => {
     beforeAll(() => {
-        // Mock matchMedia before tests
         window.matchMedia = jest.fn().mockImplementation(query => {
             return {
-                matches: query === '(pointer: coarse)',  // true only for this query
+                matches: query === '(pointer: coarse)',
                 media: query,
                 onchange: null,
-                addListener: jest.fn(), // deprecated, but some libs use it
+                addListener: jest.fn(),
                 removeListener: jest.fn(),
                 addEventListener: jest.fn(),
                 removeEventListener: jest.fn(),
@@ -857,19 +926,24 @@ describe('useResizableTableColumns - pointer: coarse', () => {
         };
 
         function TableComponent() {
-            useResizableTableColumns(tableRef, initialState, () => { }, compColWidthsRef, true);
+            const isResizingRef = useRef(true);
+            useResizableTableColumns(tableRef, initialState, () => { }, compColWidthsRef, isResizingRef);
 
             return (
-                <table ref={tableRef}>
-                    <thead>
-                        <tr>
-                            <th data-column-name="Name" style={{ width: '100px' }}>Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Alice</td></tr>
-                    </tbody>
-                </table>
+                <div id="test-grid-id">
+                    <div className="react-data-grid-lite">
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr>
+                                    <th data-column-name="Name" style={{ width: '100px' }}>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Alice</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             );
         }
 
