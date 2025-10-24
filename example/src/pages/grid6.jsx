@@ -14,9 +14,10 @@ export default function Grid6() {
                 name: val, alias: 'ID', width: '100px', class: "testClass"
             }
         else if (val.toLowerCase() === 'email' || val.toLowerCase() === 'website'
-            || val.toLowerCase() === 'image')
+            || val.toLowerCase() === 'image' || val.toLowerCase() === 'age')
             return {
-                name: val
+                name: val,
+                width: val.toLowerCase() === 'age' ? '150px': null
             }
         else if (val.toLowerCase() === 'firstname')
             return {

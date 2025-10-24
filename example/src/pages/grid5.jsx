@@ -27,7 +27,7 @@ export default function Grid5() {
             }
         else if (val.toLowerCase() === 'title')
             return {
-                name: val, fixed: true, width: '180px'
+                name: val, fixed: true, width: '200px'
             }
         else if (val.toLowerCase() === 'description')
             return {

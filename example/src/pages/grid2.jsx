@@ -100,17 +100,20 @@ export default function Grid2() {
             return {
                 name: val, width: '250px', cellStyle: { backgroundColor: 'silver' }
             }
-        else
+        else {
+            const colors = ['gold', 'silver', '#cd7f32'];
+            const backgroundColor = colors[index % 3];
             return {
-                name: val, width: '175px', cellStyle: { backgroundColor: 'gold' }, order:index*2
+                name: val, width: '175px', cellStyle: { backgroundColor: backgroundColor }, order: index * 2
             }
+        }
     }) : [];
 
     return (
         <ExampleBlock
             title="Row Actions and Global Search Enabled, and Actions Column left aligned"
             theme="dark-stack"
-            text="Styled Text Fields: The ID and Author fields are presented with custom styling to enhance the visual display and user experience."
+            text="Styled Text Fields: The ID, Title, and other fields are presented with custom styling to enhance the visual display and improve the user experience."
             htmlContent="<a rel='noopener noreferrer' target='_blank' href='https://github.com/ricky-sharma/react-data-grid-lite/blob/master/example/src/pages/grid2.jsx'>Complete Source Code on GitHub</a>"
 
         >

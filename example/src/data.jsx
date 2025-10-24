@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { trackPromise } from 'react-data-grid-lite';
+import { booksData } from "./books";
+import { usersData } from "./users";
 
 export const sampleData = [
     {
@@ -139,16 +141,38 @@ export const columns = [
 ];
 
 export const useFetch = (api = 'books') => {
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
+
     useEffect(() => {
-        const promise = fetch(`https://fakerapi.it/api/v2/${api}?_quantity=100`)
+        const TIMEOUT_MS = 3000;
+
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Request timed out')), TIMEOUT_MS)
+        );
+
+        const primaryFetch = fetch(`https://fakerapi.it/api/v2/${api}?_quantity=100`)
             .then(response => response.json())
-            .then(response => { setData(response.data) })
+            .then(response => {
+                if (!response?.data) throw new Error('Invalid response');
+                setData(response.data);
+            });
+
+        const promise = Promise.race([primaryFetch, timeoutPromise])
+            .catch(() => {
+                if (api === 'books') {
+                    setData(booksData);
+                    return;
+                }
+                else {
+                    setData(usersData);
+                }
+            });
+
         trackPromise(promise);
-    }, [])
+    }, [api]);
 
     return data;
-}
+};
 
 export const useFetch2 = () => {
     const [data, setData] = useState([])

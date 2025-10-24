@@ -6,16 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <br>
 
-## 📦 **v1.2.5** – Released 2025-10-24
+## 📦 v1.2.5 – Released 2025-10-24
 
-### ✨ **New Features**
+### ✨ New Features
 
 * **Transpose Rows to Columns** – Added functionality to pivot data within the grid for improved readability and side-by-side comparison.
 * **"Show All" Columns Option** – Introduced a submenu item under *Column Visibility* in the toolbar to toggle visibility of all columns at once.
 * **"Move" Column Menu Item** – Added *Move Left* and *Move Right* options in the column menu when drag-and-drop is enabled.
 * **"About" Menu Item** – Added versioning and license information for better transparency.
 
-### 🎨 **UI & UX Improvements**
+### 🎨 UI & UX Improvements
 
 * **Centered Dropdown Options** – Improved alignment and visual consistency in dropdown menus.
 * **Improved Loader Logic** – Enhanced visibility, responsiveness, and handling of edge cases.
@@ -24,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 * **Improved RTL Support** – Fixed layout and styling for right-to-left languages.
 * **Focus Outline Refinement** – Reduced border thickness from 2px → 1px for a subtler visual effect.
 
-### ⚙️ **Performance & Logic Enhancements**
+### ⚙️ Performance & Logic Enhancements
 
 * **Column Resizing Optimization**
 
@@ -34,20 +34,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 * **Refactored Conditional & Rendering Logic** – Simplified code for better readability and maintainability.
 * **Improved Menu Codebase** – Refined internal structure for column and toolbar menus.
 
-### 🧠 **Sorting Fixes & Enhancements**
+### 🧠 Sorting Fixes & Enhancements
 
 * **Improved Sorting Normalization** – Fixed incorrect sorting for *numeric*, *currency*, and *date* columns.
 * Updated `normalize()` to handle mixed and special character strings (`'0-12'`, `'col#123'`) more accurately.
 * Ensured locale-aware sorting with `Intl.Collator` for better language and number handling.
 
-### 🧪 **Testing & Maintenance**
+### 🧪 Testing & Maintenance
 
 * Updated and refined test cases to cover new grid features and edge scenarios.
 * General code refactoring, cleanup, and internal logic improvements for long-term maintainability.
 
 <br><br>
 
-## 📦 **v1.2.4** – Released 2025-09-17
+## 📦 v1.2.4 – Released 2025-09-17
 
 ### ✨ Features
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Navigate, Route, HashRouter as Router, Routes } from 'react-router-dom';
 import Navbar from './navbar';
 import Grid1 from './pages/grid1';
 import Grid2 from './pages/grid2';
@@ -22,12 +22,12 @@ function App() {
                     <Route path="/dynamic-images-grid" element={<Grid3 />} />
                     <Route path="/default-presentation" element={<Grid4 />} />
                     <Route path="/pinned-and-resizable-columns" element={<Grid5 />} />
-                    <Route path="/" element={<Grid6 />} />
                     <Route path="/column-drag-drop" element={<Grid6 />} />
+                    <Route path="/" element={<Grid6 />} />
                     <Route path="/inline-cell-editing" element={<Grid7 />} />
                     <Route path="/right-to-left" element={<Grid8 />} />
                     <Route path="/million-cells" element={<Grid9 />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
+                    <Route path="*" element={<Navigate to="/column-drag-drop" replace />} />
                 </Routes>
             </div>
         </Router>
