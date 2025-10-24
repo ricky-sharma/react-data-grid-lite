@@ -21,7 +21,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" sizes="32x32" href="https://ricky-sharma.github.io/react-data-grid-lite/favicon.png" />
 		<meta name="keywords"
-		  content="react, data grid, react table, api, free, mit-license, react data grid lite RTL, right to left support, virtualized rows columns, react infinite scroll table, react data grid performance, react table 1000 rows, react grid smooth scrolling, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination"
+		  content="react, data grid, react table, api, free, mit-license, react data grid lite RTL, right to left support, virtualized rows columns, react infinite scroll table, react data grid performance, react table 1000 rows, react grid smooth scrolling, semantic-search, ai-search, openai-api, examples, react component, react-ai-table, fast, lightweight, sorting, grid-component, reactjs, datagrid, filtering, react-table, tabledata, customizable-grids, easy-to-use-grid, reactdatagrid, data-grid-lite, react-data-grid-lite, column-search, responsive-data-grid, react-searchable-grid, small-bundle-size, table-with-pagination, transpose, pivot"
     />
 		<meta name="author" content="Vinay Sharma (ricky-sharma)" />
 		<link rel="canonical" href="https://ricky-sharma.github.io/react-data-grid-lite/changelog.html" />
@@ -60,7 +60,7 @@
     />
 		<!-- google site verification -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-		<link href="index.css?ver=1758208093944" rel="stylesheet" />
+		<link href="index.css?ver=1761308042631" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
 		<style>
@@ -103,8 +103,8 @@
 			React Data Grid Lite
 		</a>
 		<div class="inline-block w-fit">
-			<span class="text-[12px] font-bold text-orange-500 hover:bg-gray-200 hover:text-orange-600 bg-gray-100 px-1 py-0.5 rounded-md border border-gray-200">
-				v1.2.4
+			<span class="text-[12px] font-bold text-orange-500 hover:bg-gray-200 hover:text-orange-600 bg-gray-100 px-1 pt-[0.06rem] pb-[0.1rem] rounded-md border border-gray-200">
+				v1.2.5
 			</span>
 		</div>
 	</div>
@@ -238,7 +238,7 @@
 						   
    class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
-							Live Demo
+							Live Demo⚡
 						</a>						
 					</li>
 					
@@ -251,7 +251,7 @@
 						   
    class="text-gray-600 font-medium py-2 rounded transition duration-200 ease-in-out hover:text-blue-600 aria-[current=page]:text-slate-950 aria-[current=page]:font-bold active:text-slate-950"
 						   >
-							Download
+							Download 📥
 						</a>						
 					</li>
 					
@@ -503,6 +503,52 @@
 						<p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,  and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <br>
+<h2>📦 v1.2.5 – Released 2025-10-24</h2>
+<h3>✨ New Features</h3>
+<ul>
+<li><strong>Transpose Rows to Columns</strong> – Added functionality to pivot data within the grid for improved readability and side-by-side comparison.</li>
+<li><strong>&quot;Show All&quot; Columns Option</strong> – Introduced a submenu item under <em>Column Visibility</em> in the toolbar to toggle visibility of all columns at once.</li>
+<li><strong>&quot;Move&quot; Column Menu Item</strong> – Added <em>Move Left</em> and <em>Move Right</em> options in the column menu when drag-and-drop is enabled.</li>
+<li><strong>&quot;About&quot; Menu Item</strong> – Added versioning and license information for better transparency.</li>
+</ul>
+<h3>🎨 UI &amp; UX Improvements</h3>
+<ul>
+<li><strong>Centered Dropdown Options</strong> – Improved alignment and visual consistency in dropdown menus.</li>
+<li><strong>Improved Loader Logic</strong> – Enhanced visibility, responsiveness, and handling of edge cases.</li>
+<li><strong>Submenu Enhancements</strong> – Added delayed closing and improved responsiveness for smoother interactions.</li>
+<li><strong>Polished Grid UI</strong> – General refinements to layout, resizing handles, and menu interactions for a cleaner look and feel.</li>
+<li><strong>Improved RTL Support</strong> – Fixed layout and styling for right-to-left languages.</li>
+<li><strong>Focus Outline Refinement</strong> – Reduced border thickness from 2px → 1px for a subtler visual effect.</li>
+</ul>
+<h3>⚙️ Performance &amp; Logic Enhancements</h3>
+<ul>
+<li>
+<p><strong>Column Resizing Optimization</strong></p>
+<ul>
+<li>Tracks the resizing column using <code>th[data-column-name]</code> for precise updates.</li>
+<li>Refactored <code>updateColumnWidth()</code> to eliminate <code>findIndex()</code> calls.</li>
+<li>Reduced DOM lookups in <code>onMouseMove()</code> for better performance.</li>
+</ul>
+</li>
+<li>
+<p><strong>Refactored Conditional &amp; Rendering Logic</strong> – Simplified code for better readability and maintainability.</p>
+</li>
+<li>
+<p><strong>Improved Menu Codebase</strong> – Refined internal structure for column and toolbar menus.</p>
+</li>
+</ul>
+<h3>🧠 Sorting Fixes &amp; Enhancements</h3>
+<ul>
+<li><strong>Improved Sorting Normalization</strong> – Fixed incorrect sorting for <em>numeric</em>, <em>currency</em>, and <em>date</em> columns.</li>
+<li>Updated <code>normalize()</code> to handle mixed and special character strings (<code>'0-12'</code>, <code>'col#123'</code>) more accurately.</li>
+<li>Ensured locale-aware sorting with <code>Intl.Collator</code> for better language and number handling.</li>
+</ul>
+<h3>🧪 Testing &amp; Maintenance</h3>
+<ul>
+<li>Updated and refined test cases to cover new grid features and edge scenarios.</li>
+<li>General code refactoring, cleanup, and internal logic improvements for long-term maintainability.</li>
+</ul>
+<p><br><br></p>
 <h2>📦 v1.2.4 – Released 2025-09-17</h2>
 <h3>✨ Features</h3>
 <ul>
