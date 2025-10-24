@@ -6,7 +6,7 @@ import BoxIcon from '../icons/box-icon';
 import CheckboxIcon from '../icons/checkbox-icon';
 import DownloadIcon from '../icons/download-icon';
 import EraseIcon from '../icons/erase-icon';
-import HideViewIcon from '../icons/hideview-Icon';
+import HideViewIcon from '../icons/hideview-icon';
 import InfoIcon from '../icons/info-icon';
 import TransposeIcon from '../icons/transpose-icon';
 import { hideLoader, showLoader } from '../utils/loading-utils';

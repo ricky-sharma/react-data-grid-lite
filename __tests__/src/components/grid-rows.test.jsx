@@ -25,14 +25,42 @@ jest.mock('./../../../src/components/grid-edit/editable-cell-fields', () => (pro
     );
 });
 
+jest.mock('./../../../src/hooks/use-virtual-columns');
+jest.mock('./../../../src/hooks/use-virtual-rows');
+
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React, { useRef, useState } from 'react';
 import { GridConfigContext } from '../../../src/context/grid-config-context';
 import GridRows from './../../../src/components/grid-rows';
+import * as virtualColumnsHook from './../../../src/hooks/use-virtual-columns';
+import * as virtualRowsHook from './../../../src/hooks/use-virtual-rows';
+
+
 
 beforeEach(() => {
     cleanup();
     jest.clearAllMocks();
+});
+
+beforeEach(() => {
+    virtualRowsHook.useVirtualRows.mockReturnValue({
+        visibleRows: [
+            { name: 'Alice', age: 25 },
+            { name: 'Bob', age: 30 }
+        ],
+        startIndex:0,
+        topPaddingHeight: 10,
+        bottomPaddingHeight: 20,
+    });
+
+    virtualColumnsHook.useVirtualColumns.mockReturnValue({
+        visibleColumns: [
+            { name: 'name', fixed: true, concatColumns: ["name", "age"] },
+            { name: 'age', resizable: true }
+        ],
+        leftBufferWidth: 10,
+        rightBufferWidth: 20,
+    });
 });
 
 describe('GridRows', () => {
@@ -101,7 +129,9 @@ describe('GridRows', () => {
             const [state] = useState({
                 ...defaultProps,
                 onRowClick,
-                rowClickEnabled: true
+                rowClickEnabled: true,
+                enableVirtualRows: true,
+                enableVirtualColumns: true
             });
 
             const ref = useRef(null);

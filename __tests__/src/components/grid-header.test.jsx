@@ -3,6 +3,10 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React, { useRef, useState } from 'react';
 import GridHeader from './../../../src/components/grid-header';
 
+import * as virtualColumnsHook from './../../../src/hooks/use-virtual-columns';
+
+jest.mock('./../../../src/hooks/use-virtual-columns');
+
 describe('GridHeader Component', () => {
     const columnWidths = [null, null];
     const columnWidth = ['100px'];
@@ -14,6 +18,17 @@ describe('GridHeader Component', () => {
     beforeEach(() => {
         cleanup();
         jest.clearAllMocks();
+    });
+
+    beforeEach(() => {
+        virtualColumnsHook.useVirtualColumns.mockReturnValue({
+            visibleColumns: [{
+                name: 'Name', alias: 'Full Name', enableSearch: true,
+                resizable: true, fixed: true, sortable: true, draggable: true
+            }],
+            leftBufferWidth: 10,
+            rightBufferWidth: 20,
+        });
     });
 
     it('renders column headers correctly', () => {
@@ -50,16 +65,24 @@ describe('GridHeader Component', () => {
     });
 
     it('toggles search row visibility based on enableColumnSearch', () => {
-        let columns = [{ name: 'Name', alias: 'Full Name', enableSearch: true, resizable: true, fixed: true }];
+        let columns = [{
+            name: 'Name', alias: 'Full Name', enableSearch: true,
+            resizable: true, fixed: true, sortable: true, draggable: true
+        }];
         const TableComponent = () => {
+            const tableRef = useRef(null);
+            const ref = useRef(null);
             const [state] = useState({
                 columns: columns,
                 columnWidths: columnWidth,
-                enableColumnSearch: true
+                enableColumnSearch: true,
+                enableVirtualColumns: true
             });
-            return (<table>
+            return (<table ref={tableRef}>
                 <GridHeader
                     state={state}
+                    tableRef={tableRef}
+                    computedColumnWidthsRef={ref}
                 />
             </table>);
         }

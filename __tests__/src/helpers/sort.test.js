@@ -22,7 +22,7 @@ describe('dynamicSort', () => {
             { age: 25 },
             { age: 40 }
         ];
-        data.sort(dynamicSort({ age: 'string' }, 'age'));
+        data.sort(dynamicSort({ age: 'number' }, 'age'));
         expect(data.map(d => d.age)).toEqual([25, 32, 40]);
     });
 
@@ -206,5 +206,157 @@ describe('More dynamicSort tests', () => {
         const sorted = [...items].sort(dynamicSort({ key: 'string' }, 'key'));
 
         expect(sorted.map(i => i.key)).toEqual([['alpha'], 'MIDDLE', '  Zebra!@#  ']);
+    });
+
+    it('sorts mixed types (number, string, null) with type "number"', () => {
+        const data = [
+            { value: 100 },
+            { value: '50' },
+            { value: null },
+            { value: 'banana' }
+        ];
+        const sorted = [...data].sort(dynamicSort({ value: 'number' }, 'value'));
+        expect(sorted.map(d => d.value)).toEqual([null, '50', 100, 'banana']);
+    });
+
+    it('sorts using fallback normalization when columnTypes is missing field', () => {
+        const data = [
+            { mystery: 'B' },
+            { mystery: 'a' },
+            { mystery: null }
+        ];
+        const sorted = [...data].sort(dynamicSort({}, 'mystery'));
+        expect(sorted.map(d => d.mystery)).toEqual([null, 'a', 'B']);
+    });
+
+    it('handles missing fields in some objects', () => {
+        const data = [
+            { name: 'Alice' },
+            { name: 'Bob', age: 30 },
+            { age: 25 }
+        ];
+        const sorted = [...data].sort(dynamicSort({ age: 'number' }, 'age'));
+        expect(sorted.map(d => d.age)).toEqual([undefined, 25, 30]);
+    });
+
+    it('sorts strings with accents correctly', () => {
+        const data = [
+            { name: 'Émile' },
+            { name: 'André' },
+            { name: 'Zoë' },
+        ];
+        const sorted = [...data].sort(dynamicSort({ name: 'string' }, 'name'));
+        expect(sorted.map(d => d.name)).toEqual(['André', 'Émile', 'Zoë']);
+    });
+
+    it('sorts mixed-format currency strings correctly', () => {
+        const data = [
+            { price: '€2.000,50' },
+            { price: '$1,000.75' },
+            { price: '£1.000,25' },
+            { price: '₹3000.00' }
+        ];
+        const sorted = [...data].sort(dynamicSort({ price: 'currency' }, 'price'));
+        expect(sorted.map(d => d.price)).toContain('₹3000.00');
+    });
+
+    it('sorts large datasets quickly', () => {
+        const largeArray = Array.from({ length: 10000 }, (_, i) => ({
+            value: Math.floor(Math.random() * 10000).toString()
+        }));
+        const start = Date.now();
+        largeArray.sort(dynamicSort({ value: 'number' }, 'value'));
+        const duration = Date.now() - start;
+        expect(duration).toBeLessThan(1500);
+    });
+
+    it('returns number directly when type is "number" and value is a number', () => {
+        const data = [
+            { value: 42 },
+            { value: 7 },
+            { value: 100 }
+        ];
+        const sorter = dynamicSort({ value: 'number1' }, 'value');
+        const result = [...data].sort(sorter);
+
+        expect(result.map(d => d.value)).toEqual([7, 42, 100]);
+    });
+
+    it('returns timestamp directly when type is "date" and value is a Date object', () => {
+        const date1 = new Date('2020-01-01');
+        const date2 = new Date('2021-01-01');
+        const date3 = new Date('2022-01-01');
+
+        const data = [
+            { createdAt: date2 },
+            { createdAt: date1 },
+            { createdAt: date3 },
+        ];
+
+        const sorted = [...data].sort(dynamicSort({ createdAt: 'date1' }, 'createdAt'));
+
+        expect(sorted.map(d => d.createdAt)).toEqual([date1, date2, date3]);
+    });
+
+    it('falls back to localeCompare when Intl.Collator is not available', () => {
+        const originalCollator = Intl.Collator;
+        Intl.Collator = undefined;
+
+        const data = [
+            { name: 'zebra' },
+            { name: 'apple' },
+        ];
+
+        const sorted = [...data].sort(dynamicSort({ name: 'string' }, 'name'));
+
+        expect(sorted.map(d => d.name)).toEqual(['apple', 'zebra']);
+
+        Intl.Collator = originalCollator;
+    });
+
+    it('returns original value for invalid date strings', () => {
+        const data = [
+            { date: 'not-a-date' },
+            { date: 'also invalid' },
+            { date: '2021-13-01' }, // Invalid month
+        ];
+
+        const sorted = [...data].sort(dynamicSort({ date: 'date' }, 'date'));
+
+        expect(sorted.map(d => d.date)).toEqual([
+            '2021-13-01',
+            'also invalid',
+            'not-a-date',
+        ]);
+    });
+
+    it('returns original string for unparseable date', () => {
+        const columnTypes = { val: 'date' };
+        const sortFn = dynamicSort(columnTypes, 'val');
+
+        const a = { val: 'not-a-date' };
+        const b = { val: '2020-01-01' };
+
+        expect(sortFn(a, b)).toBeGreaterThan(0);
+    });
+
+    it('uses default columnTypes when not provided', () => {
+        const data = [
+            { name: 'Banana' },
+            { name: 'apple' },
+            { name: 'cherry' },
+        ];
+
+        const sorted = [...data].sort(dynamicSort(undefined, 'name'));
+        expect(sorted.map(d => d.name)).toEqual(['apple', 'Banana', 'cherry']);
+    });
+
+    it('defaults to empty columnTypes when omitted', () => {
+        const data = [
+            { value: 'B' },
+            { value: 'a' },
+        ];
+        const sorted = [...data].sort(dynamicSort(undefined, 'value'));
+        expect(sorted.map(d => d.value)).toEqual(['a', 'B']);
     });
 });

@@ -348,7 +348,7 @@ describe('GridToolBarMenu', () => {
     });
 });
 
-describe('GridToolBarMenu – Transpose action', () => {
+describe('GridToolBarMenu â€“ Transpose action', () => {
     const mockSetState = jest.fn();
     const defaultProps = {
         handleResetGrid: jest.fn(),
@@ -492,7 +492,7 @@ describe('GridToolBarMenu – Transpose action', () => {
     });
 });
 
-describe('GridToolBarMenu — Column Visibility "Show All" toggle logic', () => {
+describe('GridToolBarMenu â€” Column Visibility "Show All" toggle logic', () => {
     const mockSetState = jest.fn();
     const defaultProps = {
         handleResetGrid: jest.fn(),

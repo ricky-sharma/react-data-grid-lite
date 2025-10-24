@@ -3,7 +3,7 @@ import { capitalize, isNull } from '../helpers/common';
 import { useGridConfig } from '../hooks/use-grid-config';
 import { useMoveColumn } from '../hooks/use-move-column';
 import DownArrowIcon from '../icons/down-arrow-icon';
-import HideViewIcon from '../icons/hideview-Icon';
+import HideViewIcon from '../icons/hideview-icon';
 import LockIcon from '../icons/lock-icon';
 import MoveColumnIcon from '../icons/move-column-icon';
 import MoveColumnLeftIcon from '../icons/move-column-left-icon';
