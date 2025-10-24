@@ -105,6 +105,22 @@ const defaultProps = {
     options
 };
 
+afterEach(() => {
+    cleanup();
+    jest.clearAllMocks();
+});
+
+afterAll(() => {
+    jest.clearAllMocks();
+    cleanup();
+});
+
+afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+    jest.restoreAllMocks();
+});
+
 describe('DataGrid Component', () => {
     beforeEach(() => {
         jest.clearAllMocks();
@@ -543,9 +559,10 @@ describe('handleForwardPage and handleBackwardPage', () => {
             );
         });
         await waitForReactUpdate();
+
+        const nextButton = screen.getByLabelText('Next Page');
+        fireEvent.click(nextButton);
         await waitFor(() => {
-            const nextButton = screen.getByLabelText('Next Page');
-            fireEvent.click(nextButton);
             expect(onPageChange).toHaveBeenCalled();
             const callArgs = onPageChange.mock.calls[0];
             expect(callArgs[1]).toBe(2);
@@ -570,10 +587,11 @@ describe('handleForwardPage and handleBackwardPage', () => {
             );
         });
         await waitForReactUpdate();
-        await waitFor(() => {
-            const nextButton = screen.getByLabelText('Next Page');
 
-            fireEvent.click(nextButton);
+        const nextButton = screen.getByLabelText('Next Page');
+
+        fireEvent.click(nextButton);
+        await waitFor(() => {
             expect(onPageChange).not.toHaveBeenCalled();
         });
     });
@@ -596,9 +614,10 @@ describe('handleForwardPage and handleBackwardPage', () => {
             );
         });
         await waitForReactUpdate();
+
+        const previousButton = screen.getByLabelText('Previous Page');
+        fireEvent.click(previousButton);
         await waitFor(() => {
-            const previousButton = screen.getByLabelText('Previous Page');
-            fireEvent.click(previousButton);
             expect(onPageChange).toHaveBeenCalled();
             const callArgs = onPageChange.mock.calls[0];
             expect(callArgs[1]).toBe(1);

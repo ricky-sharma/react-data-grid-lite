@@ -4,15 +4,13 @@ import { isNull } from '../helpers/common';
 import { useDraggableColumns } from '../hooks/use-draggable-columns';
 import { useVirtualColumns } from '../hooks/use-virtual-columns';
 import { useWindowWidth } from '../hooks/use-window-width';
-import ActionIcon from '../icons/action-icon';
 import { calculateColumnWidth, tryParseValue } from "../utils/component-utils";
 import { getActionColumnStyle, getHeaderCellStyles } from '../utils/grid-style-utils';
 import { gridWidthType } from '../utils/grid-width-type-utils';
 import ColumnMenu from './column-menu';
 import ColumnSortIcon from './column-sort-icon';
-import Checkbox from './custom-fields/checkbox';
 import Input from './custom-fields/input';
-import { handleHeaderSelectAllChange } from './events/handle-header-selectall-change';
+import GridActionSelectionHeader from './grid-action-selection-header';
 
 const GridHeader = ({
     state,
@@ -51,7 +49,6 @@ const GridHeader = ({
         enableRtl,
         enableVirtualColumns
     } = state || {};
-
     const buttonColEnabled = editButtonEnabled || deleteButtonEnabled;
     const isSelectionColumnLeft = enableRowSelection === true && rowSelectColumnAlign === 'left';
     const isSelectionColumnRight = enableRowSelection === true && rowSelectColumnAlign === 'right';
@@ -199,53 +196,21 @@ const GridHeader = ({
                 }} />
         }
         else if (header === Button_Column_Key || header === Selection_Column_Key) {
-            const selectedRows = new Set(state?.selectedRows);
-            const firstRow = state?.firstRow ?? 0;
-            const lastRow = firstRow + (state?.currentPageRows ?? 0);
-            const currentPageRows = state?.rowsData?.slice(firstRow, lastRow) ?? [];
-            const isAllSelected = currentPageRows?.length > 0 ?
-                currentPageRows?.every(row => selectedRows?.has(row?.__$index__)) : false;
             return (
-                <th
-                    style={
-                        getActionColumnStyle(
-                            header,
-                            isActionColumnLeft,
-                            isActionColumnRight,
-                            isSelectionColumnLeft,
-                            isSelectionColumnRight,
-                            isMobile,
-                            enableRtl,
-                            true
-                        )
-                    }
-                    title={header === Button_Column_Key ? "Actions" : "Select all rows"}
-                    key={key}
-                    role="columnheader"
-                    aria-label={header === Button_Column_Key ? "Actions" : "Select all rows"}
-                >
-                    <div
-                        style={{
-                            width: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width,
-                            maxWidth: header === Button_Column_Key ? Button_Column_Width : Selection_Column_Width
-                        }}
-                        className={"pd--0 emptyHeader alignCenter"}
-                    > {
-                            (header === Button_Column_Key && <ActionIcon />) ||
-                            (header === Selection_Column_Key &&
-                                <Checkbox
-                                    isSelected={isAllSelected}
-                                    onChange={(e) => handleHeaderSelectAllChange(e, state, setState, onSelectAll)}
-                                />
-                            )
-                        }
-                    </div>
-                    {(isActionColumnLeft && header === Button_Column_Key)
-                        || (isSelectionColumnLeft && header === Selection_Column_Key)
-                        || (isActionColumnRight && isSelectionColumnRight && header === Selection_Column_Key) ?
-                        <span style={{ zIndex: 11 }} />
-                        : null}
-                </th>
+                <GridActionSelectionHeader
+                    key={header}
+                    keyIndex={header}
+                    header={header}
+                    state={state}
+                    setState={setState}
+                    onSelectAll={onSelectAll}
+                    isActionColumnLeft={isActionColumnLeft}
+                    isActionColumnRight={isActionColumnRight}
+                    isSelectionColumnLeft={isSelectionColumnLeft}
+                    isSelectionColumnRight={isSelectionColumnRight}
+                    isMobile={isMobile}
+                    enableRtl={enableRtl}
+                />
             );
         };
         const displayName = isNull(header?.alias) || header?.name === header?.alias
@@ -290,9 +255,19 @@ const GridHeader = ({
                 tabIndex="0"
             >
                 <div
-                    className={`pd--0 mg--0 alignCenter${sortable === true ? ' pointer' : ''}`} data-column-name={header?.name}
+                    className={`pd--0 mg--0 alignCenter${sortable === true ? ' pointer' : ''}`}
+                    data-column-name={header?.name}
                 >
-                    <div className="headerText" data-column-name={header?.name}>{displayName}</div>
+                    <div
+                        className="headerText"
+                        style={
+                            typeof header?.headerStyle === 'object' && !Array.isArray(header?.headerStyle)
+                                ? header.headerStyle
+                                : {}
+                        }
+                        data-column-name={header?.name}>
+                        {displayName}
+                    </div>
                     {sortable === true && <ColumnSortIcon columns={columns} header={header} />}
                     {showColumnMenu === true && <ColumnMenu column={header} sortable={sortable} />}
                 </div>

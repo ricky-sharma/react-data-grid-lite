@@ -5,7 +5,8 @@ import { ExampleBlock } from '../example-block';
 import './../App.css';
 
 const options = {
-    rowHeight: '70px'
+    rowHeight: '70px',
+    enableColumnResize: true
 };
 
 export default function Grid4() {

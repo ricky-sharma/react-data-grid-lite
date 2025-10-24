@@ -272,6 +272,7 @@ describe('useProcessedData hook more tests', () => {
             lastPageRows: 2,
             pageRows: null,
             columns: [{ name: 'id', sortOrder: '' }],
+            columnTypes: { id: 'string' }
         });
         const dataReceivedRef = React.useRef(null);
         const globalSearchQueryRef = React.useRef('');
@@ -340,7 +341,8 @@ describe('useProcessedData hook more tests', () => {
             expect(sortData).toHaveBeenCalledWith(
                 { name: 'id' },
                 'asc',
-                expect.any(Array)
+                expect.any(Array),
+                { id: 'string' }
             );
             const state = JSON.parse(getByTestId('state').textContent);
             expect(state.rowsData).toEqual(sortedData);

@@ -24,7 +24,7 @@ The DataGrid component is a highly customizable, feature-rich table built with R
 With built-in support for OpenAI (or other LLMs via configurable endpoints), the grid can semantically interpret user queries and return intelligent, filtered results—ideal for enhancing user experience in modern data-driven applications.
 
 
-### ✅ Key Features   
+### ✅ **Key Features**
 
 ⚡ **Lightweight** – Fast, small bundle  
 📦 **API-ready** – Plug into any JSON API  
@@ -43,6 +43,7 @@ With built-in support for OpenAI (or other LLMs via configurable endpoints), the
 🧩 **Align actions** – Left/right  
 📂 **Column menu** – Per-column sort, hide, and edit options  
 🧰 **Toolbar menu** – Compact 3-dot menu for export, reset, and more  
+🔀 **Transpose** – Instantly pivot rows into columns for dynamic data views  
 🧪 **Fully tested** – Robust unit tests  
 🌍 **RTL support** – Right-to-left layout support  
 🚀 **Virtualization** – Handles 1,000s of rows and columns efficiently  

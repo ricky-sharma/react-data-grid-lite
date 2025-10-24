@@ -25,14 +25,42 @@ jest.mock('./../../../src/components/grid-edit/editable-cell-fields', () => (pro
     );
 });
 
+jest.mock('./../../../src/hooks/use-virtual-columns');
+jest.mock('./../../../src/hooks/use-virtual-rows');
+
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React, { useRef, useState } from 'react';
 import { GridConfigContext } from '../../../src/context/grid-config-context';
 import GridRows from './../../../src/components/grid-rows';
+import * as virtualColumnsHook from './../../../src/hooks/use-virtual-columns';
+import * as virtualRowsHook from './../../../src/hooks/use-virtual-rows';
+
+
 
 beforeEach(() => {
     cleanup();
     jest.clearAllMocks();
+});
+
+beforeEach(() => {
+    virtualRowsHook.useVirtualRows.mockReturnValue({
+        visibleRows: [
+            { name: 'Alice', age: 25 },
+            { name: 'Bob', age: 30 }
+        ],
+        startIndex:0,
+        topPaddingHeight: 10,
+        bottomPaddingHeight: 20,
+    });
+
+    virtualColumnsHook.useVirtualColumns.mockReturnValue({
+        visibleColumns: [
+            { name: 'name', fixed: true, concatColumns: ["name", "age"] },
+            { name: 'age', resizable: true }
+        ],
+        leftBufferWidth: 10,
+        rightBufferWidth: 20,
+    });
 });
 
 describe('GridRows', () => {
@@ -101,7 +129,9 @@ describe('GridRows', () => {
             const [state] = useState({
                 ...defaultProps,
                 onRowClick,
-                rowClickEnabled: true
+                rowClickEnabled: true,
+                enableVirtualRows: true,
+                enableVirtualColumns: true
             });
 
             const ref = useRef(null);
@@ -284,7 +314,7 @@ describe('More tests for GridRows Component', () => {
         render(<table><tbody><GridRows state={baseState} setState={mockSetState} computedColumnWidthsRef={computedColumnWidthsRef} /></tbody></table>);
         expect(screen.getByText('Alice')).toBeInTheDocument();
         expect(screen.getByText('Bob')).toBeInTheDocument();
-        expect(screen.getAllByRole('row')).toHaveLength(4);
+        expect(screen.getAllByRole('row')).toHaveLength(2);
     });
 
     it('calls editButtonEvent on edit icon click', () => {
@@ -336,7 +366,7 @@ describe('More tests for GridRows Component', () => {
         const rows = screen.getAllByRole('row');
         fireEvent.click(rows[1]);
         jest.advanceTimersByTime(500);
-        expect(mockOnRowClick).toHaveBeenCalledWith(expect.any(Object), baseState.rowsData[0]);
+        expect(mockOnRowClick).toHaveBeenCalledWith(expect.any(Object), baseState.rowsData[1]);
         jest.useRealTimers();
     });
 

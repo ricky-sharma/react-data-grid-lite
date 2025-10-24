@@ -105,18 +105,26 @@ export const tryParseValue = (val, total = 0) => {
 
 export function formatRowData(row, columns) {
     const keyMap = {};
-    const normalizedRow = Object.fromEntries(
-        Object.entries(row).map(([k, v]) => [k?.toLowerCase(), v])
-    );
+    const normalizedRow = normalizeRowKeys(row);
     columns?.forEach((column) => {
-        const colName = column.name;
-        const valueFromRow = normalizedRow[colName?.toLowerCase()];
-        const conValue = getConcatValue(normalizedRow, column?.concatColumns);
-        const value = getFormattedValue(conValue || valueFromRow, column?.formatting);
-        keyMap[colName?.toLowerCase()] = value;
+        const value = resolveFormattedValue(normalizedRow, column);
+        keyMap[column?.name?.toLowerCase()] = value;
     });
 
     return keyMap;
+}
+
+export function resolveFormattedValue(row, column) {
+    const valueFromRow = row[column?.name?.toLowerCase()];
+    const conValue = getConcatValue(row, column?.concatColumns);
+    const value = getFormattedValue(conValue || valueFromRow, column?.formatting);
+    return value;
+}
+
+export function normalizeRowKeys(row) {
+    return Object.fromEntries(
+        Object.entries(row).map(([k, v]) => [k?.toLowerCase(), v])
+    );
 }
 
 const getConcatValue = (row, concatColumns) => {
@@ -169,4 +177,47 @@ export const resolveColumnItems = (concatType, baseType) => {
             Array.isArray(baseType?.values) ? baseType.values :
                 []
     );
+}
+
+export function getMoveStatus(direction, column, columns, enableColumnDrag, enableRtl) {
+    const currentIndex = column.displayIndex;
+    const isRight = enableRtl ? direction !== 'right' : direction === 'right';
+
+    const limit = isRight
+        ? Math.max(...columns?.map(col => col.displayIndex) || [])
+        : Math.min(...columns?.map(col => col.displayIndex) || []);
+
+    let targetIndex = isRight ? currentIndex + 1 : currentIndex - 1;
+
+    while (isRight ? targetIndex <= limit : targetIndex >= limit) {
+        const candidate = columns?.find(col => col.displayIndex === targetIndex);
+        if (!candidate) {
+            targetIndex = isRight ? targetIndex + 1 : targetIndex - 1;
+            continue;
+        }
+
+        const draggable = (typeof candidate?.draggable === 'boolean' ?
+            candidate.draggable : enableColumnDrag)
+
+        if (!candidate.hidden && !candidate.hideable && draggable) {
+            if (candidate.fixed !== column.fixed) {
+                return {
+                    disabled: true,
+                    tooltip: `Cannot move ${direction}: adjacent column belongs to a different column group (fixed/non-fixed)`
+                };
+            }
+
+            return {
+                disabled: false,
+                tooltip: `Move column ${direction}`
+            };
+        }
+
+        targetIndex = isRight ? targetIndex + 1 : targetIndex - 1;
+    }
+
+    return {
+        disabled: true,
+        tooltip: `Cannot move ${direction}: already at ${isRight ? 'rightmost' : 'leftmost'} position`
+    };
 }

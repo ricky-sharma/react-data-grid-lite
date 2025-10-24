@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 import { cleanup, waitFor } from '@testing-library/react';
-import { eventGridHeaderClicked } from './../../../../src/components/events/event-grid-header-clicked';
+import { SortColumn, eventGridHeaderClicked } from './../../../../src/components/events/event-grid-header-clicked';
 import { dynamicSort } from './../../../../src/helpers/sort';
 
 jest.mock('./../../../../src/helpers/sort', () => ({
@@ -36,7 +37,7 @@ describe('eventGridHeaderClicked', () => {
         mockState.columns = [{ name: 'name' }, { name: 'age' }]
         eventGridHeaderClicked(['name', 'age'], mockState, mockSetState, 'name');
         await waitFor(() => {
-            expect(dynamicSort).toHaveBeenCalledWith('-name', '-age');
+            expect(dynamicSort).toHaveBeenCalledWith({}, '-name', '-age');
             expect(mockState.columns[0].sortOrder).toBe('desc');
         });
     });
@@ -148,5 +149,28 @@ describe('More tests for eventGridHeaderClicked', () => {
             const newState = setState.mock.calls[0][0](state);
             expect(newState.toggleState).toBe(true);
         });
+    });
+});
+
+describe('SortColumn cleanup function', () => {
+    jest.useFakeTimers();
+
+    it('should clear the timeout when cleanup function is called', () => {
+        const state = {
+            rowsData: [{ id: 1 }, { id: 2 }],
+            columns: [{ name: 'id' }],
+            columnTypes: {},
+        };
+        const setState = jest.fn();
+
+        const cleanup = SortColumn(state, setState, 'id', ['id'], 'asc');
+
+        jest.runOnlyPendingTimers();
+
+        const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout');
+
+        cleanup();
+        expect(clearTimeoutSpy).toHaveBeenCalled();
+        clearTimeoutSpy.mockRestore();
     });
 });

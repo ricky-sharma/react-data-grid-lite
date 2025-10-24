@@ -14,14 +14,6 @@ const GridTable = ({
     dataReceivedRef
 }) => {
     const tableRef = useRef(null);
-    useResizableTableColumns(
-        tableRef,
-        state,
-        setState,
-        computedColumnWidthsRef,
-        state.enableColumnResize,
-        isResizingRef
-    );
     return (
         <table ref={tableRef} className="mg--0 pd--0 gd-tbl">
             <GridHeader
@@ -40,6 +32,7 @@ const GridTable = ({
                     computedColumnWidthsRef={computedColumnWidthsRef}
                     dataReceivedRef={dataReceivedRef}
                     tableRef={tableRef}
+                    isResizingRef={isResizingRef}
                 />
             </tbody>
         </table>

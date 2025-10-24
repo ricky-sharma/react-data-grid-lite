@@ -27,11 +27,7 @@ export function useResetGrid({
 
                 return {
                     ...prev,
-                    searchValues: Object.fromEntries(
-                        (Array.isArray(prev.columns) ? prev.columns : [])
-                            .filter(col => col && col.name)
-                            .map(col => [col.name, ''])
-                    ),
+                    searchValues: {},
                     globalSearchInput: '',
                     rowsData: dataReceivedRef?.current ?? [],
                     pageRows,
@@ -42,6 +38,7 @@ export function useResetGrid({
                     totalRows: dataLength,
                     firstRow: 0,
                     selectedRows: new Set(),
+                    transposeColumnName: null,
                     columns: (Array.isArray(prev.columns) ? prev.columns : []).map(col => ({
                         ...col,
                         sortOrder: '',

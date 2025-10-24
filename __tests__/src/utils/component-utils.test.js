@@ -20,7 +20,7 @@ jest.mock('../../../src/helpers/format', () => ({
 
 import * as helpers from '../../../src/helpers/format';
 import * as common from './../../../src/helpers/common';
-import { calculateColumnWidth, formatRowData, getNormalizedCombinedValue, resolveColumnItems, resolveColumnType, tryParseValue } from './../../../src/utils/component-utils';
+import { calculateColumnWidth, formatRowData, getMoveStatus, getNormalizedCombinedValue, resolveColumnItems, resolveColumnType, tryParseValue } from './../../../src/utils/component-utils';
 
 describe('calculateColumnWidth', () => {
     beforeEach(() => {
@@ -405,5 +405,172 @@ describe('tryParseValue', () => {
         expect(tryParseValue({})).toBe(0);
         expect(tryParseValue([])).toBe(0);
         expect(tryParseValue(true)).toBe(0);
+    });
+});
+
+describe('getMoveStatus', () => {
+    const baseColumns = [
+        { displayIndex: 0, fixed: true, hidden: false, hideable: false, draggable: true },
+        { displayIndex: 1, fixed: true, hidden: false, hideable: false, draggable: true },
+        { displayIndex: 2, fixed: false, hidden: false, hideable: false, draggable: true },
+        { displayIndex: 3, fixed: false, hidden: false, hideable: false, draggable: true },
+    ];
+
+    it('returns disabled with tooltip if already at rightmost position', () => {
+        const column = baseColumns[3];
+        const result = getMoveStatus('right', column, baseColumns, true, false);
+        expect(result).toEqual({
+            disabled: true,
+            tooltip: 'Cannot move right: already at rightmost position',
+        });
+    });
+
+    it('returns disabled with tooltip if already at leftmost position', () => {
+        const column = baseColumns[0];
+        const result = getMoveStatus('left', column, baseColumns, true, false);
+        expect(result).toEqual({
+            disabled: true,
+            tooltip: 'Cannot move left: already at leftmost position',
+        });
+    });
+
+    it('returns disabled if adjacent column belongs to different fixed group', () => {
+        const column = baseColumns[1]; // fixed: true
+        const result = getMoveStatus('right', column, baseColumns, true, false);
+        expect(result).toEqual({
+            disabled: true,
+            tooltip: 'Cannot move right: adjacent column belongs to a different column group (fixed/non-fixed)',
+        });
+    });
+
+    it('returns enabled when move is possible to the right', () => {
+        const column = baseColumns[0];
+        const result = getMoveStatus('right', column, baseColumns, true, false);
+        expect(result).toEqual({
+            disabled: false,
+            tooltip: 'Move column right',
+        });
+    });
+
+    it('returns enabled when move is possible to the left', () => {
+        const column = baseColumns[1];
+        const result = getMoveStatus('left', column, baseColumns, true, false);
+        expect(result).toEqual({
+            disabled: false,
+            tooltip: 'Move column left',
+        });
+    });
+
+    it('handles enableColumnDrag override when candidate.draggable is undefined', () => {
+        const columns = [
+            { displayIndex: 0, fixed: true, hidden: false, hideable: false },
+            { displayIndex: 1, fixed: true, hidden: false, hideable: false },
+        ];
+        const column = columns[0];
+        const result = getMoveStatus('right', column, columns, true, false);
+        expect(result).toEqual({
+            disabled: false,
+            tooltip: 'Move column right',
+        });
+    });
+
+    it('skips hidden or hideable columns when searching for candidate', () => {
+        const columns = [
+            { displayIndex: 0, fixed: true, hidden: false, hideable: false, draggable: true },
+            { displayIndex: 1, fixed: true, hidden: true, hideable: false, draggable: true },
+            { displayIndex: 2, fixed: true, hidden: false, hideable: true, draggable: true },
+            { displayIndex: 3, fixed: true, hidden: false, hideable: false, draggable: true },
+        ];
+        const column = columns[0];
+        const result = getMoveStatus('right', column, columns, true, false);
+        expect(result).toEqual({
+            disabled: false,
+            tooltip: 'Move column right',
+        });
+    });
+
+    it('returns disabled when no valid candidate found in direction', () => {
+        const columns = [
+            { displayIndex: 0, fixed: true, hidden: true, hideable: false, draggable: true },
+            { displayIndex: 1, fixed: true, hidden: true, hideable: true, draggable: true },
+        ];
+        const column = columns[0];
+        const result = getMoveStatus('right', column, columns, true, false);
+        expect(result).toEqual({
+            disabled: true,
+            tooltip: 'Cannot move right: already at rightmost position',
+        });
+    });
+
+    it('correctly handles enableRtl true and moves left when direction is right', () => {
+        const columns = [
+            { displayIndex: 0, fixed: true, hidden: false, hideable: false, draggable: true },
+            { displayIndex: 1, fixed: true, hidden: false, hideable: false, draggable: true },
+        ];
+        const column = columns[1];
+        const result = getMoveStatus('right', column, columns, true, true);
+        expect(result).toEqual({
+            disabled: false,
+            tooltip: 'Move column right',
+        });
+    });
+
+    it('correctly handles enableRtl true and disables when at leftmost', () => {
+        const columns = [
+            { displayIndex: 0, fixed: true, hidden: false, hideable: false, draggable: true },
+            { displayIndex: 1, fixed: true, hidden: false, hideable: false, draggable: true },
+        ];
+        const column = columns[0];
+        const result = getMoveStatus('right', column, columns, true, true);
+        expect(result).toEqual({
+            disabled: true,
+            tooltip: 'Cannot move right: already at leftmost position',
+        });
+    });
+
+    it('skips missing candidate columns by adjusting targetIndex and continues search', () => {
+        const columns = [
+            { displayIndex: 0, fixed: true, hidden: false, hideable: false, draggable: true },
+            { displayIndex: 2, fixed: true, hidden: false, hideable: false, draggable: true },
+        ];
+
+        const column = columns[0];
+
+        const result = getMoveStatus('right', column, columns, true, false);
+
+        expect(result).toEqual({
+            disabled: false,
+            tooltip: 'Move column right',
+        });
+    });
+
+    it('increments targetIndex until candidate found or limit reached (right direction)', () => {
+        const columns = [
+            { displayIndex: 0, fixed: true, hidden: false, hideable: false, draggable: true },
+            { displayIndex: 3, fixed: true, hidden: false, hideable: false, draggable: true },
+        ];
+
+        const column = columns[0];
+        const result = getMoveStatus('right', column, columns, true, false);
+
+        expect(result).toEqual({
+            disabled: false,
+            tooltip: 'Move column right',
+        });
+    });
+
+    it('decrements targetIndex until candidate found or limit reached (left direction)', () => {
+        const columns = [
+            { displayIndex: 0, fixed: true, hidden: false, hideable: false, draggable: true },
+            { displayIndex: 3, fixed: true, hidden: false, hideable: false, draggable: true },
+        ];
+
+        const column = columns[1];
+        const result = getMoveStatus('left', column, columns, true, false);
+
+        expect(result).toEqual({
+            disabled: false,
+            tooltip: 'Move column left',
+        });
     });
 });

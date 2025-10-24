@@ -19,7 +19,7 @@ export function useSearchHandler({
             clearTimeout(searchTimeoutRef.current);
         }
 
-        let searchableData = dataReceivedRef?.current ?? [];
+        let searchableData = (state?.transposeColumnName != null ? state?.transposeData : dataReceivedRef?.current) ?? [];
         const eventCopy = e?.nativeEvent ? { ...e } : e;
         const isGlobal = colName === '##globalSearch##';
         const aiEnabled = state?.aiSearchOptions?.enabled;

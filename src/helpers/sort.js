@@ -1,31 +1,42 @@
 /* eslint-disable no-useless-escape */
-export function dynamicSort(...fields) {
-    const normalize = (val) => {
+export function dynamicSort(columnTypes = {}, ...fields) {
+    const normalize = (val, columnType) => {
         if (val == null) return '';
 
-        if (typeof val === 'number') return val;
-        if (val instanceof Date) return val.getTime();
+        const type = columnType?.trim().toLowerCase();
 
-        if (typeof val === 'string') {
-            const parsedDate = Date.parse(val);
-            if (!isNaN(parsedDate)) return new Date(parsedDate).getTime();
+        if (type === 'number') {
+            if (typeof val === 'number') return val;
+            const parsed = parseFloat(val);
+            return isNaN(parsed) ? val : parsed;
+        }
 
-            // Check for currency or numeric-like string
-            const numeric = val.replace(/[^0-9.\-]+/g, '');
+        if (type === 'date') {
+            if (val instanceof Date) return val?.getTime?.();
+            const parsed = Date.parse(val);
+            return isNaN(parsed) ? val : new Date(parsed)?.getTime?.();
+        }
+
+        if (type === 'currency' || type === 'string') {
+            const numeric = val?.replace?.(/[^0-9.\-]+/g, '');
             if (
                 !isNaN(numeric) &&
-                numeric.trim() !== '' &&
+                numeric?.trim() !== '' &&
                 /^[\d.,\s$€£¥₹\-]+$/.test(val)
             ) {
                 return parseFloat(numeric);
             }
-
-            return val.trim().toLowerCase(); // fallback for strings (UUIDs, emails)
+            return val?.toString().trim().toLowerCase();
         }
 
-        return String(val).toLowerCase();
+        if (typeof val === 'number') return val;
+        if (val instanceof Date) return val?.getTime?.();
+        return val?.toString().toLowerCase();
     };
 
+    const collator = typeof Intl !== 'undefined' && typeof Intl.Collator === 'function'
+        ? new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' })
+        : null;
 
     return (a, b) => {
         for (let field of fields) {
@@ -34,19 +45,19 @@ export function dynamicSort(...fields) {
                 desc = true;
                 field = field.substring(1);
             }
-
-            const aVal = normalize(a[field]);
-            const bVal = normalize(b[field]);
+            const columnType = columnTypes?.[field];
+            const aVal = normalize(a[field], columnType);
+            const bVal = normalize(b[field], columnType);
 
             let result;
-
             if (typeof aVal === 'number' && typeof bVal === 'number') {
                 result = aVal - bVal;
             } else {
-                // Ensure both are strings
-                const aStr = String(aVal);
-                const bStr = String(bVal);
-                result = aStr.localeCompare(bStr);
+                if (collator) {
+                    result = collator.compare(String(aVal), String(bVal));
+                } else {
+                    result = String(aVal).localeCompare(String(bVal));
+                }
             }
 
             if (result !== 0) return desc ? -result : result;

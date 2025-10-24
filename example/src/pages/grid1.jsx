@@ -62,6 +62,7 @@ export default function Grid1() {
             name: 'completed',
             width: '180px',
             sortable: false,
+            headerStyle: { textAlign: 'center' },
             render: (row) => (
                 <div className="alignCenter" style={{ height: '100%' }}>
                     <label className="custom-checkbox">

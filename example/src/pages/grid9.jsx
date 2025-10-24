@@ -43,7 +43,6 @@ export default function Grid9() {
             <DataGrid
                 columns={columns}
                 data={data}
-                pageSize={10}
                 width="inherit"
                 height="50vh"
                 theme={"medi-glow"}

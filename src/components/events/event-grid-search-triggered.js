@@ -2,7 +2,7 @@ import { Formatting_Types } from '../../constants';
 import { isNull, normalize } from '../../helpers/common';
 import { format as formatVal } from '../../helpers/format';
 import { getNormalizedCombinedValue } from '../../utils/component-utils';
-import { showLoader } from '../../utils/loading-utils';
+import { hideLoader, isDotLoaderActive, showLoader } from '../../utils/loading-utils';
 import { sortData } from './event-grid-header-clicked';
 
 /*
@@ -41,7 +41,10 @@ export const eventGridSearchTriggered = async (
     if (searchQuery !== '') {
         searchColsRef.current.push({ colName, searchQuery, colObj, formatting: { format, type }, colSep });
     }
-    showLoader(state?.gridID);
+    if (isDotLoaderActive === undefined || !isDotLoaderActive?.()) {
+        hideLoader(state?.gridID);
+        showLoader(state?.gridID);
+    }
     data = filterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabled);
 
     const shouldSort = sortRef?.current?.colObject && sortRef?.current?.sortOrder;
@@ -49,7 +52,8 @@ export const eventGridSearchTriggered = async (
         ? await sortData(
             sortRef.current.colObject,
             sortRef.current.sortOrder,
-            data
+            data,
+            state?.columnTypes
         )
         : data;
 
@@ -115,7 +119,7 @@ export function filterData(searchColsRef, data, aiSearchFailedRef, aiSearchEnabl
                 const concatCols = c?.concatColumns?.columns;
                 const concatSep = c?.concatColumns?.separator || ' ';
 
-                for (let row of data) {
+                for (let row of filteredData) {
                     let value = '';
                     if (Array.isArray(concatCols)) {
                         value = getNormalizedCombinedValue(row, concatCols, Formatting_Types, fieldType, fieldFormat, concatSep);

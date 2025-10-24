@@ -11,13 +11,14 @@ import { useCellCommit } from '../hooks/use-cell-commit';
 import { useCellRevert } from '../hooks/use-cell-revert';
 import { useDoubleTap } from '../hooks/use-double-tap';
 import useLoadingIndicator from '../hooks/use-loading-indicator';
+import { useResizableTableColumns } from '../hooks/use-resizable-table-columns';
 import { useTableCellNavigation } from '../hooks/use-table-cell-navigation';
 import { useVirtualColumns } from '../hooks/use-virtual-columns';
 import { useVirtualRows } from '../hooks/use-virtual-rows';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { formatRowData } from '../utils/component-utils';
 import { gridWidthType } from '../utils/grid-width-type-utils';
-import { hideLoader, showLoader } from '../utils/loading-utils';
+import { hideLoader, isDotLoaderActive, showLoader } from '../utils/loading-utils';
 import GridActionCell from './grid-action-cell';
 import GridCell from './grid-cell';
 import GridSelectionCell from './grid-selection-cell';
@@ -27,7 +28,8 @@ const GridRows = ({
     setState,
     computedColumnWidthsRef,
     dataReceivedRef,
-    tableRef
+    tableRef,
+    isResizingRef
 }) => {
     const loading = useLoadingIndicator();
     const { onTouchStart } = useDoubleTap();
@@ -117,6 +119,14 @@ const GridRows = ({
         computedColumnWidthsRef
     });
 
+    useResizableTableColumns(
+        tableRef,
+        state,
+        setState,
+        computedColumnWidthsRef,
+        isResizingRef
+    );
+
     const filteredRows = enableVirtualRows ? visibleRows : pageData;
     const rowStartIndex = enableVirtualRows ? startIndex : firstRow;
     const visibleNames = new Set(visibleColumns?.map(col => col?.name));
@@ -124,12 +134,24 @@ const GridRows = ({
 
     const { isSmallWidth, isMobileWidth } = gridWidthType(windowWidth, gridID);
     const isMobile = isSmallWidth || isMobileWidth;
-    if (isNull(rowsData) || isNull(computedColumnWidthsRef?.current)
-        || !columns.some(col => !col?.hideable && !col?.hidden)) {
-        hideLoader(gridID);
-        loading ? showLoader(gridID) :
-            (isNull(rowsData) ? showLoader(gridID, No_Data_Message)
-                : showLoader(gridID, No_Column_Visible_Message));
+    const noData = isNull(rowsData);
+    const shouldShowLoader =
+        noData ||
+        isNull(computedColumnWidthsRef?.current) ||
+        !columns.some(col => !col?.hideable && !col?.hidden);
+
+    if (shouldShowLoader) {
+        const loaderActive = isDotLoaderActive?.();
+        if (loading) {
+            if (loaderActive === undefined || !loaderActive) {
+                hideLoader(gridID);
+                showLoader(gridID);
+            }
+        } else {
+            hideLoader(gridID);
+            const message = noData ? No_Data_Message : No_Column_Visible_Message;
+            showLoader(gridID, message);
+        }
         return null;
     }
     hideLoader(gridID);

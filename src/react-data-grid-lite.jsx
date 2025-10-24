@@ -16,71 +16,74 @@ import { useProcessedData } from './hooks/use-processed-data';
 import { useResetGrid } from './hooks/use-reset-grid';
 import { useSearchAndSortCallbacks } from './hooks/use-search-and-sort-callbacks';
 import { useSearchHandler } from './hooks/use-search-handler';
+import { useTransposeData } from './hooks/use-transpose-data';
+import { hideLoader, showLoader } from './utils/loading-utils';
 import { applyTheme } from './utils/themes-utils';
-import { showLoader } from './utils/loading-utils';
 
 const DataGrid = forwardRef(({
-    id,
     columns = [],
-    data = [],
-    pageSize,
     currentPage,
-    options = {},
-    width,
+    data = [],
     height,
-    maxWidth,
+    id,
     maxHeight,
+    maxWidth,
+    onCellUpdate,
+    onColumnDragEnd,
+    onColumnResized,
+    onPageChange,
     onRowClick,
     onRowHover,
     onRowOut,
-    onSortComplete,
-    onSearchComplete,
-    onPageChange,
-    onColumnResized,
-    onColumnDragEnd,
-    onCellUpdate,
     onRowSelect,
+    onSearchComplete,
     onSelectAll,
-    theme
+    onSortComplete,
+    options = {},
+    pageSize,
+    theme,
+    width
 }, ref) => {
     const fallbackfn = () => { };
 
     const {
-        enableRtl,
         actionColumnAlign,
+        aiSearch,
+        csvExportUI,
+        debug,
+        deleteButton,
+        downloadFilename,
+        editButton,
         enableCellEdit,
         enableColumnDrag,
         enableColumnResize,
-        enableSorting,
-        rowSelectColumnAlign,
-        showColumnMenu,
-        showToolbarMenu,
         enableColumnSearch,
+        enableDownload,
         enableGlobalSearch,
         enableRowSelection,
-        showToolbar,
-        showResetButton,
-        showResetMenuItem,
-        csvExportUI,
-        gridClass,
-        headerClass,
-        rowClass,
-        showFooter,
-        showNumberPagination,
-        showSelectPagination,
-        showPageSizeSelector,
-        showPageInfo,
-        rowHeight,
-        editButton,
-        deleteButton,
-        enableDownload,
-        downloadFilename,
-        onDownloadComplete,
+        enableRtl,
+        enableSorting,
         globalSearchPlaceholder,
         gridBgColor,
+        gridClass,
         headerBgColor,
-        aiSearch,
-        debug,
+        headerClass,
+        onDownloadComplete,
+        rowClass,
+        rowHeight,
+        rowSelectColumnAlign,
+        showAboutMenuItem,
+        showColumnMenu,
+        showFooter,
+        showNumberPagination,
+        showPageInfo,
+        showPageSizeSelector,
+        showResetButton,
+        showResetMenuItem,
+        showSelectPagination,
+        showToolbar,
+        showToolbarMenu,
+        showTransposeMenuItem,
         virtualization
     } = options || {};
 
@@ -88,7 +91,8 @@ const DataGrid = forwardRef(({
         enableRtl: getBool(enableRtl),
         actionColumnAlign: actionColumnAlign ?? 'right',
         enableCellEdit: getBool(enableCellEdit),
-        enableColumnDrag: getBool(enableColumnDrag),
+        enableCellEditProp: getBool(enableCellEdit),
+        enableColumnDrag: getBool(enableColumnDrag, true),
         enableColumnResize: getBool(enableColumnResize),
         enableSorting: getBool(enableSorting, true),
         rowSelectColumnAlign: rowSelectColumnAlign ?? 'left',
@@ -97,6 +101,7 @@ const DataGrid = forwardRef(({
         enableColumnSearch: getBool(enableColumnSearch, true),
         enableGlobalSearch: getBool(enableGlobalSearch, true),
         enableRowSelection: getBool(enableRowSelection, true),
+        enableRowSelectionProp: getBool(enableRowSelection, true),
         showToolbar: getBool(showToolbar, true),
         showResetButton: getBool(showResetButton),
         showResetMenuItem: getBool(showResetMenuItem, true),
@@ -112,8 +117,10 @@ const DataGrid = forwardRef(({
         showPageInfo: getBool(showPageInfo, true),
         rowHeight: parseInt(rowHeight, 10) ? rowHeight : undefined,
         editButtonEnabled: typeof editButton === 'object',
+        editButtonEnabledProp: typeof editButton === 'object',
         editButtonEvent: editButton?.event ?? fallbackfn,
         deleteButtonEnabled: typeof deleteButton === 'object',
+        deleteButtonEnabledProp: typeof deleteButton === 'object',
         deleteButtonEvent: deleteButton?.event ?? fallbackfn,
         enableDownload: getBool(enableDownload, true),
         downloadFilename: downloadFilename ?? null,
@@ -123,6 +130,8 @@ const DataGrid = forwardRef(({
         gridHeaderBackgroundColor: headerBgColor,
         aiSearchOptions: aiSearch ?? {},
         debug: getBool(debug),
+        showTransposeMenuItem: getBool(showTransposeMenuItem, true),
+        showAboutMenuItem: getBool(showAboutMenuItem, true),
         virtualization: typeof virtualization === 'boolean' ? virtualization : undefined
     }), [
         enableRtl,
@@ -160,7 +169,9 @@ const DataGrid = forwardRef(({
         headerBgColor,
         aiSearch,
         debug,
-        virtualization
+        virtualization,
+        showTransposeMenuItem,
+        showAboutMenuItem
     ]);
 
     const [state, setState] = useState({
@@ -193,6 +204,8 @@ const DataGrid = forwardRef(({
         searchValues: {},
         editingCell: null,
         selectedRows: new Set(),
+        transposeColumnName: null,
+        toggleColumnMove: false,
         ...optionProps
     });
     const dataReceivedRef = useRef(null);
@@ -231,7 +244,7 @@ const DataGrid = forwardRef(({
         };
     }, []);
 
-    useProcessedColumns(columns, setState, computedColumnWidthsRef);
+    useProcessedColumns(columns, setState, computedColumnWidthsRef, state, containerWidth);
 
     useProcessedData({
         data,
@@ -246,6 +259,8 @@ const DataGrid = forwardRef(({
         runAISearch
     });
 
+    useTransposeData(state, setState);
+
     useEffect(() => {
         if (!isNull(state?.columns)) {
             const visibleColumns = state?.columns?.filter(col => !col?.hidden && !col?.hideable);
@@ -259,7 +274,7 @@ const DataGrid = forwardRef(({
 
     useEffect(() => {
         setPagingVariables();
-    }, [state?.rowsData, state?.pageRows]);
+    }, [state?.rowsData, state?.pageRows, state?.transposeColumnName]);
 
     const setPagingVariables = () => {
         let noOfPages = Math.floor(state.totalRows / state.pageRows);
@@ -273,6 +288,7 @@ const DataGrid = forwardRef(({
             activePage,
             lastPageRows,
             firstRow: prevState.pageRows * (activePage - 1),
+            currentPageRows: activePage === noOfPages ? lastPageRows : prevState.pageRows,
             enableVirtualRows: prevState?.virtualization === true
                 || (prevState?.virtualization === undefined && prevState.pageRows > 25),
             pagerSelectOptions: noOfPages > 0 ? [...Array(noOfPages).keys()].map((i) => i + 1) : []
@@ -312,7 +328,6 @@ const DataGrid = forwardRef(({
 
     const handleChangePage = useCallback((e, newPage, previousPage = -1) => {
         e.preventDefault();
-        showLoader(state?.gridID);
         prevPageRef.current = {
             changeEvent: e,
             pageNo: previousPage === -1 ? state.activePage : previousPage
@@ -344,6 +359,7 @@ const DataGrid = forwardRef(({
 
     const onHeaderClicked = useCallback((e, colObject, colKey) => {
         sortRef.current = { changeEvent: e, colObject: colObject, colKey: colKey }
+        hideLoader(state?.gridID);
         showLoader(state?.gridID);
         eventGridHeaderClicked(colObject, state, setState, colKey, isResizingRef);
     }, [state, setState]);
@@ -397,6 +413,8 @@ const DataGrid = forwardRef(({
                         (<GridGlobalSearchBar
                             searchHandler={searchHandler}
                             handleResetGrid={handleResetGrid}
+                            searchColsRef={searchColsRef}
+                            globalSearchQueryRef={globalSearchQueryRef}
                         />)}
                     <div
                         style={{
@@ -425,6 +443,8 @@ const DataGrid = forwardRef(({
                                     noBorder="true"
                                     height={"10px"}
                                     boxShadow='.1px 0 2px 0 currentcolor'
+                                    searchColsRef={searchColsRef}
+                                    globalSearchQueryRef={globalSearchQueryRef}
                                 />
                             </div>}
                         <GridTable

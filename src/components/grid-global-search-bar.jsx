@@ -14,6 +14,8 @@ import GridToolBarMenu from './grid-toolbar-menu';
 const GridGlobalSearchBar = memo(({
     searchHandler,
     handleResetGrid,
+    searchColsRef,
+    globalSearchQueryRef
 }) => {
     const windowWidth = useWindowWidth();
     const { state = {}, setState = () => { } } = useGridConfig() ?? {};
@@ -153,7 +155,11 @@ const GridGlobalSearchBar = memo(({
                     )}
                 {showToolbarMenu === true &&
                     <div className="pd--0 mg--0 alignCenter">
-                        <GridToolBarMenu handleResetGrid={handleResetGrid} />
+                        <GridToolBarMenu
+                            handleResetGrid={handleResetGrid}
+                            searchColsRef={searchColsRef}
+                            globalSearchQueryRef={globalSearchQueryRef}
+                        />
                     </div>
                 }
             </div>

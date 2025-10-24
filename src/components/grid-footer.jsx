@@ -3,6 +3,7 @@ import { Page_Size_Selector_Options } from '../constants';
 import { useGridConfig } from '../hooks/use-grid-config';
 import { useWindowWidth } from '../hooks/use-window-width';
 import { gridWidthType } from '../utils/grid-width-type-utils';
+import { hideLoader, showLoader } from '../utils/loading-utils';
 import Dropdown from './custom-fields/dropdown';
 import GridPagination from './grid-pagination';
 
@@ -42,23 +43,27 @@ const GridFooter = memo(({
 
     const onPageSelectorChange = (e, value) => {
         e.preventDefault();
-        setState?.(prev => {
-            let noOfPages = Math.floor(totalRows / value);
-            let lastPageRows = totalRows % value;
-            if (lastPageRows > 0) noOfPages++;
-            if (lastPageRows === 0) lastPageRows = value;
-            const resetPage = prev?.activePage > noOfPages;
-            const activePage = resetPage ? 1 : prev?.activePage ?? 1;
-            return {
-                ...prev,
-                noOfPages,
-                lastPageRows,
-                activePage,
-                currentPageRows: (activePage === noOfPages) ? lastPageRows : value,
-                firstRow: value * (resetPage ? 0 : activePage - 1),
-                pageRows: value
-            }
-        });
+        hideLoader(state?.gridID);
+        showLoader(state?.gridID);
+        setTimeout(() => {
+            setState?.(prev => {
+                let noOfPages = Math.floor(totalRows / value);
+                let lastPageRows = totalRows % value;
+                if (lastPageRows > 0) noOfPages++;
+                if (lastPageRows === 0) lastPageRows = value;
+                const resetPage = prev?.activePage > noOfPages;
+                const activePage = resetPage ? 1 : prev?.activePage ?? 1;
+                return {
+                    ...prev,
+                    noOfPages,
+                    lastPageRows,
+                    activePage,
+                    currentPageRows: (activePage === noOfPages) ? lastPageRows : value,
+                    firstRow: value * (resetPage ? 0 : activePage - 1),
+                    pageRows: value
+                }
+            });
+        }, 0);
     }
 
     const pageInfoRtl = `${showingRange} / ${totalRows}`;
@@ -91,7 +96,14 @@ const GridFooter = memo(({
                     (<Dropdown
                         options={pagerSelectOptions}
                         value={activePage}
-                        onChange={(e, val) => onPageChange(e, parseInt(val, 10))}
+                        onChange={(e, val) => {
+                            e.preventDefault();
+                            hideLoader(state?.gridID);
+                            showLoader(state?.gridID);
+                            setTimeout(() => {
+                                onPageChange(e, parseInt(val, 10));
+                            }, 0);
+                        }}
                     />)}
             </div>
             <div
@@ -110,9 +122,9 @@ const GridFooter = memo(({
                     enablePaging === true &&
                     state?.pageRows > 0 &&
                     (<div className="rows--selector">
-                    <div className="opacity--level" style={{ flex: 'none' }}>
-                        {enableRtl ? 'page per Rows:' : 'Rows per page:'}
-                    </div>
+                        <div className="opacity--level" style={{ flex: 'none' }}>
+                            {enableRtl ? 'page per Rows:' : 'Rows per page:'}
+                        </div>
                         <Dropdown
                             options={Page_Size_Selector_Options}
                             value={state?.pageRows}

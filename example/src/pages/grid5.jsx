@@ -37,15 +37,15 @@ export default function Grid5() {
             return {
                 name: val, formatting: {
                     type: 'Date', format: 'dd-MMM-yyyy'
-                }
+                }, order: 99, draggable: false,
             }
         else if (val.toLowerCase() === 'isbn' || val.toLowerCase() === 'genre')
             return {
-                name: val, width: '200px'
+                name: val, width: '200px', order:999
             }
         else
             return {
-                name: val, width: '250px'
+                name: val, width: '250px', order: 99
             }
     }) : [];
 
